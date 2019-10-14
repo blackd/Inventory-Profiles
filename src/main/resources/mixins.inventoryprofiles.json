@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "io.github.jsnimda.inventoryprofiles.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MixinClientPlayerInteractionManager",
+    "MixinMinecraftClient",
+    "MixinGameRenderer",
+    "MixinGlStateManager",
+    "MixinClientPlayerEntity",
+    "IMixinAbstractContainerScreen",
+    "IMixinSlot",
+    "MixinGuiCloseC2SPacket",
+    "MixinAbstractContainerScreen"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

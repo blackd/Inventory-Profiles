@@ -1,0 +1,14 @@
+{
+
+    "inventoryprofiles.gui.button.config_gui.generic": "Generic",
+    "inventoryprofiles.gui.button.config_gui.hotkeys": "Hotkeys",
+    "inventoryprofiles.gui.button.config_gui.tweaks": "Tweaks",
+    "inventoryprofiles.gui.button.config_gui.tweak_values": "Combat/Building Tweaks",
+    "inventoryprofiles.gui.button.config_gui.tweak_hotkeys": "Tweak Hotkeys",
+    "inventoryprofiles.gui.button.config_gui.advanced_options": "Advanced Options",
+
+    "inventoryprofiles.gui.title.configs": "Inventory Profiles Configs",
+    
+    "inventoryprofiles.config.comment.openConfigGui": "The key open the in-game config GUI"
+    
+}
