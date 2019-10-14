@@ -81,7 +81,7 @@ public class SorterEventPort {
     Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind(),
     Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind(),
     Generic.SWITCH_PROFILE.getKeybind(),
-    Generic.MOVE_ALL_STORAGE_EXISTING_ITEMS.getKeybind()
+    Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()
   );
   public static boolean shouldHandle(IKeybind key){
     return SHOULD_HANDLE_KEY_LIST.contains(key);
@@ -102,7 +102,7 @@ public class SorterEventPort {
     } else if (key == Generic.SWITCH_PROFILE.getKeybind()) {
       doSwitchProfile();
       return true;
-    } else if (key == Generic.MOVE_ALL_STORAGE_EXISTING_ITEMS.getKeybind()) {
+    } else if (key == Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()) {
       doMoveAll();
       return true;
     }

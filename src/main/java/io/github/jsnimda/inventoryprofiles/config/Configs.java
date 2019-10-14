@@ -28,7 +28,7 @@ public class Configs {
     public static final ConfigHotkey SORT_INVENTORY_BY_GROUP_ROWS;
     public static final ConfigBoolean ENABLE_SWITCH_PROFILE_HOTKEY;
     public static final ConfigHotkey SWITCH_PROFILE;
-    public static final ConfigHotkey MOVE_ALL_STORAGE_EXISTING_ITEMS;
+    public static final ConfigHotkey MOVE_ALL_CONTAINER_EXISTING_ITEMS;
 
     public static final List<IConfigBase> LIST;
     public static final List<IHotkey> HOTKEY_LIST;
@@ -39,7 +39,7 @@ public class Configs {
       SORT_INVENTORY_BY_GROUP_ROWS    = as("sortInventoryByGroupRows")  .hotkey("", GUI);
       ENABLE_SWITCH_PROFILE_HOTKEY    = as("enableSwitchProfileHoykey") .bool(false);
       SWITCH_PROFILE                  = as("switchProfile")             .hotkey("R", RELEASE_ALLOW_EXTRA);
-      MOVE_ALL_STORAGE_EXISTING_ITEMS = as("moveAllStorageExistingItems").hotkey("", GUI);
+      MOVE_ALL_CONTAINER_EXISTING_ITEMS = as("moveAllContainerExistingItems").hotkey("", GUI);
 
       LIST = Cfg.list;
       HOTKEY_LIST = Cfg.listAs(IHotkey.class);
@@ -82,7 +82,7 @@ public class Configs {
       ADD_INTERVAL_BETWEEN_CLICKS     = as("addIntervalBetweenClicks")    .bool(false);
       INTERVAL_BETWEEN_CLICKS_MS      = as("intervalBetweenClicksMs")     .integer(10, 1, 500);
       SORT_CLICK_TARGETS_FIRST        = as("sortClickTargetsFirst")       .bool(true);
-      SORT_CURSOR_POINTING            = as ("sortCursorPoint")            .bool(false);
+      SORT_CURSOR_POINTING            = as ("sortCursorPointing")            .bool(false);
       INVENTORY_SHOW_PROFILE_BUTTONS  = as("inventoryShowProfileButtons") .bool(true);
       INVENTORY_SHOW_SORT_BUTTONS     = as("inventoryShowSortButtons")    .bool(true);
       INVENTORY_SHOW_MOVE_ALL_BUTTONS = as("inventoryShowMoveAllButtons") .bool(true);
