@@ -20,12 +20,17 @@ import net.minecraft.resource.ResourceManager;
 
 /**
  * Current
+ *  - calling in game object should check null first or ensure that will not be happened
  */
 public class Current {
 
+  @Nonnull
   public static MinecraftClient MC() {
     return MinecraftClient.getInstance();
   }
+  /**
+   * null if not in game
+   */
   public static ClientWorld world() {
     return MC().world;
   }
@@ -67,9 +72,15 @@ public class Current {
   //============
   // player
   //
+  /**
+   * null if not in game
+   */
   public static ClientPlayerInteractionManager interactionManager() {
     return MC().interactionManager;
   }
+  /**
+   * null if not in game
+   */
   public static ClientPlayerEntity player() {
     return MC().player;
   }

@@ -1,23 +1,14 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableList;
 
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
-import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
-import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
-import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils;
-import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
-import net.minecraft.entity.player.PlayerInventory;
 
 /**
  * SorterEventPort
@@ -27,61 +18,37 @@ public class SorterEventPort {
 
   public static void handleCloseContainer(){
     ContainerActions.cleanCursor();
-    if (ContainerUtils.isContainerStorage(Current.container())) {
-      return;
-    }
-    ContainerActions.cleanTempSlots(Current.container());
+    ContainerActions.cleanTempSlotsForClosing();
   }
 
-  private static boolean isPointingSelfInventory() {
-    Slot s = Current.focusedSlot();
-    return AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && s != null && s.inventory instanceof PlayerInventory;
-  }
-
-  public static void callDoSort() {
-    callDoSort(SortingMethodProviders.DEFAULT, GroupingShapeProviders.PRESERVED);
-  }
-  public static void callDoSort(ISortingMethodProvider sordingProvider, IGroupingShapeProvider groupingProvider) {
-    Container container = Current.container();
-    ContainerInfo info = ContainerUtils.getContainerInfo(container);
-    ContainerActions.cleanCursor();
-    boolean sortSelf = isPointingSelfInventory();
-    List<Slot> target = (!sortSelf && info.isStorage && info.nonPlayerSlots.size() >= 9) ?
-      info.nonPlayerSlots : info.playerStorageSlots;
-    List<Integer> targetMapp = target.stream().map(x -> x.id).collect(Collectors.toList());
-    VirtualSorterPort.doSort(container, target, targetMapp, sordingProvider, groupingProvider);
-  }
   public static void doSortAction() {
-    callDoSort();
+    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
   }
   public static void doSortActionByGroupColumns() {
-    callDoSort(SortingMethodProviders.DEFAULT, GroupingShapeProviders.COLUMNS);
+    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
   }
   public static void doSortActionByGroupRows() {
-    callDoSort(SortingMethodProviders.DEFAULT, GroupingShapeProviders.ROWS);
+    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.ROWS);
   }
   public static void doSwitchProfile() {
 
   }
   public static void doMoveAll() {
-    Container container = Current.container();
-    ContainerInfo info = ContainerUtils.getContainerInfo(container);
-    if (info.nonPlayerSlots.size() - info.craftingResultSlots.size() > 0) {
-      ContainerActions.moveAllAlike();
-    }
+    ContainerActions.moveAllAlike();
   }
 
-  private static final ImmutableList<IKeybind> SHOULD_HANDLE_KEY_LIST = ImmutableList.of(
-    Generic.SORT_INVENTORY.getKeybind(),
-    Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind(),
-    Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind(),
-    Generic.SWITCH_PROFILE.getKeybind(),
-    Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()
-  );
   public static boolean shouldHandle(IKeybind key){
-    return SHOULD_HANDLE_KEY_LIST.contains(key);
+    return ImmutableList.of(
+      Generic.SORT_INVENTORY.getKeybind(),
+      Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind(),
+      Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind(),
+      Generic.SWITCH_PROFILE.getKeybind(),
+      Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()
+    ).contains(key);
   }
   public static boolean handleKey(KeyAction action, IKeybind key){
+    if (Current.player() == null) return false;
+
     if (key == Generic.SORT_INVENTORY.getKeybind()) {
       doSortAction();
       return true;

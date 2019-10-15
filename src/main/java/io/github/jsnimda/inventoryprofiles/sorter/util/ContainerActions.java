@@ -3,6 +3,7 @@ package io.github.jsnimda.inventoryprofiles.sorter.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.BeaconContainer;
@@ -18,102 +19,102 @@ public class ContainerActions {
   
   public static void cleanCursor() {
     // creative menu is not handled
-    if (Current.container() == null || Current.container() instanceof CreativeInventoryScreen.CreativeContainer) return;
+    // TODO creative support
+    if (Current.container() instanceof CreativeInventoryScreen.CreativeContainer) return;
+    if (Current.cursorStack().isEmpty()) return;
+    /**
+     * refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
+     * vanilla getOccupiedSlotWithRoomForStack logic:
+     *    find alike: mainhand, offhand, hotbar, storage
+     *      -> empty (in order of invSlot)
+     * my logic
+     * hovering slot -> if not:
+     * find alike: mainhand, offhand, hotbar, storage
+     *  -> empty: storage, hotbar, offhand
+     *  -> if container is storage -> container alike -> container empty
+     */
+    Slot focuesdSlot = Current.focusedSlot();
     ItemStack cursorStack = Current.cursorStack();
-    if (!cursorStack.isEmpty()) {
-      ContainerActions.cleanCursor(cursorStack, Current.container());
+    if (ContainerUtils.getRemainingRoom(focuesdSlot, cursorStack) > 0) {
+      leftClick(focuesdSlot.id);
     }
-  }
-  public static void cleanCursor(ItemStack cursorStack, Container container) {
-    int count = cursorStack.getCount();
-    if (count <= 0) return;
-    List<Integer> clickList = new ArrayList<>();
-    cleanCursor_fillClickList(cursorStack, container, clickList);
-    for(int slotId : clickList) {
-      leftClick(container, slotId);
-    }
-  }
-  private static void cleanCursor_fillClickList(ItemStack cursorStack, Container container, List<Integer> clickList) {
-    // refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
-    // vanilla getOccupiedSlotWithRoomForStack logic:
-    //    find alike: mainhand, offhand, hotbar, storage
-    //      -> empty (in order of invSlot)
-    ContainerInfo info = ContainerUtils.getContainerInfo(container);
-    // my logic
-    // hovering slot -> if not:
-    // find alike: mainhand, offhand, hotbar, storage
-    //  -> empty: storage, hotbar, offhand
-    //  -> if container is storage -> container alike -> container empty
-    int count = cursorStack.getCount();
-    Slot hoveringSlot = Current.focusedSlot();
-    if (hoveringSlot != null) {
-      if (!hoveringSlot.hasStack()) {
-        clickList.add(hoveringSlot.id);
-        count -= cursorStack.getMaxCount();
-      }
-      if (count <= 0) return;
-      count -= cleanCursor_attempt(hoveringSlot, clickList, cursorStack);
-      if (count <= 0) return;
-    }
-    for (Slot s : cleanCursor_alikeOrder(info)) {
-      count -= cleanCursor_attempt(s, clickList, cursorStack);
-      if (count <= 0) return;
-    }
-    for (Slot s : cleanCursor_emptyOrder(info)) {
-      if (!s.hasStack()) {
-        clickList.add(s.id);
-        count -= cursorStack.getMaxCount();
-      }
-      if (count <= 0) return;
-    }
-    if (info.isStorage) {
-      for (Slot s : info.nonPlayerSlots) {
-        count -= cleanCursor_attempt(s, clickList, cursorStack);
-        if (count <= 0) return;
-      }
-      for (Slot s : info.nonPlayerSlots) {
-        if (!s.hasStack()) {
-          clickList.add(s.id);
-          count -= cursorStack.getMaxCount();
-        }
-        if (count <= 0) return;
+    for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets()) {
+      if (Current.cursorStack().isEmpty()) return;
+      if (cccs.suit(cursorStack)) {
+        leftClick(cccs.slot.id);
       }
     }
   }
-  private static int cleanCursor_attempt(Slot s, List<Integer> clickList, ItemStack cursorStack){
-    int room = ContainerUtils.getRoomForStackIfSlotOccupied(s.getStack(), cursorStack);
-    if (room > 0) {
-      clickList.add(s.id);
+  private static class CleanCursorCandidateSlot {
+    public Slot slot;
+    public boolean skipIfNoStack;
+    
+    public static List<CleanCursorCandidateSlot> gets() {
+      List<CleanCursorCandidateSlot> list = new ArrayList<>();
+      ContainerInfo info = ContainerInfo.of(Current.container());
+      /**
+       * player alike
+       */
+      list.add(alike(info.playerMainhandSlot));
+      if (info.playerOffhandSlot != null)
+        list.add(alike(info.playerOffhandSlot));
+      info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
+        .forEach(x->list.add(alike(x)));
+      info.playerStorageSlots.forEach(x->list.add(alike(x)));
+      /**
+       * player empty
+       */
+      info.playerStorageSlots.forEach(x->list.add(empty(x)));
+      info.playerHotbarSlots.forEach(x->list.add(empty(x)));
+      if (info.playerOffhandSlot != null)
+        list.add(empty(info.playerOffhandSlot));
+      /**
+       * player armor, if able to
+       */
+      info.playerArmorSlots.forEach(x->list.add(empty(x)));
+      /**
+       * container
+       */
+      info.storageSlots.forEach(x->list.add(alike(x)));
+      info.storageSlots.forEach(x->list.add(empty(x)));
+      return list;
     }
-    return room;
-  }
-  private static List<Slot> cleanCursor_alikeOrder(ContainerInfo info) {
-    List<Slot> ss = new ArrayList<>();
-    if (info.playerMainhandSlot != null) ss.add(info.playerMainhandSlot);
-    if (info.playerOffhandSlot != null) ss.add(info.playerOffhandSlot);
-    info.playerHotbarSlots.forEach(x -> {
-      if (x != info.playerMainhandSlot) ss.add(x);
-    });
-    ss.addAll(info.playerStorageSlots);
-    return ss;
-  }
-  private static List<Slot> cleanCursor_emptyOrder(ContainerInfo info) {
-    List<Slot> ss = new ArrayList<>();
-    ss.addAll(info.playerStorageSlots);
-    ss.addAll(info.playerHotbarSlots);
-    if (info.playerOffhandSlot != null) ss.add(info.playerOffhandSlot);
-    return ss;
-  }
+    public boolean suit(ItemStack forItem) {
+      if (skipIfNoStack && !slot.hasStack()) return false;
+      return ContainerUtils.getRemainingRoom(slot, forItem) > 0;
+    }
 
-  public static void cleanTempSlots(Container container) {
-    // in vanilla, seems only beacon will drops the item, handle beacon only
-    //   - clicking cancel button in beacon will still bypass this (by GuiCloseC2SPacket)
-    if (!(container instanceof BeaconContainer)) return;
-    if (container.getSlot(0).hasStack()) {
-      shiftClick(container, 0);
+    public CleanCursorCandidateSlot(Slot slot, boolean skipIfNoStack) {
+      this.slot = slot;
+      this.skipIfNoStack = skipIfNoStack;
+    }
+    public static CleanCursorCandidateSlot alike(Slot slot) {
+      return new CleanCursorCandidateSlot(slot, true);
+    }
+    public static CleanCursorCandidateSlot empty(Slot slot) {
+      return new CleanCursorCandidateSlot(slot, false);
     }
   }
 
+  public static void cleanTempSlotsForClosing() {
+    // in vanilla, seems only beacon will drop the item, handle beacon only
+    //   - clicking cancel button in beacon will bypass
+    //     ClientPlayerEntity.closeContainer (by GuiCloseC2SPacket instead)
+    if (ContainerCategory.of(Current.container()).isStorage()) {
+      return;
+    }
+    if (!(Current.container() instanceof BeaconContainer)) return;
+    if (Current.container().getSlot(0).hasStack()) { // beacon item
+      shiftClick(Current.container(), 0);
+    }
+  }
+
+  public static void leftClick(int slotId) {
+    leftClick(Current.container(), slotId);
+  }
+  public static void rightClick(int slotId) {
+    rightClick(Current.container(), slotId);
+  }
   public static void leftClick(Container container, int slotId) {
     click(container, slotId, 0);
   }

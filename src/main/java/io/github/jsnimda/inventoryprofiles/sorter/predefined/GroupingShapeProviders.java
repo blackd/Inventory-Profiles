@@ -30,7 +30,7 @@ public class GroupingShapeProviders {
       Collections.shuffle(copy);
       return copy;
     };
-    COLUMNS = columnsProvider(9, false);
+    COLUMNS = columnsProvider(9);
     ROWS = rowsProvider(9);
     TRANSPOSE = transposeProvider(9);
   }
@@ -58,6 +58,9 @@ public class GroupingShapeProviders {
     return result;
   };
 
+  public static IGroupingShapeProvider columnsProvider(int width) {
+    return columnsProvider(width, false);
+  }
   public static IGroupingShapeProvider columnsProvider(int width, boolean isTransposed) { // only works for sorted items
     return (items, size) -> {
       if (items.size() == 0) return items;
