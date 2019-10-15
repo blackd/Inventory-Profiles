@@ -1,7 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.sorter.predefined;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -201,9 +200,8 @@ public class GroupingShapeProviders {
       public int y;
       public int columnIndex;
       public int spaceWidth;
-      public int index;
+      
       public RowInfo(int row) {
-        index = row;
         y = row % height;
         columnIndex = row / height;
         spaceWidth = widths.get(columnIndex); // = spaceWidths.get(row)
@@ -256,9 +254,6 @@ public class GroupingShapeProviders {
     }
     private int getIndexByXY(int x, int y) {
       return y * width + x;
-    }
-    private void setXY(List<VirtualItemStack> result, int x, int y, VirtualItemStack item) {
-      result.set(y * width + x, item);
     }
   }
 

@@ -7,19 +7,19 @@ import fi.dy.masa.malilib.hotkeys.KeyAction;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
 import io.github.jsnimda.inventoryprofiles.gui.GuiConfigs;
 import io.github.jsnimda.inventoryprofiles.sorter.SorterEventPort;
-import net.minecraft.client.MinecraftClient;
 
 /**
  * KeybindCallbacks
  */
 public class KeybindCallbacks {
 
-  public static void init(MinecraftClient mc){
+  public static void init() {
     KeyCallbackHotkeysGeneric kc = new KeyCallbackHotkeysGeneric();
-    Generic.HOTKEY_LIST.forEach(x->{
+    Generic.HOTKEY_LIST.forEach(x -> {
       x.getKeybind().setCallback(kc);
     });
   }
+
   static class KeyCallbackHotkeysGeneric implements IHotkeyCallback {
 
     @Override
@@ -29,10 +29,10 @@ public class KeybindCallbacks {
         return true;
       }
 
-      if (SorterEventPort.shouldHandle(key)){
+      if (SorterEventPort.shouldHandle(key)) {
         return SorterEventPort.handleKey(action, key);
       }
-      
+
       return false;
     }
 

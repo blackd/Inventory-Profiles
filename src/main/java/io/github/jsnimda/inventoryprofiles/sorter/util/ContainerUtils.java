@@ -6,10 +6,7 @@ import java.util.List;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
-import io.github.jsnimda.inventoryprofiles.mixin.IMixinAbstractContainerScreen;
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.AbstractFurnaceContainer;
 import net.minecraft.container.AnvilContainer;
@@ -60,15 +57,6 @@ public class ContainerUtils {
     return getRoomForStackIfSlotOccupied(slotItem, foreignItem);
   }
 
-  public static Slot getSlotUnderMouse(AbstractContainerScreen<?> gui) {
-    return ((IMixinAbstractContainerScreen) gui).getFocusedSlot();
-  }
-  public static Slot getSlotUnderMouse() {
-    if (MinecraftClient.getInstance().currentScreen instanceof AbstractContainerScreen) {
-      return getSlotUnderMouse((AbstractContainerScreen<?>)MinecraftClient.getInstance().currentScreen);
-    }
-    return null;
-  }
   
   public static boolean isContainerStorage(Container container) {
     if (container instanceof GenericContainer

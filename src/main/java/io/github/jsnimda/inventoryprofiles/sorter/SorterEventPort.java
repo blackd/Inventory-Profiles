@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableList;
 
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
-import fi.dy.masa.malilib.util.GuiUtils;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
@@ -15,9 +14,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProvid
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayerEntity;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerInventory;
@@ -29,17 +26,15 @@ import net.minecraft.entity.player.PlayerInventory;
 public class SorterEventPort {
 
   public static void handleCloseContainer(){
-    MinecraftClient mc = MinecraftClient.getInstance();
-    ClientPlayerEntity player = mc.player;
     ContainerActions.cleanCursor();
-    if (ContainerUtils.isContainerStorage(player.container)) {
+    if (ContainerUtils.isContainerStorage(Current.container())) {
       return;
     }
-    ContainerActions.cleanTempSlots(player.container);
+    ContainerActions.cleanTempSlots(Current.container());
   }
 
   private static boolean isPointingSelfInventory() {
-    Slot s = ContainerUtils.getSlotUnderMouse();
+    Slot s = Current.focusedSlot();
     return AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && s != null && s.inventory instanceof PlayerInventory;
   }
 
@@ -47,7 +42,7 @@ public class SorterEventPort {
     callDoSort(SortingMethodProviders.DEFAULT, GroupingShapeProviders.PRESERVED);
   }
   public static void callDoSort(ISortingMethodProvider sordingProvider, IGroupingShapeProvider groupingProvider) {
-    Container container = MinecraftClient.getInstance().player.container;
+    Container container = Current.container();
     ContainerInfo info = ContainerUtils.getContainerInfo(container);
     ContainerActions.cleanCursor();
     boolean sortSelf = isPointingSelfInventory();
@@ -69,7 +64,7 @@ public class SorterEventPort {
 
   }
   public static void doMoveAll() {
-    Container container = MinecraftClient.getInstance().player.container;
+    Container container = Current.container();
     ContainerInfo info = ContainerUtils.getContainerInfo(container);
     if (info.nonPlayerSlots.size() - info.craftingResultSlots.size() > 0) {
       ContainerActions.moveAllAlike();
@@ -87,9 +82,6 @@ public class SorterEventPort {
     return SHOULD_HANDLE_KEY_LIST.contains(key);
   }
   public static boolean handleKey(KeyAction action, IKeybind key){
-    MinecraftClient mc = MinecraftClient.getInstance();
-    ClientPlayerEntity player = mc.player;
-    if (player.container == null) return false;
     if (key == Generic.SORT_INVENTORY.getKeybind()) {
       doSortAction();
       return true;

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.container.BeaconContainer;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
@@ -19,13 +17,11 @@ import net.minecraft.item.ItemStack;
 public class ContainerActions {
   
   public static void cleanCursor() {
-    MinecraftClient mc = MinecraftClient.getInstance();
-    ClientPlayerEntity player = mc.player;
     // creative menu is not handled
-    if (player.container == null || player.container instanceof CreativeInventoryScreen.CreativeContainer) return;
-    ItemStack cursorStack = player.inventory.getCursorStack();
+    if (Current.container() == null || Current.container() instanceof CreativeInventoryScreen.CreativeContainer) return;
+    ItemStack cursorStack = Current.cursorStack();
     if (!cursorStack.isEmpty()) {
-      ContainerActions.cleanCursor(cursorStack, player.container);
+      ContainerActions.cleanCursor(cursorStack, Current.container());
     }
   }
   public static void cleanCursor(ItemStack cursorStack, Container container) {
@@ -49,7 +45,7 @@ public class ContainerActions {
     //  -> empty: storage, hotbar, offhand
     //  -> if container is storage -> container alike -> container empty
     int count = cursorStack.getCount();
-    Slot hoveringSlot = ContainerUtils.getSlotUnderMouse();
+    Slot hoveringSlot = Current.focusedSlot();
     if (hoveringSlot != null) {
       if (!hoveringSlot.hasStack()) {
         clickList.add(hoveringSlot.id);
@@ -131,17 +127,15 @@ public class ContainerActions {
     if (container instanceof CreativeInventoryScreen.CreativeContainer) {
       return; // creative menu dont use method_2906
     }
-    MinecraftClient mc = MinecraftClient.getInstance();
-    mc.interactionManager.method_2906(container.syncId, slotId,
-        0, SlotActionType.QUICK_MOVE, mc.player);
+    Current.interactionManager().method_2906(container.syncId, slotId,
+        0, SlotActionType.QUICK_MOVE, Current.player());
   }
   public static void click(Container container, int slotId, int button) {
     if (container instanceof CreativeInventoryScreen.CreativeContainer) {
       return; // creative menu dont use method_2906
     }
-    MinecraftClient mc = MinecraftClient.getInstance();
-    mc.interactionManager.method_2906(container.syncId, slotId,
-        button, SlotActionType.PICKUP, mc.player);
+    Current.interactionManager().method_2906(container.syncId, slotId,
+        button, SlotActionType.PICKUP, Current.player());
   }
   
   public static void moveAllAlike() {

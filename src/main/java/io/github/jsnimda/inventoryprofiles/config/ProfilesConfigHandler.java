@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import io.github.jsnimda.inventoryprofiles.ModInfo;
-import net.minecraft.client.MinecraftClient;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.util.Identifier;
 
 /**
@@ -28,7 +28,7 @@ public class ProfilesConfigHandler {
     InputStream inputStream;
     IDENT = new Identifier(ModInfo.MOD_ID, PROFILES_DEFAULT_CLASSPATH);
     try {
-      inputStream = MinecraftClient.getInstance().getResourceManager().getResource(IDENT).getInputStream();
+      inputStream = Current.resourceManager().getResource(IDENT).getInputStream();
       defaultProfilesString = IOUtils.toString(inputStream, "UTF-8");
       ProfilesConfig.defaultProfiles = ProfilesConfig.parse(defaultProfilesString);
 
