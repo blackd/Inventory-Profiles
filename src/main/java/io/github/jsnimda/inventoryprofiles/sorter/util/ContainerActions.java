@@ -20,7 +20,7 @@ public class ContainerActions {
   public static void cleanCursor() {
     // creative menu is not handled
     // TODO creative support
-    if (Current.container() instanceof CreativeInventoryScreen.CreativeContainer) return;
+    // if (Current.container() instanceof CreativeInventoryScreen.CreativeContainer) return;
     if (Current.cursorStack().isEmpty()) return;
     /**
      * refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
@@ -126,14 +126,22 @@ public class ContainerActions {
   // }
   public static void shiftClick(Container container, int slotId) {
     if (container instanceof CreativeInventoryScreen.CreativeContainer) {
-      return; // creative menu dont use method_2906
+      // creative menu dont use method_2906
+      // simulate the action in CreativeInventoryScreen line 135
+      Current.playerContainer().onSlotClick(slotId, 0, SlotActionType.QUICK_MOVE, Current.player());
+      Current.playerContainer().sendContentUpdates();
+      return;
     }
     Current.interactionManager().method_2906(container.syncId, slotId,
         0, SlotActionType.QUICK_MOVE, Current.player());
   }
   public static void click(Container container, int slotId, int button) {
     if (container instanceof CreativeInventoryScreen.CreativeContainer) {
-      return; // creative menu dont use method_2906
+      // creative menu dont use method_2906
+      // simulate the action in CreativeInventoryScreen line 135
+      Current.playerContainer().onSlotClick(slotId, button, SlotActionType.PICKUP, Current.player());
+      Current.playerContainer().sendContentUpdates();
+      return;
     }
     Current.interactionManager().method_2906(container.syncId, slotId,
         button, SlotActionType.PICKUP, Current.player());

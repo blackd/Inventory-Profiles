@@ -4,9 +4,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinAbstractContainerScreen;
+import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.recipe.book.ClientRecipeBook;
@@ -61,10 +63,29 @@ public class Current {
     return playerInventory().getCursorStack();
   }
   /**
+   * interpreted for creative inventory, use focusedSlot(true) to get raw slot instead
+   * for creative inventory, return null even if hovering non inventory slots
    * @return null if hovering on no slots
    */
   @Nullable
   public static Slot focusedSlot() {
+    if (screen() instanceof CreativeInventoryScreen) {
+      Slot raw = focusedSlot(true);
+      if (raw == null) return null;
+      int id = raw.id;
+      int invSlot = ((IMixinSlot)raw).getInvSlot();
+      if (raw.inventory instanceof PlayerInventory && 0 <= invSlot && invSlot <= 8 && id == 45 + invSlot) {
+        return playerContainer().slotList.get(36+invSlot);
+      }
+      if (raw.inventory instanceof PlayerInventory && id == 0 && 0 <= invSlot && invSlot <= 45) {
+        return playerContainer().slotList.get(invSlot);
+      }
+      return null;
+    } else
+      return focusedSlot(true);
+  }
+  public static Slot focusedSlot(boolean raw) {
+    if (!raw) return focusedSlot();
     return (screen() instanceof AbstractContainerScreen) ? 
         ((IMixinAbstractContainerScreen) screen()).getFocusedSlot() : null;
   }

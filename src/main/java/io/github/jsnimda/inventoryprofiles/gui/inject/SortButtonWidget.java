@@ -12,12 +12,14 @@ import org.apache.commons.io.IOUtils;
 
 import io.github.jsnimda.inventoryprofiles.ModInfo;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.command.arguments.ItemStringReader;
+import net.minecraft.container.SlotActionType;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -34,6 +36,8 @@ public class SortButtonWidget extends TexturedButtonWidget {
   }
 
   public static void onPress(ButtonWidget var1) {
+    System.out.println(Current.cursorStack());
+    /*
     StringReader rr = new StringReader("diamond_axe{                 Enchantments:[{id:\"minecraft:smite\",lvl:5}]} diamond_axe");
     System.out.println(rr.getCursor());
     System.out.println(rr.getRemaining());
@@ -59,7 +63,7 @@ public class SortButtonWidget extends TexturedButtonWidget {
     } catch (CommandSyntaxException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
+    }*/
   };
 
   public static final Identifier TEXTURE = new Identifier(ModInfo.MOD_ID, "textures/gui/gui_buttons.png");
@@ -67,9 +71,9 @@ public class SortButtonWidget extends TexturedButtonWidget {
     List<AbstractButtonWidget> list = new ArrayList<>();
     int x = left + containerWidth - 17;
     int y = top + containerHeight - 95;
-    // if (AdvancedOptions.INVENTORY_SHOW_MOVE_ALL_BUTTONS.getBooleanValue()) {
-    //   list.add(new SortButtonWidget(x, y, 5, 0));
-    // }
+    if (AdvancedOptions.INVENTORY_SHOW_MOVE_ALL_BUTTONS.getBooleanValue()) {
+      list.add(new SortButtonWidget(x, y, 5, 0));
+    }
     
     return list;
   }

@@ -173,8 +173,11 @@ public class ContainerUtils {
     }
 
     private void translatePlayer() {
+      translatePlayer(container);
+    }
+    private void translatePlayer(Container asContainer) {
       Slot[] armorSlots = new Slot[5];
-      for (Slot s : container.slotList) { // assumed in order of slot.id
+      for (Slot s : asContainer.slotList) { // assumed in order of slot.id
         if (!(s.inventory instanceof PlayerInventory)) continue;
         int invSlot = ((IMixinSlot)s).getInvSlot();
         if (invSlot >= 0 && invSlot < 9) {
@@ -251,7 +254,7 @@ public class ContainerUtils {
       }
     }
     private void translateCreative() {
-      // TODO creative support
+      translatePlayer(Current.playerContainer());
     }
 
     public ContainerInfo(Container container) {

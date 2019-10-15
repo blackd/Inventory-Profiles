@@ -46,11 +46,12 @@ public class VirtualSorterPort {
   }
   public static void doSort(ContainerInfo info, ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
     if (Current.screen() != null && !(Current.screen() instanceof AbstractContainerScreen)) return;
-    if (info.category == ContainerCategory.PLAYER_CREATIVE) return;
+    //if (info.category == ContainerCategory.PLAYER_CREATIVE) return;
 
     ContainerActions.cleanCursor();
     boolean sortPlayer = info.category == ContainerCategory.PLAYER_SURVIVAL || info.sortableSlots.isEmpty() ||
       (AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory());
+    if (info.category == ContainerCategory.PLAYER_CREATIVE) sortPlayer = true;
     List<Slot> slots;
     if (sortPlayer)
       slots = info.playerStorageSlots;
