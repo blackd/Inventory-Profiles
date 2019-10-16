@@ -205,7 +205,7 @@ public class ContainerActions {
       Current.playerContainer().sendContentUpdates();
       return;
     }
-    Current.interactionManager().method_2906(container.syncId, slotId,
+    Current.interactionManager().clickSlot(container.syncId, slotId,
         0, SlotActionType.QUICK_MOVE, Current.player());
   }
   public static void click(Container container, int slotId, int button) {
@@ -216,7 +216,7 @@ public class ContainerActions {
       Current.playerContainer().sendContentUpdates();
       return;
     }
-    Current.interactionManager().method_2906(container.syncId, slotId,
+    Current.interactionManager().clickSlot(container.syncId, slotId,
         button, SlotActionType.PICKUP, Current.player());
   }
 

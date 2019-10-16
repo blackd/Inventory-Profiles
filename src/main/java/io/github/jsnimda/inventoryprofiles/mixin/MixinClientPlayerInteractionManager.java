@@ -18,12 +18,12 @@ import net.minecraft.util.math.Direction;
 public class MixinClientPlayerInteractionManager {
 
   @Shadow
-  private int field_3716;
+  private int blockBreakingCooldown;
 
-  @Inject(at = @At("HEAD"), method = "method_2902(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
-  public void method_2902(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
-    if (this.field_3716 > 0 && Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN.getBooleanValue()) {
-      this.field_3716 = 0;
+  @Inject(at = @At("HEAD"), method = "updateBlockBreakingProgress(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
+  public void updateBlockBreakingProgress(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
+    if (this.blockBreakingCooldown > 0 && Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN.getBooleanValue()) {
+      this.blockBreakingCooldown = 0;
     }
   }
 
@@ -32,7 +32,7 @@ public class MixinClientPlayerInteractionManager {
       method = "attackBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
   public void attackBlock(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
     if (Tweaks.INSTANT_MINING_COOLDOWN.getBooleanValue()) {
-      this.field_3716 = 5;
+      this.blockBreakingCooldown = 5;
     }
   }
 
