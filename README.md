@@ -13,30 +13,12 @@ https://minecraft.curseforge.com/projects/malilib
 
 Press **R + C** to open in-game config menu. Press **R** in the inventory screen to sort yout items.
 
+**Planned v0.1.0 Functionality**
 
-**Notes:** This mod is still in development version. Config files might change in newer versions before it is stable. Old version of config files will be keeped but will not loaded by newer version of the mod.
+> ✔ Sort Inventory, Sort Inventory by groups in columns, Sort Inventory by grounps in rows  
+> ✔ Configable click interval for sorting (set intervalBetweenClicksMs to 67ms then you can use this mod on NoCheatPlus ot inventory.fastclick disabled server!)  
+> ✔ Move matching items from the inventory to the chest  
+> ✔ Combat/Building Tweaks!  
+> - Profiles Switching (not yet)
 
- 
-
-**Plans for v0.1.0 Functionality**
-```
-> ✔ Sort, Sort by groups in columns, Sort by grounps in rows  
-> Move all the items that are existing in the chest from player's inventory (not yet)  
-> ✔ Combat/Building Tweaks
-    - ✓ instantMiningCooldown
-    - ✓ disableBlockBreakingCooldown
-    - ✓ disableItemUseCooldown
-    - ✓ preventCloseGuiDropItem
-    - ✓ disbleScreenShakingOnDamage
-    - ✓ disableLavaFog
-> Profiles Switching (not yet)
-```
-**Functionality that still in development**
-```
-> move all function
-> switch profile function
-> in gui buttons
-> description stirngs for options
-```
-
- 
+**Notes:** This mod is still in development version. Config files might change in newer versions before it is stable. Old version of config files will be keeped but might not be loaded by newer version of the mod.
