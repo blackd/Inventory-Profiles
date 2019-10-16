@@ -18,9 +18,6 @@ import net.minecraft.item.ItemStack;
 public class ContainerActions {
   
   public static void cleanCursor() {
-    // creative menu is not handled
-    // TODO creative support
-    // if (Current.container() instanceof CreativeInventoryScreen.CreativeContainer) return;
     if (Current.cursorStack().isEmpty()) return;
     /**
      * refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
@@ -108,6 +105,8 @@ public class ContainerActions {
       shiftClick(Current.container(), 0);
     }
   }
+
+  
 
   public static void leftClick(int slotId) {
     leftClick(Current.container(), slotId);
