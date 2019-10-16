@@ -1,0 +1,34 @@
+{
+
+    "inventoryprofiles.gui.button.config_gui.generic": "一般",
+    "inventoryprofiles.gui.button.config_gui.tweak_values": "细节调整",
+    "inventoryprofiles.gui.button.config_gui.tweak_hotkeys": "一键切换",
+    "inventoryprofiles.gui.button.config_gui.advanced_options": "更多选项",
+
+    "inventoryprofiles.gui.title.configs": "Inventory Profiles Configs",
+    
+    "inventoryprofiles.config.comment.openConfigGui":               "打开此菜单的按键",
+    "inventoryprofiles.config.comment.sortInventory":               "一键整理的按键",
+    "inventoryprofiles.config.comment.sortInventoryByGroupColumns": "一键垂直方向分组",
+    "inventoryprofiles.config.comment.sortInventoryByGroupRows":    "一键水平方向分组",
+    "inventoryprofiles.config.comment.enableSwitchProfileHoykey":   "启用 \"switchProfile\" 按键",
+    "inventoryprofiles.config.comment.switchProfile":               "一键切换背包设定档",
+    "inventoryprofiles.config.comment.moveAllContainerExistingItems": "一键移动所有箱子里有同类的物品",
+
+    "inventoryprofiles.config.comment.instantMiningCooldown":       "Adds breaking delay to the blocks that you can instantly mine. This\noption has lower priority than \"disableBlockBreakingCooldown\".",
+    "inventoryprofiles.config.comment.disableBlockBreakingCooldown":"Removes breaking delay for all blocks",
+    "inventoryprofiles.config.comment.disableItemUseCooldown":      "Removes use key cooldown so you can have equivalently 1 right click\nper tick. Can use along with Tweakeroo \"tweakPlacementRestriction\".",
+    "inventoryprofiles.config.comment.preventCloseGuiDropItem":     "Closing GUI will no longer drop the item that holding by the cursor",
+    "inventoryprofiles.config.comment.disbleScreenShakingOnDamage": "Receiving damage no longer shakes your screen",
+    "inventoryprofiles.config.comment.disableLavaFog":              "Allows you to have a clearer view underneath lava",
+
+    "inventoryprofiles.config.comment.addIntervalBetweenClicks":    "Adds some interval between clicks while sorting. Amount of interval\ncan be set by \"intervalBetweenClicksMs\". Might be useful on some\nlaggy servers or inventory.fastclick disabled servers.",
+    "inventoryprofiles.config.comment.intervalBetweenClicksMs":     "Interval between clicks. In milliseconds.",
+    "inventoryprofiles.config.comment.sortClickTargetsFirst":       "When this is true, find the correct item for the first slot first\ninstead of finding the correct slot for the first item first. You\nmay only see the difference if \"addIntervalBetweenClicks\" is on.\nFinal result won't be different whether this is true or false.",
+    "inventoryprofiles.config.comment.sortCursorPointing":          "When this is true, using hotkey sorting will sort the slots that\ncurosr is pointing to. Otherwise it will always sort the container.",
+    "inventoryprofiles.config.comment.inventoryShowProfileButtons": "Show profile buttons on GUI",
+    "inventoryprofiles.config.comment.inventoryShowSortButtons":    "Show sort buttons on GUI",
+    "inventoryprofiles.config.comment.inventoryShowMoveAllButtons": "Show move all buttons on GUI",
+    "inventoryprofiles.config.comment.showInventoryButtonTooltips": "Display tooltips when cursor hover the buttons on GUI",
+    "inventoryprofiles.config.comment.debugLogs":                   "Prints debug messages"
+}
