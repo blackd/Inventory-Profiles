@@ -15,6 +15,11 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerC
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
+import net.minecraft.client.gui.screen.ingame.CraftingTableScreen;
+import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.ingame.SmokerScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -92,15 +97,41 @@ public class GuiSortingButtons {
     }, "inventoryprofiles.tooltip.move_all_button");
   }
 
+  public static boolean isRecipeBookOpen() {
+    if (Current.screen() instanceof InventoryScreen || Current.screen() instanceof CraftingTableScreen) {
+      return Current.recipeBook().isGuiOpen();
+    }
+    if (Current.screen() instanceof FurnaceScreen) {
+      return Current.recipeBook().isFurnaceGuiOpen();
+    }
+    if (Current.screen() instanceof BlastFurnaceScreen) {
+      return Current.recipeBook().isBlastFurnaceGuiOpen();
+    }
+    if (Current.screen() instanceof SmokerScreen) {
+      return Current.recipeBook().isSmokerGuiOpen();
+    }
+    return false;
+  }
+
   public static class SortButtonWidget extends TexturedButtonWidget {
     String tooltipText = "";
+
+    int originalX;
     public SortButtonWidget(int x, int y, int gx, int gy, PressAction pressAction, String tooltipText) {
       super(x, y, 10, 10, gx * 10, gy * 10, gy * 10 + 10, TEXTURE, pressAction);
+      originalX = x;
       this.tooltipText = tooltipText;
     }
 
     @Override
     public void renderButton(int int_1, int int_2, float float_1) {
+      // recipeBook position fix
+      this.x = originalX;
+      boolean isNarrow = Current.screen().width < 379; // hardcoded, maybe lookup to protected isNarrow field (?)
+      if (isRecipeBookOpen() && !isNarrow) {
+        this.x = this.originalX + 177 - 200 / 2; // from RecipeBookWidget.findLeftEdge
+      }
+      
       super.renderButton(int_1, int_2, float_1);
       this.renderToolTip(int_1, int_2);
     }
