@@ -18,7 +18,7 @@ public class ToolTips {
     public int x;
     public int y;
     public ToolTip(String string, int x, int y) {
-      this.strings = Arrays.asList(string);
+      this.strings = Arrays.asList(string.split("\n"));
       this.x = x;
       this.y = y;
     }

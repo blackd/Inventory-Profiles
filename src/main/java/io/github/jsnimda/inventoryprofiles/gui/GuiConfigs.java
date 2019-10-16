@@ -120,11 +120,11 @@ public class GuiConfigs extends GuiConfigsBase {
 
   public enum ConfigGuiTab {
     GENERIC ("inventoryprofiles.gui.button.config_gui.generic"),
+    ADVANCED_OPTIONS ("inventoryprofiles.gui.button.config_gui.advanced_options"),
     //PROFILES ("inventoryprofiles.gui.button.config_gui.profiles"),
     //TWEAKS ("inventoryprofiles.gui.button.config_gui.tweaks"); //,
     TWEAK_VALUES ("inventoryprofiles.gui.button.config_gui.tweak_values"), //,
-    TWEAK_HOTKEYS ("inventoryprofiles.gui.button.config_gui.tweak_hotkeys"),
-    ADVANCED_OPTIONS ("inventoryprofiles.gui.button.config_gui.advanced_options");
+    TWEAK_HOTKEYS ("inventoryprofiles.gui.button.config_gui.tweak_hotkeys");
     //HOTKEYS ("inventoryprofiles.gui.button.config_gui.hotkeys");
 
     private final String translationKey;

@@ -73,24 +73,24 @@ public class Configs {
     public static final ConfigBoolean ADD_INTERVAL_BETWEEN_CLICKS;
     public static final ConfigInteger INTERVAL_BETWEEN_CLICKS_MS;
     public static final ConfigBoolean SORT_RESTOCK_HOTBAR;
-    public static final ConfigBoolean SORT_CLICK_TARGETS_FIRST;
-    public static final ConfigBoolean SORT_CURSOR_POINTING;
+    public static final ConfigBoolean SHOW_INVENTORY_BUTTON_TOOLTIPS;
     public static final ConfigBoolean INVENTORY_SHOW_PROFILE_BUTTONS;
     public static final ConfigBoolean INVENTORY_SHOW_SORT_BUTTONS;
     public static final ConfigBoolean INVENTORY_SHOW_MOVE_ALL_BUTTONS;
-    public static final ConfigBoolean SHOW_INVENTORY_BUTTON_TOOLTIPS;
+    public static final ConfigBoolean SORT_CURSOR_POINTING;
+    public static final ConfigBoolean SORT_CLICK_TARGETS_FIRST;
     public static final ConfigBoolean DEBUG_LOGS;
     public static final List<IConfigBase> LIST;
     static {
       ADD_INTERVAL_BETWEEN_CLICKS     = as("addIntervalBetweenClicks")    .bool(false);
       INTERVAL_BETWEEN_CLICKS_MS      = as("intervalBetweenClicksMs")     .integer(10, 1, 500);
       SORT_RESTOCK_HOTBAR             = as("sortRestockHotbar")           .bool(true);
-      SORT_CLICK_TARGETS_FIRST        = as("sortClickTargetsFirst")       .bool(true);
-      SORT_CURSOR_POINTING            = as("sortCursorPointing")          .bool(false);
+      SHOW_INVENTORY_BUTTON_TOOLTIPS  = as("showInventoryButtonTooltips") .bool(true);
       INVENTORY_SHOW_PROFILE_BUTTONS  = as("inventoryShowProfileButtons") .bool(true);
       INVENTORY_SHOW_SORT_BUTTONS     = as("inventoryShowSortButtons")    .bool(true);
       INVENTORY_SHOW_MOVE_ALL_BUTTONS = as("inventoryShowMoveAllButtons") .bool(true);
-      SHOW_INVENTORY_BUTTON_TOOLTIPS  = as("showInventoryButtonTooltips") .bool(true);
+      SORT_CURSOR_POINTING            = as("sortCursorPointing")          .bool(false);
+      SORT_CLICK_TARGETS_FIRST        = as("sortClickTargetsFirst")       .bool(true);
       DEBUG_LOGS                      = as("debugLogs")                   .bool(false);
 
       LIST = Cfg.list;
