@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 
 import io.github.jsnimda.inventoryprofiles.ModInfo;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -37,6 +38,7 @@ public class SortButtonWidget extends TexturedButtonWidget {
 
   public static void onPress(ButtonWidget var1) {
     System.out.println(Current.cursorStack());
+    ContainerActions.restockHotbar();
     /*
     StringReader rr = new StringReader("diamond_axe{                 Enchantments:[{id:\"minecraft:smite\",lvl:5}]} diamond_axe");
     System.out.println(rr.getCursor());

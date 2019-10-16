@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
@@ -106,7 +107,31 @@ public class ContainerActions {
     }
   }
 
-  
+  public static void restockHotbar() {
+    ContainerInfo info = ContainerInfo.of(Current.container());
+    Stream.concat(
+      Stream.of(info.playerMainhandSlot, info.playerOffhandSlot),
+      info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
+    )
+    .forEach(x->{
+      if (x != null && x.hasStack() && ContainerUtils.getRemainingRoom(x, x.getStack()) > 0) {
+        for (Slot s : info.playerStorageSlots) {
+          if (s.hasStack() && ContainerUtils.getRemainingRoom(x, s.getStack()) > 0) {
+            leftClick(s.id);
+            leftClick(x.id);
+          }
+          if (ContainerUtils.getRemainingRoom(x, x.getStack()) <= 0) {
+            if (!Current.cursorStack().isEmpty()) {
+              leftClick(s.id);
+            }
+            break;
+          }
+        }
+      }
+    });
+  }
+
+
 
   public static void leftClick(int slotId) {
     leftClick(Current.container(), slotId);

@@ -70,6 +70,7 @@ public class Configs {
   public static class AdvancedOptions {
     public static final ConfigBoolean ADD_INTERVAL_BETWEEN_CLICKS;
     public static final ConfigInteger INTERVAL_BETWEEN_CLICKS_MS;
+    public static final ConfigBoolean SORT_RESTOCK_HOTBAR;
     public static final ConfigBoolean SORT_CLICK_TARGETS_FIRST;
     public static final ConfigBoolean SORT_CURSOR_POINTING;
     public static final ConfigBoolean INVENTORY_SHOW_PROFILE_BUTTONS;
@@ -81,8 +82,9 @@ public class Configs {
     static {
       ADD_INTERVAL_BETWEEN_CLICKS     = as("addIntervalBetweenClicks")    .bool(false);
       INTERVAL_BETWEEN_CLICKS_MS      = as("intervalBetweenClicksMs")     .integer(10, 1, 500);
+      SORT_RESTOCK_HOTBAR             = as("sortRestockHotbar")           .bool(true);
       SORT_CLICK_TARGETS_FIRST        = as("sortClickTargetsFirst")       .bool(true);
-      SORT_CURSOR_POINTING            = as ("sortCursorPointing")            .bool(false);
+      SORT_CURSOR_POINTING            = as("sortCursorPointing")          .bool(false);
       INVENTORY_SHOW_PROFILE_BUTTONS  = as("inventoryShowProfileButtons") .bool(true);
       INVENTORY_SHOW_SORT_BUTTONS     = as("inventoryShowSortButtons")    .bool(true);
       INVENTORY_SHOW_MOVE_ALL_BUTTONS = as("inventoryShowMoveAllButtons") .bool(true);

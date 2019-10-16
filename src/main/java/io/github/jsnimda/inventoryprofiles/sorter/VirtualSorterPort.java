@@ -50,8 +50,11 @@ public class VirtualSorterPort {
     boolean sortPlayer = info.sortableSlots.isEmpty() ||
       (AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory());
     List<Slot> slots;
-    if (sortPlayer)
+    if (sortPlayer) {
+      if (AdvancedOptions.SORT_RESTOCK_HOTBAR.getBooleanValue())
+        ContainerActions.restockHotbar();
       slots = info.playerStorageSlots;
+    }
     else
       slots = info.sortableSlots;
     List<Integer> slotIds = slots.stream().map(x -> x.id).collect(Collectors.toList());
