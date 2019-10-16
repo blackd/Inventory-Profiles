@@ -3,11 +3,10 @@ package io.github.jsnimda.inventoryprofiles.gui.inject;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import fi.dy.masa.malilib.gui.GuiBase;
 import io.github.jsnimda.inventoryprofiles.ModInfo;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
@@ -71,26 +70,26 @@ public class GuiSortingButtons {
     return new SortButtonWidget(base_x, chestSide ? chest_y : player_y, 1, 0, x->{
       ContainerInfo info = ContainerInfo.of(Current.container());
       VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
-    }, "inventoryprofiles.config.comment.openConfigGui");
+    }, "inventoryprofiles.tooltip.sort_button");
   }
   public static SortButtonWidget sortColumnsButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(base_x + 12, chestSide ? chest_y : player_y, 2, 0, x->{
       ContainerInfo info = ContainerInfo.of(Current.container());
       VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
-    }, "");
+    }, "inventoryprofiles.tooltip.sort_columns_button");
   }
   public static SortButtonWidget sortRowsButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(base_x + 24, chestSide ? chest_y : player_y, 3, 0, x->{
       ContainerInfo info = ContainerInfo.of(Current.container());
       VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.ROWS);
-    }, "");
+    }, "inventoryprofiles.tooltip.sort_rows_button");
   }
 
   public static SortButtonWidget moveAllButton(boolean chestSide) {
     return new SortButtonWidget(base_x + 36, chestSide ? chest_y : player_y, 
     chestSide ? 6 : 5, 0, x->{
       ContainerActions.moveAllAlike(chestSide, GuiBase.isShiftDown());
-    }, "");
+    }, "inventoryprofiles.tooltip.move_all_button");
   }
 
   public static class SortButtonWidget extends TexturedButtonWidget {
@@ -103,16 +102,13 @@ public class GuiSortingButtons {
     @Override
     public void renderButton(int int_1, int int_2, float float_1) {
       super.renderButton(int_1, int_2, float_1);
-      GlStateManager.pushMatrix();
       this.renderToolTip(int_1, int_2);
-      GlStateManager.disableLighting();
-      GlStateManager.popMatrix();
     }
     
     @Override
     public void renderToolTip(int x, int y) {
-        if (AdvancedOptions.SHOW_INVENTORY_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
-            Current.screen().renderTooltip(I18n.translate(tooltipText), x, y);
+      if (AdvancedOptions.SHOW_INVENTORY_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
+        ToolTips.add(I18n.translate(tooltipText), x, y);
     }
 
   }
