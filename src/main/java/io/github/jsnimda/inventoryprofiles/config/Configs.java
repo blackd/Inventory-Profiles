@@ -1,6 +1,5 @@
 package io.github.jsnimda.inventoryprofiles.config;
 
-import static fi.dy.masa.malilib.hotkeys.KeybindSettings.GUI;
 import static fi.dy.masa.malilib.hotkeys.KeybindSettings.RELEASE_ALLOW_EXTRA;
 
 import java.util.ArrayList;

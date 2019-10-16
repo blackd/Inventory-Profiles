@@ -32,23 +32,23 @@ public class VirtualSorterPort {
   }
   public static void doSort(ISortingMethodProvider sortingProvider, GroupingType groupingType) {
     ContainerInfo info = ContainerInfo.of(Current.container());
+    boolean sortPlayer = info.sortableSlots.isEmpty() ||
+      (AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory());
+    doSort(sortPlayer, info, sortingProvider, groupingType);
+  }
+  public static void doSort(boolean sortPlayer, ContainerInfo info, ISortingMethodProvider sortingProvider, GroupingType groupingType) {
     if (groupingType == GroupingType.PRESERVED) {
-      doSort(info, sortingProvider, GroupingShapeProviders.PRESERVED);
+      doSort(sortPlayer, info, sortingProvider, GroupingShapeProviders.PRESERVED);
     } else if (groupingType == GroupingType.COLUMNS) {
-      doSort(info, sortingProvider, GroupingShapeProviders.columnsProvider(info.sortableWidth));
+      doSort(sortPlayer, info, sortingProvider, GroupingShapeProviders.columnsProvider(info.sortableWidth));
     } else if (groupingType == GroupingType.ROWS) {
-      doSort(info, sortingProvider, GroupingShapeProviders.rowsProvider(info.sortableWidth));
+      doSort(sortPlayer, info, sortingProvider, GroupingShapeProviders.rowsProvider(info.sortableWidth));
     }
   }
-  public static void doSort(ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
-    doSort(ContainerInfo.of(Current.container()), sortingProvider, groupingProvider);
-  }
-  public static void doSort(ContainerInfo info, ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
+  public static void doSort(boolean sortPlayer, ContainerInfo info, ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
     if (Current.screen() != null && !(Current.screen() instanceof AbstractContainerScreen)) return;
 
     ContainerActions.cleanCursor();
-    boolean sortPlayer = info.sortableSlots.isEmpty() ||
-      (AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory());
     List<Slot> slots;
     if (sortPlayer) {
       if (AdvancedOptions.SORT_RESTOCK_HOTBAR.getBooleanValue())

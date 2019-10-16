@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.jsnimda.inventoryprofiles.gui.inject.SortButtonWidget;
+import io.github.jsnimda.inventoryprofiles.gui.inject.GuiSortingButtons;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
@@ -29,15 +29,25 @@ public abstract class MixinAbstractContainerScreen<T extends Container> extends 
   protected int left;
   @Shadow
   protected int top;
+  @Shadow
+  protected final T container;
 
   protected MixinAbstractContainerScreen(Text text_1) {
     super(text_1);
+    container = null;
     // Auto-generated constructor stub
   }
 
-  @Inject(at = @At("TAIL"), method = "init()V")
+  @Inject(at = @At("RETURN"), method = "init()V")
   protected void init(CallbackInfo info) {
-    List<AbstractButtonWidget> buttons = SortButtonWidget.getButtons(this, left, top, containerWidth, containerHeight);
+    List<AbstractButtonWidget> buttons = GuiSortingButtons.gets(this, container, left, top, containerWidth, containerHeight);
     buttons.forEach(x -> this.addButton(x));
   }
+
+  @Inject(at = @At("RETURN"), method = "render(IIF)V")
+  public void render(int int_1, int int_2, float float_1, CallbackInfo info) {
+    // TODO render tooltips
+  }
+
+
 }
