@@ -1,8 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
@@ -197,8 +197,8 @@ public class ContainerUtils {
       playerLegsSlot  = armorSlots[1];
       playerFeetSlot  = armorSlots[0];
       playerOffhandSlot = armorSlots[4];
-      Arrays.asList(playerHeadSlot, playerChestSlot, playerLegsSlot, playerFeetSlot)
-        .stream().filter(x->x!=null).forEach(x->playerArmorSlots.add(x));
+      Stream.of(playerHeadSlot, playerChestSlot, playerLegsSlot, playerFeetSlot)
+        .filter(x->x!=null).forEach(x->playerArmorSlots.add(x));
     }
     private void translateNonPlayer() {
       for (Slot s : container.slotList) { // (need to test hidden slots?)

@@ -13,7 +13,6 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils;
-import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
