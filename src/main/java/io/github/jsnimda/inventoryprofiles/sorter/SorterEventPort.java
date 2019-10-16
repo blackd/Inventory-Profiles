@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 
 import com.google.common.collect.ImmutableList;
 
+import fi.dy.masa.malilib.gui.GuiBase;
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
@@ -34,7 +35,7 @@ public class SorterEventPort {
 
   }
   public static void doMoveAll() {
-    ContainerActions.moveAllAlike();
+    ContainerActions.moveAllAlike(GuiBase.isShiftDown());
   }
 
   public static boolean shouldHandle(IKeybind key){

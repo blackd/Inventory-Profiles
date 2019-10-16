@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
@@ -19,6 +22,9 @@ import net.minecraft.item.ItemStack;
 public class ContainerActions {
   
   public static void cleanCursor() {
+    cleanCursor(true);
+  }
+  public static void cleanCursor(boolean putToStorage) {
     if (Current.cursorStack().isEmpty()) return;
     /**
      * refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
@@ -36,7 +42,7 @@ public class ContainerActions {
     if (ContainerUtils.getRemainingRoom(focuesdSlot, cursorStack) > 0) {
       leftClick(focuesdSlot.id);
     }
-    for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets()) {
+    for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets(putToStorage)) {
       if (Current.cursorStack().isEmpty()) return;
       if (cccs.suit(cursorStack)) {
         leftClick(cccs.slot.id);
@@ -47,7 +53,7 @@ public class ContainerActions {
     public Slot slot;
     public boolean skipIfNoStack;
     
-    public static List<CleanCursorCandidateSlot> gets() {
+    public static List<CleanCursorCandidateSlot> gets(boolean putToStorage) {
       List<CleanCursorCandidateSlot> list = new ArrayList<>();
       ContainerInfo info = ContainerInfo.of(Current.container());
       /**
@@ -73,8 +79,10 @@ public class ContainerActions {
       /**
        * container
        */
-      info.storageSlots.forEach(x->list.add(alike(x)));
-      info.storageSlots.forEach(x->list.add(empty(x)));
+      if (putToStorage) {
+        info.storageSlots.forEach(x->list.add(alike(x)));
+        info.storageSlots.forEach(x->list.add(empty(x)));
+      }
       return list;
     }
     public boolean suit(ItemStack forItem) {
@@ -131,7 +139,48 @@ public class ContainerActions {
     });
   }
 
-
+  public static void moveAllAlike(boolean includeHotbar) {
+    moveAllAlike(ContainerUtils.cursorPointingPlayerInventory(), includeHotbar);
+  }
+  public static void moveAllAlike(boolean moveToPlayerInventory, boolean includeHotbar) {
+    ContainerInfo info = ContainerInfo.of(Current.container());
+    if (info.category == ContainerCategory.CRAFTABLE_3x3
+        || info.category == ContainerCategory.PLAYER_SURVIVAL) {
+      // TODO planned functionality: evenly distribute
+      return;
+    }
+    if (info.storageSlots.isEmpty()) return;
+    List<VirtualItemStack> types;
+    List<Slot> checkSlots = new ArrayList<>();
+    if (!moveToPlayerInventory) { // player to chest
+      types = VirtualSorter.collapse(VirtualSorterPort.getListOfVirtualItemStackFrom(info.storageSlots));
+      checkSlots.addAll(info.playerStorageSlots);
+      if (includeHotbar)
+        checkSlots.addAll(info.playerHotbarSlots);
+    } else { // chest to player
+      checkSlots.addAll(info.storageSlots);
+      List<Slot> typeSlots = new ArrayList<>();
+      typeSlots.addAll(info.playerStorageSlots);
+      if (includeHotbar)
+        typeSlots.addAll(info.playerHotbarSlots);
+      types = VirtualSorter.collapse(VirtualSorterPort.getListOfVirtualItemStackFrom(typeSlots));
+    }
+    for (Slot s : checkSlots) {
+      if (s.hasStack()) {
+        for (VirtualItemStack t : types) {
+          if (VirtualSorterPort.getVirtualItemTypeFrom(s.getStack()).sameAs(t.itemtype)) {
+            if (!moveToPlayerInventory) {
+              shiftClick(Current.container(), s.id);
+            } else {
+              leftClick(s.id);
+              cleanCursor(false);
+            }
+            break;
+          }
+        }
+      }
+    }
+  }
 
   public static void leftClick(int slotId) {
     leftClick(Current.container(), slotId);
@@ -170,10 +219,5 @@ public class ContainerActions {
     Current.interactionManager().method_2906(container.syncId, slotId,
         button, SlotActionType.PICKUP, Current.player());
   }
-  
-  public static void moveAllAlike() {
-    
-  }
-
 
 }

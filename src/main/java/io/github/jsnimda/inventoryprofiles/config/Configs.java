@@ -14,12 +14,15 @@ import fi.dy.masa.malilib.config.options.ConfigBooleanHotkeyed;
 import fi.dy.masa.malilib.config.options.ConfigHotkey;
 import fi.dy.masa.malilib.config.options.ConfigInteger;
 import fi.dy.masa.malilib.hotkeys.IHotkey;
+import fi.dy.masa.malilib.hotkeys.KeyAction;
 import fi.dy.masa.malilib.hotkeys.KeybindSettings;
+import fi.dy.masa.malilib.hotkeys.KeybindSettings.Context;
 
 /**
  * Configs
  */
 public class Configs {
+  public static final KeybindSettings GUI_ALLOW_EXTRA = KeybindSettings.create(Context.GUI, KeyAction.PRESS, true, true, false, true);
 
   public static class Generic {
     public static final ConfigHotkey OPEN_CONFIG_GUI;
@@ -34,12 +37,12 @@ public class Configs {
     public static final List<IHotkey> HOTKEY_LIST;
     static {
       OPEN_CONFIG_GUI                 = as("openConfigGui")             .hotkey("R,C");
-      SORT_INVENTORY                  = as("sortInventory")             .hotkey("R", GUI);
-      SORT_INVENTORY_BY_GROUP_COLUMNS = as("sortInventoryByGroupColumns").hotkey("", GUI);
-      SORT_INVENTORY_BY_GROUP_ROWS    = as("sortInventoryByGroupRows")  .hotkey("", GUI);
+      SORT_INVENTORY                  = as("sortInventory")             .hotkey("R", GUI_ALLOW_EXTRA);
+      SORT_INVENTORY_BY_GROUP_COLUMNS = as("sortInventoryByGroupColumns").hotkey("", GUI_ALLOW_EXTRA);
+      SORT_INVENTORY_BY_GROUP_ROWS    = as("sortInventoryByGroupRows")  .hotkey("", GUI_ALLOW_EXTRA);
       ENABLE_SWITCH_PROFILE_HOTKEY    = as("enableSwitchProfileHoykey") .bool(false);
       SWITCH_PROFILE                  = as("switchProfile")             .hotkey("R", RELEASE_ALLOW_EXTRA);
-      MOVE_ALL_CONTAINER_EXISTING_ITEMS = as("moveAllContainerExistingItems").hotkey("", GUI);
+      MOVE_ALL_CONTAINER_EXISTING_ITEMS = as("moveAllContainerExistingItems").hotkey("", GUI_ALLOW_EXTRA);
 
       LIST = Cfg.list;
       HOTKEY_LIST = Cfg.listAs(IHotkey.class);
