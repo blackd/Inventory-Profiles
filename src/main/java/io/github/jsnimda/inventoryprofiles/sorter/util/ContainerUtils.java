@@ -119,7 +119,6 @@ public class ContainerUtils {
       // TODO handle mods
       System.out.println("[inventoryprofiles] unknown container (mod?)");
       System.out.println(" - container - " + container);
-      System.out.println(" - type - " + container.getType());
       return ContainerCategory.UNKNOWN;
     }
   
