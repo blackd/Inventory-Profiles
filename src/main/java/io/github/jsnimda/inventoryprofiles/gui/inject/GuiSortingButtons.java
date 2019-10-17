@@ -17,6 +17,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
 import net.minecraft.client.gui.screen.ingame.CraftingTableScreen;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.ingame.SmokerScreen;
@@ -24,6 +25,7 @@ import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.container.Container;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 
 /**
@@ -125,8 +127,17 @@ public class GuiSortingButtons {
 
     @Override
     public void renderButton(int int_1, int int_2, float float_1) {
-      // recipeBook position fix
       this.x = originalX;
+      // check if creative and if non inventory tab
+      if (Current.screen() instanceof CreativeInventoryScreen) {
+        if (((CreativeInventoryScreen)Current.screen()).method_2469() != ItemGroup.INVENTORY.getIndex()) {
+          //
+          // should i use this.x = -999 or this.active = false + return?
+          //
+          this.x = -20; // temporary solution
+        }
+      }
+      // recipeBook position fix
       boolean isNarrow = Current.screen().width < 379; // hardcoded, maybe lookup to protected isNarrow field (?)
       if (isRecipeBookOpen() && !isNarrow) {
         this.x = this.originalX + 177 - 200 / 2; // from RecipeBookWidget.findLeftEdge
