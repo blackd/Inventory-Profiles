@@ -54,7 +54,8 @@ public class GuiSortingButtons {
     if (AdvancedOptions.INVENTORY_SHOW_SORT_BUTTONS.getBooleanValue()) {
       if (cate == ContainerCategory.SORTABLE_3x3
           || cate == ContainerCategory.SORTABLE_9xN
-          || cate == ContainerCategory.SORTABLE_Nx3) {
+          || cate == ContainerCategory.SORTABLE_Nx3
+          || cate == ContainerCategory.UNKNOWN) {
         list.add(sortButton(true));
         list.add(sortColumnsButton(true));
         list.add(sortRowsButton(true));

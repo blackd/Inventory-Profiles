@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
@@ -22,9 +22,9 @@ import net.minecraft.item.ItemStack;
 public class ContainerActions {
   
   public static void cleanCursor() {
-    cleanCursor(true);
+    cleanCursor(true, true);
   }
-  public static void cleanCursor(boolean putToStorage) {
+  public static void cleanCursor(boolean putToContainer, boolean putToHotbar) {
     if (Current.cursorStack().isEmpty()) return;
     /**
      * refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
@@ -42,34 +42,55 @@ public class ContainerActions {
     if (ContainerUtils.getRemainingRoom(focuesdSlot, cursorStack) > 0) {
       leftClick(focuesdSlot.id);
     }
-    for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets(putToStorage)) {
+    for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets(putToContainer, putToHotbar)) {
       if (Current.cursorStack().isEmpty()) return;
       if (cccs.suit(cursorStack)) {
         leftClick(cccs.slot.id);
       }
     }
   }
+  public static void quickMoveByPlayerStorageSlotsFirst(int fromSlotId, boolean putToHotbar) { // fixing for when player inventory is full
+    Slot slot = Current.container().slotList.get(fromSlotId);
+    if (slot.getStack().isEmpty()) return;
+    boolean pickedUpFromSlot = false;
+    for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets(false, putToHotbar)) {
+      if (pickedUpFromSlot && Current.cursorStack().isEmpty()) return;
+      if (cccs.suit(pickedUpFromSlot ? Current.cursorStack() : slot.getStack())) {
+        if (!pickedUpFromSlot) {
+          pickedUpFromSlot = true;
+          leftClick(fromSlotId);
+        }
+        leftClick(cccs.slot.id);
+      }
+    }
+    if (!Current.cursorStack().isEmpty()) {
+      leftClick(fromSlotId); // put it back
+    }
+  }
   private static class CleanCursorCandidateSlot {
     public Slot slot;
     public boolean skipIfNoStack;
     
-    public static List<CleanCursorCandidateSlot> gets(boolean putToStorage) {
+    public static List<CleanCursorCandidateSlot> gets(boolean putToContainer, boolean putToHotbar) {
       List<CleanCursorCandidateSlot> list = new ArrayList<>();
       ContainerInfo info = ContainerInfo.of(Current.container());
       /**
        * player alike
        */
-      list.add(alike(info.playerMainhandSlot));
+      if (putToHotbar)
+        list.add(alike(info.playerMainhandSlot));
       if (info.playerOffhandSlot != null)
         list.add(alike(info.playerOffhandSlot));
-      info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
-        .forEach(x->list.add(alike(x)));
+      if (putToHotbar)
+        info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
+          .forEach(x->list.add(alike(x)));
       info.playerStorageSlots.forEach(x->list.add(alike(x)));
       /**
        * player empty
        */
       info.playerStorageSlots.forEach(x->list.add(empty(x)));
-      info.playerHotbarSlots.forEach(x->list.add(empty(x)));
+      if (putToHotbar)
+        info.playerHotbarSlots.forEach(x->list.add(empty(x)));
       if (info.playerOffhandSlot != null)
         list.add(empty(info.playerOffhandSlot));
       /**
@@ -79,7 +100,7 @@ public class ContainerActions {
       /**
        * container
        */
-      if (putToStorage) {
+      if (putToContainer) {
         info.storageSlots.forEach(x->list.add(alike(x)));
         info.storageSlots.forEach(x->list.add(empty(x)));
       }
@@ -164,6 +185,10 @@ public class ContainerActions {
       if (includeHotbar)
         typeSlots.addAll(info.playerHotbarSlots);
       types = VirtualSorter.collapse(VirtualSorterPort.getListOfVirtualItemStackFrom(typeSlots));
+      if (!Current.cursorStack().isEmpty()) {
+        cleanCursor(); // as moving to player inventory depends on clicks
+                           // for playerStorageSlots first purpose
+      }
     }
     for (Slot s : checkSlots) {
       if (s.hasStack()) {
@@ -172,8 +197,7 @@ public class ContainerActions {
             if (!moveToPlayerInventory) {
               shiftClick(Current.container(), s.id);
             } else {
-              leftClick(s.id);
-              cleanCursor(false);
+              quickMoveByPlayerStorageSlotsFirst(s.id, includeHotbar);
             }
             break;
           }
