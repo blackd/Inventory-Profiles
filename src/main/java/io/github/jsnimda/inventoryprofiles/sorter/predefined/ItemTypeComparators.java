@@ -116,6 +116,22 @@ public class ItemTypeComparators {
 
 
     public static Map<String, Comparator<VirtualItemType>> methods = new HashMap<>();
+    static {
+      methods.put("item_id",                     BuiltIn::item_id);
+      methods.put("has_custom_name",             BuiltIn::has_custom_name);
+      methods.put("custom_name_ignore_case",     BuiltIn::custom_name_ignore_case);
+      methods.put("custom_name_locale",          BuiltIn::custom_name_locale);
+      methods.put("custom_name_unicode",         BuiltIn::custom_name_unicode);
+      methods.put("translation_key",             BuiltIn::translation_key);
+      methods.put("translated_name_ignore_case", BuiltIn::translated_name_ignore_case);
+      methods.put("translated_name_locale",      BuiltIn::translated_name_locale);
+      methods.put("translated_name_unicode",     BuiltIn::translated_name_unicode);
+      methods.put("creative_menu",               BuiltIn::creative_menu);
+      methods.put("enchantments",                BuiltIn::enchantments);
+      methods.put("damage",                      BuiltIn::damage);
+      methods.put("potion_name",                 BuiltIn::potion_name);
+      methods.put("nbt",                         BuiltIn::nbt);
+    }
 
   }
   

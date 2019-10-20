@@ -97,6 +97,6 @@ ITEMGROUPS/0.1.0
   @custom_name_locale
   @enchantments
   @damage
-  @potion
+  @potion_name
   @nbt
 
