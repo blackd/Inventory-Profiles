@@ -120,6 +120,8 @@ public class GuiConfigs extends GuiConfigsBase {
 
   public enum ConfigGuiTab {
     GENERIC ("inventoryprofiles.gui.button.config_gui.generic"),
+    SORTING_METHOD ("inventoryprofiles.gui.button.config_gui.sorting_method"),
+    PROFILES ("inventoryprofiles.gui.button.config_gui.profiles"),
     ADVANCED_OPTIONS ("inventoryprofiles.gui.button.config_gui.advanced_options"),
     //PROFILES ("inventoryprofiles.gui.button.config_gui.profiles"),
     //TWEAKS ("inventoryprofiles.gui.button.config_gui.tweaks"); //,

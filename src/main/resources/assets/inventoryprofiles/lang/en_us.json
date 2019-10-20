@@ -1,6 +1,9 @@
 {
 
-    "inventoryprofiles.gui.button.config_gui.generic": "Generic",    "inventoryprofiles.gui.button.config_gui.advanced_options": "Advanced Options",
+    "inventoryprofiles.gui.button.config_gui.generic": "Generic",
+    "inventoryprofiles.gui.button.config_gui.sorting_method": "Sorting Methods",
+    "inventoryprofiles.gui.button.config_gui.profiles": "Profiles",
+    "inventoryprofiles.gui.button.config_gui.advanced_options": "Advanced Options",
     "inventoryprofiles.gui.button.config_gui.hotkeys": "Hotkeys",
     "inventoryprofiles.gui.button.config_gui.tweaks": "Tweaks",
     "inventoryprofiles.gui.button.config_gui.tweak_values": "Combat/Building Tweaks",
@@ -8,6 +11,19 @@
 
 
     "inventoryprofiles.gui.title.configs": "Inventory Profiles Configs",
+
+    "inventoryprofiles.tooltip.profile_I_button": "Switch to Profile I",
+    "inventoryprofiles.tooltip.profile_II_button": "Switch to Profile II",
+    "inventoryprofiles.tooltip.profile_III_button": "Switch to Profile III",
+    "inventoryprofiles.tooltip.profile_IV_button": "Switch to Profile IV",
+    "inventoryprofiles.tooltip.profile_V_button": "Switch to Profile V",
+    "inventoryprofiles.tooltip.profile_VI_button": "Switch to Profile VI",
+    "inventoryprofiles.tooltip.profile_VII_button": "Switch to Profile VII",
+    "inventoryprofiles.tooltip.profile_VIII_button": "Switch to Profile VIII",
+    "inventoryprofiles.tooltip.profile_IX_button": "Switch to Profile IX",
+    "inventoryprofiles.tooltip.profile_X_button": "Switch to Profile X",
+    "inventoryprofiles.tooltip.profile_XI_button": "Switch to Profile XI",
+    "inventoryprofiles.tooltip.profile_XII_button": "Switch to Profile XII",
 
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",
