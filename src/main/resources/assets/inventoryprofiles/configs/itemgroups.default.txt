@@ -54,17 +54,26 @@ ITEMGROUPS/0.1.0
 @has_custom_name
   ::has_custom_name::
 
-@custom_name
-  ::custom_name::
+@custom_name_ignore_case
+  ::custom_name_ignore_case::
+
+@custom_name_locale
+  ::custom_name_locale::
+
+@custom_name_unicode
+  ::custom_name_unicode::
 
 @translation_key
   ::translation_key::
 
-@translated_name
-  ::translated_name::
+@translated_name_ignore_case
+  ::translated_name_ignore_case::
 
 @translated_name_locale
   ::translated_name_locale::
+
+@translated_name_unicode
+  ::translated_name_unicode::
 
 @creative_menu
   ::creative_menu::
@@ -75,8 +84,8 @@ ITEMGROUPS/0.1.0
 @damage
   ::damage::
 
-@potion
-  ::potion::
+@potion_name
+  ::potion_name::
 
 @nbt
   ::nbt::
@@ -85,7 +94,7 @@ ITEMGROUPS/0.1.0
   @creative_menu
   @item_id
   @has_custom_name
-  @custom_name
+  @custom_name_locale
   @enchantments
   @damage
   @potion

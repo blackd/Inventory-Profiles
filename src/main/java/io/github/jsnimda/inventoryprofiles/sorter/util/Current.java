@@ -15,6 +15,7 @@ import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.recipe.book.ClientRecipeBook;
+import net.minecraft.client.resource.language.LanguageManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.container.Container;
 import net.minecraft.container.PlayerContainer;
@@ -144,6 +145,12 @@ public class Current {
   //
   public static ResourceManager resourceManager() {
     return MC().getResourceManager();
+  }
+  public static LanguageManager languageManager() {
+    return MC().getLanguageManager();
+  }
+  public static String languageCode() {
+    return languageManager().getLanguage().getCode();
   }
 
 
