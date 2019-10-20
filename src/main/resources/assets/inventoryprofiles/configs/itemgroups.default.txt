@@ -1,5 +1,93 @@
 ITEMGROUPS/0.1.0
 
+#dyed_shulker_boxs
+  white_shulker_box
+  orange_shulker_box
+  magenta_shulker_box
+  light_blue_shulker_box
+  yellow_shulker_box
+  lime_shulker_box
+  pink_shulker_box
+  gray_shulker_box
+  light_gray_shulker_box
+  cyan_shulker_box
+  purple_shulker_box
+  blue_shulker_box
+  brown_shulker_box
+  green_shulker_box
+  red_shulker_box
+  black_shulker_box
 
+#shulker_boxs
+  shulker_box
+  #dyed_shulker_boxs
 
+@color
+  white_~
+  orange_~
+  magenta_~
+  light_blue_~
+  yellow_~
+  lime_~
+  pink_~
+  gray_~
+  light_gray_~
+  cyan_~
+  purple_~
+  blue_~
+  brown_~
+  green_~
+  red_~
+  black_~
+
+@wood
+  oak_~
+  spruce_~
+  birch_~
+  jungle_~
+  acacia_~
+  dark_oak_~
+
+@item_id
+  ::item_id::
+
+@has_custom_name
+  ::has_custom_name::
+
+@custom_name
+  ::custom_name::
+
+@translation_key
+  ::translation_key::
+
+@translated_name
+  ::translated_name::
+
+@translated_name_locale
+  ::translated_name_locale::
+
+@creative_menu
+  ::creative_menu::
+
+@enchantments
+  ::enchantments::
+
+@damage
+  ::damage::
+
+@potion
+  ::potion::
+
+@nbt
+  ::nbt::
+
+@default
+  @creative_menu
+  @item_id
+  @has_custom_name
+  @custom_name
+  @enchantments
+  @damage
+  @potion
+  @nbt
 
