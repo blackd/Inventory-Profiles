@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
+import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.AbstractFurnaceContainer;
@@ -117,8 +118,8 @@ public class ContainerUtils {
         return ContainerCategory.TRADABLE;
       }
       // TODO handle mods
-      System.out.println("[inventoryprofiles] unknown container (mod?)");
-      System.out.println(" - container - " + container);
+      Log.info("[inventoryprofiles] unknown container (mod?)");
+      Log.info(" >> container: " + container.getClass().getTypeName());
       return ContainerCategory.UNKNOWN;
     }
   
@@ -247,8 +248,8 @@ public class ContainerUtils {
           // we treat unknown container (mod?) as sortable no matter what
           sortableSlots.add(s);
         } else {
-          System.out.println("[inventoryprofile] we shouldn't come here");
-          System.out.println("[inventoryprofile] unknown slot: " + s + " in category " + category);
+          Log.warn("[inventoryprofile] we shouldn't come here");
+          Log.warn("[inventoryprofile] unknown slot: " + s + " in category " + category);
         }
       }
     }

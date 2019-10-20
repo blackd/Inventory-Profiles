@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
 
+import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.Click;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
@@ -100,7 +101,7 @@ public class VirtualSorterPort {
   }
   private static void logClicks(int total, int lclick, int rclick) {
     if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      System.out.println(String.format("[inventoryfiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
+      Log.info(String.format("[inventoryfiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
     }
   }
 

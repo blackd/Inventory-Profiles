@@ -1,11 +1,14 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinAbstractContainerScreen;
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
@@ -33,8 +36,14 @@ public class Current {
   /**
    * null if not in game
    */
+  @Nullable
   public static ClientWorld world() {
     return MC().world;
+  }
+
+  @Nonnull
+  public static ChatHud chatHud() {
+    return MC().inGameHud.getChatHud();
   }
 
 
@@ -105,9 +114,17 @@ public class Current {
   public static ClientPlayerEntity player() {
     return MC().player;
   }
+  /**
+   * only if player != null
+   */
+  @Nonnull
   public static PlayerInventory playerInventory() {
     return player().inventory;
   }
+  /**
+   * only if player != null
+   */
+  @Nonnull
   public static PlayerContainer playerContainer() {
     return player().playerContainer;
   }
@@ -117,6 +134,7 @@ public class Current {
   public static int selectedSlot() {
     return playerInventory().selectedSlot;
   }
+  @Nonnull
   public static ClientRecipeBook recipeBook() {
     return player().getRecipeBook();
   }

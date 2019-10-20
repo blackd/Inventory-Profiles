@@ -16,6 +16,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import io.github.jsnimda.inventoryprofiles.InventoryProfiles;
+import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.ModInfo;
 import io.github.jsnimda.inventoryprofiles.config.IndentParser.ErrorMessage;
 import io.github.jsnimda.inventoryprofiles.config.IndentParser.Section;
@@ -37,9 +39,6 @@ public class ProfilesConfigHandler {
   private static Map<String, ProfileSet> defaulProfileSets = null;
 
   private static File dir;
-
-  static Logger LOGGER = LogManager.getLogger("G12345");
-
 
   public static void init() {
     identifier = new Identifier(ModInfo.MOD_ID, CLASSPATH_FILE_NAME);
@@ -66,7 +65,7 @@ public class ProfilesConfigHandler {
     private HashMap<String, ProfileSet> profileSets = new HashMap<>();
     private final List<String> lines;
     private static void err(String msg) {
-      System.out.println("[inventoryprofiles]["+CONFIG_FILE_NAME+"] " + msg);
+      Log.warn("[inventoryprofiles]["+CONFIG_FILE_NAME+"] " + msg);
     }
     public Map<String, ProfileSet> parse() {
       if (lines.isEmpty() || lines.get(0).trim().isEmpty()) {

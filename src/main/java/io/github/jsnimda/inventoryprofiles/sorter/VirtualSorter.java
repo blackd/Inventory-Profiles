@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import io.github.jsnimda.inventoryprofiles.Log;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundTag;
 
@@ -180,14 +181,14 @@ public class VirtualSorter {
             i.remove();
             break;
           } else {
-            System.out.println("[inventoryprofiles] item mismatch! " + s + " <-> " + afterV + " (" + (s.count - afterV.count) +" missing)");
+            Log.error("[inventoryprofiles] item mismatch! " + s + " <-> " + afterV + " (" + (s.count - afterV.count) +" missing)");
             throw new RuntimeException("Not possible from before to after!");
           }
         }
       }
     }
     if (!beforeColl.isEmpty()) {
-      System.out.println("[inventoryprofiles] beforeColl is not empty! " + beforeColl);
+      Log.error("[inventoryprofiles] beforeColl is not empty! " + beforeColl);
       throw new RuntimeException("Not possible from before to after!");
     }
   }
