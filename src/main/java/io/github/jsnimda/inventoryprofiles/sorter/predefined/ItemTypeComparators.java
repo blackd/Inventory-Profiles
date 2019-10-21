@@ -6,13 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ItemUtils;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import net.minecraft.potion.PotionUtil;
 
 /**
@@ -62,12 +66,27 @@ public class ItemTypeComparators {
   }
 
   public static int getGroupIndex(VirtualItemType type) {
+    if (type.item.getGroup() == null && type.item == Items.ENCHANTED_BOOK) {
+      return ItemGroup.TOOLS.getIndex();
+    }
+
     int groupCount = ItemGroup.GROUPS.length;
     if (type.item.getGroup() == null) {
       return "minecraft".equals(ItemUtils.getItemId(type.item).getNamespace()) ? ItemGroup.MISC.getIndex() : groupCount;
     } else {
       return type.item.getGroup().getIndex();
     }
+  }
+
+  public static double getEnchantmentsScore(VirtualItemType type) {
+    Map<Enchantment, Integer> enc = EnchantmentHelper.getEnchantments(ItemUtils.getItemStack(type));
+    double score = 0;
+    for (Entry<Enchantment, Integer> e : enc.entrySet()) {
+      if (!e.getKey().isCursed()) { // cursed enchantments +0 scores
+        score += e.getValue() / (double)e.getKey().getMaximumLevel();
+      }
+    }
+    return score;
   }
 
   public static class BuiltIn {
@@ -138,7 +157,14 @@ public class ItemTypeComparators {
     }
 
     public static int enchantments(VirtualItemType a, VirtualItemType b) {
-      // TODO done this
+      double aScore = getEnchantmentsScore(a);
+      double bScore = getEnchantmentsScore(b);
+      if (aScore > bScore) { // stronger first
+        return -1;
+      }
+      if (bScore > aScore) {
+        return 1;
+      }
       return 0;
     }
 
