@@ -11,6 +11,8 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ItemUtils;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.potion.PotionUtil;
 
 /**
@@ -57,6 +59,15 @@ public class ItemTypeComparators {
     String aStr = ItemUtils.getItemStack(a).getName().getString();
     String bStr = ItemUtils.getItemStack(b).getName().getString();
     return compareString(aStr, bStr, m);
+  }
+
+  public static int getGroupIndex(VirtualItemType type) {
+    int groupCount = ItemGroup.GROUPS.length;
+    if (type.item.getGroup() == null) {
+      return "minecraft".equals(ItemUtils.getItemId(type.item).getNamespace()) ? ItemGroup.MISC.getIndex() : groupCount;
+    } else {
+      return type.item.getGroup().getIndex();
+    }
   }
 
   public static class BuiltIn {
@@ -114,9 +125,16 @@ public class ItemTypeComparators {
       return display_name(a, b, StringCompareMethod.UNICODE);
     }
 
-    public static int creative_menu(VirtualItemType a, VirtualItemType b) {
-      // TODO done this
-      return 0;
+    public static int creative_menu_groups(VirtualItemType a, VirtualItemType b) {
+      int aGp = getGroupIndex(a);
+      int bGp = getGroupIndex(b);
+      return aGp - bGp;
+    }
+
+    public static int raw_id(VirtualItemType a, VirtualItemType b) {
+      int aInt = Item.getRawId(a.item);
+      int bInt = Item.getRawId(b.item);
+      return aInt - bInt;
     }
 
     public static int enchantments(VirtualItemType a, VirtualItemType b) {
@@ -187,7 +205,8 @@ public class ItemTypeComparators {
       methods.put("display_name_ignore_case",    BuiltIn::display_name_ignore_case);
       methods.put("display_name_locale",         BuiltIn::display_name_locale);
       methods.put("display_name_unicode",        BuiltIn::display_name_unicode);
-      methods.put("creative_menu",               BuiltIn::creative_menu);
+      methods.put("creative_menu_groups",        BuiltIn::creative_menu_groups);
+      methods.put("raw_id",                      BuiltIn::raw_id);
       methods.put("enchantments",                BuiltIn::enchantments);
       methods.put("damage",                      BuiltIn::damage);
       methods.put("has_potion_effects",          BuiltIn::has_potion_effects);

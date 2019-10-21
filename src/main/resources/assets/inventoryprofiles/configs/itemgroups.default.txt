@@ -84,8 +84,11 @@ ITEMGROUPS/0.1.0
 @display_name_unicode
   ::display_name_unicode::
 
-@creative_menu
-  ::creative_menu::
+@creative_menu_groups
+  ::creative_menu_groups::
+
+@raw_id
+  ::raw_id::
 
 @enchantments
   ::enchantments::
@@ -107,6 +110,10 @@ ITEMGROUPS/0.1.0
 
 @nbt
   ::nbt::
+
+@creative_menu
+  @creative_menu_groups
+  @raw_id
 
 @default
   @creative_menu

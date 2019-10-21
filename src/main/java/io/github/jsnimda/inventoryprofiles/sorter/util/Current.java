@@ -1,7 +1,5 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
