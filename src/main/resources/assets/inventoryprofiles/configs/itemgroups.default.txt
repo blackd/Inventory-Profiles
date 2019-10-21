@@ -75,6 +75,15 @@ ITEMGROUPS/0.1.0
 @translated_name_unicode
   ::translated_name_unicode::
 
+@display_name_ignore_case
+  ::display_name_ignore_case::
+
+@display_name_locale
+  ::display_name_locale::
+
+@display_name_unicode
+  ::display_name_unicode::
+
 @creative_menu
   ::creative_menu::
 
@@ -84,8 +93,17 @@ ITEMGROUPS/0.1.0
 @damage
   ::damage::
 
+@has_potion_effects
+  ::has_potion_effects::
+
+@has_custom_potion_effects
+  ::has_custom_potion_effects::
+
 @potion_name
   ::potion_name::
+
+@potion_effects
+  ::potion_effects::
 
 @nbt
   ::nbt::
@@ -97,6 +115,9 @@ ITEMGROUPS/0.1.0
   @custom_name_locale
   @enchantments
   @damage
+  @!has_potion_effects
+  @has_custom_potion_effects
   @potion_name
+  @potion_effects
   @nbt
 
