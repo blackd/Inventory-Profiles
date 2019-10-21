@@ -210,8 +210,9 @@ public class ItemTypeComparators {
       }
     }
     public static int nbt(VirtualItemType a, VirtualItemType b) {
-      // TODO done this
-      return 0;
+      String aStr = a.tag.toString();
+      String bStr = b.tag.toString();
+      return aStr.compareTo(bStr); // rewrite this lazy method (?)
     }
 
 
