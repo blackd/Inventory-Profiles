@@ -41,6 +41,7 @@ public class GuiSortingButtons {
   private static int right_base_x;
   private static int player_y;
   private static int chest_y;
+  private static ContainerCategory cate;
 
   public static List<AbstractButtonWidget> gets(Screen screen, Container container, int left, int top, int containerWidth, int containerHeight) {
     List<AbstractButtonWidget> list = new ArrayList<>();
@@ -48,8 +49,8 @@ public class GuiSortingButtons {
     right_base_x = left + containerWidth - 17 - 36;
     player_y = top + containerHeight - 95;
     chest_y = top + 5;
-    ContainerCategory cate = ContainerCategory.of(container);
-    if (!cate.isStorage()) {
+    cate = ContainerCategory.of(container);
+    if (!showMoveAllButton(cate) || cate == ContainerCategory.PLAYER_SURVIVAL) { // move all button
       right_base_x += 12;
     }
     if (cate == ContainerCategory.PLAYER_CREATIVE) {
@@ -86,12 +87,20 @@ public class GuiSortingButtons {
         list.add(sortRowsButton(false));
       }
     }
-    if (AdvancedOptions.INVENTORY_SHOW_MOVE_ALL_BUTTONS.getBooleanValue() && cate.isStorage()) {
+    if (AdvancedOptions.INVENTORY_SHOW_MOVE_ALL_BUTTONS.getBooleanValue() && showMoveAllButton(cate)) {
       list.add(moveAllButton(false));
-      list.add(moveAllButton(true));
+      if (cate.isStorage()) {
+        list.add(moveAllButton(true));
+      }
     }
     
     return list;
+  }
+
+  public static boolean showMoveAllButton(ContainerCategory cate) {
+    return cate.isStorage()
+      || cate == ContainerCategory.CRAFTABLE_3x3
+      || cate == ContainerCategory.PLAYER_SURVIVAL;
   }
 
   public static SortButtonWidget profileButton(int profileId){
@@ -119,7 +128,7 @@ public class GuiSortingButtons {
   }
 
   public static SortButtonWidget moveAllButton(boolean chestSide) {
-    return new SortButtonWidget(right_base_x + 36, chestSide ? chest_y : player_y, 
+    return new SortButtonWidget(right_base_x + 36 - (cate == ContainerCategory.PLAYER_SURVIVAL ? 12 : 0), chestSide ? chest_y : player_y - (cate == ContainerCategory.PLAYER_SURVIVAL ? 12 : 0), 
     chestSide ? 6 : 5, 0, x->{
       ContainerActions.moveAllAlike(chestSide, GuiBase.isShiftDown());
     }, "inventoryprofiles.tooltip.move_all_button");

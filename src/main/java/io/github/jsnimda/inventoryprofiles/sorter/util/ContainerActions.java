@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
@@ -160,14 +161,18 @@ public class ContainerActions {
     });
   }
 
+  public static void evenlyDistributeCraftingSlots(boolean includeHotbar) {
+    //TODO
+  }
+
   public static void moveAllAlike(boolean includeHotbar) {
-    moveAllAlike(ContainerUtils.cursorPointingPlayerInventory(), includeHotbar);
+    moveAllAlike(AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory(), includeHotbar);
   }
   public static void moveAllAlike(boolean moveToPlayerInventory, boolean includeHotbar) {
     ContainerInfo info = ContainerInfo.of(Current.container());
     if (info.category == ContainerCategory.CRAFTABLE_3x3
         || info.category == ContainerCategory.PLAYER_SURVIVAL) {
-      // TODO planned functionality: evenly distribute
+      evenlyDistributeCraftingSlots(includeHotbar);
       return;
     }
     if (info.storageSlots.isEmpty()) return;
