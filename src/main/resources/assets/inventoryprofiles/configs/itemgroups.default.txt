@@ -116,10 +116,8 @@ ITEMGROUPS/0.1.0
   @raw_id
 
 @default
-  @creative_menu
-  @item_id
-  @has_custom_name
   @custom_name_locale
+  @creative_menu
   @enchantments
   @damage
   @!has_potion_effects

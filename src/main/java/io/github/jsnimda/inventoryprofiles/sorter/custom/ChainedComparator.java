@@ -1,16 +1,17 @@
-package io.github.jsnimda.inventoryprofiles.sorter.predefined;
+package io.github.jsnimda.inventoryprofiles.sorter.custom;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * ChainedComparator
  */
 public class ChainedComparator<T> implements Comparator<T> {
 
-  public List<Comparator<T>> comparators = new ArrayList<>();
+  public final List<Comparator<T>> comparators = new ArrayList<>();
   
   @Override
   public int compare(T o1, T o2) {
@@ -22,7 +23,7 @@ public class ChainedComparator<T> implements Comparator<T> {
     return cmp;
   }
 
-  public void add(Comparator<T> cmp) {
+  public ChainedComparator<T> add(Comparator<T> cmp) {
     if (cmp instanceof ChainedComparator) {
       for (Comparator<T> every : ((ChainedComparator<T>)cmp).comparators) {
         add(every);
@@ -30,6 +31,11 @@ public class ChainedComparator<T> implements Comparator<T> {
     } else {
       comparators.add(cmp);
     }
+    return this;
+  }
+
+  public <A> ConvertedComparator<A, T> convert(Function<A, T> function) {
+    return new ConvertedComparator<>(this, function);
   }
 
 }

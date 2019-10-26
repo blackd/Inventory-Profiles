@@ -1,17 +1,14 @@
-package io.github.jsnimda.inventoryprofiles.sorter.predefined;
+package io.github.jsnimda.inventoryprofiles.sorter.custom;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
 import net.minecraft.item.Item;
 import net.minecraft.tag.ItemTags;
-import net.minecraft.tag.RegistryTagContainer;
 import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagContainer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 /**
  * HashtagGroup
