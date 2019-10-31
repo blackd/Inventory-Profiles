@@ -1,6 +1,5 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
-import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
 import net.minecraft.container.Container;
 
 /**
