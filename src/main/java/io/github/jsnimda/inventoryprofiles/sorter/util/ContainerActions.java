@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
@@ -198,7 +198,7 @@ public class ContainerActions {
     for (Slot s : checkSlots) {
       if (s.hasStack()) {
         for (VirtualItemStack t : types) {
-          if (VirtualSorterPort.getVirtualItemTypeFrom(s.getStack()).sameAs(t.itemtype)) {
+          if (VirtualSorterPort.getVirtualItemTypeFrom(s.getStack()).equals(t.itemtype)) {
             if (!moveToPlayerInventory) {
               shiftClick(Current.container(), s.id);
             } else {

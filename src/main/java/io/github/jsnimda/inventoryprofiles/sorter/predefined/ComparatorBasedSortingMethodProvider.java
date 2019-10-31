@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.github.jsnimda.inventoryprofiles.sorter.ISortingMethodProvider;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 
 /**
  * ComparatorBasedSortingMethodProvider

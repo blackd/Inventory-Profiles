@@ -8,7 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ItemUtils;
 import net.minecraft.enchantment.Enchantment;

@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import java.util.List;
 
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

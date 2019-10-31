@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundTag;
 
 /**
  * VirtualSorter
@@ -349,70 +347,5 @@ public class VirtualSorter {
   }
 
 
-  public static boolean areItemTypesEqual(Item item1, CompoundTag tag1, Item item2, CompoundTag tag2) {
-    if (item1 != item2) return false;
-    if (tag1 == null && tag2 != null) {
-       return false;
-    } else {
-       return tag1 == null || tag1.equals(tag2);
-    }
-  }
-
-  public static class VirtualItemType {
-    public final Item item;
-    public final CompoundTag tag;
-
-    public VirtualItemType(Item item, CompoundTag tag) {
-      this.item = item;
-      this.tag = tag;
-    }
-
-    public boolean sameAs(VirtualItemType b) {
-      return this == b || b != null
-          && areItemTypesEqual(item, tag, ((VirtualItemType)b).item, ((VirtualItemType)b).tag);
-    }
-
-    public static List<VirtualItemType> getListFrom(List<VirtualItemStack> items) {
-      return items.stream().map(x -> x.itemtype).collect(Collectors.toList());
-    }
-
-    
-    @Override
-    public String toString() {
-      return this.item + "" + (this.tag == null ? "" : this.tag);
-    }
-
-  }
-  public static class VirtualItemStack {
-    public VirtualItemType itemtype;
-    public int count;
-
-    public VirtualItemStack(VirtualItemType itemtype, int count) {
-      this.itemtype = itemtype;
-      this.count = count;
-    }
-
-    public int getMaxCount() {
-      return itemtype.item.getMaxCount();
-    }
-
-    public boolean sameType(VirtualItemStack b) {
-      return b != null && itemtype.sameAs(b.itemtype);
-    }
-
-    public VirtualItemStack copy() {
-      return new VirtualItemStack(itemtype, count);
-    }
-    public VirtualItemStack copyWithCount(int count) {
-      return new VirtualItemStack(itemtype, count);
-    }
-
-    @Override
-    public String toString() {
-      return this.count + " " + this.itemtype;
-    }
-
-
-  }
   
 }

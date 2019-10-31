@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import io.github.jsnimda.inventoryprofiles.sorter.ISortingMethodProvider;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.custom.BuiltInMethods;
 import io.github.jsnimda.inventoryprofiles.sorter.custom.ChainedComparator;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ItemUtils;

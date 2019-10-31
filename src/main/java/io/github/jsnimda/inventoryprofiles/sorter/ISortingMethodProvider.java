@@ -2,8 +2,6 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.List;
 
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
-
 /**
  * ISortingMethodProvider
  */

@@ -24,7 +24,8 @@ import net.minecraft.resource.ResourceManager;
 
 /**
  * Current
- *  - calling in game object should check null first or ensure that will not be happened
+ * <p>
+ * Getting current vanilla objects.
  */
 public class Current {
 
@@ -32,6 +33,12 @@ public class Current {
   public static MinecraftClient MC() {
     return MinecraftClient.getInstance();
   }
+  public static boolean inGame() {
+    return world() != null && player() != null;
+  }
+  //============
+  // others
+  //
   /**
    * null if not in game
    */
@@ -57,18 +64,18 @@ public class Current {
     return MC().currentScreen;
   }
   /**
+   * @NonNull if in-game, null is returned otherwise
    * @return playerContainer if nothing is opened
    */
-  @Nonnull
   public static Container container() {
-    return player().container;
+    return player() == null ? null : player().container;
   }
   /**
    * @return ItemStack.EMPTY if no item is being grabbed
    */
   @Nonnull
   public static ItemStack cursorStack() {
-    return playerInventory().getCursorStack();
+    return playerInventory() == null ? ItemStack.EMPTY : playerInventory().getCursorStack();
   }
   /**
    * interpreted for creative inventory, use focusedSlot(true) to get raw slot instead

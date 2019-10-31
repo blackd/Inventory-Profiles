@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import io.github.jsnimda.inventoryprofiles.sorter.IGroupingShapeProvider;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemStack;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 
 /**
  * GroupingShapeProviders
@@ -278,7 +278,7 @@ public class GroupingShapeProviders {
       if (e == null) continue;
       int i = 0;
       for (VirtualItemType t : types) {
-        if (t.sameAs(e.itemtype)) {
+        if (t.equals(e.itemtype)) {
           stackCounts.set(i, stackCounts.get(i)+1);
           continue outer;
         }

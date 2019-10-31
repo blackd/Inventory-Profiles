@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.sorter.custom;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import net.minecraft.item.Item;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.tag.Tag;
