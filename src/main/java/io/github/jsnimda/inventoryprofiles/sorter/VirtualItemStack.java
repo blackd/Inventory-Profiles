@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
 public final class VirtualItemStack {
-  public VirtualItemType itemtype;
+  public final VirtualItemType itemtype;
   public int count;
 
   public VirtualItemStack(VirtualItemType itemtype, int count) {
@@ -17,10 +17,18 @@ public final class VirtualItemStack {
     return b != null && itemtype.equals(b.itemtype);
   }
 
+  public VirtualItemStack cap() {
+    count = Math.min(count, getMaxCount());
+    return this;
+  }
+
   public VirtualItemStack copy() {
     return new VirtualItemStack(itemtype, count);
   }
-  public VirtualItemStack copyWithCount(int count) {
+  public VirtualItemStack copy(int count) {
+    return new VirtualItemStack(itemtype, count);
+  }
+  public VirtualItemStack copy(VirtualItemType itemtype) {
     return new VirtualItemStack(itemtype, count);
   }
 

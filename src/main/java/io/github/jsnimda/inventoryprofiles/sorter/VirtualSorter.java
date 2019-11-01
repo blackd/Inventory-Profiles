@@ -23,8 +23,10 @@ public class VirtualSorter {
   public static List<Click> doSort(List<VirtualItemStack> items,
       ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider, boolean targetsFirst) {
     try {
-      List<VirtualItemStack> uni = uniquify(items);
-      List<VirtualItemStack> res = groups(uncollapse(sort(collapse(uni), sortingProvider)), groupingProvider, uni.size());
+      VirtualSlots vs = new VirtualSlots(items);
+      List<VirtualItemStack> uni = vs.uniquified;
+      List<VirtualItemStack> collapsed = vs.getInfos().entrySet().stream().map(x->new VirtualItemStack(x.getKey(), x.getValue().totalCount)).collect(Collectors.toList());
+      List<VirtualItemStack> res = groups(uncollapse(sort(collapsed, sortingProvider)), groupingProvider, uni.size());
       return targetsFirst ? diffTargetsFirst(uni, res) : diff(uni, res);
     } catch (RuntimeException e) {
       e.printStackTrace();
@@ -33,31 +35,7 @@ public class VirtualSorter {
   }
 
   /**
-   * Let all the same item tpyes to the same object reference. Run in O(n^2)
-   * @param items
-   * @return
-   */
-  public static List<VirtualItemStack> uniquify(List<VirtualItemStack> items) {
-    List<VirtualItemStack> uni = new ArrayList<>();
-    for (VirtualItemStack e : items) {
-      if (e == null) {
-        uni.add(null);
-        continue;
-      }
-      VirtualItemStack n = e.copy();
-      uni.add(n);
-      for (VirtualItemStack v : uni) {
-        if (n.sameType(v)) {
-          n.itemtype = v.itemtype;
-          break;
-        }
-      }
-    }
-    return uni;
-  }
-
-  /**
-   * Null elements is allowed. Run in O(n^2)
+   * Null elements is allowed. Run in O(n)
    * @param items
    * @return
    */
@@ -101,7 +79,7 @@ public class VirtualSorter {
       int c = v.count;
       while (c > 0) {
         int del = Math.min(c, v.getMaxCount());
-        res.add(v.copyWithCount(del));
+        res.add(v.copy(del));
         c -= del;
       }
     }
@@ -260,7 +238,7 @@ public class VirtualSorter {
         if (sandboxCursor == null) { // split half, cursor round up, left round down
           if (v != null) {
             int del = v.count - v.count / 2;
-            sandboxCursor = v.copyWithCount(del);
+            sandboxCursor = v.copy(del);
             v.count -= del;
           }
         } else {
@@ -271,7 +249,7 @@ public class VirtualSorter {
             sandboxItems.set(index, sandboxCursor);
             sandboxCursor = v;
           } else {
-            sandboxItems.set(index, sandboxCursor.copyWithCount(1));
+            sandboxItems.set(index, sandboxCursor.copy(1));
             sandboxCursor.count--;
           }
         }
