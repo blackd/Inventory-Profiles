@@ -260,7 +260,7 @@ public class GroupingShapeProviders {
     }
   }
 
-  private static List<Integer> columns_widths(int width, int columns) {
+  public static List<Integer> columns_widths(int width, int columns) {
     List<Integer> ints = new ArrayList<>();
     int k = 0;
     for (int i = 1; i <= columns; i++) {

@@ -1,13 +1,22 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.sorter.Click;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots.ItemTypeInfo;
+import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.BeaconContainer;
 import net.minecraft.container.Container;
@@ -135,15 +144,11 @@ public class ContainerActions {
     }
   }
 
-  public static void restockHotbar() {
-    ContainerInfo info = CurrentState.containerInfo();
-    Stream.concat(
-      Stream.of(info.playerMainhandSlot, info.playerOffhandSlot),
-      info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
-    )
+  public static void restock(List<Slot> target, List<Slot> from) {
+    target
     .forEach(x->{
       if (x != null && x.hasStack() && ContainerUtils.getRemainingRoom(x, x.getStack()) > 0) {
-        for (Slot s : info.playerStorageSlots) {
+        for (Slot s : from) {
           if (s.hasStack() && ContainerUtils.getRemainingRoom(x, s.getStack()) > 0) {
             leftClick(s.id);
             leftClick(x.id);
@@ -159,14 +164,44 @@ public class ContainerActions {
     });
   }
 
+  public static void restockHotbar() {
+    ContainerInfo info = CurrentState.containerInfo();
+    restock(Stream.concat(
+      Stream.of(info.playerMainhandSlot, info.playerOffhandSlot),
+      info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
+    ).collect(Collectors.toList()), info.playerStorageSlots);
+  }
+
   public static void evenlyDistributeCraftingSlots(boolean includeHotbar) {
-    //TODO
+    ContainerInfo info = CurrentState.containerInfo();
+    List<Slot> fromSlots = new ArrayList<>();
+    fromSlots.addAll(info.playerStorageSlots);
+    if (includeHotbar)
+      fromSlots.addAll(info.playerHotbarSlots);
+    restock(info.craftingSlots, fromSlots);
+    VirtualSlots vs = new VirtualSlots(Converter.toVirtualItemStackList(info.craftingSlots));
+    List<VirtualItemStack> a = vs.uniquified;
+    Map<VirtualItemType, ItemTypeInfo> infos = vs.getInfos();
+    Map<VirtualItemType, Queue<Integer>> bMap = infos.entrySet().stream().collect(Collectors.toMap(
+      x->x.getKey(), 
+      x->new LinkedList<>(GroupingShapeProviders.columns_widths(x.getValue().totalCount, x.getValue().fromIndex.size()))
+    ));
+    try {
+      List<VirtualItemStack> b = a.stream().map(x -> x == null ? null : x.copy(bMap.get(x.itemtype).remove())).collect(Collectors.toList());
+      List<Click> clicks = VirtualSorter.diff(a, b);
+      VirtualSorterPort.doClicks(info.container, clicks, info.craftingSlots.stream().map(
+        x->x.id
+      ).collect(Collectors.toList()));
+    } catch (Throwable e) {
+      e.printStackTrace();
+    }
   }
 
   public static void moveAllAlike(boolean includeHotbar) {
     moveAllAlike(AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory(), includeHotbar);
   }
   public static void moveAllAlike(boolean moveToPlayerInventory, boolean includeHotbar) {
+    cleanCursor();
     ContainerInfo info = CurrentState.containerInfo();
     if (info.category == ContainerCategory.CRAFTABLE_3x3
         || info.category == ContainerCategory.PLAYER_SURVIVAL) {
@@ -177,7 +212,7 @@ public class ContainerActions {
     List<VirtualItemType> types;
     List<Slot> checkSlots = new ArrayList<>();
     if (!moveToPlayerInventory) { // player to chest
-      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(info.storageSlots)).getItemTypes();
+      types = new VirtualSlots(Converter.toVirtualItemStackList(info.storageSlots)).getItemTypes();
       checkSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         checkSlots.addAll(info.playerHotbarSlots);
@@ -187,7 +222,7 @@ public class ContainerActions {
       typeSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         typeSlots.addAll(info.playerHotbarSlots);
-      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(typeSlots)).getItemTypes();
+      types = new VirtualSlots(Converter.toVirtualItemStackList(typeSlots)).getItemTypes();
       if (!Current.cursorStack().isEmpty()) {
         cleanCursor(); // as moving to player inventory depends on clicks
                            // for playerStorageSlots first purpose
@@ -196,7 +231,7 @@ public class ContainerActions {
     for (Slot s : checkSlots) {
       if (s.hasStack()) {
         for (VirtualItemType t : types) {
-          if (VirtualSorterPort.getVirtualItemTypeFrom(s.getStack()).equals(t)) {
+          if (Converter.toVirtualItemType(s.getStack()).equals(t)) {
             if (!moveToPlayerInventory) {
               shiftClick(Current.container(), s.id);
             } else {
