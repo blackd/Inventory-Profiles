@@ -13,7 +13,6 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerCategory;
-import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
@@ -110,20 +109,17 @@ public class GuiSortingButtons {
   }
   public static SortButtonWidget sortButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(right_base_x, chestSide ? chest_y : player_y, 1, 0, x->{
-      ContainerInfo info = ContainerInfo.of(Current.container());
-      VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
     }, "inventoryprofiles.tooltip.sort_button");
   }
   public static SortButtonWidget sortColumnsButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(right_base_x + 12, chestSide ? chest_y : player_y, 2, 0, x->{
-      ContainerInfo info = ContainerInfo.of(Current.container());
-      VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
     }, "inventoryprofiles.tooltip.sort_columns_button");
   }
   public static SortButtonWidget sortRowsButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(right_base_x + 24, chestSide ? chest_y : player_y, 3, 0, x->{
-      ContainerInfo info = ContainerInfo.of(Current.container());
-      VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.ROWS);
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.DEFAULT, GroupingType.ROWS);
     }, "inventoryprofiles.tooltip.sort_rows_button");
   }
 

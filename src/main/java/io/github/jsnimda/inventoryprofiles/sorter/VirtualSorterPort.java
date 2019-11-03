@@ -13,6 +13,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
+import io.github.jsnimda.inventoryprofiles.sorter.util.CurrentState;
 import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
@@ -29,23 +30,25 @@ public class VirtualSorterPort {
     ROWS
   }
   public static void doSort(ISortingMethodProvider sortingProvider, GroupingType groupingType) {
-    ContainerInfo info = ContainerInfo.of(Current.container());
+    ContainerInfo info = CurrentState.containerInfo();
     boolean sortPlayer = info.sortableSlots.isEmpty() ||
       (AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory());
-    doSort(sortPlayer, info, sortingProvider, groupingType);
+    doSort(sortPlayer, sortingProvider, groupingType);
   }
-  public static void doSort(boolean sortPlayer, ContainerInfo info, ISortingMethodProvider sortingProvider, GroupingType groupingType) {
+  public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, GroupingType groupingType) {
+    ContainerInfo info = CurrentState.containerInfo();
     if (groupingType == GroupingType.PRESERVED) {
-      doSort(sortPlayer, info, sortingProvider, GroupingShapeProviders.PRESERVED);
+      doSort(sortPlayer, sortingProvider, GroupingShapeProviders.PRESERVED);
     } else if (groupingType == GroupingType.COLUMNS) {
-      doSort(sortPlayer, info, sortingProvider, GroupingShapeProviders.columnsProvider(info.sortableWidth));
+      doSort(sortPlayer, sortingProvider, GroupingShapeProviders.columnsProvider(info.sortableWidth));
     } else if (groupingType == GroupingType.ROWS) {
-      doSort(sortPlayer, info, sortingProvider, GroupingShapeProviders.rowsProvider(info.sortableWidth));
+      doSort(sortPlayer, sortingProvider, GroupingShapeProviders.rowsProvider(info.sortableWidth));
     }
   }
-  public static void doSort(boolean sortPlayer, ContainerInfo info, ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
+  public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
     if (Current.screen() != null && !(Current.screen() instanceof AbstractContainerScreen)) return;
-
+    
+    ContainerInfo info = CurrentState.containerInfo();
     ContainerActions.cleanCursor();
     List<Slot> slots;
     if (sortPlayer) {

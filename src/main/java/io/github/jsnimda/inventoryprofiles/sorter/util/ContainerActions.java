@@ -2,14 +2,11 @@ package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.BeaconContainer;
@@ -75,7 +72,7 @@ public class ContainerActions {
     
     public static List<CleanCursorCandidateSlot> gets(boolean putToContainer, boolean putToHotbar) {
       List<CleanCursorCandidateSlot> list = new ArrayList<>();
-      ContainerInfo info = ContainerInfo.of(Current.container());
+      ContainerInfo info = CurrentState.containerInfo();
       /**
        * player alike
        */
@@ -139,7 +136,7 @@ public class ContainerActions {
   }
 
   public static void restockHotbar() {
-    ContainerInfo info = ContainerInfo.of(Current.container());
+    ContainerInfo info = CurrentState.containerInfo();
     Stream.concat(
       Stream.of(info.playerMainhandSlot, info.playerOffhandSlot),
       info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
@@ -170,17 +167,17 @@ public class ContainerActions {
     moveAllAlike(AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory(), includeHotbar);
   }
   public static void moveAllAlike(boolean moveToPlayerInventory, boolean includeHotbar) {
-    ContainerInfo info = ContainerInfo.of(Current.container());
+    ContainerInfo info = CurrentState.containerInfo();
     if (info.category == ContainerCategory.CRAFTABLE_3x3
         || info.category == ContainerCategory.PLAYER_SURVIVAL) {
       evenlyDistributeCraftingSlots(includeHotbar);
       return;
     }
     if (info.storageSlots.isEmpty()) return;
-    Set<VirtualItemType> types;
+    List<VirtualItemType> types;
     List<Slot> checkSlots = new ArrayList<>();
     if (!moveToPlayerInventory) { // player to chest
-      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(info.storageSlots)).getInfos().keySet();
+      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(info.storageSlots)).getItemTypes();
       checkSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         checkSlots.addAll(info.playerHotbarSlots);
@@ -190,7 +187,7 @@ public class ContainerActions {
       typeSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         typeSlots.addAll(info.playerHotbarSlots);
-      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(typeSlots)).getInfos().keySet();
+      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(typeSlots)).getItemTypes();
       if (!Current.cursorStack().isEmpty()) {
         cleanCursor(); // as moving to player inventory depends on clicks
                            // for playerStorageSlots first purpose
