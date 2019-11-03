@@ -52,6 +52,13 @@ public final class VirtualSlots {
     return infos;
   }
 
+  public <T> Map<VirtualItemType, T> getInfosAs(Function<ItemTypeInfo, T> func) {
+    return getInfos().entrySet().stream().collect(Collectors.toMap(
+      Map.Entry::getKey, 
+      x->func.apply(x.getValue())
+    ));
+  }
+
   public <T> T getOrDefault(VirtualItemType type, Function<ItemTypeInfo, T> func, T defaultValue) {
     ItemTypeInfo j = getInfos().get(type);
     return j == null ? defaultValue : func.apply(j);

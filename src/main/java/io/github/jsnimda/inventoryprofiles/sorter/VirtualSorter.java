@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots.ItemTypeInfo;
 
 /**
  * VirtualSorter
@@ -34,15 +36,6 @@ public class VirtualSorter {
     }
   }
 
-  /**
-   * Null elements is allowed. Run in O(n)
-   * @param items
-   * @return
-   */
-  public static List<VirtualItemStack> collapse(List<VirtualItemStack> items) {
-    return new VirtualSlots(items).getInfos().entrySet().stream().map(x->new VirtualItemStack(x.getKey(), x.getValue().totalCount)).collect(Collectors.toList());
-  }
-  
   public static List<VirtualItemType> sortTypes(List<VirtualItemType> types, ISortingMethodProvider provider) {
     return sort(
           types.stream().map(x -> new VirtualItemStack(x, 1)).collect(Collectors.toList())
@@ -127,25 +120,13 @@ public class VirtualSorter {
   }
   
   private static void diffCheckPossible(List<VirtualItemStack> before, List<VirtualItemStack> after) {
-    List<VirtualItemStack> beforeColl = collapse(before);
-    List<VirtualItemStack> afterColl = collapse(after);
-    for (VirtualItemStack afterV : afterColl) {
-      Iterator<VirtualItemStack> i = beforeColl.iterator();
-      while (i.hasNext()) {
-        VirtualItemStack s = i.next(); // must be called before you can call i.remove()
-        if (afterV.sameType(s)) {
-          if (afterV.count == s.count) {
-            i.remove();
-            break;
-          } else {
-            Log.error("[inventoryprofiles] item mismatch! " + s + " <-> " + afterV + " (" + (s.count - afterV.count) +" missing)");
-            throw new RuntimeException("Not possible from before to after!");
-          }
-        }
-      }
-    }
-    if (!beforeColl.isEmpty()) {
-      Log.error("[inventoryprofiles] beforeColl is not empty! " + beforeColl);
+    Map<VirtualItemType, VirtualItemStack> a = new VirtualSlots(before).getInfosAs(x->new VirtualItemStack(x.type, x.totalCount));
+    Map<VirtualItemType, VirtualItemStack> b = new VirtualSlots(after).getInfosAs(x->new VirtualItemStack(x.type, x.totalCount));
+    if (!a.equals(b)) {
+      Log.error("[inventoryprofiles] before map:");
+      a.forEach((key, value) -> Log.error(key + ":" + value));
+      Log.error("[inventoryprofiles] after map:");
+      b.forEach((key, value) -> Log.error(key + ":" + value));
       throw new RuntimeException("Not possible from before to after!");
     }
   }
