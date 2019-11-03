@@ -23,13 +23,13 @@ public class SorterEventPort {
   }
 
   public static void doSortAction() {
-    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
+    VirtualSorterPort.doSort(SortingMethodProviders.current(), GroupingType.PRESERVED);
   }
   public static void doSortActionByGroupColumns() {
-    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
+    VirtualSorterPort.doSort(SortingMethodProviders.current(), GroupingType.COLUMNS);
   }
   public static void doSortActionByGroupRows() {
-    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.ROWS);
+    VirtualSorterPort.doSort(SortingMethodProviders.current(), GroupingType.ROWS);
   }
   public static void doSwitchProfile() {
 

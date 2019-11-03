@@ -57,18 +57,18 @@ public class GuiSortingButtons {
     }
     if (AdvancedOptions.INVENTORY_SHOW_PROFILE_BUTTONS.getBooleanValue()) {
       if (cate == ContainerCategory.PLAYER_SURVIVAL || cate == ContainerCategory.PLAYER_CREATIVE) {
-        list.add(profileButton(1));
-        list.add(profileButton(2));
-        list.add(profileButton(3));
-        list.add(profileButton(4));
-        list.add(profileButton(5));
-        list.add(profileButton(6));
-        list.add(profileButton(7));
-        list.add(profileButton(8));
-        list.add(profileButton(9));
-        list.add(profileButton(10));
-        list.add(profileButton(11));
-        list.add(profileButton(12));
+        // list.add(profileButton(1));
+        // list.add(profileButton(2));
+        // list.add(profileButton(3));
+        // list.add(profileButton(4));
+        // list.add(profileButton(5));
+        // list.add(profileButton(6));
+        // list.add(profileButton(7));
+        // list.add(profileButton(8));
+        // list.add(profileButton(9));
+        // list.add(profileButton(10));
+        // list.add(profileButton(11));
+        // list.add(profileButton(12));
       }
     }
     if (AdvancedOptions.INVENTORY_SHOW_SORT_BUTTONS.getBooleanValue()) {
@@ -109,17 +109,17 @@ public class GuiSortingButtons {
   }
   public static SortButtonWidget sortButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(right_base_x, chestSide ? chest_y : player_y, 1, 0, x->{
-      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.current(), GroupingType.PRESERVED);
     }, "inventoryprofiles.tooltip.sort_button");
   }
   public static SortButtonWidget sortColumnsButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(right_base_x + 12, chestSide ? chest_y : player_y, 2, 0, x->{
-      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.current(), GroupingType.COLUMNS);
     }, "inventoryprofiles.tooltip.sort_columns_button");
   }
   public static SortButtonWidget sortRowsButton(boolean chestSide) { // chestSide or playerSide
     return new SortButtonWidget(right_base_x + 24, chestSide ? chest_y : player_y, 3, 0, x->{
-      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.DEFAULT, GroupingType.ROWS);
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.current(), GroupingType.ROWS);
     }, "inventoryprofiles.tooltip.sort_rows_button");
   }
 

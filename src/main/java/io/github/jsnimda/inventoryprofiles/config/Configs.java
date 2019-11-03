@@ -12,10 +12,12 @@ import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.config.options.ConfigBooleanHotkeyed;
 import fi.dy.masa.malilib.config.options.ConfigHotkey;
 import fi.dy.masa.malilib.config.options.ConfigInteger;
+import fi.dy.masa.malilib.config.options.ConfigOptionList;
 import fi.dy.masa.malilib.hotkeys.IHotkey;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
 import fi.dy.masa.malilib.hotkeys.KeybindSettings;
 import fi.dy.masa.malilib.hotkeys.KeybindSettings.Context;
+import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodOption;
 
 /**
  * Configs
@@ -25,6 +27,7 @@ public class Configs {
 
   public static class Generic {
     public static final ConfigHotkey OPEN_CONFIG_GUI;
+    public static final ConfigOptionList SORTING_METHOD;
     public static final ConfigHotkey SORT_INVENTORY;
     public static final ConfigHotkey SORT_INVENTORY_BY_GROUP_COLUMNS;
     public static final ConfigHotkey SORT_INVENTORY_BY_GROUP_ROWS;
@@ -36,6 +39,8 @@ public class Configs {
     public static final List<IHotkey> HOTKEY_LIST;
     static {
       OPEN_CONFIG_GUI                 = as("openConfigGui")             .hotkey("R,C");
+      SORTING_METHOD = new ConfigOptionList  ("sortingMethod", SortingMethodOption.DEFAULT, "inventoryprofiles.config.comment.sortingMethod");
+      Cfg.list.add(SORTING_METHOD);
       SORT_INVENTORY                  = as("sortInventory")             .hotkey("R", GUI_ALLOW_EXTRA);
       SORT_INVENTORY_BY_GROUP_COLUMNS = as("sortInventoryByGroupColumns").hotkey("", GUI_ALLOW_EXTRA);
       SORT_INVENTORY_BY_GROUP_ROWS    = as("sortInventoryByGroupRows")  .hotkey("", GUI_ALLOW_EXTRA);
@@ -126,7 +131,8 @@ public class Configs {
     public Cfg(String name) {
       this.name = name;
       this.comment = TRANSLATION_KEY_COMMENT_PREFIX + name;
-      this.prettyName = TRANSLATION_KEY_PRETTYNAME_PREFIX + name;
+      //this.prettyName = TRANSLATION_KEY_PRETTYNAME_PREFIX + name;
+      this.prettyName = name;
     }
     public ConfigHotkey hotkey(String defaultStorageString) {
       return (ConfigHotkey)add(new ConfigHotkey(name, defaultStorageString, comment, prettyName));
