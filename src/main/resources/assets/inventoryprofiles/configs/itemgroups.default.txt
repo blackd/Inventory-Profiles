@@ -1,6 +1,6 @@
 ITEMGROUPS/0.1.0
 
-#dyed_shulker_boxs
+#dyed_shulker_boxes
   white_shulker_box
   orange_shulker_box
   magenta_shulker_box
@@ -18,9 +18,9 @@ ITEMGROUPS/0.1.0
   red_shulker_box
   black_shulker_box
 
-#shulker_boxs
+#shulker_boxes
   shulker_box
-  #dyed_shulker_boxs
+  #dyed_shulker_boxes
 
 @color
   white_~

@@ -37,6 +37,14 @@ public final class VirtualSlots {
     return totalStacks;
   }
 
+  public List<VirtualItemStack> asItemStacks() {
+    return getInfos().entrySet().stream().map(x->new VirtualItemStack(x.getKey(), x.getValue().totalCount)).collect(Collectors.toList());
+  }
+
+  public List<VirtualItemType> getItemTypes() {
+    return getInfos().keySet().stream().collect(Collectors.toList());
+  }
+
   public Map<VirtualItemType, ItemTypeInfo> getInfos() {
     if (infos == null) {
       infos = getInfos(uniquified);
@@ -115,6 +123,7 @@ public final class VirtualSlots {
   public static List<VirtualItemStack> uniquify(List<VirtualItemStack> items) {
     HashMap<VirtualItemType, VirtualItemType> uniquifiedTypes = new HashMap<>();
     return items.stream().map(x -> {
+      if (x == null) return null;
       if (!uniquifiedTypes.containsKey(x.itemtype)) {
         uniquifiedTypes.put(x.itemtype, x.itemtype);
       }

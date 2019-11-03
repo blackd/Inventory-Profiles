@@ -2,10 +2,13 @@ package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
@@ -174,10 +177,10 @@ public class ContainerActions {
       return;
     }
     if (info.storageSlots.isEmpty()) return;
-    List<VirtualItemStack> types;
+    Set<VirtualItemType> types;
     List<Slot> checkSlots = new ArrayList<>();
     if (!moveToPlayerInventory) { // player to chest
-      types = VirtualSorter.collapse(VirtualSorterPort.getListOfVirtualItemStackFrom(info.storageSlots));
+      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(info.storageSlots)).getInfos().keySet();
       checkSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         checkSlots.addAll(info.playerHotbarSlots);
@@ -187,7 +190,7 @@ public class ContainerActions {
       typeSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         typeSlots.addAll(info.playerHotbarSlots);
-      types = VirtualSorter.collapse(VirtualSorterPort.getListOfVirtualItemStackFrom(typeSlots));
+      types = new VirtualSlots(VirtualSorterPort.getListOfVirtualItemStackFrom(typeSlots)).getInfos().keySet();
       if (!Current.cursorStack().isEmpty()) {
         cleanCursor(); // as moving to player inventory depends on clicks
                            // for playerStorageSlots first purpose
@@ -195,8 +198,8 @@ public class ContainerActions {
     }
     for (Slot s : checkSlots) {
       if (s.hasStack()) {
-        for (VirtualItemStack t : types) {
-          if (VirtualSorterPort.getVirtualItemTypeFrom(s.getStack()).equals(t.itemtype)) {
+        for (VirtualItemType t : types) {
+          if (VirtualSorterPort.getVirtualItemTypeFrom(s.getStack()).equals(t)) {
             if (!moveToPlayerInventory) {
               shiftClick(Current.container(), s.id);
             } else {

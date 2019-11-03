@@ -40,28 +40,9 @@ public class VirtualSorter {
    * @return
    */
   public static List<VirtualItemStack> collapse(List<VirtualItemStack> items) {
-    CollapseResult r = new CollapseResult();
-    for (VirtualItemStack e : items) {
-      if (e != null) r.createOrAdd(e);
-    }
-    return r.collapsedItems;
+    return new VirtualSlots(items).getInfos().entrySet().stream().map(x->new VirtualItemStack(x.getKey(), x.getValue().totalCount)).collect(Collectors.toList());
   }
-  private static class CollapseResult {
-    public List<VirtualItemStack> collapsedItems = new ArrayList<>();
-    public void createOrAdd(VirtualItemStack e) {
-      for (VirtualItemStack v : collapsedItems) {
-        if (v.sameType(e)) {
-          v.count += Math.min(e.count, e.getMaxCount());
-          return;
-        }
-      }
-      // not found
-      VirtualItemStack a = e.copy();
-      a.count = Math.min(a.count, a.getMaxCount());
-      collapsedItems.add(a);
-    }
-  }
-
+  
   public static List<VirtualItemType> sortTypes(List<VirtualItemType> types, ISortingMethodProvider provider) {
     return sort(
           types.stream().map(x -> new VirtualItemStack(x, 1)).collect(Collectors.toList())
@@ -310,16 +291,6 @@ public class VirtualSorter {
     }
     public VirtualItemStack get(int index) {
       return sandboxItems.get(index);
-    }
-    
-  }
-  public static class Click {
-    public int index;
-    public int button;
-
-    public Click(int index, int button) {
-      this.index = index;
-      this.button = button;
     }
     
   }

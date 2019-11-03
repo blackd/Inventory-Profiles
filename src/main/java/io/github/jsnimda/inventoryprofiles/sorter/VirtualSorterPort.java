@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter.Click;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerInfo;
