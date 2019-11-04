@@ -55,20 +55,20 @@ public class Configs {
 
   }
   public static class Tweaks {
-    public static final ConfigBooleanHotkeyed INSTANT_MINING_COOLDOWN;
+    // public static final ConfigBooleanHotkeyed INSTANT_MINING_COOLDOWN;
     public static final ConfigBooleanHotkeyed DISABLE_BLOCK_BREAKING_COOLDOWN;
     public static final ConfigBooleanHotkeyed DISABLE_ITEM_USE_COOLDOWN;
     public static final ConfigBooleanHotkeyed PREVENT_CLOSE_GUI_DROP_ITEM;
-    public static final ConfigBooleanHotkeyed DISABLE_SCREEN_SHAKING_ON_DAMAGE;
-    public static final ConfigBooleanHotkeyed DISABLE_LAVA_FOG;
+    // public static final ConfigBooleanHotkeyed DISABLE_SCREEN_SHAKING_ON_DAMAGE;
+    // public static final ConfigBooleanHotkeyed DISABLE_LAVA_FOG;
     public static final List<IHotkeyTogglable> LIST;
     static {
-      INSTANT_MINING_COOLDOWN         = as("instantMiningCooldown")       .hotkeyedBool(false, "");
+      // INSTANT_MINING_COOLDOWN         = as("instantMiningCooldown")       .hotkeyedBool(false, "");
       DISABLE_BLOCK_BREAKING_COOLDOWN = as("disableBlockBreakingCooldown").hotkeyedBool(false, "");
       DISABLE_ITEM_USE_COOLDOWN       = as("disableItemUseCooldown")      .hotkeyedBool(false, "");
       PREVENT_CLOSE_GUI_DROP_ITEM     = as("preventCloseGuiDropItem")     .hotkeyedBool(false, "");
-      DISABLE_SCREEN_SHAKING_ON_DAMAGE = as("disbleScreenShakingOnDamage").hotkeyedBool(false, "");
-      DISABLE_LAVA_FOG                = as("disableLavaFog")              .hotkeyedBool(false, "");
+      // DISABLE_SCREEN_SHAKING_ON_DAMAGE = as("disbleScreenShakingOnDamage").hotkeyedBool(false, "");
+      // DISABLE_LAVA_FOG                = as("disableLavaFog")              .hotkeyedBool(false, "");
 
       LIST = Cfg.listAs(IHotkeyTogglable.class);
       Cfg.flush();
