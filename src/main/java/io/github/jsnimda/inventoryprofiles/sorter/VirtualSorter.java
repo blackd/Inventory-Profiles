@@ -2,14 +2,12 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots.ItemTypeInfo;
 
 /**
  * VirtualSorter
