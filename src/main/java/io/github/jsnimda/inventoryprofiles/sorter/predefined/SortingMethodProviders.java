@@ -11,7 +11,6 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.custom.BuiltInMethods;
 import io.github.jsnimda.inventoryprofiles.sorter.custom.ChainedComparator;
-import io.github.jsnimda.inventoryprofiles.sorter.util.ItemUtils;
 
 /**
  * SortingMethodProviders

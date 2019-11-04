@@ -1,6 +1,5 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +17,6 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.CurrentState;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
 
 /**
  * VirtualSorterPort

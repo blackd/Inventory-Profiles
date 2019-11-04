@@ -16,7 +16,6 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.BlastFurnaceScreen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.CraftingScreen;
 import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.client.gui.screen.inventory.FurnaceScreen;

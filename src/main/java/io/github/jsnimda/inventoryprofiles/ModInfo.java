@@ -1,7 +1,5 @@
 package io.github.jsnimda.inventoryprofiles;
 
-import fi.dy.masa.malilib.util.StringUtils;
-
 /**
  * ModInfo
  */
