@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "inventoryprofiles",
+  "version": "${version}",
+  "name": "Inventory Profiles",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "jsnimda"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/inventoryprofiles/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "io.github.jsnimda.inventoryprofiles.InventoryProfiles"
+    ],
+    "modmenu": [
+      "io.github.jsnimda.inventoryprofiles.external.ModMenuApiImpl"
+    ]
+  },
+  "mixins": [
+    "mixins.inventoryprofiles.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.4.0"
+  },
+  "suggests": {
+    "flamingo": "*"
+  },
+  "custom": {
+    "modmenu:clientsideOnly": true
+  }
+}

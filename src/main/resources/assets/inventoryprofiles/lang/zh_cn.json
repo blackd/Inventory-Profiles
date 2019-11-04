@@ -1,0 +1,46 @@
+{
+
+    "inventoryprofiles.gui.button.config_gui.generic": "一般",
+    "inventoryprofiles.gui.button.config_gui.advanced_options": "更多选项",
+    "inventoryprofiles.gui.button.config_gui.tweak_values": "原生客户端“调整”",
+    "inventoryprofiles.gui.button.config_gui.tweak_hotkeys": "“调整”热键",
+
+    "inventoryprofiles.gui.title.configs": "Inventory Profiles 设定",
+    
+    "inventoryprofiles.tooltip.sort_button": "整理物品栏",
+    "inventoryprofiles.tooltip.sort_columns_button": "垂直方向分类",
+    "inventoryprofiles.tooltip.sort_rows_button": "水平方向分类",
+    "inventoryprofiles.tooltip.move_all_button": "移动匹配物品\n§6(按住 §oSHIFT§r§6 包括快捷栏)§r",
+
+    "inventoryprofiles.label.sorting_method.default": "预设（创造模式菜单）",
+    "inventoryprofiles.label.sorting_method.item_name": "物品名称",
+    "inventoryprofiles.label.sorting_method.item_id": "物品 ID",
+    "inventoryprofiles.label.sorting_method.translation_key": "翻译标识符",
+
+    "inventoryprofiles.config.comment.openConfigGui":               "打开此菜单的按键",
+    "inventoryprofiles.config.comment.sortingMethod":               "背包整理的排序方式",
+    "inventoryprofiles.config.comment.sortInventory":               "一键背包整理的按键",
+    "inventoryprofiles.config.comment.sortInventoryByGroupColumns": "一键垂直方向分类的按键",
+    "inventoryprofiles.config.comment.sortInventoryByGroupRows":    "一键水平方向分类的按键",
+    "inventoryprofiles.config.comment.enableSwitchProfileHoykey":   "启用 \"switchProfile\" 按键",
+    "inventoryprofiles.config.comment.switchProfile":               "一键切换背包设定档的按键",
+    "inventoryprofiles.config.comment.moveAllContainerExistingItems": "一键移动所有箱子里有同类的物品的按键",
+
+    "inventoryprofiles.config.comment.instantMiningCooldown":       "让瞬间破坏也有挖掘延迟。优先度较 \"disableBlockBreakingCooldown\" 低。",
+    "inventoryprofiles.config.comment.disableBlockBreakingCooldown":"移除挖掘延迟",
+    "inventoryprofiles.config.comment.disableItemUseCooldown":      "移除按住右键的使用冷却时间。相当于每游戏刻都按一次右键。\n(一秒为二十游戏刻)",
+    "inventoryprofiles.config.comment.preventCloseGuiDropItem":     "关闭物品栏时自动把鼠标的物品放回背包",
+    "inventoryprofiles.config.comment.disbleScreenShakingOnDamage": "受到伤害时画面不再摇晃",
+    "inventoryprofiles.config.comment.disableLavaFog":              "岩浆下看得更清晰",
+
+    "inventoryprofiles.config.comment.addIntervalBetweenClicks":    "整理背包时加入点击之间的时间，模拟手动点击。\n用\"intervalBetweenClicksMs\"设置时间。",
+    "inventoryprofiles.config.comment.intervalBetweenClicksMs":     "点击之间的时间 (单位毫秒)",
+    "inventoryprofiles.config.comment.sortRestockHotbar":           "整理背包时顺便把快捷栏上物品的数量填满",
+    "inventoryprofiles.config.comment.showInventoryButtonTooltips": "鼠标悬浮在按钮上时显示提示",
+    "inventoryprofiles.config.comment.inventoryShowProfileButtons": "显示背包设定档按钮",
+    "inventoryprofiles.config.comment.inventoryShowSortButtons":    "显示背包整理按钮",
+    "inventoryprofiles.config.comment.inventoryShowMoveAllButtons": "显示移动匹配按钮",
+    "inventoryprofiles.config.comment.sortCursorPointing":          "用热键会整理鼠标指向的格子的区域，否则永远优先整理箱子。",
+    "inventoryprofiles.config.comment.sortClickTargetsFirst":       "When this is true, find the correct item for the first slot first\ninstead of finding the correct slot for the first item first. You\nmay only see the difference if \"addIntervalBetweenClicks\" is on.\nFinal result won't be different whether this is true or false.",
+    "inventoryprofiles.config.comment.debugLogs":                   "Prints debug messages"
+}
