@@ -23,25 +23,22 @@ public final class VirtualItemStack {
   public boolean sameType(VirtualItemStack b) { //TODO remove null
     return b != null && itemType.equals(b.itemType);
   }
-  public boolean capable(VirtualItemStack b) { // return if two can join together
-    return b == null || sameType(b) || isEmpty() || b.isEmpty(); //TODO remove null
-  }
 
   public int add(int anotherCount) { // return leftover
-    int j = cap(count + anotherCount) - count;
+    int j = capOf(count + anotherCount) - count;
     count += j;
     return anotherCount - j;
   }
   public int tryAdd(int anotherCount) { // return count after add
-    return cap(count + anotherCount);
+    return capOf(count + anotherCount);
   }
 
-  public int cap(int count) {
+  public int capOf(int count) {
     return Math.min(count, getMaxCount());
   }
 
   public VirtualItemStack cap() {
-    count = cap(count);
+    count = capOf(count);
     return this;
   }
 
@@ -59,6 +56,8 @@ public final class VirtualItemStack {
     return new VirtualItemStack(itemtype, count);
   }
 
+  // ============
+  // check empty (only operations methods should trigger those)
   public void updateEmpty() {
     if (itemType.isEmpty() || count <= 0) {
       setEmpty();
@@ -78,6 +77,10 @@ public final class VirtualItemStack {
 
   // ============
   // operations
+  public boolean capable(VirtualItemStack b) { // return if two can join together
+    return b == null || sameType(b) || isEmpty() || b.isEmpty(); //TODO remove null
+  }
+
   public void swap(VirtualItemStack another) {
     VirtualItemType ctype = itemType;
     itemType = another.itemType;

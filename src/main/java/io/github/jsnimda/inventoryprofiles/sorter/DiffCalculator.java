@@ -95,7 +95,6 @@ public class DiffCalculator {
     public final CalcDiffSandbox sandbox;
     private VirtualSlotsStats fromStats;
     private VirtualSlotsStats targetStats;
-    private VirtualItemStack dummyEmptyItem = VirtualItemStack.empty();
 
     public CalcDiffInstance(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems, boolean allowDrop) {
       this.fromItems = fromItems;
@@ -125,7 +124,7 @@ public class DiffCalculator {
     private VirtualItemStack currentIfMatchType(int index) {
       if (matchType(index))
         return current(index);
-      return dummyEmptyItem;
+      return new VirtualItemStack(target(index).itemType, 0);
     }
     private int score(int index) {
       return calcScore(currentIfMatchType(index).count, target(index).count);
@@ -145,15 +144,11 @@ public class DiffCalculator {
     // #region core
     public List<Click> calc() {
       checkPossible(fromStats, targetStats, allowDrop);
-      try {
-        if (!allowDrop) {
-          doStageANoDrop();
-          doStageBNoDrop();
-        } else {
-          // TODO impl allowDrop
-        }
-      } catch (RuntimeException e) {
-        e.printStackTrace();
+      if (!allowDrop) {
+        doStageANoDrop();
+        doStageBNoDrop();
+      } else {
+        // TODO impl allowDrop
       }
       return sandbox.clicks;
     }
@@ -363,7 +358,7 @@ public class DiffCalculator {
   // ============
   // sandbox
 
-  private static final int INF_LOOP_MAX = 1000;
+  private static final int INF_LOOP_MAX = 10000;
 
   private static class CalcDiffSandbox {
     public List<Click> clicks = new ArrayList<>();
@@ -486,7 +481,7 @@ public class DiffCalculator {
         );
     }
   }
-  public static class Score {
+  private static class Score {
     public int count;
     public List<List<OperationType>> opss = new ArrayList<>();
     public Score(int count) {
@@ -497,7 +492,7 @@ public class DiffCalculator {
           && x.get(0) == OperationType.DIVIDE_2);
     }
   }
-  public static class Operation {
+  private static class Operation {
     public List<OperationType> ops;
     public int to;
     public int count;
@@ -508,7 +503,7 @@ public class DiffCalculator {
     }
     
   }
-  public enum OperationType {
+  private enum OperationType {
     MINUS_1,
     PLUS_1,
     DIVIDE_2;
