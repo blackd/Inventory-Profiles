@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.google.common.base.Predicate;
+
 import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
 
@@ -128,15 +130,6 @@ public class DiffCalculator {
     private int score(int index) {
       return calcScore(currentIfMatchType(index).count, target(index).count);
     }
-    private int scoreIfLeftClick(int index, int count) {
-      int score = 1;
-      int after = currentIfMatchType(index).tryAdd(count);
-      if (currentIfMatchType(index).count + count > currentIfMatchType(index).getMaxCount()) {
-        score += 1;
-      }
-      score += calcScore(after, target(index).count);
-      return score;
-    }
     private boolean shouldRightClick(int index) {
       return getScoreObject(currentIfMatchType(index).count, target(index).count).shouldRightClick();
     }
@@ -190,7 +183,7 @@ public class DiffCalculator {
       doStage(DiffCalculator::unmatchExact, sel->!matchExact(sel), sel->B_ii(target(sel).itemType), ()->B_i(true));
     }
     private void B_i(boolean allowRightClick) { // handle cursor
-      GradingResult sel = CodeUtils.selectFirst(candidateIndexesCursor(cursor().itemType),
+      GradingResult sel = CodeUtils.selectFirst(candidateIndexesCursor(),
         x -> new GradingResult(x, allowRightClick),
         (x, y) -> x.mappedValue.compareTo(y.mappedValue)
       ).mappedValue;
@@ -199,6 +192,22 @@ public class DiffCalculator {
     private void B_ii(VirtualItemType type) {
       List<Integer> cand = candidateIndexesNoCursor(type);
       int sel = CodeUtils.selectFirst(cand, (x, y) -> score(x) - score(y));
+      // if any target full stack exists, still unmatch,
+      // and right click not enought to fill that, do left click
+      List<Integer> fullCand = candidate(type, x -> !matchExact(x) && target(x).isFull());
+      if (!fullCand.isEmpty()) {
+        int fullSel = CodeUtils.selectFirst(fullCand, (x, y) -> {
+          int xRoom = target(x).count - current(x).count;
+          int yRoom = target(y).count - current(y).count;
+          return yRoom - xRoom; // get the largest room
+        });
+        int room = target(fullSel).count - current(fullSel).count;
+        int rightClickGet = current(sel).count - current(sel).count / 2;
+        if (rightClickGet < room) {
+          sandbox.leftClick(sel);
+          return;
+        }
+      }
       if (shouldRightClick(sel)) {
         sandbox.rightClick(sel);
       } else {
@@ -209,18 +218,18 @@ public class DiffCalculator {
       if (sel.button() == 0) {
         sandbox.leftClick(sel.index);
       } else { // == 1
-        sandbox.rightClick(sel.index);
+        sandbox.rightClick(sel.index, sel.afterRightScore - 1);
       }
     }
-    private List<Integer> candidateIndexesCursor(VirtualItemType type) {
-      return targetStats.getInfos().get(type).fromIndexes
-        .stream().filter(x -> !matchExact(x) && !currentIfMatchType(x).isFull())
-        .collect(Collectors.toList());
+    private List<Integer> candidateIndexesCursor() {
+      return candidate(cursor().itemType, x -> !matchExact(x) && !currentIfMatchType(x).isFull());
     }
     private List<Integer> candidateIndexesNoCursor(VirtualItemType type) {
+      return candidate(type, x -> !matchExact(x) && current(x).count > target(x).count);
+    }
+    private List<Integer> candidate(VirtualItemType type, Predicate<? super Integer> predicate) {
       return targetStats.getInfos().get(type).fromIndexes
-        .stream().filter(x -> !matchExact(x) && current(x).count > target(x).count)
-        .collect(Collectors.toList());
+        .stream().filter(predicate).collect(Collectors.toList());
     }
 
     // private void ensureCursorEmpty() {
