@@ -8,7 +8,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
 import io.github.jsnimda.inventoryprofiles.Log;
-import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
 import net.minecraft.container.TradeOutputSlot;
@@ -19,7 +18,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.village.TraderInventory;
 
 public class ContainerInfo {
-    // slot.id is real
+    // Get.slotId(slot) is real
     // invSlot 
     //   head,chest,legs,feet 39 38 37 36
     //   offhand 40
@@ -64,7 +63,7 @@ public class ContainerInfo {
       Slot[] armorSlots = new Slot[5];
       for (Slot s : asContainer.slotList) { // assumed in order of slot.id
         if (!(s.inventory instanceof PlayerInventory)) continue;
-        int invSlot = ((IMixinSlot)s).getInvSlot();
+        int invSlot = Get.invSlot(s);
         if (invSlot >= 0 && invSlot < 9) {
           playerHotbarSlots.add(s);
           if (((PlayerInventory)s.inventory).selectedSlot == invSlot) {
@@ -123,7 +122,7 @@ public class ContainerInfo {
           if (category == ContainerCategory.NON_SORTABLE_STORAGE) {
           nonSortableStorageSlots.add(s);
         } else if (category == ContainerCategory.SORTABLE_Nx3) {
-          if (s.id <= 1)
+          if (Get.slotId(s) <= 1)
             nonSortableStorageSlots.add(s);
           else
             sortableSlots.add(s);

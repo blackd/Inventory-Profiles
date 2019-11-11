@@ -15,6 +15,10 @@ public class ChainedComparator<T> implements Comparator<T> {
   
   @Override
   public int compare(T o1, T o2) {
+    return compare(o1, o2, comparators);
+  }
+
+  public static <T> int compare(T o1, T o2, List<Comparator<T>> comparators) {
     int cmp = 0;
     Iterator<Comparator<T>> it = comparators.iterator();
     while (cmp == 0 && it.hasNext()) {

@@ -8,14 +8,16 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.Click;
+import io.github.jsnimda.inventoryprofiles.sorter.OldClick;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlots.ItemTypeInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.BeaconContainer;
@@ -48,12 +50,12 @@ public class ContainerActions {
     Slot focuesdSlot = Current.focusedSlot();
     ItemStack cursorStack = Current.cursorStack();
     if (ContainerUtils.getRemainingRoom(focuesdSlot, cursorStack) > 0) {
-      leftClick(focuesdSlot.id);
+      leftClick(Get.slotId(focuesdSlot));
     }
     for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets(putToContainer, putToHotbar)) {
       if (Current.cursorStack().isEmpty()) return;
       if (cccs.suit(cursorStack)) {
-        leftClick(cccs.slot.id);
+        leftClick(Get.slotId(cccs.slot));
       }
     }
   }
@@ -68,7 +70,7 @@ public class ContainerActions {
           pickedUpFromSlot = true;
           leftClick(fromSlotId);
         }
-        leftClick(cccs.slot.id);
+        leftClick(Get.slotId(cccs.slot));
       }
     }
     if (!Current.cursorStack().isEmpty()) {
@@ -150,12 +152,12 @@ public class ContainerActions {
       if (x != null && x.hasStack() && ContainerUtils.getRemainingRoom(x, x.getStack()) > 0) {
         for (Slot s : from) {
           if (s.hasStack() && ContainerUtils.getRemainingRoom(x, s.getStack()) > 0) {
-            leftClick(s.id);
-            leftClick(x.id);
+            leftClick(Get.slotId(s));
+            leftClick(Get.slotId(x));
           }
           if (ContainerUtils.getRemainingRoom(x, x.getStack()) <= 0) {
             if (!Current.cursorStack().isEmpty()) {
-              leftClick(s.id);
+              leftClick(Get.slotId(s));
             }
             break;
           }
@@ -179,18 +181,18 @@ public class ContainerActions {
     if (includeHotbar)
       fromSlots.addAll(info.playerHotbarSlots);
     restock(info.craftingSlots, fromSlots);
-    VirtualSlots vs = new VirtualSlots(Converter.toVirtualItemStackList(info.craftingSlots));
+    VirtualSlotsStats vs = new VirtualSlotsStats(Converter.toVirtualItemStackList(info.craftingSlots));
     List<VirtualItemStack> a = vs.uniquified;
     Map<VirtualItemType, ItemTypeInfo> infos = vs.getInfos();
     Map<VirtualItemType, Queue<Integer>> bMap = infos.entrySet().stream().collect(Collectors.toMap(
       x->x.getKey(), 
-      x->new LinkedList<>(GroupingShapeProviders.columns_widths(x.getValue().totalCount, x.getValue().fromIndex.size()))
+      x->new LinkedList<>(GroupingShapeProviders.columns_widths(x.getValue().totalCount, x.getValue().fromIndexes.size()))
     ));
     try {
-      List<VirtualItemStack> b = a.stream().map(x -> x == null ? null : x.copy(bMap.get(x.itemtype).remove())).collect(Collectors.toList());
-      List<Click> clicks = VirtualSorter.diff(a, b);
+      List<VirtualItemStack> b = a.stream().map(x -> x == null ? null : x.copy(bMap.get(x.itemType).remove())).collect(Collectors.toList());
+      List<OldClick> clicks = VirtualSorter.diff(a, b);
       VirtualSorterPort.doClicks(info.container, clicks, info.craftingSlots.stream().map(
-        x->x.id
+        x->Get.slotId(x)
       ).collect(Collectors.toList()));
     } catch (Throwable e) {
       e.printStackTrace();
@@ -212,7 +214,7 @@ public class ContainerActions {
     List<VirtualItemType> types;
     List<Slot> checkSlots = new ArrayList<>();
     if (!moveToPlayerInventory) { // player to chest
-      types = new VirtualSlots(Converter.toVirtualItemStackList(info.storageSlots)).getItemTypes();
+      types = new VirtualSlotsStats(Converter.toVirtualItemStackList(info.storageSlots)).getItemTypes();
       checkSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         checkSlots.addAll(info.playerHotbarSlots);
@@ -222,7 +224,7 @@ public class ContainerActions {
       typeSlots.addAll(info.playerStorageSlots);
       if (includeHotbar)
         typeSlots.addAll(info.playerHotbarSlots);
-      types = new VirtualSlots(Converter.toVirtualItemStackList(typeSlots)).getItemTypes();
+      types = new VirtualSlotsStats(Converter.toVirtualItemStackList(typeSlots)).getItemTypes();
       if (!Current.cursorStack().isEmpty()) {
         cleanCursor(); // as moving to player inventory depends on clicks
                            // for playerStorageSlots first purpose
@@ -233,9 +235,9 @@ public class ContainerActions {
         for (VirtualItemType t : types) {
           if (Converter.toVirtualItemType(s.getStack()).equals(t)) {
             if (!moveToPlayerInventory) {
-              shiftClick(Current.container(), s.id);
+              shiftClick(Current.container(), Get.slotId(s));
             } else {
-              quickMoveByPlayerStorageSlotsFirst(s.id, includeHotbar);
+              quickMoveByPlayerStorageSlotsFirst(Get.slotId(s), includeHotbar);
             }
             break;
           }
@@ -260,26 +262,46 @@ public class ContainerActions {
   //   click(container, slotId, 2);
   // }
   public static void shiftClick(Container container, int slotId) {
-    if (container instanceof CreativeInventoryScreen.CreativeContainer) {
-      // creative menu dont use method_2906
-      // simulate the action in CreativeInventoryScreen line 135
-      Current.playerContainer().onSlotClick(slotId, 0, SlotActionType.QUICK_MOVE, Current.player());
-      Current.playerContainer().sendContentUpdates();
-      return;
-    }
-    Current.interactionManager().method_2906(container.syncId, slotId,
-        0, SlotActionType.QUICK_MOVE, Current.player());
+    genericClick(container, slotId, 0, SlotActionType.QUICK_MOVE);
   }
   public static void click(Container container, int slotId, int button) {
+    genericClick(container, slotId, button, SlotActionType.PICKUP);
+  }
+
+  public static void genericClick(Container container, int slotId, int button, SlotActionType actionType) {
     if (container instanceof CreativeInventoryScreen.CreativeContainer) {
       // creative menu dont use method_2906
       // simulate the action in CreativeInventoryScreen line 135
-      Current.playerContainer().onSlotClick(slotId, button, SlotActionType.PICKUP, Current.player());
+      Current.playerContainer().onSlotClick(slotId, button, actionType, Current.player());
       Current.playerContainer().sendContentUpdates();
       return;
     }
-    Current.interactionManager().method_2906(container.syncId, slotId,
-        button, SlotActionType.PICKUP, Current.player());
+    Current.interactionManager().method_2906(container.syncId, slotId, button, actionType, Current.player());
+  }
+
+  public static void genericClick(Container container, Click click) {
+    genericClick(container, click.slotId, click.button, click.actionType);
+  }
+
+  public static void genericClicks(Container container, List<Click> clicks, int interval) {
+    new Runnable(){
+      int lclick = 0;
+      int rclick = 0;
+      @Override
+      public void run() {
+        CodeUtils.timedTasks(clicks, (c)->{
+          genericClick(container, c);
+          lclick += c.button == 0 ? 1 : 0;
+          rclick += c.button == 1 ? 1 : 0;
+        }, interval, () -> logClicks(clicks.size(), lclick, rclick));
+      }
+    }.run();
+  }
+
+  private static void logClicks(int total, int lclick, int rclick) {
+    if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
+      Log.info(String.format("[inventoryfiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
+    }
   }
 
 }

@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinAbstractContainerScreen;
-import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.screen.Screen;
@@ -87,8 +86,8 @@ public class Current {
     if (screen() instanceof CreativeInventoryScreen) {
       Slot raw = focusedSlot(true);
       if (raw == null) return null;
-      int id = raw.id;
-      int invSlot = ((IMixinSlot)raw).getInvSlot();
+      int id = Get.slotId(raw);
+      int invSlot = Get.invSlot(raw);
       if (raw.inventory instanceof PlayerInventory && 0 <= invSlot && invSlot <= 8 && id == 45 + invSlot) {
         return playerContainer().slotList.get(36+invSlot);
       }

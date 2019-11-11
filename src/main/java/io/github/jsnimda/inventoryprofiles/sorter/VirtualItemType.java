@@ -1,11 +1,19 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 
 public final class VirtualItemType {
+  public final static VirtualItemType EMPTY = new VirtualItemType(Items.AIR, null);
+
   public final Item item;
+  @Nullable
   public final CompoundTag tag;
+  private ItemStack dummyItemStack = null;
 
   public VirtualItemType(Item item, CompoundTag tag) {
     this.item = item;
@@ -13,8 +21,23 @@ public final class VirtualItemType {
   }
 
   public int getMaxCount() {
-    return item.getMaxCount();
+    return getDummyItemStack().getMaxCount(); // forge compatible instead of item.getMaxCount()
   }
+
+  public ItemStack getDummyItemStack() {
+    if (dummyItemStack == null) {
+      dummyItemStack = new ItemStack(item);
+      dummyItemStack.setTag(tag);
+    }
+    return dummyItemStack;
+  }
+
+  public boolean isEmpty() {
+    return this == EMPTY || this.item == Items.AIR;
+  }
+
+  // ============
+  // statics
 
   public static boolean areItemTypesEqual(Item item1, CompoundTag tag1, Item item2, CompoundTag tag2) {
     if (item1 != item2) return false;
@@ -25,6 +48,9 @@ public final class VirtualItemType {
     }
   }
 
+  // ============
+  // overrides
+
   @Override
   public String toString() {
     return this.item + "" + (this.tag == null ? "" : this.tag);
@@ -32,6 +58,7 @@ public final class VirtualItemType {
 
   @Override
   public int hashCode() {
+    if (isEmpty() && this != EMPTY) return EMPTY.hashCode();
     final int prime = 31;
     int result = 1;
     result = prime * result + ((item == null) ? 0 : item.hashCode());
@@ -48,6 +75,8 @@ public final class VirtualItemType {
     if (getClass() != obj.getClass())
       return false;
     VirtualItemType other = (VirtualItemType) obj;
+    if (isEmpty() && other.isEmpty())
+      return true;
     if (item == null) {
       if (other.item != null)
         return false;

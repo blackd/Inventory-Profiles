@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 /**
  * VirtualSlots
  */
-public final class VirtualSlots {
+public final class VirtualSlotsStats {
 
   public final int size;
   public final List<VirtualItemStack> uniquified;
   private HashMap<VirtualItemType, ItemTypeInfo> infos = null;
   private int totalStacks = -1;
 
-  public VirtualSlots(List<VirtualItemStack> items) {
+  public VirtualSlotsStats(List<VirtualItemStack> items) {
     size = items.size();
     uniquified = uniquify(items);
   }
@@ -68,11 +68,11 @@ public final class VirtualSlots {
     HashMap<VirtualItemType, ItemTypeInfo.Builder> infoBuilders = new HashMap<>();
     for (int i = 0; i < uniquified.size(); i++) {
       VirtualItemStack x = uniquified.get(i);
-      if (x != null) {
-        if (!infoBuilders.containsKey(x.itemtype)) {
-          infoBuilders.put(x.itemtype, ItemTypeInfo.builder(x.itemtype));
+      if (x != null && !x.isEmpty()) {
+        if (!infoBuilders.containsKey(x.itemType)) {
+          infoBuilders.put(x.itemType, ItemTypeInfo.builder(x.itemType));
         }
-        infoBuilders.get(x.itemtype).addInfo(x.count, i);
+        infoBuilders.get(x.itemType).addInfo(x.count, i);
       }
     }
     return infoBuilders.entrySet().stream()
@@ -88,13 +88,13 @@ public final class VirtualSlots {
     public final VirtualItemType type;
     public final int totalCount;
     public final int stackCount;
-    public final List<Integer> fromIndex;
+    public final List<Integer> fromIndexes;
 
-    private ItemTypeInfo(VirtualItemType type, int totalCount, List<Integer> fromIndex) {
+    private ItemTypeInfo(VirtualItemType type, int totalCount, List<Integer> fromIndexes) {
       this.type = type;
       this.totalCount = totalCount;
       this.stackCount = getStackCount(type, totalCount);
-      this.fromIndex = fromIndex;
+      this.fromIndexes = fromIndexes;
     }
 
     public static Builder builder(VirtualItemType type) {
@@ -104,7 +104,7 @@ public final class VirtualSlots {
     public static class Builder {
       private VirtualItemType type;
       private int totalCount = 0;
-      private List<Integer> fromIndex = new ArrayList<>();
+      private List<Integer> fromIndexes = new ArrayList<>();
 
       public Builder(VirtualItemType type) {
         this.type = type;
@@ -112,12 +112,12 @@ public final class VirtualSlots {
 
       public Builder addInfo(int count, int slot) {
         totalCount += count;
-        fromIndex.add(slot);
+        fromIndexes.add(slot);
         return this;
       }
 
       public ItemTypeInfo build() {
-        return new ItemTypeInfo(type, totalCount, fromIndex);
+        return new ItemTypeInfo(type, totalCount, fromIndexes);
       }
 
     }
@@ -130,11 +130,11 @@ public final class VirtualSlots {
   public static List<VirtualItemStack> uniquify(List<VirtualItemStack> items) {
     HashMap<VirtualItemType, VirtualItemType> uniquifiedTypes = new HashMap<>();
     return items.stream().map(x -> {
-      if (x == null) return null;
-      if (!uniquifiedTypes.containsKey(x.itemtype)) {
-        uniquifiedTypes.put(x.itemtype, x.itemtype);
+      if (x == null || x.isEmpty()) return VirtualItemStack.empty();
+      if (!uniquifiedTypes.containsKey(x.itemType)) {
+        uniquifiedTypes.put(x.itemType, x.itemType);
       }
-      return x.copy(uniquifiedTypes.get(x.itemtype)).cap();
+      return x.copy(uniquifiedTypes.get(x.itemType)).cap();
     }).collect(Collectors.toList());
   }
 }

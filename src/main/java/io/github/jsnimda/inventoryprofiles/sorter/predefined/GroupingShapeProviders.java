@@ -278,14 +278,14 @@ public class GroupingShapeProviders {
       if (e == null) continue;
       int i = 0;
       for (VirtualItemType t : types) {
-        if (t.equals(e.itemtype)) {
+        if (t.equals(e.itemType)) {
           stackCounts.set(i, stackCounts.get(i)+1);
           continue outer;
         }
         ++i;
       }
       // not found
-      types.add(e.itemtype);
+      types.add(e.itemType);
       stackCounts.add(1);
     }
     return stackCounts;

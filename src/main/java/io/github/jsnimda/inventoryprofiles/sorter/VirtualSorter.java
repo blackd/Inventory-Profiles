@@ -21,13 +21,20 @@ public class VirtualSorter {
   private VirtualSorter(){}
 
   public static List<Click> doSort(List<VirtualItemStack> items,
-      ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider, boolean targetsFirst) {
+      ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
     try {
-      VirtualSlots vs = new VirtualSlots(items);
+      VirtualSlotsStats vs = new VirtualSlotsStats(items);
       List<VirtualItemStack> uni = vs.uniquified;
       List<VirtualItemStack> collapsed = vs.getInfos().entrySet().stream().map(x->new VirtualItemStack(x.getKey(), x.getValue().totalCount)).collect(Collectors.toList());
       List<VirtualItemStack> res = groups(uncollapse(sort(collapsed, sortingProvider)), groupingProvider, uni.size());
-      return targetsFirst ? diffTargetsFirst(uni, res) : diff(uni, res);
+      //return targetsFirst ? diffTargetsFirst(uni, res) : diff(uni, res);
+      
+      List<VirtualItemStack> after = IntStream.range(0, uni.size())
+        .mapToObj(x -> x < res.size() ? res.get(x) : null).collect(Collectors.toList());
+      return DiffCalculator.calcDiff(
+        uni.stream().map(x->x==null?VirtualItemStack.empty():x).collect(Collectors.toList()), 
+        after.stream().map(x->x==null?VirtualItemStack.empty():x).collect(Collectors.toList()), 
+        false);
     } catch (RuntimeException e) {
       e.printStackTrace();
       return Collections.emptyList();
@@ -39,7 +46,7 @@ public class VirtualSorter {
           types.stream().map(x -> new VirtualItemStack(x, 1)).collect(Collectors.toList())
           , provider
         )
-        .stream().map(x -> x.itemtype).collect(Collectors.toList());
+        .stream().map(x -> x.itemType).collect(Collectors.toList());
   }
   public static List<VirtualItemStack> sort(List<VirtualItemStack> items, ISortingMethodProvider provider) {
     return provider.sort(items);
@@ -62,7 +69,7 @@ public class VirtualSorter {
     return provider.group(items, size);
   }
 
-  public static List<Click> diff(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems) {
+  public static List<OldClick> diff(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems) {
     List<VirtualItemStack> before = fromItems;
     List<VirtualItemStack> after = IntStream.range(0, fromItems.size())
         .mapToObj(x -> x < toItems.size() ? toItems.get(x) : null).collect(Collectors.toList());
@@ -118,8 +125,8 @@ public class VirtualSorter {
   }
   
   private static void diffCheckPossible(List<VirtualItemStack> before, List<VirtualItemStack> after) {
-    Map<VirtualItemType, VirtualItemStack> a = new VirtualSlots(before).getInfosAs(x->new VirtualItemStack(x.type, x.totalCount));
-    Map<VirtualItemType, VirtualItemStack> b = new VirtualSlots(after).getInfosAs(x->new VirtualItemStack(x.type, x.totalCount));
+    Map<VirtualItemType, VirtualItemStack> a = new VirtualSlotsStats(before).getInfosAs(x->new VirtualItemStack(x.type, x.totalCount));
+    Map<VirtualItemType, VirtualItemStack> b = new VirtualSlotsStats(after).getInfosAs(x->new VirtualItemStack(x.type, x.totalCount));
     if (!a.equals(b)) {
       Log.error("[inventoryprofiles] before map:");
       a.forEach((key, value) -> Log.error(key + ":" + value));
@@ -128,7 +135,7 @@ public class VirtualSorter {
       throw new RuntimeException("Not possible from before to after!");
     }
   }
-  public static List<Click> diffTargetsFirst(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems) {
+  public static List<OldClick> diffTargetsFirst(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems) {
     List<VirtualItemStack> before = fromItems;
     List<VirtualItemStack> after = IntStream.range(0, fromItems.size())
         .mapToObj(x -> x < toItems.size() ? toItems.get(x) : null).collect(Collectors.toList());
@@ -170,13 +177,13 @@ public class VirtualSorter {
     List<VirtualItemStack> sandboxItems;
     List<VirtualItemStack> targets;
     VirtualItemStack sandboxCursor = null;
-    List<Click> clicks = new ArrayList<>();
+    List<OldClick> clicks = new ArrayList<>();
     public DiffSandbox(List<VirtualItemStack> before, List<VirtualItemStack> after) {
       sandboxItems = before.stream().map(x -> x == null ? null : x.copy()).collect(Collectors.toList());
       targets = after;
     }
     public void click(int index, int button) {
-      clicks.add(new Click(index, button));
+      clicks.add(new OldClick(index, button));
       if (button == 0) { // left click
         if (sandboxCursor == null) {
           sandboxCursor = sandboxItems.get(index);

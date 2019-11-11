@@ -39,19 +39,19 @@ public class SortingMethodProviders {
       new ChainedComparator<VirtualItemType>()
       .add(BuiltInMethods::display_name_locale)
       .add(nbtDefaulComparator)
-      .<VirtualItemStack>convert(x->x.itemtype)
+      .<VirtualItemStack>convert(x->x.itemType)
     );
     ITEM_ID = new ComparatorBasedSortingMethodProvider(
       new ChainedComparator<VirtualItemType>()
       .add(BuiltInMethods::item_id)
       .add(nbtDefaulComparator)
-      .<VirtualItemStack>convert(x->x.itemtype)
+      .<VirtualItemStack>convert(x->x.itemType)
     );
     TRANSLATION_KEY = new ComparatorBasedSortingMethodProvider(
       new ChainedComparator<VirtualItemType>()
       .add(BuiltInMethods::translation_key)
       .add(nbtDefaulComparator)
-      .<VirtualItemStack>convert(x->x.itemtype)
+      .<VirtualItemStack>convert(x->x.itemType)
     );
     SHUFFLE = items -> {
       List<VirtualItemStack> copy = new ArrayList<>(items);
@@ -64,7 +64,7 @@ public class SortingMethodProviders {
       .add(BuiltInMethods::creative_menu_groups)
       .add(BuiltInMethods::raw_id)
       .add(nbtDefaulComparator)
-      .<VirtualItemStack>convert(x->x.itemtype)
+      .<VirtualItemStack>convert(x->x.itemType)
     );
   }
 
