@@ -2,12 +2,10 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -151,18 +149,20 @@ public class DiffCalculator {
       return sandbox.clicks;
     }
 
-    private void doStage(BiFunction<VirtualItemStack, VirtualItemStack, Boolean> biCondition,
-        Function<Integer, Boolean> condition,
+    private void doStage(Function<Integer, Boolean> condition,
         Consumer<Integer> cursorNoStackAction,
         Runnable cursorHasStackAction) {
-      List<Integer> unmatches;
-      while (!(unmatches = meets(currents(), targets(), biCondition)).isEmpty()) {
-        Iterator<Integer> it = unmatches.iterator();
-        while (it.hasNext() || !cursor().isEmpty()) {
+      boolean matchAny = true;
+      while (matchAny) {
+        matchAny = false;
+        int i = 0;
+        while (i < targets().size() || !cursor().isEmpty()) {
           if (cursor().isEmpty()) {
-            Integer sel = it.next();
-            if (condition.apply(sel))
+            Integer sel = i++;
+            if (condition.apply(sel)) {
+              matchAny = true;
               cursorNoStackAction.accept(sel);
+            }
           } else { // cursor has stack
             cursorHasStackAction.run();
           }
@@ -170,10 +170,10 @@ public class DiffCalculator {
       }
     }
     private void doStageANoDrop() {
-      doStage(DiffCalculator::unmatchType, sel->!matchType(sel), sel->sandbox.leftClick(sel), ()->B_i(false));
+      doStage(sel->!matchType(sel), sel->sandbox.leftClick(sel), ()->B_i(false));
     }
     private void doStageBNoDrop() {
-      doStage(DiffCalculator::unmatchExact, sel->!matchExact(sel), sel->B_ii(target(sel).itemType), ()->B_i(true));
+      doStage(sel->!matchExact(sel), sel->B_ii(target(sel).itemType), ()->B_i(true));
     }
     private void B_i(boolean allowRightClick) { // handle cursor
       GradingResult sel = CodeUtils.selectFirst(candidateIndexesCursor(),
@@ -328,29 +328,14 @@ public class DiffCalculator {
 
   // ============
   // core logics
-  private static <T> List<Integer> meets(List<T> a, List<T> b, BiFunction<T, T, Boolean> condition) {
-    List<Integer> res = new ArrayList<>();
-    for(int i = 0; i < a.size(); i++) {
-      if (condition.apply(a.get(i), b.get(i))) {
-        res.add(i);
-      }
-    }
-    return res;
-  }
   private static boolean matchExact(VirtualItemStack a, VirtualItemStack b) {
     return a.equals(b);
-  }
-  private static boolean unmatchExact(VirtualItemStack a, VirtualItemStack b) {
-    return !matchExact(a, b);
   }
   private static boolean matchType(VirtualItemStack a, VirtualItemStack b) {
     // b is target
     if (a.isEmpty()) return true;
     if (b.isEmpty()) return false;
     return a.sameType(b);
-  }
-  private static boolean unmatchType(VirtualItemStack a, VirtualItemStack b) {
-    return !matchType(a, b);
   }
 
   // ============
