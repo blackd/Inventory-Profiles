@@ -20,9 +20,7 @@ public class ModMenuApiImpl implements ModMenuApi {
   @Override
   public Function<Screen, ? extends Screen> getConfigScreenFactory() {
     return (screen) -> {
-      GuiConfigs gui = new GuiConfigs();
-      gui.setParent(screen);
-      return gui;
+      return new GuiConfigs(screen);
     };
   }
 
