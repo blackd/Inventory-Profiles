@@ -2,13 +2,11 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -157,8 +155,8 @@ public class DiffCalculator {
         Function<Integer, Boolean> condition,
         Consumer<Integer> cursorNoStackAction,
         Runnable cursorHasStackAction) {
-      Set<Integer> unmatches;
-      while (!(unmatches = new HashSet<>(meets(currents(), targets(), biCondition))).isEmpty()) {
+      List<Integer> unmatches;
+      while (!(unmatches = meets(currents(), targets(), biCondition)).isEmpty()) {
         Iterator<Integer> it = unmatches.iterator();
         while (it.hasNext() || !cursor().isEmpty()) {
           if (cursor().isEmpty()) {
