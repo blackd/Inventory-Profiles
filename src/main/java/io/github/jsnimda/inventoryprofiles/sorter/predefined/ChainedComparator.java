@@ -1,4 +1,4 @@
-package io.github.jsnimda.inventoryprofiles.sorter.custom;
+package io.github.jsnimda.inventoryprofiles.sorter.predefined;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,7 +39,7 @@ public class ChainedComparator<T> implements Comparator<T> {
   }
 
   public <A> ConvertedComparator<A, T> convert(Function<A, T> function) {
-    return new ConvertedComparator<>(this, function);
+    return ConvertedComparator.convert(function, this);
   }
 
 }

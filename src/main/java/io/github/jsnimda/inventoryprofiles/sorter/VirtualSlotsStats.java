@@ -1,11 +1,13 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * VirtualSlots
@@ -14,69 +16,81 @@ public final class VirtualSlotsStats {
 
   public final int size;
   public final List<VirtualItemStack> uniquified;
-  private HashMap<VirtualItemType, ItemTypeInfo> infos = null;
-  private int totalStacks = -1;
+  public final List<Integer> emptyIndexes;
+  private HashMap<VirtualItemType, ItemTypeStats> infos = null;
+  private int minTotalStackCount = -1;
+  private int maxTotalStackCount = -1;
 
   public VirtualSlotsStats(List<VirtualItemStack> items) {
     size = items.size();
     uniquified = uniquify(items);
+    emptyIndexes = getEmptyIndexes(uniquified);
   }
 
-  public int getTotalCount(VirtualItemType type) {
-    return getOrDefault(type, x -> x.totalCount, 0);
+  public ItemTypeStats getInfo(VirtualItemType type) {
+    return getOrDefault(type, x -> x, ItemTypeStats.empty(type));
   }
 
-  public int getStackCount(VirtualItemType type) {
-    return getOrDefault(type, x -> x.stackCount, 0);
+  public <T> T getOrDefault(VirtualItemType type, Function<ItemTypeStats, T> func, T defaultValue) {
+    ItemTypeStats j = getInfos().get(type);
+    return j == null ? defaultValue : func.apply(j);
   }
 
-  public int getTotalStacks() {
-    if (totalStacks < 0) {
-      totalStacks = getInfos().entrySet().stream().mapToInt(x->x.getValue().stackCount).sum();
+  public int getMinTotalStackCount() {
+    if (minTotalStackCount < 0) {
+      minTotalStackCount = getInfos().values().stream().mapToInt(x->x.stackCount).sum();
     }
-    return totalStacks;
+    return minTotalStackCount;
+  }
+  public int getMaxTotalStackCount() {
+    if (maxTotalStackCount < 0) {
+      maxTotalStackCount = getInfos().values().stream().mapToInt(x->x.totalCount).sum();
+    }
+    return maxTotalStackCount;
   }
 
   public List<VirtualItemStack> asItemStacks() {
-    return getInfos().entrySet().stream().map(x->new VirtualItemStack(x.getKey(), x.getValue().totalCount)).collect(Collectors.toList());
+    return getInfosAsList(x->x.asItemStack());
   }
 
   public List<VirtualItemType> getItemTypes() {
-    return getInfos().keySet().stream().collect(Collectors.toList());
+    return getInfosAsList(x->x.type);
   }
 
-  public Map<VirtualItemType, ItemTypeInfo> getInfos() {
+  public <T> List<T> getInfosAsList(Function<ItemTypeStats, T> func) {
+    return getInfos().values().stream().map(func).collect(Collectors.toList());
+  }
+
+  public <T> Map<VirtualItemType, T> getInfosAsMap(Function<ItemTypeStats, T> func) {
+    return getInfos().values().stream().collect(Collectors.toMap(
+      x->x.type, 
+      func
+    ));
+  }
+
+  public Map<VirtualItemType, ItemTypeStats> getInfos() {
     if (infos == null) {
       infos = getInfos(uniquified);
     }
     return infos;
   }
 
-  public <T> Map<VirtualItemType, T> getInfosAs(Function<ItemTypeInfo, T> func) {
-    return getInfos().entrySet().stream().collect(Collectors.toMap(
-      Map.Entry::getKey, 
-      x->func.apply(x.getValue())
-    ));
-  }
+  // ============
+  // statics
 
-  public <T> T getOrDefault(VirtualItemType type, Function<ItemTypeInfo, T> func, T defaultValue) {
-    ItemTypeInfo j = getInfos().get(type);
-    return j == null ? defaultValue : func.apply(j);
-  }
-
-  public static HashMap<VirtualItemType, ItemTypeInfo> getInfos(List<VirtualItemStack> uniquified) {
-    HashMap<VirtualItemType, ItemTypeInfo.Builder> infoBuilders = new HashMap<>();
+  public static HashMap<VirtualItemType, ItemTypeStats> getInfos(List<VirtualItemStack> uniquified) {
+    HashMap<VirtualItemType, ItemTypeStats.Builder> infoBuilders = new HashMap<>();
     for (int i = 0; i < uniquified.size(); i++) {
       VirtualItemStack x = uniquified.get(i);
-      if (x != null && !x.isEmpty()) {
+      if (!x.isEmpty()) {
         if (!infoBuilders.containsKey(x.itemType)) {
-          infoBuilders.put(x.itemType, ItemTypeInfo.builder(x.itemType));
+          infoBuilders.put(x.itemType, ItemTypeStats.builder(x.itemType));
         }
         infoBuilders.get(x.itemType).addInfo(x.count, i);
       }
     }
-    return infoBuilders.entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, x -> x.getValue().build(), (prev, next) -> next, HashMap::new));
+    return infoBuilders.values().stream()
+      .collect(Collectors.toMap(x -> x.type, x -> x.build(), (prev, next) -> next, HashMap::new));
   }
 
   public static int getStackCount(VirtualItemType type, int total) {
@@ -84,17 +98,25 @@ public final class VirtualSlotsStats {
     return (total + max - 1) / max;
   }
 
-  public static class ItemTypeInfo {
+  public static class ItemTypeStats {
     public final VirtualItemType type;
     public final int totalCount;
     public final int stackCount;
     public final List<Integer> fromIndexes;
 
-    private ItemTypeInfo(VirtualItemType type, int totalCount, List<Integer> fromIndexes) {
+    private ItemTypeStats(VirtualItemType type, int totalCount, List<Integer> fromIndexes) {
       this.type = type;
       this.totalCount = totalCount;
       this.stackCount = getStackCount(type, totalCount);
       this.fromIndexes = fromIndexes;
+    }
+
+    public VirtualItemStack asItemStack() {
+      return new VirtualItemStack(type, totalCount);
+    }
+
+    public static ItemTypeStats empty(VirtualItemType type) {
+      return new ItemTypeStats(type, 0, Collections.emptyList());
     }
 
     public static Builder builder(VirtualItemType type) {
@@ -102,7 +124,7 @@ public final class VirtualSlotsStats {
     }
 
     public static class Builder {
-      private VirtualItemType type;
+      public final VirtualItemType type;
       private int totalCount = 0;
       private List<Integer> fromIndexes = new ArrayList<>();
 
@@ -116,8 +138,8 @@ public final class VirtualSlotsStats {
         return this;
       }
 
-      public ItemTypeInfo build() {
-        return new ItemTypeInfo(type, totalCount, fromIndexes);
+      public ItemTypeStats build() {
+        return new ItemTypeStats(type, totalCount, fromIndexes);
       }
 
     }
@@ -130,11 +152,16 @@ public final class VirtualSlotsStats {
   public static List<VirtualItemStack> uniquify(List<VirtualItemStack> items) {
     HashMap<VirtualItemType, VirtualItemType> uniquifiedTypes = new HashMap<>();
     return items.stream().map(x -> {
-      if (x == null || x.isEmpty()) return VirtualItemStack.empty();
+      if (x.isEmpty()) return VirtualItemStack.empty();
       if (!uniquifiedTypes.containsKey(x.itemType)) {
         uniquifiedTypes.put(x.itemType, x.itemType);
       }
-      return x.copy(uniquifiedTypes.get(x.itemType)).cap();
+      return new VirtualItemStack(uniquifiedTypes.get(x.itemType), x.getCappedCount());
     }).collect(Collectors.toList());
+  }
+
+  public static List<Integer> getEmptyIndexes(List<VirtualItemStack> items) {
+    return IntStream.range(0, items.size()).filter(s->items.get(s).isEmpty())
+      .boxed().collect(Collectors.toList());
   }
 }

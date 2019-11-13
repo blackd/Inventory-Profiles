@@ -10,10 +10,22 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.google.common.base.Supplier;
+
 /**
  * CodeUtils
  */
 public class CodeUtils {
+
+  /**
+   * in-place method
+   */
+  public static <T> List<T> pad(List<T> list, int size, Supplier<? extends T> zerosSupplier) {
+    while(list.size() < size) {
+      list.add(zerosSupplier.get());
+    }
+    return list;
+  }
 
   /**
    * equals to objects objects.stream().sorted(comparator).findFirst().orElse(null),

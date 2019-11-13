@@ -48,7 +48,7 @@ public class SorterEventPort {
     ).contains(key);
   }
   public static boolean handleKey(KeyAction action, IKeybind key){
-    if (Current.player() == null) return false;
+    if (!Current.inGame()) return false;
 
     if (key == Generic.SORT_INVENTORY.getKeybind()) {
       doSortAction();

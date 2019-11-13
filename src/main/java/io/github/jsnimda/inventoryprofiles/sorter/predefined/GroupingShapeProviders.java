@@ -23,10 +23,9 @@ public class GroupingShapeProviders {
   public static final IGroupingShapeProvider TRANSPOSE;
 
   static {
-    PRESERVED = (items, x) -> items;
-    RANDOM = (items, size) -> {
-      List<VirtualItemStack> copy = IntStream.range(0, size)
-          .mapToObj(x -> x < items.size() ? items.get(x) : null).collect(Collectors.toList());
+    PRESERVED = items -> items;
+    RANDOM = (items) -> {
+      List<VirtualItemStack> copy = new ArrayList<>(items);
       Collections.shuffle(copy);
       return copy;
     };
@@ -36,11 +35,11 @@ public class GroupingShapeProviders {
   }
 
   public static IGroupingShapeProvider rowsProvider(int width) {
-    return (items, size) -> 
-      transposeProvider(width).group(columnsProvider(size / width, true).group(items, size), size);
+    return (items) -> 
+      transposeProvider(width).group(columnsProvider(items.size() / width, true).group(items));
   }
   public static IGroupingShapeProvider transposeProvider(int width) {
-    return (items, size) -> transpose(items, size / width, width);
+    return (items) -> transpose(items, items.size() / width, width);
   }
   private static List<VirtualItemStack> transpose(List<VirtualItemStack> grouped, int groupedWidth, int groupedHeight) {
     List<VirtualItemStack> result =  new ArrayList<>(Collections.nCopies(groupedWidth * groupedHeight, null));
@@ -62,7 +61,8 @@ public class GroupingShapeProviders {
     return columnsProvider(width, false);
   }
   public static IGroupingShapeProvider columnsProvider(int width, boolean isTransposed) { // only works for sorted items
-    return (items, size) -> {
+    return (items) -> {
+      int size = items.size();
       if (items.size() == 0) return items;
       int neededColumnsCount = 1;
       int height = size / width; // assumed rectangular
@@ -90,7 +90,7 @@ public class GroupingShapeProviders {
       }
       if (bestCc != null) return bestCc.apply(items, isTransposed);
 
-      return PRESERVED.group(items, size);
+      return PRESERVED.group(items);
     };
   }
   private static class ColumnsCandidate {

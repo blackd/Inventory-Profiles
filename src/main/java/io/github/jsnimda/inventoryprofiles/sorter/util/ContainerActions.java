@@ -15,7 +15,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.OldClick;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeInfo;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeStats;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorter;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
@@ -50,12 +50,12 @@ public class ContainerActions {
     Slot focuesdSlot = Current.focusedSlot();
     ItemStack cursorStack = Current.cursorStack();
     if (ContainerUtils.getRemainingRoom(focuesdSlot, cursorStack) > 0) {
-      leftClick(Get.slotId(focuesdSlot));
+      leftClick(Getter.slotId(focuesdSlot));
     }
     for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets(putToContainer, putToHotbar)) {
       if (Current.cursorStack().isEmpty()) return;
       if (cccs.suit(cursorStack)) {
-        leftClick(Get.slotId(cccs.slot));
+        leftClick(Getter.slotId(cccs.slot));
       }
     }
   }
@@ -70,7 +70,7 @@ public class ContainerActions {
           pickedUpFromSlot = true;
           leftClick(fromSlotId);
         }
-        leftClick(Get.slotId(cccs.slot));
+        leftClick(Getter.slotId(cccs.slot));
       }
     }
     if (!Current.cursorStack().isEmpty()) {
@@ -152,12 +152,12 @@ public class ContainerActions {
       if (x != null && x.hasStack() && ContainerUtils.getRemainingRoom(x, x.getStack()) > 0) {
         for (Slot s : from) {
           if (s.hasStack() && ContainerUtils.getRemainingRoom(x, s.getStack()) > 0) {
-            leftClick(Get.slotId(s));
-            leftClick(Get.slotId(x));
+            leftClick(Getter.slotId(s));
+            leftClick(Getter.slotId(x));
           }
           if (ContainerUtils.getRemainingRoom(x, x.getStack()) <= 0) {
             if (!Current.cursorStack().isEmpty()) {
-              leftClick(Get.slotId(s));
+              leftClick(Getter.slotId(s));
             }
             break;
           }
@@ -183,17 +183,17 @@ public class ContainerActions {
     restock(info.craftingSlots, fromSlots);
     VirtualSlotsStats vs = new VirtualSlotsStats(Converter.toVirtualItemStackList(info.craftingSlots));
     List<VirtualItemStack> a = vs.uniquified;
-    Map<VirtualItemType, ItemTypeInfo> infos = vs.getInfos();
+    Map<VirtualItemType, ItemTypeStats> infos = vs.getInfos();
     Map<VirtualItemType, Queue<Integer>> bMap = infos.entrySet().stream().collect(Collectors.toMap(
       x->x.getKey(), 
       x->new LinkedList<>(GroupingShapeProviders.columns_widths(x.getValue().totalCount, x.getValue().fromIndexes.size()))
     ));
     try {
       List<VirtualItemStack> b = a.stream().map(x -> x == null ? null : x.copy(bMap.get(x.itemType).remove())).collect(Collectors.toList());
-      List<OldClick> clicks = VirtualSorter.diff(a, b);
-      VirtualSorterPort.doClicks(info.container, clicks, info.craftingSlots.stream().map(
-        x->Get.slotId(x)
-      ).collect(Collectors.toList()));
+      // List<OldClick> clicks = VirtualSorter.diff(a, b);
+      // VirtualSorterPort.doClicks(info.container, clicks, info.craftingSlots.stream().map(
+      //   x->Getter.slotId(x)
+      // ).collect(Collectors.toList()));
     } catch (Throwable e) {
       e.printStackTrace();
     }
@@ -235,9 +235,9 @@ public class ContainerActions {
         for (VirtualItemType t : types) {
           if (Converter.toVirtualItemType(s.getStack()).equals(t)) {
             if (!moveToPlayerInventory) {
-              shiftClick(Current.container(), Get.slotId(s));
+              shiftClick(Current.container(), Getter.slotId(s));
             } else {
-              quickMoveByPlayerStorageSlotsFirst(Get.slotId(s), includeHotbar);
+              quickMoveByPlayerStorageSlotsFirst(Getter.slotId(s), includeHotbar);
             }
             break;
           }

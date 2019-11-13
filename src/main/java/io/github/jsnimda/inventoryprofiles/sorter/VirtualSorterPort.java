@@ -8,13 +8,14 @@ import java.util.stream.Collectors;
 import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
+import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Converter;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CurrentState;
-import io.github.jsnimda.inventoryprofiles.sorter.util.Get;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Getter;
 import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
@@ -38,7 +39,7 @@ public class VirtualSorterPort {
   public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, GroupingType groupingType) {
     ContainerInfo info = CurrentState.containerInfo();
     if (groupingType == GroupingType.PRESERVED) {
-      doSort(sortPlayer, sortingProvider, GroupingShapeProviders.RANDOM);
+      doSort(sortPlayer, SortingMethodProviders.SHUFFLE, GroupingShapeProviders.PRESERVED);
     } else if (groupingType == GroupingType.COLUMNS) {
       doSort(sortPlayer, sortingProvider, GroupingShapeProviders.columnsProvider(info.sortableWidth));
     } else if (groupingType == GroupingType.ROWS) {
@@ -58,7 +59,7 @@ public class VirtualSorterPort {
     }
     else
       slots = info.sortableSlots;
-    List<Integer> slotIds = slots.stream().map(x -> Get.slotId(x)).collect(Collectors.toList());
+    List<Integer> slotIds = slots.stream().map(x -> Getter.slotId(x)).collect(Collectors.toList());
     doSort(info.container, slots, slotIds, sortingProvider, groupingProvider);
   }
 

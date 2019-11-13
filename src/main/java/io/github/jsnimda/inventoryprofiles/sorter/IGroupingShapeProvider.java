@@ -7,11 +7,6 @@ import java.util.List;
  */
 public interface IGroupingShapeProvider {
 
-  /**
-   * A List whose size equals to the size of slots should returned.
-   * @param items
-   * @return
-   */
-  List<VirtualItemStack> group(List<VirtualItemStack> items, int size);
-  
+  List<VirtualItemStack> group(List<VirtualItemStack> items);
+
 }

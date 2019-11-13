@@ -9,19 +9,12 @@ public final class VirtualItemStack {
     this.count = count;
   }
 
-  public VirtualItemType getItemType() {
-    return itemType;
-  }
-  public void setItemType() {
-
-  }
-
   public int getMaxCount() {
     return itemType.getMaxCount();
   }
 
-  public boolean sameType(VirtualItemStack b) { //TODO remove null
-    return b != null && itemType.equals(b.itemType);
+  public boolean sameType(VirtualItemStack b) {
+    return itemType.equals(b.itemType);
   }
 
   public int add(int anotherCount) { // return leftover
@@ -37,9 +30,8 @@ public final class VirtualItemStack {
     return Math.min(count, getMaxCount());
   }
 
-  public VirtualItemStack cap() {
-    count = capOf(count);
-    return this;
+  public int getCappedCount() {
+    return capOf(count);
   }
 
   public boolean isFull() {
@@ -78,7 +70,7 @@ public final class VirtualItemStack {
   // ============
   // operations
   public boolean capable(VirtualItemStack b) { // return if two can join together
-    return b == null || sameType(b) || isEmpty() || b.isEmpty(); //TODO remove null
+    return sameType(b) || isEmpty() || b.isEmpty();
   }
 
   public void swap(VirtualItemStack another) {

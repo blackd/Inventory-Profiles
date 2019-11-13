@@ -13,7 +13,10 @@ import java.util.stream.Collectors;
 import com.google.common.base.Predicate;
 
 import io.github.jsnimda.inventoryprofiles.Log;
+import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Converter;
 
 /**
  * DiffCalculator
@@ -60,12 +63,14 @@ public class DiffCalculator {
   public static List<Click> calcDiff(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems, boolean allowDrop) {
     if (fromItems.size() != toItems.size())
       throw new RuntimeException("sizes not match");
+    fromItems = VirtualSlotsStats.uniquify(fromItems);
+    toItems = VirtualSlotsStats.uniquify(toItems);
     return new CalcDiffInstance(fromItems, toItems, allowDrop).calc();
   }
 
   private static void checkPossible(VirtualSlotsStats aStats, VirtualSlotsStats bStats, boolean allowDrop) {
-    Map<VirtualItemType, Integer> a = aStats.getInfosAs(x->x.totalCount);
-    Map<VirtualItemType, Integer> b = bStats.getInfosAs(x->x.totalCount);
+    Map<VirtualItemType, Integer> a = aStats.getInfosAsMap(x->x.totalCount);
+    Map<VirtualItemType, Integer> b = bStats.getInfosAsMap(x->x.totalCount);
     if (allowDrop ? !isSuperset(a, b) : !a.equals(b)) {
       Log.error("[inventoryprofiles] before map:");
       a.forEach((key, value) -> Log.error(key + ":" + value));
@@ -139,13 +144,22 @@ public class DiffCalculator {
     // ============
     // #region core
     public List<Click> calc() {
-      checkPossible(fromStats, targetStats, allowDrop);
-      if (!allowDrop) {
-        doStageANoDrop();
-        doStageBNoDrop();
-      } else {
-        // TODO impl allowDrop
-      }
+      try{
+        checkPossible(fromStats, targetStats, allowDrop);
+        if (!allowDrop) {
+          doStageANoDrop();
+          doStageBNoDrop();
+        } else {
+          // TODO impl allowDrop
+        }
+      } catch (Throwable e) {
+        e.printStackTrace();
+        if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
+          return sandbox.clicks;
+        } else {
+          throw e;
+        }
+      };
       return sandbox.clicks;
     }
 
@@ -211,7 +225,7 @@ public class DiffCalculator {
       if (sel.button() == 0) {
         sandbox.leftClick(sel.index);
       } else { // == 1
-        sandbox.rightClick(sel.index, sel.afterRightScore - 1);
+        sandbox.rightClick(sel.index/*, sel.afterRightScore - 1*/);
       }
     }
     private List<Integer> candidateIndexesCursor() {
@@ -249,7 +263,7 @@ public class DiffCalculator {
         targetCount = target(index).count;
         currentCount = currentIfMatchType(index).count;
         cursorCount = cursor().count;
-        afterCount = currentIfMatchType(index).tryAdd(cursorCount);
+        afterCount = currentIfMatchType(index).tryAdd(cursorCount); // afterLeftCount
         afterLeftover = currentCount + cursorCount - afterCount;
         calc();
       }
@@ -264,8 +278,11 @@ public class DiffCalculator {
       private int close() { // (B.i.1)
         return targetCount - afterCount;
       }
+      private boolean alreadyGreaterThanTarget() {
+        return currentCount > targetCount;
+      }
       private boolean decreaseInAfterScore() { // (B.i.2.1)
-        if (currentCount > targetCount) {
+        if (alreadyGreaterThanTarget()) {
           return afterLeftScore < currentScore;
         }
         return false;
@@ -274,19 +291,30 @@ public class DiffCalculator {
         return currentScore - afterLeftScore;
       }
       private int afterScore() { // (B.i.2.2)
-        if (allowRightClick)
-          return afterLeftScore <= afterRightScore ? afterLeftScore : afterRightScore;
+        if (allowRightClick && !rightClickNotAvalible())
+          if (afterLeftClickWillBeLeftClick())
+            return afterRightScore;
+          else
+            return afterLeftScore <= afterRightScore ? afterLeftScore : afterRightScore;
         else
           return afterLeftScore;
       }
+      private boolean rightClickNotAvalible() {
+        return afterRightScore <= 1;
+      }
       private int button() { // 0 for left, 1 for right
         if (allowRightClick)
-          if (afterNotExceedTarget() || decreaseInAfterScore())
+          if (afterNotExceedTarget() || decreaseInAfterScore() || rightClickNotAvalible())
             return 0;
+          else if (afterLeftClickWillBeLeftClick())
+            return 1;
           else
             return afterLeftScore <= afterRightScore ? 0 : 1;
         else
           return 0;
+      }
+      private boolean afterLeftClickWillBeLeftClick() {
+        return !getScoreObject(afterCount, targetCount).shouldRightClick();
       }
 
       @Override
@@ -314,8 +342,24 @@ public class DiffCalculator {
         else if (aInt == 1) // both == 1
           return a.decrease() - b.decrease();
         else
-          return a.afterScore() - b.afterScore();
+          return finalScoreCompare(a, b);
       }
+    }
+    public static int finalScoreCompare(GradingResult a, GradingResult b) {
+      // left click should not increase score
+      int aIs = a.alreadyGreaterThanTarget() ? 1 : 0;
+      int bIs = b.alreadyGreaterThanTarget() ? 1 : 0;
+      if (aIs != bIs) { // xor?
+        return aIs - bIs; // not already first
+      }
+      // if (a.allowRightClick && aIs == 0 && !(a.button() == 1 && b.button() == 1)) { // both aIs bIs == 0
+      //   // after left click should not left click pick up again (should be right)
+      //   // one is left and another is right
+      //   // return a.afterScore() - b.afterScore(); (?)
+      // } else {
+      //   return a.afterScore() - b.afterScore();
+      // }
+      return a.afterScore() - b.afterScore();
     }
     public static int defaultCompare(GradingResult a, GradingResult b) {
       int cmp = a.targetCount - b.targetCount;
@@ -341,19 +385,19 @@ public class DiffCalculator {
   // ============
   // sandbox
 
-  private static final int INF_LOOP_MAX = 10000;
+  private static final int INF_LOOP_MAX = 1000;
 
   private static class CalcDiffSandbox {
     public List<Click> clicks = new ArrayList<>();
     public List<VirtualItemStack> items;
     public VirtualItemStack cursor = VirtualItemStack.empty();
     public CalcDiffSandbox(List<VirtualItemStack> items) { // do copy
-      this.items = items.stream().map(x->x.copy()).collect(Collectors.toList());
+      this.items = Converter.copy(items);
     }
     
     public void addClickLimited(Click c) {
       if (clicks.size() >= INF_LOOP_MAX) 
-        throw new RuntimeException("Infinite loop detected");
+        throw new RuntimeException("Infinite loop detected. Click count > " + INF_LOOP_MAX);
       clicks.add(c);
     }
     public VirtualItemStack itemAt(int index) {

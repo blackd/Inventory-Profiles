@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 
 import javax.annotation.Nullable;
 
-import io.github.jsnimda.inventoryprofiles.sorter.util.Get;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Getter;
 import net.minecraft.container.Slot;
 
 /**
@@ -11,15 +11,14 @@ import net.minecraft.container.Slot;
 public class VirtualSlot {
 
   private final Slot slotConditionObject; //the actually ItemStack of this slot in real world is ingored
-  @Nullable
   public VirtualItemStack slotItem;
 
   public int getSlotId() {
-    return Get.slotId(slotConditionObject);
+    return Getter.slotId(slotConditionObject);
   }
 
   public int getInvSlot() {
-    return Get.invSlot(slotConditionObject);
+    return Getter.invSlot(slotConditionObject);
   }
 
   public boolean canInsert(VirtualItemStack item) { // aka isItemValid
@@ -27,7 +26,7 @@ public class VirtualSlot {
   }
 
   public boolean isEmpty() {
-    return slotItem == null;
+    return slotItem.isEmpty();
   }
 
   private VirtualSlot(Slot slotConditionObject) {

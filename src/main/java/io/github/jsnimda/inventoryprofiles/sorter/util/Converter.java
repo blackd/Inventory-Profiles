@@ -22,7 +22,13 @@ public class Converter {
   }
 
   public static List<VirtualItemStack> toVirtualItemStackList(List<Slot> slots) {
-    return slots.stream().map(x -> x.hasStack() ? toVirtualItemStack(x.getStack()) : null).collect(Collectors.toList());
+    return slots.stream()
+      .map(x -> x.hasStack() ? toVirtualItemStack(x.getStack()) : VirtualItemStack.empty())
+      .collect(Collectors.toList());
+  }
+
+  public static List<VirtualItemStack> copy(List<VirtualItemStack> items) {
+    return items.stream().map(x -> x.copy()).collect(Collectors.toList());
   }
 
 }

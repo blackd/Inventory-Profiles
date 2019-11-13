@@ -63,7 +63,7 @@ public class ContainerInfo {
       Slot[] armorSlots = new Slot[5];
       for (Slot s : asContainer.slotList) { // assumed in order of slot.id
         if (!(s.inventory instanceof PlayerInventory)) continue;
-        int invSlot = Get.invSlot(s);
+        int invSlot = Getter.invSlot(s);
         if (invSlot >= 0 && invSlot < 9) {
           playerHotbarSlots.add(s);
           if (((PlayerInventory)s.inventory).selectedSlot == invSlot) {
@@ -122,7 +122,7 @@ public class ContainerInfo {
           if (category == ContainerCategory.NON_SORTABLE_STORAGE) {
           nonSortableStorageSlots.add(s);
         } else if (category == ContainerCategory.SORTABLE_Nx3) {
-          if (Get.slotId(s) <= 1)
+          if (Getter.slotId(s) <= 1)
             nonSortableStorageSlots.add(s);
           else
             sortableSlots.add(s);

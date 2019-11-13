@@ -9,7 +9,7 @@ import net.minecraft.container.Slot;
  * Provide a interface to access vanilla object properties.
  * Via the unified methods avoiding fabric/forge naming confusion.
  */
-public class Get {
+public class Getter {
 
   public static int slotId(Slot s) {
     return s.id;

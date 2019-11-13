@@ -1,4 +1,4 @@
-package io.github.jsnimda.inventoryprofiles.sorter.custom;
+package io.github.jsnimda.inventoryprofiles.sorter.predefined;
 
 import java.text.Collator;
 import java.util.Comparator;
