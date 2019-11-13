@@ -39,7 +39,7 @@ public class VirtualSorterPort {
   public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, GroupingType groupingType) {
     ContainerInfo info = CurrentState.containerInfo();
     if (groupingType == GroupingType.PRESERVED) {
-      doSort(sortPlayer, SortingMethodProviders.SHUFFLE, GroupingShapeProviders.RANDOM);
+      doSort(sortPlayer, SortingMethodProviders.SHUFFLE, GroupingShapeProviders.PRESERVED);
     } else if (groupingType == GroupingType.COLUMNS) {
       doSort(sortPlayer, sortingProvider, GroupingShapeProviders.columnsProvider(info.sortableWidth));
     } else if (groupingType == GroupingType.ROWS) {

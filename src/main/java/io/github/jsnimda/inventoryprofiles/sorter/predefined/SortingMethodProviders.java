@@ -74,58 +74,8 @@ public class SortingMethodProviders {
     return DEFAULT;
   }
 
-  private static Random random = new Random();
   public static ISortingMethodProvider shuffle(int emptySpace) {
-    return items -> {
-      VirtualSlotsStats stats = new VirtualSlotsStats(items);
-      int resTotalStackCount = stats.size - emptySpace;
-      if (stats.getMaxTotalStackCount() < resTotalStackCount) {
-        resTotalStackCount = stats.getMaxTotalStackCount();
-      } else if (stats.getMinTotalStackCount() > resTotalStackCount) {
-        resTotalStackCount = stats.getMinTotalStackCount();
-      }
-      int extra = resTotalStackCount - stats.getMinTotalStackCount(); // extra slots that can give randomly
-      Multiset<VirtualItemType> stackCounts = HashMultiset.create();
-      stats.getInfos().values().forEach(x -> stackCounts.add(x.type, x.stackCount));
-      Multiset<VirtualItemType> chances = HashMultiset.create();
-      stats.getInfos().values().forEach(x -> chances.add(x.type, x.totalCount - x.stackCount));
-      for (int i = 0; i < extra; i++) {
-        VirtualItemType sel = WeightedRandom.of(chances.elementSet(),
-          x -> (double)(chances.count(x)) // no chance when stackCount = totalCount
-        ).next();
-        stackCounts.add(sel);
-        chances.remove(sel);
-      }
-      // ============
-      // stackCounts complete, now spread item counts
-      List<VirtualItemStack> res = new ArrayList<>();
-      // may be in the future find a mathematical formula for this,
-      // currently it runs O(all totalCount)
-      Multiset<VirtualItemType> remaining = HashMultiset.create();
-      stats.getInfos().values().forEach(x -> remaining.add(x.type, x.totalCount));
-      Map<VirtualItemType, List<VirtualItemStack>> resStacks = stats.getInfosAsMap(x->new ArrayList<>());
-      for (VirtualItemType t : stackCounts) {
-        if (t.getMaxCount() == 1){
-          res.add(new VirtualItemStack(t, 1));
-        } else {
-          resStacks.get(t).add(new VirtualItemStack(t, 1));
-        }
-        remaining.remove(t);
-      }
-      for (VirtualItemType t : remaining.elementSet()) {
-        int count = remaining.count(t);
-        List<VirtualItemStack> cand = resStacks.get(t);
-        for (int i = 0; i < count; i++) {
-          int sel = random.nextInt(cand.size());
-          cand.get(sel).count++;
-          if (cand.get(sel).isFull()) {
-            res.add(cand.remove(sel));
-          }
-        }
-      }
-      resStacks.values().forEach(x -> x.forEach(y -> res.add(y)));
-      return CodeUtils.pad(res, stats.size, ()->VirtualItemStack.empty());
-    };
+    return new ShuffleSortingMethodProvider(emptySpace);
   }
 
   private static Comparator<VirtualItemType> getNbtDefaultComparator(){
