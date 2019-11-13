@@ -186,7 +186,7 @@ public class ContainerActions {
     Map<VirtualItemType, ItemTypeStats> infos = vs.getInfos();
     Map<VirtualItemType, Queue<Integer>> bMap = infos.entrySet().stream().collect(Collectors.toMap(
       x->x.getKey(), 
-      x->new LinkedList<>(GroupingShapeProviders.columns_widths(x.getValue().totalCount, x.getValue().fromIndexes.size()))
+      x->new LinkedList<>(CodeUtils.distribute(x.getValue().totalCount, x.getValue().fromIndexes.size()))
     ));
     try {
       List<VirtualItemStack> b = a.stream().map(x -> x == null ? null : x.copy(bMap.get(x.itemType).remove())).collect(Collectors.toList());
@@ -293,14 +293,15 @@ public class ContainerActions {
           genericClick(container, c);
           lclick += c.button == 0 ? 1 : 0;
           rclick += c.button == 1 ? 1 : 0;
-        }, interval, () -> logClicks(clicks.size(), lclick, rclick));
+        }, interval, () -> logClicks(clicks.size(), lclick, rclick, interval));
       }
     }.run();
   }
 
-  private static void logClicks(int total, int lclick, int rclick) {
+  private static void logClicks(int total, int lclick, int rclick, int interval) {
     if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      Log.info(String.format("[inventoryfiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
+      Log.info(String.format("[inventoryfiles] Click count total %d. %d left. %d right. Spent %ss",
+        total, lclick, rclick, total * interval / (double)1000));
     }
   }
 

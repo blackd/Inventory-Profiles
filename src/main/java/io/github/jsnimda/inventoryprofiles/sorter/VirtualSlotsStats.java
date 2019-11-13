@@ -3,8 +3,10 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,6 +20,7 @@ public final class VirtualSlotsStats {
   public final List<VirtualItemStack> uniquified;
   public final List<Integer> emptyIndexes;
   private HashMap<VirtualItemType, ItemTypeStats> infos = null;
+  private List<ItemTypeStats> infosAsList = null; // ordered as the order of uniquified
   private int minTotalStackCount = -1;
   private int maxTotalStackCount = -1;
 
@@ -57,7 +60,7 @@ public final class VirtualSlotsStats {
     return getInfosAsList(x->x.type);
   }
 
-  public <T> List<T> getInfosAsList(Function<ItemTypeStats, T> func) {
+  public <T> List<T> getInfosAsListIgnoreOrder(Function<ItemTypeStats, T> func) {
     return getInfos().values().stream().map(func).collect(Collectors.toList());
   }
 
@@ -66,6 +69,25 @@ public final class VirtualSlotsStats {
       x->x.type, 
       func
     ));
+  }
+
+  public <T> List<T> getInfosAsList(Function<ItemTypeStats, T> func) {
+    return getInfosAsList().stream().map(func).collect(Collectors.toList());
+  }
+
+  public List<ItemTypeStats> getInfosAsList() {
+    if (infosAsList == null) {
+      List<ItemTypeStats> res = new ArrayList<>();
+      Set<VirtualItemType> appeared = new HashSet<>();
+      uniquified.forEach(x -> {
+        if (!appeared.contains(x.itemType)) {
+          res.add(getInfo(x.itemType));
+          appeared.add(x.itemType);
+        }
+      });
+      infosAsList = res;
+    }
+    return infosAsList;
   }
 
   public Map<VirtualItemType, ItemTypeStats> getInfos() {

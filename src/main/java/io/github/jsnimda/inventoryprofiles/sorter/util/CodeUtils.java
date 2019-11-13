@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -16,6 +17,46 @@ import com.google.common.base.Supplier;
  * CodeUtils
  */
 public class CodeUtils {
+
+  /**
+   * return list of size [weights.size], with sum equal to [sum]
+   */
+  public static List<Integer> weightedScaleUp(List<Integer> weights, int sum) {
+    List<Integer> ints = new ArrayList<>();
+    List<Integer> cu = new ArrayList<>();
+    int c = 0;
+    for (int w : weights) {
+      cu.add(c += w);
+    }
+    int k = 0;
+    for (int i = 1; i < weights.size(); i++) {
+      int k2 = sum * cu.get(i) / c;
+      ints.add(k2 - k);
+      k = k2;
+    }
+    return ints;
+  }
+
+  /**
+   * return list of size [size], with sum equal to [sum]
+   */
+  public static List<Integer> distribute(int sum, int size) {
+    List<Integer> ints = new ArrayList<>();
+    int k = 0;
+    for (int i = 1; i <= size; i++) {
+      int k2 = sum * i / size;
+      ints.add(k2 - k);
+      k = k2;
+    }
+    return ints;
+  }
+
+  /**
+   * divide and round up
+   */
+  public static int divideUp(int dividend, int divisor) {
+    return (dividend + divisor - 1) / divisor;
+  }
 
   /**
    * in-place method

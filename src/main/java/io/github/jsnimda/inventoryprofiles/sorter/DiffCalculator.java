@@ -153,8 +153,8 @@ public class DiffCalculator {
           // TODO impl allowDrop
         }
       } catch (Throwable e) {
-        e.printStackTrace();
         if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
+          e.printStackTrace();
           return sandbox.clicks;
         } else {
           throw e;
