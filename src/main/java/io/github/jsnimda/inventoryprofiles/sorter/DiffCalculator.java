@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -59,6 +60,8 @@ public class DiffCalculator {
    * -> similar to if cursor has stack in stage (B), except no right click considered
    * 
    */
+
+  public static boolean useB_ii_secondChoice = true;
 
   public static List<Click> calcDiff(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems, boolean allowDrop) {
     if (fromItems.size() != toItems.size())
@@ -194,33 +197,168 @@ public class DiffCalculator {
         x -> new GradingResult(x, allowRightClick),
         (x, y) -> x.mappedValue.compareTo(y.mappedValue)
       ).mappedValue;
-      doAction(sel);
+      if (!allowRightClick || sel.button() == 1 || cursor().count <= 1 || !sel.afterNotExceedTarget() || sel.close() == 0 || !useB_ii_secondChoice || current(sel.index).count == 0) {
+        doAction(sel);
+      } else {
+        // test right click
+        //B_i_testRightClick(sel);
+        doAction(sel);
+      } 
+    }
+    private void B_i_testRightClick(GradingResult oldSel) {
+      sandbox.save();
+
+      int close = oldSel.close();
+      sandbox.rightClick(oldSel.index);
+      while (cursor().count > 1) {
+        GradingResult sel = CodeUtils.selectFirst(candidateIndexesCursor(),
+          x -> new GradingResult(x, true),
+          (x, y) -> x.mappedValue.compareTo(y.mappedValue)
+        ).mappedValue;
+        if (sel.button() == 0) {
+          if (sel.afterNotExceedTarget() && sel.close() < close) {
+            sandbox.leftClick(sel.index);
+            sandbox.cancelSave();
+            return; // give up restore 
+          } else {
+            sandbox.rightClick(sel.index);
+          }
+        } else {
+          sandbox.rightClick(sel.index);
+        }
+      }
+
+      sandbox.restore();
+
+      // test fail
+      doAction(oldSel);
     }
     private void B_ii(VirtualItemType type) {
+      Click a = B_ii_firstChoice(type);
+
+      // if after pick click, the following click is right click,
+      // then try:
+      //    -> if i pick the minimum count stack, or right pick (split) it,
+      //       after that I can left click and afterNotExceedTarget() == true
+      //    -> pick the minimum count stack instead
+      // (solution for 64 -> 48 requires too many right click problem)
+      if (DiffCalculator.useB_ii_secondChoice) { // experimental feature (?) (not works for 47/49 :( )
+        Click b = B_ii_secondChoice(type, a);
+        if (b.slotId >= 0) {
+          a = b;
+        } else if (b.slotId == -2) {
+          return;
+        }
+      }
+      // comment the above lines 
+      if (a.button == 0) {
+        sandbox.leftClick(a.slotId);
+      } else {
+        sandbox.rightClick(a.slotId);
+      }
+    }
+    private Click B_ii_firstChoice(VirtualItemType type) { // use Click tmp class
       List<Integer> cand = candidateIndexesNoCursor(type);
       int sel = CodeUtils.selectFirst(cand, (x, y) -> score(x) - score(y));
       // if any target full stack exists, still unmatch,
       // and right click not enought to fill that, do left click
-      List<Integer> fullCand = candidate(type, x -> !matchExact(x) && target(x).isFull());
-      if (!fullCand.isEmpty()) {
-        int fullSel = CodeUtils.selectFirst(fullCand, (x, y) -> {
-          int xRoom = target(x).count - current(x).count;
-          int yRoom = target(y).count - current(y).count;
-          return yRoom - xRoom; // get the largest room
-        });
-        int room = target(fullSel).count - current(fullSel).count;
-        int rightClickGet = current(sel).count - current(sel).count / 2;
-        if (rightClickGet < room) {
-          sandbox.leftClick(sel);
-          return;
-        }
-      }
       if (shouldRightClick(sel)) {
-        sandbox.rightClick(sel);
+        List<Integer> fullCand = candidate(type, x -> !matchExact(x) && target(x).isFull());
+        if (!fullCand.isEmpty()) {
+          int fullSel = CodeUtils.selectFirst(fullCand, (x, y) -> {
+            int xRoom = target(x).count - current(x).count;
+            int yRoom = target(y).count - current(y).count;
+            return yRoom - xRoom; // get the largest room
+          });
+          int room = target(fullSel).count - current(fullSel).count;
+          int rightClickGet = current(sel).count - current(sel).count / 2;
+          if (rightClickGet < room) {
+            return new Click(sel, 0);
+          }
+        }
+        return new Click(sel, 1);
       } else {
-        sandbox.leftClick(sel);
+        return new Click(sel, 0);
       }
     }
+    private Click B_ii_secondChoice(VirtualItemType type, Click firstChoice) {
+      // save() for restore()
+      sandbox.save();
+
+      if (firstChoice.button == 0) {
+        sandbox.leftClick(firstChoice.slotId);
+      } else {
+        sandbox.rightClick(firstChoice.slotId);
+      }
+
+      B_i(true);
+
+      Click res = new Click(-1, 0);
+
+      // check if last click is right click
+      Click lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
+      sandbox.restore();
+      if (lastClick.button == 1) {
+        if (firstChoice.button == 0) { // fix for 49, TODO fix 47
+          sandbox.save();
+          sandbox.rightClick(firstChoice.slotId);
+          B_i(true);
+          lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
+          sandbox.restore();
+          if (lastClick.button != 1) {
+            res.slotId = firstChoice.slotId;
+            res.button = 1;
+            return res;
+          }
+        }
+
+        // test min
+
+        List<Integer> cand = candidate(type, x -> !matchExact(x) && !current(x).isEmpty());
+        if (cand.isEmpty())
+          return res;
+        int sel = CodeUtils.selectFirst(cand, (x, y) -> current(x).count - current(y).count);
+
+        sandbox.save();
+        sandbox.leftClick(sel);
+        B_i(true);
+        lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
+        if (lastClick.button == 0 && lastClick.slotId != sel && current(lastClick.slotId).count <= target(lastClick.slotId).count) {
+          sandbox.restore();
+          res.slotId = sel;
+          res.button = 0;
+          return res;
+        } else {
+          sandbox.restore();
+          sandbox.save();
+          sandbox.rightClick(sel);
+          int clickCount = sandbox.clicks.size();
+          B_i(true);
+          lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
+          if (lastClick.button == 0 && lastClick.slotId != sel && current(lastClick.slotId).count <= target(lastClick.slotId).count) {
+            // if (sandbox.clicks.size() - clickCount > 1) {
+            //   sandbox.cancelSave();
+            //   res.slotId = -2;
+            //   return res;
+            // }
+            sandbox.restore();
+            res.slotId = sel;
+            res.button = 1;
+            return res;
+          } else if (lastClick.button == 1) {
+            sandbox.restore();
+            res.slotId = sel;
+            res.button = 1;
+            return res;
+          } else {
+            sandbox.restore();
+          }
+        }
+      } // else do nothing
+
+      return res;
+    }
+    
     private void doAction(GradingResult sel) {
       if (sel.button() == 0) {
         sandbox.leftClick(sel.index);
@@ -391,10 +529,47 @@ public class DiffCalculator {
     public List<Click> clicks = new ArrayList<>();
     public List<VirtualItemStack> items;
     public VirtualItemStack cursor = VirtualItemStack.empty();
+    private StateSaver stateSaver = new StateSaver();
     public CalcDiffSandbox(List<VirtualItemStack> items) { // do copy
       this.items = Converter.copy(items);
     }
-    
+
+    private class StateSaver {
+      private Stack<Integer> clickSizes = new Stack<>();
+      private Stack<List<VirtualItemStack>> itemss = new Stack<>();
+      private Stack<VirtualItemStack> cursors = new Stack<>();
+      public void save() {
+        clickSizes.push(clicks.size());
+        itemss.push(Converter.copy(items));
+        cursors.push(cursor.copy());
+      }
+      public void restore() {
+        int clickSize = clickSizes.pop();
+        while (clicks.size() > clickSize) {
+          clicks.remove(clicks.size() - 1);
+        }
+        items = itemss.pop();
+        cursor = cursors.pop();
+      }
+      public void cancelSave() {
+        clickSizes.pop();
+        itemss.pop();
+        cursors.pop();
+      }
+    }
+
+    public void save() {
+      stateSaver.save();
+    }
+
+    public void restore() {
+      stateSaver.restore();
+    }
+
+    public void cancelSave() {
+      stateSaver.cancelSave();
+    }
+
     public void addClickLimited(Click c) {
       if (clicks.size() >= INF_LOOP_MAX) 
         throw new RuntimeException("Infinite loop detected. Click count > " + INF_LOOP_MAX);

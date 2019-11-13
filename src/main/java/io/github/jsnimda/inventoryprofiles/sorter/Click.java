@@ -13,6 +13,11 @@ public class Click {
     this.button = button;
     this.actionType = actionType;
   }
+  public Click(int slotId, int button) {
+    this.slotId = slotId;
+    this.button = button;
+    this.actionType = SlotActionType.PICKUP;
+  }
 
   public static Click leftClick(int slotId) {
     return new Click(slotId, 0, SlotActionType.PICKUP);
