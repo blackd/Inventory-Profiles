@@ -144,12 +144,17 @@ public class DiffCalculator {
     public List<Click> calc() {
       try{
         checkPossible(fromStats, targetStats, allowDrop);
+        long st = System.nanoTime();
         if (!allowDrop) {
           noDropInit();
           doStageANoDrop();
           doStageBNoDrop();
         } else {
           // TODO impl allowDrop
+        }
+        long ed = System.nanoTime();
+        if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
+          Log.info("[inventoryprofiles] Execute calcDiff() in " + (ed - st)/(double)1000000 + " ms");
         }
       } catch (Throwable e) {
         if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
@@ -255,7 +260,7 @@ public class DiffCalculator {
           sandbox.rightClick(res.resByIndex);
         }
       }
-      private class TryPickResult implements Comparable<TryPickResult> {
+      private class TryPickResult implements Comparable<TryPickResult> { 
         public int resMin;
         public int resSum;
         public int resByIndex;
