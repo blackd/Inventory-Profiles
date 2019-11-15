@@ -469,11 +469,14 @@ public class DiffCalculator {
         }
         List<GradingResult> cand = handleCursorCandidates();
         Click lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
-        if (clean == true) {
-          cand = cand.stream().filter(
-            x -> !(x.index == lastClick.slotId && x.actionType == ActionType.LEFT_CLICK_ME)
-          ).collect(Collectors.toList());
-        }
+        // if (clean == true) {
+        //   cand = cand.stream().filter(
+        //     x -> !(
+        //       (x.index == lastClick.slotId && x.actionType == ActionType.LEFT_CLICK_ME)
+        //       || (x.actionType == ActionType.LEFT_CLICK_ME && (x.currentCount == current(lastClick.slotId).count || (lastClick.button == 1 && CodeUtils.divideUp(x.cursorCount + x.currentCount, 2) == CodeUtils.divideUp(x.cursorCount + current(lastClick.slotId).count, 2))) && x.cursorCount + x.currentCount < x.targetCount)
+        //     )
+        //   ).collect(Collectors.toList());
+        // }
         GradingResult sel = CodeUtils.selectFirst(
           cand,
           GradingResult::compareTo
