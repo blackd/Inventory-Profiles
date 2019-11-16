@@ -110,7 +110,7 @@ public class VirtualSorterPort {
 
   private static void logClicks(int total, int lclick, int rclick) {
     if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      Log.info(String.format("[inventoryfiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
+      Log.info(String.format("[inventoryprofiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
     }
   }
 

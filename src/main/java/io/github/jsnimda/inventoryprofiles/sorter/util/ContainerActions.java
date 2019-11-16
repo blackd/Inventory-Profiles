@@ -300,7 +300,7 @@ public class ContainerActions {
 
   private static void logClicks(int total, int lclick, int rclick, int interval) {
     if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      Log.info(String.format("[inventoryfiles] Click count total %d. %d left. %d right. Spent %ss",
+      Log.info(String.format("[inventoryprofiles] Click count total %d. %d left. %d right. Spent %ss",
         total, lclick, rclick, total * interval / (double)1000));
     }
   }
