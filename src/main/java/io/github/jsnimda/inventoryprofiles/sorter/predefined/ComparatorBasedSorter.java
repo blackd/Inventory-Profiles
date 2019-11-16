@@ -11,9 +11,9 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
 
 /**
- * ComparatorBasedSortingMethodProvider
+ * ComparatorBasedSorter
  */
-public class ComparatorBasedSortingMethodProvider implements ISortingMethodProvider {
+public class ComparatorBasedSorter implements ISortingMethodProvider {
 
   private final Comparator<VirtualItemStack> comparator;
 
@@ -38,7 +38,7 @@ public class ComparatorBasedSortingMethodProvider implements ISortingMethodProvi
     return res;
   }
 
-  public ComparatorBasedSortingMethodProvider(Comparator<VirtualItemType> comparator) {
+  public ComparatorBasedSorter(Comparator<VirtualItemType> comparator) {
     this.comparator = ConvertedComparator.convert(x->x.itemType, comparator);
   }
 

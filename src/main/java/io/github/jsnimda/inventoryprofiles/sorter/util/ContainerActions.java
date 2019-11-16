@@ -10,11 +10,15 @@ import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.sorter.BiVirtualSlots;
 import io.github.jsnimda.inventoryprofiles.sorter.Click;
+import io.github.jsnimda.inventoryprofiles.sorter.DiffCalculator;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlot;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeStats;
+import io.github.jsnimda.inventoryprofiles.sorter.predefined.DistributeSorter;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.BeaconContainer;
 import net.minecraft.container.Container;
@@ -142,32 +146,19 @@ public class ContainerActions {
     }
   }
 
-  public static void restock(List<Slot> target, List<Slot> from) {
-    target
-    .forEach(x->{
-      if (x != null && x.hasStack() && ContainerUtils.getRemainingRoom(x, x.getStack()) > 0) {
-        for (Slot s : from) {
-          if (s.hasStack() && ContainerUtils.getRemainingRoom(x, s.getStack()) > 0) {
-            leftClick(Getter.slotId(s));
-            leftClick(Getter.slotId(x));
-          }
-          if (ContainerUtils.getRemainingRoom(x, x.getStack()) <= 0) {
-            if (!Current.cursorStack().isEmpty()) {
-              leftClick(Getter.slotId(s));
-            }
-            break;
-          }
-        }
-      }
-    });
-  }
-
   public static void restockHotbar() {
     ContainerInfo info = CurrentState.containerInfo();
-    restock(Stream.concat(
+    List<Slot> source = info.playerStorageSlots;
+    List<Slot> target = Stream.concat(
       Stream.of(info.playerMainhandSlot, info.playerOffhandSlot),
       info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
-    ).collect(Collectors.toList()), info.playerStorageSlots);
+    ).collect(Collectors.toList());
+    List<VirtualSlot> aVS = Converter.toVirtualSlotList(source);
+    List<VirtualSlot> bVS = Converter.toVirtualSlotList(target);
+    List<VirtualSlot> from = Converter.concat(aVS, bVS, x->x.copy());
+    new BiVirtualSlots(aVS, bVS).restock();
+    List<VirtualSlot> to = Converter.concat(aVS, bVS, x->x.copy());
+    genericClicks(info.container, ContainerUtils.calcDiff(from, to), 0);
   }
 
   public static void evenlyDistributeCraftingSlots(boolean includeHotbar) {
@@ -176,23 +167,13 @@ public class ContainerActions {
     fromSlots.addAll(info.playerStorageSlots);
     if (includeHotbar)
       fromSlots.addAll(info.playerHotbarSlots);
-    restock(info.craftingSlots, fromSlots);
-    VirtualSlotsStats vs = new VirtualSlotsStats(Converter.toVirtualItemStackList(info.craftingSlots));
-    List<VirtualItemStack> a = vs.uniquified;
-    Map<VirtualItemType, ItemTypeStats> infos = vs.getInfos();
-    Map<VirtualItemType, Queue<Integer>> bMap = infos.entrySet().stream().collect(Collectors.toMap(
-      x->x.getKey(), 
-      x->new LinkedList<>(CodeUtils.distribute(x.getValue().totalCount, x.getValue().fromIndexes.size()))
-    ));
-    try {
-      List<VirtualItemStack> b = a.stream().map(x -> x == null ? null : x.copy(bMap.get(x.itemType).remove())).collect(Collectors.toList());
-      // List<OldClick> clicks = VirtualSorter.diff(a, b);
-      // VirtualSorterPort.doClicks(info.container, clicks, info.craftingSlots.stream().map(
-      //   x->Getter.slotId(x)
-      // ).collect(Collectors.toList()));
-    } catch (Throwable e) {
-      e.printStackTrace();
-    }
+    List<VirtualSlot> aVS = Converter.toVirtualSlotList(fromSlots);
+    List<VirtualSlot> bVS = Converter.toVirtualSlotList(info.craftingSlots);
+    List<VirtualSlot> from = Converter.concat(aVS, bVS, x->x.copy());
+    new BiVirtualSlots(aVS, bVS).restock();
+    VirtualSlot.bulkAction(bVS, x -> new DistributeSorter().sort(x));
+    List<VirtualSlot> to = Converter.concat(aVS, bVS, x->x.copy());
+    genericClicks(info.container, ContainerUtils.calcDiff(from, to), 0);
   }
 
   public static void moveAllAlike(boolean includeHotbar) {

@@ -20,14 +20,14 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
 import io.github.jsnimda.inventoryprofiles.sorter.util.WeightedRandom;
 
 /**
- * ShuffleSortingMethodProvider
+ * ShuffleSorter
  */
-public class ShuffleSortingMethodProvider implements ISortingMethodProvider {
+public class ShuffleSorter implements ISortingMethodProvider {
 
   public int emptySpace;
   private Random random = new Random();
 
-  public ShuffleSortingMethodProvider(int emptySpace) {
+  public ShuffleSorter(int emptySpace) {
     this.emptySpace = emptySpace;
   }
 
@@ -94,7 +94,7 @@ public class ShuffleSortingMethodProvider implements ISortingMethodProvider {
       for (VirtualItemType type : remaining.elementSet()) {
         int count = remaining.count(type);
         List<VirtualItemStack> cand = resStacks.get(type);
-        prob(count, cand, res, ShuffleSortingMethodProvider.this::probEven);
+        prob(count, cand, res, ShuffleSorter.this::probEven);
       }
       resStacks.values().forEach(x -> x.forEach(y -> res.add(y)));
       return CodeUtils.pad(res, stats.size, ()->VirtualItemStack.empty());

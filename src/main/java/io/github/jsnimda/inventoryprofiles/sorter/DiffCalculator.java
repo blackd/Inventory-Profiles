@@ -378,7 +378,7 @@ public class DiffCalculator {
       return candidate(type, x -> !matchExact(x) && current(x).count > target(x).count);
     }
     private List<Integer> candidate(VirtualItemType type, Predicate<? super Integer> predicate) {
-      return targetStats.getInfos().get(type).fromIndexes
+      return targetStats.getInfos().get(type).indexes
         .stream().filter(predicate).collect(Collectors.toList());
     }
 

@@ -23,23 +23,23 @@ public class SortingMethodProviders {
 
   static {
     PRESERVED = items -> items;
-    ITEM_NAME = new ComparatorBasedSortingMethodProvider(
+    ITEM_NAME = new ComparatorBasedSorter(
       new ChainedComparator<VirtualItemType>()
       .add(BuiltInMethods::display_name_locale)
       .add(nbtDefaulComparator)
     );
-    ITEM_ID = new ComparatorBasedSortingMethodProvider(
+    ITEM_ID = new ComparatorBasedSorter(
       new ChainedComparator<VirtualItemType>()
       .add(BuiltInMethods::item_id)
       .add(nbtDefaulComparator)
     );
-    TRANSLATION_KEY = new ComparatorBasedSortingMethodProvider(
+    TRANSLATION_KEY = new ComparatorBasedSorter(
       new ChainedComparator<VirtualItemType>()
       .add(BuiltInMethods::translation_key)
       .add(nbtDefaulComparator)
     );
     SHUFFLE = shuffle(0);
-    DEFAULT = new ComparatorBasedSortingMethodProvider(
+    DEFAULT = new ComparatorBasedSorter(
       new ChainedComparator<VirtualItemType>()
       .add(BuiltInMethods::custom_name_locale)
       .add(BuiltInMethods::creative_menu_groups)
@@ -64,7 +64,7 @@ public class SortingMethodProviders {
   }
 
   public static ISortingMethodProvider shuffle(int emptySpace) {
-    return new ShuffleSortingMethodProvider(emptySpace);
+    return new ShuffleSorter(emptySpace);
   }
 
   private static Comparator<VirtualItemType> getNbtDefaultComparator(){

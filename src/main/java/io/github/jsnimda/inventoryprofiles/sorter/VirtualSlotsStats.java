@@ -124,13 +124,13 @@ public final class VirtualSlotsStats {
     public final VirtualItemType type;
     public final int totalCount;
     public final int stackCount;
-    public final List<Integer> fromIndexes;
+    public final List<Integer> indexes;
 
-    private ItemTypeStats(VirtualItemType type, int totalCount, List<Integer> fromIndexes) {
+    private ItemTypeStats(VirtualItemType type, int totalCount, List<Integer> indexes) {
       this.type = type;
       this.totalCount = totalCount;
       this.stackCount = getStackCount(type, totalCount);
-      this.fromIndexes = fromIndexes;
+      this.indexes = indexes;
     }
 
     public VirtualItemStack asItemStack() {
@@ -148,7 +148,7 @@ public final class VirtualSlotsStats {
     public static class Builder {
       public final VirtualItemType type;
       private int totalCount = 0;
-      private List<Integer> fromIndexes = new ArrayList<>();
+      private List<Integer> indexes = new ArrayList<>();
 
       public Builder(VirtualItemType type) {
         this.type = type;
@@ -156,12 +156,12 @@ public final class VirtualSlotsStats {
 
       public Builder addInfo(int count, int slot) {
         totalCount += count;
-        fromIndexes.add(slot);
+        indexes.add(slot);
         return this;
       }
 
       public ItemTypeStats build() {
-        return new ItemTypeStats(type, totalCount, fromIndexes);
+        return new ItemTypeStats(type, totalCount, indexes);
       }
 
     }
