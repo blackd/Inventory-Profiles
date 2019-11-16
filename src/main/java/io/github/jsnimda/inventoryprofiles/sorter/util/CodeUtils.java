@@ -39,6 +39,7 @@ public class CodeUtils {
 
   /**
    * return list of size [size], with sum equal to [sum]
+   * (9, 6) -> [1, 2, 1, 2, 1, 2]
    */
   public static List<Integer> distribute(int sum, int size) {
     List<Integer> ints = new ArrayList<>();
@@ -47,6 +48,18 @@ public class CodeUtils {
       int k2 = sum * i / size;
       ints.add(k2 - k);
       k = k2;
+    }
+    return ints;
+  }
+  /**
+   * (9, 6) -> [2, 2, 2, 1, 1, 1]
+   */
+  public static List<Integer> distributeMonontonic(int sum, int size) {
+    List<Integer> ints = new ArrayList<>();
+    int quo = sum / size;
+    int rem = sum - size * quo;
+    for (int i = 1; i <= size; i++) {
+      ints.add(i <= rem ? quo + 1 : quo);
     }
     return ints;
   }

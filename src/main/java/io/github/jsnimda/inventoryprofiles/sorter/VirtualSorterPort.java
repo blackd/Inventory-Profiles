@@ -1,11 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.Collectors;
 
-import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
@@ -74,44 +71,5 @@ public class VirtualSorterPort {
     ContainerActions.genericClicks(container, clicks, interval);
   }
 
-  public static void doClicks(Container container, List<OldClick> clicks, List<Integer> slotIds) {
-    if (AdvancedOptions.ADD_INTERVAL_BETWEEN_CLICKS.getBooleanValue()) {
-      Timer timer = new Timer();
-      int interval = Math.max(1, AdvancedOptions.INTERVAL_BETWEEN_CLICKS_MS.getIntegerValue());
-      timer.scheduleAtFixedRate(new TimerTask(){
-        int i = 0;
-        int lclick = 0;
-        int rclick = 0;
-        @Override
-        public void run() {
-          if (i >= clicks.size()) {
-            logClicks(clicks.size(), lclick, rclick);
-            timer.cancel();
-            return;
-          }
-          OldClick c = clicks.get(i);
-          ContainerActions.click(container, slotIds.get(c.index), c.button);
-          lclick += c.button == 0 ? 1 : 0;
-          rclick += c.button == 1 ? 1 : 0;
-          i++;
-        }
-      }, 0, interval);
-    } else {
-      int lclick = 0;
-      int rclick = 0;
-      for (OldClick c : clicks) {
-        ContainerActions.click(container, slotIds.get(c.index), c.button);
-        lclick += c.button == 0 ? 1 : 0;
-        rclick += c.button == 1 ? 1 : 0;
-      }
-      logClicks(clicks.size(), lclick, rclick);
-    }
-  }
-
-  private static void logClicks(int total, int lclick, int rclick) {
-    if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      Log.info(String.format("[inventoryprofiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
-    }
-  }
 
 }

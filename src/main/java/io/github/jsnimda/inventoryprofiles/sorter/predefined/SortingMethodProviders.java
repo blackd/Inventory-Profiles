@@ -1,22 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.sorter.predefined;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
 
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
 import io.github.jsnimda.inventoryprofiles.sorter.ISortingMethodProvider;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
-import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
-import io.github.jsnimda.inventoryprofiles.sorter.util.WeightedRandom;
 
 /**
  * SortingMethodProviders

@@ -1,7 +1,5 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
-import javax.annotation.Nullable;
-
 import io.github.jsnimda.inventoryprofiles.sorter.util.Getter;
 import net.minecraft.container.Slot;
 
