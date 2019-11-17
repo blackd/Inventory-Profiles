@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
@@ -20,11 +21,41 @@ class VirtualItemStacksSandbox {
 
   private class StateSaver {
     private Stack<Integer> clickSizes = new Stack<>();
-    private Stack<List<VirtualItemStack>> itemss = new Stack<>();
+    private Stack<Snapshot> itemss = new Stack<>();
     private Stack<VirtualItemStack> cursors = new Stack<>();
+    private class Snapshot {
+      public boolean isAll;
+      public List<VirtualItemStack> snapshotItems;
+      public List<Integer> indexes;
+      public Snapshot() {
+        isAll = true;
+        snapshotItems = Converter.copy(items);
+      }
+      public Snapshot(List<Integer> indexes) {
+        isAll = false;
+        this.indexes = indexes;
+        snapshotItems = new ArrayList<>();
+        indexes.forEach(x -> snapshotItems.add(items.get(x).copy()));
+      }
+      public void restore() {
+        if (isAll) {
+          items = snapshotItems;
+        } else {
+          for (int i = 0; i < indexes.size(); i++) {
+            int index = indexes.get(i);
+            items.set(index, snapshotItems.get(i));
+          }
+        }
+      }
+    }
     public void save() {
       clickSizes.push(clicks.size());
-      itemss.push(Converter.copy(items));
+      itemss.push(new Snapshot());
+      cursors.push(cursor.copy());
+    }
+    public void save(Collection<Integer> indexes) {
+      clickSizes.push(clicks.size());
+      itemss.push(new Snapshot(new ArrayList<>(indexes)));
       cursors.push(cursor.copy());
     }
     public void restore() {
@@ -32,7 +63,7 @@ class VirtualItemStacksSandbox {
       while (clicks.size() > clickSize) {
         clicks.remove(clicks.size() - 1);
       }
-      items = itemss.pop();
+      itemss.pop().restore();;
       cursor = cursors.pop();
     }
     public void unsave() {
@@ -44,6 +75,10 @@ class VirtualItemStacksSandbox {
 
   public void save() {
     stateSaver.save();
+  }
+
+  public void save(Collection<Integer> indexes) {
+    stateSaver.save(indexes);
   }
 
   public void restore() {
