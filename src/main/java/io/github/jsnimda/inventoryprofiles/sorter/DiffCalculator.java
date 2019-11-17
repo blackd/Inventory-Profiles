@@ -449,7 +449,7 @@ public class DiffCalculator {
               if (byIndex == o.byIndex) {
                 return 0;
               } else {
-                return Math.random() < 0.5 ? 1 : -1;
+                return Math.random() < 0.5 ? 1 : -1; // FIXME (?)
                 // return 0;
               }
             }
