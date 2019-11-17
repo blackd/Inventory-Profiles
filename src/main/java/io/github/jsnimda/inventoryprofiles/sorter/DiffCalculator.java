@@ -1,23 +1,29 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Stack;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import com.google.common.base.Predicate;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeStats;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
-import io.github.jsnimda.inventoryprofiles.sorter.util.Converter;
 
 /**
  * DiffCalculator
@@ -61,8 +67,6 @@ public class DiffCalculator {
    * 
    */
 
-  public static boolean useB_ii_secondChoice = true;
-
   public static List<Click> calcDiff(List<VirtualItemStack> fromItems, List<VirtualItemStack> toItems, boolean allowDrop) {
     if (fromItems.size() != toItems.size())
       throw new RuntimeException("sizes not match");
@@ -96,7 +100,7 @@ public class DiffCalculator {
     public final List<VirtualItemStack> fromItems;
     public final List<VirtualItemStack> toItems;
     public final boolean allowDrop;
-    public final CalcDiffSandbox sandbox;
+    public final VirtualItemStacksSandbox sandbox;
     private VirtualSlotsStats fromStats;
     private VirtualSlotsStats targetStats;
 
@@ -104,7 +108,7 @@ public class DiffCalculator {
       this.fromItems = fromItems;
       this.toItems = toItems;
       this.allowDrop = allowDrop;
-      sandbox = new CalcDiffSandbox(this.fromItems);
+      sandbox = new VirtualItemStacksSandbox(this.fromItems);
       fromStats = new VirtualSlotsStats(this.fromItems);
       targetStats = new VirtualSlotsStats(this.toItems);
     }
@@ -130,12 +134,6 @@ public class DiffCalculator {
         return current(index);
       return new VirtualItemStack(target(index).itemType, 0);
     }
-    private int score(int index) {
-      return calcScore(currentIfMatchType(index).count, target(index).count);
-    }
-    private boolean shouldRightClick(int index) {
-      return getScoreObject(currentIfMatchType(index).count, target(index).count).shouldRightClick();
-    }
     private boolean matchExact(int index) {
       return DiffCalculator.matchExact(current(index), target(index));
     }
@@ -143,14 +141,14 @@ public class DiffCalculator {
       return DiffCalculator.matchType(current(index), target(index));
     }
     // #endregion
-
     // ============
-    // #region core
+    // #region control
     public List<Click> calc() {
       try{
         checkPossible(fromStats, targetStats, allowDrop);
         long st = System.nanoTime();
         if (!allowDrop) {
+          noDropInit();
           doStageANoDrop();
           doStageBNoDrop();
         } else {
@@ -171,346 +169,501 @@ public class DiffCalculator {
       return sandbox.clicks;
     }
 
-    private void doStage(Function<Integer, Boolean> condition,
-        Consumer<Integer> cursorNoStackAction,
-        Runnable cursorHasStackAction) {
-      boolean matchAny = true;
-      while (matchAny) {
-        matchAny = false;
-        int i = 0;
-        while (i < targets().size() || !cursor().isEmpty()) {
-          if (cursor().isEmpty()) {
-            Integer sel = i++;
-            if (condition.apply(sel)) {
-              matchAny = true;
-              cursorNoStackAction.accept(sel);
-            }
-          } else { // cursor has stack
-            cursorHasStackAction.run();
-          }
-        }
-      }
-    }
+    private boolean allowRightClick = false;
+
     private void doStageANoDrop() {
-      doStage(sel->!matchType(sel), sel->sandbox.leftClick(sel), ()->B_i(false));
+      allowRightClick = false;
+      doStage();
     }
-    private void doStageBNoDrop() {
-      doStage(sel->!matchExact(sel), sel->B_ii(target(sel).itemType), ()->B_i(true));
-    }
-    private void B_i(boolean allowRightClick) { // handle cursor
-      GradingResult sel = CodeUtils.selectFirst(candidateIndexesCursor(),
-        x -> new GradingResult(x, allowRightClick),
-        (x, y) -> x.mappedValue.compareTo(y.mappedValue)
-      ).mappedValue;
-      if (!allowRightClick || sel.button() == 1 || cursor().count <= 1 || !sel.afterNotExceedTarget() || sel.close() == 0 || !useB_ii_secondChoice || current(sel.index).count == 0) {
-        doAction(sel);
-      } else {
-        // test right click
-        //B_i_testRightClick(sel);
-        doAction(sel);
-      } 
-    }
-    private void B_i_testRightClick(GradingResult oldSel) {
-      sandbox.save();
 
-      int close = oldSel.close();
-      sandbox.rightClick(oldSel.index);
-      while (cursor().count > 1) {
-        GradingResult sel = CodeUtils.selectFirst(candidateIndexesCursor(),
-          x -> new GradingResult(x, true),
-          (x, y) -> x.mappedValue.compareTo(y.mappedValue)
-        ).mappedValue;
-        if (sel.button() == 0) {
-          if (sel.afterNotExceedTarget() && sel.close() < close) {
-            sandbox.leftClick(sel.index);
-            sandbox.cancelSave();
-            return; // give up restore 
+    private void doStageBNoDrop() {
+      allowRightClick = true;
+      doStage();
+    }
+    private boolean match(int index) {
+      return allowRightClick ? matchExact(index) : matchType(index);
+    }
+    private void doStage() {
+      SortedSet<Integer> indexes = new TreeSet<>();
+      for (int i = 0; i < targets().size(); i++) {
+        if (!match(i)) indexes.add(i);
+      }
+      while (!indexes.isEmpty()) {
+        Iterator<Integer> it = indexes.iterator();
+        while (it.hasNext() || !cursor().isEmpty()) {
+          if (cursor().isEmpty()) {
+            int sel = it.next();
+            if (!match(sel)) {
+              findPick(sel);
+            }
           } else {
-            sandbox.rightClick(sel.index);
+            handleCursor();
           }
-        } else {
-          sandbox.rightClick(sel.index);
+        }
+        it = indexes.iterator();
+        while (it.hasNext()) {
+          if (match(it.next())) it.remove();
         }
       }
-
-      sandbox.restore();
-
-      // test fail
-      doAction(oldSel);
     }
-    private void B_ii(VirtualItemType type) {
-      Click a = B_ii_firstChoice(type);
 
-      // if after pick click, the following click is right click,
-      // then try:
-      //    -> if i pick the minimum count stack, or right pick (split) it,
-      //       after that I can left click and afterNotExceedTarget() == true
-      //    -> pick the minimum count stack instead
-      // (solution for 64 -> 48 requires too many right click problem)
-      if (DiffCalculator.useB_ii_secondChoice) { // experimental feature (?) (not works for 47/49 :( )
-        Click b = B_ii_secondChoice(type, a);
-        if (b.slotId >= 0) {
-          a = b;
-        } else if (b.slotId == -2) {
+    private void findPick(int index) {
+      if (target(index).isEmpty()) {
+        sandbox.leftClick(index);
+        return;
+      }
+      VirtualItemType type = target(index).itemType;
+      if (!allowRightClick) { // stage A
+        int sel = IntStream.range(0, currents().size())
+          .filter(x -> !matchType(x) && current(x).itemType.equals(type))
+          .findFirst().orElse(index);
+        sandbox.leftClick(sel);
+      } else { // stage B
+        scoreGroups.get(type).handle();
+      }
+    }
+
+    private void handleCursor() {
+      VirtualItemType type = cursor().itemType;
+      if (!allowRightClick) {
+        scoreGroups.get(type).handleCursor();
+      } else {
+        throw new RuntimeException("shouldn't reach here");
+      }
+    }
+    // #endregion
+    // ============
+
+    private Map<VirtualItemType, ScoreGroup> scoreGroups = new HashMap<>();
+    private void noDropInit() {
+      targetStats.getInfos().values().forEach(x -> {
+        scoreGroups.put(x.type, new ScoreGroup(x));
+      });
+    }
+
+    private class ScoreGroup {
+      public SortedSet<Integer> unmatches = new TreeSet<>();
+      public SortedSet<Integer> fullUnmatches = new TreeSet<>(); // handle this first
+      public ScoreGroup(ItemTypeStats info) {
+        info.indexes.forEach(x -> {
+          if (!matchExact(x)) unmatches.add(x);
+          if (!matchExact(x) && target(x).isFull()) fullUnmatches.add(x);
+        });
+      }
+      public void handle() {
+        while (!unmatches.isEmpty() || !cursor().isEmpty()) {
+          if (cursor().isEmpty()) {
+            pick();
+          } else {
+            handleCursor();
+          }
+        }
+      }
+      // ============
+      // #region pick
+      private List<Integer> candidates(Predicate<Integer> predicate) {
+        return unmatches.stream().filter(predicate).collect(Collectors.toList());
+      }
+      private class Distinct {
+        int index;
+        int currentCount;
+        int targetCount;
+        public Distinct(int index) {
+          this.index = index;
+          this.currentCount = currentIfMatchType(index).count;
+          this.targetCount = target(index).count;
+        }
+
+        @Override
+        public int hashCode() {
+          final int prime = 31;
+          int result = 1;
+          result = prime * result + getEnclosingInstance().hashCode();
+          result = prime * result + currentCount;
+          result = prime * result + targetCount;
+          return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+          if (this == obj)
+            return true;
+          if (obj == null)
+            return false;
+          if (getClass() != obj.getClass())
+            return false;
+          Distinct other = (Distinct) obj;
+          if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+            return false;
+          if (currentCount != other.currentCount)
+            return false;
+          if (targetCount != other.targetCount)
+            return false;
+          return true;
+        }
+
+        private ScoreGroup getEnclosingInstance() {
+          return ScoreGroup.this;
+        }
+        
+      }
+      private List<Distinct> getDistincts() {
+        List<Distinct> res = new ArrayList<>();
+        Set<Distinct> existed = new HashSet<>();
+        for (int sel : unmatches) {
+          Distinct d = new Distinct(sel);
+          if (!existed.contains(d)) {
+            res.add(d);
+            existed.add(d);
+          }
+        }
+        return res;
+      }
+      private List<Integer> beforePickScore;
+      private List<Integer> sortedBeforePickScore;
+      public void pick() {
+        // for each try left pick and right pick and see which gives decrease in min score
+        updateUnmatches();
+        if (unmatches.isEmpty()) {
           return;
         }
-      }
-      // comment the above lines 
-      if (a.button == 0) {
-        sandbox.leftClick(a.slotId);
-      } else {
-        sandbox.rightClick(a.slotId);
-      }
-    }
-    private Click B_ii_firstChoice(VirtualItemType type) { // use Click tmp class
-      List<Integer> cand = candidateIndexesNoCursor(type);
-      int sel = CodeUtils.selectFirst(cand, (x, y) -> score(x) - score(y));
-      // if any target full stack exists, still unmatch,
-      // and right click not enought to fill that, do left click
-      if (shouldRightClick(sel)) {
-        List<Integer> fullCand = candidate(type, x -> !matchExact(x) && target(x).isFull());
-        if (!fullCand.isEmpty()) {
-          int fullSel = CodeUtils.selectFirst(fullCand, (x, y) -> {
-            int xRoom = target(x).count - current(x).count;
-            int yRoom = target(y).count - current(y).count;
-            return yRoom - xRoom; // get the largest room
-          });
-          int room = target(fullSel).count - current(fullSel).count;
-          int rightClickGet = current(sel).count - current(sel).count / 2;
-          if (rightClickGet < room) {
-            return new Click(sel, 0);
+        if (!fullUnmatches.isEmpty()) {
+          // handle this first
+          List<Integer> cand = candidates(x -> currentIfMatchType(x).count > target(x).count);
+          Integer sel = CodeUtils.selectFirst(cand,
+            x -> new GradingResult(x).scoreIgnoreCursor(),
+            (x, y) -> y.mappedValue - x.mappedValue
+          ).value;
+          if (currentIfMatchType(sel).count / 2 <= target(sel).count) // make current smaller than target
+            sandbox.rightClick(sel);
+          else
+            sandbox.leftClick(sel);
+          return;
+        } // no full target
+
+        beforePickScore = unmatches.stream().map(x -> new GradingResult(x).scoreIgnoreCursor()).collect(Collectors.toList());
+        sortedBeforePickScore = beforePickScore.stream().sorted().collect(Collectors.toList());
+
+        List<Distinct> distincts = getDistincts();
+        List<TryPickResult> cand = distincts.stream().flatMap(x -> {
+          if (currentIfMatchType(x.index).isEmpty()) return Stream.empty();
+          if (currentIfMatchType(x.index).count > target(x.index).count) {
+            if (getScoreObject(currentIfMatchType(x.index).count, target(x.index).count).shouldRightClick()) {
+              return Stream.of(new TryPickResult(x.index, 1));
+            } else {
+              return Stream.of(new TryPickResult(x.index, 1), new TryPickResult(x.index, 0));
+            }
           }
-        }
-        return new Click(sel, 1);
-      } else {
-        return new Click(sel, 0);
-      }
-    }
-    private Click B_ii_secondChoice(VirtualItemType type, Click firstChoice) {
-      // save() for restore()
-      sandbox.save();
+          return Stream.of(new TryPickResult(x.index, 1));
+        }).collect(Collectors.toList());
 
-      if (firstChoice.button == 0) {
-        sandbox.leftClick(firstChoice.slotId);
-      } else {
-        sandbox.rightClick(firstChoice.slotId);
-      }
+        TryPickResult res = CodeUtils.selectFirst(cand, TryPickResult::compareTo);
 
-      B_i(true);
-
-      Click res = new Click(-1, 0);
-
-      // check if last click is right click
-      Click lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
-      sandbox.restore();
-      if (lastClick.button == 1) {
-        if (firstChoice.button == 0) { // fix for 49, TODO fix 47
-          sandbox.save();
-          sandbox.rightClick(firstChoice.slotId);
-          B_i(true);
-          lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
-          sandbox.restore();
-          if (lastClick.button != 1) {
-            res.slotId = firstChoice.slotId;
-            res.button = 1;
-            return res;
-          }
-        }
-
-        // test min
-
-        List<Integer> cand = candidate(type, x -> !matchExact(x) && !current(x).isEmpty());
-        if (cand.isEmpty())
-          return res;
-        int sel = CodeUtils.selectFirst(cand, (x, y) -> current(x).count - current(y).count);
-
-        sandbox.save();
-        sandbox.leftClick(sel);
-        B_i(true);
-        lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
-        if (lastClick.button == 0 && lastClick.slotId != sel && current(lastClick.slotId).count <= target(lastClick.slotId).count) {
-          sandbox.restore();
-          res.slotId = sel;
-          res.button = 0;
-          return res;
-        } else {
-          sandbox.restore();
-          sandbox.save();
-          sandbox.rightClick(sel);
-          int clickCount = sandbox.clicks.size();
-          B_i(true);
-          lastClick = sandbox.clicks.get(sandbox.clicks.size() - 1);
-          if (lastClick.button == 0 && lastClick.slotId != sel && current(lastClick.slotId).count <= target(lastClick.slotId).count) {
-            // if (sandbox.clicks.size() - clickCount > 1) {
-            //   sandbox.cancelSave();
-            //   res.slotId = -2;
-            //   return res;
-            // }
-            sandbox.restore();
-            res.slotId = sel;
-            res.button = 1;
-            return res;
-          } else if (lastClick.button == 1) {
-            sandbox.restore();
-            res.slotId = sel;
-            res.button = 1;
-            return res;
+        res.clicks.forEach(x -> {
+          if (x.button == 0) {
+            sandbox.leftClick(x.slotId);
           } else {
-            sandbox.restore();
+            sandbox.rightClick(x.slotId);
+          }
+        });
+      }
+      private class TryPickResult implements Comparable<TryPickResult> { 
+        public int byIndex;
+        public int byButton;
+        public List<Click> clicks = new ArrayList<>();
+        public int cursorCount;
+        public List<Integer> afterPickScore;
+        public int mostDecreased;
+        public boolean shouldSkipThis;
+        public TryPickResult(int index, int button) {
+          byIndex = index;
+          byButton = button;
+          calc();
+        }
+        public void calc() {
+          SortedSet<Integer> backupUnmatches = new TreeSet<>(unmatches);
+          int clicksSize = sandbox.clicks.size();
+          sandbox.save(backupUnmatches);
+          if (byButton == 0)
+            sandbox.leftClick(byIndex);
+          else
+            sandbox.rightClick(byIndex);
+          // calc
+          while (!cursor().isEmpty())
+            handleCursor();
+          clicks.addAll(sandbox.clicks.subList(clicksSize, sandbox.clicks.size()));
+          cursorCount = cursor().count;
+
+          afterPickScore = backupUnmatches.stream().map(x -> new GradingResult(x).scoreIgnoreCursor()).collect(Collectors.toList());
+
+          mostDecreased = CodeUtils.selectFirst(
+            IntStream.range(0, afterPickScore.size())
+              .mapToObj(x -> beforePickScore.get(x) - afterPickScore.get(x))
+              .collect(Collectors.toList())
+            , (x, y) -> y - x
+          );
+
+          shouldSkipThis = getSortedScores().equals(sortedBeforePickScore);
+
+          sandbox.restore();
+          unmatches = backupUnmatches;
+        }
+
+        public int value() {
+          return mostDecreased - (cursorCount + clicks.size());
+        }
+
+        private List<Integer> sortedScores = null;
+        public List<Integer> getSortedScores() {
+          if (sortedScores == null) {
+            sortedScores = afterPickScore.stream().sorted().collect(Collectors.toList());
+          }
+          return sortedScores;
+        }
+        public int compare(List<Integer> a, List<Integer> b) {
+          if (a.size() != b.size()) throw new RuntimeException("unsupported");
+          for (int i = 0; i < a.size(); i++) {
+            if (a.get(i) != b.get(i))
+              return a.get(i) - b.get(i);
+          }
+          return 0;
+        }
+
+        @Override
+        public int compareTo(TryPickResult o) {
+          if (shouldSkipThis || o.shouldSkipThis) {
+            if (shouldSkipThis && o.shouldSkipThis) {
+              return 0;
+            } else {
+              return shouldSkipThis ? 1 : -1;
+            }
+          }
+          if (o.value() != value()) {
+            return o.value() - value();
+          } else {
+            // throw new RuntimeException("help!");
+            int cmp = compare(getSortedScores(), o.getSortedScores());
+            if (cmp != 0) {
+              return cmp;
+            } else {
+              if (byIndex == o.byIndex) {
+                return 0;
+              } else {
+                return Math.random() < 0.5 ? 1 : -1; // FIXME (?)
+                // return 0;
+              }
+            }
           }
         }
-      } // else do nothing
-
-      return res;
-    }
-    
-    private void doAction(GradingResult sel) {
-      if (sel.button() == 0) {
-        sandbox.leftClick(sel.index);
-      } else { // == 1
-        sandbox.rightClick(sel.index/*, sel.afterRightScore - 1*/);
       }
-    }
-    private List<Integer> candidateIndexesCursor() {
-      return candidate(cursor().itemType, x -> !matchExact(x) && !currentIfMatchType(x).isFull());
-    }
-    private List<Integer> candidateIndexesNoCursor(VirtualItemType type) {
-      return candidate(type, x -> !matchExact(x) && current(x).count > target(x).count);
-    }
-    private List<Integer> candidate(VirtualItemType type, Predicate<? super Integer> predicate) {
-      return targetStats.getInfos().get(type).indexes
-        .stream().filter(predicate).collect(Collectors.toList());
-    }
-
-    // private void ensureCursorEmpty() {
-    //   if (!cursor().isEmpty())
-    //     throw new RuntimeException("cursor should be empty");
-    // }
-
-    // ============
-    // #region GradingResult
-    private class GradingResult implements Comparable<GradingResult> { // determine which slot to put when cursor has stack
-      public int index;
-      public boolean allowRightClick;
-      public int targetCount;
-      public int currentCount;
-      public int cursorCount;
-      public int afterCount; // after left click
-      public int afterLeftover; // after left click
-      public int currentScore;
-      public int afterLeftScore;
-      public int afterRightScore;
-      public GradingResult(int index, boolean allowRightClick) { // cursor stack should same type to target
-        this.index = index;
-        this.allowRightClick = allowRightClick;
-        targetCount = target(index).count;
-        currentCount = currentIfMatchType(index).count;
-        cursorCount = cursor().count;
-        afterCount = currentIfMatchType(index).tryAdd(cursorCount); // afterLeftCount
-        afterLeftover = currentCount + cursorCount - afterCount;
-        calc();
+      public int minScore() {
+        if (!cursor().isEmpty()) throw new RuntimeException("unsupported");
+        return scores().min().getAsInt();
       }
-      private void calc() {
-        currentScore = calcScore(currentCount, targetCount);
-        afterLeftScore = calcScore(afterCount, targetCount) + (afterLeftover > 0 ? 2 : 1);
-        afterRightScore = (targetCount - currentCount) + 1;
+      public int sumScore() {
+        if (!cursor().isEmpty()) throw new RuntimeException("unsupported");
+        return scores().sum();
       }
-      private boolean afterNotExceedTarget() { // (B.i.1)
-        return afterCount <= targetCount;
+      public IntStream scores() {
+        return unmatches.stream().mapToInt(x -> new GradingResult(x).scoreIgnoreCursor());
       }
-      private int close() { // (B.i.1)
-        return targetCount - afterCount;
-      }
-      private boolean alreadyGreaterThanTarget() {
-        return currentCount > targetCount;
-      }
-      private boolean decreaseInAfterScore() { // (B.i.2.1)
-        if (alreadyGreaterThanTarget()) {
-          return afterLeftScore < currentScore;
+      // #endregion
+      // ============
+      // #region handleCursor
+      private void removeAllMatches(Collection<Integer> indexes) {
+        Iterator<Integer> it = indexes.iterator();
+        while (it.hasNext()) {
+          if (matchExact(it.next())) {
+            it.remove();
+          }
         }
-        return false;
       }
-      private int decrease() { // (B.i.2.1)
-        return currentScore - afterLeftScore;
+      public void updateUnmatches() {
+        removeAllMatches(unmatches);
+        removeAllMatches(fullUnmatches);
       }
-      private int afterScore() { // (B.i.2.2)
-        if (allowRightClick && !rightClickNotAvalible())
-          if (afterLeftClickWillBeLeftClick())
-            return afterRightScore;
-          else
-            return afterLeftScore <= afterRightScore ? afterLeftScore : afterRightScore;
-        else
-          return afterLeftScore;
+      public List<GradingResult> handleCursorCandidates() {
+        return unmatches.stream().filter(x -> !currentIfMatchType(x).isFull())
+          .map(x -> new GradingResult(x).calc()).collect(Collectors.toList());
       }
-      private boolean rightClickNotAvalible() {
-        return afterRightScore <= 1;
+      public void handleCursor() {
+        updateUnmatches();
+        if (unmatches.isEmpty()) {
+          throw new AssertionError();
+        }
+        if (!fullUnmatches.isEmpty()) {
+          sandbox.leftClick(fullUnmatches.first());
+          return;
+        } // no full target
+        List<GradingResult> cand = handleCursorCandidates();
+        GradingResult sel = CodeUtils.selectFirst(
+          cand,
+          GradingResult::compareTo
+        );
+        if (sel == null) {
+          throw new RuntimeException("not found");
+        }
+        switch(sel.actionType) {
+        case LEFT_CLICK_ME:
+          sandbox.leftClick(sel.index);
+          return;
+        case RIGHT_CLICK_ME:
+          sandbox.rightClick(sel.index);
+          return;
+        case RIGHT_CLICK_OTHERS_THEN_LEFT_CLICK_ME:
+          rightClickOthers(sel.index);
+          break;
+        default:
+          throw new AssertionError();
+        }
       }
-      private int button() { // 0 for left, 1 for right
-        if (allowRightClick)
-          if (afterNotExceedTarget() || decreaseInAfterScore() || rightClickNotAvalible())
-            return 0;
-          else if (afterLeftClickWillBeLeftClick())
-            return 1;
-          else
-            return afterLeftScore <= afterRightScore ? 0 : 1;
-        else
-          return 0;
+      public void rightClickOthers(int index) { // cursor should be empty after this is called
+        // check if there are any non exceed target items other than me
+        List<Integer> cand = candidates(x -> x != index && currentIfMatchType(x).count < target(x).count);
+        if (cand.isEmpty()) {
+          throw new RuntimeException("impossible");
+        }
+        int amount = cursor().count - (target(index).count - currentIfMatchType(index).count);
+        // select closest
+        cand.sort((a, b)->{
+          int aClose = target(a).count - currentIfMatchType(a).count;
+          int bClose = target(b).count - currentIfMatchType(b).count;
+          return aClose - bClose;
+        });
+        int i = 0;
+        while (amount > 0) {
+          int sel = cand.get(i);
+          if (!matchExact(sel)) {
+            sandbox.rightClick(sel);
+            --amount;
+          } else {
+            ++i;
+          }
+        }
+        sandbox.leftClick(index);
       }
-      private boolean afterLeftClickWillBeLeftClick() {
-        return !getScoreObject(afterCount, targetCount).shouldRightClick();
+      // #endregion
+      // ============
+    }
+
+    private class GradingResult implements Comparable<GradingResult> {
+      public int index;
+      public int maxCount;
+      public int currentCount;
+      public int targetCount;
+      public int cursorCount;
+      // has cursor stack result
+      public ActionType actionType = null;
+      public int score = Integer.MAX_VALUE;
+      public GradingResult(int index) {
+        this.index = index;
+        maxCount = target(index).getMaxCount();
+        currentCount = currentIfMatchType(index).count;
+        targetCount = target(index).count;
+        if (!cursor().isEmpty() && !cursor().sameType(target(index)))
+          throw new AssertionError();
+        cursorCount = cursor().count;
+      }
+      // public GradingResult(int index, int maxCount, int currentCount, int targetCount, int cursorCount) {
+      //   this.index = index;
+      //   this.maxCount = maxCount;
+      //   this.currentCount = currentCount;
+      //   this.targetCount = targetCount;
+      //   this.cursorCount = cursorCount;
+      // }
+      public GradingResult calc() {
+        if (targetCount == currentCount) {
+          throw new RuntimeException("unsupported");
+        } else if (cursorCount == 0) {
+          throw new RuntimeException("unsupported");
+        } else if (currentCount >= maxCount) {
+          throw new RuntimeException("unsupported");
+        } else {
+          // for same score, perfer untouch -> r then l -> right -> left
+          if (currentCount < targetCount && allowRightClick) {
+            if (cursorCount > targetCount - currentCount) {
+              if (scoreAfterRightClickOthersThenLeftClickMe() < score) {
+                actionType = ActionType.RIGHT_CLICK_OTHERS_THEN_LEFT_CLICK_ME;
+                score = scoreAfterRightClickOthersThenLeftClickMe();
+              }
+            }
+            if (scoreAfterRightClickMe() < score) {
+              actionType = ActionType.RIGHT_CLICK_ME;
+              score = scoreAfterRightClickMe();
+            }
+          }
+          if (scoreAfterLeftClickMe() < score) {
+            actionType = ActionType.LEFT_CLICK_ME;
+            score = scoreAfterLeftClickMe();
+          }
+        }
+        if (actionType == null) {
+          throw new AssertionError();
+        }
+        return this;
+      }
+      public int scoreIgnoreCursor() { // clicks needed in worst case
+        return scoreIgnoreCursor(currentCount, targetCount);
+      }
+      public int scoreIgnoreCursor(int currentCount, int targetCount) {
+        if (currentCount > targetCount) {
+          return lookupScore(currentCount, targetCount);
+        } else {
+          return targetCount - currentCount;
+        }
+      }
+      public int scoreAfterLeftClickMe() {
+        if (cursorCount == 0) 
+          throw new RuntimeException("this shouldn't be called");
+        int afterCount = Math.min(cursorCount + currentCount, maxCount);
+        int afterLeftover = currentCount + cursorCount - afterCount;
+        return scoreIgnoreCursor(afterCount, targetCount)
+          + (afterLeftover > 0 ? 2 : 1);
+      }
+      public int scoreAfterRightClickMe() {
+        if (currentCount >= targetCount || cursorCount == 0)
+          throw new RuntimeException("this shouldn't be called");
+        if (cursorCount <= targetCount - currentCount) {
+          return targetCount - currentCount;
+        } else {
+          return targetCount - currentCount + 1;
+        }
+      }
+      public int scoreAfterRightClickOthersThenLeftClickMe() {
+        if (currentCount >= targetCount || cursorCount == 0
+            || cursorCount <= targetCount - currentCount)
+          throw new RuntimeException("this shouldn't be called");
+        return cursorCount - (targetCount - currentCount) + 1;
       }
 
+      public int decreased() {
+        return scoreIgnoreCursor() - score;
+      }
       @Override
       public int compareTo(GradingResult o) {
-        return compare(this, o);
+        if (actionType == null) throw new RuntimeException("unsupported");
+        if (actionType == ActionType.RIGHT_CLICK_OTHERS_THEN_LEFT_CLICK_ME || o.actionType == ActionType.RIGHT_CLICK_OTHERS_THEN_LEFT_CLICK_ME) {
+          if (score != o.score)
+            return score - o.score;
+        }
+        if (decreased() != o.decreased())
+          return o.decreased() - decreased();
+        if (score != o.score)
+          return score - o.score;
+        int cmp = o.targetCount - targetCount; // higher first
+        return cmp == 0 ? index - o.index : cmp;
       }
 
     }
-    public static int compare(GradingResult a, GradingResult b) {
-      int cmp = regularCompare(a, b);
-      return cmp == 0 ? defaultCompare(a, b) : cmp;
+
+    private enum ActionType {
+      // SOLVED,
+      // UNTOUCH,
+      LEFT_CLICK_ME,
+      RIGHT_CLICK_ME,
+      RIGHT_CLICK_OTHERS_THEN_LEFT_CLICK_ME
     }
-    public static int regularCompare(GradingResult a, GradingResult b) {
-      int aInt = a.afterNotExceedTarget() ? 1 : 0;
-      int bInt = b.afterNotExceedTarget() ? 1 : 0;
-      if (aInt != bInt)
-        return bInt - aInt; // not exceed first
-      else if (aInt == 1) // both == 1
-        return a.close() - b.close(); // closer first
-      else { // both == 0
-        aInt = a.decreaseInAfterScore() ? 1 : 0;
-        bInt = b.decreaseInAfterScore() ? 1 : 0;
-        if (aInt != bInt)
-          return bInt - aInt; // has decrease first
-        else if (aInt == 1) // both == 1
-          return a.decrease() - b.decrease();
-        else
-          return finalScoreCompare(a, b);
-      }
-    }
-    public static int finalScoreCompare(GradingResult a, GradingResult b) {
-      // left click should not increase score
-      int aIs = a.alreadyGreaterThanTarget() ? 1 : 0;
-      int bIs = b.alreadyGreaterThanTarget() ? 1 : 0;
-      if (aIs != bIs) { // xor?
-        return aIs - bIs; // not already first
-      }
-      // if (a.allowRightClick && aIs == 0 && !(a.button() == 1 && b.button() == 1)) { // both aIs bIs == 0
-      //   // after left click should not left click pick up again (should be right)
-      //   // one is left and another is right
-      //   // return a.afterScore() - b.afterScore(); (?)
-      // } else {
-      //   return a.afterScore() - b.afterScore();
-      // }
-      return a.afterScore() - b.afterScore();
-    }
-    public static int defaultCompare(GradingResult a, GradingResult b) {
-      int cmp = a.targetCount - b.targetCount;
-      return cmp == 0 ? a.index - b.index : cmp;
-    }
-    // #endregion
-    
-    // #endregion
+
   }
 
   // ============
@@ -518,116 +671,10 @@ public class DiffCalculator {
   private static boolean matchExact(VirtualItemStack a, VirtualItemStack b) {
     return a.equals(b);
   }
-  private static boolean matchType(VirtualItemStack a, VirtualItemStack b) {
-    // b is target
+  private static boolean matchType(VirtualItemStack a, VirtualItemStack b) { // b is target
     if (a.isEmpty()) return true;
     if (b.isEmpty()) return false;
     return a.sameType(b);
-  }
-
-  // ============
-  // sandbox
-
-  private static final int INF_LOOP_MAX = 1000;
-
-  private static class CalcDiffSandbox {
-    public List<Click> clicks = new ArrayList<>();
-    public List<VirtualItemStack> items;
-    public VirtualItemStack cursor = VirtualItemStack.empty();
-    private StateSaver stateSaver = new StateSaver();
-    public CalcDiffSandbox(List<VirtualItemStack> items) { // do copy
-      this.items = Converter.copy(items);
-    }
-
-    private class StateSaver {
-      private Stack<Integer> clickSizes = new Stack<>();
-      private Stack<List<VirtualItemStack>> itemss = new Stack<>();
-      private Stack<VirtualItemStack> cursors = new Stack<>();
-      public void save() {
-        clickSizes.push(clicks.size());
-        itemss.push(Converter.copy(items));
-        cursors.push(cursor.copy());
-      }
-      public void restore() {
-        int clickSize = clickSizes.pop();
-        while (clicks.size() > clickSize) {
-          clicks.remove(clicks.size() - 1);
-        }
-        items = itemss.pop();
-        cursor = cursors.pop();
-      }
-      public void cancelSave() {
-        clickSizes.pop();
-        itemss.pop();
-        cursors.pop();
-      }
-    }
-
-    public void save() {
-      stateSaver.save();
-    }
-
-    public void restore() {
-      stateSaver.restore();
-    }
-
-    public void cancelSave() {
-      stateSaver.cancelSave();
-    }
-
-    public void addClickLimited(Click c) {
-      if (clicks.size() >= INF_LOOP_MAX) 
-        throw new RuntimeException("Infinite loop detected. Click count > " + INF_LOOP_MAX);
-      clicks.add(c);
-    }
-    public VirtualItemStack itemAt(int index) {
-      return items.get(index);
-    }
-    public void leftClick(int index) {
-      addClickLimited(Click.leftClick(index)); // needs remap
-      if (cursor.isEmpty() || !cursor.capable(itemAt(index))) {
-        cursor.swap(itemAt(index));
-      } else { // same type, cursor fill -> slot
-        cursor.transferTo(itemAt(index));
-      }
-    }
-    public void rightClick(int index) {
-      addClickLimited(Click.rightClick(index));
-      if (cursor.isEmpty()) { // split half
-        itemAt(index).splitHalfTo(cursor);
-      } else if (!cursor.capable(itemAt(index))) { // swap
-        cursor.swap(itemAt(index));
-      } else { // cursor transfer one -> slot
-        cursor.transferOneTo(itemAt(index));
-      }
-    }
-    public void rightClick(int index, int times) { // right click n times
-      for (int i = 0; i < times; i++) {
-        rightClick(index);
-      }
-    }
-    public void dropOne(int index) {
-      addClickLimited(Click.dropOne(index));
-      if (!itemAt(index).isEmpty()) {
-        itemAt(index).count--;
-        itemAt(index).updateEmpty(); // update is empty
-      }
-    }
-    public void dropAll(int index) {
-      addClickLimited(Click.dropAll(index));
-      itemAt(index).setEmpty();
-    }
-    public void dropOneCursor() {
-      addClickLimited(Click.dropOneCursor());
-      if (!cursor.isEmpty()) {
-        cursor.count--;
-        cursor.updateEmpty(); // update is empty
-      }
-    }
-    public void dropAllCursor() {
-      addClickLimited(Click.dropAllCursor());
-      cursor.setEmpty();
-    }
   }
 
   // ============
@@ -727,13 +774,16 @@ public class DiffCalculator {
 
   private static HashMap<Integer, List<Score>> scoresLookupTable = new HashMap<>();
 
-  private static int calcScore(int fromCount, int targetCount) {
-    if (fromCount == targetCount) return 0;
-    if (targetCount == 0) return 2;
-    if (fromCount < targetCount) return Integer.MAX_VALUE; // never
+  private static int lookupScore(int fromCount, int targetCount) {
+    if (fromCount <= targetCount || targetCount <= 0) {
+      throw new RuntimeException("unsupported");
+    }
     return getScoreObject(fromCount, targetCount).count;
   }
   private static Score getScoreObject(int fromCount, int targetCount) {
+    if (fromCount <= targetCount || targetCount <= 0) {
+      throw new RuntimeException("unsupported");
+    }
     if (!scoresLookupTable.containsKey(fromCount)) {
       scoresLookupTable.put(fromCount, ScoresGenerator.scoresFor(fromCount));
     }
