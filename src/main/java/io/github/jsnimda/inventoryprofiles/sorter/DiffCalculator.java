@@ -12,8 +12,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -21,7 +19,6 @@ import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
-import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeStats;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
 
@@ -456,17 +453,7 @@ public class DiffCalculator {
           }
         }
       }
-      public int minScore() {
-        if (!cursor().isEmpty()) throw new RuntimeException("unsupported");
-        return scores().min().getAsInt();
-      }
-      public int sumScore() {
-        if (!cursor().isEmpty()) throw new RuntimeException("unsupported");
-        return scores().sum();
-      }
-      public IntStream scores() {
-        return unmatches.stream().mapToInt(x -> new GradingResult(x).scoreIgnoreCursor());
-      }
+      
       // #endregion
       // ============
       // #region handleCursor

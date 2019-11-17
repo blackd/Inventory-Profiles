@@ -1,10 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,12 +9,9 @@ import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.BiVirtualSlots;
 import io.github.jsnimda.inventoryprofiles.sorter.Click;
-import io.github.jsnimda.inventoryprofiles.sorter.DiffCalculator;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlot;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeStats;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.DistributeSorter;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.BeaconContainer;
