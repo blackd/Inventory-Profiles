@@ -130,7 +130,7 @@ public class GuiSortingButtons {
       this.x = originalX;
       // check if creative and if non inventory tab
       if (Current.screen() instanceof CreativeInventoryScreen) {
-        if (((CreativeInventoryScreen)Current.screen()).method_2469() != ItemGroup.INVENTORY.getIndex()) {
+        if (((CreativeInventoryScreen)Current.screen()).getSelectedTab() != ItemGroup.INVENTORY.getIndex()) {
           //
           // should i use this.x = -999 or this.active = false + return?
           //
