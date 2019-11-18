@@ -352,6 +352,7 @@ public class DiffCalculator {
             }
           }
           return Stream.of(new TryPickResult(x.index, 1));
+          // return Stream.of(new TryPickResult(x.index, 1), new TryPickResult(x.index, 0));
         }).collect(Collectors.toList());
 
         TryPickResult res = CodeUtils.selectFirst(cand, TryPickResult::compareTo);
