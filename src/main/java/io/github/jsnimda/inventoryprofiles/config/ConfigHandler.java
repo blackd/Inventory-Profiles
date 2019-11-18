@@ -19,7 +19,7 @@ import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
  */
 public class ConfigHandler implements IConfigHandler {
   // TODO need review
-  private static final String CONFIG_FILE_NAME = ModInfo.MOD_ID + "." + ModInfo.MOD_VERSION + ".json";
+  private static final String CONFIG_FILE_NAME = ModInfo.MOD_ID + ".json";
 
   public static File getConfigDirectory() {
     return new File(FileUtils.getConfigDirectory(), ModInfo.MOD_ID);

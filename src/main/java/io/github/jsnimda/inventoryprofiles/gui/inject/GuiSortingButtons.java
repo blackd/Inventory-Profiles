@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.gui.inject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import fi.dy.masa.malilib.gui.GuiBase;
@@ -11,8 +12,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
-import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerCategory;
-import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils.ContainerInfo;
+import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
@@ -34,27 +34,48 @@ import net.minecraft.util.Identifier;
 public class GuiSortingButtons {
 
   public static final Identifier TEXTURE = new Identifier(ModInfo.MOD_ID, "textures/gui/gui_buttons.png");
+  public static final List<String> ROMAN_NUMBER = Arrays.asList("0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
 
-  private static int base_x;
+  private static int left_base_x;
+  private static int right_base_x;
   private static int player_y;
   private static int chest_y;
+  private static ContainerCategory cate;
 
   public static List<AbstractButtonWidget> gets(Screen screen, Container container, int left, int top, int containerWidth, int containerHeight) {
     List<AbstractButtonWidget> list = new ArrayList<>();
-    base_x = left + containerWidth - 17 - 36;
+    left_base_x = left - 10;
+    right_base_x = left + containerWidth - 17 - 36;
     player_y = top + containerHeight - 95;
     chest_y = top + 5;
-    ContainerCategory cate = ContainerCategory.of(container);
-    if (!cate.isStorage()) {
-      base_x += 12;
+    cate = ContainerCategory.of(container);
+    if (!showMoveAllButton(cate) || cate == ContainerCategory.PLAYER_SURVIVAL) { // move all button
+      right_base_x += 12;
     }
     if (cate == ContainerCategory.PLAYER_CREATIVE) {
-      base_x -= 18;
+      right_base_x -= 18;
+    }
+    if (AdvancedOptions.INVENTORY_SHOW_PROFILE_BUTTONS.getBooleanValue()) {
+      if (cate == ContainerCategory.PLAYER_SURVIVAL || cate == ContainerCategory.PLAYER_CREATIVE) {
+        // list.add(profileButton(1));
+        // list.add(profileButton(2));
+        // list.add(profileButton(3));
+        // list.add(profileButton(4));
+        // list.add(profileButton(5));
+        // list.add(profileButton(6));
+        // list.add(profileButton(7));
+        // list.add(profileButton(8));
+        // list.add(profileButton(9));
+        // list.add(profileButton(10));
+        // list.add(profileButton(11));
+        // list.add(profileButton(12));
+      }
     }
     if (AdvancedOptions.INVENTORY_SHOW_SORT_BUTTONS.getBooleanValue()) {
       if (cate == ContainerCategory.SORTABLE_3x3
           || cate == ContainerCategory.SORTABLE_9xN
-          || cate == ContainerCategory.SORTABLE_Nx3) {
+          || cate == ContainerCategory.SORTABLE_Nx3
+          || cate == ContainerCategory.UNKNOWN) {
         list.add(sortButton(true));
         list.add(sortColumnsButton(true));
         list.add(sortRowsButton(true));
@@ -65,35 +86,45 @@ public class GuiSortingButtons {
         list.add(sortRowsButton(false));
       }
     }
-    if (AdvancedOptions.INVENTORY_SHOW_MOVE_ALL_BUTTONS.getBooleanValue() && cate.isStorage()) {
+    if (AdvancedOptions.INVENTORY_SHOW_MOVE_ALL_BUTTONS.getBooleanValue() && showMoveAllButton(cate)) {
       list.add(moveAllButton(false));
-      list.add(moveAllButton(true));
+      if (cate.isStorage()) {
+        list.add(moveAllButton(true));
+      }
     }
     
     return list;
   }
 
+  public static boolean showMoveAllButton(ContainerCategory cate) {
+    return cate.isStorage()
+      || cate == ContainerCategory.CRAFTABLE_3x3
+      || cate == ContainerCategory.PLAYER_SURVIVAL;
+  }
+
+  public static SortButtonWidget profileButton(int profileId){
+    return new SortButtonWidget(left_base_x, player_y + 2 + 10*profileId, 6+profileId, 0, x->{
+
+    }, "inventoryprofiles.tooltip.profile_" + ROMAN_NUMBER.get(profileId) + "_button");
+  }
   public static SortButtonWidget sortButton(boolean chestSide) { // chestSide or playerSide
-    return new SortButtonWidget(base_x, chestSide ? chest_y : player_y, 1, 0, x->{
-      ContainerInfo info = ContainerInfo.of(Current.container());
-      VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
+    return new SortButtonWidget(right_base_x, chestSide ? chest_y : player_y, 1, 0, x->{
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.current(), GroupingType.PRESERVED);
     }, "inventoryprofiles.tooltip.sort_button");
   }
   public static SortButtonWidget sortColumnsButton(boolean chestSide) { // chestSide or playerSide
-    return new SortButtonWidget(base_x + 12, chestSide ? chest_y : player_y, 2, 0, x->{
-      ContainerInfo info = ContainerInfo.of(Current.container());
-      VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
+    return new SortButtonWidget(right_base_x + 12, chestSide ? chest_y : player_y, 2, 0, x->{
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.current(), GroupingType.COLUMNS);
     }, "inventoryprofiles.tooltip.sort_columns_button");
   }
   public static SortButtonWidget sortRowsButton(boolean chestSide) { // chestSide or playerSide
-    return new SortButtonWidget(base_x + 24, chestSide ? chest_y : player_y, 3, 0, x->{
-      ContainerInfo info = ContainerInfo.of(Current.container());
-      VirtualSorterPort.doSort(!chestSide, info, SortingMethodProviders.DEFAULT, GroupingType.ROWS);
+    return new SortButtonWidget(right_base_x + 24, chestSide ? chest_y : player_y, 3, 0, x->{
+      VirtualSorterPort.doSort(!chestSide, SortingMethodProviders.current(), GroupingType.ROWS);
     }, "inventoryprofiles.tooltip.sort_rows_button");
   }
 
   public static SortButtonWidget moveAllButton(boolean chestSide) {
-    return new SortButtonWidget(base_x + 36, chestSide ? chest_y : player_y, 
+    return new SortButtonWidget(right_base_x + 36 - (cate == ContainerCategory.PLAYER_SURVIVAL ? 12 : 0), chestSide ? chest_y : player_y - (cate == ContainerCategory.PLAYER_SURVIVAL ? 12 : 0), 
     chestSide ? 6 : 5, 0, x->{
       ContainerActions.moveAllAlike(chestSide, GuiBase.isShiftDown());
     }, "inventoryprofiles.tooltip.move_all_button");

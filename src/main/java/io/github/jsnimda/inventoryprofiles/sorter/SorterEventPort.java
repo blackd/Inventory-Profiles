@@ -23,13 +23,13 @@ public class SorterEventPort {
   }
 
   public static void doSortAction() {
-    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.PRESERVED);
+    VirtualSorterPort.doSort(SortingMethodProviders.current(), GroupingType.PRESERVED);
   }
   public static void doSortActionByGroupColumns() {
-    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.COLUMNS);
+    VirtualSorterPort.doSort(SortingMethodProviders.current(), GroupingType.COLUMNS);
   }
   public static void doSortActionByGroupRows() {
-    VirtualSorterPort.doSort(SortingMethodProviders.DEFAULT, GroupingType.ROWS);
+    VirtualSorterPort.doSort(SortingMethodProviders.current(), GroupingType.ROWS);
   }
   public static void doSwitchProfile() {
 
@@ -48,7 +48,7 @@ public class SorterEventPort {
     ).contains(key);
   }
   public static boolean handleKey(KeyAction action, IKeybind key){
-    if (Current.player() == null) return false;
+    if (!Current.inGame()) return false;
 
     if (key == Generic.SORT_INVENTORY.getKeybind()) {
       doSortAction();
