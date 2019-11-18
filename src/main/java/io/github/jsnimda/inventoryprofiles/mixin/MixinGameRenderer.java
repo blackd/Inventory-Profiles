@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.util.math.MatrixStack;
+import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * MixinGameRenderer
@@ -15,7 +15,7 @@ import net.minecraft.util.math.MatrixStack;
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
 
-  @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(Lnet/minecraft/util/math/MatrixStack;F)V", cancellable = true)
+  @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(Lnet/minecraft/client/util/math/MatrixStack;F)V", cancellable = true)
   public void bobViewWhenHurt(MatrixStack matrixStack_1, float float_1, CallbackInfo info) {
     if (Tweaks.DISABLE_SCREEN_SHAKING_ON_DAMAGE.getBooleanValue()) {
       info.cancel();
