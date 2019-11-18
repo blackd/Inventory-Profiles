@@ -28,7 +28,7 @@
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",
     "inventoryprofiles.tooltip.sort_rows_button": "Sort Inventory in Rows",
-    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6(Hold §oSHIFT§r§6 to include the hotbar.)§r",
+    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6(Hold §oSHIFT§r§6 to\n§6include the hotbar.)§r",
 
     "inventoryprofiles.label.sorting_method.default": "Default (Creative Menu)",
     "inventoryprofiles.label.sorting_method.item_name": "Item Name",

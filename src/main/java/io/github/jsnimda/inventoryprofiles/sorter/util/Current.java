@@ -85,8 +85,8 @@ public class Current {
     if (screen() instanceof CreativeScreen) {
       Slot raw = focusedSlot(true);
       if (raw == null) return null;
-      int id = raw.slotNumber;
-      int invSlot = (raw).getSlotIndex();
+      int id = Getter.slotId(raw);
+      int invSlot = Getter.invSlot(raw);
       if (raw.inventory instanceof PlayerInventory && 0 <= invSlot && invSlot <= 8 && id == 45 + invSlot) {
         return playerContainer().inventorySlots.get(36+invSlot);
       }

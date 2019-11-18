@@ -1,7 +1,17 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.function.Function;
+
 import javax.annotation.Nullable;
 
+import io.github.jsnimda.inventoryprofiles.sorter.Click;
+import io.github.jsnimda.inventoryprofiles.sorter.DiffCalculator;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -28,6 +38,36 @@ public class ContainerUtils {
     return itemStack_1.getItem() == itemStack_2.getItem() && ItemStack.areItemStackTagsEqual(itemStack_1, itemStack_2);
   }
 
+  public static <T> IdentityHashMap<Slot, T> getSlotMap(Collection<VirtualSlot> slots, Function<VirtualSlot, T> func) {
+    IdentityHashMap<Slot, T> map = new IdentityHashMap<>();
+    for (VirtualSlot s : slots) {
+      map.put(s.slotConditionObject, func.apply(s));
+    }
+    return map;
+  }
 
+  public static void checkMismatch(Collection<VirtualSlot> from, Collection<VirtualSlot> to) {
+    IdentityHashMap<Slot, Boolean> fromSlotSet = getSlotMap(from, x->true);
+    IdentityHashMap<Slot, Boolean> toSlotSet = getSlotMap(to, x->true);
+    if (!fromSlotSet.equals(toSlotSet))
+      throw new RuntimeException("slots mismatch");
+  }
+
+  public static List<Click> calcDiff(Collection<VirtualSlot> from, Collection<VirtualSlot> to) {
+    checkMismatch(from, to);
+    List<Slot> ref = new ArrayList<>();
+    from.forEach(x -> ref.add(x.slotConditionObject));
+    IdentityHashMap<Slot, VirtualSlot> fromMap = getSlotMap(from, x->x);
+    IdentityHashMap<Slot, VirtualSlot> toMap = getSlotMap(to, x->x);
+    List<VirtualItemStack> fromItems = new ArrayList<>();
+    List<VirtualItemStack> toItems = new ArrayList<>();
+    ref.forEach(x -> {
+      fromItems.add(fromMap.get(x).slotItem);
+      toItems.add(toMap.get(x).slotItem);
+    });
+    List<Click> clicks = DiffCalculator.calcDiff(fromItems, toItems, false);
+    clicks.forEach(c -> c.slotId = Getter.slotId(ref.get(c.slotId)));
+    return clicks;
+  }
 
 }

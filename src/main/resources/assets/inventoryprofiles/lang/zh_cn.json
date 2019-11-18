@@ -10,7 +10,7 @@
     "inventoryprofiles.tooltip.sort_button": "整理物品栏",
     "inventoryprofiles.tooltip.sort_columns_button": "垂直方向分类",
     "inventoryprofiles.tooltip.sort_rows_button": "水平方向分类",
-    "inventoryprofiles.tooltip.move_all_button": "移动匹配物品\n§6(按住 §oSHIFT§r§6 包括快捷栏)§r",
+    "inventoryprofiles.tooltip.move_all_button": "移动匹配物品\n§6(按住 §oSHIFT§r\n§6包括快捷栏)§r",
 
     "inventoryprofiles.label.sorting_method.default": "预设（创造模式菜单）",
     "inventoryprofiles.label.sorting_method.item_name": "物品名称",

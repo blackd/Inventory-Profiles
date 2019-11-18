@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import io.github.jsnimda.inventoryprofiles.sorter.IGroupingShapeProvider;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
-import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
+import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
+import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
 
 /**
  * GroupingShapeProviders
@@ -23,10 +23,9 @@ public class GroupingShapeProviders {
   public static final IGroupingShapeProvider TRANSPOSE;
 
   static {
-    PRESERVED = (items, x) -> items;
-    RANDOM = (items, size) -> {
-      List<VirtualItemStack> copy = IntStream.range(0, size)
-          .mapToObj(x -> x < items.size() ? items.get(x) : null).collect(Collectors.toList());
+    PRESERVED = items -> items;
+    RANDOM = (items) -> {
+      List<VirtualItemStack> copy = new ArrayList<>(items);
       Collections.shuffle(copy);
       return copy;
     };
@@ -35,14 +34,25 @@ public class GroupingShapeProviders {
     TRANSPOSE = transposeProvider(9);
   }
 
+  /**
+   * width is the target container columns count
+   */
   public static IGroupingShapeProvider rowsProvider(int width) {
-    return (items, size) -> 
-      transposeProvider(width).group(columnsProvider(size / width, true).group(items, size), size);
+    return (items) -> 
+      transposeProvider(width).group(columnsProvider(items.size() / width, true).group(items));
   }
+  /**
+   * width is the target container columns count.
+   * <p>
+   * treat input [items] is inside a container that has a [the target container rows count] of columns,
+   * then do the transpose like matrix
+   */
   public static IGroupingShapeProvider transposeProvider(int width) {
-    return (items, size) -> transpose(items, size / width, width);
+    return (items) -> transpose(items, items.size() / width, width);
   }
   private static List<VirtualItemStack> transpose(List<VirtualItemStack> grouped, int groupedWidth, int groupedHeight) {
+    if (groupedWidth * groupedHeight != grouped.size())
+      throw new RuntimeException("Container is not rectangular!");
     List<VirtualItemStack> result =  new ArrayList<>(Collections.nCopies(groupedWidth * groupedHeight, null));
     int resultWidth = groupedHeight;
     //int resultHeight = groupedWidth;
@@ -62,21 +72,26 @@ public class GroupingShapeProviders {
     return columnsProvider(width, false);
   }
   public static IGroupingShapeProvider columnsProvider(int width, boolean isTransposed) { // only works for sorted items
-    return (items, size) -> {
+    return (items) -> {
+      VirtualSlotsStats stats = new VirtualSlotsStats(items);
       if (items.size() == 0) return items;
-      int neededColumnsCount = 1;
-      int height = size / width; // assumed rectangular
-      List<Integer> itemsIdentity = columns_getIdentity(items);
+      int height = stats.size / width; // assumed rectangular
+      if (width * height != stats.size)
+        throw new RuntimeException("Container is not rectangular!");
+
+      List<Integer> itemsIdentity = stats.getInfosAsList(x->x.stackCount);
       int minRows = itemsIdentity.size();
       if (minRows == 0) return items;
+
       ColumnsCandidate bestCc = null;
 
+      int neededColumnsCount = 1;
       while (neededColumnsCount <= width) {
         if (minRows > height * neededColumnsCount) {
           neededColumnsCount++;
           continue;
         }
-        List<Integer> widths = columns_widths(width, neededColumnsCount);
+        List<Integer> widths = CodeUtils.distribute(width, neededColumnsCount);
         ColumnsCandidate cc = new ColumnsCandidate(itemsIdentity, widths, height);
         if (cc.succeeded) {
           if (cc.brokenGroups == 0) {
@@ -90,7 +105,7 @@ public class GroupingShapeProviders {
       }
       if (bestCc != null) return bestCc.apply(items, isTransposed);
 
-      return PRESERVED.group(items, size);
+      return PRESERVED.group(items);
     };
   }
   private static class ColumnsCandidate {
@@ -213,7 +228,7 @@ public class GroupingShapeProviders {
     }
 
     public List<VirtualItemStack> apply(List<VirtualItemStack> items, boolean isTransposed) {
-      List<VirtualItemStack> result =  new ArrayList<>(Collections.nCopies(width * height, null));
+      List<VirtualItemStack> result =  new ArrayList<>(Collections.nCopies(width * height, VirtualItemStack.empty()));
       int itemsIndex = 0;
       for (int i = 0; i < itemsIdentity.size(); i++) {
         int stacks = itemsIdentity.get(i);
@@ -258,37 +273,6 @@ public class GroupingShapeProviders {
     private int getIndexByXY(int x, int y) {
       return y * width + x;
     }
-  }
-
-  public static List<Integer> columns_widths(int width, int columns) {
-    List<Integer> ints = new ArrayList<>();
-    int k = 0;
-    for (int i = 1; i <= columns; i++) {
-      int k2 = width * i / columns;
-      ints.add(k2 - k);
-      k = k2;
-    }
-    return ints;
-  }
-  private static List<Integer> columns_getIdentity(List<VirtualItemStack> items) {
-    List<VirtualItemType> types = new ArrayList<>();
-    List<Integer> stackCounts = new ArrayList<>();
-    outer:
-    for (VirtualItemStack e : items) {
-      if (e == null) continue;
-      int i = 0;
-      for (VirtualItemType t : types) {
-        if (t.equals(e.itemtype)) {
-          stackCounts.set(i, stackCounts.get(i)+1);
-          continue outer;
-        }
-        ++i;
-      }
-      // not found
-      types.add(e.itemtype);
-      stackCounts.add(1);
-    }
-    return stackCounts;
   }
 
 }

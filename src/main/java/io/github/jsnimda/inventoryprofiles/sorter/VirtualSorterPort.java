@@ -1,19 +1,18 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.stream.Collectors;
 
-import io.github.jsnimda.inventoryprofiles.Log;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
+import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Converter;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CurrentState;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Getter;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
@@ -37,7 +36,7 @@ public class VirtualSorterPort {
   public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, GroupingType groupingType) {
     ContainerInfo info = CurrentState.containerInfo();
     if (groupingType == GroupingType.PRESERVED) {
-      doSort(sortPlayer, sortingProvider, GroupingShapeProviders.PRESERVED);
+      doSort(sortPlayer, SortingMethodProviders.SHUFFLE, GroupingShapeProviders.PRESERVED);
     } else if (groupingType == GroupingType.COLUMNS) {
       doSort(sortPlayer, sortingProvider, GroupingShapeProviders.columnsProvider(info.sortableWidth));
     } else if (groupingType == GroupingType.ROWS) {
@@ -57,55 +56,20 @@ public class VirtualSorterPort {
     }
     else
       slots = info.sortableSlots;
-    List<Integer> slotIds = slots.stream().map(x -> x.slotNumber).collect(Collectors.toList());
+    List<Integer> slotIds = slots.stream().map(x -> Getter.slotId(x)).collect(Collectors.toList());
     doSort(info.container, slots, slotIds, sortingProvider, groupingProvider);
   }
 
   public static void doSort(Container container, List<Slot> slots, List<Integer> slotIds,
       ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
-    boolean targetsFirst = AdvancedOptions.SORT_CLICK_TARGETS_FIRST.getBooleanValue();
-    List<Click> clicks = VirtualSorter.doSort(Converter.toVirtualItemStackList(slots), sortingProvider, groupingProvider, targetsFirst);
-    doClicks(container, clicks, slotIds);
+    // boolean targetsFirst = AdvancedOptions.SORT_CLICK_TARGETS_FIRST.getBooleanValue();
+    // List<OldClick> clicks = VirtualSorter.doSort(Converter.toVirtualItemStackList(slots), sortingProvider, groupingProvider, targetsFirst);
+    List<Click> clicks = VirtualSorter.doSort(Converter.toVirtualItemStackList(slots), sortingProvider, groupingProvider);
+    clicks.forEach(x->x.slotId = slotIds.get(x.slotId));
+    //doClicks(container, clicks, slotIds);
+    int interval = AdvancedOptions.ADD_INTERVAL_BETWEEN_CLICKS.getBooleanValue() ? AdvancedOptions.INTERVAL_BETWEEN_CLICKS_MS.getIntegerValue() : 0;
+    ContainerActions.genericClicks(container, clicks, interval);
   }
 
-  public static void doClicks(Container container, List<Click> clicks, List<Integer> slotIds) {
-    if (AdvancedOptions.ADD_INTERVAL_BETWEEN_CLICKS.getBooleanValue()) {
-      Timer timer = new Timer();
-      int interval = Math.max(1, AdvancedOptions.INTERVAL_BETWEEN_CLICKS_MS.getIntegerValue());
-      timer.scheduleAtFixedRate(new TimerTask(){
-        int i = 0;
-        int lclick = 0;
-        int rclick = 0;
-        @Override
-        public void run() {
-          if (i >= clicks.size()) {
-            logClicks(clicks.size(), lclick, rclick);
-            timer.cancel();
-            return;
-          }
-          Click c = clicks.get(i);
-          ContainerActions.click(container, slotIds.get(c.index), c.button);
-          lclick += c.button == 0 ? 1 : 0;
-          rclick += c.button == 1 ? 1 : 0;
-          i++;
-        }
-      }, 0, interval);
-    } else {
-      int lclick = 0;
-      int rclick = 0;
-      for (Click c : clicks) {
-        ContainerActions.click(container, slotIds.get(c.index), c.button);
-        lclick += c.button == 0 ? 1 : 0;
-        rclick += c.button == 1 ? 1 : 0;
-      }
-      logClicks(clicks.size(), lclick, rclick);
-    }
-  }
-
-  private static void logClicks(int total, int lclick, int rclick) {
-    if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      Log.info(String.format("[inventoryfiles] Click count total %d. %d left. %d right.", total, lclick, rclick));
-    }
-  }
 
 }

@@ -18,7 +18,7 @@ import net.minecraft.inventory.container.MerchantResultSlot;
 import net.minecraft.inventory.container.Slot;
 
 public class ContainerInfo {
-    // slot.id is real
+    // Get.slotId(slot) is real
     // invSlot 
     //   head,chest,legs,feet 39 38 37 36
     //   offhand 40
@@ -63,7 +63,7 @@ public class ContainerInfo {
       Slot[] armorSlots = new Slot[5];
       for (Slot s : asContainer.inventorySlots) { // assumed in order of slot.id
         if (!(s.inventory instanceof PlayerInventory)) continue;
-        int invSlot = (s).getSlotIndex();
+        int invSlot = Getter.invSlot(s);
         if (invSlot >= 0 && invSlot < 9) {
           playerHotbarSlots.add(s);
           if (((PlayerInventory)s.inventory).currentItem == invSlot) {
@@ -122,7 +122,7 @@ public class ContainerInfo {
           if (category == ContainerCategory.NON_SORTABLE_STORAGE) {
           nonSortableStorageSlots.add(s);
         } else if (category == ContainerCategory.SORTABLE_Nx3) {
-          if (s.slotNumber <= 1)
+          if (Getter.slotId(s) <= 1)
             nonSortableStorageSlots.add(s);
           else
             sortableSlots.add(s);

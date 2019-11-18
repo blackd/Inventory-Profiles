@@ -3,6 +3,8 @@ package io.github.jsnimda.inventoryprofiles.gui;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableList;
 
 import fi.dy.masa.malilib.config.ConfigType;
@@ -17,6 +19,8 @@ import io.github.jsnimda.inventoryprofiles.ModInfo;
 import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
+import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
+import net.minecraft.client.gui.screen.Screen;
 
 /**
  * GuiConfigs
@@ -26,7 +30,10 @@ public class GuiConfigs extends GuiConfigsBase {
   private static ConfigGuiTab tab = ConfigGuiTab.GENERIC;
 
   public GuiConfigs() {
-    super(10, 50, ModInfo.MOD_ID, null, "inventoryprofiles.gui.title.configs");
+    this(Current.screen());
+  }
+  public GuiConfigs(@Nullable Screen parent) {
+    super(10, 50, ModInfo.MOD_ID, parent, "inventoryprofiles.gui.title.configs");
   }
 
   @Override

@@ -8,5 +8,9 @@ import java.util.List;
 public interface ISortingMethodProvider {
 
   List<VirtualItemStack> sort(List<VirtualItemStack> items);
-  
+
+  default boolean isAllowDrop() {
+    return false;
+  }
+
 }
