@@ -44,7 +44,7 @@ public class ItemUtils {
   }
 
   public static boolean hasPotionName(VirtualItemType type) {
-    return type.tag != null && type.tag.containsKey("Potion", 8);
+    return type.tag != null && type.tag.contains("Potion", 8);
   }
   public static String getPotionRegularName(VirtualItemType type) {
     return PotionUtil.getPotion(type.tag).getName("");
@@ -66,8 +66,8 @@ public class ItemUtils {
     return 0; // identicial
   }
   public static int compareEffect(StatusEffectInstance a, StatusEffectInstance b) {
-    String aStr = Registry.STATUS_EFFECT.getId(a.getEffectType()).toString();
-    String bStr = Registry.STATUS_EFFECT.getId(a.getEffectType()).toString();
+    String aStr = Registry.MOB_EFFECT.getId(a.getEffectType()).toString();
+    String bStr = Registry.MOB_EFFECT.getId(a.getEffectType()).toString();
     int cmp;
     cmp = aStr.compareTo(bStr);
     if (cmp != 0) return cmp;

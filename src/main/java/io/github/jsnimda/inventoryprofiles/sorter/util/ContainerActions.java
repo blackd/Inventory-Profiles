@@ -247,7 +247,7 @@ public class ContainerActions {
       Current.playerContainer().sendContentUpdates();
       return;
     }
-    Current.interactionManager().method_2906(container.syncId, slotId, button, actionType, Current.player());
+    Current.interactionManager().clickSlot(container.syncId, slotId, button, actionType, Current.player());
   }
 
   public static void genericClick(Container container, Click click) {

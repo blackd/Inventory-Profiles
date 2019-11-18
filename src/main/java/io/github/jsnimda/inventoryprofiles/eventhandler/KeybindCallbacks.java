@@ -5,6 +5,7 @@ import fi.dy.masa.malilib.hotkeys.IHotkeyCallback;
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
+import io.github.jsnimda.inventoryprofiles.eventhandler.KeybindCallbacks.KeyCallbackHotkeysGeneric;
 import io.github.jsnimda.inventoryprofiles.gui.GuiConfigs;
 import io.github.jsnimda.inventoryprofiles.sorter.SorterEventPort;
 
