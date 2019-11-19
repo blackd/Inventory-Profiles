@@ -49,22 +49,25 @@ public class SorterEventPort {
   }
   public static boolean handleKey(KeyAction action, IKeybind key){
     if (!Current.inGame()) return false;
-
-    if (key == Generic.SORT_INVENTORY.getKeybind()) {
-      doSortAction();
-      return true;
-    } else if (key == Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind()) {
-      doSortActionByGroupColumns();
-      return true;
-    } else if (key == Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind()) { 
-      doSortActionByGroupRows();
-      return true;
-    } else if (key == Generic.SWITCH_PROFILE.getKeybind()) {
-      doSwitchProfile();
-      return true;
-    } else if (key == Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()) {
-      doMoveAll();
-      return true;
+    try {
+      if (key == Generic.SORT_INVENTORY.getKeybind()) {
+        doSortAction();
+        return true;
+      } else if (key == Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind()) {
+        doSortActionByGroupColumns();
+        return true;
+      } else if (key == Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind()) { 
+        doSortActionByGroupRows();
+        return true;
+      } else if (key == Generic.SWITCH_PROFILE.getKeybind()) {
+        doSwitchProfile();
+        return true;
+      } else if (key == Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()) {
+        doMoveAll();
+        return true;
+      }
+    } catch (Throwable e) {
+      e.printStackTrace();
     }
     
     return false;

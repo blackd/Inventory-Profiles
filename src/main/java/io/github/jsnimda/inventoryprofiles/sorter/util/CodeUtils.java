@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -110,10 +110,10 @@ public class CodeUtils {
     );
   }
 
-  public static <T> void timedTasks(List<? extends T> objects, Consumer<? super T> action, int interval, Runnable finalize) {
+  public static <T> void timedTasks(List<? extends T> objects, BiConsumer<? super T, Timer> action, int interval, Runnable finalize) {
     if (interval <= 0) {
       for (T a : objects) {
-        action.accept(a);
+        action.accept(a, null);
       }
       finalize.run();
     } else {
@@ -124,7 +124,7 @@ public class CodeUtils {
         public void run() {
           if (it.hasNext()) {
             T a = it.next();
-            action.accept(a);
+            action.accept(a, timer);
           } else {
             timer.cancel();
             finalize.run();
