@@ -271,7 +271,7 @@ public class ContainerActions {
           if (timer != null) {
             if (container != Current.container()) {
               timer.cancel();
-              debugLogs("[inventoryprofiles] Click cancelled due to container changed");
+              Log.debugLogs("[inventoryprofiles] Click cancelled due to container changed");
               return;
             }
             // FIXME when gui close cursor stack will put back to container that will influence the sorting result
@@ -280,7 +280,7 @@ public class ContainerActions {
                 currentScreen = Current.screen();
               } else {
                 timer.cancel();
-                debugLogs("[inventoryprofiles] Click cancelled due to screen closed");
+                Log.debugLogs("[inventoryprofiles] Click cancelled due to screen closed");
                 return;
               }
             }
@@ -292,14 +292,8 @@ public class ContainerActions {
   }
 
   private static void logClicks(int total, int lclick, int rclick, int interval) {
-    debugLogs(String.format("[inventoryprofiles] Click count total %d. %d left. %d right. Time = %ss",
+    Log.debugLogs(String.format("[inventoryprofiles] Click count total %d. %d left. %d right. Time = %ss",
       total, lclick, rclick, total * interval / (double)1000));
-  }
-
-  private static void debugLogs(String msg) {
-    if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      Log.info(msg);
-    }
   }
 
 }
