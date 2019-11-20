@@ -80,6 +80,7 @@ public final class VirtualSlotsStats {
       List<ItemTypeStats> res = new ArrayList<>();
       Set<VirtualItemType> appeared = new HashSet<>();
       uniquified.forEach(x -> {
+        if (x.isEmpty()) return;
         if (!appeared.contains(x.itemType)) {
           res.add(getInfo(x.itemType));
           appeared.add(x.itemType);
