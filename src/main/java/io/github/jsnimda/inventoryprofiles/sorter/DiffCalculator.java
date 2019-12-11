@@ -152,9 +152,7 @@ public class DiffCalculator {
           // TODO impl allowDrop
         }
         long ed = System.nanoTime();
-        if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-          Log.info("[inventoryprofiles] Execute calcDiff() in " + (ed - st)/(double)1000000 + " ms");
-        }
+        Log.debugLogs("[inventoryprofiles] Execute calcDiff() in " + (ed - st)/(double)1000000 + " ms");
       } catch (Throwable e) {
         if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
           e.printStackTrace();

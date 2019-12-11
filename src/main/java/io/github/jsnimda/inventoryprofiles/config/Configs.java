@@ -83,7 +83,7 @@ public class Configs {
     public static final ConfigBoolean INVENTORY_SHOW_SORT_BUTTONS;
     public static final ConfigBoolean INVENTORY_SHOW_MOVE_ALL_BUTTONS;
     public static final ConfigBoolean SORT_CURSOR_POINTING;
-    public static final ConfigBoolean SORT_CLICK_TARGETS_FIRST;
+    public static final ConfigBoolean STOP_CLICKING_IF_GUI_CLOSE;
     public static final ConfigBoolean DEBUG_LOGS;
     public static final List<IConfigBase> LIST;
     static {
@@ -95,7 +95,7 @@ public class Configs {
       INVENTORY_SHOW_SORT_BUTTONS     = as("inventoryShowSortButtons")    .bool(true);
       INVENTORY_SHOW_MOVE_ALL_BUTTONS = as("inventoryShowMoveAllButtons") .bool(true);
       SORT_CURSOR_POINTING            = as("sortCursorPointing")          .bool(false);
-      SORT_CLICK_TARGETS_FIRST        = as("sortClickTargetsFirst")       .bool(true);
+      STOP_CLICKING_IF_GUI_CLOSE      = as("stopClickingIfGuiClose")      .bool(false);
       DEBUG_LOGS                      = as("debugLogs")                   .bool(false);
 
       LIST = Cfg.list;

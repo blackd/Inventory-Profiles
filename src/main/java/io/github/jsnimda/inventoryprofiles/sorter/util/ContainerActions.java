@@ -13,6 +13,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlot;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.DistributeSorter;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.container.BeaconContainer;
 import net.minecraft.container.Container;
@@ -146,7 +147,7 @@ public class ContainerActions {
     List<Slot> target = Stream.concat(
       Stream.of(info.playerMainhandSlot, info.playerOffhandSlot),
       info.playerHotbarSlots.stream().filter(x->x!=info.playerMainhandSlot)
-    ).collect(Collectors.toList());
+    ).filter(x -> x != null).collect(Collectors.toList());
     List<VirtualSlot> aVS = Converter.toVirtualSlotList(source);
     List<VirtualSlot> bVS = Converter.toVirtualSlotList(target);
     List<VirtualSlot> from = Converter.concat(aVS, bVS, x->x.copy());
@@ -255,25 +256,44 @@ public class ContainerActions {
   }
 
   public static void genericClicks(Container container, List<Click> clicks, int interval) {
+    int lclick = 0;
+    int rclick = 0;
+    for (Click c : clicks) {
+      lclick += c.button == 0 ? 1 : 0;
+      rclick += c.button == 1 ? 1 : 0;
+    }
+    logClicks(clicks.size(), lclick, rclick, interval);
     new Runnable(){
-      int lclick = 0;
-      int rclick = 0;
+      Screen currentScreen = Current.screen();
       @Override
       public void run() {
-        CodeUtils.timedTasks(clicks, (c)->{
+        CodeUtils.timedTasks(clicks, (c, timer)->{
+          if (timer != null) {
+            if (container != Current.container()) {
+              timer.cancel();
+              Log.debugLogs("[inventoryprofiles] Click cancelled due to container changed");
+              return;
+            }
+            // FIXME when gui close cursor stack will put back to container that will influence the sorting result
+            if (AdvancedOptions.STOP_CLICKING_IF_GUI_CLOSE.getBooleanValue() && currentScreen != Current.screen()) {
+              if (currentScreen == null) {
+                currentScreen = Current.screen();
+              } else {
+                timer.cancel();
+                Log.debugLogs("[inventoryprofiles] Click cancelled due to screen closed");
+                return;
+              }
+            }
+          }
           genericClick(container, c);
-          lclick += c.button == 0 ? 1 : 0;
-          rclick += c.button == 1 ? 1 : 0;
-        }, interval, () -> logClicks(clicks.size(), lclick, rclick, interval));
+        }, interval, () -> {});
       }
     }.run();
   }
 
   private static void logClicks(int total, int lclick, int rclick, int interval) {
-    if (AdvancedOptions.DEBUG_LOGS.getBooleanValue()) {
-      Log.info(String.format("[inventoryprofiles] Click count total %d. %d left. %d right. Spent %ss",
-        total, lclick, rclick, total * interval / (double)1000));
-    }
+    Log.debugLogs(String.format("[inventoryprofiles] Click count total %d. %d left. %d right. Time = %ss",
+      total, lclick, rclick, total * interval / (double)1000));
   }
 
 }
