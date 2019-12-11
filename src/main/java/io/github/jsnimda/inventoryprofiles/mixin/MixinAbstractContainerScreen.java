@@ -29,9 +29,9 @@ public abstract class MixinAbstractContainerScreen<T extends Container> extends 
   @Shadow
   protected int containerHeight;
   @Shadow
-  protected int left;
+  protected int x;
   @Shadow
-  protected int top;
+  protected int y;
   @Shadow
   protected final T container;
 
@@ -43,7 +43,7 @@ public abstract class MixinAbstractContainerScreen<T extends Container> extends 
 
   @Inject(at = @At("RETURN"), method = "init()V")
   protected void init(CallbackInfo info) {
-    List<AbstractButtonWidget> buttons = GuiSortingButtons.gets(this, container, left, top, containerWidth, containerHeight);
+    List<AbstractButtonWidget> buttons = GuiSortingButtons.gets(this, container, x, y, containerWidth, containerHeight);
     buttons.forEach(x -> this.addButton(x));
   }
 
