@@ -23,6 +23,7 @@
     ]
   },
   "mixins": [
+    "mixins.common.json",
     "mixins.inventoryprofiles.json"
   ],
   "depends": {

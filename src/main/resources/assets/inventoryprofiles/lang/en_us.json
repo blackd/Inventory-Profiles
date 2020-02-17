@@ -1,5 +1,32 @@
 {
 
+    "inventoryprofiles.gui.config.title": "Inventory Profiles Config Menu",
+    
+    "inventoryprofiles.common.gui.config.reset": "Reset",
+
+    "inventoryprofiles.gui.config.ModSettings": "Mod Settings",
+    "inventoryprofiles.gui.config.GuiSettings": "Gui Settings",
+    "inventoryprofiles.gui.config.EditProfiles": "Edit Profiles",
+    "inventoryprofiles.gui.config.Hotkeys": "Hotkeys",
+    "inventoryprofiles.gui.config.Tweaks": "Tweaks",
+
+    "inventoryprofiles.config.category.inventory_sorting": "Sorting Options",
+    "inventoryprofiles.config.category.inventory": "Inventory",
+    "inventoryprofiles.config.category.hotkeys": "Hotkeys",
+    "inventoryprofiles.config.category.client_side_tweaks": "Client-side Tweaks",
+
+    "inventoryprofiles.config.name.add_interval_between_clicks": "Add Interval Between Clicks",
+    "inventoryprofiles.config.name.interval_between_clicks_ms": "Interval Between Clicks (ms)",
+    "inventoryprofiles.config.name.restock_hotbar": "Restock Hotbar",
+    "inventoryprofiles.config.name.sort_at_cursor": "Sort At Cursor",
+    "inventoryprofiles.config.name.stop_at_screen_close": "Stop At Screen Close",
+
+
+
+
+
+    
+
     "inventoryprofiles.gui.button.config_gui.generic": "Generic",
     "inventoryprofiles.gui.button.config_gui.sorting_method": "Sorting Methods",
     "inventoryprofiles.gui.button.config_gui.profiles": "Profiles",

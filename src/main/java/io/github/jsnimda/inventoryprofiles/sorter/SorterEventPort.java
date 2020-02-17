@@ -5,7 +5,10 @@ import com.google.common.collect.ImmutableList;
 import fi.dy.masa.malilib.gui.GuiBase;
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
+import io.github.jsnimda.common.gui.BaseScreen;
+import io.github.jsnimda.common.gui.DebugScreen;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
+import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
@@ -51,11 +54,16 @@ public class SorterEventPort {
     if (!Current.inGame()) return false;
     try {
       if (key == Generic.SORT_INVENTORY.getKeybind()) {
-        doSortAction();
+        Current.MC().openScreen(new ConfigScreen());
         return true;
+        //TODO tmp test
+        // doSortAction();
+        // return true;
       } else if (key == Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind()) {
-        doSortActionByGroupColumns();
-        return true;
+        DebugScreen.open();
+        //TODO tmp test
+        // doSortActionByGroupColumns();
+        // return true;
       } else if (key == Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind()) { 
         doSortActionByGroupRows();
         return true;

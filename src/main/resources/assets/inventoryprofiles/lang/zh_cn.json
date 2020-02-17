@@ -1,5 +1,35 @@
 {
 
+    "inventoryprofiles.gui.config.title": "Inventory Profiles 配置菜单",
+    
+    "inventoryprofiles.common.gui.config.reset": "重置",
+
+    "inventoryprofiles.gui.config.ModSettings": "Mod 设置",
+    "inventoryprofiles.gui.config.GuiSettings": "介面设置",
+    "inventoryprofiles.gui.config.EditProfiles": "编辑设定档",
+    "inventoryprofiles.gui.config.Hotkeys": "热键",
+    "inventoryprofiles.gui.config.Tweaks": "原版修改",
+
+    "inventoryprofiles.config.category.inventory_sorting": "整理选项",
+    "inventoryprofiles.config.category.inventory": "背包",
+    "inventoryprofiles.config.category.hotkeys": "热键",
+    "inventoryprofiles.config.category.client_side_tweaks": "客户端",
+
+    "inventoryprofiles.config.name.add_interval_between_clicks": "Add Interval Between Clicks",
+    "inventoryprofiles.config.name.interval_between_clicks_ms": "Interval Between Clicks (ms)",
+    "inventoryprofiles.config.name.restock_hotbar": "Restock Hotbar",
+    "inventoryprofiles.config.name.sort_at_cursor": "Sort At Cursor",
+    "inventoryprofiles.config.name.stop_at_screen_close": "Stop At Screen Close",
+
+
+
+
+
+
+
+
+
+
     "inventoryprofiles.gui.button.config_gui.generic": "一般",
     "inventoryprofiles.gui.button.config_gui.advanced_options": "更多选项",
     "inventoryprofiles.gui.button.config_gui.tweak_values": "原生客户端“调整”",
