@@ -65,11 +65,15 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
     }
   };
   
-  private static final Pattern PATTER_NUMBER = Pattern.compile("^-?([0-9]+(\\.[0-9]*)?)?");
+  private static final Pattern PATTERN_INTEGER = Pattern.compile("-?[0-9]*");
+  private static final Pattern PATTERN_DOUBLE = Pattern.compile("^-?([0-9]+(\\.[0-9]*)?)?");
+
+  private Pattern pattern;
 
   protected ConfigOptionNumericWidget(IConfigOptionPrimitiveNumeric<?> configOption) {
     super(configOption);
-    textField.setTextPredicate(x -> x.isEmpty() || PATTER_NUMBER.matcher(x).matches()); // ref: malilib GuiTextFieldDouble
+    pattern = configOption.getDefaultValue() instanceof Double ? PATTERN_DOUBLE : PATTERN_INTEGER;
+    textField.setTextPredicate(x -> x.isEmpty() || pattern.matcher(x).matches()); // ref: malilib GuiTextFieldDouble
     textField.setChangedListener(x -> {
       if (textField.method_20315()) {
         // try set config value to text

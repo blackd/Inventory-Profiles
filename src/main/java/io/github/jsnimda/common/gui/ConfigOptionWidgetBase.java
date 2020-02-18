@@ -6,6 +6,7 @@ import java.util.List;
 import io.github.jsnimda.common.config.IConfigOption;
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
 import io.github.jsnimda.common.config.options.ConfigBoolean;
+import io.github.jsnimda.common.config.options.ConfigEnum;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
@@ -13,7 +14,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 
-public abstract class ConfigOptionWidgetBase<E extends IConfigOption> extends AbstractParentElement implements Drawable {
+public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends AbstractParentElement implements Drawable {
 
   public int x;
   public int y;
@@ -22,10 +23,10 @@ public abstract class ConfigOptionWidgetBase<E extends IConfigOption> extends Ab
   protected ButtonWidget resetButton = new ButtonWidget(10, 10, 200, 20, "", x -> reset());
   public boolean showResetButton = true;
   public int resetButtonGap = 2;
-  protected final E configOption;
+  protected final T configOption;
   protected int availableWidth;
 
-  protected ConfigOptionWidgetBase(E configOption) {
+  protected ConfigOptionWidgetBase(T configOption) {
     this.configOption = configOption;
   }
 
@@ -51,6 +52,9 @@ public abstract class ConfigOptionWidgetBase<E extends IConfigOption> extends Ab
     }
     if (configOption instanceof IConfigOptionPrimitiveNumeric) {
       return new ConfigOptionNumericWidget((IConfigOptionPrimitiveNumeric<?>)configOption);
+    }
+    if (configOption instanceof ConfigEnum) {
+      return new ConfigOptionToggleableWidget<ConfigEnum<?>>((ConfigEnum<?>)configOption, x -> x.getValue().toString());
     }
 
     return new ConfigOptionWidgetBase<IConfigOption>(configOption) {};
