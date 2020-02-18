@@ -3,6 +3,8 @@
     "inventoryprofiles.gui.config.title": "Inventory Profiles Config Menu",
     
     "inventoryprofiles.common.gui.config.reset": "Reset",
+    "inventoryprofiles.common.gui.config.true": "§2true",
+    "inventoryprofiles.common.gui.config.false": "§4false",
 
     "inventoryprofiles.gui.config.ModSettings": "Mod Settings",
     "inventoryprofiles.gui.config.GuiSettings": "Gui Settings",
@@ -15,13 +17,31 @@
     "inventoryprofiles.config.category.hotkeys": "Hotkeys",
     "inventoryprofiles.config.category.client_side_tweaks": "Client-side Tweaks",
 
+    "inventoryprofiles.config.name.sort_order": "Sort Order",
     "inventoryprofiles.config.name.add_interval_between_clicks": "Add Interval Between Clicks",
     "inventoryprofiles.config.name.interval_between_clicks_ms": "Interval Between Clicks (ms)",
     "inventoryprofiles.config.name.restock_hotbar": "Restock Hotbar",
     "inventoryprofiles.config.name.sort_at_cursor": "Sort At Cursor",
     "inventoryprofiles.config.name.stop_at_screen_close": "Stop At Screen Close",
 
+    "inventoryprofiles.config.name.show_sort_button": "Show Sort Button",
+    "inventoryprofiles.config.name.show_sort_in_columns_button": "Show Sort In Columns Button",
+    "inventoryprofiles.config.name.show_sort_in_rows_button": "Show Sort In Rows Button",
+    "inventoryprofiles.config.name.show_move_all_button": "Show Move All Button",
+    "inventoryprofiles.config.name.show_button_tooltips": "Show Button Tooltips",
 
+    "inventoryprofiles.config.name.open_config_menu": "Open Config Menu",
+    "inventoryprofiles.config.name.sort_inventory": "Sort Inventory",
+    "inventoryprofiles.config.name.sort_inventory_in_columns": "Sort Inventory In Columns",
+    "inventoryprofiles.config.name.sort_inventory_in_rows": "Sort Inventory In Rows",
+    "inventoryprofiles.config.name.move_all_items": "Move All Items",
+
+    "inventoryprofiles.config.name.instant_mining_cooldown": "Instant Mining Cooldown",
+    "inventoryprofiles.config.name.disable_block_breaking_cooldown": "Disable Block Breaking Cooldown",
+    "inventoryprofiles.config.name.disable_item_use_cooldown": "Disable Item Use Cooldown",
+    "inventoryprofiles.config.name.prevent_close_gui_drop_item": "Prevent Close Gui Drop Item",
+    "inventoryprofiles.config.name.disable_screen_shaking_on_damage": "Disable Screen Shaking On Damage",
+    "inventoryprofiles.config.name.disable_lava_fog": "Disable Lava Fog",
 
 
 

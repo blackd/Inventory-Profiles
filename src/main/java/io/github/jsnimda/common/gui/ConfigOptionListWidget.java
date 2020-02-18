@@ -12,7 +12,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.ParentElement;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 
 public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListWidget.Entry> {
@@ -51,11 +50,11 @@ public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListW
   public class ConfigOptionEntry extends ConfigOptionListWidget.Entry {
 
     private IConfigOption option;
-    private ConfigOptionWidget optionWidget;
+    private ConfigOptionWidgetBase<?> optionWidget;
     private int textY = 6;
     private ConfigOptionEntry(IConfigOption option) {
       this.option = option;
-      this.optionWidget = ConfigOptionWidget.of(option);
+      this.optionWidget = ConfigOptionWidgetBase.of(option);
     }
 
     @Override

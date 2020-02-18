@@ -3,6 +3,8 @@
     "inventoryprofiles.gui.config.title": "Inventory Profiles 配置菜单",
     
     "inventoryprofiles.common.gui.config.reset": "重置",
+    "inventoryprofiles.common.gui.config.true": "开",
+    "inventoryprofiles.common.gui.config.false": "关",
 
     "inventoryprofiles.gui.config.ModSettings": "Mod 设置",
     "inventoryprofiles.gui.config.GuiSettings": "介面设置",

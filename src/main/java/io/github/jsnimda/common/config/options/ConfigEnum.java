@@ -14,6 +14,7 @@ public class ConfigEnum<E extends Enum<E>> extends ConfigOptionBase implements I
 
   public ConfigEnum(E defaultValue) {
     this.defaultValue = defaultValue;
+    value = defaultValue;
   }
 
   @Override
@@ -40,7 +41,7 @@ public class ConfigEnum<E extends Enum<E>> extends ConfigOptionBase implements I
 
   @Override
   public void setValue(E value) {
-    this.value = value;
+    this.value = value == null ? defaultValue : value;
   }
 
   @Override
@@ -51,7 +52,7 @@ public class ConfigEnum<E extends Enum<E>> extends ConfigOptionBase implements I
   @Override
   public void fromJsonElement(JsonElement element) {
     if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
-      value = Enum.valueOf(value.getDeclaringClass(), element.getAsString());
+      setValue(Enum.valueOf(value.getDeclaringClass(), element.getAsString()));
     } else {
       // TODO fail log
     }

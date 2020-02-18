@@ -1,10 +1,11 @@
 package io.github.jsnimda.common.config.options;
 
 import io.github.jsnimda.common.config.ConfigOptionBase;
+import io.github.jsnimda.common.config.IConfigOptionNumeric;
 import io.github.jsnimda.common.config.IConfigOptionPrimitive;
 import net.minecraft.util.math.MathHelper;
 
-public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrimitive<Integer> {
+public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrimitive<Integer>, IConfigOptionNumeric<Integer> {
 
   private final int defaultValue;
   private final int minValue;
@@ -30,12 +31,12 @@ public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrim
     this.value = MathHelper.clamp(value, minValue, maxValue);
   }
 
-  public int getMinValue()
+  public Integer getMinValue()
   {
       return minValue;
   }
 
-  public int getMaxValue()
+  public Integer getMaxValue()
   {
       return maxValue;
   }

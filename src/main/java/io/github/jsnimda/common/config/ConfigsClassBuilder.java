@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import com.google.common.base.CaseFormat;
 
 import io.github.jsnimda.common.config.options.ConfigBoolean;
+import io.github.jsnimda.common.config.options.ConfigEnum;
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.config.options.ConfigHotkeyedBoolean;
 import io.github.jsnimda.common.config.options.ConfigInteger;
@@ -33,6 +34,10 @@ public class ConfigsClassBuilder {
 
   public static ConfigInteger integer(int defaultValue, int minValue, int maxValue) {
     return new ConfigInteger(defaultValue, minValue, maxValue);
+  }
+
+  public static <T extends Enum<T>> ConfigEnum<T> enumList(T defaultValue) {
+    return new ConfigEnum<T>(defaultValue);
   }
 
   public static ConfigHotkey hotkey(String defaultValue) {
