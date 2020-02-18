@@ -1,11 +1,11 @@
 package io.github.jsnimda.common.config.options;
 
 import io.github.jsnimda.common.config.ConfigOptionBase;
-import io.github.jsnimda.common.config.IConfigOptionNumeric;
+import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
 import io.github.jsnimda.common.config.IConfigOptionPrimitive;
 import net.minecraft.util.math.MathHelper;
 
-public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrimitive<Integer>, IConfigOptionNumeric<Integer> {
+public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrimitive<Integer>, IConfigOptionPrimitiveNumeric<Integer> {
 
   private final int defaultValue;
   private final int minValue;
@@ -54,6 +54,11 @@ public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrim
   @Override
   public void setValue(Integer value) {
     setIntegerValue(value);
+  }
+
+  @Override
+  public void setValue(Number value) {
+    setIntegerValue(value.intValue());
   }
 
 }

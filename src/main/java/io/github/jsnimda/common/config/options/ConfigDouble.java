@@ -1,11 +1,11 @@
 package io.github.jsnimda.common.config.options;
 
 import io.github.jsnimda.common.config.ConfigOptionBase;
-import io.github.jsnimda.common.config.IConfigOptionNumeric;
+import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
 import io.github.jsnimda.common.config.IConfigOptionPrimitive;
 import net.minecraft.util.math.MathHelper;
 
-public class ConfigDouble extends ConfigOptionBase implements IConfigOptionPrimitive<Double>, IConfigOptionNumeric<Double> {
+public class ConfigDouble extends ConfigOptionBase implements IConfigOptionPrimitive<Double>, IConfigOptionPrimitiveNumeric<Double> {
 
   private final double defaultValue;
   private final double minValue;
@@ -54,6 +54,11 @@ public class ConfigDouble extends ConfigOptionBase implements IConfigOptionPrimi
   @Override
   public void setValue(Double value) {
     setDoubleValue(value);
+  }
+
+  @Override
+  public void setValue(Number value) {
+    setDoubleValue(value.doubleValue());
   }
 
 }

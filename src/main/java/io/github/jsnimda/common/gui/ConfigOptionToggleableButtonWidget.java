@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import io.github.jsnimda.common.config.IConfigOptionToggleable;
 import net.minecraft.client.font.TextRenderer;
 
-public class ConfigOptionToggleableButtonWidget extends ToggleableButtonWidget {
+public class ConfigOptionToggleableButtonWidget extends RightClickableButtonWidget {
 
   public boolean drawShadow = true;
 

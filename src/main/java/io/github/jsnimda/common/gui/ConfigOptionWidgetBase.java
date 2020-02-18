@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.github.jsnimda.common.config.IConfigOption;
-import io.github.jsnimda.common.config.IConfigOptionNumeric;
+import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
 import io.github.jsnimda.common.config.options.ConfigBoolean;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
@@ -35,10 +35,10 @@ public abstract class ConfigOptionWidgetBase<E extends IConfigOption> extends Ab
       String s = I18n.translate("inventoryprofiles.common.gui.config.reset");
       int w = MinecraftClient.getInstance().textRenderer.getStringWidth(s);
       int bw = w + 15;
-      resetButton.setWidth(bw);
-      resetButton.setMessage(s);
       resetButton.x = x + width - bw;
       resetButton.y = y;
+      resetButton.setWidth(bw);
+      resetButton.setMessage(s);
       resetButton.active = configOption.isModified();
       resetButton.render(mouseX, mouseY, partialTicks);
     }
@@ -49,8 +49,8 @@ public abstract class ConfigOptionWidgetBase<E extends IConfigOption> extends Ab
     if (configOption instanceof ConfigBoolean) {
       return new ConfigOptionBooleanWidget((ConfigBoolean)configOption);
     }
-    if (configOption instanceof IConfigOptionNumeric) {
-      return new ConfigOptionNumericWidget((IConfigOptionNumeric<?>)configOption);
+    if (configOption instanceof IConfigOptionPrimitiveNumeric) {
+      return new ConfigOptionNumericWidget((IConfigOptionPrimitiveNumeric<?>)configOption);
     }
 
     return new ConfigOptionWidgetBase<IConfigOption>(configOption) {};
