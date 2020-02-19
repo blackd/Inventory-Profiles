@@ -45,6 +45,10 @@ public class Keybind implements IConfigElementResettable {
     return defaultKeyCodes;
   }
 
+  public void setKeyCodes(List<Integer> keyCodes) {
+    this.keyCodes = new ArrayList<>(keyCodes);
+  }
+
   public KeybindSettings getSettings() {
     return settings.isPresent() ? settings.get() : parent.get().getSettings();
   }

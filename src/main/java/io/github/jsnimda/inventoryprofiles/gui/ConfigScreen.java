@@ -2,9 +2,6 @@ package io.github.jsnimda.inventoryprofiles.gui;
 
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
-import io.github.jsnimda.common.config.ConfigOptionBase;
 import io.github.jsnimda.common.gui.ConfigOptionListWidget;
 import io.github.jsnimda.common.gui.ConfigOptionWidgetBase;
 import io.github.jsnimda.common.gui.ConfigScreenBase;
@@ -13,8 +10,6 @@ import io.github.jsnimda.inventoryprofiles.config.Configs2.GuiSettings;
 import io.github.jsnimda.inventoryprofiles.config.Configs2.Hotkeys;
 import io.github.jsnimda.inventoryprofiles.config.Configs2.ModSettings;
 import io.github.jsnimda.inventoryprofiles.config.Configs2.Tweaks;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
 

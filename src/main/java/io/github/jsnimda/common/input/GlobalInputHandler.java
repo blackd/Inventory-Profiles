@@ -2,6 +2,7 @@ package io.github.jsnimda.common.input;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -21,6 +22,9 @@ public class GlobalInputHandler {
   public List<Integer> beforePressingKeys = new ArrayList<>();
   public int lastKey = -1;
   public int lastAction = -1;
+
+  private Optional<Keybind> currentSettingKeybind = Optional.empty();
+  private boolean firstKey = false;
 
   private GlobalInputHandler() {
 
@@ -56,12 +60,41 @@ public class GlobalInputHandler {
     }
   }
 
+  public void setCurrentSettingKeybind(Keybind keybind) {
+    this.currentSettingKeybind = Optional.ofNullable(keybind);
+    this.firstKey = false;
+  }
+
+  public Keybind getCurrentSettingKeybind() {
+    return this.currentSettingKeybind.orElse(null);
+  }
+
+  private void handleCurrentSettingKeybind() {
+    if (lastAction == GLFW.GLFW_PRESS) {
+      this.firstKey = true;
+      if (lastKey == GLFW.GLFW_KEY_ESCAPE) {
+        this.currentSettingKeybind.get().setKeyCodes(new ArrayList<>());
+        this.currentSettingKeybind = Optional.empty();
+      } else {
+        this.currentSettingKeybind.get().setKeyCodes(new ArrayList<>(pressingKeys));
+      }
+    } else if (lastAction == GLFW.GLFW_RELEASE) {
+      if (pressingKeys.isEmpty() && this.firstKey) {
+        this.currentSettingKeybind = Optional.empty();
+      }
+    }
+  }
+
   public boolean onKeyPress(int key) {
     if (pressingKeys.contains(key)) return false; // should err
     beforePressingKeys = new ArrayList<>(pressingKeys);
     pressingKeys.add(key);
     lastKey = key;
     lastAction = GLFW.GLFW_PRESS;
+    if (currentSettingKeybind.isPresent()) {
+      handleCurrentSettingKeybind();
+      return true;
+    }
     return false;
   }
 
@@ -71,6 +104,10 @@ public class GlobalInputHandler {
     pressingKeys.remove((Object)key);
     lastKey = key;
     lastAction = GLFW.GLFW_RELEASE;
+    if (currentSettingKeybind.isPresent()) {
+      handleCurrentSettingKeybind();
+      return true;
+    }
     return false;
   }
 

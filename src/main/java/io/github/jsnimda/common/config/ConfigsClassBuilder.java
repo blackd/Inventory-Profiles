@@ -50,7 +50,7 @@ public class ConfigsClassBuilder {
   }
 
   public static ConfigHotkeyedBoolean hotkeyedBool(boolean defaultValue) {
-    return null;
+    return new ConfigHotkeyedBoolean(defaultValue);
   }
 
   public static CategorizedConfigOptions load(Class<?> configOptionsClass) {
