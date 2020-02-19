@@ -5,8 +5,19 @@
     "inventoryprofiles.common.gui.config.reset": "Reset",
     "inventoryprofiles.common.gui.config.true": "§2true",
     "inventoryprofiles.common.gui.config.false": "§4false",
+    "inventoryprofiles.common.gui.config.yes": "yes",
+    "inventoryprofiles.common.gui.config.no": "no",
 
     "inventoryprofiles.common.gui.config.advanced_keybind_settings": "Advanced Keybind Settings",
+    "inventoryprofiles.common.gui.config.activate_on": "Activate On",
+    "inventoryprofiles.common.gui.config.context": "Context",
+    "inventoryprofiles.common.gui.config.allow_extra_keys": "Allow Extra Keys",
+    "inventoryprofiles.common.gui.config.order_sensitive": "Order Sensitive",
+    "inventoryprofiles.common.gui.config.keybind_settings_tips": "- Left click to configure\n- Right click to reset to defaults",
+    
+    
+    
+    
 
     "inventoryprofiles.common.enum.key_action.press": "Press",
     "inventoryprofiles.common.enum.key_action.release": "Release",
@@ -24,6 +35,7 @@
     "inventoryprofiles.gui.config.Tweaks": "Tweaks",
 
     "inventoryprofiles.config.category.inventory_sorting": "Sorting Options",
+    "inventoryprofiles.config.category.debugs": "Debugs",
     "inventoryprofiles.config.category.inventory": "Inventory",
     "inventoryprofiles.config.category.hotkeys": "Hotkeys",
     "inventoryprofiles.config.category.client_side_tweaks": "Client-side Tweaks",
@@ -40,6 +52,7 @@
     "inventoryprofiles.config.name.restock_hotbar":                 "Restock Hotbar",
     "inventoryprofiles.config.name.sort_at_cursor":                 "Sort At Cursor",
     "inventoryprofiles.config.name.stop_at_screen_close":           "Stop At Screen Close",
+    "inventoryprofiles.config.name.debug_logs":                     "Debug Logs",
 
     "inventoryprofiles.config.description.sort_order":                  "The sorting method used for inventory sorting",
     "inventoryprofiles.config.description.add_interval_between_clicks": "Adds some interval between clicks while sorting. Amount of interval can be set by \"intervalBetweenClicksMs\". Might be useful on some laggy servers or inventory.fastclick disabled servers.",
@@ -47,6 +60,7 @@
     "inventoryprofiles.config.description.restock_hotbar":              "Auto restock your hotbar while sorting",
     "inventoryprofiles.config.description.sort_at_cursor":              "When this is true, using hotkey sorting will sort the slots that curosr is pointing to. Otherwise it will always sort the container.",
     "inventoryprofiles.config.description.stop_at_screen_close":        "// TODO",
+    "inventoryprofiles.config.description.debug_logs":                   "Prints debug messages",
 
 
     "inventoryprofiles.config.name.show_sort_button":               "Show Sort Button",
@@ -91,7 +105,6 @@
 
 
 
-    "inventoryprofiles.config.description.debug_logs":                   "Prints debug messages",
 
 
     

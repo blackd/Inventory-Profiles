@@ -20,32 +20,34 @@ public class Configs2 {
   @ConfigOptionsClass
   public static class ModSettings {
     @Category("inventoryprofiles.config.category.inventory_sorting")
-    public static final ConfigEnum<SortingMethodOption> SORT_ORDER     = enumList(SortingMethodOption.DEFAULT);
-    public static final ConfigBoolean ADD_INTERVAL_BETWEEN_CLICKS      = bool(false);
-    public static final ConfigInteger INTERVAL_BETWEEN_CLICKS_MS       = integer(10, 1, 500);
-    public static final ConfigBoolean RESTOCK_HOTBAR                   = bool(false);
-    public static final ConfigBoolean SORT_AT_CURSOR                   = bool(false);
-    public static final ConfigBoolean STOP_AT_SCREEN_CLOSE             = bool(false);
+    public static final ConfigEnum<SortingMethodOption> SORT_ORDER      = enumList(SortingMethodOption.DEFAULT);
+    public static final ConfigBoolean ADD_INTERVAL_BETWEEN_CLICKS       = bool(false);
+    public static final ConfigInteger INTERVAL_BETWEEN_CLICKS_MS        = integer(10, 1, 500);
+    public static final ConfigBoolean RESTOCK_HOTBAR                    = bool(false);
+    public static final ConfigBoolean SORT_AT_CURSOR                    = bool(false);
+    public static final ConfigBoolean STOP_AT_SCREEN_CLOSE              = bool(false);
+    @Category("inventoryprofiles.config.category.debugs")
+    public static final ConfigBoolean DEBUG_LOGS                        = bool(false);
   }
 
   @ConfigOptionsClass
   public static class GuiSettings {
     @Category("inventoryprofiles.config.category.inventory")
-    public static final ConfigBoolean SHOW_SORT_BUTTON                 = bool(true);
-    public static final ConfigBoolean SHOW_SORT_IN_COLUMNS_BUTTON      = bool(true);
-    public static final ConfigBoolean SHOW_SORT_IN_ROWS_BUTTON         = bool(true);
-    public static final ConfigBoolean SHOW_MOVE_ALL_BUTTON             = bool(true);
-    public static final ConfigBoolean SHOW_BUTTON_TOOLTIPS             = bool(true);
+    public static final ConfigBoolean SHOW_SORT_BUTTON                  = bool(true);
+    public static final ConfigBoolean SHOW_SORT_IN_COLUMNS_BUTTON       = bool(true);
+    public static final ConfigBoolean SHOW_SORT_IN_ROWS_BUTTON          = bool(true);
+    public static final ConfigBoolean SHOW_MOVE_ALL_BUTTON              = bool(true);
+    public static final ConfigBoolean SHOW_BUTTON_TOOLTIPS              = bool(true);
   }
 
   @ConfigOptionsClass
   public static class Hotkeys {
     @Category("inventoryprofiles.config.category.hotkeys")
-    public static final ConfigHotkey OPEN_CONFIG_MENU                  = hotkey("R,C", KeybindSettings.INGAME_DEFAULT);
-    public static final ConfigHotkey SORT_INVENTORY                    = hotkey("R", KeybindSettings.GUI_DEFAULT);
-    public static final ConfigHotkey SORT_INVENTORY_IN_COLUMNS         = hotkey("");
-    public static final ConfigHotkey SORT_INVENTORY_IN_ROWS            = hotkey("");
-    public static final ConfigHotkey MOVE_ALL_ITEMS                    = hotkey("");
+    public static final ConfigHotkey OPEN_CONFIG_MENU                   = hotkey("R,C", KeybindSettings.INGAME_DEFAULT);
+    public static final ConfigHotkey SORT_INVENTORY                     = hotkey("R", KeybindSettings.GUI_DEFAULT);
+    public static final ConfigHotkey SORT_INVENTORY_IN_COLUMNS          = hotkey("");
+    public static final ConfigHotkey SORT_INVENTORY_IN_ROWS             = hotkey("");
+    public static final ConfigHotkey MOVE_ALL_ITEMS                     = hotkey("");
   }
 
   @ConfigOptionsClass

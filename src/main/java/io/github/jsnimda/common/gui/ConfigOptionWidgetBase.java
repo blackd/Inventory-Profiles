@@ -41,7 +41,7 @@ public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends Ab
       resetButton.y = y;
       resetButton.setWidth(bw);
       resetButton.setMessage(s);
-      resetButton.active = configOption.isModified();
+      resetButton.active = resetButtonActive();
       resetButton.render(mouseX, mouseY, partialTicks);
     }
     availableWidth = width - (showResetButton ? resetButton.getWidth() + resetButtonGap : 0);
@@ -66,6 +66,10 @@ public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends Ab
 
   protected void reset() {
     configOption.resetToDefault();
+  }
+
+  protected boolean resetButtonActive() {
+    return configOption.isModified();
   }
 
   @Override

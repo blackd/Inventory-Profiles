@@ -23,7 +23,7 @@ public class GlobalInputHandler {
   public int lastKey = -1;
   public int lastAction = -1;
 
-  private Optional<Keybind> currentSettingKeybind = Optional.empty();
+  private Optional<Keybind> currentSettingKeybind = Optional.empty(); // TODO beautify code
   private boolean firstKey = false;
 
   private GlobalInputHandler() {
