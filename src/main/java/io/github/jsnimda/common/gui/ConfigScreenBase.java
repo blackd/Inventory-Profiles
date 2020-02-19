@@ -43,6 +43,7 @@ public class ConfigScreenBase extends Screen {
   @Override
   public void render(int mouseX, int mouseY, float partialTicks) {
     this.renderBackground();
+    renderPre(mouseX, mouseY, partialTicks);
     boolean overList = currentConfigList.map(x -> x.isMouseOver(mouseX, mouseY)).orElse(false);
     for(int k = 0; k < this.buttons.size(); ++k) { // super.render
       this.buttons.get(k).render(overList ? -1 : mouseX, overList ? -1 : mouseY, partialTicks);
@@ -52,6 +53,9 @@ public class ConfigScreenBase extends Screen {
 
     currentConfigList.ifPresent(x -> x.render(mouseX, mouseY, partialTicks));
 
+  }
+
+  public void renderPre(int mouseX, int mouseY, float partialTicks) { // for override
   }
 
   @Override

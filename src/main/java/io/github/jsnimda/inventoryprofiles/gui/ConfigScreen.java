@@ -2,7 +2,11 @@ package io.github.jsnimda.inventoryprofiles.gui;
 
 import java.util.function.Supplier;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import io.github.jsnimda.common.config.ConfigOptionBase;
 import io.github.jsnimda.common.gui.ConfigOptionListWidget;
+import io.github.jsnimda.common.gui.ConfigOptionWidgetBase;
 import io.github.jsnimda.common.gui.ConfigScreenBase;
 import io.github.jsnimda.inventoryprofiles.config.Configs2;
 import io.github.jsnimda.inventoryprofiles.config.Configs2.GuiSettings;
@@ -10,6 +14,7 @@ import io.github.jsnimda.inventoryprofiles.config.Configs2.Hotkeys;
 import io.github.jsnimda.inventoryprofiles.config.Configs2.ModSettings;
 import io.github.jsnimda.inventoryprofiles.config.Configs2.Tweaks;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
 
@@ -51,11 +56,30 @@ public class ConfigScreen extends ConfigScreenBase {
     super.setSelectedIndex(index);
   }
 
+  private ConfigOptionWidgetBase<?> openConfigMenuHotkeyWidget;
+
   @Override
   public void init() {
     super.init();
-    this.addButton(new ButtonWidget(this.width - 10 - 150, 5, 150, 20, "R + C", null));
+    openConfigMenuHotkeyWidget = ConfigOptionWidgetBase.of(Hotkeys.OPEN_CONFIG_MENU);
+    openConfigMenuHotkeyWidget.x = this.width - 10 - 150;
+    openConfigMenuHotkeyWidget.y = 5;
+    openConfigMenuHotkeyWidget.width = 150;
+    openConfigMenuHotkeyWidget.height = 20;
+    children.add(openConfigMenuHotkeyWidget);
 
+  }
+
+  @Override
+  public void render(int mouseX, int mouseY, float partialTicks) {
+    renderBackground(0);
+    openConfigMenuHotkeyWidget.render(mouseX, mouseY, partialTicks);
+    super.render(mouseX, mouseY, partialTicks);
+  }
+
+  @Override
+  public void renderBackground() {
+    // do nothing
   }
 
   @Override

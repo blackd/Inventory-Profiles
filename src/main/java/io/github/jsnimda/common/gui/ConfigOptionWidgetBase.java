@@ -7,6 +7,7 @@ import io.github.jsnimda.common.config.IConfigOption;
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
 import io.github.jsnimda.common.config.options.ConfigBoolean;
 import io.github.jsnimda.common.config.options.ConfigEnum;
+import io.github.jsnimda.common.config.options.ConfigHotkey;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
@@ -55,6 +56,9 @@ public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends Ab
     }
     if (configOption instanceof ConfigEnum) {
       return new ConfigOptionToggleableWidget<ConfigEnum<?>>((ConfigEnum<?>)configOption, x -> x.getValue().toString());
+    }
+    if (configOption instanceof ConfigHotkey) {
+      return new ConfigOptionHotkeyWidget((ConfigHotkey)configOption);
     }
 
     return new ConfigOptionWidgetBase<IConfigOption>(configOption) {};

@@ -27,6 +27,8 @@ public class GlobalInputHandler {
   }
 
   public boolean isActivated(List<Integer> keyCodes, KeybindSettings settings) {
+    if (keyCodes.isEmpty())
+      return false;
     if (settings.activateOn == KeyAction.PRESS && lastAction == GLFW.GLFW_RELEASE)
       return false;
     if (settings.activateOn == KeyAction.RELEASE && lastAction == GLFW.GLFW_PRESS)
@@ -36,8 +38,6 @@ public class GlobalInputHandler {
     if (settings.context == Context.GUI && MinecraftClient.getInstance().currentScreen == null)
       return false;
     // checked: context, activateOn
-    if (keyCodes.isEmpty())
-      return false;
     // ref: malilib KeybindMulti.updateIsPressed()
     List<Integer> pressedKeys = lastAction == GLFW.GLFW_PRESS ? pressingKeys : beforePressingKeys;
     if (pressedKeys.size() >= keyCodes.size() && (settings.allowExtraKeys || pressedKeys.size() == keyCodes.size())) {

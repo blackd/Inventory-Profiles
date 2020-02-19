@@ -12,6 +12,7 @@ import io.github.jsnimda.common.config.options.ConfigEnum;
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.config.options.ConfigHotkeyedBoolean;
 import io.github.jsnimda.common.config.options.ConfigInteger;
+import io.github.jsnimda.common.input.KeybindSettings;
 
 public class ConfigsClassBuilder {
 
@@ -41,7 +42,11 @@ public class ConfigsClassBuilder {
   }
 
   public static ConfigHotkey hotkey(String defaultValue) {
-    return null;
+    return new ConfigHotkey(defaultValue, KeybindSettings.INGAME_DEFAULT);
+  }
+
+  public static ConfigHotkey hotkey(String defaultValue, KeybindSettings defaultSettings) {
+    return new ConfigHotkey(defaultValue, defaultSettings);
   }
 
   public static ConfigHotkeyedBoolean hotkeyedBool(boolean defaultValue) {

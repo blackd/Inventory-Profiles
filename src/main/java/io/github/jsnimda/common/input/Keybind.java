@@ -37,6 +37,14 @@ public class Keybind implements IConfigElementResettable {
     this.parent = Optional.of(parent);
   }
 
+  public List<Integer> getKeyCodes() {
+    return keyCodes;
+  }
+
+  public List<Integer> getDefaultKeyCodes() {
+    return defaultKeyCodes;
+  }
+
   public KeybindSettings getSettings() {
     return settings.isPresent() ? settings.get() : parent.get().getSettings();
   }
@@ -67,6 +75,13 @@ public class Keybind implements IConfigElementResettable {
   private static String keyCodesToStorageString(List<Integer> keyCodes) {
     return keyCodes.stream().map(x -> KeyCodes.getKeyName(x)).collect(Collectors.joining(","));
   }
+  private static String keyCodesToDisplayText(List<Integer> keyCodes) {
+    return keyCodes.stream().map(x -> KeyCodes.getFriendlyName(x)).collect(Collectors.joining(" + "));
+  }
+
+  public String getDisplayText() {
+    return keyCodesToDisplayText(keyCodes);
+  }
 
   public String toStorageString() {
     return keyCodesToStorageString(keyCodes);
@@ -77,7 +92,7 @@ public class Keybind implements IConfigElementResettable {
   }
 
   public boolean isKeyCodesModified() {
-    return !defaultKeyCodes.equals(keyCodes);
+    return !defaultKeyCodes.equals(keyCodes); // though they are different type, should be ok
   }
 
   public boolean isSettingsModified() {

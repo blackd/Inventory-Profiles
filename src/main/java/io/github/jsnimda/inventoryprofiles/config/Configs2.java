@@ -12,6 +12,7 @@ import io.github.jsnimda.common.config.options.ConfigEnum;
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.config.options.ConfigHotkeyedBoolean;
 import io.github.jsnimda.common.config.options.ConfigInteger;
+import io.github.jsnimda.common.input.KeybindSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodOption;
 
 public class Configs2 {
@@ -40,8 +41,8 @@ public class Configs2 {
   @ConfigOptionsClass
   public static class Hotkeys {
     @Category("inventoryprofiles.config.category.hotkeys")
-    public static final ConfigHotkey OPEN_CONFIG_MENU                  = hotkey("R,C");
-    public static final ConfigHotkey SORT_INVENTORY                    = hotkey("R");
+    public static final ConfigHotkey OPEN_CONFIG_MENU                  = hotkey("R,C", KeybindSettings.INGAME_DEFAULT);
+    public static final ConfigHotkey SORT_INVENTORY                    = hotkey("R", KeybindSettings.GUI_DEFAULT);
     public static final ConfigHotkey SORT_INVENTORY_IN_COLUMNS         = hotkey("");
     public static final ConfigHotkey SORT_INVENTORY_IN_ROWS            = hotkey("");
     public static final ConfigHotkey MOVE_ALL_ITEMS                    = hotkey("");

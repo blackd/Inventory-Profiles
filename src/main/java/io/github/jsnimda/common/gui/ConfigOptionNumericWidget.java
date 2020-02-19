@@ -100,7 +100,6 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
       textField.setText(String.valueOf(configOption.getValue()));
     }
     (useSlider ? slider : textField).render(mouseX, mouseY, partialTicks);
-    System.out.println(getFocused());
   }
 
   @Override
