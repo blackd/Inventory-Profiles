@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.google.common.primitives.Doubles;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;

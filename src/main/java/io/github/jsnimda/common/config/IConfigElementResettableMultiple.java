@@ -1,6 +1,7 @@
 package io.github.jsnimda.common.config;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,11 +10,21 @@ import com.google.gson.JsonObject;
 
 public interface IConfigElementResettableMultiple extends IConfigElementResettable {
 
+  default Map<String, ? extends IConfigOption> getConfigOptionsMapFromConfigOptionsCollection() {
+    Map<String, IConfigOption> map = new HashMap<>();
+    for (IConfigOption configOption : getConfigOptions()) {
+      map.put(configOption.getKey(), configOption);
+    }
+    return map;
+  }
+
   Map<String, ? extends IConfigOption> getConfigOptionsMap();
 
-  default Collection<? extends IConfigOption> getConfigOptions() {
+  default Collection<? extends IConfigOption> getConfigOptionsCollectionFromConfigOptionsMap() {
     return getConfigOptionsMap().values();
   };
+
+  Collection<? extends IConfigOption> getConfigOptions();
 
   @Override
   default JsonElement toJsonElement() {

@@ -1,6 +1,7 @@
 package io.github.jsnimda.common.config;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,11 @@ public class CategorizedConfigOptions extends ConfigOptionBase implements IConfi
   @Override
   public Map<String, ? extends IConfigOption> getConfigOptionsMap() {
     return configOptionsMap;
+  }
+
+  @Override
+  public Collection<? extends IConfigOption> getConfigOptions() {
+    return getConfigOptionsCollectionFromConfigOptionsMap();
   }
 
 }

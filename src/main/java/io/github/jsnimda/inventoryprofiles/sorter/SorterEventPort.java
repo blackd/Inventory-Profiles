@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import fi.dy.masa.malilib.gui.GuiBase;
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
-import io.github.jsnimda.common.gui.BaseScreen;
 import io.github.jsnimda.common.gui.DebugScreen;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen;

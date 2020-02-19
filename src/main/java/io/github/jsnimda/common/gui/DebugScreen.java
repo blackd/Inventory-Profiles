@@ -8,8 +8,6 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import org.lwjgl.glfw.GLFW;
-
 import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.input.KeyCodes;
 import net.minecraft.client.MinecraftClient;

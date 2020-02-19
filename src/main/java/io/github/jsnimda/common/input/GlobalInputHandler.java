@@ -6,6 +6,9 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 
 import io.github.jsnimda.common.gui.DebugScreen.DebugInfos;
+import io.github.jsnimda.common.input.KeybindSettings.Context;
+import io.github.jsnimda.common.input.KeybindSettings.KeyAction;
+import net.minecraft.client.MinecraftClient;
 
 public class GlobalInputHandler {
 
@@ -15,20 +18,57 @@ public class GlobalInputHandler {
   }
 
   public final List<Integer> pressingKeys = new ArrayList<>();
+  public List<Integer> beforePressingKeys = new ArrayList<>();
+  public int lastKey = -1;
+  public int lastAction = -1;
 
   private GlobalInputHandler() {
 
   }
 
-  public boolean onKeyPress(int key) {
-    if (!pressingKeys.contains(key)) {
-      pressingKeys.add(key);
+  public boolean isActivated(List<Integer> keyCodes, KeybindSettings settings) {
+    if (settings.activateOn == KeyAction.PRESS && lastAction == GLFW.GLFW_RELEASE)
+      return false;
+    if (settings.activateOn == KeyAction.RELEASE && lastAction == GLFW.GLFW_PRESS)
+      return false;
+    if (settings.context != Context.ANY && MinecraftClient.getInstance().currentScreen != null)
+      return false;
+    if (settings.context == Context.GUI && MinecraftClient.getInstance().currentScreen == null)
+      return false;
+    // checked: context, activateOn
+    // ref: malilib KeybindMulti.updateIsPressed()
+    List<Integer> pressedKeys = lastAction == GLFW.GLFW_PRESS ? pressingKeys : beforePressingKeys;
+    if (pressedKeys.size() >= keyCodes.size() && (settings.allowExtraKeys || pressedKeys.size() == keyCodes.size())) {
+      if (settings.orderSensitive) {
+        for (int i = 0; i < keyCodes.size(); i++) {
+          if (keyCodes.get(keyCodes.size() - 1 - i) != pressedKeys.get(pressedKeys.size() - 1 - i)) {
+            return false;
+          }
+        }
+        return true;
+      } else { // order insensitive
+        return keyCodes.contains(lastKey) && pressedKeys.containsAll(keyCodes);
+      }
+    } else {
+      return false;
     }
+  }
+
+  public boolean onKeyPress(int key) {
+    if (pressingKeys.contains(key)) return false; // should err
+    beforePressingKeys = new ArrayList<>(pressingKeys);
+    pressingKeys.add(key);
+    lastKey = key;
+    lastAction = GLFW.GLFW_PRESS;
     return false;
   }
 
   public boolean onKeyRelease(int key) {
+    if (!pressingKeys.contains(key)) return false; // should err
+    beforePressingKeys = new ArrayList<>(pressingKeys);
     pressingKeys.remove((Object)key);
+    lastKey = key;
+    lastAction = GLFW.GLFW_RELEASE;
     return false;
   }
 
