@@ -2,6 +2,7 @@ package io.github.jsnimda.common.input;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableList;
@@ -14,30 +15,42 @@ public class Keybind implements IConfigElementResettable {
 
   private final List<Integer> defaultKeyCodes;
   private List<Integer> keyCodes;
-  private final KeybindSettings defaultSettings;
-  private KeybindSettings settings;
+  private final Optional<KeybindSettings> defaultSettings; // empty if inherit parent
+  private Optional<KeybindSettings> settings;
+
+  private final Optional<Keybind> parent; // (main keybind)
 
   public Keybind(String defaultStorageString, KeybindSettings defaultSettings) {
     this.defaultKeyCodes = ImmutableList.copyOf(storageStringToKeyCodes(defaultStorageString));
     this.keyCodes = new ArrayList<>(defaultKeyCodes);
-    this.defaultSettings = defaultSettings;
-    this.settings = defaultSettings;
+    this.defaultSettings = Optional.of(defaultSettings);
+    this.settings = Optional.of(defaultSettings);
+    this.parent = Optional.empty();
+  }
+
+  // inherit key settings of parent (default = inherit) (alternative keys)
+  public Keybind(Keybind parent) {
+    this.defaultKeyCodes = ImmutableList.of();
+    this.keyCodes = new ArrayList<>();
+    this.defaultSettings = Optional.empty();
+    this.settings = Optional.empty();
+    this.parent = Optional.of(parent);
   }
 
   public KeybindSettings getSettings() {
-    return settings;
+    return settings.isPresent() ? settings.get() : parent.get().getSettings();
   }
 
   public KeybindSettings getDefaultSettings() {
-    return defaultSettings;
+    return defaultSettings.isPresent() ? defaultSettings.get() : parent.get().getSettings();
   }
 
   public void setSettings(KeybindSettings settings) {
-    this.settings = settings;
+    this.settings = Optional.of(settings);
   }
 
   public boolean isActivated() {
-    return GlobalInputHandler.getInstance().isActivated(keyCodes, settings);
+    return GlobalInputHandler.getInstance().isActivated(keyCodes, getSettings());
   }
 
   private static List<Integer> storageStringToKeyCodes(String storageString) {
@@ -85,8 +98,11 @@ public class Keybind implements IConfigElementResettable {
     if (isKeyCodesModified()) {
       obj.addProperty("keys", toStorageString());
     }
+    if (parent.isPresent()) {
+      obj.addProperty("inherit", !settings.isPresent()); // inherit, for no settings property and not inherit
+    }
     if (isSettingsModified()) {
-      obj.add("settings", new ConfigElementKeybindSetting(defaultSettings, settings).toJsonElement());
+      obj.add("settings", new ConfigElementKeybindSetting(getDefaultSettings(), getSettings()).toJsonElement());
     }
     return obj;
   }
@@ -104,10 +120,23 @@ public class Keybind implements IConfigElementResettable {
           // TODO fail log
         }
       }
-      if (obj.has("settings")) {
-        ConfigElementKeybindSetting configEle = new ConfigElementKeybindSetting(defaultSettings, settings);
+      if (obj.has("settings")) { // ignore inherit
+        ConfigElementKeybindSetting configEle = new ConfigElementKeybindSetting(getDefaultSettings(), getSettings());
         configEle.fromJsonElement(obj.get("settings"));
-        settings = configEle.getSettings();
+        settings = Optional.of(configEle.getSettings());
+      } else if (parent.isPresent()) {
+        boolean inherit = true;
+        if (obj.has("inherit")) {
+          JsonElement inheritEle = obj.get("inherit");
+          if (inheritEle.isJsonPrimitive() && inheritEle.getAsJsonPrimitive().isBoolean()) {
+            inherit = inheritEle.getAsBoolean();
+          } else {
+            // TODO fail log
+          }
+        }
+        if (!inherit) { // then settings should not empty
+          settings = Optional.of(getDefaultSettings());
+        }
       }
     } else {
       // TODO fail log
