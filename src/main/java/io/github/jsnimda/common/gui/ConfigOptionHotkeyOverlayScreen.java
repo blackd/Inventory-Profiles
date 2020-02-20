@@ -18,6 +18,11 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
   private ConfigElementKeybindSetting keybindSettingElement;
   List<? extends IConfigOption> configs;
   List<ConfigOptionWidgetBase<?>> configWidgets;
+
+  private int dialogX;
+  private int dialogY;
+  private int dialogWidth;
+  private int dialogHeight;
   protected ConfigOptionHotkeyOverlayScreen(ConfigHotkey configHotkey) {
     super(new TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings"));
     this.configHotkey = configHotkey;
@@ -36,30 +41,30 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
     renderBackground(0);
     configHotkey.getMainKeybind().setSettings(keybindSettingElement.getSettings());
 
-    int h = 5 * 20 + 2 + 10;
+    dialogHeight = 5 * 20 + 2 + 10;
     int maxTextW = configs.stream().mapToInt(x -> this.font.getStringWidth(I18n.translate("inventoryprofiles.common.gui.config." + x.getKey()))).max().orElse(0);
-    int w = maxTextW + 150 + 2 + 20;
-    w = Math.max(this.font.getStringWidth("§l" + this.title.asFormattedString()) + 20, w);
-    int x = (this.width - w) / 2;
-    int y = (this.height - h) / 2;
+    dialogWidth = maxTextW + 150 + 2 + 20;
+    dialogWidth = Math.max(this.font.getStringWidth("§l" + this.title.asFormattedString()) + 20, dialogWidth);
+    dialogX = (this.width - dialogWidth) / 2;
+    dialogY = (this.height - dialogHeight) / 2;
 
-    fill(x, y, x + w, y + h, COLOR_BG);
-    VHLine.outline(x, y, x + w, y + h, COLOR_BORDER);
+    fill(dialogX, dialogY, dialogX + dialogWidth, dialogY + dialogHeight, COLOR_BG);
+    VHLine.outline(dialogX, dialogY, dialogX + dialogWidth, dialogY + dialogHeight, COLOR_BORDER);
 
-    int y0 = y + 2;
-    drawCenteredString(this.font, "§l" + this.title.asFormattedString(), x + w / 2, y0 + 6, COLOR_WHITE);
+    int y0 = dialogY + 2;
+    drawCenteredString(this.font, "§l" + this.title.asFormattedString(), dialogX + dialogWidth / 2, y0 + 6, COLOR_WHITE);
 
     for (ConfigOptionWidgetBase<?> widget : configWidgets) {
       y0 += 20;
       String displayName = I18n.translate("inventoryprofiles.common.gui.config." + widget.configOption.getKey());
-      int tx = x + 10;
+      int tx = dialogX + 10;
       int ty = y0 + 6;
       int tw = this.font.getStringWidth(displayName);
       drawString(this.font, displayName, tx, ty, COLOR_WHITE);
       if (VHLine.contains(tx, ty - 1, tx + tw, ty + 9 + 1, mouseX, mouseY)) {
         Tooltips.getInstance().addTooltip(I18n.translate("inventoryprofiles.common.gui.config.description." + widget.configOption.getKey()), mouseX, mouseY, k -> k * 2 / 3);
       }
-      widget.x = x + maxTextW + 2 + 10;
+      widget.x = dialogX + maxTextW + 2 + 10;
       widget.y = y0;
       widget.width = 150;
       widget.render(mouseX, mouseY, partialTicks);
@@ -67,6 +72,18 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
 
     Tooltips.getInstance().renderAll();
 
+  }
+
+  @Override
+  public boolean mouseClicked(double d, double e, int i) {
+    if (super.mouseClicked(d, e, i)) {
+      return true;
+    }
+    if (!VHLine.contains(dialogX, dialogY, dialogX + dialogWidth, dialogY + dialogHeight, (int)d, (int)e)) { // click outside dialog
+      this.onClose();
+      return true;
+    }
+    return false;
   }
 
   @Override
