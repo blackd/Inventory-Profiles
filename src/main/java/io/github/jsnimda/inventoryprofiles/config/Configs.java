@@ -55,12 +55,12 @@ public class Configs {
   @ConfigOptionsClass
   public static class Tweaks {
     @Category("inventoryprofiles.config.category.client_side_tweaks")
-    public static final ConfigHotkeyedBoolean INSTANT_MINING_COOLDOWN           = hotkeyedBool(false);
+    // public static final ConfigHotkeyedBoolean INSTANT_MINING_COOLDOWN           = hotkeyedBool(false);
     public static final ConfigHotkeyedBoolean DISABLE_BLOCK_BREAKING_COOLDOWN   = hotkeyedBool(false);
     public static final ConfigHotkeyedBoolean DISABLE_ITEM_USE_COOLDOWN         = hotkeyedBool(false);
     public static final ConfigHotkeyedBoolean PREVENT_CLOSE_GUI_DROP_ITEM       = hotkeyedBool(false);
-    public static final ConfigHotkeyedBoolean DISABLE_SCREEN_SHAKING_ON_DAMAGE  = hotkeyedBool(false);
-    public static final ConfigHotkeyedBoolean DISABLE_LAVA_FOG                  = hotkeyedBool(false);
+    // public static final ConfigHotkeyedBoolean DISABLE_SCREEN_SHAKING_ON_DAMAGE  = hotkeyedBool(false);
+    // public static final ConfigHotkeyedBoolean DISABLE_LAVA_FOG                  = hotkeyedBool(false);
   }
 
   @Exclude
