@@ -10,10 +10,10 @@
     "MixinGameRenderer",
     "MixinGlStateManager",
     "MixinClientPlayerEntity",
-    "IMixinAbstractContainerScreen",
+    "IMixinContainerScreen",
     "IMixinSlot",
     "MixinGuiCloseC2SPacket",
-    "MixinAbstractContainerScreen"
+    "MixinContainerScreen"
   ],
   "injectors": {
     "defaultRequire": 1

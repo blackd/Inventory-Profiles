@@ -19,9 +19,9 @@ group = project.maven_group
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
-repositories {
-    maven { url 'https://masa.dy.fi/maven' }
-}
+// repositories {
+//     maven { url 'https://masa.dy.fi/maven' }
+// }
 
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
@@ -95,9 +95,9 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:' + project.minecraft_version + '-' + project.forge_version
 
-    compile fg.deobf (project.dependencies.create('fi.dy.masa.malilib:malilib-forge-' + project.minecraft_version_out + ':' + project.malilib_version) {
-        transitive = false
-    })
+    // compile fg.deobf (project.dependencies.create('fi.dy.masa.malilib:malilib-forge-' + project.minecraft_version_out + ':' + project.malilib_version) {
+    //     transitive = false
+    // })
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -121,7 +121,7 @@ dependencies {
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
-    baseName = project.mod_file_name + '-' + project.minecraft_version_out
+    baseName = project.mod_file_name + '-' + project.minecraft_version
 
     manifest {
         attributes([

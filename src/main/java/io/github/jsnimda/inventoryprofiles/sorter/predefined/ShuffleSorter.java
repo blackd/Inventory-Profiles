@@ -2,14 +2,12 @@ package io.github.jsnimda.inventoryprofiles.sorter.predefined;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import io.github.jsnimda.inventoryprofiles.sorter.ISortingMethodProvider;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
@@ -17,15 +15,72 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeStats;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
-import io.github.jsnimda.inventoryprofiles.sorter.util.WeightedRandom;
 
 /**
  * ShuffleSorter
  */
 public class ShuffleSorter implements ISortingMethodProvider {
 
+  // private static final int MAX_TRIES = 50000;
   public int emptySpace;
   private Random random = new Random();
+
+  private int[] randfixedsum(int n, int max, int sum) { // TODO use randfixedsum
+                                                        // https://www.mathworks.com/matlabcentral/fileexchange/9700-random-vectors-with-fixed-sum
+    
+    if (sum > n * max) {
+      throw new IllegalArgumentException("sum > n * max");
+    }
+    if (n == 1) {
+      return new int[]{sum};
+    }
+    int a = n / 2;
+    int b = n - a;
+    int aMinSum = Math.max(0, sum - b * max);
+    int aMaxSum = Math.min(sum, a * max);
+    int aSum = randInc(aMinSum, aMaxSum);
+    int[] aRes = randfixedsum(a, max, aSum);
+    int[] bRes = randfixedsum(b, max, sum - aSum);
+    return ArrayUtils.addAll(aRes, bRes);
+  }
+  private int randInc(int min, int max) {
+    return random.nextInt(max - min + 1) + min; 
+  }
+
+  private static class Constraint {
+    public int min;
+    public int max;
+    public Constraint(int min, int max) {
+      this.min = min;
+      this.max = max;
+    }
+    
+  }
+  private int[] randfixedsum(List<Constraint> nums, int sum) {
+    if (totalMin(nums) > sum || totalMax(nums) < sum) {
+      throw new IllegalArgumentException("impossible sum");
+    }
+    if (nums.size() <= 0) {
+      return new int[0];
+    }
+    if (nums.size() == 1) {
+      return new int[]{sum};
+    }
+    List<Constraint> a = nums.subList(0, nums.size() / 2);
+    List<Constraint> b = nums.subList(a.size(), nums.size());
+    int aMinSum = Math.max(totalMin(a), sum - totalMax(b));
+    int aMaxSum = Math.min(sum - totalMin(b), totalMax(a));
+    int aSum = randInc(aMinSum, aMaxSum);
+    int[] aRes = randfixedsum(a, aSum);
+    int[] bRes = randfixedsum(b, sum - aSum);
+    return ArrayUtils.addAll(aRes, bRes);
+  }
+  private int totalMin(List<Constraint> e) {
+    return e.stream().mapToInt(x -> x.min).sum();
+  }
+  private int totalMax(List<Constraint> e) {
+    return e.stream().mapToInt(x -> x.max).sum();
+  }
 
   public ShuffleSorter(int emptySpace) {
     this.emptySpace = emptySpace;
@@ -63,79 +118,37 @@ public class ShuffleSorter implements ISortingMethodProvider {
       extra = resTotalStackCount - stats.getMinTotalStackCount(); // extra slots that can give randomly
     }
     private void spreadStackCounts() {
-      stackCounts = createMultiset(x -> x.stackCount);
-      Multiset<VirtualItemType> chances = createMultiset(x -> x.totalCount - x.stackCount);
-      for (int i = 0; i < extra; i++) {
-        VirtualItemType sel = WeightedRandom.of(chances.elementSet(),
-          x -> (double)(chances.count(x)) // no chance when stackCount = totalCount
-        ).next();
-        stackCounts.add(sel);
-        chances.remove(sel);
+      stackCounts = HashMultiset.create();
+
+      List<VirtualItemType> types = stats.getInfosAsList(x -> x.type);
+      List<Constraint> r = new ArrayList<>();
+      
+      for (VirtualItemType type : types) {
+        ItemTypeStats info = stats.getInfos().get(type);
+        r.add(new Constraint(info.stackCount, info.totalCount));
       }
-    }
-    private Multiset<VirtualItemType> createMultiset(Function<ItemTypeStats, Integer> countFunction) {
-      Multiset<VirtualItemType> s = HashMultiset.create();
-      stats.getInfos().values().forEach(x -> s.add(x.type, countFunction.apply(x)));
-      return s;
+
+      int[] counts = randfixedsum(r, stats.getMinTotalStackCount() + extra);
+      for (int i = 0; i < counts.length; i++) {
+        stackCounts.add(types.get(i), counts[i]);
+      }
     }
     private List<VirtualItemStack> spreadItemCounts() {
       List<VirtualItemStack> res = new ArrayList<>();
-      // may be in the future find a mathematical formula for this,
-      // currently it runs O(all totalCount)
-      Multiset<VirtualItemType> remaining = createMultiset(x -> x.totalCount - stackCounts.count(x.type));
-      Map<VirtualItemType, List<VirtualItemStack>> resStacks = stats.getInfosAsMap(x->new ArrayList<>());
-      for (VirtualItemType type : stackCounts) {
-        if (type.getMaxCount() == 1){
-          res.add(new VirtualItemStack(type, 1));
-        } else {
-          resStacks.get(type).add(new VirtualItemStack(type, 1));
+      
+      for (VirtualItemType type : stats.getInfos().keySet()) {
+        int total = stats.getInfos().get(type).totalCount;
+        int stack = stackCounts.count(type);
+        int max = type.getMaxCount();
+        int[] counts = randfixedsum(stack, max - 1, total - stack); // each stack at least 1
+        for (int count : counts) {
+          res.add(new VirtualItemStack(type, count + 1));
         }
       }
-      for (VirtualItemType type : remaining.elementSet()) {
-        int count = remaining.count(type);
-        List<VirtualItemStack> cand = resStacks.get(type);
-        prob(count, cand, res, ShuffleSorter.this::probEven);
-      }
-      resStacks.values().forEach(x -> x.forEach(y -> res.add(y)));
+
       return CodeUtils.pad(res, stats.size, ()->VirtualItemStack.empty());
     }
 
-    private void prob(int count, List<VirtualItemStack> cand, List<VirtualItemStack> res,
-        Function<List<VirtualItemStack>, Integer> randFunc) {
-      for (int i = 0; i < count; i++) {
-        int sel = randFunc.apply(cand);
-        cand.get(sel).count++;
-        if (cand.get(sel).isFull()) {
-          res.add(cand.remove(sel));
-        }
-      }
-    }
-
-  }
-
-  private List<Integer> indexes(int count) {
-    return IntStream.range(0, count).boxed().collect(Collectors.toList());
-  }
-
-  public int probConstant(List<VirtualItemStack> cand) {
-    return random.nextInt(cand.size());
-  }
-  public int probIncreasing(List<VirtualItemStack> cand) {
-    return WeightedRandom.of(indexes(cand.size()),
-      x -> 0.0 + Math.pow(cand.get(x).count/(double)cand.get(x).getMaxCount(), 1.5)
-    ).next();
-  }
-  public int probDecreasing(List<VirtualItemStack> cand) {
-    return WeightedRandom.of(indexes(cand.size()),
-      x -> (double)(cand.get(x).getMaxCount() - cand.get(x).count)
-    ).next();
-  }
-  public int probEven(List<VirtualItemStack> cand) {
-    int maxAt = 0;
-    for (int i = 0; i < cand.size(); i++) {
-        maxAt = cand.get(i).count < cand.get(maxAt).count ? i : maxAt;
-    }
-    return maxAt;
   }
 
 }
