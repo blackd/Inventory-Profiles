@@ -14,10 +14,6 @@
     "inventoryprofiles.common.gui.config.allow_extra_keys": "Allow Extra Keys",
     "inventoryprofiles.common.gui.config.order_sensitive": "Order Sensitive",
     "inventoryprofiles.common.gui.config.keybind_settings_tips": "- Left click to configure\n- Right click to reset to defaults",
-    
-    
-    
-    
 
     "inventoryprofiles.common.enum.key_action.press": "Press",
     "inventoryprofiles.common.enum.key_action.release": "Release",
@@ -40,10 +36,6 @@
     "inventoryprofiles.config.category.hotkeys": "Hotkeys",
     "inventoryprofiles.config.category.client_side_tweaks": "Client-side Tweaks",
 
-    "inventoryprofiles.enum.sorting_method.default": "Default (Creative Menu)",
-    "inventoryprofiles.enum.sorting_method.item_name": "Item Name",
-    "inventoryprofiles.enum.sorting_method.item_id": "Item ID",
-    "inventoryprofiles.enum.sorting_method.translation_key": "Translation Key",
 
 
     "inventoryprofiles.config.name.sort_order":                     "Sort Order",
@@ -107,56 +99,14 @@
 
 
 
-
-
-    
-
-    "inventoryprofiles.gui.button.config_gui.generic": "Generic",
-    "inventoryprofiles.gui.button.config_gui.sorting_method": "Sorting Methods",
-    "inventoryprofiles.gui.button.config_gui.profiles": "Profiles",
-    "inventoryprofiles.gui.button.config_gui.advanced_options": "Advanced Options",
-    "inventoryprofiles.gui.button.config_gui.hotkeys": "Hotkeys",
-    "inventoryprofiles.gui.button.config_gui.tweaks": "Tweaks",
-    "inventoryprofiles.gui.button.config_gui.tweak_values": "Combat/Building Tweaks",
-    "inventoryprofiles.gui.button.config_gui.tweak_hotkeys": "Tweak Hotkeys",
-
-
-    "inventoryprofiles.gui.title.configs": "Inventory Profiles Configs",
+    "inventoryprofiles.enum.sorting_method.default": "Default (Creative Menu)",
+    "inventoryprofiles.enum.sorting_method.item_name": "Item Name",
+    "inventoryprofiles.enum.sorting_method.item_id": "Item ID",
+    "inventoryprofiles.enum.sorting_method.translation_key": "Translation Key",
 
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",
     "inventoryprofiles.tooltip.sort_rows_button": "Sort Inventory in Rows",
-    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6(Hold §oSHIFT§r§6 to\n§6include the hotbar.)§r",
+    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6(Hold §oSHIFT§r§6 to\n§6include the hotbar.)§r"
 
-    "inventoryprofiles.label.sorting_method.default": "Default (Creative Menu)",
-    "inventoryprofiles.label.sorting_method.item_name": "Item Name",
-    "inventoryprofiles.label.sorting_method.item_id": "Item ID",
-    "inventoryprofiles.label.sorting_method.translation_key": "Translation Key",
-    
-    "inventoryprofiles.config.comment.openConfigGui":               "The key open the in-game config GUI",
-    "inventoryprofiles.config.comment.sortingMethod":               "The sorting method used for inventory sorting",
-    "inventoryprofiles.config.comment.sortInventory":               "The key to sort the inventory",
-    "inventoryprofiles.config.comment.sortInventoryByGroupColumns": "The key to sort the inventory in columns",
-    "inventoryprofiles.config.comment.sortInventoryByGroupRows":    "The key to sort the inventory in rows",
-    "inventoryprofiles.config.comment.enableSwitchProfileHoykey":   "Enables the hotkey \"switchProfile\"",
-    "inventoryprofiles.config.comment.switchProfile":               "The key to switch profile",
-    "inventoryprofiles.config.comment.moveAllContainerExistingItems": "The key to move all the itmes that already existed in the container",
-
-    "inventoryprofiles.config.comment.instantMiningCooldown":       "Adds breaking delay to the blocks that you can instantly mine. This\noption has lower priority than \"disableBlockBreakingCooldown\".",
-    "inventoryprofiles.config.comment.disableBlockBreakingCooldown":"Removes breaking delay for all blocks",
-    "inventoryprofiles.config.comment.disableItemUseCooldown":      "Removes use key cooldown so you can have equivalently 1 right click\nevery game tick. Can use along with Tweakeroo \"tweakPlacementRestriction\".",
-    "inventoryprofiles.config.comment.preventCloseGuiDropItem":     "Closing GUI will no longer drop the item that holding by the cursor",
-    "inventoryprofiles.config.comment.disbleScreenShakingOnDamage": "Receiving damage no longer shakes your screen",
-    "inventoryprofiles.config.comment.disableLavaFog":              "Allows you to have a clearer view underneath lava",
-
-    "inventoryprofiles.config.comment.addIntervalBetweenClicks":    "Adds some interval between clicks while sorting. Amount of interval\ncan be set by \"intervalBetweenClicksMs\". Might be useful on some\nlaggy servers or inventory.fastclick disabled servers.",
-    "inventoryprofiles.config.comment.intervalBetweenClicksMs":     "Interval between clicks. In milliseconds.",
-    "inventoryprofiles.config.comment.sortRestockHotbar":           "Auto restock your hotbar while sorting",
-    "inventoryprofiles.config.comment.showInventoryButtonTooltips": "Display tooltips when cursor hover the buttons on GUI",
-    "inventoryprofiles.config.comment.inventoryShowProfileButtons": "Show profile buttons on GUI",
-    "inventoryprofiles.config.comment.inventoryShowSortButtons":    "Show sort buttons on GUI",
-    "inventoryprofiles.config.comment.inventoryShowMoveAllButtons": "Show move all buttons on GUI",
-    "inventoryprofiles.config.comment.sortCursorPointing":          "When this is true, using hotkey sorting will sort the slots that\ncurosr is pointing to. Otherwise it will always sort the container.",
-    "inventoryprofiles.config.comment.sortClickTargetsFirst":       "When this is true, find the correct item for the first slot first\ninstead of finding the correct slot for the first item first. You\nmay only see the difference if \"addIntervalBetweenClicks\" is on.\nFinal result won't be different whether this is true or false.",
-    "inventoryprofiles.config.comment.debugLogs":                   "Prints debug messages"
 }
