@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
 import io.github.jsnimda.inventoryprofiles.sorter.SorterEventPort;
-import net.minecraft.server.network.packet.GuiCloseC2SPacket;
+import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
 
 /**
  * MixinGuiCloseC2SPacket

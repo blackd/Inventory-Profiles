@@ -13,7 +13,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.Converter;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CurrentState;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Getter;
-import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
+import net.minecraft.client.gui.screen.ingame.ContainerScreen;
 import net.minecraft.container.Container;
 import net.minecraft.container.Slot;
 
@@ -45,7 +45,7 @@ public class VirtualSorterPort {
     }
   }
   public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
-    if (Current.screen() != null && !(Current.screen() instanceof AbstractContainerScreen)) return;
+    if (Current.screen() != null && !(Current.screen() instanceof ContainerScreen)) return;
 
     ContainerInfo info = CurrentState.containerInfo();
     ContainerActions.cleanCursor();

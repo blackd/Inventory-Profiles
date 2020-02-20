@@ -55,7 +55,7 @@ public class ContainerActions {
     }
   }
   public static void quickMoveByPlayerStorageSlotsFirst(int fromSlotId, boolean putToHotbar) { // fixing for when player inventory is full
-    Slot slot = Current.container().slotList.get(fromSlotId);
+    Slot slot = Current.container().slots.get(fromSlotId);
     if (slot.getStack().isEmpty()) return;
     boolean pickedUpFromSlot = false;
     for (CleanCursorCandidateSlot cccs : CleanCursorCandidateSlot.gets(false, putToHotbar)) {

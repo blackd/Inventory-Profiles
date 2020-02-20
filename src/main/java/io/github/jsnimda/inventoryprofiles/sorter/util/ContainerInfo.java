@@ -61,7 +61,7 @@ public class ContainerInfo {
     }
     private void translatePlayer(Container asContainer) {
       Slot[] armorSlots = new Slot[5];
-      for (Slot s : asContainer.slotList) { // assumed in order of slot.id
+      for (Slot s : asContainer.slots) { // assumed in order of slot.id
         if (!(s.inventory instanceof PlayerInventory)) continue;
         int invSlot = Getter.invSlot(s);
         if (invSlot >= 0 && invSlot < 9) {
@@ -85,13 +85,13 @@ public class ContainerInfo {
         .filter(x->x!=null).forEach(x->playerArmorSlots.add(x));
     }
     private void translateNonPlayer() {
-      for (Slot s : container.slotList) { // (need to test hidden slots?)
+      for (Slot s : container.slots) { // (need to test hidden slots?)
         if (s.inventory instanceof PlayerInventory) continue;
         nonPlayerSlots.add(s);
         slotsMap.put(s.inventory, s);
       }
 
-      for (Slot s : container.slotList) {
+      for (Slot s : container.slots) {
         if (s.inventory instanceof PlayerInventory) continue;
         if (s instanceof TradeOutputSlot) {
           traderOutputSlots.add(s);

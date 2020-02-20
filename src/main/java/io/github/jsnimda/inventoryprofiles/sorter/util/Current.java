@@ -7,7 +7,7 @@ import io.github.jsnimda.inventoryprofiles.mixin.IMixinAbstractContainerScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
+import net.minecraft.client.gui.screen.ingame.ContainerScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
@@ -89,10 +89,10 @@ public class Current {
       int id = Getter.slotId(raw);
       int invSlot = Getter.invSlot(raw);
       if (raw.inventory instanceof PlayerInventory && 0 <= invSlot && invSlot <= 8 && id == 45 + invSlot) {
-        return playerContainer().slotList.get(36+invSlot);
+        return playerContainer().slots.get(36+invSlot);
       }
       if (raw.inventory instanceof PlayerInventory && id == 0 && 0 <= invSlot && invSlot <= 45) {
-        return playerContainer().slotList.get(invSlot);
+        return playerContainer().slots.get(invSlot);
       }
       return null;
     } else
@@ -100,7 +100,7 @@ public class Current {
   }
   public static Slot focusedSlot(boolean raw) {
     if (!raw) return focusedSlot();
-    return (screen() instanceof AbstractContainerScreen) ? 
+    return (screen() instanceof ContainerScreen) ? 
         ((IMixinAbstractContainerScreen) screen()).getFocusedSlot() : null;
   }
 

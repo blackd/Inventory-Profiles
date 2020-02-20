@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import io.github.jsnimda.common.config.IConfigOption;
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.input.ConfigElementKeybindSetting;
-import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
 
@@ -35,7 +35,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
   @Override
   public void render(int mouseX, int mouseY, float partialTicks) {
     super.render(mouseX, mouseY, partialTicks);
-    GuiLighting.disable();
+    DiffuseLighting.disable();
     this.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
     configHotkey.getMainKeybind().setSettings(keybindSettingElement.getSettings());
 

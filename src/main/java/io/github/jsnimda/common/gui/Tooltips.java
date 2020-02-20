@@ -11,7 +11,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 
 public class Tooltips {
@@ -47,7 +47,7 @@ public class Tooltips {
       ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
       if (!list.isEmpty()) {
         GlStateManager.disableRescaleNormal();
-        GuiLighting.disable();
+        DiffuseLighting.disable();
         GlStateManager.disableLighting();
         GlStateManager.disableDepthTest();
         int maxStringWidth = 0;
@@ -111,7 +111,7 @@ public class Tooltips {
         itemRenderer.zOffset = 0.0F;
         GlStateManager.enableLighting();
         GlStateManager.enableDepthTest();
-        GuiLighting.enable();
+        DiffuseLighting.enable();
         GlStateManager.enableRescaleNormal();
       }
     }
