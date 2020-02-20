@@ -66,7 +66,7 @@ public class Configs {
   @Exclude
   public static final CategorizedConfigOptions CLASS_CONFIGS = loadWithNested(Configs.class, false);
 
-  public static final String FILE_PATH = "inventoryprofiles/inventoryprofiles2.json";
+  public static final String FILE_PATH = "inventoryprofiles/inventoryprofiles.json";
   public static ConfigSaveLoadManager saveLoadManager = new ConfigSaveLoadManager(CLASS_CONFIGS, FILE_PATH);
 
   public static CategorizedConfigOptions getConfigs(Class<?> clazz) {
