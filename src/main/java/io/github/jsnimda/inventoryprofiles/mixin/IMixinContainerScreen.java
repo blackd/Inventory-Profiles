@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screen.ingame.ContainerScreen;
 import net.minecraft.container.Slot;
 
 @Mixin(ContainerScreen.class)
-public interface IMixinAbstractContainerScreen {
+public interface IMixinContainerScreen {
 
   @Accessor("focusedSlot")
   Slot getFocusedSlot();
