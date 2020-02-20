@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.github.jsnimda.common.input.GlobalInputHandler;
@@ -14,15 +12,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 
-public class DebugScreen extends Screen {
+public class DebugScreen extends OverlayScreen {
 
   private static final int COLOR_TEXT_BG = 0x90505050;
   private static final int COLOR_TEXT = 0xE0E0E0;
   private static final int COLOR_WHITE = 0xFFFFFFFF;
   private static final int COLOR_BLACK = 0xFF000000;
 
-  @Nullable
-  private Screen parent;
   private int textPosition = 0; // 0-3: top-left / top-right / bottom-right / bottom-left
   private int toggleColor = 0;
 
@@ -100,9 +96,7 @@ public class DebugScreen extends Screen {
 
   @Override
   public void render(int mouseX, int mouseY, float partialTicks) {
-    if (parent != null) {
-      parent.render(mouseX, mouseY, partialTicks);
-    }
+    super.render(mouseX, mouseY, partialTicks);
     
     DebugInfos.mouseX = mouseX;
     DebugInfos.mouseY = mouseY;
@@ -124,11 +118,6 @@ public class DebugScreen extends Screen {
     }
   }
 
-  private DebugScreen(Screen parent) {
-    super(new LiteralText(""));
-    this.parent = parent;
-  }
-
   public static void open() {
     if (MinecraftClient.getInstance().currentScreen instanceof DebugScreen) return;
     DebugScreen d = new DebugScreen(MinecraftClient.getInstance().currentScreen);
@@ -140,24 +129,15 @@ public class DebugScreen extends Screen {
   }
 
   @Override
-  public void onClose() {
-    this.minecraft.openScreen(parent);
-  }
-
-  @Override
-  public void resize(MinecraftClient minecraftClient, int i, int j) {
-    if (parent != null) {
-      parent.resize(minecraftClient, i, j);
-    }
-    super.resize(minecraftClient, i, j);
-  }
-
-  @Override
   public boolean mouseClicked(double d, double e, int i) {
     if (i == 0) {
       toggleColor = (toggleColor + 1) % 3;
     }
     return super.mouseClicked(d, e, i);
+  }
+
+  private DebugScreen(Screen parent) {
+    super(new LiteralText(""), parent);
   }
 
 }

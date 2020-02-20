@@ -2,6 +2,7 @@ package io.github.jsnimda.common.input;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import io.github.jsnimda.common.config.IConfigElementResettableMultiple;
@@ -25,13 +26,13 @@ public class ConfigElementKeybindSetting implements IConfigElementResettableMult
     this.context.setKey("context");
     this.context.setValue(settings.context);
     this.activateOn = new ConfigEnum<>(defaultSettings.activateOn);
-    this.activateOn.setKey("activateOn");
+    this.activateOn.setKey("activate_on");
     this.activateOn.setValue(settings.activateOn);
     this.allowExtraKeys = new ConfigBoolean(defaultSettings.allowExtraKeys);
-    this.allowExtraKeys.setKey("allowExtraKeys");
+    this.allowExtraKeys.setKey("allow_extra_keys");
     this.allowExtraKeys.setValue(settings.allowExtraKeys);
     this.orderSensitive = new ConfigBoolean(defaultSettings.orderSensitive);
-    this.orderSensitive.setKey("orderSensitive");
+    this.orderSensitive.setKey("order_sensitive");
     this.orderSensitive.setValue(settings.orderSensitive);
   }
 
@@ -49,8 +50,8 @@ public class ConfigElementKeybindSetting implements IConfigElementResettableMult
   }
 
   @Override
-  public Collection<? extends IConfigOption> getConfigOptions() {
-    return Arrays.asList(context, activateOn, allowExtraKeys, orderSensitive);
+  public List<? extends IConfigOption> getConfigOptions() {
+    return Arrays.asList(activateOn, context, allowExtraKeys, orderSensitive);
   }
 
 }

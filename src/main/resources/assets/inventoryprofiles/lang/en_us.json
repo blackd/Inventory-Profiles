@@ -21,10 +21,10 @@
 
     "inventoryprofiles.common.enum.key_action.press": "Press",
     "inventoryprofiles.common.enum.key_action.release": "Release",
-    "inventoryprofiles.common.enum.key_action.both": "Press and Release",
+    "inventoryprofiles.common.enum.key_action.both": "Press / Release",
     "inventoryprofiles.common.enum.context.ingame": "In-game",
     "inventoryprofiles.common.enum.context.gui": "Gui",
-    "inventoryprofiles.common.enum.context.any": "In-game and Gui",
+    "inventoryprofiles.common.enum.context.any": "In-game / Gui",
 
 
 

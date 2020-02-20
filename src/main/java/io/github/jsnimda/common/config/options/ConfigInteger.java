@@ -2,10 +2,9 @@ package io.github.jsnimda.common.config.options;
 
 import io.github.jsnimda.common.config.ConfigOptionBase;
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
-import io.github.jsnimda.common.config.IConfigOptionPrimitive;
 import net.minecraft.util.math.MathHelper;
 
-public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrimitive<Integer>, IConfigOptionPrimitiveNumeric<Integer> {
+public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrimitiveNumeric<Integer> {
 
   private final int defaultValue;
   private final int minValue;

@@ -77,7 +77,9 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
   }
 
   protected void onClickKeybindSettingsIcon() {
-
+    if (!isInConfigHotkeyOverlay) {
+      MinecraftClient.getInstance().openScreen(new ConfigOptionHotkeyOverlayScreen(configOption));
+    }
   }
 
   @Override
