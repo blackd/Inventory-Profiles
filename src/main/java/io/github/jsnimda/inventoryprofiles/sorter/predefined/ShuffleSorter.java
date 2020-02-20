@@ -60,6 +60,9 @@ public class ShuffleSorter implements ISortingMethodProvider {
     if (totalMin(nums) > sum || totalMax(nums) < sum) {
       throw new IllegalArgumentException("impossible sum");
     }
+    if (nums.size() <= 0) {
+      return new int[0];
+    }
     if (nums.size() == 1) {
       return new int[]{sum};
     }

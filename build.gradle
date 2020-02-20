@@ -3,11 +3,11 @@ plugins {
   id 'maven-publish'
 }
 
-repositories {
-  maven {
-    url 'https://masa.dy.fi/maven'
-  }
-}
+// repositories {
+//   maven {
+//     url 'https://masa.dy.fi/maven'
+//   }
+// }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -31,7 +31,7 @@ dependencies {
 
   // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
   // You may need to force-disable transitiveness on them.
-  modCompile "fi.dy.masa.malilib:malilib-fabric-" + minecraft_version_out + ":" + project.malilib_version
+  // modCompile "fi.dy.masa.malilib:malilib-fabric-" + minecraft_version_out + ":" + project.malilib_version
   modCompile "io.github.prospector:modmenu:" + project.mod_menu_version
 }
 

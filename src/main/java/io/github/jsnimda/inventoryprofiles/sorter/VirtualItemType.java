@@ -8,7 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 
 public final class VirtualItemType {
-  public final static VirtualItemType EMPTY = new VirtualItemType(Items.AIR, null);
+  public static final VirtualItemType EMPTY = new VirtualItemType(Items.AIR, null);
 
   public final Item item;
   @Nullable

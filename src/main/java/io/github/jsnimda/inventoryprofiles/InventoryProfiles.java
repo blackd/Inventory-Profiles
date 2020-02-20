@@ -1,6 +1,9 @@
 package io.github.jsnimda.inventoryprofiles;
 
-import fi.dy.masa.malilib.event.InitializationHandler;
+import io.github.jsnimda.common.input.GlobalInputHandler;
+import io.github.jsnimda.inventoryprofiles.config.Configs;
+import io.github.jsnimda.inventoryprofiles.config.ProfilesConfigHandler;
+import io.github.jsnimda.inventoryprofiles.input.InputHandler;
 import net.fabricmc.api.ModInitializer;
 
 /**
@@ -10,7 +13,14 @@ public class InventoryProfiles implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    InitializationHandler.getInstance().registerInitializationHandler(new InitHandler());
+
+    // ProfilesConfigHandler.init();
+
+    // Keybind register
+    GlobalInputHandler.getInstance().registerInputHandler(new InputHandler());
+
+    Configs.saveLoadManager.load();
+
   }
 
 }
