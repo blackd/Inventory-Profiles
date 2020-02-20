@@ -35,20 +35,13 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
   @Override
   public void render(int mouseX, int mouseY, float partialTicks) {
     super.render(mouseX, mouseY, partialTicks);
-    setKeyButton.x = x + 20 + 2;
-    setKeyButton.y = y;
-    setKeyButton.setWidth(availableWidth - 20 - 2);
-    String displayText = targetKeybind.getDisplayText();
-    setKeyButton.setMessage(GlobalInputHandler.getInstance().getCurrentSettingKeybind() == targetKeybind
-      ? ("> §e" + displayText + "§r <") : displayText);
-    setKeyButton.render(mouseX, mouseY, partialTicks);
 
     int textureX = 20 + ((targetKeybind.isSettingsModified() || !configOption.getAlternativeKeybinds().isEmpty()) ? 20 : 0);
     int textureY = 160 + targetKeybind.getSettings().activateOn.ordinal() * 20;
     if (targetKeybind.getKeyCodes().isEmpty()) {
       textureY = 140;
     }
-    
+
     MinecraftClient.getInstance().getTextureManager().bindTexture(WIDGETS_TEXTURE);
     GlStateManager.disableDepthTest();
     blit(this.x, this.y, textureX, textureY, 20, 20, 256, 256);
@@ -58,6 +51,15 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
       // show Advanced Keybind Settings
       Tooltips.getInstance().addTooltip(getKeybindSettingsTooltip(), mouseX, mouseY);
     }
+
+    setKeyButton.x = x + 20 + 2;
+    setKeyButton.y = y;
+    setKeyButton.setWidth(availableWidth - 20 - 2);
+    String displayText = targetKeybind.getDisplayText();
+    setKeyButton.setMessage(GlobalInputHandler.getInstance().getCurrentSettingKeybind() == targetKeybind
+      ? ("> §e" + displayText + "§r <") : displayText);
+    setKeyButton.render(mouseX, mouseY, partialTicks);
+
   }
 
   private static String textPrefix = "inventoryprofiles.common.gui.config.";
