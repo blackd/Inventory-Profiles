@@ -24,11 +24,17 @@ public class ConfigScreen extends ConfigScreenBase {
   public static int selectedIndex = 0;
   public static Supplier<ConfigOptionListWidget> modSettings;
   public static Supplier<ConfigOptionListWidget> guiSettings;
+  public static Supplier<ConfigOptionListWidget> editProfiles;
   public static Supplier<ConfigOptionListWidget> hotkeys;
   public static Supplier<ConfigOptionListWidget> tweaks;
   static {
     modSettings = () -> ConfigOptionListWidget.from(Configs.getConfigs(ModSettings.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
     guiSettings = () -> ConfigOptionListWidget.from(Configs.getConfigs(GuiSettings.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
+    editProfiles = () -> {
+      ConfigOptionListWidget c = new ConfigOptionListWidget(DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
+      c.addAnchor(I18n.translate("inventoryprofiles.config.category.coming_soon"));
+      return c;
+    };
     hotkeys = () -> ConfigOptionListWidget.from(Configs.getConfigs(Hotkeys.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
     tweaks = () -> ConfigOptionListWidget.from(Configs.getConfigs(Tweaks.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
   }
@@ -42,7 +48,7 @@ public class ConfigScreen extends ConfigScreenBase {
 		super(new TranslatableText("inventoryprofiles.gui.config.title"));
     this.addNavigationButton(translate("ModSettings"), modSettings);
     this.addNavigationButton(translate("GuiSettings"), guiSettings);
-    this.addNavigationButton(translate("EditProfiles"));
+    this.addNavigationButton(translate("EditProfiles"), editProfiles);
     this.addNavigationButton(translate("Hotkeys"), hotkeys);
     this.addNavigationButton(translate("Tweaks"), tweaks);
 
