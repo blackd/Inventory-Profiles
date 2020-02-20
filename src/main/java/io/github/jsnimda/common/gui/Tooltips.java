@@ -40,7 +40,8 @@ public class Tooltips {
     }
 
     public void render() {
-      renderTooltip(false);
+      // renderTooltip(false);
+      Minecraft.getInstance().currentScreen.renderTooltip(strings, mouseX, mouseY);
     }
 
     private void renderTooltip(boolean firstLineGap) { // ref: Screen.renderTooltip

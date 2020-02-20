@@ -43,8 +43,8 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Focu
         textButtonWidget = new TextButtonWidget(0, 0, displayText, x -> {
           container.setScrollY(toScrollY);
         });
-        textButtonWidget.setHoverText("§e§n" + displayText); // underline
-        textButtonWidget.setInactiveText("§e§n§l" + displayText); // underline + bold
+        textButtonWidget.setHoverText("\u00a7e\u00a7n" + displayText); // underline
+        textButtonWidget.setInactiveText("\u00a7e\u00a7n\u00a7l" + displayText); // underline + bold
         textButtonWidget.visible = false;
         textButtonWidget.pressableMargin = 2;
       }
@@ -103,7 +103,7 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Focu
       addAnchor(displayText, entriesTotalHeight);
     }
     public void addAnchor(String displayText, int toScrollY) {
-      int w = Minecraft.getInstance().fontRenderer.getStringWidth("§n" + displayText);
+      int w = Minecraft.getInstance().fontRenderer.getStringWidth("\u00a7n" + displayText);
       if (w + currentTextX > getAvailableStringWidth()) {
         currentTextX = 0;
         currentTextRow++;

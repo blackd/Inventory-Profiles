@@ -3,8 +3,8 @@
     "inventoryprofiles.gui.config.title": "Inventory Profiles Config Menu",
 
     "inventoryprofiles.common.gui.config.reset": "Reset",
-    "inventoryprofiles.common.gui.config.true": "§2true",
-    "inventoryprofiles.common.gui.config.false": "§4false",
+    "inventoryprofiles.common.gui.config.true": "\u00a72true",
+    "inventoryprofiles.common.gui.config.false": "\u00a74false",
     "inventoryprofiles.common.gui.config.yes": "yes",
     "inventoryprofiles.common.gui.config.no": "no",
 
@@ -108,6 +108,6 @@
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",
     "inventoryprofiles.tooltip.sort_rows_button": "Sort Inventory in Rows",
-    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6(Hold §oSHIFT§r§6 to\n§6include the hotbar.)§r"
+    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n\u00a76(Hold \u00a7oSHIFT\u00a7r\u00a76 to\n\u00a76include the hotbar.)\u00a7r"
 
 }

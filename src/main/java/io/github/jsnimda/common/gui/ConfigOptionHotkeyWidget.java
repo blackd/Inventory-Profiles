@@ -57,7 +57,7 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
     setKeyButton.setWidth(availableWidth - 20 - 2);
     String displayText = targetKeybind.getDisplayText();
     setKeyButton.setMessage(GlobalInputHandler.getInstance().getCurrentSettingKeybind() == targetKeybind
-      ? ("> §e" + displayText + "§r <") : displayText);
+      ? ("> \u00a7e" + displayText + "\u00a7r <") : displayText);
     setKeyButton.render(mouseX, mouseY, partialTicks);
 
   }
@@ -69,11 +69,11 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
   private String getKeybindSettingsTooltip() {
     String yes = translate("yes");
     String no = translate("no");
-    String s = "§n" + translate("advanced_keybind_settings");
-    s += String.format("\n%s: %s", translate("activate_on"),      "§9" + targetKeybind.getSettings().activateOn.toString());
-    s += String.format("\n%s: %s", translate("context"),          "§9" + targetKeybind.getSettings().context.toString());
-    s += String.format("\n%s: %s", translate("allow_extra_keys"), "§6" + (targetKeybind.getSettings().allowExtraKeys ? yes : no));
-    s += String.format("\n%s: %s", translate("order_sensitive"),  "§6" + (targetKeybind.getSettings().orderSensitive ? yes : no));
+    String s = "\u00a7n" + translate("advanced_keybind_settings");
+    s += String.format("\n%s: %s", translate("activate_on"),      "\u00a79" + targetKeybind.getSettings().activateOn.toString());
+    s += String.format("\n%s: %s", translate("context"),          "\u00a79" + targetKeybind.getSettings().context.toString());
+    s += String.format("\n%s: %s", translate("allow_extra_keys"), "\u00a76" + (targetKeybind.getSettings().allowExtraKeys ? yes : no));
+    s += String.format("\n%s: %s", translate("order_sensitive"),  "\u00a76" + (targetKeybind.getSettings().orderSensitive ? yes : no));
     s += "\n\n" + translate("keybind_settings_tips");
     return s;
   }

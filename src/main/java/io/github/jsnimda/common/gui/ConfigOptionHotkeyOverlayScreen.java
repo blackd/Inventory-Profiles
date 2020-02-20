@@ -42,7 +42,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
     dialogHeight = 5 * 20 + 2 + 10;
     int maxTextW = configs.stream().mapToInt(x -> this.font.getStringWidth(I18n.format("inventoryprofiles.common.gui.config." + x.getKey()))).max().orElse(0);
     dialogWidth = maxTextW + 150 + 2 + 20;
-    dialogWidth = Math.max(this.font.getStringWidth("§l" + this.title.getFormattedText()) + 20, dialogWidth);
+    dialogWidth = Math.max(this.font.getStringWidth("\u00a7l" + this.title.getFormattedText()) + 20, dialogWidth);
     dialogX = (this.width - dialogWidth) / 2;
     dialogY = (this.height - dialogHeight) / 2;
 
@@ -50,7 +50,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
     VHLine.outline(dialogX, dialogY, dialogX + dialogWidth, dialogY + dialogHeight, COLOR_BORDER);
 
     int y0 = dialogY + 2;
-    drawCenteredString(this.font, "§l" + this.title.getFormattedText(), dialogX + dialogWidth / 2, y0 + 6, COLOR_WHITE);
+    drawCenteredString(this.font, "\u00a7l" + this.title.getFormattedText(), dialogX + dialogWidth / 2, y0 + 6, COLOR_WHITE);
 
     for (ConfigOptionWidgetBase<?> widget : configWidgets) {
       y0 += 20;

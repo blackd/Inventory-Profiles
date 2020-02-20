@@ -3,8 +3,8 @@
     "inventoryprofiles.gui.config.title": "Inventory Profiles 配置菜单",
     
     "inventoryprofiles.common.gui.config.reset": "重置",
-    "inventoryprofiles.common.gui.config.true": "§2开",
-    "inventoryprofiles.common.gui.config.false": "§4关",
+    "inventoryprofiles.common.gui.config.true": "\u00a72开",
+    "inventoryprofiles.common.gui.config.false": "\u00a74关",
     "inventoryprofiles.common.gui.config.yes": "是",
     "inventoryprofiles.common.gui.config.no": "否",
 
@@ -108,6 +108,6 @@
     "inventoryprofiles.tooltip.sort_button": "整理物品栏",
     "inventoryprofiles.tooltip.sort_columns_button": "垂直方向分类",
     "inventoryprofiles.tooltip.sort_rows_button": "水平方向分类",
-    "inventoryprofiles.tooltip.move_all_button": "移动匹配物品\n§6(按住 §oSHIFT§r\n§6包括快捷栏)§r"
+    "inventoryprofiles.tooltip.move_all_button": "移动匹配物品\n\u00a76(按住 \u00a7oSHIFT\u00a7r\n\u00a76包括快捷栏)\u00a7r"
 
 }
