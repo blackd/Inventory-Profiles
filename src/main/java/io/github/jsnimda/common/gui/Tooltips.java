@@ -77,10 +77,10 @@ public class Tooltips {
 
         if (textY + p + 6 > height) {
           textY = height - p - 6;
-       }
-       if (textY - 6 < 0) {
-          textY = 6;
-       }
+        }
+        if (textY - 6 < 0) {
+            textY = 6;
+        }
 
         this.blitOffset = 300;
         itemRenderer.zOffset = 300.0F;
