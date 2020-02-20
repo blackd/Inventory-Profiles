@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
 import io.github.jsnimda.inventoryprofiles.gui.inject.GuiSortingButtons;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
+import net.minecraft.client.gui.screen.ingame.ContainerScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.container.Container;
 import net.minecraft.text.Text;
@@ -21,7 +21,7 @@ import net.minecraft.text.Text;
 /**
  * MixinAbstractContainerScreen
  */
-@Mixin(AbstractContainerScreen.class)
+@Mixin(ContainerScreen.class)
 public abstract class MixinAbstractContainerScreen<T extends Container> extends Screen {
 
   @Shadow

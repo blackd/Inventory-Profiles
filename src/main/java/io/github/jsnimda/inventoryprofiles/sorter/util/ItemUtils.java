@@ -47,7 +47,7 @@ public class ItemUtils {
     return type.tag != null && type.tag.contains("Potion", 8);
   }
   public static String getPotionRegularName(VirtualItemType type) {
-    return PotionUtil.getPotion(type.tag).getName("");
+    return PotionUtil.getPotion(type.tag).finishTranslationKey("");
   }
 
   public static int compareEffects(List<StatusEffectInstance> aList, List<StatusEffectInstance> bList) {
