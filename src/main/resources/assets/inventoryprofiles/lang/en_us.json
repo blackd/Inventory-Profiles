@@ -52,8 +52,8 @@
     "inventoryprofiles.config.description.interval_between_clicks_ms":  "Interval between clicks. In milliseconds.",
     "inventoryprofiles.config.description.restock_hotbar":              "Auto restock your hotbar while sorting",
     "inventoryprofiles.config.description.sort_at_cursor":              "When this is true, using hotkey sorting will sort the slots that curosr is pointing to. Otherwise it will always sort the container.",
-    "inventoryprofiles.config.description.stop_at_screen_close":        "// TODO",
-    "inventoryprofiles.config.description.debug_logs":                   "Prints debug messages",
+    "inventoryprofiles.config.description.stop_at_screen_close":        "Stop sorting (e.g. when \"Add Interval Between Clicks\" enabled) if inventory screen is closed",
+    "inventoryprofiles.config.description.debug_logs":                  "Prints debug messages",
 
 
     "inventoryprofiles.config.name.show_sort_button":               "Show Sort Button",
@@ -63,8 +63,8 @@
     "inventoryprofiles.config.name.show_button_tooltips":           "Show Button Tooltips",
 
     "inventoryprofiles.config.description.show_sort_button":            "Show sort button on GUI",
-    "inventoryprofiles.config.description.show_sort_in_columns_button": "// TODO",
-    "inventoryprofiles.config.description.show_sort_in_rows_button":    "// TODO",
+    "inventoryprofiles.config.description.show_sort_in_columns_button": "Show sort in columns button on GUI",
+    "inventoryprofiles.config.description.show_sort_in_rows_button":    "Show sort in rows button on GUI",
     "inventoryprofiles.config.description.show_move_all_button":        "Show move all buttons on GUI",
     "inventoryprofiles.config.description.show_button_tooltips":        "Display tooltips when cursor hover the buttons on GUI",
 
