@@ -87,7 +87,7 @@ public class Tooltips {
             textY = 6;
         }
 
-        this.blitOffset = 300;
+        this.setBlitOffset(300);
         itemRenderer.zLevel = 300.0F;
         int COLOR_BG = 0xF0100010;
         this.fillGradient(textX - 3, textY - 4, textX + maxStringWidth + 3, textY - 3, COLOR_BG, COLOR_BG);
@@ -112,7 +112,7 @@ public class Tooltips {
            textY += 10;
         }
 
-        this.blitOffset = 0;
+        this.setBlitOffset(0);
         itemRenderer.zLevel = 0.0F;
         GlStateManager.enableLighting();
         GlStateManager.enableDepthTest();

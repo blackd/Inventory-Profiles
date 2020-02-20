@@ -3,6 +3,7 @@ package io.github.jsnimda.common.gui;
 import java.util.function.BiConsumer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -52,26 +53,20 @@ public class RightClickableButtonWidget extends Widget {
   }
 
   @Override
-  public void renderButton(int i, int j, float f) { // ref: Widget
-    Minecraft minecraftClient = Minecraft.getInstance();
-    FontRenderer textRenderer = minecraftClient.fontRenderer;
-    minecraftClient.getTextureManager().bindTexture(WIDGETS_LOCATION);
-    GlStateManager.color4f(1.0F, 1.0F, 1.0F, this.alpha);
-    int k = this.getYImage(this.isHovered());
-    GlStateManager.enableBlend();
-    GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-    GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-    this.blit(this.x, this.y, 0, 46 + k * 20, this.width / 2, this.height);
-    this.blit(this.x + this.width / 2, this.y, 200 - (this.width - this.width / 2), 46 + k * 20, this.width - this.width / 2, this.height); // fix odd number width
-    this.renderBg(minecraftClient, i, j);
-    int l = 14737632;
-    if (!this.active) {
-      l = 10526880;
-    } else if (this.isHovered()) {
-      l = 16777120;
-    }
-
-    this.drawCenteredString(textRenderer, getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, l | MathHelper.ceil(this.alpha * 255.0F) << 24);
+  public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) { // ref: Widget
+    Minecraft minecraft = Minecraft.getInstance();
+    FontRenderer fontrenderer = minecraft.fontRenderer;
+    minecraft.getTextureManager().bindTexture(WIDGETS_LOCATION);
+    RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
+    int i = this.getYImage(this.isHovered());
+    RenderSystem.enableBlend();
+    RenderSystem.defaultBlendFunc();
+    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+    this.blit(this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+    this.blit(this.x + this.width / 2, this.y, 200 - (this.width - this.width / 2), 46 + i * 20, this.width - this.width / 2, this.height); // fix odd number width
+    this.renderBg(minecraft, p_renderButton_1_, p_renderButton_2_);
+    int j = getFGColor();
+    this.drawCenteredString(fontrenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0F) << 24);
   }
   
 }

@@ -74,7 +74,7 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
     pattern = configOption.getDefaultValue() instanceof Double ? PATTERN_DOUBLE : PATTERN_INTEGER;
     textField.setValidator(x -> x.isEmpty() || pattern.matcher(x).matches()); // ref: malilib GuiTextFieldDouble
     textField.setResponder(x -> {
-      if (textField.func_212955_f()) { // method_20315
+      if (textField.canWrite()) { // method_20315 func_212955_f
         // try set config value to text
         if (textField.getText().isEmpty()) {
           configOption.setValue(0);
@@ -96,7 +96,7 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
     textField.x = x + 2;
     textField.y = y + 1;
     textField.setWidth(availableWidth - 16 - 2 - 4);
-    if (!textField.func_212955_f() && !useSlider) { // is editing
+    if (!textField.canWrite() && !useSlider) { // is editing
       textField.setText(String.valueOf(configOption.getValue()));
     }
     (useSlider ? slider : textField).render(mouseX, mouseY, partialTicks);
