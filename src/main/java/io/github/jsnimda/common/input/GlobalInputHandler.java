@@ -37,7 +37,7 @@ public class GlobalInputHandler {
       return false;
     if (settings.activateOn == KeyAction.RELEASE && lastAction == GLFW.GLFW_PRESS)
       return false;
-    if (settings.context != Context.ANY && MinecraftClient.getInstance().currentScreen != null)
+    if (settings.context == Context.INGAME && MinecraftClient.getInstance().currentScreen != null)
       return false;
     if (settings.context == Context.GUI && MinecraftClient.getInstance().currentScreen == null)
       return false;
@@ -47,7 +47,7 @@ public class GlobalInputHandler {
     if (pressedKeys.size() >= keyCodes.size() && (settings.allowExtraKeys || pressedKeys.size() == keyCodes.size())) {
       if (settings.orderSensitive) {
         for (int i = 0; i < keyCodes.size(); i++) {
-          if (keyCodes.get(keyCodes.size() - 1 - i) != pressedKeys.get(pressedKeys.size() - 1 - i)) {
+          if (keyCodes.get(keyCodes.size() - 1 - i).intValue() != pressedKeys.get(pressedKeys.size() - 1 - i).intValue()) {
             return false;
           }
         }

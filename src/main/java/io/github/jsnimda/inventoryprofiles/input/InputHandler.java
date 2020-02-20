@@ -12,7 +12,7 @@ import net.minecraft.client.MinecraftClient;
 
 public class InputHandler implements IInputHandler {
 
-  public static Keybind debugKey = new Keybind("CTRL,BACKSPACE", KeybindSettings.ANY_DEFAULT);
+  // public static Keybind debugKey = new Keybind("RIGHT_CONTROL,BACKSPACE", KeybindSettings.ANY_DEFAULT);
 
   @Override
   public boolean onInput(int lastKey, int lastAction) {
@@ -25,7 +25,7 @@ public class InputHandler implements IInputHandler {
       return true;
     }
 
-    if (ModSettings.DEBUG_LOGS.getBooleanValue() && debugKey.isActivated()) {
+    if (ModSettings.DEBUG_LOGS.getBooleanValue() && Hotkeys.DEBUG_SCREEN.isActivated()) {
       DebugScreen.open();
       return true;
     }

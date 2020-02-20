@@ -48,6 +48,8 @@ public class Configs {
     public static final ConfigHotkey SORT_INVENTORY_IN_COLUMNS          = hotkey("");
     public static final ConfigHotkey SORT_INVENTORY_IN_ROWS             = hotkey("");
     public static final ConfigHotkey MOVE_ALL_ITEMS                     = hotkey("");
+    @Category("inventoryprofiles.config.category.debugs")
+    public static final ConfigHotkey DEBUG_SCREEN                       = hotkey("Z", KeybindSettings.ANY_DEFAULT);
   }
 
   @ConfigOptionsClass

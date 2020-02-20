@@ -81,12 +81,14 @@
     "inventoryprofiles.config.name.sort_inventory_in_columns":      "Sort Inventory In Columns",
     "inventoryprofiles.config.name.sort_inventory_in_rows":         "Sort Inventory In Rows",
     "inventoryprofiles.config.name.move_all_items":                 "Move All Items",
+    "inventoryprofiles.config.name.debug_screen":                   "Debug Screen",
 
     "inventoryprofiles.config.description.open_config_menu":            "The key open the in-game config GUI",
     "inventoryprofiles.config.description.sort_inventory":              "The key to sort the inventory",
     "inventoryprofiles.config.description.sort_inventory_in_columns":   "The key to sort the inventory in columns",
     "inventoryprofiles.config.description.sort_inventory_in_rows":      "The key to sort the inventory in rows",
     "inventoryprofiles.config.description.move_all_items":              "The key to move all the itmes that already existed in the container",
+    "inventoryprofiles.config.description.debug_screen":                "Open debug screen",
 
 
     "inventoryprofiles.config.name.instant_mining_cooldown":            "Instant Mining Cooldown",
