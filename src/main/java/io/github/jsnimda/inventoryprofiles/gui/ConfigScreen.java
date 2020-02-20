@@ -5,15 +5,18 @@ import java.util.function.Supplier;
 import io.github.jsnimda.common.gui.ConfigOptionListWidget;
 import io.github.jsnimda.common.gui.ConfigOptionWidgetBase;
 import io.github.jsnimda.common.gui.ConfigScreenBase;
-import io.github.jsnimda.inventoryprofiles.config.Configs2;
-import io.github.jsnimda.inventoryprofiles.config.Configs2.GuiSettings;
-import io.github.jsnimda.inventoryprofiles.config.Configs2.Hotkeys;
-import io.github.jsnimda.inventoryprofiles.config.Configs2.ModSettings;
-import io.github.jsnimda.inventoryprofiles.config.Configs2.Tweaks;
+import io.github.jsnimda.inventoryprofiles.config.Configs;
+import io.github.jsnimda.inventoryprofiles.config.Configs.GuiSettings;
+import io.github.jsnimda.inventoryprofiles.config.Configs.Hotkeys;
+import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
+import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;
 
 public class ConfigScreen extends ConfigScreenBase {
+
+  private Screen parent = null;
 
   public static final String DISPLAY_NAME_PREFIX = "inventoryprofiles.config.name.";
   public static final String DESCRIPTION_PREFIX = "inventoryprofiles.config.description.";
@@ -24,10 +27,15 @@ public class ConfigScreen extends ConfigScreenBase {
   public static Supplier<ConfigOptionListWidget> hotkeys;
   public static Supplier<ConfigOptionListWidget> tweaks;
   static {
-    modSettings = () -> ConfigOptionListWidget.from(Configs2.getConfigs(ModSettings.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
-    guiSettings = () -> ConfigOptionListWidget.from(Configs2.getConfigs(GuiSettings.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
-    hotkeys = () -> ConfigOptionListWidget.from(Configs2.getConfigs(Hotkeys.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
-    tweaks = () -> ConfigOptionListWidget.from(Configs2.getConfigs(Tweaks.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
+    modSettings = () -> ConfigOptionListWidget.from(Configs.getConfigs(ModSettings.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
+    guiSettings = () -> ConfigOptionListWidget.from(Configs.getConfigs(GuiSettings.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
+    hotkeys = () -> ConfigOptionListWidget.from(Configs.getConfigs(Hotkeys.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
+    tweaks = () -> ConfigOptionListWidget.from(Configs.getConfigs(Tweaks.class), DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX);
+  }
+
+  public ConfigScreen(Screen parent) {
+    this();
+    this.parent = parent;
   }
 
   public ConfigScreen() {
@@ -79,8 +87,12 @@ public class ConfigScreen extends ConfigScreenBase {
 
   @Override
   public void onClose() {
-    Configs2.saveLoadManager.save();
-    super.onClose();
+    Configs.saveLoadManager.save();
+    if (parent != null) {
+      this.minecraft.openScreen(parent);
+    } else {
+      super.onClose();
+    }
   }
 
 }

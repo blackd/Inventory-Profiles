@@ -1,13 +1,11 @@
 package io.github.jsnimda.common.gui;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.github.jsnimda.common.config.IConfigOption;
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.input.ConfigElementKeybindSetting;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TranslatableText;

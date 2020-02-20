@@ -10,6 +10,7 @@ public class KeybindSettings {
 
   public static final KeybindSettings INGAME_DEFAULT = new KeybindSettings(INGAME, PRESS, NO_EXTRA | IN_ORDER);
   public static final KeybindSettings GUI_DEFAULT    = new KeybindSettings(   GUI, PRESS, NO_EXTRA | IN_ORDER);
+  public static final KeybindSettings ANY_DEFAULT    = new KeybindSettings(   ANY, PRESS, NO_EXTRA | IN_ORDER);
 
   public enum KeyAction {
     PRESS,

@@ -86,28 +86,29 @@ public class GlobalInputHandler {
   }
 
   public boolean onKeyPress(int key) {
-    if (pressingKeys.contains(key)) return false; // should err
+    if (pressingKeys.contains(key)) return false; // should err / cancelled by other mod
     beforePressingKeys = new ArrayList<>(pressingKeys);
     pressingKeys.add(key);
     lastKey = key;
     lastAction = GLFW.GLFW_PRESS;
-    if (currentSettingKeybind.isPresent()) {
-      handleCurrentSettingKeybind();
-      return true;
-    }
-    return false;
+    return onInput();
   }
 
   public boolean onKeyRelease(int key) {
-    if (!pressingKeys.contains(key)) return false; // should err
+    if (!pressingKeys.contains(key)) return false; // should err / cancelled by other mod
     beforePressingKeys = new ArrayList<>(pressingKeys);
     pressingKeys.remove((Object)key);
     lastKey = key;
     lastAction = GLFW.GLFW_RELEASE;
+    return onInput();
+  }
+
+  private boolean onInput() {
     if (currentSettingKeybind.isPresent()) {
       handleCurrentSettingKeybind();
       return true;
     }
+    registeredInputHandlers.forEach(x -> x.onInput(lastKey, lastAction));
     return false;
   }
 
@@ -133,5 +134,15 @@ public class GlobalInputHandler {
     return false;
   }
 
+  // ============
+  // Api
+  // ============
+
+  private List<IInputHandler> registeredInputHandlers = new ArrayList<>();
+  public void registerInputHandler(IInputHandler inputHandler) {
+    if (!registeredInputHandlers.contains(inputHandler)) {
+      registeredInputHandlers.add(inputHandler);
+    }
+  }
 
 }

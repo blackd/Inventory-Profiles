@@ -1,7 +1,6 @@
 package io.github.jsnimda.common.input;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 

@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.github.jsnimda.inventoryprofiles.config.Configs.AdvancedOptions;
+import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
@@ -30,7 +30,7 @@ public class VirtualSorterPort {
   public static void doSort(ISortingMethodProvider sortingProvider, GroupingType groupingType) {
     ContainerInfo info = CurrentState.containerInfo();
     boolean sortPlayer = info.sortableSlots.isEmpty() ||
-      (AdvancedOptions.SORT_CURSOR_POINTING.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory());
+      (ModSettings.SORT_AT_CURSOR.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory());
     doSort(sortPlayer, sortingProvider, groupingType);
   }
   public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, GroupingType groupingType) {
@@ -50,7 +50,7 @@ public class VirtualSorterPort {
     ContainerActions.cleanCursor();
     List<Slot> slots;
     if (sortPlayer) {
-      if (AdvancedOptions.SORT_RESTOCK_HOTBAR.getBooleanValue())
+      if (ModSettings.RESTOCK_HOTBAR.getBooleanValue())
         ContainerActions.restockHotbar();
       slots = info.playerStorageSlots;
     }
@@ -67,7 +67,7 @@ public class VirtualSorterPort {
     List<Click> clicks = VirtualSorter.doSort(Converter.toVirtualItemStackList(slots), sortingProvider, groupingProvider);
     clicks.forEach(x->x.slotId = slotIds.get(x.slotId));
     //doClicks(container, clicks, slotIds);
-    int interval = AdvancedOptions.ADD_INTERVAL_BETWEEN_CLICKS.getBooleanValue() ? AdvancedOptions.INTERVAL_BETWEEN_CLICKS_MS.getIntegerValue() : 0;
+    int interval = ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.getBooleanValue() ? ModSettings.INTERVAL_BETWEEN_CLICKS_MS.getIntegerValue() : 0;
     ContainerActions.genericClicks(container, clicks, interval);
   }
 
