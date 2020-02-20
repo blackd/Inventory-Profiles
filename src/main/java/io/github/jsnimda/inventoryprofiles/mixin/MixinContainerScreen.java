@@ -22,7 +22,7 @@ import net.minecraft.text.Text;
  * MixinAbstractContainerScreen
  */
 @Mixin(ContainerScreen.class)
-public abstract class MixinAbstractContainerScreen<T extends Container> extends Screen {
+public abstract class MixinContainerScreen<T extends Container> extends Screen {
 
   @Shadow
   protected int containerWidth;
@@ -35,7 +35,7 @@ public abstract class MixinAbstractContainerScreen<T extends Container> extends 
   @Shadow
   protected final T container;
 
-  protected MixinAbstractContainerScreen(Text text_1) {
+  protected MixinContainerScreen(Text text_1) {
     super(text_1);
     container = null;
     // Auto-generated constructor stub

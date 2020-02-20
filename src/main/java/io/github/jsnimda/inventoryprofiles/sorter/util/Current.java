@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.sorter.util;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.github.jsnimda.inventoryprofiles.mixin.IMixinAbstractContainerScreen;
+import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.screen.Screen;
@@ -101,7 +101,7 @@ public class Current {
   public static Slot focusedSlot(boolean raw) {
     if (!raw) return focusedSlot();
     return (screen() instanceof ContainerScreen) ? 
-        ((IMixinAbstractContainerScreen) screen()).getFocusedSlot() : null;
+        ((IMixinContainerScreen) screen()).getFocusedSlot() : null;
   }
 
   //============
