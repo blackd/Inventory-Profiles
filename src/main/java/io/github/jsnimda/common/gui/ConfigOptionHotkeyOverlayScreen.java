@@ -3,6 +3,8 @@ package io.github.jsnimda.common.gui;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import io.github.jsnimda.common.config.IConfigOption;
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.input.ConfigElementKeybindSetting;
@@ -36,6 +38,9 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
   public void render(int mouseX, int mouseY, float partialTicks) {
     super.render(mouseX, mouseY, partialTicks);
     DiffuseLighting.disable();
+    GlStateManager.disableDepthTest();
+    GlStateManager.pushMatrix();
+    GlStateManager.translatef(0, 0, 400);
     this.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
     configHotkey.getMainKeybind().setSettings(keybindSettingElement.getSettings());
 
@@ -70,6 +75,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
 
     Tooltips.getInstance().renderAll();
 
+    GlStateManager.popMatrix();
   }
 
   @Override

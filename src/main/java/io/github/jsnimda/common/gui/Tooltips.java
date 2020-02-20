@@ -11,6 +11,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 
@@ -37,6 +38,7 @@ public class Tooltips {
     }
     public void render() {
       renderTooltip(false);
+      // MinecraftClient.getInstance().currentScreen.renderTooltip(strings, mouseX, mouseY);
     }
 
     private void renderTooltip(boolean firstLineGap) { // ref: Screen.renderTooltip
