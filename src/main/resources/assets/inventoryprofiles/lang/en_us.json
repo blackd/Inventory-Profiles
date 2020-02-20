@@ -1,5 +1,116 @@
 {
 
+    "inventoryprofiles.gui.config.title": "Inventory Profiles Config Menu",
+
+    "inventoryprofiles.common.gui.config.reset": "Reset",
+    "inventoryprofiles.common.gui.config.true": "§2true",
+    "inventoryprofiles.common.gui.config.false": "§4false",
+    "inventoryprofiles.common.gui.config.yes": "yes",
+    "inventoryprofiles.common.gui.config.no": "no",
+
+    "inventoryprofiles.common.gui.config.advanced_keybind_settings": "Advanced Keybind Settings",
+    "inventoryprofiles.common.gui.config.activate_on": "Activate On",
+    "inventoryprofiles.common.gui.config.context": "Context",
+    "inventoryprofiles.common.gui.config.allow_extra_keys": "Allow Extra Keys",
+    "inventoryprofiles.common.gui.config.order_sensitive": "Order Sensitive",
+    "inventoryprofiles.common.gui.config.keybind_settings_tips": "- Left click to configure\n- Right click to reset to defaults",
+    
+    
+    
+    
+
+    "inventoryprofiles.common.enum.key_action.press": "Press",
+    "inventoryprofiles.common.enum.key_action.release": "Release",
+    "inventoryprofiles.common.enum.key_action.both": "Press / Release",
+    "inventoryprofiles.common.enum.context.ingame": "In-game",
+    "inventoryprofiles.common.enum.context.gui": "Gui",
+    "inventoryprofiles.common.enum.context.any": "In-game / Gui",
+
+
+
+    "inventoryprofiles.gui.config.ModSettings": "Mod Settings",
+    "inventoryprofiles.gui.config.GuiSettings": "Gui Settings",
+    "inventoryprofiles.gui.config.EditProfiles": "Edit Profiles",
+    "inventoryprofiles.gui.config.Hotkeys": "Hotkeys",
+    "inventoryprofiles.gui.config.Tweaks": "Tweaks",
+
+    "inventoryprofiles.config.category.inventory_sorting": "Sorting Options",
+    "inventoryprofiles.config.category.debugs": "Debugs",
+    "inventoryprofiles.config.category.inventory": "Inventory",
+    "inventoryprofiles.config.category.hotkeys": "Hotkeys",
+    "inventoryprofiles.config.category.client_side_tweaks": "Client-side Tweaks",
+
+    "inventoryprofiles.enum.sorting_method.default": "Default (Creative Menu)",
+    "inventoryprofiles.enum.sorting_method.item_name": "Item Name",
+    "inventoryprofiles.enum.sorting_method.item_id": "Item ID",
+    "inventoryprofiles.enum.sorting_method.translation_key": "Translation Key",
+
+
+    "inventoryprofiles.config.name.sort_order":                     "Sort Order",
+    "inventoryprofiles.config.name.add_interval_between_clicks":    "Add Interval Between Clicks",
+    "inventoryprofiles.config.name.interval_between_clicks_ms":     "Interval Between Clicks (ms)",
+    "inventoryprofiles.config.name.restock_hotbar":                 "Restock Hotbar",
+    "inventoryprofiles.config.name.sort_at_cursor":                 "Sort At Cursor",
+    "inventoryprofiles.config.name.stop_at_screen_close":           "Stop At Screen Close",
+    "inventoryprofiles.config.name.debug_logs":                     "Debug Logs",
+
+    "inventoryprofiles.config.description.sort_order":                  "The sorting method used for inventory sorting",
+    "inventoryprofiles.config.description.add_interval_between_clicks": "Adds some interval between clicks while sorting. Amount of interval can be set by \"intervalBetweenClicksMs\". Might be useful on some laggy servers or inventory.fastclick disabled servers.",
+    "inventoryprofiles.config.description.interval_between_clicks_ms":  "Interval between clicks. In milliseconds.",
+    "inventoryprofiles.config.description.restock_hotbar":              "Auto restock your hotbar while sorting",
+    "inventoryprofiles.config.description.sort_at_cursor":              "When this is true, using hotkey sorting will sort the slots that curosr is pointing to. Otherwise it will always sort the container.",
+    "inventoryprofiles.config.description.stop_at_screen_close":        "// TODO",
+    "inventoryprofiles.config.description.debug_logs":                   "Prints debug messages",
+
+
+    "inventoryprofiles.config.name.show_sort_button":               "Show Sort Button",
+    "inventoryprofiles.config.name.show_sort_in_columns_button":    "Show Sort In Columns Button",
+    "inventoryprofiles.config.name.show_sort_in_rows_button":       "Show Sort In Rows Button",
+    "inventoryprofiles.config.name.show_move_all_button":           "Show Move All Button",
+    "inventoryprofiles.config.name.show_button_tooltips":           "Show Button Tooltips",
+
+    "inventoryprofiles.config.description.show_sort_button":            "Show sort button on GUI",
+    "inventoryprofiles.config.description.show_sort_in_columns_button": "// TODO",
+    "inventoryprofiles.config.description.show_sort_in_rows_button":    "// TODO",
+    "inventoryprofiles.config.description.show_move_all_button":        "Show move all buttons on GUI",
+    "inventoryprofiles.config.description.show_button_tooltips":        "Display tooltips when cursor hover the buttons on GUI",
+
+
+    "inventoryprofiles.config.name.open_config_menu":               "Open Config Menu",
+    "inventoryprofiles.config.name.sort_inventory":                 "Sort Inventory",
+    "inventoryprofiles.config.name.sort_inventory_in_columns":      "Sort Inventory In Columns",
+    "inventoryprofiles.config.name.sort_inventory_in_rows":         "Sort Inventory In Rows",
+    "inventoryprofiles.config.name.move_all_items":                 "Move All Items",
+    "inventoryprofiles.config.name.debug_screen":                   "Debug Screen",
+
+    "inventoryprofiles.config.description.open_config_menu":            "The key open the in-game config GUI",
+    "inventoryprofiles.config.description.sort_inventory":              "The key to sort the inventory",
+    "inventoryprofiles.config.description.sort_inventory_in_columns":   "The key to sort the inventory in columns",
+    "inventoryprofiles.config.description.sort_inventory_in_rows":      "The key to sort the inventory in rows",
+    "inventoryprofiles.config.description.move_all_items":              "The key to move all the itmes that already existed in the container",
+    "inventoryprofiles.config.description.debug_screen":                "Open debug screen",
+
+
+    "inventoryprofiles.config.name.instant_mining_cooldown":            "Instant Mining Cooldown",
+    "inventoryprofiles.config.name.disable_block_breaking_cooldown":    "Disable Block Breaking Cooldown",
+    "inventoryprofiles.config.name.disable_item_use_cooldown":          "Disable Item Use Cooldown",
+    "inventoryprofiles.config.name.prevent_close_gui_drop_item":        "Prevent Close Gui Drop Item",
+    "inventoryprofiles.config.name.disable_screen_shaking_on_damage":   "Disable Screen Shaking On Damage",
+    "inventoryprofiles.config.name.disable_lava_fog":                   "Disable Lava Fog",
+
+    "inventoryprofiles.config.description.instant_mining_cooldown":             "Adds breaking delay to the blocks that you can instantly mine. This option has lower priority than \"disableBlockBreakingCooldown\".",
+    "inventoryprofiles.config.description.disable_block_breaking_cooldown":     "Removes breaking delay for all blocks",
+    "inventoryprofiles.config.description.disable_item_use_cooldown":           "Removes use key cooldown so you can have equivalently 1 right click every game tick. Can use along with Tweakeroo \"tweakPlacementRestriction\".",
+    "inventoryprofiles.config.description.prevent_close_gui_drop_item":         "Closing GUI will no longer drop the item that holding by the cursor",
+    "inventoryprofiles.config.description.disable_screen_shaking_on_damage":    "Receiving damage no longer shakes your screen",
+    "inventoryprofiles.config.description.disable_lava_fog":                    "Allows you to have a clearer view underneath lava",
+
+
+
+
+
+    
+
     "inventoryprofiles.gui.button.config_gui.generic": "Generic",
     "inventoryprofiles.gui.button.config_gui.sorting_method": "Sorting Methods",
     "inventoryprofiles.gui.button.config_gui.profiles": "Profiles",
@@ -11,19 +122,6 @@
 
 
     "inventoryprofiles.gui.title.configs": "Inventory Profiles Configs",
-
-    "inventoryprofiles.tooltip.profile_I_button": "Switch to Profile I",
-    "inventoryprofiles.tooltip.profile_II_button": "Switch to Profile II",
-    "inventoryprofiles.tooltip.profile_III_button": "Switch to Profile III",
-    "inventoryprofiles.tooltip.profile_IV_button": "Switch to Profile IV",
-    "inventoryprofiles.tooltip.profile_V_button": "Switch to Profile V",
-    "inventoryprofiles.tooltip.profile_VI_button": "Switch to Profile VI",
-    "inventoryprofiles.tooltip.profile_VII_button": "Switch to Profile VII",
-    "inventoryprofiles.tooltip.profile_VIII_button": "Switch to Profile VIII",
-    "inventoryprofiles.tooltip.profile_IX_button": "Switch to Profile IX",
-    "inventoryprofiles.tooltip.profile_X_button": "Switch to Profile X",
-    "inventoryprofiles.tooltip.profile_XI_button": "Switch to Profile XI",
-    "inventoryprofiles.tooltip.profile_XII_button": "Switch to Profile XII",
 
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",

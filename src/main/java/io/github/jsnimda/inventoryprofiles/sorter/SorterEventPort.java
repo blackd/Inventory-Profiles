@@ -1,15 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
-import com.google.common.collect.ImmutableList;
-
-import fi.dy.masa.malilib.gui.GuiBase;
-import fi.dy.masa.malilib.hotkeys.IKeybind;
-import fi.dy.masa.malilib.hotkeys.KeyAction;
-import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
+import io.github.jsnimda.inventoryprofiles.config.Configs.Hotkeys;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
+import net.minecraft.client.gui.screen.Screen;
 
 /**
  * SorterEventPort
@@ -35,34 +31,22 @@ public class SorterEventPort {
 
   }
   public static void doMoveAll() {
-    ContainerActions.moveAllAlike(GuiBase.isShiftDown());
+    ContainerActions.moveAllAlike(Screen.hasShiftDown());
   }
 
-  public static boolean shouldHandle(IKeybind key){
-    return ImmutableList.of(
-      Generic.SORT_INVENTORY.getKeybind(),
-      Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind(),
-      Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind(),
-      Generic.SWITCH_PROFILE.getKeybind(),
-      Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()
-    ).contains(key);
-  }
-  public static boolean handleKey(KeyAction action, IKeybind key){
+  public static boolean handleKey(int lastKey, int lastAction){
     if (!Current.inGame()) return false;
     try {
-      if (key == Generic.SORT_INVENTORY.getKeybind()) {
+      if (Hotkeys.SORT_INVENTORY.isActivated()) {
         doSortAction();
         return true;
-      } else if (key == Generic.SORT_INVENTORY_BY_GROUP_COLUMNS.getKeybind()) {
+      } else if (Hotkeys.SORT_INVENTORY_IN_COLUMNS.isActivated()) {
         doSortActionByGroupColumns();
         return true;
-      } else if (key == Generic.SORT_INVENTORY_BY_GROUP_ROWS.getKeybind()) { 
+      } else if (Hotkeys.SORT_INVENTORY_IN_ROWS.isActivated()) { 
         doSortActionByGroupRows();
         return true;
-      } else if (key == Generic.SWITCH_PROFILE.getKeybind()) {
-        doSwitchProfile();
-        return true;
-      } else if (key == Generic.MOVE_ALL_CONTAINER_EXISTING_ITEMS.getKeybind()) {
+      } else if (Hotkeys.MOVE_ALL_ITEMS.isActivated()) {
         doMoveAll();
         return true;
       }

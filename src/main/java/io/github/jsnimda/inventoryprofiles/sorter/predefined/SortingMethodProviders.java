@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.sorter.predefined;
 import java.util.Collections;
 import java.util.Comparator;
 
-import io.github.jsnimda.inventoryprofiles.config.Configs.Generic;
+import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.ISortingMethodProvider;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 
@@ -49,7 +49,7 @@ public class SortingMethodProviders {
   }
 
   public static ISortingMethodProvider current() {
-    SortingMethodOption s = (SortingMethodOption) Generic.SORTING_METHOD.getOptionListValue();
+    SortingMethodOption s = (SortingMethodOption) ModSettings.SORT_ORDER.getValue();
     switch (s) {
     case DEFAULT:
       return DEFAULT;

@@ -19,10 +19,11 @@
       "io.github.jsnimda.inventoryprofiles.InventoryProfiles"
     ],
     "modmenu": [
-      "io.github.jsnimda.inventoryprofiles.external.ModMenuApiImpl"
+      "io.github.jsnimda.inventoryprofiles.compat.ModMenuApiImpl"
     ]
   },
   "mixins": [
+    "mixins.common.json",
     "mixins.inventoryprofiles.json"
   ],
   "depends": {
