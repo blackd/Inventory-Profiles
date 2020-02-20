@@ -3,6 +3,7 @@ package io.github.jsnimda.common.gui;
 import java.util.function.BiConsumer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -53,8 +54,19 @@ public class RightClickableButtonWidget extends AbstractButtonWidget {
 
   @Override
   public void renderButton(int i, int j, float f) { // ref: AbstractButtonWidget
-    super.renderButton(i, j, f);
-    // this.blit(this.x + this.width / 2, this.y, 200 - (this.width - this.width / 2), 46 + k * 20, this.width - this.width / 2, this.height); // fix odd number width
+    MinecraftClient minecraftClient = MinecraftClient.getInstance();
+    TextRenderer textRenderer = minecraftClient.textRenderer;
+    minecraftClient.getTextureManager().bindTexture(WIDGETS_LOCATION);
+    RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
+    int k = this.getYImage(this.isHovered());
+    RenderSystem.enableBlend();
+    RenderSystem.defaultBlendFunc();
+    RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+    this.blit(this.x, this.y, 0, 46 + k * 20, this.width / 2, this.height);
+    this.blit(this.x + this.width / 2, this.y, 200 - (this.width - this.width / 2), 46 + k * 20, this.width - this.width / 2, this.height); // fix odd number width
+    this.renderBg(minecraftClient, i, j);
+    int l = this.active ? 16777215 : 10526880;
+    this.drawCenteredString(textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, l | MathHelper.ceil(this.alpha * 255.0F) << 24);
   }
   
 }
