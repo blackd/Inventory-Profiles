@@ -36,7 +36,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
   public void render(int mouseX, int mouseY, float partialTicks) {
     super.render(mouseX, mouseY, partialTicks);
     GuiLighting.disable();
-    renderBackground(0);
+    this.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
     configHotkey.getMainKeybind().setSettings(keybindSettingElement.getSettings());
 
     dialogHeight = 5 * 20 + 2 + 10;
