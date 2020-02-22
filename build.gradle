@@ -1,6 +1,7 @@
 plugins {
-  id 'fabric-loom' version '0.2.6-SNAPSHOT'
+  id 'fabric-loom'
   id 'maven-publish'
+  id "org.jetbrains.kotlin.jvm"
 }
 
 // repositories {
@@ -28,6 +29,9 @@ dependencies {
 
   // Fabric API. This is technically optional, but you probably want it anyway.
   //modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+  // Kotlin fabric
+  modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
   // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
   // You may need to force-disable transitiveness on them.
