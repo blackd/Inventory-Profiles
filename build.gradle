@@ -13,7 +13,7 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = project.mod_file_name + '-' + project.minecraft_version_out
+archivesBaseName = project.mod_file_name + '-' + project.minecraft_version
 version = project.mod_version
 group = project.maven_group
 
@@ -35,7 +35,6 @@ dependencies {
 
   // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
   // You may need to force-disable transitiveness on them.
-  // modCompile "fi.dy.masa.malilib:malilib-fabric-" + project.minecraft_version + ":" + project.malilib_version
   modCompile "io.github.prospector:modmenu:" + project.mod_menu_version
 }
 
