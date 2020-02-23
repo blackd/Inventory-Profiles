@@ -1,11 +1,6 @@
 package io.github.jsnimda.common.vanilla
 
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.widget.AbstractButtonWidget
-import kotlin.AssertionError
-
-typealias AbstractWidget = AbstractButtonWidget
 
 object Vanilla {
 
