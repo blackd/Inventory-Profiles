@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.vanilla
 
-object VanillaActions {
+object VanillaUi {
 
   fun openScreen(screen: Screen) = Vanilla.mc().openScreen(screen)
 
