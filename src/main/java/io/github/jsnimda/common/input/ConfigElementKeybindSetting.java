@@ -44,12 +44,12 @@ public class ConfigElementKeybindSetting implements IConfigElementResettableMult
   }
 
   @Override
-  public Map<String, ? extends IConfigOption> getConfigOptionsMap() {
-    return getConfigOptionsMapFromConfigOptionsCollection();
+  public Map<String, IConfigOption> getConfigOptionsMap() {
+    return getConfigOptionsMapFromList();
   }
 
   @Override
-  public List<? extends IConfigOption> getConfigOptions() {
+  public List<IConfigOption> getConfigOptionsList() {
     return Arrays.asList(activateOn, context, allowExtraKeys, orderSensitive);
   }
 

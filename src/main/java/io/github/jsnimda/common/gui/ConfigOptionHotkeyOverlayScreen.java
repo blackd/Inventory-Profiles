@@ -25,7 +25,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
     super(new TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings"));
     this.configHotkey = configHotkey;
     this.keybindSettingElement = new ConfigElementKeybindSetting(configHotkey.getMainKeybind().getDefaultSettings(), configHotkey.getMainKeybind().getSettings());
-    configs = keybindSettingElement.getConfigOptions();
+    configs = keybindSettingElement.getConfigOptionsList();
     configWidgets = configs.stream().map(x -> ConfigOptionWidgetBase.of(x)).collect(Collectors.toList());
   }
 

@@ -32,13 +32,13 @@ public class CategorizedConfigOptions extends ConfigOptionBase implements IConfi
   }
 
   @Override
-  public Map<String, ? extends IConfigOption> getConfigOptionsMap() {
+  public Map<String, IConfigOption> getConfigOptionsMap() {
     return configOptionsMap;
   }
 
   @Override
-  public Collection<? extends IConfigOption> getConfigOptions() {
-    return getConfigOptionsCollectionFromConfigOptionsMap();
+  public List<IConfigOption> getConfigOptionsList() {
+    return getConfigOptionsListFromMap();
   }
 
 }
