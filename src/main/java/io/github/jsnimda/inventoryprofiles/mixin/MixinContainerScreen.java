@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import io.github.jsnimda.common.gui.Tooltips;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
 import io.github.jsnimda.inventoryprofiles.gui.inject.GuiSortingButtons;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ContainerScreen;
@@ -49,9 +49,9 @@ public abstract class MixinContainerScreen<T extends Container> extends Screen {
 
   @Inject(at = @At("RETURN"), method = "render(IIF)V")
   public void render(int int_1, int int_2, float float_1, CallbackInfo info) {
-    if (!ToolTips.current.isEmpty()) {
+    if (!Tooltips.getInstance().tooltips.isEmpty()) {
       GlStateManager.pushMatrix();
-      ToolTips.renderAll();
+      Tooltips.getInstance().renderAll();
       GlStateManager.disableLighting();
       GlStateManager.popMatrix();
     }

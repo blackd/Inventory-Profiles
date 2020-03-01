@@ -1,12 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.gui.inject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import io.github.jsnimda.common.gui.Tooltips;
 import io.github.jsnimda.inventoryprofiles.ModInfo;
 import io.github.jsnimda.inventoryprofiles.config.Configs.GuiSettings;
-import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
@@ -203,7 +202,7 @@ public class GuiSortingButtons {
     @Override
     public void renderToolTip(int x, int y) {
       if (GuiSettings.SHOW_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
-        ToolTips.add(I18n.translate(tooltipText), x, y);
+        Tooltips.getInstance().addTooltip(I18n.translate(tooltipText), x, y);
     }
 
   }
