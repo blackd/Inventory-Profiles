@@ -7,21 +7,18 @@ import io.github.jsnimda.common.Log
 interface IConfigOptionPrimitive<T> : IConfigOption {
   var value: T
   val defaultValue: T
-  @JvmDefault override fun isModified(): Boolean {
-    return value != defaultValue
-  }
+
+  @JvmDefault override fun isModified(): Boolean = value != defaultValue
 
   @JvmDefault override fun resetToDefault() {
     value = defaultValue
   }
 
-  @JvmDefault override fun toJsonElement(): JsonElement {
-    return when (val v = value) {
-      is Boolean -> JsonPrimitive(v)
-      is Number -> JsonPrimitive(v)
-      is String -> JsonPrimitive(v)
-      else -> throw UnsupportedOperationException("Not implemented yet")
-    }
+  @JvmDefault override fun toJsonElement(): JsonElement = when (val v = value) {
+    is Boolean -> JsonPrimitive(v)
+    is Number -> JsonPrimitive(v)
+    is String -> JsonPrimitive(v)
+    else -> throw UnsupportedOperationException("Not implemented yet")
   }
 
   @JvmDefault override fun fromJsonElement(element: JsonElement) {

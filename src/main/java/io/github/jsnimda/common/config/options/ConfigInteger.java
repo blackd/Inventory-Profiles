@@ -56,7 +56,7 @@ public class ConfigInteger extends ConfigOptionBase implements IConfigOptionPrim
   }
 
   @Override
-  public void setValue(Number value) {
+  public void setNumericValue(Number value) {
     setIntegerValue(value.intValue());
   }
 

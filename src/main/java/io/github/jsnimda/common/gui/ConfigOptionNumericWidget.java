@@ -28,7 +28,7 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
       double min = configOption.getMinValue().doubleValue();
       double max = configOption.getMaxValue().doubleValue();
       double val = (max - min) * value + min;
-      configOption.setValue(val);
+      configOption.setNumericValue(val);
     }
 
     @Override
@@ -77,10 +77,10 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
       if (textField.method_20315()) {
         // try set config value to text
         if (textField.getText().isEmpty()) {
-          configOption.setValue(0);
+          configOption.setNumericValue(0);
         } else try {
           double d = Double.parseDouble(textField.getText());
-          configOption.setValue(d);
+          configOption.setNumericValue(d);
         } catch (NumberFormatException e) {
         };
       }

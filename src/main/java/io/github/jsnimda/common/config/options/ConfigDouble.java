@@ -56,7 +56,7 @@ public class ConfigDouble extends ConfigOptionBase implements IConfigOptionPrimi
   }
 
   @Override
-  public void setValue(Number value) {
+  public void setNumericValue(Number value) {
     setDoubleValue(value.doubleValue());
   }
 
