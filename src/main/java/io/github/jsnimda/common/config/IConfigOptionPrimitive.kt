@@ -4,11 +4,11 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import io.github.jsnimda.common.Log
 
-interface IConfigOptionPrimitive<T> : IConfigOption {
+interface IConfigOptionPrimitive<T : Any> : IConfigOption {
   var value: T
   val defaultValue: T
 
-  @JvmDefault override fun isModified(): Boolean = value != defaultValue
+  @JvmDefault override val isModified get() = value != defaultValue
 
   @JvmDefault override fun resetToDefault() {
     value = defaultValue

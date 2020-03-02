@@ -14,7 +14,7 @@ class InputHandler : IInputHandler {
 
   override fun onInput(lastKey: Int, lastAction: Int): Boolean {
 
-    if (Hotkeys.OPEN_CONFIG_MENU.isActivated) {
+    if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
       VanillaUi.openScreen(ConfigScreen())
     }
 
@@ -22,7 +22,7 @@ class InputHandler : IInputHandler {
       return true
     }
 
-    if (ModSettings.DEBUG_LOGS.booleanValue && Hotkeys.DEBUG_SCREEN.isActivated) {
+    if (ModSettings.DEBUG_LOGS.booleanValue && Hotkeys.DEBUG_SCREEN.isActivated()) {
       DebugScreen.open()
       return true
     }

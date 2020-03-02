@@ -18,7 +18,7 @@ interface IConfigElementResettableMultiple : IConfigElementResettable {
 
   @JvmDefault override fun toJsonElement(): JsonElement = JsonObject().apply {
     getConfigOptionsList().forEach {
-      if (it.isModified()) this.add(it.key, it.toJsonElement())
+      if (it.isModified) this.add(it.key, it.toJsonElement())
     }
   }
 
@@ -40,7 +40,7 @@ interface IConfigElementResettableMultiple : IConfigElementResettable {
     }
   }
 
-  @JvmDefault override fun isModified(): Boolean = getConfigOptionsList().any { it.isModified() }
+  @JvmDefault override val isModified get() = getConfigOptionsList().any { it.isModified }
 
   @JvmDefault override fun resetToDefault(): Unit = getConfigOptionsList().forEach { it.resetToDefault() }
 }

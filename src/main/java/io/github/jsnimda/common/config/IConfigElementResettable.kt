@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.config
 
 interface IConfigElementResettable : IConfigElement {
-  fun isModified(): Boolean
+  val isModified: Boolean
   fun resetToDefault()
 }
