@@ -8,20 +8,20 @@ interface IConfigOptionPrimitive<T : Any> : IConfigOption {
   var value: T
   val defaultValue: T
 
-  @JvmDefault override val isModified get() = value != defaultValue
+  override val isModified get() = value != defaultValue
 
-  @JvmDefault override fun resetToDefault() {
+  override fun resetToDefault() {
     value = defaultValue
   }
 
-  @JvmDefault override fun toJsonElement(): JsonElement = when (val v = value) {
+  override fun toJsonElement(): JsonElement = when (val v = value) {
     is Boolean -> JsonPrimitive(v)
     is Number -> JsonPrimitive(v)
     is String -> JsonPrimitive(v)
     else -> throw UnsupportedOperationException("Not implemented yet")
   }
 
-  @JvmDefault override fun fromJsonElement(element: JsonElement) {
+  override fun fromJsonElement(element: JsonElement) {
     resetToDefault()
     try {
       val p = element.asJsonPrimitive

@@ -29,12 +29,12 @@ public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListW
 
   public static ConfigOptionListWidget from(CategorizedConfigOptions optionGroup, String displayNamePrefix, String descriptionPrefix) {
     ConfigOptionListWidget c = new ConfigOptionListWidget(displayNamePrefix, descriptionPrefix);
-    optionGroup.getCategories().forEach(x -> {
-      String categoryNameKey = x.getLeft();
+    optionGroup.getCategories().forEach((left, right) -> {
+      String categoryNameKey = left;
       String categoryName = I18n.translate(categoryNameKey);
       c.addAnchor(categoryName);
       c.addEntry(c.new CategoryEntry(categoryName));
-      x.getRight().forEach(y -> {
+      right.forEach(y -> {
         c.addEntry(c.new ConfigOptionEntry(y));
       });
     });

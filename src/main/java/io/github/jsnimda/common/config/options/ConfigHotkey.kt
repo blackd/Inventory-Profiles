@@ -10,7 +10,7 @@ import io.github.jsnimda.common.input.KeybindSettings
 
 class ConfigHotkey(defaultStorageString: String, defaultSettings: KeybindSettings) : ConfigOptionBase() {
   val mainKeybind: Keybind = Keybind(defaultStorageString, defaultSettings)
-  private val alternativeKeybinds: MutableList<Keybind> = mutableListOf()
+  val alternativeKeybinds: MutableList<Keybind> = mutableListOf()
 
   fun isActivated(): Boolean = mainKeybind.isActivated || alternativeKeybinds.any { it.isActivated }
 
