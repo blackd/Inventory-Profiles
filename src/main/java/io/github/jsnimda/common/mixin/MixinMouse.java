@@ -41,7 +41,7 @@ public class MixinMouse {
     //     / (double) window.getHeight());
     // final boolean keyState = action == GLFW.GLFW_PRESS;
 
-    if (GlobalInputHandler.getInstance().onMouseButton(button, action, mods)) {
+    if (GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods)) {
       ci.cancel();
     }
   }

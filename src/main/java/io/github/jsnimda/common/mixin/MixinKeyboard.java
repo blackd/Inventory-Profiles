@@ -15,7 +15,7 @@ public class MixinKeyboard {
           at = @At(value = "FIELD", target = "Lnet/minecraft/client/Keyboard;debugCrashStartTime:J", ordinal = 0)) // ref: malilib key hook
   private void onKey(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo ci)
   {
-      if (GlobalInputHandler.getInstance().onKey(key, scanCode, action, modifiers)) {
+      if (GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers)) {
         ci.cancel();
       }
   }

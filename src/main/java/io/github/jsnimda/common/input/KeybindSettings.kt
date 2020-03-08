@@ -1,8 +1,11 @@
 package io.github.jsnimda.common.input
 
-import net.minecraft.client.resource.language.I18n
-import io.github.jsnimda.common.input.KeybindSettings.Context.*;
-import io.github.jsnimda.common.input.KeybindSettings.KeyAction.*;
+import io.github.jsnimda.common.input.KeybindSettings.Context.*
+import io.github.jsnimda.common.input.KeybindSettings.KeyAction.PRESS
+import io.github.jsnimda.common.vanilla.I18n
+import io.github.jsnimda.common.vanilla.Screen
+import org.lwjgl.glfw.GLFW.GLFW_PRESS
+import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 
 data class KeybindSettings(
     @JvmField val context: Context,
@@ -19,6 +22,12 @@ data class KeybindSettings(
   enum class KeyAction {
     PRESS, RELEASE, BOTH;
 
+    fun isValid(action: Int): Boolean = when (this) {
+      PRESS -> action == GLFW_PRESS
+      RELEASE -> action == GLFW_RELEASE
+      BOTH -> action == GLFW_PRESS || action == GLFW_RELEASE
+    }
+
     override fun toString(): String {
       return I18n.translate("inventoryprofiles.common.enum.key_action." + name.toLowerCase())
     }
@@ -26,6 +35,12 @@ data class KeybindSettings(
 
   enum class Context {
     INGAME, GUI, ANY;
+
+    fun isValid(currentScreen: Screen?) = when (this) {
+      INGAME -> currentScreen == null
+      GUI -> currentScreen != null
+      ANY -> true
+    }
 
     override fun toString(): String {
       return I18n.translate("inventoryprofiles.common.enum.context." + name.toLowerCase())

@@ -24,7 +24,7 @@ interface IKeybind : IConfigElementResettable {
     settings = defaultSettings
   }
 
-  fun isActivated(): Boolean = GlobalInputHandler.getInstance().isActivated(keyCodes, settings)
+  fun isActivated(): Boolean = GlobalInputHandler.isActivated(keyCodes, settings)
 
   val displayText get() = keyCodesToDisplayText(keyCodes)
 

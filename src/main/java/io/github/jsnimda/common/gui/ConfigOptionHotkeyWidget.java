@@ -19,7 +19,7 @@ import net.minecraft.util.Identifier;
 public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotkey> {
 
   private ButtonWidget setKeyButton = new ButtonWidget(10, 10, 200, 20, "", x -> {
-    GlobalInputHandler.getInstance().setCurrentSettingKeybind(configOption.getMainKeybind());
+    GlobalInputHandler.INSTANCE.setCurrentAssigningKeybind(configOption.getMainKeybind());
   });
 
   private static Identifier WIDGETS_TEXTURE = new Identifier("inventoryprofiles", "textures/gui/widgets.png");
@@ -56,7 +56,7 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
     setKeyButton.y = y;
     setKeyButton.setWidth(availableWidth - 20 - 2);
     String displayText = targetKeybind.getDisplayText();
-    setKeyButton.setMessage(GlobalInputHandler.getInstance().getCurrentSettingKeybind() == targetKeybind
+    setKeyButton.setMessage(GlobalInputHandler.INSTANCE.getCurrentAssigningKeybind() == targetKeybind
       ? ("> §e" + displayText + "§r <") : displayText);
     setKeyButton.render(mouseX, mouseY, partialTicks);
 
