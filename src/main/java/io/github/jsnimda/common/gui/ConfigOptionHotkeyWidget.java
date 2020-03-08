@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import io.github.jsnimda.common.input.IKeybind;
 import org.lwjgl.glfw.GLFW;
 
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.input.GlobalInputHandler;
-import io.github.jsnimda.common.input.Keybind;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -24,8 +24,8 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
 
   private static Identifier WIDGETS_TEXTURE = new Identifier("inventoryprofiles", "textures/gui/widgets.png");
 
-  public boolean isInConfigHotkeyOverlay = false;
-  public Keybind targetKeybind;
+  public boolean  isInConfigHotkeyOverlay = false;
+  public IKeybind targetKeybind;
 
   protected ConfigOptionHotkeyWidget(ConfigHotkey configOption) {
     super(configOption);

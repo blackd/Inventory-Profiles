@@ -23,7 +23,7 @@ public class GlobalInputHandler {
   public int lastKey = -1;
   public int lastAction = -1;
 
-  private Optional<Keybind> currentSettingKeybind = Optional.empty(); // TODO beautify code
+  private Optional<IKeybind> currentSettingKeybind = Optional.empty(); // TODO beautify code
   private boolean firstKey = false;
 
   private GlobalInputHandler() {
@@ -60,12 +60,12 @@ public class GlobalInputHandler {
     }
   }
 
-  public void setCurrentSettingKeybind(Keybind keybind) {
+  public void setCurrentSettingKeybind(IKeybind keybind) {
     this.currentSettingKeybind = Optional.ofNullable(keybind);
     this.firstKey = false;
   }
 
-  public Keybind getCurrentSettingKeybind() {
+  public IKeybind getCurrentSettingKeybind() {
     return this.currentSettingKeybind.orElse(null);
   }
 

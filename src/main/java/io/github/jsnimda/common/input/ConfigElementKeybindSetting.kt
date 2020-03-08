@@ -1,7 +1,6 @@
 package io.github.jsnimda.common.input
 
 import io.github.jsnimda.common.config.IConfigElementResettableMultiple
-import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
 
