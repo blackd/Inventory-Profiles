@@ -9,6 +9,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -99,7 +100,16 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
     if (!textField.method_20315() && !useSlider) { // is editing
       textField.setText(String.valueOf(configOption.getValue()));
     }
-    (useSlider ? slider : textField).render(mouseX, mouseY, partialTicks);
+//    (useSlider ? slider : textField).render(mouseX, mouseY, partialTicks);
+    g().render(mouseX, mouseY, partialTicks);
+  }
+
+  private AbstractButtonWidget g() {
+    if (useSlider) {
+      return slider;
+    } else {
+      return textField;
+    }
   }
 
   @Override
