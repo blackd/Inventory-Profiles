@@ -63,14 +63,21 @@ public class GlobalInputHandler {
   public void setCurrentSettingKeybind(Keybind keybind) {
     this.currentSettingKeybind = Optional.ofNullable(keybind);
     this.firstKey = false;
+    this.ingoreNextKey = true;
   }
 
   public Keybind getCurrentSettingKeybind() {
     return this.currentSettingKeybind.orElse(null);
   }
 
+  private boolean ingoreNextKey = true; // FIXME temporary fix
+
   private void handleCurrentSettingKeybind() {
     if (lastAction == GLFW.GLFW_PRESS) {
+      if (this.ingoreNextKey) {
+        ingoreNextKey = false;
+        return;
+      }
       this.firstKey = true;
       if (lastKey == GLFW.GLFW_KEY_ESCAPE) {
         this.currentSettingKeybind.get().setKeyCodes(new ArrayList<>());
