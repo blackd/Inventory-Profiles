@@ -49,9 +49,9 @@ public class DebugScreen extends BaseOverlay {
       s += String.format("x: %s , y: %s\nw: %s , h: %s", mouseX, mouseY, width, height);
       s += "\nonKey: " + Arrays.stream(keys).mapToObj(String::valueOf).collect(Collectors.joining(", "));
       s += "\nonMouse: " + Arrays.stream(buttons).mapToObj(String::valueOf).collect(Collectors.joining(", "));
-      String name = KeyCodes.getKeyName(key);
-      s += String.format("\nKey: %s (%s)", name, KeyCodes.getFriendlyName(name));
-      s += "\nPressing keys: " + GlobalInputHandler.INSTANCE.getPressedKeys().stream().map(KeyCodes::getFriendlyName).collect(Collectors.joining(" + "));
+      String name = KeyCodes.INSTANCE.getKeyName(key);
+      s += String.format("\nKey: %s (%s)", name, KeyCodes.INSTANCE.getFriendlyName(name));
+      s += "\nPressing keys: " + GlobalInputHandler.INSTANCE.getPressedKeys().stream().map(KeyCodes.INSTANCE::getFriendlyName).collect(Collectors.joining(" + "));
       return Arrays.asList(s.trim().split("\n"));
     }
   }
