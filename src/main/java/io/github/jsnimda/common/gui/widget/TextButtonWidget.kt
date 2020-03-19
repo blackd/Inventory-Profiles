@@ -5,15 +5,15 @@ import io.github.jsnimda.common.vanilla.VanillaRender
 open class TextButtonWidget : ButtonWidget {
 
   constructor(text: String, clickEvent: (button: Int) -> Unit) : super(clickEvent) {
-    this.text = text
+    setAllText(text)
   }
 
   constructor(text: String, clickEvent: () -> Unit) : super(clickEvent) {
-    this.text = text
+    setAllText(text)
   }
 
   constructor(text: String) : super() {
-    this.text = text
+    setAllText(text)
   }
 
   constructor() : this("")
@@ -23,15 +23,22 @@ open class TextButtonWidget : ButtonWidget {
     updateWidth()
   }
 
-  var hoverText = text
-  var inactiveText = text
+  fun setAllText(text: String) {
+    this.text = text
+    this.hoverText = text
+    this.inactiveText = text
+    updateWidth()
+  }
+
+  var hoverText = ""
+  var inactiveText = ""
   var hovered: Boolean = false
   val displayText: String
     get() = if (active) if (hovered) hoverText else text else inactiveText
 
   var pressableMargin = 0
 
-  private fun updateWidth() {
+  fun updateWidth() {
     width = VanillaRender.getStringWidth(displayText)
   }
 

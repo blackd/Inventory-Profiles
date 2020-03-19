@@ -54,7 +54,7 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       if (outOfContainer) return
       super.render(mouseX, mouseY, partialTicks)
-      if (displayNameTextWidget.isMouseOver(mouseX, mouseY)) {
+      if (displayNameTextWidget.isMouseOver(mouseX, mouseY) && !anchorHeader.isMouseOver(mouseX, mouseY)) {
         Tooltips.addTooltip(description, mouseX, mouseY, VanillaRender.screenWidth * 2 / 3)
       }
     }

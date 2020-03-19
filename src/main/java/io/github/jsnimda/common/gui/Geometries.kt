@@ -1,8 +1,14 @@
 package io.github.jsnimda.common.gui
 
-data class Point(val x: Int, val y: Int)
+data class Point(val x: Int, val y: Int) {
+  operator fun plus(size: Size): Point =
+      Point(x + size.width, y + size.height)
+}
 
 data class Size(val width: Int, val height: Int)
+
+fun Rectangle.asPoints() =
+  location to (location + size)
 
 data class Rectangle(
     val x: Int,

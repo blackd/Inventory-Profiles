@@ -16,6 +16,8 @@ object VanillaRender {
     get() = Vanilla.window().scaledWidth
   val screenHeight
     get() = Vanilla.window().scaledHeight
+  val screenBounds
+    get() = Rectangle(0, 0, screenWidth, screenHeight)
 
   fun renderDirtBackground() { // Screen.renderDirtBackground
     (Vanilla.screen() ?: dummyScreen).renderDirtBackground(0)

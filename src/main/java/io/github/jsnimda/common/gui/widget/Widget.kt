@@ -141,7 +141,7 @@ open class Widget {
   var active = true
   var visible = true
   //  var focused = false
-  open var text: String = ""
+  var text: String = ""
   var zIndex: Int = 0
 
   fun children(): List<Widget> =

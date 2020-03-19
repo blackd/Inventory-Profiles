@@ -1,7 +1,9 @@
 package io.github.jsnimda.common.gui.widget
 
+import io.github.jsnimda.common.gui.asPoints
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
 import io.github.jsnimda.common.gui.widget.Overflow.VISIBLE
+import io.github.jsnimda.common.vanilla.I18n
 import io.github.jsnimda.common.vanilla.VHLine.fill
 import io.github.jsnimda.common.vanilla.VHLine.h
 import io.github.jsnimda.common.vanilla.VHLine.outline
@@ -34,8 +36,8 @@ open class AnchoredListWidget : Widget() {
 
   init {
     overflow = VISIBLE
-//    container.renderBorder = false
-//    renderBorder = false
+    container.renderBorder = false
+    renderBorder = false
   }
 
   // ============
@@ -43,12 +45,30 @@ open class AnchoredListWidget : Widget() {
   // ============
 
   inner class AnchorHeader : Widget() {
+    private val ellipsisText = I18n.translate("inventoryprofiles.common.gui.config.more")
+    private val ellipsisTextWidth = VanillaRender.getStringWidth(ellipsisText)
+
     init {
       anchor = AnchorStyles.noBottom
       this@AnchoredListWidget.widgets.add(this)
       height = rowHeight
       right = 0
       zIndex = 1
+      sizeChanged += {
+        // re calc
+        if (width != anchorsManager.width) {
+          widgets.clear()
+          anchorsManager.let { old ->
+            anchorsManager = AnchorsManager().also { new ->
+              // update anchors rowIndexes
+              old.anchors.forEach {
+                new.addAnchor(it.anchorDisplayText, it.toScrollY)
+              }
+            }
+          }
+          // updateTexts()
+        }
+      }
     }
 
     fun addAnchor(displayText: String, toScrollY: Int = container.contentHeight) {
@@ -57,22 +77,18 @@ open class AnchoredListWidget : Widget() {
 
     private val dummyAnchor = Anchor("", 0, 0)
 
-    inner class Anchor(var anchorDisplayText: String, val toScrollY: Int, var rowIndex: Int) {
+    inner class Anchor(var anchorDisplayText: String, val toScrollY: Int, val rowIndex: Int) {
       val textButtonWidget = TextButtonWidget(anchorDisplayText, { -> container.scrollY = toScrollY }).apply {
         hoverText = "§e§n$anchorDisplayText"
         inactiveText = "§e§n§l$anchorDisplayText"
-        visible = false
         pressableMargin = 2
       }
     }
 
-    val anchors: List<Anchor>
-      get() = anchorsManager.anchors
-    private var anchorsManager = AnchorsManager()
+    var anchorsManager = AnchorsManager()
+      private set
 
-    private inner class AnchorsManager { // this class manage anchor adding
-      private val ellipsisTextWidth = VanillaRender.getStringWidth(" ... ...")
-
+    inner class AnchorsManager { // this class manage anchor adding
       val width = this@AnchorHeader.width
       private val availableWidth
         get() = width - 20 - ellipsisTextWidth
@@ -98,7 +114,59 @@ open class AnchoredListWidget : Widget() {
           anchors.add(this)
           this@AnchorHeader.widgets.add(this.textButtonWidget)
         }
+        updateTexts()
       }
+
+      fun updateTexts() {
+        val startLeft = 10
+        var textLeft = startLeft
+        var textTop = textYPerRow
+        var lastRowIndex = 0
+        highlightingAnchor.let { highlightingAnchor ->
+          anchors.forEachIndexed { index, anchor ->
+            anchor.textButtonWidget.apply {
+              active = highlightingAnchor != anchor
+              updateWidth()
+              visible = expanded || highlightingAnchor.rowIndex == anchor.rowIndex
+              if (visible) {
+                if (lastRowIndex != anchor.rowIndex) {
+                  lastRowIndex = anchor.rowIndex
+                  textLeft = startLeft
+                  textTop += if (expanded) rowHeight else 0
+                }
+                top = textTop
+                left = textLeft
+                textLeft += width + SEPARATOR_WIDTH
+              }
+            }
+          }
+        }
+      }
+
+      val highlightingAnchorIndex: Int // highlight base on scrollY
+        get() {
+          val scrollY = container.scrollY
+          anchors.forEachIndexed { index, anchor ->
+            if (anchor.toScrollY >= scrollY) {
+              return if (anchor.toScrollY - scrollY <= container.viewport.height / 2) {
+                index
+              } else {
+                (index - 1).coerceAtLeast(0)
+              }
+            }
+          }
+          return anchors.size - 1
+        }
+      val highlightingAnchor
+        get() = if (anchors.isEmpty()) dummyAnchor else anchors[highlightingAnchorIndex]
+      val highlightingRowLastAnchor: Anchor
+        get() = highlightingAnchorIndex.let { startIndex ->
+          if (anchors.isEmpty()) return dummyAnchor
+          for (i in startIndex + 1 until anchors.size) {
+            if (anchors[i].rowIndex != anchors[startIndex].rowIndex) return anchors[i - 1]
+          }
+          return anchors.last()
+        }
     }
 
     private var _expanded = false
@@ -113,9 +181,9 @@ open class AnchoredListWidget : Widget() {
       if (_expanded) return
       _expanded = true
       val leastTop = leastY - this@AnchoredListWidget.screenY
-      this.top = (-rowHeight * highlightingAnchor.rowIndex).coerceAtLeast(leastTop)
+      this.top = (-rowHeight * anchorsManager.highlightingAnchor.rowIndex).coerceAtLeast(leastTop)
       this.height = rowHeight * anchorsManager.totalTextRow + 1
-      updateTexts()
+      anchorsManager.updateTexts()
     }
 
     fun collaspe() {
@@ -123,85 +191,37 @@ open class AnchoredListWidget : Widget() {
       _expanded = false
       this.top = 0
       this.height = rowHeight
-      updateTexts()
-    }
-
-    fun updateTexts() {
-      val startLeft = 10
-      var textLeft = startLeft
-      var textTop = anchorsManager.textYPerRow
-      var lastRowIndex = 0
-      anchors.forEachIndexed { index, anchor ->
-        anchor.textButtonWidget.visible = expanded || highlightingAnchor.rowIndex == anchor.rowIndex
-        if (anchor.textButtonWidget.visible) anchor.textButtonWidget.apply {
-          if (lastRowIndex != anchor.rowIndex) {
-            lastRowIndex = anchor.rowIndex
-            textLeft = startLeft
-            textTop += if (expanded) rowHeight else 0
-          }
-          top = textTop
-          left = textLeft
-          textLeft += width + SEPARATOR_WIDTH
-        }
-      }
+      anchorsManager.updateTexts()
     }
 
     private var lastHighlightingAnchorIndex = 0
       set(value) {
         if (field != value) {
           field = value
-          updateTexts()
+          anchorsManager.updateTexts()
         }
-      }
-    private val highlightingAnchorIndex: Int // highlight base on scrollY
-      get() {
-        val scrollY = container.scrollY
-        anchors.forEachIndexed { index, anchor ->
-          if (anchor.toScrollY >= scrollY) {
-            return if (anchor.toScrollY - scrollY <= container.viewport.height / 2) {
-              index
-            } else {
-              (index - 1).coerceAtLeast(0)
-            }
-          }
-        }
-        return anchors.size - 1
-      }
-    private val highlightingAnchor
-      get() = if (anchors.isEmpty()) dummyAnchor else anchors[highlightingAnchorIndex]
-    private val highlightingRowLastAnchor: Anchor
-      get() = highlightingAnchorIndex.let { startIndex ->
-        if (anchors.isEmpty()) return dummyAnchor
-        for (i in startIndex + 1 until anchors.size) {
-          if (anchors[i].rowIndex != anchors[startIndex].rowIndex) return anchors[i - 1]
-        }
-        return anchors.last()
       }
 
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       expanded = isMouseOver(mouseX, mouseY) && anchorsManager.totalTextRow > 1
-      val (x1, y1, x2, y2) = absoluteBounds
+      val (pt1, pt2) = absoluteBounds.asPoints()
+      val (x1, y1) = pt1
+      val (x2, y2) = pt2
       h(x1, x2 - 1, y1, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
       h(x1, x2 - 1, y2, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
       fill(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
-      lastHighlightingAnchorIndex = highlightingAnchorIndex
+      super.render(mouseX, mouseY, partialTicks)
+      lastHighlightingAnchorIndex = anchorsManager.highlightingAnchorIndex
       if (!expanded && anchorsManager.totalTextRow > 1) {
-        highlightingRowLastAnchor.textButtonWidget.run {
-          VanillaRender.drawString(" ... ...", absoluteBounds.right, screenY, COLOR_WHITE)
+        anchorsManager.highlightingRowLastAnchor.textButtonWidget.run {
+          VanillaRender.drawString(ellipsisText, absoluteBounds.right, screenY, COLOR_WHITE)
         }
       }
     }
 
-    fun sizeChanged() { // re calc
-      if (width != anchorsManager.width) {
-        widgets.clear()
-        anchorsManager.let { old ->
-          anchorsManager = AnchorsManager().also { new ->
-            old.anchors.forEach { new.addAnchor(it.anchorDisplayText, it.toScrollY) }
-          }
-        }
-      }
-    }
+    override fun mouseClicked(x: Int, y: Int, button: Int): Boolean =
+        true.also { super.mouseClicked(x, y, button) }
+
   }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {

@@ -5,6 +5,7 @@ import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
 import io.github.jsnimda.common.vanilla.VHLine.fill
 import io.github.jsnimda.common.vanilla.VHLine.outline
+import io.github.jsnimda.common.vanilla.VanillaRender
 import org.lwjgl.opengl.GL11
 import kotlin.math.roundToInt
 
@@ -66,7 +67,7 @@ class ScrollableContainerWidget : Widget() {
   var scrollY: Int
     get() = -contentContainer.top
     set(value) {
-      contentContainer.top = -value.coerceAtMost(scrollYMax)
+      contentContainer.top = -value.coerceIn(0, scrollYMax)
     }
   val scrollYMax: Int
     get() = (contentHeight - viewport.height).coerceAtLeast(0)
@@ -122,6 +123,11 @@ class ScrollableContainerWidget : Widget() {
         copy(width = width - 1, height = height - 1)
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }
+
+    // unknown reason overflow content is not hidden with old code, add this to fix it
+    GlStateManager.disableAlphaTest()
+    fill(VanillaRender.screenBounds, 0)
+    GlStateManager.enableAlphaTest()
     // render content
     GlStateManager.pushMatrix()
     GlStateManager.translatef(0f, 0f, -400.0f) // ref: AdvancementsScreen widget
@@ -148,6 +154,7 @@ class ScrollableContainerWidget : Widget() {
         if (!scrollbar.thumbAbsoluteBounds.contains(x, y)) {
           scrollbar.y = y - viewport.screenY - scrollbar.thumbHeight / 2 // e = y1 + yoffset + sh/2
         }
+        draggingScrollbar = true
         draggingInitMouseY = y
         draggingInitScrollbarY = scrollbar.y
         true
@@ -162,7 +169,6 @@ class ScrollableContainerWidget : Widget() {
         scrollbar.y = draggingInitScrollbarY + shiftY
         true
       } else false
-
 
   override fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean = // f = 1 or -1
       super.mouseScrolled(x, y, amount) || if (scrollbar.visible) {

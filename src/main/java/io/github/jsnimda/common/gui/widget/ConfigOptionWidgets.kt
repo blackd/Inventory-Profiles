@@ -124,7 +124,7 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) 
   val toggleButton = object : ButtonWidget({ -> useSlider = !useSlider }) {
     override fun renderButton(hovered: Boolean) {
       VanillaRender.bindTexture(WIDGETS_TEXTURE)
-      GlStateManager.disableDepthTest()
+//      GlStateManager.disableDepthTest()
       val textureX = if (hovered) 32 else 16
       val textureY = if (useSlider) 16 else 0
       VHLine.blit(screenX, screenY, 0, textureX, textureY, 16, 16)

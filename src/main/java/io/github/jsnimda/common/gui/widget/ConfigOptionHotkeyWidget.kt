@@ -27,7 +27,7 @@ class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWid
   }) {
     override fun renderButton(hovered: Boolean) {
       VanillaRender.bindTexture(WIDGETS_TEXTURE)
-      GlStateManager.disableDepthTest()
+//      GlStateManager.disableDepthTest()
       val textureX = 20 + if (targetKeybind.isSettingsModified || !configOption.alternativeKeybinds.isEmpty()) 20 else 0
       val textureY = 160 + targetKeybind.settings.activateOn.ordinal * 20
       VHLine.blit(screenX, screenY, 0, textureX, textureY, 20, 20)
