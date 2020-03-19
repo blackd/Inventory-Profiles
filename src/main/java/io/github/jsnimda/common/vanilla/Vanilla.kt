@@ -8,12 +8,17 @@ object Vanilla {
   // minecraft objects
   // ============
 
-  fun mc() = MinecraftClient.getInstance() ?: throw IllegalStateException("MinecraftClient is not initialized!")
+  fun mc() = MinecraftClient.getInstance() ?: error("MinecraftClient is not initialized!")
 
-  fun textRenderer() = mc().textRenderer ?: throw IllegalStateException("mc.textRenderer is not initialized!")
+  fun textRenderer() = mc().textRenderer ?: error("mc.textRenderer is not initialized!")
+
+  fun textureManager() = mc().textureManager ?: error("mc.textureManager is not initialized!")
+
+  fun window(): Window = mc().window ?: error("mc.window is not initialized!")
 
   fun screen(): Screen? = mc().currentScreen
 
+  fun soundManager() = mc().soundManager ?: error("mc.soundManager is not initialized!")
 
   // ============
   // in-game objects
@@ -21,11 +26,11 @@ object Vanilla {
 
   internal fun worldNullable() = mc().world ?: null
 
-  fun world() = worldNullable() ?: throw IllegalStateException("mc.world is not initialized! Probably not in game")
+  fun world() = worldNullable() ?: error("mc.world is not initialized! Probably not in game")
 
   internal fun playerNullable() = mc().player ?: null
 
-  fun player() = playerNullable() ?: throw IllegalStateException("mc.player is not initialized! Probably not in game")
+  fun player() = playerNullable() ?: error("mc.player is not initialized! Probably not in game")
 
   fun playerInventory() = player().inventory ?: throw AssertionError("unreachable")
 

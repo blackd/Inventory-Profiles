@@ -202,7 +202,7 @@ public class GuiSortingButtons {
     @Override
     public void renderToolTip(int x, int y) {
       if (GuiSettings.SHOW_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
-        Tooltips.getInstance().addTooltip(I18n.translate(tooltipText), x, y);
+        Tooltips.INSTANCE.addTooltip(I18n.translate(tooltipText), x, y);
     }
 
   }

@@ -6,13 +6,15 @@ import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import io.github.jsnimda.common.gui.screen.BaseOverlay;
 import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.input.KeyCodes;
+import io.github.jsnimda.common.vanilla.VHLine;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 
-public class DebugScreen extends OverlayScreen {
+public class DebugScreen extends BaseOverlay {
 
   private static final int COLOR_TEXT_BG = 0x90505050;
   private static final int COLOR_TEXT = 0xE0E0E0;
@@ -49,7 +51,7 @@ public class DebugScreen extends OverlayScreen {
       s += "\nonMouse: " + Arrays.stream(buttons).mapToObj(String::valueOf).collect(Collectors.joining(", "));
       String name = KeyCodes.getKeyName(key);
       s += String.format("\nKey: %s (%s)", name, KeyCodes.getFriendlyName(name));
-      s += "\nPressing keys: " + GlobalInputHandler.INSTANCE.getPressedKeys().stream().map(x -> KeyCodes.getFriendlyName(x)).collect(Collectors.joining(" + "));
+      s += "\nPressing keys: " + GlobalInputHandler.INSTANCE.getPressedKeys().stream().map(KeyCodes::getFriendlyName).collect(Collectors.joining(" + "));
       return Arrays.asList(s.trim().split("\n"));
     }
   }
@@ -86,7 +88,7 @@ public class DebugScreen extends OverlayScreen {
       int x1 = textPosition % 3 == 0 ? 1 : this.width - bgw - 1; // is left
       int x2 = x1 + bgw;
       int y2 = y1 + bgh;
-      if (VHLine.contains(x1, y1, x2, y2, x, y)) {
+      if (VHLine.INSTANCE.contains(x1, y1, x2, y2, x, y)) {
         return true;
       }
       y1 += bgh;
@@ -113,14 +115,14 @@ public class DebugScreen extends OverlayScreen {
 
     if (toggleColor < 2) {
       int color = toggleColor == 0 ? COLOR_WHITE : COLOR_BLACK;
-      VHLine.v(mouseX, 1, this.height - 2, color);
-      VHLine.h(1, this.width - 2, mouseY, color);
+      VHLine.INSTANCE.v(mouseX, 1, this.height - 2, color);
+      VHLine.INSTANCE.h(1, this.width - 2, mouseY, color);
     }
   }
 
   public static void open() {
     if (MinecraftClient.getInstance().currentScreen instanceof DebugScreen) return;
-    DebugScreen d = new DebugScreen(MinecraftClient.getInstance().currentScreen);
+    DebugScreen d = new DebugScreen();
     MinecraftClient.getInstance().openScreen(d);
   }
 
@@ -136,8 +138,8 @@ public class DebugScreen extends OverlayScreen {
     return super.mouseClicked(d, e, i);
   }
 
-  private DebugScreen(Screen parent) {
-    super(new LiteralText(""), parent);
+  private DebugScreen() {
+    super();
   }
 
 }

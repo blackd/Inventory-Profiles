@@ -49,9 +49,9 @@ public abstract class MixinContainerScreen<T extends Container> extends Screen {
 
   @Inject(at = @At("RETURN"), method = "render(IIF)V")
   public void render(int int_1, int int_2, float float_1, CallbackInfo info) {
-    if (!Tooltips.getInstance().tooltips.isEmpty()) {
+    if (!Tooltips.INSTANCE.getTooltips().isEmpty()) {
       GlStateManager.pushMatrix();
-      Tooltips.getInstance().renderAll();
+      Tooltips.INSTANCE.renderAll();
       GlStateManager.disableLighting();
       GlStateManager.popMatrix();
     }

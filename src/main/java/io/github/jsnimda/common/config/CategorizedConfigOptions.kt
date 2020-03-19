@@ -10,9 +10,9 @@ class CategorizedConfigOptions : ConfigOptionBase(), IConfigElementResettableMul
       _currentCategory = value
     }
 
-  fun addCategory(categoryName: String) = mutableListOf<IConfigOption>().also {
+  fun addCategory(categoryNameKey: String) = mutableListOf<IConfigOption>().also {
     currentCategory = it
-    categories[categoryName] = it
+    categories[categoryNameKey] = it
   }
 
   fun addConfigOption(configOption: IConfigOption) {
