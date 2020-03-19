@@ -5,14 +5,23 @@ import io.github.jsnimda.common.vanilla.VHLine
 import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.VanillaSound
 
-open class ButtonWidget(private val clickEvent: (button: Int) -> Unit) : Widget() {
+open class ButtonWidget private constructor(private val clickEvent: (button: Int) -> Unit, dummy: Unit) : Widget() {
 
-  constructor(clickEvent: () -> Unit) : this({ button -> if (button == 0) clickEvent() })
+  constructor(clickEvent: (button: Int) -> Unit) : this({ button ->
+    VanillaSound.playClick()
+    clickEvent(button)
+  }, Unit)
 
-  constructor() : this({ -> })
+  constructor(clickEvent: () -> Unit) : this({ button ->
+    if (button == 0) {
+      VanillaSound.playClick()
+      clickEvent()
+    }
+  }, Unit)
+
+  constructor() : this({ }, Unit)
 
   open fun onClick(button: Int) {
-    VanillaSound.playClick()
     clickEvent(button)
   }
 
