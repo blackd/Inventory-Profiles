@@ -126,6 +126,11 @@ class TextFieldWidget(height: Int) : VanillaWidget<TextFieldWidget>(CustomTextFi
       (vanilla as CustomTextFieldWidget).isFocused = value
     }
 
+  override fun lostFocus() {
+    super.lostFocus()
+    vanillaFocused = false
+  }
+
   fun editing() =
       vanilla.method_20315()
 

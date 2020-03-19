@@ -159,7 +159,30 @@ open class Widget {
 
   //region Events
 
+  var focused = false
+    private set(value) {
+      if (field != value) {
+        field = value
+        if (value) gotFocus()
+        else lostFocus()
+      }
+    }
+
+  open fun gotFocus() {}
+
+  open fun lostFocus() {
+    focusedWidget = null
+  }
+
   var focusedWidget: Widget? = null
+    set(value) {
+      if (field != value) {
+        val oldValue = field
+        field = value
+        value?.focused = true
+        oldValue?.focused = false
+      }
+    }
   var isDragging = false
 
   open fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -182,7 +205,7 @@ open class Widget {
             if (button == 0) isDragging = true // left click
           }
         }
-      }
+      }.also { if (!it) focusedWidget = null }
 
   open fun mouseReleased(x: Int, y: Int, button: Int): Boolean = // TODO better solution
       false.also { childrenZIndexed().asReversed().forEach { it.mouseReleased(x, y, button) } }
@@ -203,5 +226,13 @@ open class Widget {
       focusedWidget?.charTyped(charIn, modifiers) ?: false
 
   //endregion
+
+  final override fun equals(other: Any?): Boolean {
+    return super.equals(other)
+  }
+
+  final override fun hashCode(): Int {
+    return super.hashCode()
+  }
 
 }

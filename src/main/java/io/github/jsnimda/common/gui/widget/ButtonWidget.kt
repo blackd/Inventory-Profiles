@@ -21,6 +21,8 @@ open class ButtonWidget private constructor(private val clickEvent: (button: Int
 
   constructor() : this({ }, Unit)
 
+  var clickThrough = false
+
   open fun onClick(button: Int) {
     clickEvent(button)
   }
@@ -28,7 +30,7 @@ open class ButtonWidget private constructor(private val clickEvent: (button: Int
   override fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
     super.mouseClicked(x, y, button)
     if (active) onClick(button)
-    return true
+    return !clickThrough
   }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {

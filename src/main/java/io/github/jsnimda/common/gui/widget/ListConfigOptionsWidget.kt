@@ -44,6 +44,7 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
     }
 
     val displayNameTextWidget = TextButtonWidget(displayName).apply {
+      clickThrough = true
       this@ConfigOptionEntry.widgets.add(this)
       top = textY
       left = 2
