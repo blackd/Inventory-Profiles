@@ -190,7 +190,7 @@ open class Widget {
   open fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean =
       childrenZIndexed().asReversed().any { it.isMouseOver(x, y) && it.mouseScrolled(x, y, amount) }
 
-  open fun mouseDragged(x: Int, y: Int, button: Int, dx: Int, dy: Int): Boolean = // TODO precise dx dy
+  open fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double): Boolean = // TODO precise dx dy
       isDragging && focusedWidget?.mouseDragged(x, y, button, dx, dy) ?: false
 
   open fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =

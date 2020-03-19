@@ -163,9 +163,9 @@ class ScrollableContainerWidget : Widget() {
   override fun mouseReleased(x: Int, y: Int, button: Int): Boolean =
       false.also { draggingScrollbar = false }
 
-  override fun mouseDragged(x: Int, y: Int, button: Int, dx: Int, dy: Int): Boolean =
+  override fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double): Boolean =
       super.mouseDragged(x, y, button, dx, dy) || if (draggingScrollbar) {
-        val shiftY = y - draggingInitMouseY
+        val shiftY = (y - draggingInitMouseY).toInt()
         scrollbar.y = draggingInitScrollbarY + shiftY
         true
       } else false

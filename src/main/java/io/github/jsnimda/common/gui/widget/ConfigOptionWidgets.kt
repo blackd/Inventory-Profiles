@@ -108,16 +108,25 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) 
   val slider = SliderWidget(configOption.minValue.toDouble(), configOption.maxValue.toDouble()).apply {
     value = configOption.value.toDouble()
     valueChangedEvent = {
-      configOption.setNumericValue(value)
+      setNumericValue(value)
     }
   }
   val textField = TextFieldWidget(18).apply {
     textPredicate = { it.isEmpty() || pattern.matcher(it).matches() }
     changedEvent = {
       if (editing()) try { // try set config value to text
-        configOption.setNumericValue(if (text.isEmpty()) 0 else text.toDouble())
+        setNumericValue(if (vanillaText.isEmpty()) 0 else vanillaText.toDouble())
       } catch (e: NumberFormatException) {
       }
+    }
+  }
+
+  fun setNumericValue(value: Number) {
+    configOption.setNumericValue(value)
+    if (useSlider) {
+      textField.vanillaText = value.toString()
+    } else {
+      slider.value = value.toDouble()
     }
   }
 
@@ -136,6 +145,10 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) 
     slider.vanilla.message = configOption.value.toString()
     slider.visible = useSlider
     textField.visible = !useSlider
+    if (useSlider) {
+      slider.value = configOption.value.toDouble()
+      textField.vanillaFocused = false
+    }
     if (!textField.editing() && !useSlider) { // is editing
       textField.vanilla.text = configOption.value.toString()
     }

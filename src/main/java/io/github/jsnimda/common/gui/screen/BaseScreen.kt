@@ -53,13 +53,13 @@ abstract class BaseScreen(text: Text) : Screen(text) {
       rootWidget.mouseReleased(d.toInt(), e.toInt(), i)
 
   override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean =
-      rootWidget.mouseDragged(d.toInt(), e.toInt(), i, f.toInt(), g.toInt()) // TODO fix dx dy decimal rounding off
+      rootWidget.mouseDragged(d, e, i, f, g) // TODO fix dx dy decimal rounding off
 
   override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean =
       rootWidget.mouseScrolled(d.toInt(), e.toInt(), f)
 
   override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
-      rootWidget.keyPressed(keyCode, scanCode, modifiers)
+      super.keyPressed(keyCode, scanCode, modifiers) || rootWidget.keyPressed(keyCode, scanCode, modifiers)
 
   override fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
       rootWidget.keyReleased(keyCode, scanCode, modifiers)
