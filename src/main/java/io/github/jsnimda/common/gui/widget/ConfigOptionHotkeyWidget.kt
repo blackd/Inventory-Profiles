@@ -2,7 +2,7 @@ package io.github.jsnimda.common.gui.widget
 
 import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.config.options.ConfigHotkey
-import io.github.jsnimda.common.gui.screen.ConfigOptionHotkeyOverlayScreen
+import io.github.jsnimda.common.gui.screen.ConfigOptionHotkeyDialog
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.IKeybind
@@ -65,7 +65,7 @@ class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWid
     }
 
   protected fun onClickKeybindSettingsIcon() {
-    VanillaUi.openScreen(ConfigOptionHotkeyOverlayScreen(configOption))
+    VanillaUi.openScreen(ConfigOptionHotkeyDialog(configOption))
   }
 
   override fun reset() {

@@ -1,7 +1,5 @@
 package io.github.jsnimda.common.vanilla
 
-import net.minecraft.client.MinecraftClient
-
 object Vanilla {
 
   // ============
