@@ -18,6 +18,11 @@ open class VanillaWidget<T : AbstractButtonWidget>(
       vanilla.y = screenY
     }
   }
+
+  override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    vanilla.render(mouseX, mouseY, partialTicks)
+    super.render(mouseX, mouseY, partialTicks)
+  }
 }
 
 private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : SliderWidget(0, 0, 0, 20, 0.5) {
@@ -58,7 +63,7 @@ class SliderWidget(
 }
 
 
-class TextFieldWidget() : VanillaWidget<TextFieldWidget>(TextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, 20, "")) {
+class TextFieldWidget(height: Int) : VanillaWidget<TextFieldWidget>(TextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
 
   var textPredicate: (string: String) -> Boolean = { true }
     set(value) {

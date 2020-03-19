@@ -111,7 +111,7 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) 
       configOption.setNumericValue(value)
     }
   }
-  val textField = TextFieldWidget().apply {
+  val textField = TextFieldWidget(18).apply {
     textPredicate = { it.isEmpty() || pattern.matcher(it).matches() }
     changedEvent = {
       if (editing()) try { // try set config value to text
@@ -148,7 +148,10 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) 
     flow.most.offset.let { offset ->
       flow.most.addAndFit(slider)
       flow.most.offset = offset
-      flow.most.addAndFit(textField)
+      flow.most.addSpace(1)
+      flow.least.addSpace(2)
+      flow.addAndFit(textField)
+      textField.top = 1
     }
   }
 }
