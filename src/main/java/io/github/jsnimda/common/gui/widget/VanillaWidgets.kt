@@ -23,6 +23,34 @@ open class VanillaWidget<T : AbstractButtonWidget>(
     vanilla.render(mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
   }
+
+  override fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
+    return super.mouseClicked(x, y, button) || vanilla.mouseClicked(x.toDouble(), y.toDouble(), button)
+  }
+
+  override fun mouseReleased(x: Int, y: Int, button: Int): Boolean {
+    return super.mouseReleased(x, y, button) || vanilla.mouseReleased(x.toDouble(), y.toDouble(), button)
+  }
+
+  override fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean {
+    return super.mouseScrolled(x, y, amount) || vanilla.mouseScrolled(x.toDouble(), y.toDouble(), amount)
+  }
+
+  override fun mouseDragged(x: Int, y: Int, button: Int, dx: Int, dy: Int): Boolean {
+    return super.mouseDragged(x, y, button, dx, dy) || vanilla.mouseDragged(x.toDouble(), y.toDouble(), button, dx.toDouble(), dy.toDouble())
+  }
+
+  override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+    return super.keyPressed(keyCode, scanCode, modifiers) || vanilla.keyPressed(keyCode, scanCode, modifiers)
+  }
+
+  override fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+    return super.keyReleased(keyCode, scanCode, modifiers) || vanilla.keyReleased(keyCode, scanCode, modifiers)
+  }
+
+  override fun charTyped(charIn: Char, modifiers: Int): Boolean {
+    return super.charTyped(charIn, modifiers) || vanilla.charTyped(charIn, modifiers)
+  }
 }
 
 private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : SliderWidget(0, 0, 0, 20, 0.5) {

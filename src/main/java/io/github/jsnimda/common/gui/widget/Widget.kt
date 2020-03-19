@@ -101,6 +101,7 @@ open class Widget {
   var anchor: AnchorStyles = AnchorStyles.default
 
   data class LocationChangedEvent(val oldValue: Point, val newValue: Point)
+
   val locationChanged by event<LocationChangedEvent>()
   fun locationChanged(oldValue: Point, newValue: Point) {
     screenLocationChanged()
@@ -108,6 +109,7 @@ open class Widget {
   }
 
   data class SizeChangedEvent(val oldValue: Size, val newValue: Size)
+
   val sizeChanged by event<SizeChangedEvent>() // use event model to avoid NullPointerException during class init
   fun sizeChanged(oldValue: Size, newValue: Size) {
     fun resize(anchorLeast: Boolean, anchorMost: Boolean, oldContainer: Int, newContainer: Int,
@@ -188,8 +190,17 @@ open class Widget {
   open fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean =
       childrenZIndexed().asReversed().any { it.isMouseOver(x, y) && it.mouseScrolled(x, y, amount) }
 
-  open fun mouseDragged(x: Int, y: Int, button: Int, dx: Int, dy: Int): Boolean =
+  open fun mouseDragged(x: Int, y: Int, button: Int, dx: Int, dy: Int): Boolean = // TODO precise dx dy
       isDragging && focusedWidget?.mouseDragged(x, y, button, dx, dy) ?: false
+
+  open fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
+      focusedWidget?.keyPressed(keyCode, scanCode, modifiers) ?: false
+
+  open fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
+      focusedWidget?.keyReleased(keyCode, scanCode, modifiers) ?: false
+
+  open fun charTyped(charIn: Char, modifiers: Int): Boolean =
+      focusedWidget?.charTyped(charIn, modifiers) ?: false
 
   //endregion
 

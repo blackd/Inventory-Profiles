@@ -58,6 +58,16 @@ abstract class BaseScreen(text: Text) : Screen(text) {
   override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean =
       rootWidget.mouseScrolled(d.toInt(), e.toInt(), f)
 
+  override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
+      rootWidget.keyPressed(keyCode, scanCode, modifiers)
+
+  override fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
+      rootWidget.keyReleased(keyCode, scanCode, modifiers)
+
+  override fun charTyped(charIn: Char, modifiers: Int): Boolean =
+      rootWidget.charTyped(charIn, modifiers)
+
+
   //endregion
 
 }
