@@ -48,7 +48,6 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
       this@ConfigOptionEntry.widgets.add(this)
       top = textY
       left = 2
-      pressableMargin = 2
       zIndex = 1
     }
 

@@ -8,7 +8,7 @@ import java.util.*
 import java.util.function.Consumer
 import java.util.function.Function
 
-object Tooltips {
+object Tooltips { // TODO clean up code
   class Tooltip : DrawableHelper {
     var strings: List<String>
     var mouseX: Int

@@ -54,7 +54,6 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey)
         dialogWidget.widgets.add(this)
         left = 10
         top = baseTop + 6
-        pressableMargin = 2
         zIndex = 1
       }
     }

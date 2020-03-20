@@ -81,7 +81,6 @@ open class AnchoredListWidget : Widget() {
       val textButtonWidget = TextButtonWidget(anchorDisplayText, { -> container.scrollY = toScrollY }).apply {
         hoverText = "§e§n$anchorDisplayText"
         inactiveText = "§e§n§l$anchorDisplayText"
-        pressableMargin = 2
       }
     }
 

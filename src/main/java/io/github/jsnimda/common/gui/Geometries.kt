@@ -2,7 +2,7 @@ package io.github.jsnimda.common.gui
 
 data class Point(val x: Int, val y: Int) {
   operator fun plus(size: Size): Point =
-      Point(x + size.width, y + size.height)
+    Point(x + size.width, y + size.height)
 }
 
 data class Size(val width: Int, val height: Int)
@@ -11,10 +11,10 @@ fun Rectangle.asPoints() =
   location to (location + size)
 
 data class Rectangle(
-    val x: Int,
-    val y: Int,
-    val width: Int,
-    val height: Int
+  val x: Int,
+  val y: Int,
+  val width: Int,
+  val height: Int
 ) {
 
   constructor(location: Point, size: Size) : this(location.x, location.y, size.width, size.height)
@@ -34,13 +34,13 @@ data class Rectangle(
     get() = Size(width, height)
 
   fun copy(location: Point = this.location, size: Size = this.size) =
-      copy(location.x, location.y, size.width, size.height)
+    Rectangle(location.x, location.y, size.width, size.height)
 
   fun inflated(amount: Int): Rectangle =
-      Rectangle(x - amount, y - amount, width + amount * 2, height + amount * 2)
+    Rectangle(x - amount, y - amount, width + amount * 2, height + amount * 2)
 
   fun asPair() =
-      location to size
+    location to size
 
   fun contains(x: Int, y: Int): Boolean {
     return x in left until right && y in top until bottom

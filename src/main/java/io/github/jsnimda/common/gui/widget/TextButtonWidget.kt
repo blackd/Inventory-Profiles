@@ -36,7 +36,7 @@ open class TextButtonWidget : ButtonWidget {
   val displayText: String
     get() = if (active) if (hovered) hoverText else text else inactiveText
 
-  var pressableMargin = 0
+  var pressableMargin = 2
 
   fun updateWidth() {
     width = VanillaRender.getStringWidth(displayText)
