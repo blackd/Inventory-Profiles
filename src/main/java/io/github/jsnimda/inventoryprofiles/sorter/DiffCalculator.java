@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
-import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
+import io.github.jsnimda.inventoryprofiles.config.ModSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats.ItemTypeStats;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CodeUtils;
 
@@ -154,7 +154,7 @@ public class DiffCalculator {
         long ed = System.nanoTime();
         Log.debugLogs("[inventoryprofiles] Execute calcDiff() in " + (ed - st)/(double)1000000 + " ms");
       } catch (Throwable e) {
-        if (ModSettings.DEBUG_LOGS.getBooleanValue()) {
+        if (ModSettings.INSTANCE.getDEBUG_LOGS().getBooleanValue()) {
           e.printStackTrace();
           return sandbox.clicks;
         } else {

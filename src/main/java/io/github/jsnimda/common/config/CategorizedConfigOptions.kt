@@ -1,5 +1,8 @@
 package io.github.jsnimda.common.config
 
+fun List<IConfigOption>.toConfigs() = CategorizedConfigOptions().apply {
+  this@toConfigs.forEach { addConfigOption(it) }
+}
 
 class CategorizedConfigOptions : ConfigOptionBase(), IConfigElementResettableMultiple {
   val categories: LinkedHashMap<String, List<IConfigOption>> = linkedMapOf()

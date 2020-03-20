@@ -3,8 +3,8 @@ package io.github.jsnimda.inventoryprofiles.input
 import io.github.jsnimda.common.gui.DebugScreen
 import io.github.jsnimda.common.input.IInputHandler
 import io.github.jsnimda.common.vanilla.VanillaUi
-import io.github.jsnimda.inventoryprofiles.config.Configs.Hotkeys
-import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings
+import io.github.jsnimda.inventoryprofiles.config.Hotkeys
+import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
 import io.github.jsnimda.inventoryprofiles.main.InventoryInputHandler
 

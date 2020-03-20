@@ -1,14 +1,29 @@
 package io.github.jsnimda.common.gui.screen
 
+import io.github.jsnimda.common.config.CategorizedConfigOptions
 import io.github.jsnimda.common.config.options.ConfigHotkey
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.*
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
+import io.github.jsnimda.common.vanilla.I18n
 import io.github.jsnimda.common.vanilla.Text
 import io.github.jsnimda.common.vanilla.VanillaRender
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
+
+fun List<CategorizedConfigOptions>.addToConfigScreen(
+  configScreen: ConfigScreenBase,
+  buttonTextKeyPrefix: String,
+  displayNamePrefix: String,
+  descriptionPrefix: String
+) {
+  this.forEach {
+    configScreen.addNavigationButtonWithWidget(
+      I18n.translate(buttonTextKeyPrefix + it.key)
+    ) { it.toWidget(displayNamePrefix, descriptionPrefix) }
+  }
+}
 
 open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 

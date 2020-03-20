@@ -4,7 +4,7 @@ import io.github.jsnimda.common.input.IInputHandler
 import io.github.jsnimda.common.vanilla.ContainerScreen
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaState
-import io.github.jsnimda.inventoryprofiles.config.Configs.Hotkeys
+import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 
 object InventoryInputHandler : IInputHandler {
 

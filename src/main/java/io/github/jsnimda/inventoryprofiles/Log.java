@@ -1,9 +1,8 @@
 package io.github.jsnimda.inventoryprofiles;
 
+import io.github.jsnimda.inventoryprofiles.config.ModSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
 
 /**
  * Log
@@ -13,7 +12,7 @@ public class Log {
   public static final Logger LOGGER = LogManager.getLogger(ModInfo.MOD_ID);
 
   public static void debugLogs(String message) {
-    if (ModSettings.DEBUG_LOGS.getBooleanValue()) {
+    if (ModSettings.INSTANCE.getDEBUG_LOGS().getBooleanValue()) {
       info(message);
     }
   }

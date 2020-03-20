@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.github.jsnimda.inventoryprofiles.Log;
-import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
+import io.github.jsnimda.inventoryprofiles.config.ModSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.BiVirtualSlots;
 import io.github.jsnimda.inventoryprofiles.sorter.Click;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
@@ -172,7 +172,7 @@ public class ContainerActions {
   }
 
   public static void moveAllAlike(boolean includeHotbar) {
-    moveAllAlike(ModSettings.SORT_AT_CURSOR.getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory(), includeHotbar);
+    moveAllAlike(ModSettings.INSTANCE.getSORT_AT_CURSOR().getBooleanValue() && ContainerUtils.cursorPointingPlayerInventory(), includeHotbar);
   }
   public static void moveAllAlike(boolean moveToPlayerInventory, boolean includeHotbar) {
     cleanCursor();
@@ -275,7 +275,7 @@ public class ContainerActions {
               return;
             }
             // FIXME when gui close cursor stack will put back to container that will influence the sorting result
-            if (ModSettings.STOP_AT_SCREEN_CLOSE.getBooleanValue() && currentScreen != Current.screen()) {
+            if (ModSettings.INSTANCE.getSTOP_AT_SCREEN_CLOSE().getBooleanValue() && currentScreen != Current.screen()) {
               if (currentScreen == null) {
                 currentScreen = Current.screen();
               } else {

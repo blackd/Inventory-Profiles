@@ -1,11 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.gui.inject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.github.jsnimda.common.gui.Tooltips;
 import io.github.jsnimda.inventoryprofiles.ModInfo;
-import io.github.jsnimda.inventoryprofiles.config.Configs.GuiSettings;
+import io.github.jsnimda.inventoryprofiles.config.GuiSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
@@ -13,18 +10,16 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
-import net.minecraft.client.gui.screen.ingame.CraftingTableScreen;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.gui.screen.ingame.SmokerScreen;
+import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.container.Container;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SortButtonWidget
@@ -88,7 +83,7 @@ public class GuiSortingButtons {
     boolean addNonChestSide = cate == ContainerCategory.PLAYER_SURVIVAL || cate == ContainerCategory.PLAYER_CREATIVE;
     boolean shouldAdd = addChestSide || addNonChestSide;
     int x0 = right_base_x;
-    if (GuiSettings.SHOW_MOVE_ALL_BUTTON.getBooleanValue() && showMoveAllButton(cate)) {
+    if (GuiSettings.INSTANCE.getSHOW_MOVE_ALL_BUTTON().getBooleanValue() && showMoveAllButton(cate)) {
       list.add(moveAllButton(false, x0));
       if (cate.isStorage()) {
         list.add(moveAllButton(true, x0));
@@ -98,17 +93,17 @@ public class GuiSortingButtons {
       }
     }
     if (shouldAdd) {
-      if (GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.getBooleanValue()) {
+      if (GuiSettings.INSTANCE.getSHOW_SORT_IN_ROWS_BUTTON().getBooleanValue()) {
         if (addChestSide)    list.add(sortRowsButton(true, x0));
         if (addNonChestSide) list.add(sortRowsButton(false, x0));
         x0 -= 12;
       }
-      if (GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.getBooleanValue()) {
+      if (GuiSettings.INSTANCE.getSHOW_SORT_IN_COLUMNS_BUTTON().getBooleanValue()) {
         if (addChestSide)    list.add(sortColumnsButton(true, x0));
         if (addNonChestSide) list.add(sortColumnsButton(false, x0));
         x0 -= 12;
       }
-      if (GuiSettings.SHOW_SORT_BUTTON.getBooleanValue()) {
+      if (GuiSettings.INSTANCE.getSHOW_SORT_BUTTON().getBooleanValue()) {
         if (addChestSide)    list.add(sortButton(true, x0));
         if (addNonChestSide) list.add(sortButton(false, x0));
         x0 -= 12;
@@ -201,7 +196,7 @@ public class GuiSortingButtons {
     
     @Override
     public void renderToolTip(int x, int y) {
-      if (GuiSettings.SHOW_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
+      if (GuiSettings.INSTANCE.getSHOW_BUTTON_TOOLTIPS().getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
         Tooltips.INSTANCE.addTooltip(I18n.translate(tooltipText), x, y);
     }
 

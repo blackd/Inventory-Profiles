@@ -34,5 +34,10 @@ object Vanilla {
 
   fun playerContainer() = player().playerContainer ?: throw AssertionError("unreachable")
 
+  // ============
+  // other objects
+  // ============
+
+  fun runDirectory() = mc().runDirectory ?: error("mc.runDirectory is not initialized!")
 
 }
