@@ -24,3 +24,6 @@ bin/
 
 run/
 run
+
+# kotlin
+*.ws.kts
