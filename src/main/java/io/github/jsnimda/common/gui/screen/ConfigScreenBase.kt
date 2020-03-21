@@ -12,19 +12,6 @@ import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
 
-fun List<CategorizedConfigOptions>.addToConfigScreen(
-  configScreen: ConfigScreenBase,
-  buttonTextKeyPrefix: String,
-  displayNamePrefix: String,
-  descriptionPrefix: String
-) {
-  this.forEach {
-    configScreen.addNavigationButtonWithWidget(
-      I18n.translate(buttonTextKeyPrefix + it.key)
-    ) { it.toWidget(displayNamePrefix, descriptionPrefix) }
-  }
-}
-
 open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
   var openConfigMenuHotkeyWidget: ConfigOptionHotkeyWidget? = null

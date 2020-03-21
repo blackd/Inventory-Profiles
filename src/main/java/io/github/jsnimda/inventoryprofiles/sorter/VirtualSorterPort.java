@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import io.github.jsnimda.inventoryprofiles.config.ModSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
-import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerUtils;

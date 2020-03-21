@@ -74,4 +74,4 @@ val Configs = listOf(
   Tweaks
 )
 
-object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toConfigs(), FILE_PATH)
+object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toSingleConfigs(), FILE_PATH)

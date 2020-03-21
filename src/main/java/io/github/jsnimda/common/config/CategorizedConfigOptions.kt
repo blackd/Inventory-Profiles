@@ -1,7 +1,7 @@
 package io.github.jsnimda.common.config
 
-fun List<IConfigOption>.toConfigs() = CategorizedConfigOptions().apply {
-  this@toConfigs.forEach { addConfigOption(it) }
+fun List<IConfigOption>.toSingleConfigs() = CategorizedConfigOptions().apply {
+  this@toSingleConfigs.forEach { addConfigOption(it) }
 }
 
 class CategorizedConfigOptions : ConfigOptionBase(), IConfigElementResettableMultiple {

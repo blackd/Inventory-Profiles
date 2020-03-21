@@ -8,7 +8,7 @@ import io.github.jsnimda.common.cachedReadOnlyProperty
 import io.github.jsnimda.common.config.CategorizedConfigOptions
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.options.*
-import io.github.jsnimda.common.config.toConfigs
+import io.github.jsnimda.common.config.toSingleConfigs
 import io.github.jsnimda.common.input.KeybindSettings
 import io.github.jsnimda.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 import io.github.jsnimda.common.readOnlyProperty
@@ -17,12 +17,12 @@ import kotlin.reflect.KProperty
 
 interface ConfigSingleton
 
-object RegisteredConfigSingleton {
+private object RegisteredConfigSingleton {
   internal val map = linkedMapOf<Class<ConfigSingleton>, Pair<ConfigSingleton, CategorizedConfigOptions>>()
-  val objects: List<ConfigSingleton>
-    get() = map.values.map { it.first }
-  val configsList: List<CategorizedConfigOptions>
-    get() = map.values.map { it.second }
+//  internal val objects: List<ConfigSingleton>
+//    get() = map.values.map { it.first }
+//  internal val configsList: List<CategorizedConfigOptions>
+//    get() = map.values.map { it.second }
 
   operator fun get(singleton: ConfigSingleton): CategorizedConfigOptions =
     map.getOrPut(
@@ -37,8 +37,11 @@ val ConfigSingleton.configs: CategorizedConfigOptions
 //val Class<out ConfigSingleton>.configs: CategorizedConfigOptions
 //  get() = RegisteredConfigSingleton.map[this]?.second ?: throw NoSuchElementException() //warn: ExceptionInInitializerError might occur
 
-fun List<ConfigSingleton>.toConfigs() =
-  this.map { it.configs }.toConfigs()
+fun List<ConfigSingleton>.toSingleConfigs() =
+  this.map { it.configs }.toSingleConfigs()
+
+fun List<ConfigSingleton>.toConfigsList() =
+  this.map { it.configs }
 
 //region Builder Syntax
 
@@ -48,7 +51,7 @@ val <T : ConfigSingleton> T.builder
 class ReadOnlyPropertyWithReceiver<R, T>(val receiver: R, delegate: ReadOnlyProperty<R, T>) :
   ReadOnlyProperty<R, T> by delegate
 
-fun <T : ConfigSingleton> T.categoryStart(nameKey: String) { // runtime type
+fun <T : ConfigSingleton> T.categoryStart(nameKey: String) {
   this.configs.addCategory(nameKey)
 }
 
