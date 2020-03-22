@@ -11,7 +11,7 @@ private val String.hasIndent
   get() = this.isNotEmpty() && this[0].isWhitespace()
 
 private fun String.isCommentOrBlank(): Boolean =
-  isBlank() || trimStart().let { it.startsWith("//") || it.startsWith("#") }
+  isBlank() || trimStart().startsWith("//")
 
 class IndentedDataFileParser(lines: List<String>, private val fileName: String) {
   companion object {
@@ -28,21 +28,19 @@ class IndentedDataFileParser(lines: List<String>, private val fileName: String) 
 
   private fun List<Line>.grouped(): List<Group> {
     val result = mutableListOf<Group>()
-    var group: Group? = null
     this.forEach { line ->
       if (line.text.hasIndent) {
-        group.let { group ->
-          if (group == null) {
-            errors += line.copy(text = "unexpected indent")
-          } else {
-            group.children += line
-          }
+        if (result.isEmpty()) {
+          errors += line.copy(text = "unexpected indent")
+        } else {
+          result.last().children += line
         }
       } else {
-        group?.normalize()
-        result += Group(line).also { group = it }
+        result.lastOrNull()?.normalize()
+        result += Group(line)
       }
     }
+    result.lastOrNull()?.normalize()
     return result
   }
 
