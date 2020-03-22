@@ -6,7 +6,6 @@ import io.github.jsnimda.common.vanilla.VanillaUi
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
-import io.github.jsnimda.inventoryprofiles.main.InventoryInputHandler
 
 class InputHandler : IInputHandler {
 

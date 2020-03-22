@@ -1,4 +1,4 @@
-package io.github.jsnimda.inventoryprofiles.main
+package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.vanilla.VanillaState
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort

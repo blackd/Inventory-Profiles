@@ -2,12 +2,12 @@ package io.github.jsnimda.common.config.options
 
 import io.github.jsnimda.common.config.ConfigOptionBase
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric
-import net.minecraft.util.math.MathHelper
 
-class ConfigDouble(override val defaultValue: Double, override val minValue: Double, override val maxValue: Double) : ConfigOptionBase(), IConfigOptionPrimitiveNumeric<Double> {
+class ConfigDouble(override val defaultValue: Double, override val minValue: Double, override val maxValue: Double) :
+  ConfigOptionBase(), IConfigOptionPrimitiveNumeric<Double> {
   override var value = defaultValue
     set(value) {
-      field = MathHelper.clamp(value, minValue, maxValue)
+      field = value.coerceIn(minValue, maxValue)
     }
   val doubleValue get() = value
 
