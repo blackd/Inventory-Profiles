@@ -1,4 +1,4 @@
-package io.github.jsnimda.inventoryprofiles.main.data
+package io.github.jsnimda.inventoryprofiles.item
 
 import io.github.jsnimda.common.vanilla.CompoundTag
 import io.github.jsnimda.common.vanilla.Item

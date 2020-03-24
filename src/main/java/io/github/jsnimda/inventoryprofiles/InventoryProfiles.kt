@@ -12,6 +12,6 @@ fun init() {
   // Keybind register
   GlobalInputHandler.registerInputHandler(InputHandler())
 
-   SaveLoadManager.load()
+  SaveLoadManager.load()
 
 }

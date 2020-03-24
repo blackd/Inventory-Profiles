@@ -8,4 +8,6 @@ object VanillaState {
   fun ctrlDown() = Screen.hasControlDown()
   fun altDown() = Screen.hasAltDown()
 
+  fun languageCode(): String = Vanilla.languageManager().language.code
+
 }
