@@ -20,7 +20,7 @@ abstract class Rule : Comparator<ItemType> {
     val result = innerCompare(itemType1, itemType2)
     if (result != 0) return result * if (arguments[reverse]) -1 else 1
     arguments[sub_comparator].let { rule ->
-      if (rule is NativeNone) return 0
+      if (rule is NoneRule) return 0
       return rule.compare(itemType1, itemType2)
     }
   }

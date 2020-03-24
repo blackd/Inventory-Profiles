@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule
 
 class Arguments {
   val values = mutableMapOf<String, String>()
+  private val argumentObjects = mutableMapOf<String, Any>()
   fun defineParameter(parameter: Parameter<*>, defaultValue: String) {
 
   }

@@ -13,18 +13,16 @@ import io.github.jsnimda.inventoryprofiles.item.rule.RuleParameters.sub_comparat
 import io.github.jsnimda.inventoryprofiles.item.rule.RuleParameters.sub_comparator_not_match
 import java.text.Collator
 import java.util.*
+import kotlin.reflect.KProperty
 
 object NativeRules {
-  val MAP = mutableMapOf<String, NativeRule>()
+  val MAP = mutableMapOf<String, () -> NativeRule>()
+  val none by native(::NoneRule)
 }
 
-abstract class NativeRule(val name: String) : Rule() {
-  init {
-    NativeRules.MAP[name] = this
-  }
-}
+abstract class NativeRule(val name: String) : Rule()
 
-class NativeNone : NativeRule("none") { // sub_comparator should not be set on this class (won't handle)
+class NoneRule : NativeRule("none") { // sub_comparator should not be set on this class (won't handle)
   override fun innerCompare(itemType1: ItemType, itemType2: ItemType): Int = 0
 }
 
@@ -93,9 +91,19 @@ abstract class BooleanTypeComparator(name: String) : NativeRule(name) {
 
 //endregion
 
-//region string_type_comparator
+// ============
+// Some helper functions for creating rules
+// ============
+private class NativeRuleProvider0(val supplier: () -> NativeRule) {
+  operator fun provideDelegate(thisRef: NativeRules, property: KProperty<*>): () -> NativeRule =
+    supplier.also { thisRef.MAP[property.name] = it }
+}
+private class NativeRuleProvider1(val supplier: (name: String) -> NativeRule) {
+  operator fun provideDelegate(thisRef: NativeRules, property: KProperty<*>): () -> NativeRule =
+    { supplier(property.name) }.also { thisRef.MAP[property.name] = it }
+}
 
-
-
-//endregion
+private operator fun (() -> NativeRule).getValue(thisRef: NativeRules, property: KProperty<*>) = this
+private fun native(supplier: () -> NativeRule) = NativeRuleProvider0(supplier)
+private fun native(supplier: (name: String) -> NativeRule) = NativeRuleProvider1(supplier)
 
