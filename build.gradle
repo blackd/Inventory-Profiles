@@ -13,6 +13,7 @@ plugins {
   id 'maven-publish'
   id "org.jetbrains.kotlin.jvm"
   id "com.github.johnrengelman.shadow" version "5.2.0"
+  id 'antlr'
 }
 
 // repositories {
@@ -50,6 +51,7 @@ dependencies {
   modCompile "io.github.prospector:modmenu:" + project.mod_menu_version
 
   implementation "org.jetbrains.kotlin:kotlin-script-runtime"
+  antlr "org.antlr:antlr4:4.8"
 }
 
 processResources {
@@ -112,7 +114,7 @@ publishing {
 compileKotlin.kotlinOptions.jvmTarget = "1.8"
 compileKotlin {
   kotlinOptions {
-    freeCompilerArgs = ['-Xjvm-default=compatibility']
+    freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xopt-in=kotlin.ExperimentalStdlibApi']
     // includeRuntime = true
     // noStdlib = false
   }
@@ -148,3 +150,25 @@ task proguard(type: proguard.gradle.ProGuardTask) {
 
 tasks.proguard.dependsOn tasks.remapShadowJar
 tasks.build.dependsOn tasks.proguard
+
+//https://stackoverflow.com/questions/10615966/compiling-3-2-antlr-grammar-with-gradle
+task genAntlr(type: JavaExec) {
+  description = 'Generates Java sources from Antlr4 grammars.'
+
+  def destinationDir = "src/main/java/io/github/jsnimda/inventoryprofiles/gen"
+  def antlrSource = 'src/main/java/io/github/jsnimda/inventoryprofiles/parser/antlr'
+  def packageName = "io.github.jsnimda.inventoryprofiles.gen"
+
+  inputs.dir file(antlrSource)
+  outputs.dir file(destinationDir)
+
+  def grammars = fileTree(antlrSource).include('**/*.g4')
+  def files = grammars.files.collect { file('.').relativePath(it) } // no absolute path in generated files
+
+  main = 'org.antlr.v4.Tool'
+  classpath = configurations.antlr
+  args = ["-o", destinationDir, "-package", packageName, files].flatten()
+}
+
+generateGrammarSource { }
+generateGrammarSource.enabled = false
