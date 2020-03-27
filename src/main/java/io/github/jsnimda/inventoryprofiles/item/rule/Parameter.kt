@@ -1,7 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item.rule
 
-class Parameter<T>(
+class Parameter<T : Any>(
   val name: String,
-  val argumentType: ArgumentType<T>,
-  val required: Boolean = false
+  val argumentType: ArgumentType<T>
 )

@@ -4,6 +4,9 @@ import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.util.IndentedData
 import io.github.jsnimda.inventoryprofiles.gen.RulesLexer
 import io.github.jsnimda.inventoryprofiles.gen.RulesParser
+import io.github.jsnimda.inventoryprofiles.gen.RulesParser.RuleEntryContext
+import io.github.jsnimda.inventoryprofiles.item.rule.CustomRuleDefinition
+import io.github.jsnimda.inventoryprofiles.item.rule.CustomRuleDefinition.SubRuleEntry
 import org.antlr.v4.runtime.*
 
 /*
@@ -16,18 +19,36 @@ rules.txt format:
   #in_tag(match = [first|last])
   namespace:is_item{with_some_nbt: {}}
  */
+
+fun parseRuleEntry(ruleEntry: RuleEntryContext): SubRuleEntry {
+  val reverse = ruleEntry.REVERSE() != null
+  val rid = ruleEntry.ruleIdentifier()
+  val prefix: String? = rid.AT()?.text ?: rid.DOUBLE_COLON()?.text ?: rid.HASHTAG()?.text
+  val name = rid.RuleName()?.text ?: rid.ItemName()!!.text
+  val nbt = rid.NBT()?.text
+  val arguments = ruleEntry.arguments()?.run {
+    this.pair().map {
+      it.Parameter().text to it.Argument().text
+    }
+  } ?: listOf()
+  return SubRuleEntry(reverse, prefix, name, nbt, arguments)
+}
+
 class RulesFileParser(val data: IndentedData, private val fileName: String = "<unknown file>") {
   private val rawTexts = data.rawParagraph
-  fun parse() {
+  fun parse(): CustomRuleDefinition? {
     val parser = rulesParser(rawTexts)
     try {
       val ctx = parser.customRuleEOF()
-      TODO()
+      return CustomRuleDefinition(ctx.head().RuleName().text).apply {
+        subRules.addAll(ctx.ruleEntry().map { parseRuleEntry(it) })
+      }
     } catch (e: SyntaxErrorException) {
       Log.warn("Syntax Error while parsing $fileName: line ${e.line}:${e.pos} ${e.msg}")
     } catch (e: Exception) {
       e.printStackTrace()
     }
+    return null
   }
 }
 
