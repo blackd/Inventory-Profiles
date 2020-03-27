@@ -67,14 +67,29 @@ class BooleanTypedRule : TypedRule<Boolean>() {
       defineParameter(sub_comparator_not_match, EmptyRule())
     }
     innerCompare = { itemType1, itemType2 ->
-      val b1 = transformBy(itemType1)
-      val b2 = transformBy(itemType2)
-      if (b1 == b2) {
-        if (b1) arguments[sub_comparator_match].compare(itemType1, itemType2)
-        else arguments[sub_comparator_not_match].compare(itemType1, itemType2)
-      } else { // b1 != b2
-        arguments[match].multiplier * if (b1) -1 else 1
-      }
+      compareBoolean(
+        itemType1, itemType2, transformBy, arguments[match],
+        arguments[sub_comparator_match]::compare,
+        arguments[sub_comparator_not_match]::compare
+      )
     }
+  }
+}
+
+fun compareBoolean(
+  itemType1: ItemType,
+  itemType2: ItemType,
+  matchBy: (ItemType) -> Boolean,
+  match: Match,
+  matchCompare: (ItemType, ItemType) -> Int = { _, _ -> 0 },
+  notMatchCompare: (ItemType, ItemType) -> Int = { _, _ -> 0 }
+): Int {
+  val b1 = matchBy(itemType1)
+  val b2 = matchBy(itemType2)
+  return if (b1 == b2) {
+    if (b1) matchCompare(itemType1, itemType2)
+    else notMatchCompare(itemType1, itemType2)
+  } else { // b1 != b2
+    match.multiplier * if (b1) -1 else 1
   }
 }
