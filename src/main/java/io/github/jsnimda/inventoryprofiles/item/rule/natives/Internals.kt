@@ -41,6 +41,7 @@ internal class TypedRuleProvider<T>(
 
 internal fun <R : Rule> native(supplier: () -> R, postAction: R.() -> Unit = { }) =
   RuleProvider(supplier, postAction)
+
 internal fun rule(supplier: () -> Rule, postAction: Rule.() -> Unit = { }) =
   RuleProvider(supplier, postAction)
 
