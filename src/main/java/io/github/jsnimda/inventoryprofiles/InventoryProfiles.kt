@@ -4,7 +4,7 @@ import io.github.jsnimda.common.event.GlobalInitHandler
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.inventoryprofiles.config.SaveLoadManager
 import io.github.jsnimda.inventoryprofiles.input.InputHandler
-import io.github.jsnimda.inventoryprofiles.parser.CustomFilesManager
+import io.github.jsnimda.inventoryprofiles.parser.DataFilesManager
 
 @Suppress("unused")
 fun init() {
@@ -15,7 +15,7 @@ fun init() {
     GlobalInputHandler.registerInputHandler(InputHandler())
 
     SaveLoadManager.load()
-    CustomFilesManager.reload()
+    DataFilesManager.load()
 
   }
 

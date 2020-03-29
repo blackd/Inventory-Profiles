@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.input
 
 import io.github.jsnimda.common.gui.DebugScreen
 import io.github.jsnimda.common.input.IInputHandler
-import io.github.jsnimda.common.vanilla.VanillaUi
+import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
@@ -14,7 +14,7 @@ class InputHandler : IInputHandler {
   override fun onInput(lastKey: Int, lastAction: Int): Boolean {
 
     if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
-      VanillaUi.openScreen(ConfigScreen())
+      VanillaUtils.openScreen(ConfigScreen())
     }
 
     if (InventoryInputHandler.onInput(lastKey, lastAction)) {

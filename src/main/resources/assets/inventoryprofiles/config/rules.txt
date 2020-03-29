@@ -1,0 +1,24 @@
+// Default rules file
+
+@default
+    ::custom_name
+    ::creative_menu_group_index
+    ::raw_id
+    @default_nbt_rule
+
+@item_name
+    ::display_name_locale
+    @default_nbt_rule
+
+@item_id
+    ::item_id
+    @default_nbt_rule
+
+@default_nbt_rule
+    ::enchantments_score
+    ::damage
+    !::has_potion_effects
+    ::has_custom_potion_effects
+    ::potion_name
+    ::potion_effects
+    ::nbt

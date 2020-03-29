@@ -28,13 +28,13 @@ public class RulesParserBaseListener implements RulesParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRuleEntryEOF(RulesParser.RuleEntryEOFContext ctx) { }
+	@Override public void enterSubRuleEOF(RulesParser.SubRuleEOFContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRuleEntryEOF(RulesParser.RuleEntryEOFContext ctx) { }
+	@Override public void exitSubRuleEOF(RulesParser.SubRuleEOFContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -52,25 +52,25 @@ public class RulesParserBaseListener implements RulesParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRuleEntry(RulesParser.RuleEntryContext ctx) { }
+	@Override public void enterSubRule(RulesParser.SubRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRuleEntry(RulesParser.RuleEntryContext ctx) { }
+	@Override public void exitSubRule(RulesParser.SubRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRuleIdentifier(RulesParser.RuleIdentifierContext ctx) { }
+	@Override public void enterSubRuleIdentifier(RulesParser.SubRuleIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRuleIdentifier(RulesParser.RuleIdentifierContext ctx) { }
+	@Override public void exitSubRuleIdentifier(RulesParser.SubRuleIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

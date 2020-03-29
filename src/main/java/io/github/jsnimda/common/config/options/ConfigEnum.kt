@@ -6,8 +6,8 @@ import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.ConfigOptionBase
 import io.github.jsnimda.common.config.IConfigOptionPrimitive
 import io.github.jsnimda.common.config.IConfigOptionToggleable
-import io.github.jsnimda.common.next
-import io.github.jsnimda.common.previous
+import io.github.jsnimda.common.util.next
+import io.github.jsnimda.common.util.previous
 
 class ConfigEnum<E : Enum<E>>(override val defaultValue: E) : ConfigOptionBase(), IConfigOptionPrimitive<E>, IConfigOptionToggleable {
   override var value = defaultValue

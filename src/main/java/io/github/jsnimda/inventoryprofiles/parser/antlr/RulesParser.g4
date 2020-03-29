@@ -4,14 +4,13 @@ options {
     tokenVocab=RulesLexer;
 }
 
-customRuleEOF: head ruleEntry+ EOF;
-ruleEntryEOF: ruleEntry EOF;
+customRuleEOF: head subRule+ EOF;
+subRuleEOF: subRule EOF;
 head: AT RuleName;
-ruleEntry: REVERSE? ruleIdentifier arguments?;
-ruleIdentifier
+subRule: REVERSE? subRuleIdentifier arguments?;
+subRuleIdentifier
     : (AT|DOUBLE_COLON) RuleName
-    | HASHTAG RuleName NBT?
-    | ItemName NBT?
+    | HASHTAG? NamespacedId NBT?
     ;
 arguments
     : OPEN pair (COMMA pair)* CLOSE

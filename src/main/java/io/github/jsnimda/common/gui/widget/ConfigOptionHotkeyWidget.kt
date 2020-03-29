@@ -65,7 +65,7 @@ class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWid
     }
 
   protected fun onClickKeybindSettingsIcon() {
-    VanillaUi.openScreen(ConfigOptionHotkeyDialog(configOption))
+    VanillaUtils.openScreen(ConfigOptionHotkeyDialog(configOption))
   }
 
   override fun reset() {

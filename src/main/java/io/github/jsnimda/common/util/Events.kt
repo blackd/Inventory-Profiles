@@ -1,15 +1,15 @@
-package io.github.jsnimda.common
+package io.github.jsnimda.common.util
 
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 fun <T> event() =
-    EventProperty<T>()
+  EventProperty<T>()
 
 class EventProperty<T>() : ReadOnlyProperty<Any?, Event<T>> {
   private val event = Event<T>()
   override fun getValue(thisRef: Any?, property: KProperty<*>) =
-      event
+    event
 }
 
 class Event<T>() {

@@ -50,7 +50,7 @@ class IndentedDataFileParser(lines: List<String>, private val fileName: String, 
   }
 
   fun parse(): IndentedData = IndentedDataImpl(-1, "").apply {
-    filteredLines.map { IndentedDataImpl(it.lineNumber, it.text) }.forEach { subData.add(it) }
+    filteredLines.mapTo(subData) { IndentedDataImpl(it.lineNumber, it.text) }
     maxDepth = this@IndentedDataFileParser.maxDepth
     deep()
     warnAllErrors()

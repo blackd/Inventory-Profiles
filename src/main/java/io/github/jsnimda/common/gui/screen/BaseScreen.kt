@@ -34,7 +34,7 @@ abstract class BaseScreen(text: Text) : Screen(text) {
   override fun isPauseScreen(): Boolean = screenInfo.isPauseScreen
 
   override fun onClose() {
-    VanillaUi.openScreenNullable(parent)
+    VanillaUtils.openScreenNullable(parent)
   }
 
   override fun resize(minecraftClient: MinecraftClient, width: Int, height: Int) {

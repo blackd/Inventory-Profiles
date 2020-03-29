@@ -1,25 +1,17 @@
 package io.github.jsnimda.common.util
 
 import java.math.BigInteger
-
-fun <T> List<Comparable<T>>.compareTo(other: List<T>): Int {
-  val it1 = this.iterator()
-  val it2 = other.iterator()
-  while (true) {
-    if (!it1.hasNext() || !it2.hasNext()) {
-      if (it1.hasNext()) return 1 // list 2 shorter than list 1
-      if (it2.hasNext()) return -1 // list 2 longer than list 1
-      return 0
-    }
-    it1.next().compareTo(it2.next()).let { result ->
-      if (result != 0) return result
-    }
-  }
-}
+import java.text.Collator
 
 // https://stackoverflow.com/questions/23205020/java-sort-strings-like-windows-explorer
 // https://stackoverflow.com/questions/60092486/java-file-list-same-order-like-window-explorer
 class LogicalStringComparator(private val textComparator: Comparator<in String>) : Comparator<String> {
+  companion object {
+    val ignoreCase = LogicalStringComparator(String.CASE_INSENSITIVE_ORDER)
+    val locale = { LogicalStringComparator(Collator.getInstance()) }
+    val file = { LogicalStringComparator(Collator.getInstance().apply { strength = Collator.PRIMARY }) }
+  }
+
   constructor() : this(naturalOrder<String>())
 
   private fun compareWhenEqual(str1: String, str2: String, minusCounts1: List<Int>, minusCounts2: List<Int>): Int {

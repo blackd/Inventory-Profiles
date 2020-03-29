@@ -3,8 +3,8 @@ package io.github.jsnimda.inventoryprofiles.item.rule
 class Arguments {
   private val defaultValues = mutableMapOf<String, Any?>()
   private val values = mutableMapOf<String, Any?>()
-  val initialized // all required parameter is configured
-    get() = values.values.all { it != null }
+  val requiredMissing // all required parameter is configured
+    get() = values.values.any { it == null }
   val keys
     get() = defaultValues.keys
 
@@ -28,4 +28,10 @@ class Arguments {
   operator fun <T : Any> set(parameter: Parameter<T>, value: T) {
     values[parameter.name] = value
   }
+
+  // may throw
+  fun setByParse(parameter: Parameter<*>, argument: String) {
+    values[parameter.name] = parameter.argumentType.parse(argument)
+  }
+
 }

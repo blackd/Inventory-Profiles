@@ -4,38 +4,41 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import io.github.jsnimda.common.config.IConfigElement
-import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.util.exists
+import io.github.jsnimda.common.util.readFileToString
+import io.github.jsnimda.common.util.writeStringToFile
+import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.inventoryprofiles.Log
-import org.apache.commons.io.FileUtils
-import java.io.File
 import java.io.IOException
-import java.nio.charset.StandardCharsets
+import java.nio.file.Path
 
 private val GSON = GsonBuilder().setPrettyPrinting().create()
-private val configDirectory: File
-  get() = File(Vanilla.runDirectory(), "config")
+
 interface Savable {
   fun save()
   fun load()
 }
+
 class ConfigSaveLoadManager(private val config: IConfigElement, private val path: String) : Savable {
-  private val configFile: File
-    get() = configDirectory.toPath().resolve(path).toFile()
+  private val configFile: Path
+    get() = VanillaUtils.configDirectory().resolve(path)
 
   override fun save() {
     try {
       GSON.toJson(config.toJsonElement()).apply {
-        FileUtils.writeStringToFile(configFile, this, StandardCharsets.UTF_8)
+        configFile.writeStringToFile(this)
       }
     } catch (e: IOException) {
       Log.error("Failed to save config file $path")
+    } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 
   override fun load() {
-    if (!configFile.exists()) return
     try {
-      FileUtils.readFileToString(configFile, StandardCharsets.UTF_8).run {
+      if (!configFile.exists()) return
+      configFile.readFileToString().run {
         JsonParser().parse(this)
       }.apply {
         config.fromJsonElement(this)
@@ -44,6 +47,8 @@ class ConfigSaveLoadManager(private val config: IConfigElement, private val path
       Log.error("Failed to load config file $path")
     } catch (e: JsonParseException) {
       Log.error("Failed to parse config file $path as Json")
+    } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 

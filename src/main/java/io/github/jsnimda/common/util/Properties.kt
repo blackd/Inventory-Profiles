@@ -1,4 +1,4 @@
-package io.github.jsnimda.common
+package io.github.jsnimda.common.util
 
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty

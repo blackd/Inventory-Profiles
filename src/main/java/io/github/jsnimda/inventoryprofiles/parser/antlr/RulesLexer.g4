@@ -1,39 +1,40 @@
 lexer grammar RulesLexer;
 // https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
 
+// default = mode mDeclare
 WS : [\p{white_space}]+ -> skip ;
 AT: '@' -> mode(mDeclareName);
 ERR: .;
 fragment ID: [a-zA-Z0-9_]+;
 
 mode mDeclareName; // no ws in between
-DeclareName: ID -> type(RuleName), mode(mRuleEntry);
+DeclareName: ID -> type(RuleName), mode(mSubRule);
 ERR_mDeclareName: . -> type(ERR);
 
-mode mRuleEntry;
+mode mSubRule;
 REVERSE: '!';
-AT_mRuleEntry: '@' -> type(AT), pushMode(mRuleName);
-DOUBLE_COLON: '::'           -> pushMode(mRuleName);
-HASHTAG: '#'                 -> pushMode(mRuleName);
-ItemName: ID ':' ID | ID;
+AT_mSubRule: '@' -> type(AT), pushMode(mSubRuleName);
+DOUBLE_COLON: '::'           -> pushMode(mSubRuleName);
+HASHTAG: '#';
+NamespacedId: ID ':' ID | ID;
 OPEN: '(' -> pushMode(mArgs);
 NBT: '{' NESTED* '}';
-WS_mRuleEntry: WS -> skip;
-ERR_mRuleEntry: . -> type(ERR);
+WS_mSubRule: WS -> skip;
+ERR_mSubRule: . -> type(ERR);
 
-mode mRuleName; // no ws in between
-RuleName: ID -> popMode; // goto mRuleEntry
+mode mSubRuleName; // no ws in between
+RuleName: ID -> popMode; // goto mSubRule
 ERR_mRule: . -> type(ERR);
 
 mode mArgs;
 Parameter: ID;
 EQUAL: '='    -> pushMode(mArg);
-CLOSE: ')'    -> popMode; // goto mRuleEntry
+CLOSE: ')'    -> popMode; // goto mSubRule
 WS_mArgs : WS -> skip;
 ERR_mArgs: .  -> type(ERR);
 
 mode mArg;
-CLOSE_mArg: ')' -> type(CLOSE), popMode, popMode; // goto mRuleEntry
+CLOSE_mArg: ')' -> type(CLOSE), popMode, popMode; // goto mSubRule
 COMMA: ','      -> popMode; // goto mArgs
 WS_mArg : WS -> skip;
 Argument

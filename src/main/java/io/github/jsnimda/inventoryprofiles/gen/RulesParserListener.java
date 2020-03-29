@@ -18,15 +18,15 @@ public interface RulesParserListener extends ParseTreeListener {
 	 */
 	void exitCustomRuleEOF(RulesParser.CustomRuleEOFContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RulesParser#ruleEntryEOF}.
+	 * Enter a parse tree produced by {@link RulesParser#subRuleEOF}.
 	 * @param ctx the parse tree
 	 */
-	void enterRuleEntryEOF(RulesParser.RuleEntryEOFContext ctx);
+	void enterSubRuleEOF(RulesParser.SubRuleEOFContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RulesParser#ruleEntryEOF}.
+	 * Exit a parse tree produced by {@link RulesParser#subRuleEOF}.
 	 * @param ctx the parse tree
 	 */
-	void exitRuleEntryEOF(RulesParser.RuleEntryEOFContext ctx);
+	void exitSubRuleEOF(RulesParser.SubRuleEOFContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RulesParser#head}.
 	 * @param ctx the parse tree
@@ -38,25 +38,25 @@ public interface RulesParserListener extends ParseTreeListener {
 	 */
 	void exitHead(RulesParser.HeadContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RulesParser#ruleEntry}.
+	 * Enter a parse tree produced by {@link RulesParser#subRule}.
 	 * @param ctx the parse tree
 	 */
-	void enterRuleEntry(RulesParser.RuleEntryContext ctx);
+	void enterSubRule(RulesParser.SubRuleContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RulesParser#ruleEntry}.
+	 * Exit a parse tree produced by {@link RulesParser#subRule}.
 	 * @param ctx the parse tree
 	 */
-	void exitRuleEntry(RulesParser.RuleEntryContext ctx);
+	void exitSubRule(RulesParser.SubRuleContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RulesParser#ruleIdentifier}.
+	 * Enter a parse tree produced by {@link RulesParser#subRuleIdentifier}.
 	 * @param ctx the parse tree
 	 */
-	void enterRuleIdentifier(RulesParser.RuleIdentifierContext ctx);
+	void enterSubRuleIdentifier(RulesParser.SubRuleIdentifierContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RulesParser#ruleIdentifier}.
+	 * Exit a parse tree produced by {@link RulesParser#subRuleIdentifier}.
 	 * @param ctx the parse tree
 	 */
-	void exitRuleIdentifier(RulesParser.RuleIdentifierContext ctx);
+	void exitSubRuleIdentifier(RulesParser.SubRuleIdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RulesParser#arguments}.
 	 * @param ctx the parse tree

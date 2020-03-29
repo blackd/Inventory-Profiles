@@ -3,15 +3,15 @@
 package io.github.jsnimda.common.config.builder
 
 import com.google.common.base.CaseFormat
-import io.github.jsnimda.common.ReadOnlyPropertyProvider
-import io.github.jsnimda.common.cachedReadOnlyProperty
+import io.github.jsnimda.common.util.ReadOnlyPropertyProvider
+import io.github.jsnimda.common.util.cachedReadOnlyProperty
 import io.github.jsnimda.common.config.CategorizedConfigOptions
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.options.*
 import io.github.jsnimda.common.config.toSingleConfigs
 import io.github.jsnimda.common.input.KeybindSettings
 import io.github.jsnimda.common.input.KeybindSettings.Companion.INGAME_DEFAULT
-import io.github.jsnimda.common.readOnlyProperty
+import io.github.jsnimda.common.util.readOnlyProperty
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -46,7 +46,8 @@ fun List<ConfigSingleton>.toConfigsList() =
 //region Builder Syntax
 
 val <T : ConfigSingleton> T.builder
-  get() = ReadOnlyPropertyWithReceiver(this, cachedReadOnlyProperty { thisRef: T, _ -> thisRef.configs })
+  get() = ReadOnlyPropertyWithReceiver(this,
+    cachedReadOnlyProperty { thisRef: T, _ -> thisRef.configs })
 
 class ReadOnlyPropertyWithReceiver<R, T>(val receiver: R, delegate: ReadOnlyProperty<R, T>) :
   ReadOnlyProperty<R, T> by delegate

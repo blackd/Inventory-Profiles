@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.gui.widget
 
-import io.github.jsnimda.common.event
+import io.github.jsnimda.common.util.event
 import io.github.jsnimda.common.gui.Point
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.Size

@@ -14,6 +14,7 @@ object Vanilla {
   fun textureManager() = mc().textureManager ?: error("mc.textureManager is not initialized!")
   fun soundManager() = mc().soundManager ?: error("mc.soundManager is not initialized!")
   fun languageManager() = mc().languageManager ?: error("mc.languageManager is not initialized!")
+  fun resourceManager() = mc().resourceManager ?: error("mc.resourceManager is not initialized!")
 
   // ============
   // in-game objects
@@ -26,11 +27,5 @@ object Vanilla {
   fun player() = playerNullable() ?: error("mc.player is not initialized! Probably not in game")
   fun playerInventory() = player().inventory ?: throw AssertionError("unreachable")
   fun playerContainer() = player().playerContainer ?: throw AssertionError("unreachable")
-
-  // ============
-  // other objects
-  // ============
-
-  fun runDirectory() = mc().runDirectory ?: error("mc.runDirectory is not initialized!")
 
 }
