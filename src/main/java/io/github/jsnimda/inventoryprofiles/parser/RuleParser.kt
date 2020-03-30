@@ -13,7 +13,7 @@ object RuleParser {
   // throw SyntaxErrorException
   fun parseCustomRule(data: IndentedData): CustomRuleDefinition {
     val lines = data.lines
-    val text = lines.joinToString("\n")
+    val text = lines.joinToString("\n") { it.rawText }
     try {
       val parser = text.parseBy(::RulesLexer, ::RulesParser)
       return parser.customRuleEOF().toCustomRuleDefinition()
