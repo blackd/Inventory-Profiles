@@ -1,8 +1,6 @@
 -libraryjars <java.home>/lib/rt.jar
 
 -keep class !io.github.jsnimda.common.embedded.** { *; }
--dontnote
--dontwarn
 -ignorewarnings
 -dontobfuscate
 

@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule.natives
 
 import io.github.jsnimda.common.util.LogicalStringComparator
 import io.github.jsnimda.common.vanilla.VanillaState
+import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.rule.BaseRule
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
@@ -31,7 +32,7 @@ class StringTypedRule : TypedRule<String>() {
   private fun compareString(str1: String, str2: String): Int {
     val rawComparator: Comparator<in String> = arguments[string_compare].comparator ?: run {
       val langTag = arguments[locale].let {
-        (if (it == "mc") VanillaState.languageCode() else it).replace('_', '-')
+        (if (it == "mc") VanillaUtils.languageCode() else it).replace('_', '-')
       }
       val locale = if (langTag == "sys") Locale.getDefault() else Locale.forLanguageTag(langTag)
       val strength = arguments[strength].value
