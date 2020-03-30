@@ -26,6 +26,8 @@ val nbt_path                 by any_nbt_path
 val has_nbt                  by parameterOf(match.argumentType)
 val reverse                  by type_boolean
 val sub_comparator           by any_comparator
+val has_potion_name          by parameterOf(match.argumentType)
+val has_potion_effects       by parameterOf(match.argumentType)
 
 enum class StringCompare(val comparator: Comparator<in String>?) {
   UNICODE(naturalOrder()),

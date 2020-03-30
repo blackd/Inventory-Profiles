@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.input
 
-import io.github.jsnimda.common.gui.DebugScreen.DebugInfos
+import io.github.jsnimda.common.gui.DebugInfos
 import io.github.jsnimda.common.vanilla.Vanilla
 import org.lwjgl.glfw.GLFW.*
 

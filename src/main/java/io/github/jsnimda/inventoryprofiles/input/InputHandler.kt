@@ -1,11 +1,12 @@
 package io.github.jsnimda.inventoryprofiles.input
 
-import io.github.jsnimda.common.gui.DebugScreen
 import io.github.jsnimda.common.input.IInputHandler
+import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
+import io.github.jsnimda.inventoryprofiles.gui.DebugScreen
 
 class InputHandler : IInputHandler {
 
@@ -22,7 +23,9 @@ class InputHandler : IInputHandler {
     }
 
     if (ModSettings.DEBUG_LOGS.booleanValue && Hotkeys.DEBUG_SCREEN.isActivated()) {
-      DebugScreen.open()
+      if (Vanilla.screen() !is DebugScreen) {
+        VanillaUtils.openScreen(DebugScreen())
+      }
       return true
     }
 

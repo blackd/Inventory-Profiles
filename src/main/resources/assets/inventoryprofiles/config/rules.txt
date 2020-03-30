@@ -1,24 +1,31 @@
 // Default rules file
 
 @default
+    @creative_menu_order
+
+@creative_menu_order
     ::custom_name
     ::creative_menu_group_index
     ::raw_id
     @default_nbt_rule
 
 @item_name
-    ::display_name_locale
+    ::display_name
     @default_nbt_rule
 
 @item_id
     ::item_id
     @default_nbt_rule
 
+@raw_id
+    ::raw_id
+    @default_nbt_rule
+
 @default_nbt_rule
     ::enchantments_score
     ::damage
-    !::has_potion_effects
-    ::has_custom_potion_effects
-    ::potion_name
+    ::display_name
+    ::has_potion_effects(match = last)
+    ::potion_name(has_potion_name = first)
     ::potion_effects
     ::nbt

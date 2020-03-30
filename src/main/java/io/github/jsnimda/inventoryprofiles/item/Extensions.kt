@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item
 
 import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
@@ -13,6 +14,12 @@ import net.minecraft.item.ItemStack as VanillaItemStack
 // #! Vanilla mapping dependence
 // ==========
 
+val VanillaItemStack.`|itemType|`
+  get() = ItemType(item, tag)
+
+val ItemType.Companion.EMPTY
+  get() = ItemType(Items.AIR, null)
+
 // TODO need to verify
 
 val ItemType.vanillaStack: VanillaItemStack
@@ -23,7 +30,7 @@ val ItemType.identifier: Identifier
 val ItemType.namespace: String
   get() = identifier.namespace
 
-//region String Relative
+//region ItemType String Relative
 
 val ItemType.hasCustomName: Boolean
   get() = vanillaStack.hasCustomName()
@@ -40,7 +47,7 @@ val ItemType.translationKey: String
 
 //endregion
 
-//region Number Relative
+//region ItemType Number Relative
 
 val ItemType.groupIndex: Int
   get() = item.group?.index ?: when {
@@ -59,16 +66,34 @@ val ItemType.enchantmentsScore: Double
 
 //endregion
 
-//region Potion Relative
+//region ItemType Potion Relative
 
-val ItemType.hasPotionEffects: Boolean
-  get() = PotionUtil.getPotionEffects(tag).isEmpty()
-val ItemType.hasCustomPotionEffects: Boolean
-  get() = PotionUtil.getCustomPotionEffects(tag).isEmpty()
 val ItemType.hasPotionName: Boolean
   get() = tag?.contains("Potion", 8) ?: false
 val ItemType.potionName: String
   get() = if (hasPotionName) PotionUtil.getPotion(tag).finishTranslationKey("") else ""
-// todo potion_effects PotionUtil.getPotionEffects compareEffects
+val ItemType.hasPotionEffects: Boolean
+  get() = PotionUtil.getPotionEffects(tag).isNotEmpty()
+val ItemType.hasCustomPotionEffects: Boolean
+  get() = PotionUtil.getCustomPotionEffects(tag).isNotEmpty()
+val ItemType.potionEffects: List<StatusEffectInstance>
+  get() = PotionUtil.getPotionEffects(tag)
+val ItemType.potionEffectValue: List<EffectValue>
+  get() = potionEffects.map { it.`|effectValue|` }
+val StatusEffectInstance.`|effectValue|`: EffectValue
+  get() = EffectValue(
+    Registry.STATUS_EFFECT.getId(this.effectType).toString(),
+    this.amplifier,
+    this.duration
+  )
+
+data class EffectValue(val effect: String, val amplifier: Int, val duration: Int) : Comparable<EffectValue> {
+  override fun compareTo(other: EffectValue): Int { // stronger first
+    this.effect.compareTo(other.effect).let { if (it != 0) return it }
+    other.amplifier.compareTo(this.amplifier).let { if (it != 0) return it }
+    other.duration.compareTo(this.duration).let { if (it != 0) return it }
+    return 0
+  }
+}
 
 //endregion
