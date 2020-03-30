@@ -1,13 +1,13 @@
 package io.github.jsnimda.common.gui.screen
 
-import io.github.jsnimda.common.config.CategorizedConfigOptions
 import io.github.jsnimda.common.config.options.ConfigHotkey
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.*
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
-import io.github.jsnimda.common.vanilla.I18n
 import io.github.jsnimda.common.vanilla.Text
 import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.drawText
+import io.github.jsnimda.common.vanilla.render.measureText
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
@@ -82,14 +82,14 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     VanillaRender.renderVanillaScreenBackground()
-    VanillaRender.drawString(this.titleString, 20, 10, COLOR_WHITE)
+    drawText(this.titleString, 20, 10, COLOR_WHITE)
     super.render(mouseX, mouseY, partialTicks)
   }
 
   fun addNavigationButton(buttonText: String, action: () -> Unit) {
     val id = navigationButtonsContainer.widgets.size
     navigationButtonsContainer.apply {
-      width = max(width, VanillaRender.getStringWidth(buttonText) + 20)
+      width = max(width, measureText(buttonText) + 20)
     }
     navigationButtonsInfo.add(Pair(buttonText, action))
     navigationButtonsFlowLayout.add(ButtonWidget { ->

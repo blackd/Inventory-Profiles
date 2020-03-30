@@ -1,6 +1,7 @@
 package io.github.jsnimda.common.gui.widget
 
-import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.drawText
+import io.github.jsnimda.common.vanilla.render.measureText
 
 open class TextButtonWidget : ButtonWidget {
 
@@ -39,16 +40,16 @@ open class TextButtonWidget : ButtonWidget {
   var pressableMargin = 2
 
   fun updateWidth() {
-    width = VanillaRender.getStringWidth(displayText)
+    width = measureText(displayText)
   }
 
   override fun renderButton(hovered: Boolean) {
     this.hovered = hovered
     updateWidth()
-    VanillaRender.drawString(displayText, screenX, screenY, -0x1)
+    drawText(displayText, screenX, screenY, -0x1)
   }
 
   override fun contains(mouseX: Int, mouseY: Int): Boolean =
-      absoluteBounds.inflated(pressableMargin).contains(mouseX, mouseY)
+    absoluteBounds.inflated(pressableMargin).contains(mouseX, mouseY)
 
 }

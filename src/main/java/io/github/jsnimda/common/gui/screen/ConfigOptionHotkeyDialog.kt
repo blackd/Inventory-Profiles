@@ -11,14 +11,15 @@ import io.github.jsnimda.common.input.ConfigElementKeybindSetting
 import io.github.jsnimda.common.vanilla.I18n
 import io.github.jsnimda.common.vanilla.TranslatableText
 import io.github.jsnimda.common.vanilla.VanillaRender
-import net.minecraft.client.render.DiffuseLighting
+import io.github.jsnimda.common.vanilla.render.measureText
 import kotlin.math.max
 
 private const val COLOR_WHITE = -0x1
 
-class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey)
-  : BaseDialog(TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings")) {
-  private val keybindSettingElement = with(configHotkey.mainKeybind) { ConfigElementKeybindSetting(defaultSettings, settings) }
+class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
+  BaseDialog(TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings")) {
+  private val keybindSettingElement =
+    with(configHotkey.mainKeybind) { ConfigElementKeybindSetting(defaultSettings, settings) }
   val configs = keybindSettingElement.getConfigOptionsList()
 
   private val IConfigOption.displayName
@@ -26,13 +27,13 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey)
   private val IConfigOption.description
     get() = I18n.translate("inventoryprofiles.common.gui.config.description.$key")
 
-  private val maxTextWidth = configs.map { VanillaRender.getStringWidth(it.displayName) }.max() ?: 0
+  private val maxTextWidth = configs.map { measureText(it.displayName) }.max() ?: 0
 
   var showTooltips = false
 
   init {
     val dialogHeight = 5 * 20 + 2 + 10
-    val dialogWidth = max(maxTextWidth + 150 + 2, VanillaRender.getStringWidth("§l$titleString")) + 20
+    val dialogWidth = max(maxTextWidth + 150 + 2, measureText("§l$titleString")) + 20
     dialogWidget.size = Size(dialogWidth, dialogHeight)
     configs.forEachIndexed { index, configOption ->
       val baseTop = 2 + 20 + index * 20
@@ -61,9 +62,15 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey)
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     super.render(mouseX, mouseY, partialTicks)
-    DiffuseLighting.disable()
+//    Diffuse disable()
     configHotkey.mainKeybind.settings = keybindSettingElement.settings
-    drawCenteredString(font, "§l$titleString", dialogWidget.screenX + dialogWidget.width / 2, dialogWidget.screenY + 2 + 6, COLOR_WHITE)
+    drawCenteredString(
+      font,
+      "§l$titleString",
+      dialogWidget.screenX + dialogWidget.width / 2,
+      dialogWidget.screenY + 2 + 6,
+      COLOR_WHITE
+    )
     Tooltips.renderAll()
   }
 

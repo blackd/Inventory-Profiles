@@ -1,12 +1,11 @@
 package io.github.jsnimda.common.gui.widget
 
-import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
-import io.github.jsnimda.common.vanilla.VHLine.fill
-import io.github.jsnimda.common.vanilla.VHLine.outline
-import io.github.jsnimda.common.vanilla.VanillaRender
-import org.lwjgl.opengl.GL11
+import io.github.jsnimda.common.vanilla.render.createDepthMask
+import io.github.jsnimda.common.vanilla.render.drawOutline
+import io.github.jsnimda.common.vanilla.render.fillColor
+import io.github.jsnimda.common.vanilla.render.removeDepthMask
 import kotlin.math.roundToInt
 
 // private static final int COLOR_WHITE              = 0xFFFFFFFF;
@@ -54,9 +53,9 @@ class ScrollableContainerWidget : Widget() {
   val contentContainer
     get() = _contentContainer
   val contentCustomRendererDefault: Widget.(Int, Int, Float) -> Unit =
-      { mouseX: Int, mouseY: Int, partialTicks: Float ->
-        _contentContainer.superRender(mouseX, mouseY, partialTicks)
-      }
+    { mouseX: Int, mouseY: Int, partialTicks: Float ->
+      _contentContainer.superRender(mouseX, mouseY, partialTicks)
+    }
   var contentCustomRenderer = contentCustomRendererDefault
 
   var contentHeight: Int
@@ -106,42 +105,32 @@ class ScrollableContainerWidget : Widget() {
   }
 
   private fun map(inputMax: Int, outputMax: Int, input: Int): Int = // min = 0
-      if (inputMax == 0) 0 else (1.0 * input * outputMax / inputMax).roundToInt()
+    if (inputMax == 0) 0 else (1.0 * input * outputMax / inputMax).roundToInt()
 
   //endregion
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     if (renderBorder) {
-      outline(absoluteBounds, borderColor)
+      drawOutline(absoluteBounds, borderColor)
     }
     // render scrollbar, ref: EntryListWidget.render
     if (scrollbar.visible) {
-      fill(scrollbar.trackAbsoluteBounds, COLOR_SCROLLBAR_BG)
+      fillColor(scrollbar.trackAbsoluteBounds, COLOR_SCROLLBAR_BG)
       val hover = scrollbar.thumbAbsoluteBounds.contains(mouseX, mouseY) || draggingScrollbar
-      fill(scrollbar.thumbAbsoluteBounds, if (hover) COLOR_SCROLLBAR_HOVER_SHADOW else COLOR_SCROLLBAR_SHADOW)
-      fill(scrollbar.thumbAbsoluteBounds.run {
+      fillColor(scrollbar.thumbAbsoluteBounds, if (hover) COLOR_SCROLLBAR_HOVER_SHADOW else COLOR_SCROLLBAR_SHADOW)
+      fillColor(scrollbar.thumbAbsoluteBounds.run {
         copy(width = width - 1, height = height - 1)
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }
 
-    // unknown reason overflow content is not hidden with old code, add this to fix it
-    GlStateManager.disableAlphaTest()
-    fill(VanillaRender.screenBounds, 0)
-    GlStateManager.enableAlphaTest()
+//    // unknown reason overflow content is not hidden with old code, add this to fix it
+//    disableAlphaTest()
+//    fillColor(VanillaRender.screenBounds, 0)
+//    enableAlphaTest()
     // render content
-    GlStateManager.pushMatrix()
-    GlStateManager.translatef(0f, 0f, -400.0f) // ref: AdvancementsScreen widget
-    GlStateManager.enableDepthTest()
-    GlStateManager.depthFunc(GL11.GL_GEQUAL) // 518
-    // draw mask
-    GlStateManager.disableAlphaTest()
-    fill(viewport.absoluteBounds, 0)
-    GlStateManager.enableAlphaTest()
-    // exit draw mask
-    GlStateManager.depthFunc(GL11.GL_LEQUAL) // 515, return default
+    createDepthMask(viewport.absoluteBounds)
     super.render(mouseX, mouseY, partialTicks)
-    GlStateManager.popMatrix()
-    GlStateManager.disableDepthTest()
+    removeDepthMask()
   }
 
   // scrolling logic / ui events
@@ -149,31 +138,31 @@ class ScrollableContainerWidget : Widget() {
   private var draggingInitMouseY = 0
   private var draggingInitScrollbarY = 0
   override fun mouseClicked(x: Int, y: Int, button: Int): Boolean =
-      super.mouseClicked(x, y, button) || if (
-          button == 0 && scrollbar.visible && scrollbar.trackAbsoluteBounds.contains(x, y)) {
-        if (!scrollbar.thumbAbsoluteBounds.contains(x, y)) {
-          scrollbar.y = y - viewport.screenY - scrollbar.thumbHeight / 2 // e = y1 + yoffset + sh/2
-        }
-        draggingScrollbar = true
-        draggingInitMouseY = y
-        draggingInitScrollbarY = scrollbar.y
-        true
-      } else false
+    super.mouseClicked(x, y, button) || if (
+      button == 0 && scrollbar.visible && scrollbar.trackAbsoluteBounds.contains(x, y)) {
+      if (!scrollbar.thumbAbsoluteBounds.contains(x, y)) {
+        scrollbar.y = y - viewport.screenY - scrollbar.thumbHeight / 2 // e = y1 + yoffset + sh/2
+      }
+      draggingScrollbar = true
+      draggingInitMouseY = y
+      draggingInitScrollbarY = scrollbar.y
+      true
+    } else false
 
   override fun mouseReleased(x: Int, y: Int, button: Int): Boolean =
-      false.also { draggingScrollbar = false }
+    false.also { draggingScrollbar = false }
 
   override fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double): Boolean =
-      super.mouseDragged(x, y, button, dx, dy) || if (draggingScrollbar) {
-        val shiftY = (y - draggingInitMouseY).toInt()
-        scrollbar.y = draggingInitScrollbarY + shiftY
-        true
-      } else false
+    super.mouseDragged(x, y, button, dx, dy) || if (draggingScrollbar) {
+      val shiftY = (y - draggingInitMouseY).toInt()
+      scrollbar.y = draggingInitScrollbarY + shiftY
+      true
+    } else false
 
   override fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean = // f = 1 or -1
-      super.mouseScrolled(x, y, amount) || if (scrollbar.visible) {
-        scrollY -= (amount * 20).toInt()
-        true
-      } else false
+    super.mouseScrolled(x, y, amount) || if (scrollbar.visible) {
+      scrollY -= (amount * 20).toInt()
+      true
+    } else false
 
 }

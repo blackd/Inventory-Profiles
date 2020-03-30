@@ -1,12 +1,15 @@
 package io.github.jsnimda.common.gui.widget
 
-import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.config.options.ConfigHotkey
-import io.github.jsnimda.common.gui.screen.ConfigOptionHotkeyDialog
 import io.github.jsnimda.common.gui.Tooltips
+import io.github.jsnimda.common.gui.screen.ConfigOptionHotkeyDialog
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.IKeybind
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.I18n
+import io.github.jsnimda.common.vanilla.Identifier
+import io.github.jsnimda.common.vanilla.VanillaUtils
+import io.github.jsnimda.common.vanilla.render.bindTexture
+import io.github.jsnimda.common.vanilla.render.blit
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
@@ -26,12 +29,12 @@ class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWid
     }
   }) {
     override fun renderButton(hovered: Boolean) {
-      VanillaRender.bindTexture(WIDGETS_TEXTURE)
-//      GlStateManager.disableDepthTest()
+      bindTexture(WIDGETS_TEXTURE)
+//      disableDepthTest()
       val textureX = 20 + if (targetKeybind.isSettingsModified || !configOption.alternativeKeybinds.isEmpty()) 20 else 0
       val textureY = 160 + targetKeybind.settings.activateOn.ordinal * 20
-      VHLine.blit(screenX, screenY, 0, textureX, textureY, 20, 20)
-      GlStateManager.enableDepthTest()
+      blit(screenX, screenY, textureX, textureY, 20, 20)
+//      enableDepthTest()
     }
   }
 

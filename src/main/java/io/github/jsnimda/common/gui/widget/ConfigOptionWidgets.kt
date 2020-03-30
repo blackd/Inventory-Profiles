@@ -1,6 +1,5 @@
 package io.github.jsnimda.common.gui.widget
 
-import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric
 import io.github.jsnimda.common.config.IConfigOptionToggleable
@@ -9,8 +8,9 @@ import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.config.options.ConfigHotkey
 import io.github.jsnimda.common.vanilla.I18n
 import io.github.jsnimda.common.vanilla.Identifier
-import io.github.jsnimda.common.vanilla.VHLine
-import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.bindTexture
+import io.github.jsnimda.common.vanilla.render.blit
+import io.github.jsnimda.common.vanilla.render.measureText
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 import java.util.regex.Pattern
@@ -25,7 +25,7 @@ fun IConfigOptionPrimitiveNumeric<*>.toWidget() = ConfigOptionNumericWidget(this
 
 fun ConfigEnum<*>.toWidget() = ConfigOptionToggleableWidget(this) { it.value.toString() }
 
-fun IConfigOption.toWidget(): ConfigOptionBaseWidget<IConfigOption> = when(this) {
+fun IConfigOption.toWidget(): ConfigOptionBaseWidget<IConfigOption> = when (this) {
   is ConfigBoolean -> this.toWidget()
   is IConfigOptionPrimitiveNumeric<*> -> this.toWidget()
   is ConfigEnum<*> -> this.toWidget()
@@ -58,15 +58,15 @@ abstract class ConfigOptionBaseWidget<out T : IConfigOption>(val configOption: T
 
   init {
     height = 20
-    flow.most.add(resetButton, VanillaRender.getStringWidth(resetButton.text) + 15)
+    flow.most.add(resetButton, measureText(resetButton.text) + 15)
     flow.most.addSpace(2)
   }
 
 }
 
 class ConfigOptionToggleableButtonWidget(
-    val configOptionToggleable: IConfigOptionToggleable,
-    val textProvider: () -> String = { "" }
+  val configOptionToggleable: IConfigOptionToggleable,
+  val textProvider: () -> String = { "" }
 ) : ButtonWidget({ button ->
   if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
   if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
@@ -89,7 +89,8 @@ class ConfigOptionBooleanWidget(configOption: ConfigBoolean) : ConfigOptionBaseW
   }
 }
 
-class ConfigOptionToggleableWidget<T : IConfigOptionToggleable>(configOption: T, var displayText: (T) -> String) : ConfigOptionBaseWidget<T>(configOption) {
+class ConfigOptionToggleableWidget<T : IConfigOptionToggleable>(configOption: T, var displayText: (T) -> String) :
+  ConfigOptionBaseWidget<T>(configOption) {
   val toggleButton = ConfigOptionToggleableButtonWidget(configOption) { displayText(configOption) }
 
   init {
@@ -101,7 +102,8 @@ private val WIDGETS_TEXTURE = Identifier("inventoryprofiles", "textures/gui/widg
 private val PATTERN_INTEGER = Pattern.compile("-?[0-9]*")
 private val PATTERN_DOUBLE = Pattern.compile("^-?([0-9]+(\\.[0-9]*)?)?")
 
-class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) : ConfigOptionBaseWidget<IConfigOptionPrimitiveNumeric<*>>(configOption) {
+class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) :
+  ConfigOptionBaseWidget<IConfigOptionPrimitiveNumeric<*>>(configOption) {
   val pattern = if (configOption.defaultValue is Double) PATTERN_DOUBLE else PATTERN_INTEGER
 
   var useSlider = true
@@ -132,12 +134,12 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) 
 
   val toggleButton = object : ButtonWidget({ -> useSlider = !useSlider }) {
     override fun renderButton(hovered: Boolean) {
-      VanillaRender.bindTexture(WIDGETS_TEXTURE)
-//      GlStateManager.disableDepthTest()
+      bindTexture(WIDGETS_TEXTURE)
+//      disableDepthTest()
       val textureX = if (hovered) 32 else 16
       val textureY = if (useSlider) 16 else 0
-      VHLine.blit(screenX, screenY, 0, textureX, textureY, 16, 16)
-      GlStateManager.enableDepthTest()
+      blit(screenX, screenY, textureX, textureY, 16, 16)
+//      enableDepthTest()
     }
   }
 

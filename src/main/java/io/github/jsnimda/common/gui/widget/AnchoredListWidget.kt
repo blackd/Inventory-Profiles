@@ -4,10 +4,7 @@ import io.github.jsnimda.common.gui.asPoints
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
 import io.github.jsnimda.common.gui.widget.Overflow.VISIBLE
 import io.github.jsnimda.common.vanilla.I18n
-import io.github.jsnimda.common.vanilla.VHLine.fill
-import io.github.jsnimda.common.vanilla.VHLine.h
-import io.github.jsnimda.common.vanilla.VHLine.outline
-import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.*
 
 private const val COLOR_ANCHOR_BORDER = -0x7f666667
 private const val COLOR_ANCHOR_BG = 0x40999999
@@ -46,7 +43,7 @@ open class AnchoredListWidget : Widget() {
 
   inner class AnchorHeader : Widget() {
     private val ellipsisText = I18n.translate("inventoryprofiles.common.gui.config.more")
-    private val ellipsisTextWidth = VanillaRender.getStringWidth(ellipsisText)
+    private val ellipsisTextWidth = measureText(ellipsisText)
 
     init {
       anchor = AnchorStyles.noBottom
@@ -103,7 +100,7 @@ open class AnchoredListWidget : Widget() {
         get() = textRowIndex + 1
 
       fun addAnchor(displayText: String, toScrollY: Int) {
-        val textWidth = VanillaRender.getStringWidth("§n$displayText")
+        val textWidth = measureText("§n$displayText")
         if (textLeft + textWidth > availableWidth) {
           textLeft = 0
           textRowIndex++
@@ -206,26 +203,26 @@ open class AnchoredListWidget : Widget() {
       val (pt1, pt2) = absoluteBounds.asPoints()
       val (x1, y1) = pt1
       val (x2, y2) = pt2
-      h(x1, x2 - 1, y1, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
-      h(x1, x2 - 1, y2, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
-      fill(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
+      drawHorizontalLine(x1, x2 - 1, y1, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
+      drawHorizontalLine(x1, x2 - 1, y2, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
+      fillColor(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
       super.render(mouseX, mouseY, partialTicks)
       lastHighlightingAnchorIndex = anchorsManager.highlightingAnchorIndex
       if (!expanded && anchorsManager.totalTextRow > 1) {
         anchorsManager.highlightingRowLastAnchor.textButtonWidget.run {
-          VanillaRender.drawString(ellipsisText, absoluteBounds.right, screenY, COLOR_WHITE)
+          drawText(ellipsisText, absoluteBounds.right, screenY, COLOR_WHITE)
         }
       }
     }
 
     override fun mouseClicked(x: Int, y: Int, button: Int): Boolean =
-        true.also { super.mouseClicked(x, y, button) }
+      true.also { super.mouseClicked(x, y, button) }
 
   }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     if (renderBorder) {
-      outline(absoluteBounds, borderColor)
+      drawOutline(absoluteBounds, borderColor)
     }
     super.render(mouseX, mouseY, partialTicks)
   }
@@ -240,6 +237,6 @@ open class AnchoredListWidget : Widget() {
   }
 
   fun isOutOfContainer(entry: Widget): Boolean =
-      container.scrollY > entry.bounds.bottom || container.scrollY + container.viewport.height < entry.top
+    container.scrollY > entry.bounds.bottom || container.scrollY + container.viewport.height < entry.top
 
 }

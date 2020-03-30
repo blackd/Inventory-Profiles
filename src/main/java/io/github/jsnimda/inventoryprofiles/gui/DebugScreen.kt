@@ -6,7 +6,6 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaState
 import io.github.jsnimda.inventoryprofiles.inventory.InventoryUserActions
 import io.github.jsnimda.inventoryprofiles.item.*
-import net.minecraft.item.ItemStack
 
 class DebugScreen : BaseDebugScreen() {
   override val strings: List<String>
@@ -15,17 +14,22 @@ class DebugScreen : BaseDebugScreen() {
           |Hello~
           """.trimMargin().split("\n")
 
-  val lastItemStack = Vanilla.playerInventory().cursorStack?.`|itemType|` ?: ItemType.EMPTY
+  val lastItemType: ItemType
 
   init {
-    InventoryUserActions.handleCloseContainer()
+    if (VanillaState.inGame()) {
+      lastItemType = Vanilla.playerInventory().cursorStack?.`|itemType|` ?: ItemType.EMPTY
+      InventoryUserActions.handleCloseContainer()
+    } else {
+      lastItemType = ItemType.EMPTY
+    }
   }
 
   fun itemInfo(): String {
     if (!VanillaState.inGame()) return ""
     parent.let { parent ->
       if (parent !is ContainerScreen<*>) return ""
-      return lastItemStack.run {
+      return lastItemType.run {
         """this: $this
           |identifier: $identifier
           |namespace: $namespace

@@ -5,6 +5,7 @@ import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.vanilla.I18n
 import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.drawCenteredText
 
 private const val COLOR_WHITE = -0x1
 private const val textY = 6
@@ -69,7 +70,7 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
   inner class CategoryEntry(private val categoryName: String) : Entry() {
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       if (outOfContainer) return
-      VanillaRender.drawCenteredString(categoryName, screenX + width / 2, screenY + textY, COLOR_WHITE)
+      drawCenteredText(categoryName, screenX + width / 2, screenY + textY, COLOR_WHITE)
     }
   }
 

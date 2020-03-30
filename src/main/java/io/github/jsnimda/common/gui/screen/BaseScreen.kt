@@ -4,6 +4,8 @@ import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.RootWidget
 import io.github.jsnimda.common.gui.widget.Widget
 import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.render.flattenDepth
+import io.github.jsnimda.common.vanilla.render.enableBlend
 
 abstract class BaseScreen(text: Text) : Screen(text) {
   constructor() : this(LiteralText(""))
@@ -25,9 +27,15 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     rootWidget.widgets.add(widget)
   }
 
+  open fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    flattenDepth()
+    enableBlend()
+  }
+
   //region Override vanilla methods
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    preRender(mouseX, mouseY, partialTicks)
     rootWidget.render(mouseX, mouseY, partialTicks)
   }
 

@@ -1,13 +1,12 @@
 package io.github.jsnimda.common.gui.screen
 
-import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Widget
 import io.github.jsnimda.common.gui.widget.moveToCenter
 import io.github.jsnimda.common.vanilla.Text
-import io.github.jsnimda.common.vanilla.VHLine
 import io.github.jsnimda.common.vanilla.VanillaRender
-import net.minecraft.client.render.DiffuseLighting
+import io.github.jsnimda.common.vanilla.render.drawOutline
+import io.github.jsnimda.common.vanilla.render.fillColor
 
 private const val COLOR_BORDER = -0x666667
 private const val COLOR_BG = -0x1000000
@@ -21,8 +20,8 @@ open class BaseDialog : BaseOverlay {
 
   val dialogWidget = object : Widget() {
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-      VHLine.fill(absoluteBounds, COLOR_BG)
-      VHLine.outline(absoluteBounds, COLOR_BORDER)
+      fillColor(absoluteBounds, COLOR_BG)
+      drawOutline(absoluteBounds, COLOR_BORDER)
       super.render(mouseX, mouseY, partialTicks)
     }
   }.apply {
@@ -36,7 +35,7 @@ open class BaseDialog : BaseOverlay {
 
   override fun postParentRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
     if (renderBlackOverlay) {
-      DiffuseLighting.disable()
+//      Diffuse disable()
       VanillaRender.renderBlackOverlay()
     }
   }

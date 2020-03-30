@@ -1,9 +1,10 @@
 package io.github.jsnimda.common.gui.widget
 
-import io.github.jsnimda.common.vanilla.VANILLA_TEXTURE_WIDGETS
-import io.github.jsnimda.common.vanilla.VHLine
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.VanillaSound
+import io.github.jsnimda.common.vanilla.render.VANILLA_TEXTURE_WIDGETS
+import io.github.jsnimda.common.vanilla.render.bindTexture
+import io.github.jsnimda.common.vanilla.render.blit
+import io.github.jsnimda.common.vanilla.render.drawCenteredText
 
 open class ButtonWidget private constructor(private val clickEvent: (button: Int) -> Unit, dummy: Unit) : Widget() {
 
@@ -39,17 +40,16 @@ open class ButtonWidget private constructor(private val clickEvent: (button: Int
   }
 
   open fun renderButton(hovered: Boolean) {
-    VanillaRender.bindTexture(VANILLA_TEXTURE_WIDGETS)
-    VanillaRender.color4f(1f, 1f, 1f, 1f)
+    bindTexture(VANILLA_TEXTURE_WIDGETS)
     val k = if (active) if (hovered) 2 else 1 else 0
-    VanillaRender.enableBlend()
+//    VanillaRender.enableBlend()
     val a = width / 2
     val b = width - a
     val textureY = 46 + k * 20
-    VHLine.blit(screenX, screenY, 0, 0, textureY, a, height)
-    VHLine.blit(screenX + a, screenY, 0, 200 - b, textureY, b, this.height)
+    blit(screenX, screenY, 0, textureY, a, height)
+    blit(screenX + a, screenY, 200 - b, textureY, b, this.height)
     val textColor = if (active) if (hovered) 16777120 else 14737632 else 10526880
-    VanillaRender.drawCenteredString(text, screenX + width / 2, screenY + (height - 8) / 2, textColor)
+    drawCenteredText(text, screenX + width / 2, screenY + (height - 8) / 2, textColor)
   }
 
   init {
