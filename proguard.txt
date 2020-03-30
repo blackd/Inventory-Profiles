@@ -4,4 +4,7 @@
 -ignorewarnings
 -dontobfuscate
 
+-dontwarn org.jetbrains.annotations.**
+-dontwarn javax.annotation.**
+
 -dontoptimize

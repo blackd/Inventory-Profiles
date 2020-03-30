@@ -125,6 +125,7 @@ shadowJar {
   dependencies {
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib-common"))
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7"))
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
     include(dependency("org.antlr:antlr4-runtime"))
   }
@@ -136,23 +137,36 @@ shadowJar {
 }
 
 task remapShadowJar(type: net.fabricmc.loom.task.RemapJarTask) {
-  input = shadowJar.archivePath
+//  input = shadowJar.archivePath
+  input = file("build/libs/${archivesBaseName}-${version}-all-proguard.jar")
   addNestedDependencies = remapJar.addNestedDependencies
-  archiveClassifier = "remapped-all"
+//  archiveClassifier = "remapped-all"
 }
-tasks.remapShadowJar.dependsOn tasks.shadowJar
+//tasks.remapShadowJar.dependsOn tasks.shadowJar
+
+// this line solve 'Could not resolve all files' error for configurations.findByName('runtimeClasspath').getFiles()
+// but not needed if by doFirst
+//allprojects {
+//  repositories {
+//    jcenter()
+//    mavenCentral()
+//  }
+//}
 
 task proguard(type: proguard.gradle.ProGuardTask) {
   configuration 'proguard.txt'
 
-  injars "build/libs/${archivesBaseName}-${version}-remapped-all.jar"
-  outjars "build/libs/${archivesBaseName}-${version}.jar"
+  injars "build/libs/${archivesBaseName}-${version}-all.jar"
+  outjars "build/libs/${archivesBaseName}-${version}-all-proguard.jar"
 
-  libraryjars "${->files(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) })}"
+  doFirst {
+    libraryjars configurations.findByName('runtimeClasspath').getFiles()
+  }
 }
 
-tasks.proguard.dependsOn tasks.remapShadowJar
-tasks.build.dependsOn tasks.proguard
+tasks.proguard.dependsOn tasks.shadowJar
+tasks.remapShadowJar.dependsOn tasks.proguard
+tasks.build.dependsOn tasks.remapShadowJar
 
 //https://stackoverflow.com/questions/10615966/compiling-3-2-antlr-grammar-with-gradle
 task genAntlr(type: JavaExec) {
