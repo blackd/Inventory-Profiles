@@ -23,7 +23,7 @@ val require_nbt              by enum<RequireNbt>()
 val tag_name                 by any_tag_name
 val item_name                by any_item_name
 val nbt_path                 by any_nbt_path
-val has_nbt                  by parameterOf(match.argumentType)
+val has_nbt_path             by parameterOf(match.argumentType)
 val reverse                  by type_boolean
 val sub_comparator           by any_comparator
 val has_potion_name          by parameterOf(match.argumentType)

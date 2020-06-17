@@ -1,7 +1,9 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.VanillaInGame
+import io.github.jsnimda.common.vanilla.VanillaState
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
@@ -149,20 +151,22 @@ object ContainerClicker {
     genericClick(slotId, button, SlotActionType.PICKUP)
   }
 
+  var contentUpdates = true
   fun genericClick(slotId: Int, button: Int, actionType: SlotActionType) =
-    genericClick(Vanilla.container(), slotId, button, actionType)
+    genericClick(Vanilla.container(), slotId, button, actionType, contentUpdates)
 
   fun genericClick(
     container: Container,
     slotId: Int,
     button: Int,
-    actionType: SlotActionType
+    actionType: SlotActionType,
+    contentUpdates: Boolean = true
   ) {
     if (container is CreativeContainer) {
       // creative menu dont use method_2906
       // simulate the action in CreativeInventoryScreen line 135
       Vanilla.playerContainer().onSlotClick(slotId, button, actionType, Vanilla.player())
-      Vanilla.playerContainer().sendContentUpdates()
+      if (contentUpdates) sendContentUpdates()
       return
     }
     Vanilla.interactionManager().method_2906(
@@ -174,12 +178,23 @@ object ContainerClicker {
     )
   }
 
+  fun sendContentUpdates() {
+    Vanilla.playerContainer().sendContentUpdates()
+  }
+
   fun executeClicks(clicks: List<Pair<Int, Int>>, interval: Int) { // slotId, button
     val lclick = clicks.count { it.second == 0 }
     val rclick = clicks.count { it.second == 1 }
     logClicks(clicks.size, lclick, rclick, interval)
     if (interval == 0) {
-      clicks.forEach { click(it.first, it.second) }
+      if (Vanilla.container() is CreativeContainer) { // bulk content updates
+        contentUpdates = false
+        clicks.forEach { click(it.first, it.second) }
+        sendContentUpdates()
+        contentUpdates = true
+      } else {
+        clicks.forEach { click(it.first, it.second) }
+      }
     } else {
       val currentContainer = Vanilla.container()
       var currentScreen = Vanilla.screen()

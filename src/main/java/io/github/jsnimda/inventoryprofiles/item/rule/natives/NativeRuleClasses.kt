@@ -2,7 +2,9 @@ package io.github.jsnimda.inventoryprofiles.item.rule.natives
 
 import io.github.jsnimda.common.util.LogicalStringComparator
 import io.github.jsnimda.common.vanilla.VanillaUtils
+import io.github.jsnimda.common.vanilla.alias.CompoundTag
 import io.github.jsnimda.inventoryprofiles.item.ItemType
+import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.BaseRule
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.parameters.*
@@ -12,11 +14,11 @@ import java.util.*
 abstract class NativeRule : BaseRule()
 
 abstract class TypedRule<T> : NativeRule() {
-  abstract var transformBy: (ItemType) -> T
+  abstract var valueOf: (ItemType) -> T
 }
 
 class StringTypedRule : TypedRule<String>() {
-  override var transformBy: (ItemType) -> String = { "" }
+  override var valueOf: (ItemType) -> String = { "" }
 
   init {
     arguments.apply {
@@ -25,7 +27,7 @@ class StringTypedRule : TypedRule<String>() {
       defineParameter(strength, Strength.PRIMARY)
       defineParameter(logical, true)
     }
-    innerCompare = { a, b -> compareString(transformBy(a), transformBy(b)) }
+    innerCompare = { a, b -> compareString(valueOf(a), valueOf(b)) }
   }
 
   private fun compareString(str1: String, str2: String): Int {
@@ -46,11 +48,11 @@ class StringTypedRule : TypedRule<String>() {
 }
 
 class NumberTypedRule : TypedRule<Number>() {
-  override var transformBy: (ItemType) -> Number = { 0 }
+  override var valueOf: (ItemType) -> Number = { 0 }
 
   init {
     arguments.defineParameter(number_order, NumberOrder.ASCENDING)
-    innerCompare = { a, b -> compareNumber(transformBy(a), transformBy(b)) }
+    innerCompare = { a, b -> compareNumber(valueOf(a), valueOf(b)) }
   }
 
   private fun compareNumber(num1: Number, num2: Number) =
@@ -58,7 +60,7 @@ class NumberTypedRule : TypedRule<Number>() {
 }
 
 class BooleanTypedRule : TypedRule<Boolean>() {
-  override var transformBy: (ItemType) -> Boolean = { false } // matchBy
+  override var valueOf: (ItemType) -> Boolean = { false } // matchBy
 
   init {
     arguments.apply {
@@ -68,7 +70,7 @@ class BooleanTypedRule : TypedRule<Boolean>() {
     }
     innerCompare = { itemType1, itemType2 ->
       compareBoolean(
-        itemType1, itemType2, transformBy, arguments[match],
+        itemType1, itemType2, valueOf, arguments[match],
         arguments[sub_comparator_match]::compare,
         arguments[sub_comparator_not_match]::compare
       )
@@ -92,4 +94,20 @@ fun compareBoolean(
   } else { // b1 != b2
     match.multiplier * if (b1) -1 else 1
   }
+}
+
+class NbtRule : NativeRule() {
+  init {
+    innerCompare = { a, b -> // compare a.tag and b.tag
+      NbtUtils.compareNbt(a.tag, b.tag)
+    }
+  }
+}
+
+class NbtPathRule : NativeRule() {
+
+}
+
+class PotionEffectRule : NativeRule() {
+
 }

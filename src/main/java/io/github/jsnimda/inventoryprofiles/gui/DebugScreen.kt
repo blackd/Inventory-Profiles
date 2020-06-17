@@ -48,7 +48,7 @@ class DebugScreen : BaseDebugScreen() {
           |hasPotionName: $hasPotionName
           |potionName: $potionName
           |potionEffects: $potionEffects
-          |potionEffectValue: $potionEffectValue
+          |potionEffectValues: $potionEffectValues
           """.trimMargin()
       }
     }

@@ -17,22 +17,19 @@ internal class RuleProvider<R : Rule>(private val supplier: () -> R, private val
 
 internal class TypedRuleProvider<T>(
   private val supplier: () -> TypedRule<T>,
-  private val transform: (ItemType) -> T
+  private val valueOf: (ItemType) -> T
 ) {
-  private val args = mutableListOf<Pair<Parameter<Any>, Any>>()
+  private val args = mutableListOf<Pair<Parameter<Any>, Any>>() // additional param
   private val postActions = mutableListOf<TypedRule<T>.() -> Unit>()
-  fun <P : Any> param(parameter: Parameter<P>, value: P) =
+  fun <P : Any> param(parameter: Parameter<P>, value: P) = // custom param on specific rule
     this.also { @Suppress("UNCHECKED_CAST") args.add(parameter as Parameter<Any> to value as Any) }
-
-  fun <P : Any> param(parameter: Parameter<P>, value: P, postAction: TypedRule<T>.() -> Unit) =
-    this.also { param(parameter, value); post(postAction) }
 
   fun post(postAction: TypedRule<T>.() -> Unit) =
     this.also { postActions.add(postAction) }
 
   operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): () -> Rule = {
     supplier().apply {
-      this.transformBy = this@TypedRuleProvider.transform
+      this.valueOf = this@TypedRuleProvider.valueOf
       arguments.apply { args.forEach { defineParameter(it.first, it.second) } }
       postActions.forEach { it() }
     }
@@ -47,5 +44,5 @@ internal fun rule(supplier: () -> Rule, postAction: Rule.() -> Unit = { }) =
 
 internal fun <T> typed(
   supplier: () -> TypedRule<T>,
-  transform: (ItemType) -> T
-) = TypedRuleProvider(supplier, transform)
+  valueOf: (ItemType) -> T
+) = TypedRuleProvider(supplier, valueOf)

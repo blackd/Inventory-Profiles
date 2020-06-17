@@ -9,7 +9,7 @@ import net.minecraft.potion.PotionUtil
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import kotlin.math.min
-import net.minecraft.item.ItemStack as VanillaItemStack
+import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ==========
 // #! Vanilla mapping dependence
@@ -140,7 +140,7 @@ val ItemType.hasCustomPotionEffects: Boolean
   get() = PotionUtil.getCustomPotionEffects(tag).isNotEmpty()
 val ItemType.potionEffects: List<StatusEffectInstance>
   get() = PotionUtil.getPotionEffects(tag)
-val ItemType.potionEffectValue: List<EffectValue>
+val ItemType.potionEffectValues: List<EffectValue>
   get() = potionEffects.map { it.`(effectValue)` }
 val StatusEffectInstance.`(effectValue)`: EffectValue
   get() = EffectValue(

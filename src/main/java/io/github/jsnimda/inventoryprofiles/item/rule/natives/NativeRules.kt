@@ -16,7 +16,7 @@ val none by native(::EmptyRule)
 // ============
 // String Typed Rule
 val display_name    by typed(::StringTypedRule) { it.displayName }
-val custom_name     by typed(::StringTypedRule) { it.customName }.param(has_custom_name, Match.FIRST) {
+val custom_name     by typed(::StringTypedRule) { it.customName }.param(has_custom_name, Match.FIRST).post {
   val defaultInnerCompare = innerCompare
   innerCompare = { itemType1, itemType2 ->
     compareBoolean(itemType1, itemType2, { it.hasCustomName }, arguments[has_custom_name], defaultInnerCompare)
@@ -26,7 +26,7 @@ val translated_name by typed(::StringTypedRule) { it.translatedName }
 val translation_key by typed(::StringTypedRule) { it.translationKey }.param(string_compare, UNICODE)
 val item_id         by typed(::StringTypedRule) { it.itemId }        .param(string_compare, UNICODE)
 val potion_name     by typed(::StringTypedRule) { it.potionName }    .param(string_compare, UNICODE)
-  .param(has_potion_name, Match.FIRST) {
+  .param(has_potion_name, Match.FIRST).post {
     val defaultInnerCompare = innerCompare
     innerCompare = { itemType1, itemType2 ->
       compareBoolean(itemType1, itemType2, { it.hasPotionName }, arguments[has_potion_name], defaultInnerCompare)
@@ -51,6 +51,6 @@ val has_potion_effects        by typed(::BooleanTypedRule) { it.hasPotionEffects
 
 // ============
 // Other
-val nbt            by rule({ TODO() })
-val by_nbt_path    by rule({ TODO() })
-val potion_effects by rule({ TODO() })
+val nbt            by rule(::NbtRule)
+val by_nbt_path    by rule(::NbtPathRule)
+val potion_effects by rule(::PotionEffectRule)
