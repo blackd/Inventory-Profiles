@@ -90,7 +90,17 @@ class ZoneType() {
   }
 
   fun getZone(vanillaContainer: Container, vanillaSlots: List<Slot>): Zone =
-    Zone(this).apply { add(vanillaContainer, vanillaSlots) }
+    Zone(this).apply {
+      add(vanillaContainer, vanillaSlots)
+      if (!isRectangular) {
+        val total = slotIndices.size
+        if (total % 9 == 0) {
+          isRectangular = true
+          width = 9
+          height = total / 9
+        }
+      }
+    }
 }
 
 class Zone(val type: ZoneType) {

@@ -5,11 +5,12 @@ import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.natives.NATIVE_RULES_MAP
 import io.github.jsnimda.inventoryprofiles.item.rule.parameters.PARAMETERS_MAP
 
-data class SubRuleDefinition(
+class SubRuleDefinition(
   val isCustomElseNative: Boolean,
   val name: String,
-  val arguments: List<Pair<String, String>>
+  arguments: List<Pair<String, String>>
 ) {
+  val arguments = arguments.map { (a, b) -> a.trim() to b.trim() }
   private val identifier: String
     get() = "${if (isCustomElseNative) "@" else "::"}$name"
 

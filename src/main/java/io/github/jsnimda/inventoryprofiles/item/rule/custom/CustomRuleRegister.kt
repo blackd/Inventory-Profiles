@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.custom
 
+import io.github.jsnimda.common.Log
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 
@@ -15,7 +16,9 @@ object CustomRuleRegister {
     this.rulesFiles.addAll(rulesFiles)
   }
 
-  fun getOrEmpty(ruleName: String): Rule = get(ruleName) ?: EmptyRule()
+  fun getOrEmpty(ruleName: String): Rule = get(ruleName) ?: EmptyRule().also {
+    Log.warn("Rule @$ruleName not found")
+  }
 
   operator fun get(ruleName: String): CustomRule? {
     if (cachedRuleDefinitions.containsKey(ruleName))

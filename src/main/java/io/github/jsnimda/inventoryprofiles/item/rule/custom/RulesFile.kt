@@ -5,6 +5,7 @@ import io.github.jsnimda.common.util.IndentedDataFileParser
 import io.github.jsnimda.common.util.consumeReversed
 import io.github.jsnimda.inventoryprofiles.parser.RuleParser
 import io.github.jsnimda.inventoryprofiles.parser.SyntaxErrorException
+import io.github.jsnimda.inventoryprofiles.util.debugLogs
 
 class RulesFile(private val fileName: String, private val content: String) {
 
@@ -14,6 +15,7 @@ class RulesFile(private val fileName: String, private val content: String) {
   private fun addAll(rules: List<CustomRuleDefinition>) {
     this.rules.addAll(rules)
     rules.forEach { rulesMap.getOrPut(it.ruleName) { mutableListOf() }.add(it) }
+    Log.debugLogs { "Added ${rules.size} rules: " + rules.map { it.ruleName } }
   }
 
   operator fun get(ruleName: String): Pair<CustomRule, CustomRuleDefinition>? {
@@ -34,16 +36,19 @@ class RulesFile(private val fileName: String, private val content: String) {
   }
 
   fun init() {
+    Log.debugLogs("Loading file $fileName")
     IndentedDataFileParser.parse(content, fileName).subData.mapNotNull {
       try {
         RuleParser.parseCustomRule(it)
       } catch (e: SyntaxErrorException) {
         Log.error("Syntax Error while parsing $fileName: ${e.line}:${e.pos} ${e.msg}")
+        null
       } catch (e: Exception) {
         e.printStackTrace()
+        null
       }
-      null
     }.let { addAll(it) }
+    Log.debugLogs("$fileName parse finished")
   }
 
 }

@@ -10,6 +10,12 @@ fun Log.debugLogs(message: String) {
   }
 }
 
+fun Log.debugLogs(message: () -> String) {
+  if (ModSettings.DEBUG_LOGS.booleanValue) {
+    info("[inventoryprofiles] ${message()}")
+  }
+}
+
 // interpreted for creative inventory
 fun VanillaInGame.focusedSlot(): Slot? =
   realFocusedSlot()?.let {
