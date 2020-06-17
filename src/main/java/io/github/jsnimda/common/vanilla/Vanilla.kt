@@ -27,5 +27,11 @@ object Vanilla {
   fun player() = playerNullable() ?: error("mc.player is not initialized! Probably not in game")
   fun playerInventory() = player().inventory ?: throw AssertionError("unreachable")
   fun playerContainer() = player().playerContainer ?: throw AssertionError("unreachable")
+  fun container() = player().container ?: playerContainer()
+
+  fun interactionManager() =
+    mc().interactionManager ?: error("mc.interactionManager is not initialized! Probably not in game")
+
+  fun recipeBook() = player().recipeBook ?: throw AssertionError("unreachable")
 
 }

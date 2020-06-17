@@ -4,7 +4,7 @@ import io.github.jsnimda.common.gui.BaseDebugScreen
 import io.github.jsnimda.common.vanilla.ContainerScreen
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaState
-import io.github.jsnimda.inventoryprofiles.inventory.InventoryUserActions
+import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.item.*
 
 class DebugScreen : BaseDebugScreen() {
@@ -18,8 +18,8 @@ class DebugScreen : BaseDebugScreen() {
 
   init {
     if (VanillaState.inGame()) {
-      lastItemType = Vanilla.playerInventory().cursorStack?.`|itemType|` ?: ItemType.EMPTY
-      InventoryUserActions.handleCloseContainer()
+      lastItemType = Vanilla.playerInventory().cursorStack?.`(itemType)` ?: ItemType.EMPTY
+      GeneralInventoryActions.handleCloseContainer()
     } else {
       lastItemType = ItemType.EMPTY
     }

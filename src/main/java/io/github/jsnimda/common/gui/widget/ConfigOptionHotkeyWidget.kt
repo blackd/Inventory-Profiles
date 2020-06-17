@@ -13,7 +13,8 @@ import io.github.jsnimda.common.vanilla.render.blit
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
-private val WIDGETS_TEXTURE = Identifier("inventoryprofiles", "textures/gui/widgets.png")
+private val WIDGETS_TEXTURE =
+  Identifier("inventoryprofiles", "textures/gui/widgets.png")
 private const val textPrefix = "inventoryprofiles.common.gui.config."
 private fun translate(suffix: String): String {
   return I18n.translate(textPrefix + suffix)

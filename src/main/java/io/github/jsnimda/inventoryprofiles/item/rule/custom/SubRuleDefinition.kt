@@ -15,7 +15,7 @@ data class SubRuleDefinition(
 
   fun toRule(): Rule =
     if (isCustomElseNative) {
-      RegisteredCustomRules[name]
+      CustomRuleRegister[name]
     } else { // native
       NATIVE_RULES_MAP[name]?.invoke()
     }?.apply {

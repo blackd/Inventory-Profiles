@@ -16,6 +16,7 @@ class CustomRuleDefinition(val ruleName: String, private val subRules: List<SubR
       if (status != Status.LAZY) error("loop (?) detected")
       status = Status.INITIALIZING
       subRules.map { it.toRule() }
+        .also { status = Status.LOADED }
     } catch (e: Exception) {
       status = Status.FAILED
       throw e

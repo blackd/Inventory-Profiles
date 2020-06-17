@@ -13,7 +13,6 @@ import io.github.jsnimda.common.vanilla.render.blit
 import io.github.jsnimda.common.vanilla.render.measureText
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
-import java.util.regex.Pattern
 
 //region Widget Providers for Config Options
 
@@ -98,9 +97,10 @@ class ConfigOptionToggleableWidget<T : IConfigOptionToggleable>(configOption: T,
   }
 }
 
-private val WIDGETS_TEXTURE = Identifier("inventoryprofiles", "textures/gui/widgets.png")
-private val PATTERN_INTEGER = Pattern.compile("-?[0-9]*")
-private val PATTERN_DOUBLE = Pattern.compile("^-?([0-9]+(\\.[0-9]*)?)?")
+private val WIDGETS_TEXTURE =
+  Identifier("inventoryprofiles", "textures/gui/widgets.png")
+private val PATTERN_INTEGER = Regex("-?[0-9]*")
+private val PATTERN_DOUBLE = Regex("^-?([0-9]+(\\.[0-9]*)?)?")
 
 class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) :
   ConfigOptionBaseWidget<IConfigOptionPrimitiveNumeric<*>>(configOption) {
@@ -114,7 +114,7 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) 
     }
   }
   val textField = TextFieldWidget(18).apply {
-    textPredicate = { it.isEmpty() || pattern.matcher(it).matches() }
+    textPredicate = { it.isEmpty() || pattern.matches(it) }
     changedEvent = {
       if (editing()) try { // try set config value to text
         setNumericValue(if (vanillaText.isEmpty()) 0 else vanillaText.toDouble())

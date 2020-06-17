@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.parser
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaUtils
-import io.github.jsnimda.inventoryprofiles.item.rule.custom.RegisteredCustomRules
+import io.github.jsnimda.inventoryprofiles.item.rule.custom.CustomRuleRegister
 import io.github.jsnimda.inventoryprofiles.item.rule.custom.RulesFile
 import java.nio.file.Path
 
@@ -25,7 +25,7 @@ object DataFilesManager {
     try {
       (listOf(internalRulesTxt) + readFiles("^rules\\.(?:.*\\.)?txt\$"))
         .map { RulesFile(it.first, it.second) }
-        .let { RegisteredCustomRules.reload(it) }
+        .let { CustomRuleRegister.reload(it) }
     } catch (e: Exception) {
       e.printStackTrace()
     }

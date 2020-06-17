@@ -3,12 +3,12 @@ package io.github.jsnimda.common.config.builder
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
+import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.IConfigElement
 import io.github.jsnimda.common.util.exists
 import io.github.jsnimda.common.util.readFileToString
 import io.github.jsnimda.common.util.writeStringToFile
 import io.github.jsnimda.common.vanilla.VanillaUtils
-import io.github.jsnimda.inventoryprofiles.Log
 import java.io.IOException
 import java.nio.file.Path
 

@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule.custom
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 
-object RegisteredCustomRules {
+object CustomRuleRegister {
 
   private val rulesFiles = mutableListOf<RulesFile>()
   private val cachedRuleDefinitions = mutableMapOf<String, CustomRuleDefinition?>()
