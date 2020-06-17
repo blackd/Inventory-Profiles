@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.config
 
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.custom.CustomRuleRegister
 

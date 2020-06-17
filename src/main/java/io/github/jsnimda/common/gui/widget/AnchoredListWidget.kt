@@ -3,7 +3,7 @@ package io.github.jsnimda.common.gui.widget
 import io.github.jsnimda.common.gui.asPoints
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
 import io.github.jsnimda.common.gui.widget.Overflow.VISIBLE
-import io.github.jsnimda.common.vanilla.I18n
+import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.render.*
 
 private const val COLOR_ANCHOR_BORDER = -0x7f666667

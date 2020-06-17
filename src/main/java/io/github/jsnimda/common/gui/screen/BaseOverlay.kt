@@ -1,7 +1,7 @@
 package io.github.jsnimda.common.gui.screen
 
-import io.github.jsnimda.common.vanilla.MinecraftClient
-import io.github.jsnimda.common.vanilla.Text
+import io.github.jsnimda.common.vanilla.alias.MinecraftClient
+import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.Vanilla
 
 open class BaseOverlay : BaseScreen {

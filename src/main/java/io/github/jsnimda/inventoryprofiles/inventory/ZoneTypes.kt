@@ -1,6 +1,9 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.alias.Container
+import io.github.jsnimda.common.vanilla.alias.PlayerInventory
+import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.util.`(invSlot)`
 import io.github.jsnimda.inventoryprofiles.util.`(inventory)`
 import io.github.jsnimda.inventoryprofiles.util.`(selectedSlot)`

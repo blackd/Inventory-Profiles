@@ -1,5 +1,9 @@
 package io.github.jsnimda.common.vanilla
 
+import io.github.jsnimda.common.vanilla.alias.MinecraftClient
+import io.github.jsnimda.common.vanilla.alias.Screen
+import io.github.jsnimda.common.vanilla.alias.Window
+
 object Vanilla {
 
   // ============

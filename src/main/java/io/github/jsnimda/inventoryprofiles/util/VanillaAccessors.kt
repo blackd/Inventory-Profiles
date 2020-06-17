@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.util
 
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.item.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot

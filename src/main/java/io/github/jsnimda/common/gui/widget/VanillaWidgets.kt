@@ -1,8 +1,8 @@
 package io.github.jsnimda.common.gui.widget
 
-import io.github.jsnimda.common.vanilla.AbstractButtonWidget
-import io.github.jsnimda.common.vanilla.SliderWidget
-import io.github.jsnimda.common.vanilla.TextFieldWidget
+import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.SliderWidget
+import io.github.jsnimda.common.vanilla.alias.TextFieldWidget
 import io.github.jsnimda.common.vanilla.Vanilla
 import net.minecraft.client.font.TextRenderer
 

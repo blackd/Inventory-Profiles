@@ -1,13 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
 import io.github.jsnimda.common.gui.BaseDebugScreen
-import io.github.jsnimda.common.vanilla.ContainerScreen
-import io.github.jsnimda.common.vanilla.Items
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaState
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.item.*
-import net.minecraft.nbt.CompoundTag
 
 class DebugScreen : BaseDebugScreen() {
   override val strings: List<String>

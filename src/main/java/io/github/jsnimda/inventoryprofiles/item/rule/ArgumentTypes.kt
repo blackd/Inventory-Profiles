@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item.rule
 
-import io.github.jsnimda.common.vanilla.CompoundTag
+import io.github.jsnimda.common.vanilla.alias.CompoundTag
 
 object StringArgumentType : ArgumentType<String> {
   override fun validate(argument: String): Boolean = true

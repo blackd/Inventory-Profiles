@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
 
 private val nonStorage = setOf(TEMP_SLOTS)

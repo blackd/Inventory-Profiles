@@ -3,8 +3,8 @@ package io.github.jsnimda.inventoryprofiles.gui
 import io.github.jsnimda.common.config.builder.toConfigsList
 import io.github.jsnimda.common.gui.screen.ConfigScreenBase
 import io.github.jsnimda.common.gui.widget.toWidget
-import io.github.jsnimda.common.vanilla.I18n
-import io.github.jsnimda.common.vanilla.TranslatableText
+import io.github.jsnimda.common.vanilla.alias.I18n
+import io.github.jsnimda.common.vanilla.alias.TranslatableText
 import io.github.jsnimda.inventoryprofiles.config.Configs
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.config.SaveLoadManager

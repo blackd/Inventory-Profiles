@@ -2,8 +2,8 @@ package io.github.jsnimda.common.vanilla.render
 
 import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.gui.Rectangle
-import io.github.jsnimda.common.vanilla.AbstractButtonWidget
-import io.github.jsnimda.common.vanilla.Identifier
+import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.Identifier
 import net.minecraft.client.render.DiffuseLighting
 import org.lwjgl.opengl.GL11
 

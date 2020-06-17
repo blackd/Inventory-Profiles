@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.vanilla
 
-import io.github.jsnimda.inventoryprofiles.util.`(selectedSlot)`
+import io.github.jsnimda.common.vanilla.alias.ItemStack
 
 object VanillaInGame {
 

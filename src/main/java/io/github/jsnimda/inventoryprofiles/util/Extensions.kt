@@ -2,6 +2,10 @@ package io.github.jsnimda.inventoryprofiles.util
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
+import io.github.jsnimda.common.vanilla.alias.CreativeInventoryScreen
+import io.github.jsnimda.common.vanilla.alias.PlayerInventory
+import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 
 fun Log.debugLogs(message: String) {

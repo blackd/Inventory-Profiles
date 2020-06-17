@@ -2,6 +2,8 @@ package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.alias.Container
+import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.inventory.action.SubTracker
 import io.github.jsnimda.inventoryprofiles.inventory.action.subTracker

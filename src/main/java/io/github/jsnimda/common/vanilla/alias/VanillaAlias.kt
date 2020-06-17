@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.vanilla
+package io.github.jsnimda.common.vanilla.alias
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen

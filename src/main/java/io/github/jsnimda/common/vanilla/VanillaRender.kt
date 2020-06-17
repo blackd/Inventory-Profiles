@@ -1,11 +1,17 @@
 package io.github.jsnimda.common.vanilla
 
 import io.github.jsnimda.common.gui.Rectangle
+import io.github.jsnimda.common.vanilla.alias.LiteralText
+import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.common.vanilla.render.fillGradient
 
 typealias DrawableHelper = net.minecraft.client.gui.DrawableHelper
 
-private val dummyScreen = object : Screen(LiteralText("")) {}
+private val dummyScreen = object : Screen(
+  LiteralText(
+    ""
+  )
+) {}
 
 object VanillaRender {
 

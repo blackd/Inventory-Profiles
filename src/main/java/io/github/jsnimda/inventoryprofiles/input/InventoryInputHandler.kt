@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.input
 
 import io.github.jsnimda.common.input.IInputHandler
-import io.github.jsnimda.common.vanilla.ContainerScreen
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaState
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys

@@ -3,6 +3,8 @@ package io.github.jsnimda.common.vanilla
 import io.github.jsnimda.common.util.createDirectories
 import io.github.jsnimda.common.util.readToString
 import io.github.jsnimda.common.util.wrapError
+import io.github.jsnimda.common.vanilla.alias.Identifier
+import io.github.jsnimda.common.vanilla.alias.Screen
 import java.nio.file.Path
 
 object VanillaUtils {
@@ -16,7 +18,11 @@ object VanillaUtils {
   fun configDirectory(modName: String): Path = configDirectory().resolve(modName).apply { createDirectories() }
 
   fun getResourceAsString(identifier: String): String? = wrapError {
-    Vanilla.resourceManager().getResource(Identifier(identifier)).inputStream?.readToString()
+    Vanilla.resourceManager().getResource(
+      Identifier(
+        identifier
+      )
+    ).inputStream?.readToString()
   }
 
   fun languageCode(): String = Vanilla.languageManager().language.code

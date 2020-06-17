@@ -6,8 +6,8 @@ import io.github.jsnimda.common.config.IConfigOptionToggleable
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.config.options.ConfigHotkey
-import io.github.jsnimda.common.vanilla.I18n
-import io.github.jsnimda.common.vanilla.Identifier
+import io.github.jsnimda.common.vanilla.alias.I18n
+import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.render.bindTexture
 import io.github.jsnimda.common.vanilla.render.blit
 import io.github.jsnimda.common.vanilla.render.measureText

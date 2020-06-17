@@ -4,10 +4,10 @@ import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.RootWidget
 import io.github.jsnimda.common.gui.widget.Widget
 import io.github.jsnimda.common.vanilla.*
-import io.github.jsnimda.common.vanilla.LiteralText
-import io.github.jsnimda.common.vanilla.MinecraftClient
-import io.github.jsnimda.common.vanilla.Screen
-import io.github.jsnimda.common.vanilla.Text
+import io.github.jsnimda.common.vanilla.alias.LiteralText
+import io.github.jsnimda.common.vanilla.alias.MinecraftClient
+import io.github.jsnimda.common.vanilla.alias.Screen
+import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.flattenDepth
 import io.github.jsnimda.common.vanilla.render.enableBlend
 

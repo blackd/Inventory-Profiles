@@ -2,8 +2,8 @@ package io.github.jsnimda.common.input
 
 import io.github.jsnimda.common.input.KeybindSettings.Context.*
 import io.github.jsnimda.common.input.KeybindSettings.KeyAction.PRESS
-import io.github.jsnimda.common.vanilla.I18n
-import io.github.jsnimda.common.vanilla.Screen
+import io.github.jsnimda.common.vanilla.alias.I18n
+import io.github.jsnimda.common.vanilla.alias.Screen
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 

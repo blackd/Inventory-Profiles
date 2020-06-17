@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.compat
 
-import io.github.jsnimda.common.vanilla.Screen
+import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.inventoryprofiles.ModInfo
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
 import io.github.prospector.modmenu.api.ModMenuApi

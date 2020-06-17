@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.inventory.sandbox
 
 import io.github.jsnimda.inventoryprofiles.item.*
 
-//import io.github.jsnimda.common.vanilla.Slot as VanillaSlot
+//import io.github.jsnimda.common.vanilla.alias.Slot as VanillaSlot
 
 class ContainerSandbox(
   override val items: ItemTracker,

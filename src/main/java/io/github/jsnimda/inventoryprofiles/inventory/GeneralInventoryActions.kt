@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.util.wrapError
-import io.github.jsnimda.common.vanilla.PlayerInventory
+import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaInGame
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings

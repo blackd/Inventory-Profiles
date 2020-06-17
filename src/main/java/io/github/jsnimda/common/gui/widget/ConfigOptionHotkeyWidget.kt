@@ -5,8 +5,8 @@ import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.screen.ConfigOptionHotkeyDialog
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.IKeybind
-import io.github.jsnimda.common.vanilla.I18n
-import io.github.jsnimda.common.vanilla.Identifier
+import io.github.jsnimda.common.vanilla.alias.I18n
+import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.common.vanilla.render.bindTexture
 import io.github.jsnimda.common.vanilla.render.blit
