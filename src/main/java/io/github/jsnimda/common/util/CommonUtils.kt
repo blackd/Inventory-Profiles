@@ -4,15 +4,15 @@ package io.github.jsnimda.common.util
 inline fun <T> wrapError(tryToRun: () -> T): T? = wrapError(null as T?, tryToRun)
 inline fun <T> wrapError(failureValue: T, tryToRun: () -> T): T = try {
   tryToRun()
-} catch (e: Exception) {
+} catch (e: Throwable) {
   e.printStackTrace()
   failureValue
 }
 
-inline fun <T> wrapError(onFailure: (Exception) -> Unit, tryToRun: () -> T): T? = wrapError(null, onFailure, tryToRun)
-inline fun <T> wrapError(failureValue: T, onFailure: (Exception) -> Unit, tryToRun: () -> T): T = try {
+inline fun <T> wrapError(onFailure: (Throwable) -> Unit, tryToRun: () -> T): T? = wrapError(null, onFailure, tryToRun)
+inline fun <T> wrapError(failureValue: T, onFailure: (Throwable) -> Unit, tryToRun: () -> T): T = try {
   tryToRun()
-} catch (e: Exception) {
+} catch (e: Throwable) {
   onFailure(e)
   failureValue
 }

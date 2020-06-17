@@ -51,6 +51,6 @@ val has_potion_effects        by typed(::BooleanTypedRule) { it.hasPotionEffects
 
 // ============
 // Other
-val nbt            by rule(TODO())
-val by_nbt_path    by rule(TODO())
-val potion_effects by rule(TODO())
+val nbt            by rule({ TODO() })
+val by_nbt_path    by rule({ TODO() })
+val potion_effects by rule({ TODO() })

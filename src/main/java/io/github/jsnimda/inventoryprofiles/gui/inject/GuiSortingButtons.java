@@ -120,24 +120,40 @@ public class GuiSortingButtons {
 
   private SortButtonWidget sortButton(boolean chestSide, int buttonX) { // chestSide or playerSide
     return new SortButtonWidget(buttonX, chestSide ? chest_y : player_y, 1, 0, x->{
-      GeneralInventoryActions.INSTANCE.doSort();
+      try {
+        GeneralInventoryActions.INSTANCE.doSort();
+      } catch (Throwable e) {
+        e.printStackTrace();
+      }
     }, "inventoryprofiles.tooltip.sort_button");
   }
   private SortButtonWidget sortColumnsButton(boolean chestSide, int buttonX) { // chestSide or playerSide
     return new SortButtonWidget(buttonX, chestSide ? chest_y : player_y, 2, 0, x->{
-      GeneralInventoryActions.INSTANCE.doSortInColumns();
+      try {
+        GeneralInventoryActions.INSTANCE.doSortInColumns();
+      } catch (Throwable e) {
+        e.printStackTrace();
+      }
     }, "inventoryprofiles.tooltip.sort_columns_button");
   }
   private SortButtonWidget sortRowsButton(boolean chestSide, int buttonX) { // chestSide or playerSide
     return new SortButtonWidget(buttonX, chestSide ? chest_y : player_y, 3, 0, x->{
-      GeneralInventoryActions.INSTANCE.doSortInRows();
+      try {
+        GeneralInventoryActions.INSTANCE.doSortInRows();
+      } catch (Throwable e) {
+        e.printStackTrace();
+      }
     }, "inventoryprofiles.tooltip.sort_rows_button");
   }
 
   private SortButtonWidget moveAllButton(boolean chestSide, int buttonX) {
     return new SortButtonWidget(buttonX, chestSide ? chest_y : player_y - (types.contains(VanillaContainerType.PLAYER) ? 12 : 0),
     chestSide ? 6 : 5, 0, x->{
-      GeneralInventoryActions.INSTANCE.doMoveMatch(chestSide);
+      try {
+        GeneralInventoryActions.INSTANCE.doMoveMatch(chestSide);
+      } catch (Throwable e) {
+        e.printStackTrace();
+      }
     }, "inventoryprofiles.tooltip.move_all_button");
   }
 
