@@ -1,6 +1,5 @@
 buildscript {
   repositories {
-    mavenCentral()
     jcenter() // for shadow plugin
   }
   dependencies {
@@ -14,6 +13,12 @@ plugins {
   id "org.jetbrains.kotlin.jvm"
   id "com.github.johnrengelman.shadow" version "5.2.0"
   id 'antlr'
+}
+
+repositories {
+  mavenCentral()
+  maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+  maven { url 'https://kotlin.bintray.com/kotlinx' }
 }
 
 // repositories {
