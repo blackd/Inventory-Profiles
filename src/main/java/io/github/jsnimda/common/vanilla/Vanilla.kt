@@ -21,6 +21,12 @@ object Vanilla {
   fun resourceManager() = mc().resourceManager ?: error("mc.resourceManager is not initialized!")
 
   // ============
+  // java objects
+  // ============
+
+  fun runDirectoryFile() = mc().runDirectory ?: error("mc.runDirectory is not initialized!")
+
+  // ============
   // in-game objects
   // ============
 

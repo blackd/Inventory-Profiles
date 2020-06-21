@@ -1,3 +1,5 @@
+@file:Suppress("ObjectPropertyName")
+
 package io.github.jsnimda.inventoryprofiles.util
 
 import io.github.jsnimda.common.vanilla.alias.*

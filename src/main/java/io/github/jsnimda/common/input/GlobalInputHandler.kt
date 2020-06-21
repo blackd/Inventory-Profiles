@@ -96,7 +96,7 @@ object GlobalInputHandler {
   }
 
   // ============
-  // Api
+  // api
   // ============
   private val registeredInputHandlers: MutableSet<IInputHandler> = mutableSetOf()
 

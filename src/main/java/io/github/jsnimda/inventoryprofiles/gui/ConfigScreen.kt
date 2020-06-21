@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
-import io.github.jsnimda.common.config.builder.toConfigsList
+import io.github.jsnimda.common.config.builder.toConfigList
 import io.github.jsnimda.common.gui.screen.ConfigScreenBase
 import io.github.jsnimda.common.gui.widget.toWidget
 import io.github.jsnimda.common.vanilla.alias.I18n
@@ -20,9 +20,9 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
 
   init {
     openConfigMenuHotkey = Hotkeys.OPEN_CONFIG_MENU
-    Configs.toConfigsList().forEach {
-      { it.toWidget(DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX) }.let { widgetSupplier ->
-        addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + it.key), widgetSupplier)
+    Configs.toConfigList().forEach {
+      addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + it.key)) {
+        it.toWidget(DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX)
       }
     }
     selectedIndex = Companion.selectedIndex

@@ -6,19 +6,6 @@ import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.CreativeInventoryScreen
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.common.vanilla.alias.Slot
-import io.github.jsnimda.inventoryprofiles.config.ModSettings
-
-fun Log.debugLogs(message: String) {
-  if (ModSettings.DEBUG_LOGS.booleanValue) {
-    info("[inventoryprofiles] $message")
-  }
-}
-
-fun Log.debugLogs(message: () -> String) {
-  if (ModSettings.DEBUG_LOGS.booleanValue) {
-    info("[inventoryprofiles] ${message()}")
-  }
-}
 
 // interpreted for creative inventory
 fun VanillaInGame.focusedSlot(): Slot? =
@@ -31,7 +18,7 @@ fun VanillaInGame.focusedSlot(): Slot? =
       } else if (it.`(inventory)` is PlayerInventory && invSlot in 0..45 && id == 0) {
         Vanilla.playerContainer().`(slots)`[invSlot]
       } else {
-        Log.debugLogs("interesting slot $it")
+        Log.debug("interesting slot $it")
         null
       }
     } else it

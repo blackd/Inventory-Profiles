@@ -1,7 +1,7 @@
 package io.github.jsnimda.common.gui.widget
 
 import io.github.jsnimda.common.config.IConfigOption
-import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric
+import io.github.jsnimda.common.config.IConfigOptionNumeric
 import io.github.jsnimda.common.config.IConfigOptionToggleable
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
@@ -20,13 +20,13 @@ fun ConfigHotkey.toWidget() = ConfigOptionHotkeyWidget(this)
 
 fun ConfigBoolean.toWidget() = ConfigOptionBooleanWidget(this)
 
-fun IConfigOptionPrimitiveNumeric<*>.toWidget() = ConfigOptionNumericWidget(this)
+fun IConfigOptionNumeric<*>.toWidget() = ConfigOptionNumericWidget(this)
 
 fun ConfigEnum<*>.toWidget() = ConfigOptionToggleableWidget(this) { it.value.toString() }
 
 fun IConfigOption.toWidget(): ConfigOptionBaseWidget<IConfigOption> = when (this) {
   is ConfigBoolean -> this.toWidget()
-  is IConfigOptionPrimitiveNumeric<*> -> this.toWidget()
+  is IConfigOptionNumeric<*> -> this.toWidget()
   is ConfigEnum<*> -> this.toWidget()
   is ConfigHotkey -> this.toWidget()
   else -> object : ConfigOptionBaseWidget<IConfigOption>(this) {}
@@ -102,8 +102,8 @@ private val WIDGETS_TEXTURE =
 private val PATTERN_INTEGER = Regex("-?[0-9]*")
 private val PATTERN_DOUBLE = Regex("^-?([0-9]+(\\.[0-9]*)?)?")
 
-class ConfigOptionNumericWidget(configOption: IConfigOptionPrimitiveNumeric<*>) :
-  ConfigOptionBaseWidget<IConfigOptionPrimitiveNumeric<*>>(configOption) {
+class ConfigOptionNumericWidget(configOption: IConfigOptionNumeric<*>) :
+  ConfigOptionBaseWidget<IConfigOptionNumeric<*>>(configOption) {
   val pattern = if (configOption.defaultValue is Double) PATTERN_DOUBLE else PATTERN_INTEGER
 
   var useSlider = true

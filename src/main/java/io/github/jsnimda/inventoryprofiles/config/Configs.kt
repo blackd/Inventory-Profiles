@@ -2,13 +2,14 @@
 
 package io.github.jsnimda.inventoryprofiles.config
 
+import io.github.jsnimda.common.Savable
 import io.github.jsnimda.common.config.builder.*
 import io.github.jsnimda.common.input.KeybindSettings
 
 private const val category = "inventoryprofiles.config.category"
 
-object ModSettings : ConfigSingleton {
-  val defined by builder
+object ModSettings : ConfigDeclaration {
+  override val builder = createBuilder()
 
     .CATEGORY("$category.inventory_sorting")
   val SORT_ORDER                                 by enum(SortingMethod.DEFAULT)
@@ -23,8 +24,8 @@ object ModSettings : ConfigSingleton {
   val DEBUG_LOGS by bool(false)
 }
 
-object GuiSettings : ConfigSingleton {
-  val defined by builder
+object GuiSettings : ConfigDeclaration {
+  override val builder = createBuilder()
 
     .CATEGORY("$category.inventory")
   val SHOW_SORT_BUTTON                           by bool(true)
@@ -43,14 +44,14 @@ object GuiSettings : ConfigSingleton {
   val SHOW_BUTTON_TOOLTIPS                       by bool(true)
 }
 
-object EditProfiles : ConfigSingleton{
-  val defined by builder
+object EditProfiles : ConfigDeclaration{
+  override val builder = createBuilder()
 
     .CATEGORY("$category.coming_soon")
 }
 
-object Hotkeys : ConfigSingleton {
-  val defined by builder
+object Hotkeys : ConfigDeclaration {
+  override val builder = createBuilder()
 
     .CATEGORY("$category.hotkeys")
   val OPEN_CONFIG_MENU                           by hotkey("R,C", KeybindSettings.INGAME_DEFAULT)
@@ -63,8 +64,8 @@ object Hotkeys : ConfigSingleton {
   val DEBUG_SCREEN                               by hotkey("Z", KeybindSettings.ANY_DEFAULT)
 }
 
-object Tweaks : ConfigSingleton {
-  val defined by builder
+object Tweaks : ConfigDeclaration {
+  override val builder = createBuilder()
 
     .CATEGORY("$category.client_side_tweaks")
   val INSTANT_MINING_COOLDOWN                    by hotkeyedBool(false)
@@ -85,4 +86,4 @@ val Configs = listOf(
   Tweaks
 )
 
-object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toSingleConfigs(), FILE_PATH)
+object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toConfigElement(), FILE_PATH)

@@ -19,7 +19,6 @@ import io.github.jsnimda.inventoryprofiles.item.stackableWith
 import io.github.jsnimda.inventoryprofiles.util.`(id)`
 import io.github.jsnimda.inventoryprofiles.util.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.util.`(slots)`
-import io.github.jsnimda.inventoryprofiles.util.debugLogs
 import net.minecraft.container.SlotActionType
 import kotlin.concurrent.timer
 
@@ -202,7 +201,7 @@ object ContainerClicker {
       timer(period = interval.toLong()) {
         if (Vanilla.container() != currentContainer) {
           cancel()
-          Log.debugLogs("[inventoryprofiles] Click cancelled due to container changed")
+          Log.debug("[inventoryprofiles] Click cancelled due to container changed")
           return@timer
         }
         // FIXME when gui close cursor stack will put back to container that will influence the sorting result
@@ -211,7 +210,7 @@ object ContainerClicker {
             currentScreen = Vanilla.screen()
           } else {
             cancel()
-            Log.debugLogs("[inventoryprofiles] Click cancelled due to screen closed")
+            Log.debug("[inventoryprofiles] Click cancelled due to screen closed")
             return@timer
           }
         }
@@ -226,7 +225,7 @@ object ContainerClicker {
   }
 
   private fun logClicks(total: Int, lclick: Int, rclick: Int, interval: Int) {
-    Log.debugLogs(
+    Log.debug(
       "[inventoryprofiles] Click count total $total. $lclick left. $rclick right." +
           " Time = ${total * interval / 1000.toDouble()}s"
     )

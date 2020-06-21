@@ -8,7 +8,6 @@ import net.minecraft.item.Items
 import net.minecraft.potion.PotionUtil
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import kotlin.math.min
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ==========
@@ -58,7 +57,7 @@ fun ItemStack.transferNTo(another: ItemStack, n: Int) {
     another.itemType = itemType
     another.count = 0
   }
-  val transferableCount = n.coerceAtMost(min(count, another.room)).coerceAtLeast(0)
+  val transferableCount = n.coerceAtMost(minOf(count, another.room)).coerceAtLeast(0)
   count -= transferableCount
   another.count += transferableCount
   if (isEmpty()) setEmpty()

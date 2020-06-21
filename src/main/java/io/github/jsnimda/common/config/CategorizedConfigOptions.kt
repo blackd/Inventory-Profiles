@@ -1,11 +1,10 @@
 package io.github.jsnimda.common.config
 
-fun List<IConfigOption>.toSingleConfigs() = CategorizedConfigOptions().apply {
-  this@toSingleConfigs.forEach { addConfigOption(it) }
-}
+fun List<IConfigOption>.toConfigElement(): IConfigElementResettableMultiple =
+  CategorizedConfigOptions().apply { forEach { addConfigOption(it) } }
 
 class CategorizedConfigOptions : ConfigOptionBase(), IConfigElementResettableMultiple {
-  val categories: LinkedHashMap<String, List<IConfigOption>> = linkedMapOf()
+  val categories = mutableMapOf<String, List<IConfigOption>>()
   private var _currentCategory: MutableList<IConfigOption>? = null
   private var currentCategory: MutableList<IConfigOption>
     get() = _currentCategory ?: addCategory("")
@@ -13,9 +12,9 @@ class CategorizedConfigOptions : ConfigOptionBase(), IConfigElementResettableMul
       _currentCategory = value
     }
 
-  fun addCategory(categoryNameKey: String) = mutableListOf<IConfigOption>().also {
+  fun addCategory(categoryName: String) = mutableListOf<IConfigOption>().also {
     currentCategory = it
-    categories[categoryNameKey] = it
+    categories[categoryName] = it
   }
 
   fun addConfigOption(configOption: IConfigOption) {

@@ -1,35 +1,24 @@
 package io.github.jsnimda.common.config.builder
 
-import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
-import com.google.gson.JsonParser
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.Savable
 import io.github.jsnimda.common.config.IConfigElement
-import io.github.jsnimda.common.util.exists
-import io.github.jsnimda.common.util.readFileToString
-import io.github.jsnimda.common.util.writeStringToFile
+import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaUtils
+import io.github.jsnimda.common.vanilla.loggingPath
 import java.io.IOException
 import java.nio.file.Path
 
-private val GSON = GsonBuilder().setPrettyPrinting().create()
-
-interface Savable {
-  fun save()
-  fun load()
-}
-
-class ConfigSaveLoadManager(private val config: IConfigElement, private val path: String) : Savable {
-  private val configFile: Path
-    get() = VanillaUtils.configDirectory().resolve(path)
+class ConfigSaveLoadManager(private val config: IConfigElement, path: String) : Savable {
+  private val configFile: Path = VanillaUtils.configDirectory() / path
+  private val path = configFile.loggingPath
 
   override fun save() {
     try {
-      GSON.toJson(config.toJsonElement()).apply {
-        configFile.writeStringToFile(this)
-      }
+      config.toJsonElement().toJsonString().writeToFile(configFile)
     } catch (e: IOException) {
-      Log.error("Failed to save config file $path")
+      Log.error("Failed to write config file $path")
     } catch (e: Exception) {
       e.printStackTrace()
     }
@@ -38,15 +27,13 @@ class ConfigSaveLoadManager(private val config: IConfigElement, private val path
   override fun load() {
     try {
       if (!configFile.exists()) return
-      configFile.readFileToString().run {
-        JsonParser().parse(this)
-      }.apply {
-        config.fromJsonElement(this)
+      configFile.readFileToString().parseAsJson().let {
+        config.fromJsonElement(it)
       }
     } catch (e: IOException) {
-      Log.error("Failed to load config file $path")
+      Log.error("Failed to read config file $path")
     } catch (e: JsonParseException) {
-      Log.error("Failed to parse config file $path as Json")
+      Log.error("Failed to parse config file $path as JSON")
     } catch (e: Exception) {
       e.printStackTrace()
     }

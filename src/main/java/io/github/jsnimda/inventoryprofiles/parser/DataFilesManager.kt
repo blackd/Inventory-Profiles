@@ -38,7 +38,7 @@ object DataFilesManager {
 
   private fun readFiles(paths: List<Path>): List<Pair<String, String>> =
     paths.mapNotNull { path ->
-      wrapError(onFailure = { Log.error("Failed to load file $path") }) { path.readFileToString() }
+      tryOrNull(onFailure = { Log.error("Failed to load file $path") }) { path.readFileToString() }
         ?.let { path.name to it }
     }
 

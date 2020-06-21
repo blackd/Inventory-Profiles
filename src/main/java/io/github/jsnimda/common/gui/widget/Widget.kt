@@ -1,10 +1,10 @@
 package io.github.jsnimda.common.gui.widget
 
-import io.github.jsnimda.common.util.event
 import io.github.jsnimda.common.gui.Point
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.Overflow.*
+import io.github.jsnimda.common.util.Event
 import io.github.jsnimda.common.vanilla.VanillaRender
 import kotlin.properties.Delegates
 
@@ -102,7 +102,7 @@ open class Widget {
 
   data class LocationChangedEvent(val oldValue: Point, val newValue: Point)
 
-  val locationChanged by event<LocationChangedEvent>()
+  val locationChanged = Event<LocationChangedEvent>()
   fun locationChanged(oldValue: Point, newValue: Point) {
     screenLocationChanged()
     locationChanged(LocationChangedEvent(oldValue, newValue))
@@ -110,7 +110,7 @@ open class Widget {
 
   data class SizeChangedEvent(val oldValue: Size, val newValue: Size)
 
-  val sizeChanged by event<SizeChangedEvent>() // use event model to avoid NullPointerException during class init
+  val sizeChanged = Event<SizeChangedEvent>() // use event model to avoid NullPointerException during class init
   fun sizeChanged(oldValue: Size, newValue: Size) {
     fun resize(anchorLeast: Boolean, anchorMost: Boolean, oldContainer: Int, newContainer: Int,
                least: Int, central: Int): Pair<Int, Int> {
@@ -132,7 +132,7 @@ open class Widget {
     sizeChanged(SizeChangedEvent(oldValue, newValue))
   }
 
-  val screenLocationChanged by event<Unit>()
+  val screenLocationChanged = Event<Unit>()
   fun screenLocationChanged() {
     children().forEach { it.screenLocationChanged() }
     screenLocationChanged(Unit)

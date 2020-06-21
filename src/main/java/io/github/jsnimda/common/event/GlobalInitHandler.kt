@@ -7,7 +7,7 @@ object GlobalInitHandler {
   }
 
   // ============
-  // Api
+  // api
   // ============
   private val registeredInitHandlers = mutableSetOf<() -> Unit>()
 
