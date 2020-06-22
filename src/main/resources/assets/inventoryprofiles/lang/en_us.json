@@ -1,6 +1,6 @@
 {
 
-    "inventoryprofiles.gui.config.title": "Inventory Profiles Config Menu",
+    "inventoryprofiles.gui.config.title": "Inventory Profiles v%s Config Menu",
 
     "inventoryprofiles.common.gui.config.reset": "Reset",
     "inventoryprofiles.common.gui.config.true": "§2true",

@@ -56,9 +56,9 @@ object Hotkeys : ConfigDeclaration {
     .CATEGORY("$category.hotkeys")
   val OPEN_CONFIG_MENU                           by hotkey("R,C", KeybindSettings.INGAME_DEFAULT)
   val SORT_INVENTORY                             by hotkey("R"  , KeybindSettings.GUI_DEFAULT)
-  val SORT_INVENTORY_IN_COLUMNS                  by hotkey("")
-  val SORT_INVENTORY_IN_ROWS                     by hotkey("")
-  val MOVE_ALL_ITEMS                             by hotkey("")
+  val SORT_INVENTORY_IN_COLUMNS                  by hotkey("", KeybindSettings.GUI_DEFAULT)
+  val SORT_INVENTORY_IN_ROWS                     by hotkey("", KeybindSettings.GUI_DEFAULT)
+  val MOVE_ALL_ITEMS                             by hotkey("", KeybindSettings.GUI_DEFAULT)
 
     .CATEGORY("$category.debugs")
   val DEBUG_SCREEN                               by hotkey("Z", KeybindSettings.ANY_DEFAULT)

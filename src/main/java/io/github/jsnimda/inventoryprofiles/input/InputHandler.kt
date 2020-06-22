@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.input
 
-import io.github.jsnimda.common.input.IInputHandler
+import io.github.jsnimda.common.IInputHandler
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtils
