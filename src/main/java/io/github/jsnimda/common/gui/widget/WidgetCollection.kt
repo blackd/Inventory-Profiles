@@ -5,7 +5,7 @@ class WidgetCollection internal constructor(val owner: Widget) : Iterable<Widget
   private val list = mutableListOf<Widget>()
 
   fun asList(): List<Widget> =
-      list
+    list
 
   val size
     get() = list.size
@@ -29,7 +29,7 @@ class WidgetCollection internal constructor(val owner: Widget) : Iterable<Widget
   }
 
   fun get(index: Int) =
-      list[index]
+    list[index]
 
   fun remove(child: Widget) {
     list.remove(child)
@@ -47,14 +47,13 @@ class WidgetCollection internal constructor(val owner: Widget) : Iterable<Widget
   }
 
   fun contains(child: Widget): Boolean =
-      list.contains(child)
+    list.contains(child)
 
   fun clear() {
     list.forEach { clearParentReference(it) }
     list.clear()
   }
 
-  override fun iterator()
-    = list.iterator()
+  override fun iterator() = list.iterator()
 
 }

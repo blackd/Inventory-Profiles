@@ -5,8 +5,8 @@ import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.Overflow.*
 import io.github.jsnimda.common.util.Event
+import io.github.jsnimda.common.util.detectable
 import io.github.jsnimda.common.vanilla.VanillaRender
-import kotlin.properties.Delegates
 
 fun Widget.moveToCenter() {
   parent?.let { parent ->
@@ -61,12 +61,8 @@ open class Widget {
       size = size.copy(height = value)
     }
 
-  var location by Delegates.observable(Point(0, 0)) { _, oldValue, newValue ->
-    if (oldValue != newValue) locationChanged(oldValue, newValue)
-  }
-  var size by Delegates.observable(Size(0, 0)) { _, oldValue, newValue ->
-    if (oldValue != newValue) sizeChanged(oldValue, newValue)
-  }
+  var location by detectable(Point(0, 0)) { oldValue, newValue -> locationChanged(oldValue, newValue) }
+  var size by detectable(Size(0, 0)) { oldValue, newValue -> sizeChanged(oldValue, newValue) }
   var bounds: Rectangle
     get() = Rectangle(location, size)
     set(value) {
@@ -103,7 +99,7 @@ open class Widget {
   data class LocationChangedEvent(val oldValue: Point, val newValue: Point)
 
   val locationChanged = Event<LocationChangedEvent>()
-  fun locationChanged(oldValue: Point, newValue: Point) {
+  private fun locationChanged(oldValue: Point, newValue: Point) {
     screenLocationChanged()
     locationChanged(LocationChangedEvent(oldValue, newValue))
   }
@@ -111,9 +107,11 @@ open class Widget {
   data class SizeChangedEvent(val oldValue: Size, val newValue: Size)
 
   val sizeChanged = Event<SizeChangedEvent>() // use event model to avoid NullPointerException during class init
-  fun sizeChanged(oldValue: Size, newValue: Size) {
-    fun resize(anchorLeast: Boolean, anchorMost: Boolean, oldContainer: Int, newContainer: Int,
-               least: Int, central: Int): Pair<Int, Int> {
+  private fun sizeChanged(oldValue: Size, newValue: Size) {
+    fun resize(
+      anchorLeast: Boolean, anchorMost: Boolean, oldContainer: Int, newContainer: Int,
+      least: Int, central: Int
+    ): Pair<Int, Int> {
       if (anchorLeast && !anchorMost) return least to central // increment to right / bottom
       val increment = newContainer - oldContainer
       if (anchorLeast && anchorMost) return least to (central + increment) // increment to width / height
@@ -133,7 +131,7 @@ open class Widget {
   }
 
   val screenLocationChanged = Event<Unit>()
-  fun screenLocationChanged() {
+  private fun screenLocationChanged() {
     children().forEach { it.screenLocationChanged() }
     screenLocationChanged(Unit)
   }
@@ -142,18 +140,19 @@ open class Widget {
 
   var active = true
   var visible = true
+
   //  var focused = false
   var text: String = ""
   var zIndex: Int = 0
 
   fun children(): List<Widget> =
-      widgets.asList()
+    widgets.asList()
 
   fun childrenZIndexed(): List<Widget> =
-      children().sortedBy { it.zIndex }
+    children().sortedBy { it.zIndex }
 
   open fun contains(mouseX: Int, mouseY: Int): Boolean =
-      absoluteBounds.contains(mouseX, mouseY)
+    absoluteBounds.contains(mouseX, mouseY)
 
   var overflow = UNSET // TODO render hidden
 
@@ -190,40 +189,40 @@ open class Widget {
   }
 
   fun isMouseOver(x: Int, y: Int): Boolean =
-      (parent?.let { parent ->
-        when (parent.overflow) {
-          VISIBLE -> parent.visible
-          UNSET, HIDDEN -> parent.isMouseOver(x, y)
-        }
-      } ?: true) && visible && (contains(x, y) || (overflow == VISIBLE && children().any { it.isMouseOver(x, y) }))
+    (parent?.let { parent ->
+      when (parent.overflow) {
+        VISIBLE -> parent.visible
+        UNSET, HIDDEN -> parent.isMouseOver(x, y)
+      }
+    } ?: true) && visible && (contains(x, y) || (overflow == VISIBLE && children().any { it.isMouseOver(x, y) }))
 
   open fun mouseClicked(x: Int, y: Int, button: Int): Boolean =
-      childrenZIndexed().asReversed().any {
-        it.isMouseOver(x, y) && it.mouseClicked(x, y, button).apply {
-          if (this) {
-            focusedWidget = it
-            if (button == 0) isDragging = true // left click
-          }
+    childrenZIndexed().asReversed().any {
+      it.isMouseOver(x, y) && it.mouseClicked(x, y, button).apply {
+        if (this) {
+          focusedWidget = it
+          if (button == 0) isDragging = true // left click
         }
-      }.also { if (!it) focusedWidget = null }
+      }
+    }.also { if (!it) focusedWidget = null }
 
   open fun mouseReleased(x: Int, y: Int, button: Int): Boolean = // TODO better solution
-      false.also { childrenZIndexed().asReversed().forEach { it.mouseReleased(x, y, button) } }
+    false.also { childrenZIndexed().asReversed().forEach { it.mouseReleased(x, y, button) } }
 
   open fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean =
-      childrenZIndexed().asReversed().any { it.isMouseOver(x, y) && it.mouseScrolled(x, y, amount) }
+    childrenZIndexed().asReversed().any { it.isMouseOver(x, y) && it.mouseScrolled(x, y, amount) }
 
   open fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double): Boolean = // TODO precise dx dy
-      isDragging && focusedWidget?.mouseDragged(x, y, button, dx, dy) ?: false
+    isDragging && focusedWidget?.mouseDragged(x, y, button, dx, dy) ?: false
 
   open fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
-      focusedWidget?.keyPressed(keyCode, scanCode, modifiers) ?: false
+    focusedWidget?.keyPressed(keyCode, scanCode, modifiers) ?: false
 
   open fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
-      focusedWidget?.keyReleased(keyCode, scanCode, modifiers) ?: false
+    focusedWidget?.keyReleased(keyCode, scanCode, modifiers) ?: false
 
   open fun charTyped(charIn: Char, modifiers: Int): Boolean =
-      focusedWidget?.charTyped(charIn, modifiers) ?: false
+    focusedWidget?.charTyped(charIn, modifiers) ?: false
 
   //endregion
 

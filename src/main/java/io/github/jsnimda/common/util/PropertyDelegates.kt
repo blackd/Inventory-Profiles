@@ -1,8 +1,21 @@
 package io.github.jsnimda.common.util
 
+import kotlin.properties.Delegates
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
+
+// ============
+// detectable
+// ============
+
+// like observable, but only invoke onChange if value really changed
+inline fun <T> detectable(initialValue: T, crossinline onChange: (oldValue: T, newValue: T) -> Unit) =
+  Delegates.observable(initialValue) { _, oldValue, newValue -> if (oldValue != newValue) onChange(oldValue, newValue) }
+
+// ============
+// PropertyNameChecker
+// ============
 
 class AsDelegate<out V>(val value: V) : ReadOnlyProperty<Any?, V> {
   override fun getValue(thisRef: Any?, property: KProperty<*>): V = value
