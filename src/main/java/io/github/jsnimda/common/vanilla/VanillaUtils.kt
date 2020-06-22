@@ -10,9 +10,12 @@ val Path.loggingPath
 
 object VanillaUtils {
 
-  fun openScreenNullable(screen: Screen?) = Vanilla.mc().openScreen(screen)
-  fun openScreen(screen: Screen) = Vanilla.mc().openScreen(screen)
   fun closeScreen() = Vanilla.mc().openScreen(null)
+  fun openScreen(screen: Screen) = Vanilla.mc().openScreen(screen)
+  fun openScreenNullable(screen: Screen?) = Vanilla.mc().openScreen(screen)
+  fun openDistinctScreen(screen: Screen) { // do nothing if screen is same type as current
+    if (Vanilla.screen()?.javaClass != screen.javaClass) openScreen(screen)
+  }
 
   fun runDirectory(): Path = Vanilla.runDirectoryFile().toPath().normalize()
   fun configDirectory(): Path = runDirectory() / "config"

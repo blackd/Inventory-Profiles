@@ -3,7 +3,7 @@ package io.github.jsnimda.common.gui
 import io.github.jsnimda.common.gui.screen.BaseOverlay
 import io.github.jsnimda.common.vanilla.render.*
 
-open class BaseDebugScreen() : BaseOverlay() { // TODO clean up code
+open class BaseDebugScreen : BaseOverlay() { // TODO clean up code
   private var textPosition = 0 // 0-3: top-left / top-right / bottom-right / bottom-left
   private var toggleColor = 0
 

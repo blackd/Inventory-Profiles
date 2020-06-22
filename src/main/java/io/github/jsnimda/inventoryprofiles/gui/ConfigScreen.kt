@@ -6,9 +6,7 @@ import io.github.jsnimda.common.gui.widget.toWidget
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
 import io.github.jsnimda.inventoryprofiles.ModInfo
-import io.github.jsnimda.inventoryprofiles.config.Configs
-import io.github.jsnimda.inventoryprofiles.config.Hotkeys
-import io.github.jsnimda.inventoryprofiles.config.SaveLoadManager
+import io.github.jsnimda.inventoryprofiles.config.*
 
 private const val BUTTON_PREFIX = "inventoryprofiles.gui.config."
 private const val DISPLAY_NAME_PREFIX = "inventoryprofiles.config.name."
@@ -21,11 +19,12 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
 
   init {
     openConfigMenuHotkey = Hotkeys.OPEN_CONFIG_MENU
-    Configs.toConfigList().forEach {
-      addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + it.key)) {
-        it.toWidget(DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX)
+    (Configs - if (ModSettings.DEBUG_LOGS.booleanValue) listOf() else listOf(Debugs))
+      .toConfigList().forEach {
+        addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + it.key)) {
+          it.toWidget(DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX)
+        }
       }
-    }
     selectedIndex = Companion.selectedIndex
   }
 

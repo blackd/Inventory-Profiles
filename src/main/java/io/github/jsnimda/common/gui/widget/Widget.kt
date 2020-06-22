@@ -27,14 +27,18 @@ open class Widget {
 
   //region Positioning
 
-  protected val containerWidth
+  val containerWidth
     get() = parent?.width ?: VanillaRender.screenWidth
-  protected val containerHeight
+  val containerHeight
     get() = parent?.height ?: VanillaRender.screenHeight
-  protected val containerScreenX
+  val containerSize
+    get() = Size(containerWidth, containerHeight)
+  val containerScreenX
     get() = parent?.screenX ?: 0
-  protected val containerScreenY
+  val containerScreenY
     get() = parent?.screenY ?: 0
+  val containerScreenLocation
+    get() = Point(containerScreenX, containerScreenY)
 
   var left: Int
     get() = location.x
@@ -70,14 +74,27 @@ open class Widget {
       size = value.size
     }
 
-  val screenX: Int
+  var screenX: Int
     get() = containerScreenX + left
-  val screenY: Int
+    set(value) {
+      left = value - containerScreenX
+    }
+  var screenY: Int
     get() = containerScreenY + top
-  val screenLocation
+    set(value) {
+      top = value - containerScreenY
+    }
+  var screenLocation // todo cache value and update by screenLocationChanged ? (reduce look up to parent)
     get() = Point(screenX, screenY)
-  val absoluteBounds
+    set(value) {
+      location = value - containerScreenLocation
+    }
+  var absoluteBounds
     get() = Rectangle(screenLocation, size)
+    set(value) {
+      screenLocation = value.location
+      size = value.size
+    }
 
   var right: Int
     get() = containerWidth - left - width

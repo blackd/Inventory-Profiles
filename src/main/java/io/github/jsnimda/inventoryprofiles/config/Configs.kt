@@ -59,9 +59,6 @@ object Hotkeys : ConfigDeclaration {
   val SORT_INVENTORY_IN_COLUMNS                  by hotkey("", KeybindSettings.GUI_DEFAULT)
   val SORT_INVENTORY_IN_ROWS                     by hotkey("", KeybindSettings.GUI_DEFAULT)
   val MOVE_ALL_ITEMS                             by hotkey("", KeybindSettings.GUI_DEFAULT)
-
-    .CATEGORY("$category.debugs")
-  val DEBUG_SCREEN                               by hotkey("Z", KeybindSettings.ANY_DEFAULT)
 }
 
 object Tweaks : ConfigDeclaration {
@@ -76,6 +73,14 @@ object Tweaks : ConfigDeclaration {
   val DISABLE_LAVA_FOG                           by hotkeyedBool(false)
 }
 
+object Debugs : ConfigDeclaration {
+  override val builder = createBuilder()
+
+    .CATEGORY("$category.debugs")
+  val DEBUG_SCREEN                               by hotkey("Z", KeybindSettings.ANY_DEFAULT)
+  val SCREEN_DEPTH_TEST                          by hotkey("X,1", KeybindSettings.ANY_DEFAULT)
+}
+
 const val FILE_PATH = "inventoryprofiles/inventoryprofiles.json"
 
 val Configs = listOf(
@@ -83,7 +88,8 @@ val Configs = listOf(
   GuiSettings,
   EditProfiles,
   Hotkeys,
-  Tweaks
+  Tweaks,
+  Debugs
 )
 
 object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toConfigElement(), FILE_PATH)

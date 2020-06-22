@@ -30,6 +30,7 @@
     "inventoryprofiles.gui.config.EditProfiles": "Edit Profiles",
     "inventoryprofiles.gui.config.Hotkeys": "Hotkeys",
     "inventoryprofiles.gui.config.Tweaks": "Tweaks",
+    "inventoryprofiles.gui.config.Debugs": "Debugs",
 
     "inventoryprofiles.config.category.inventory_sorting": "Sorting Options",
     "inventoryprofiles.config.category.debugs": "Debugs",
