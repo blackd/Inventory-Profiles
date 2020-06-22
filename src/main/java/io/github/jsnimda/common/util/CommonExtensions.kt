@@ -23,7 +23,6 @@ val <T : Any> Class<T>.objectType
 // ============
 // (let, run, with, apply, also)
 
-
 // hints:
 // [null ternary] a.let { if (it == null) b else c } <==> a?.let { c } ?: b
 // [self ternary] a.run { if (cond) this else b } <==> a.selfIf { cond orElse b }

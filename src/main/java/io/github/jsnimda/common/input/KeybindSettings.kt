@@ -8,21 +8,21 @@ import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 
 data class KeybindSettings(
-    @JvmField val context: Context,
-    @JvmField val activateOn: KeyAction,
-    @JvmField val allowExtraKeys: Boolean,
-    @JvmField val orderSensitive: Boolean
+  val context: Context,
+  val activateOn: KeyAction,
+  val allowExtraKeys: Boolean,
+  val orderSensitive: Boolean
 ) {
   companion object {
-    @JvmField val INGAME_DEFAULT = KeybindSettings(INGAME, PRESS, allowExtraKeys = false, orderSensitive = true)
-    @JvmField val GUI_DEFAULT    = KeybindSettings(   GUI, PRESS, allowExtraKeys = false, orderSensitive = true)
-    @JvmField val ANY_DEFAULT    = KeybindSettings(   ANY, PRESS, allowExtraKeys = false, orderSensitive = true)
+    val INGAME_DEFAULT = KeybindSettings(INGAME, PRESS, allowExtraKeys = false, orderSensitive = true)
+    val GUI_DEFAULT = KeybindSettings(GUI, PRESS, allowExtraKeys = false, orderSensitive = true)
+    val ANY_DEFAULT = KeybindSettings(ANY, PRESS, allowExtraKeys = false, orderSensitive = true)
   }
 
   enum class KeyAction {
     PRESS, RELEASE, BOTH;
 
-    fun isValid(action: Int): Boolean = when (this) {
+    fun isValid(action: Int) = when (this) {
       PRESS -> action == GLFW_PRESS
       RELEASE -> action == GLFW_RELEASE
       BOTH -> action == GLFW_PRESS || action == GLFW_RELEASE

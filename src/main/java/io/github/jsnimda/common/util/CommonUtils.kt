@@ -30,7 +30,7 @@ inline fun <R> tryCatch(onFailure: (Throwable) -> R, tryToRun: () -> R): R =
 // ============
 
 class Event<T> {
-  private val handlers = mutableSetOf<((data: T) -> Unit)>()
+  internal val handlers = mutableSetOf<((data: T) -> Unit)>()
   operator fun plusAssign(handler: T.() -> Unit) {
     handlers.add(handler)
   }
@@ -42,4 +42,8 @@ class Event<T> {
   operator fun invoke(data: T) {
     handlers.forEach { it(data) }
   }
+}
+
+operator fun Event<Unit>.invoke() {
+  handlers.forEach { it(Unit) }
 }

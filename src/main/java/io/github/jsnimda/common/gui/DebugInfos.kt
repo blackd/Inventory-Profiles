@@ -25,7 +25,7 @@ object DebugInfos {
   }
 
   val keyText
-    get() = KeyCodes.getKeyName(key).let { "$it (${KeyCodes.getFriendlyName(it)})" }
+    get() = KeyCodes.getName(key).let { "$it (${KeyCodes.getFriendlyName(it)})" }
 
   val pressingKeysText
     get() = GlobalInputHandler.pressedKeys.joinToString(" + ") { KeyCodes.getFriendlyName(it) }

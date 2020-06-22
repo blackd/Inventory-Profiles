@@ -1,9 +1,6 @@
 package io.github.jsnimda.common.util
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import com.google.gson.*
 import com.google.gson.JsonPrimitive
 
 // ============
@@ -25,18 +22,7 @@ fun JsonPrimitive(value: Any): JsonPrimitive = when (value) {
   is Boolean -> JsonPrimitive(value)
   is Number -> JsonPrimitive(value)
   is String -> JsonPrimitive(value)
-  else -> throw UnsupportedOperationException("Not implemented yet")
-}
-
-private operator fun <T : Any, U : Any> Class<T>.contains(cls: Class<U>) =
-  this.objectType.isAssignableFrom(cls.objectType)
-
-@Suppress("UNCHECKED_CAST")
-fun <T : Any> JsonPrimitive.getAs(valueClass: Class<T>): T = when (valueClass) {
-  in Boolean::class.java -> asBoolean as T
-  in Int::class.java -> asInt as T
-  in Double::class.java -> asDouble as T
-  in String::class.java -> asString as T
+  is Enum<*> -> JsonPrimitive(value.name)
   else -> throw UnsupportedOperationException("Not implemented yet")
 }
 
@@ -46,8 +32,18 @@ fun <T> JsonPrimitive.getAsType(value: T): T = when (value) {
   is Int -> asInt as T
   is Double -> asDouble as T
   is String -> asString as T
+  is Enum<*> -> java.lang.Enum.valueOf(value.declaringClass, asString) as T
   else -> throw UnsupportedOperationException("Not implemented yet")
 }
+
+// ============
+// JsonArray
+// ============
+
+fun List<JsonElement>.toJsonArray() = JsonArray().apply {
+  this@toJsonArray.forEach { add(it) }
+}
+
 
 // ============
 // json string

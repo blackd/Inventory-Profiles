@@ -43,7 +43,8 @@ interface IConfigElementResettableMultiple : IConfigElementResettable {
   override val isModified
     get() = getConfigOptionsList().any { it.isModified }
 
-  override fun resetToDefault(): Unit = getConfigOptionsList().forEach { it.resetToDefault() }
+  override fun resetToDefault() =
+    getConfigOptionsList().forEach { it.resetToDefault() }
 }
 
 // ============

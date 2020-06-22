@@ -7,7 +7,7 @@ import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.TextButtonWidget
 import io.github.jsnimda.common.gui.widget.toWidget
-import io.github.jsnimda.common.input.ConfigElementKeybindSetting
+import io.github.jsnimda.common.input.ConfigKeybindSettings
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
 import io.github.jsnimda.common.vanilla.VanillaRender
@@ -19,7 +19,7 @@ private const val COLOR_WHITE = -0x1
 class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
   BaseDialog(TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings")) {
   private val keybindSettingElement =
-    with(configHotkey.mainKeybind) { ConfigElementKeybindSetting(defaultSettings, settings) }
+    with(configHotkey.mainKeybind) { ConfigKeybindSettings(defaultSettings, settings) }
   val configs = keybindSettingElement.getConfigOptionsList()
 
   private val IConfigOption.displayName
