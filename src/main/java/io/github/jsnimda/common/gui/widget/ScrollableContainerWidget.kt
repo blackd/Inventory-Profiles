@@ -2,10 +2,8 @@ package io.github.jsnimda.common.gui.widget
 
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
-import io.github.jsnimda.common.vanilla.render.createDepthMask
-import io.github.jsnimda.common.vanilla.render.drawOutline
-import io.github.jsnimda.common.vanilla.render.fillColor
-import io.github.jsnimda.common.vanilla.render.removeDepthMask
+import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.*
 import kotlin.math.roundToInt
 
 // private static final int COLOR_WHITE              = 0xFFFFFFFF;
@@ -123,10 +121,10 @@ class ScrollableContainerWidget : Widget() {
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }
 
-//    // unknown reason overflow content is not hidden with old code, add this to fix it
-//    disableAlphaTest()
-//    fillColor(VanillaRender.screenBounds, 0)
-//    enableAlphaTest()
+    // unknown reason overflow content is not hidden with old code, add this to fix it // fixme find out find and remove this
+    disableAlphaTest()
+    fillColor(VanillaRender.screenBounds, 0)
+    enableAlphaTest()
     // render content
     createDepthMask(viewport.absoluteBounds)
     super.render(mouseX, mouseY, partialTicks)
