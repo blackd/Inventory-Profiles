@@ -3,7 +3,7 @@ package io.github.jsnimda.common.input
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.config.IConfigElementResettable
+import io.github.jsnimda.common.config.IConfigElementObject
 import io.github.jsnimda.common.config.IConfigElementResettableMultiple
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
@@ -43,7 +43,7 @@ class AlternativeKeybind(val parent: IKeybind) : IKeybind { // keybind that inhe
 // IKeybind
 // ============
 
-interface IKeybind : IConfigElementResettable {
+interface IKeybind : IConfigElementObject {
   val defaultKeyCodes: List<Int>
   var keyCodes: List<Int>
   val defaultSettings: KeybindSettings
@@ -69,23 +69,22 @@ interface IKeybind : IConfigElementResettable {
     resetSettingsToDefault()
   }
 
-  override fun toJsonElement(): JsonElement = JsonObject().apply {
+  override fun toJsonElement() = JsonObject().apply {
     if (isKeyCodesModified)
       this.addProperty("keys", getStorageString(keyCodes))
     if (isSettingsModified)
       this.add("settings", settings.toJsonElement())
   }
 
-  override fun fromJsonElement(element: JsonElement) {
-    resetToDefault()
-    val obj: JsonObject = runCatching { element.asJsonObject }
-      .getOrElse { Log.warn("Failed to read JSON element '$element' as a JSON object"); return }
-    runCatching {
+  override fun fromJsonObject(obj: JsonObject) {
+    try {
       obj["settings"]
         ?.let { settings = settings.fromJsonElement(it) }
       obj["keys"]
         ?.let { keyCodes = getKeyCodes(it.asString) }
-    }.onFailure { Log.warn("Failed to set config value for 'keys' from the JSON element '${obj["keys"]}'") }
+    } catch (e: Exception) {
+      Log.warn("Failed to set config value for 'keys' from the JSON element '${obj["keys"]}'")
+    }
   }
 
   fun KeybindSettings.toConfigElement() = ConfigKeybindSettings(defaultSettings, this)

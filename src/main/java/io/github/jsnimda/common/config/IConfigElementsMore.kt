@@ -6,12 +6,36 @@ import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.util.JsonPrimitive
 import io.github.jsnimda.common.util.forEach
 import io.github.jsnimda.common.util.getAsType
+import io.github.jsnimda.common.util.toJsonArray
+
+// ============
+// extensions
+// ============
+
+fun List<IConfigElement>.toJsonArray() = map { it.toJsonElement() }.toJsonArray()
+
+// ============
+// IConfigElementObject
+// ============
+
+interface IConfigElementObject : IConfigElementResettable {
+  override fun toJsonElement(): JsonObject
+  fun fromJsonObject(obj: JsonObject) // do resetToDefault() inside this?
+  override fun fromJsonElement(element: JsonElement) {
+    resetToDefault()
+    try {
+      fromJsonObject(element.asJsonObject)
+    } catch (e: Exception) {
+      Log.warn("Failed to read JSON element '$element' as a JSON object")
+    }
+  }
+}
 
 // ============
 // IConfigElementResettableMultiple
 // ============
 
-interface IConfigElementResettableMultiple : IConfigElementResettable {
+interface IConfigElementResettableMultiple : IConfigElementObject {
 
   // sub class should impl one of the getConfigOptionsMap() or getConfigOptionsList()
   fun getConfigOptionsMapFromList(): Map<String, IConfigOption> = getConfigOptionsList().associateBy { it.key }
@@ -20,23 +44,18 @@ interface IConfigElementResettableMultiple : IConfigElementResettable {
   fun getConfigOptionsListFromMap(): List<IConfigOption> = getConfigOptionsMap().values.toList()
   fun getConfigOptionsList(): List<IConfigOption>
 
-  override fun toJsonElement(): JsonElement = JsonObject().apply {
+  override fun toJsonElement() = JsonObject().apply {
     getConfigOptionsList().forEach {
       if (it.isModified) this.add(it.key, it.toJsonElement())
     }
   }
 
-  override fun fromJsonElement(element: JsonElement) { // reset to default first
-    resetToDefault()
-    try {
-      val configOptionsMap = getConfigOptionsMap()
-      element.asJsonObject.forEach { (key, value) ->
-        configOptionsMap[key]
-          ?.fromJsonElement(value)
-          ?: Log.warn("Unknown config key '$key' with value '$value'")
-      }
-    } catch (e: Exception) {
-      Log.warn("Failed to read JSON element '$element' as a JSON object")
+  override fun fromJsonObject(obj: JsonObject) {
+    val configOptionsMap = getConfigOptionsMap()
+    obj.forEach { (key, value) ->
+      configOptionsMap[key]
+        ?.fromJsonElement(value)
+        ?: Log.warn("Unknown config key '$key' with value '$value'")
     }
   }
 

@@ -5,11 +5,11 @@ fun List<IConfigOption>.toConfigElement(): IConfigElementResettableMultiple =
 
 class CategorizedConfigOptions : ConfigOptionBase(), IConfigElementResettableMultiple {
   val categories = mutableMapOf<String, List<IConfigOption>>()
-  private var _currentCategory: MutableList<IConfigOption>? = null
+  private var mCurrentCategory: MutableList<IConfigOption>? = null
   private var currentCategory: MutableList<IConfigOption>
-    get() = _currentCategory ?: addCategory("")
+    get() = mCurrentCategory ?: addCategory("")
     set(value) {
-      _currentCategory = value
+      mCurrentCategory = value
     }
 
   fun addCategory(categoryName: String) = mutableListOf<IConfigOption>().also {
