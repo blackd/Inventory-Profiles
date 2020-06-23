@@ -139,6 +139,8 @@ shadowJar {
   exclude '**/*.kotlin_metadata'
   exclude '**/*.kotlin_module'
   exclude '**/*.kotlin_builtins'
+  exclude '**/*_ws.class' // fixme find a better solution for removing *.ws.kts
+  exclude '**/*_ws$*.class'
 }
 
 task remapShadowJar(type: net.fabricmc.loom.task.RemapJarTask) {
@@ -147,6 +149,17 @@ task remapShadowJar(type: net.fabricmc.loom.task.RemapJarTask) {
   addNestedDependencies = remapJar.addNestedDependencies
 //  archiveClassifier = "remapped-all"
 }
+
+/*
+output jars: (embedding library: kotlin, antlr)
+*-dev.jar              | no embedded kotlin, no mapping
+*-remapped-dev.jar     | no embedded kotlin, mapped
+*-all.jar              | embedded kotlin, no mapping
+*-all-proguard.jar     | embedded kotlin, removed unused embedding classes, no mapping
+*.jar                  | embedded kotlin, removed unused embedding classes, mapped
+
+*/
+
 //tasks.remapShadowJar.dependsOn tasks.shadowJar
 
 // this line solve 'Could not resolve all files' error for configurations.findByName('runtimeClasspath').getFiles()
