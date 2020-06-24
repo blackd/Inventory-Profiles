@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.gui.widget
+package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.IConfigOptionNumeric
@@ -6,6 +6,7 @@ import io.github.jsnimda.common.config.IConfigOptionToggleable
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.config.options.ConfigHotkey
+import io.github.jsnimda.common.gui.widget.BiDirectionalFlowLayout
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.render.bindTexture
@@ -40,7 +41,10 @@ abstract class ConfigOptionBaseWidget<out T : IConfigOption>(val configOption: T
     text = I18n.translate("inventoryprofiles.common.gui.config.reset")
   }
 
-  val flow = BiDirectionalFlowLayout(this, BiDirectionalFlowLayout.BiDirectionalFlowDirection.HORIZONTAL)
+  val flow = BiDirectionalFlowLayout(
+    this,
+    BiDirectionalFlowLayout.BiDirectionalFlowDirection.HORIZONTAL
+  )
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     resetButton.active = resetButtonActive()

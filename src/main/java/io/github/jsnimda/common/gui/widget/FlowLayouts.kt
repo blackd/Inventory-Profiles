@@ -4,6 +4,7 @@ import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.widget.BiDirectionalFlowLayout.BiDirectionalFlowDirection.HORIZONTAL
 import io.github.jsnimda.common.gui.widget.BiDirectionalFlowLayout.BiDirectionalFlowDirection.VERTICAL
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.*
+import io.github.jsnimda.common.gui.widgets.Widget
 
 class BiDirectionalFlowLayout(val owner: Widget, val flowDirection: BiDirectionalFlowDirection = HORIZONTAL) {
   enum class BiDirectionalFlowDirection {

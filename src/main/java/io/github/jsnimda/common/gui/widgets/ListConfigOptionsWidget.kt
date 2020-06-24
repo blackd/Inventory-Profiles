@@ -1,8 +1,9 @@
-package io.github.jsnimda.common.gui.widget
+package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.config.CategorizedConfigOptions
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.gui.Tooltips
+import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.render.drawCenteredText

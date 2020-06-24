@@ -1,5 +1,6 @@
-package io.github.jsnimda.common.gui
+package io.github.jsnimda.common.gui.debug
 
+import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.screen.BaseOverlay
 import io.github.jsnimda.common.vanilla.render.*
 

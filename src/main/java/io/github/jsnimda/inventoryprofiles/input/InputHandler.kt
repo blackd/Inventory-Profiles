@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.input
 
 import io.github.jsnimda.common.IInputHandler
-import io.github.jsnimda.common.gui.DepthTestScreen
+import io.github.jsnimda.common.gui.debug.DepthTestScreen
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.inventoryprofiles.config.Debugs

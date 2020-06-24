@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.gui
 
 import io.github.jsnimda.common.config.builder.toConfigList
 import io.github.jsnimda.common.gui.screen.ConfigScreenBase
-import io.github.jsnimda.common.gui.widget.toWidget
+import io.github.jsnimda.common.gui.widgets.toWidget
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
 import io.github.jsnimda.inventoryprofiles.ModInfo

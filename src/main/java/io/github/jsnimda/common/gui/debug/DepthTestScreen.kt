@@ -1,8 +1,9 @@
-package io.github.jsnimda.common.gui
+package io.github.jsnimda.common.gui.debug
 
+import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.screen.BaseOverlay
 import io.github.jsnimda.common.gui.widget.Overflow
-import io.github.jsnimda.common.gui.widget.Widget
+import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.vanilla.render.*
 
 class DepthTestScreen : BaseOverlay() {

@@ -1,6 +1,8 @@
-package io.github.jsnimda.common.gui.widget
+package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.gui.asPoints
+import io.github.jsnimda.common.gui.widget.AnchorStyles
+import io.github.jsnimda.common.gui.widget.FlowLayout
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
 import io.github.jsnimda.common.gui.widget.Overflow.VISIBLE
 import io.github.jsnimda.common.vanilla.alias.I18n
@@ -26,7 +28,8 @@ open class AnchoredListWidget : Widget() {
     right = 0
     bottom = 0
   }
-  val containerContentFlowLayout = FlowLayout(container.contentContainer, TOP_DOWN)
+  val containerContentFlowLayout =
+    FlowLayout(container.contentContainer, TOP_DOWN)
 
   var renderBorder = true
   var borderColor = COLOR_BORDER

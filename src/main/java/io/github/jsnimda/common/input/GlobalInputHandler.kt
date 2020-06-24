@@ -1,7 +1,7 @@
 package io.github.jsnimda.common.input
 
 import io.github.jsnimda.common.IInputHandler
-import io.github.jsnimda.common.gui.DebugInfos
+import io.github.jsnimda.common.gui.debug.DebugInfos
 import io.github.jsnimda.common.vanilla.Vanilla
 import org.lwjgl.glfw.GLFW.*
 

@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.gui
+package io.github.jsnimda.common.gui.debug
 
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.KeyCodes

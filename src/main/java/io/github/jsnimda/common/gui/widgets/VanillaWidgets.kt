@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.gui.widget
+package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.SliderWidget

@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
-import io.github.jsnimda.common.gui.BaseDebugScreen
+import io.github.jsnimda.common.gui.debug.BaseDebugScreen
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaState

@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.gui.widget
+package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.render.drawText
 import io.github.jsnimda.common.vanilla.render.measureText

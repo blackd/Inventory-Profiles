@@ -1,8 +1,8 @@
-package io.github.jsnimda.common.gui.widget
+package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.gui.Rectangle
+import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.render.*
 import kotlin.math.roundToInt
 

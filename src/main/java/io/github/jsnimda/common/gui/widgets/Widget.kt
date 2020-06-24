@@ -1,9 +1,11 @@
-package io.github.jsnimda.common.gui.widget
+package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.gui.Point
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.Size
+import io.github.jsnimda.common.gui.widget.AnchorStyles
+import io.github.jsnimda.common.gui.widget.Overflow
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.render.rDepthMask
