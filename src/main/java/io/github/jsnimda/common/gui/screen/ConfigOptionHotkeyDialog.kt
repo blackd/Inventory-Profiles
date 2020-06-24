@@ -11,7 +11,7 @@ import io.github.jsnimda.common.input.ConfigKeybindSettings
 import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
-import io.github.jsnimda.common.vanilla.render.measureText
+import io.github.jsnimda.common.vanilla.render.rMeasureText
 import kotlin.math.max
 
 private const val COLOR_WHITE = -0x1
@@ -27,13 +27,13 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
   private val IConfigOption.description
     get() = I18n.translate("inventoryprofiles.common.gui.config.description.$key")
 
-  private val maxTextWidth = configs.map { measureText(it.displayName) }.max() ?: 0
+  private val maxTextWidth = configs.map { rMeasureText(it.displayName) }.max() ?: 0
 
   var showTooltips = false
 
   init {
     val dialogHeight = 5 * 20 + 2 + 10
-    val dialogWidth = max(maxTextWidth + 150 + 2, measureText("§l$titleString")) + 20
+    val dialogWidth = max(maxTextWidth + 150 + 2, rMeasureText("§l$titleString")) + 20
     dialogWidget.size = Size(dialogWidth, dialogHeight)
     configs.forEachIndexed { index, configOption ->
       val baseTop = 2 + 20 + index * 20

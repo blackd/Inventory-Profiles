@@ -17,7 +17,7 @@ val VANILLA_TEXTURE_WIDGETS: Identifier
 // ============
 // at Screen.render()
 // do: rStandardGlState(); rClearDepth()
-fun rStandardGlState() { // reset to standard state
+fun rStandardGlState() { // reset to standard state (for screen rendering)
   rEnableBlend()
   gDisableDiffuse()
   gEnableAlphaTest()
@@ -66,7 +66,7 @@ fun rRemoveDepthMask() {
 private fun rOverwriteDepth(bounds: Rectangle) {
   gDepthFunc(GL11.GL_ALWAYS)
   gDisableAlphaTest()
-  fillColor(bounds, 0)
+  rFillColor(bounds, 0)
   gEnableAlphaTest()
   gDepthFunc(GL11.GL_LEQUAL)
 }

@@ -16,22 +16,22 @@ object Tooltips { // TODO clean up code
 //      disableAll()
 //      enableAlphaTest()
       rStandardGlState()
-      val maxStringWidth = list.map { measureText(it) }.max() ?: return
+      val maxStringWidth = list.map { rMeasureText(it) }.max() ?: return
       val p = list.size * 10 - 2
       val textX = run {
         var textX = mouseX + 4
-        if (textX + maxStringWidth + 4 + 5 > screenWidth) {
+        if (textX + maxStringWidth + 4 + 5 > rScreenWidth) {
           textX -= 7 + maxStringWidth
         }
         if (textX - 4 - 5 < 0) {
-          textX = screenWidth - (maxStringWidth + 4 + 5)
+          textX = rScreenWidth - (maxStringWidth + 4 + 5)
         }
         textX
       }
       val textY = run {
         var textY = mouseY - p - 6
-        if (textY + p + 6 > screenHeight) {
-          textY = screenHeight - p - 6
+        if (textY + p + 6 > rScreenHeight) {
+          textY = rScreenHeight - p - 6
         }
         if (textY - 6 < 0) {
           textY = 6
@@ -39,11 +39,11 @@ object Tooltips { // TODO clean up code
         textY
       }
       val COLOR_BG = -0xfeffff0
-      fillGradient(textX - 3, textY - 4, textX + maxStringWidth + 3, textY - 3, COLOR_BG, COLOR_BG)
-      fillGradient(textX - 3, textY + p + 3, textX + maxStringWidth + 3, textY + p + 4, COLOR_BG, COLOR_BG)
-      fillGradient(textX - 3, textY - 3, textX + maxStringWidth + 3, textY + p + 3, COLOR_BG, COLOR_BG)
-      fillGradient(textX - 4, textY - 3, textX - 3, textY + p + 3, COLOR_BG, COLOR_BG)
-      fillGradient(
+      rFillGradient(textX - 3, textY - 4, textX + maxStringWidth + 3, textY - 3, COLOR_BG, COLOR_BG)
+      rFillGradient(textX - 3, textY + p + 3, textX + maxStringWidth + 3, textY + p + 4, COLOR_BG, COLOR_BG)
+      rFillGradient(textX - 3, textY - 3, textX + maxStringWidth + 3, textY + p + 3, COLOR_BG, COLOR_BG)
+      rFillGradient(textX - 4, textY - 3, textX - 3, textY + p + 3, COLOR_BG, COLOR_BG)
+      rFillGradient(
         textX + maxStringWidth + 3,
         textY - 3,
         textX + maxStringWidth + 4,
@@ -53,7 +53,7 @@ object Tooltips { // TODO clean up code
       )
       val COLOR_OUTLINE_TOP = 0x505000FF
       val COLOR_OUTLINE_BOTTOM = 0x5028007F
-      fillGradient(
+      rFillGradient(
         textX - 3,
         textY - 3 + 1,
         textX - 3 + 1,
@@ -61,7 +61,7 @@ object Tooltips { // TODO clean up code
         COLOR_OUTLINE_TOP,
         COLOR_OUTLINE_BOTTOM
       )
-      fillGradient(
+      rFillGradient(
         textX + maxStringWidth + 2,
         textY - 3 + 1,
         textX + maxStringWidth + 3,
@@ -69,7 +69,7 @@ object Tooltips { // TODO clean up code
         COLOR_OUTLINE_TOP,
         COLOR_OUTLINE_BOTTOM
       )
-      fillGradient(
+      rFillGradient(
         textX - 3,
         textY - 3,
         textX + maxStringWidth + 3,
@@ -77,7 +77,7 @@ object Tooltips { // TODO clean up code
         COLOR_OUTLINE_TOP,
         COLOR_OUTLINE_TOP
       )
-      fillGradient(
+      rFillGradient(
         textX - 3,
         textY + p + 2,
         textX + maxStringWidth + 3,
@@ -86,7 +86,7 @@ object Tooltips { // TODO clean up code
         COLOR_OUTLINE_BOTTOM
       )
       list.forEachIndexed { index, s ->
-        drawText(s, textX, textY + 10 * index, -1)
+        rDrawText(s, textX, textY + 10 * index, -1)
       }
 //      enableLighting()
 //      enableDepthTest()
@@ -101,7 +101,7 @@ object Tooltips { // TODO clean up code
   }
 
   fun addTooltip(string: String, mouseX: Int, mouseY: Int, maxWidth: Int) {
-    addTooltip(wrapText(string, maxWidth), mouseX, mouseY)
+    addTooltip(rWrapText(string, maxWidth), mouseX, mouseY)
   }
 
   fun renderAll() {

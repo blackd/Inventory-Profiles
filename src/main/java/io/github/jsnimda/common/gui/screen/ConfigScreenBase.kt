@@ -11,8 +11,8 @@ import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.gui.widgets.toWidget
 import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.alias.Text
-import io.github.jsnimda.common.vanilla.render.drawText
-import io.github.jsnimda.common.vanilla.render.measureText
+import io.github.jsnimda.common.vanilla.render.rDrawText
+import io.github.jsnimda.common.vanilla.render.rMeasureText
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
@@ -88,14 +88,14 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     VanillaRender.renderVanillaScreenBackground()
-    drawText(this.titleString, 20, 10, COLOR_WHITE)
+    rDrawText(this.titleString, 20, 10, COLOR_WHITE)
     super.render(mouseX, mouseY, partialTicks)
   }
 
   fun addNavigationButton(buttonText: String, action: () -> Unit) {
     val id = navigationButtonsContainer.childCount
     navigationButtonsContainer.apply {
-      width = max(width, measureText(buttonText) + 20)
+      width = max(width, rMeasureText(buttonText) + 20)
     }
     navigationButtonsInfo.add(Pair(buttonText, action))
     navigationButtonsFlowLayout.add(ButtonWidget { ->

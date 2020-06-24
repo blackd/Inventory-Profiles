@@ -9,9 +9,9 @@ import io.github.jsnimda.common.config.options.ConfigHotkey
 import io.github.jsnimda.common.gui.widget.BiDirectionalFlowLayout
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.render.bindTexture
-import io.github.jsnimda.common.vanilla.render.blit
-import io.github.jsnimda.common.vanilla.render.measureText
+import io.github.jsnimda.common.vanilla.render.rBindTexture
+import io.github.jsnimda.common.vanilla.render.rBlit
+import io.github.jsnimda.common.vanilla.render.rMeasureText
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
@@ -61,7 +61,7 @@ abstract class ConfigOptionBaseWidget<out T : IConfigOption>(val configOption: T
 
   init {
     height = 20
-    flow.most.add(resetButton, measureText(resetButton.text) + 15)
+    flow.most.add(resetButton, rMeasureText(resetButton.text) + 15)
     flow.most.addSpace(2)
   }
 
@@ -138,11 +138,11 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionNumeric<*>) :
 
   val toggleButton = object : ButtonWidget({ -> useSlider = !useSlider }) {
     override fun renderButton(hovered: Boolean) {
-      bindTexture(WIDGETS_TEXTURE)
+      rBindTexture(WIDGETS_TEXTURE)
 //      disableDepthTest()
       val textureX = if (hovered) 32 else 16
       val textureY = if (useSlider) 16 else 0
-      blit(screenX, screenY, textureX, textureY, 16, 16)
+      rBlit(screenX, screenY, textureX, textureY, 16, 16)
 //      enableDepthTest()
     }
   }

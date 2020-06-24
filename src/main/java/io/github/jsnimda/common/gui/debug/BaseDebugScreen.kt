@@ -13,8 +13,8 @@ open class BaseDebugScreen : BaseOverlay() { // TODO clean up code
   val stringsToBounds: List<Pair<String, Rectangle>>
     get() = strings.mapIndexed { index, s ->
       val bgh = 9
-      val y0 = if (textPosition < 2) 1 else screenHeight - 1 - bgh * strings.size // is top
-      val w = measureText(s)
+      val y0 = if (textPosition < 2) 1 else rScreenHeight - 1 - bgh * strings.size // is top
+      val w = rMeasureText(s)
       val bgw = w + 2
       val x1 = if (textPosition % 3 == 0) 1 else width - bgw - 1 // is left
       val y1 = y0 + index * bgh
@@ -23,8 +23,8 @@ open class BaseDebugScreen : BaseOverlay() { // TODO clean up code
 
   private fun drawTexts() {
     stringsToBounds.forEach { (s, bounds) ->
-      fillColor(bounds, COLOR_HUD_TEXT_BG)
-      drawText(s, bounds.x + 1, bounds.y + 1, COLOR_HUD_TEXT)
+      rFillColor(bounds, COLOR_HUD_TEXT_BG)
+      rDrawText(s, bounds.x + 1, bounds.y + 1, COLOR_HUD_TEXT)
     }
   }
 
@@ -41,8 +41,8 @@ open class BaseDebugScreen : BaseOverlay() { // TODO clean up code
     drawTexts()
     if (toggleColor < 2) {
       val color = if (toggleColor == 0) COLOR_WHITE else COLOR_BLACK
-      drawVerticalLine(mouseX, 1, height - 2, color)
-      drawHorizontalLine(1, width - 2, mouseY, color)
+      rDrawVerticalLine(mouseX, 1, height - 2, color)
+      rDrawHorizontalLine(1, width - 2, mouseY, color)
     }
   }
 

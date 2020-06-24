@@ -46,7 +46,7 @@ open class AnchoredListWidget : Widget() {
 
   inner class AnchorHeader : Widget() {
     private val ellipsisText = I18n.translate("inventoryprofiles.common.gui.config.more")
-    private val ellipsisTextWidth = measureText(ellipsisText)
+    private val ellipsisTextWidth = rMeasureText(ellipsisText)
 
     init {
       anchor = AnchorStyles.noBottom
@@ -103,7 +103,7 @@ open class AnchoredListWidget : Widget() {
         get() = textRowIndex + 1
 
       fun addAnchor(displayText: String, toScrollY: Int) {
-        val textWidth = measureText("§n$displayText")
+        val textWidth = rMeasureText("§n$displayText")
         if (textLeft + textWidth > availableWidth) {
           textLeft = 0
           textRowIndex++
@@ -206,14 +206,14 @@ open class AnchoredListWidget : Widget() {
       val (pt1, pt2) = absoluteBounds.asPoints()
       val (x1, y1) = pt1
       val (x2, y2) = pt2
-      drawHorizontalLine(x1, x2 - 1, y1, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
-      drawHorizontalLine(x1, x2 - 1, y2, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
-      fillColor(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
+      rDrawHorizontalLine(x1, x2 - 1, y1, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
+      rDrawHorizontalLine(x1, x2 - 1, y2, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
+      rFillColor(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
       super.render(mouseX, mouseY, partialTicks)
       lastHighlightingAnchorIndex = anchorsManager.highlightingAnchorIndex
       if (!expanded && anchorsManager.totalTextRow > 1) {
         anchorsManager.highlightingRowLastAnchor.textButtonWidget.run {
-          drawText(ellipsisText, absoluteBounds.right, screenY, COLOR_WHITE)
+          rDrawText(ellipsisText, absoluteBounds.right, screenY, COLOR_WHITE)
         }
       }
     }
@@ -225,7 +225,7 @@ open class AnchoredListWidget : Widget() {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     if (renderBorder) {
-      drawOutline(absoluteBounds, borderColor)
+      rDrawOutline(absoluteBounds, borderColor)
     }
     super.render(mouseX, mouseY, partialTicks)
   }

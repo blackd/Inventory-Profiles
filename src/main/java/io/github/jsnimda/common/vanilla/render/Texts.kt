@@ -2,10 +2,10 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.vanilla.Vanilla
 
-fun measureText(string: String) =
+fun rMeasureText(string: String) =
   Vanilla.textRenderer().getStringWidth(string)
 
-fun drawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
+fun rDrawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
   if (shadow) {
     Vanilla.textRenderer().drawWithShadow(string, x.toFloat(), y.toFloat(), color)
   } else {
@@ -13,9 +13,9 @@ fun drawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true)
   }
 }
 
-fun drawCenteredText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
-  drawText(string, x - measureText(string) / 2, y, color, shadow)
+fun rDrawCenteredText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
+  rDrawText(string, x - rMeasureText(string) / 2, y, color, shadow)
 }
 
-fun wrapText(string: String, maxWidth: Int): String =
+fun rWrapText(string: String, maxWidth: Int): String =
   Vanilla.textRenderer().wrapStringToWidth(string, maxWidth)

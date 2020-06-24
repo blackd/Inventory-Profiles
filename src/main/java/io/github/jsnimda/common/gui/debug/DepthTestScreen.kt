@@ -9,12 +9,12 @@ import io.github.jsnimda.common.vanilla.render.*
 class DepthTestScreen : BaseOverlay() {
   class Rect(var color: Int, val name: String) : Widget() {
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-      drawOutline(absoluteBounds.inflated(-2), color)
-      drawOutline(absoluteBounds.inflated(-1), color)
-      drawOutline(absoluteBounds.inflated(-0), color)
-      drawOutline(absoluteBounds.inflated(1), 0.opaque)
-      drawOutline(absoluteBounds.inflated(2), 0xff808080.toInt())
-      drawOutline(absoluteBounds.inflated(3), 0xff808080.toInt())
+      rDrawOutline(absoluteBounds.inflated(-2), color)
+      rDrawOutline(absoluteBounds.inflated(-1), color)
+      rDrawOutline(absoluteBounds.inflated(-0), color)
+      rDrawOutline(absoluteBounds.inflated(1), 0.opaque)
+      rDrawOutline(absoluteBounds.inflated(2), 0xff808080.toInt())
+      rDrawOutline(absoluteBounds.inflated(3), 0xff808080.toInt())
       super.render(mouseX, mouseY, partialTicks)
     }
   }
@@ -42,7 +42,7 @@ class DepthTestScreen : BaseOverlay() {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     super.render(mouseX, mouseY, partialTicks)
-    drawText("overflowHidden = $overflowHidden", 2, 2, -1)
+    rDrawText("overflowHidden = $overflowHidden", 2, 2, -1)
   }
 
   override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {

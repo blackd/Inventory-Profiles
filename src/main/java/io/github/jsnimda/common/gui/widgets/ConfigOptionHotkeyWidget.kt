@@ -8,8 +8,8 @@ import io.github.jsnimda.common.input.IKeybind
 import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.render.bindTexture
-import io.github.jsnimda.common.vanilla.render.blit
+import io.github.jsnimda.common.vanilla.render.rBindTexture
+import io.github.jsnimda.common.vanilla.render.rBlit
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
@@ -30,11 +30,11 @@ class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWid
     }
   }) {
     override fun renderButton(hovered: Boolean) {
-      bindTexture(WIDGETS_TEXTURE)
+      rBindTexture(WIDGETS_TEXTURE)
 //      disableDepthTest()
       val textureX = 20 + if (targetKeybind.isSettingsModified || !configOption.alternativeKeybinds.isEmpty()) 20 else 0
       val textureY = 160 + targetKeybind.settings.activateOn.ordinal * 20
-      blit(screenX, screenY, textureX, textureY, 20, 20)
+      rBlit(screenX, screenY, textureX, textureY, 20, 20)
 //      enableDepthTest()
     }
   }

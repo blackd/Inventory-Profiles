@@ -3,10 +3,8 @@ package io.github.jsnimda.common.gui.widgets
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
-import io.github.jsnimda.common.vanilla.render.drawOutline
-import io.github.jsnimda.common.vanilla.render.fillColor
-import io.github.jsnimda.common.vanilla.render.rCreateDepthMask
-import io.github.jsnimda.common.vanilla.render.rRemoveDepthMask
+import io.github.jsnimda.common.vanilla.render.rDrawOutline
+import io.github.jsnimda.common.vanilla.render.rFillColor
 import kotlin.math.roundToInt
 
 // private static final int COLOR_WHITE              = 0xFFFFFFFF;
@@ -112,14 +110,14 @@ class ScrollableContainerWidget : Widget() {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     if (renderBorder) {
-      drawOutline(absoluteBounds, borderColor)
+      rDrawOutline(absoluteBounds, borderColor)
     }
     // render scrollbar, ref: EntryListWidget.render
     if (scrollbar.visible) {
-      fillColor(scrollbar.trackAbsoluteBounds, COLOR_SCROLLBAR_BG)
+      rFillColor(scrollbar.trackAbsoluteBounds, COLOR_SCROLLBAR_BG)
       val hover = scrollbar.thumbAbsoluteBounds.contains(mouseX, mouseY) || draggingScrollbar
-      fillColor(scrollbar.thumbAbsoluteBounds, if (hover) COLOR_SCROLLBAR_HOVER_SHADOW else COLOR_SCROLLBAR_SHADOW)
-      fillColor(scrollbar.thumbAbsoluteBounds.run {
+      rFillColor(scrollbar.thumbAbsoluteBounds, if (hover) COLOR_SCROLLBAR_HOVER_SHADOW else COLOR_SCROLLBAR_SHADOW)
+      rFillColor(scrollbar.thumbAbsoluteBounds.run {
         copy(width = width - 1, height = height - 1)
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }
@@ -129,9 +127,9 @@ class ScrollableContainerWidget : Widget() {
 //    fillColor(VanillaRender.screenBounds, 0)
 //    enableAlphaTest()
     // render content
-    rCreateDepthMask(viewport.absoluteBounds)
+//    rCreateDepthMask(viewport.absoluteBounds)
     super.render(mouseX, mouseY, partialTicks)
-    rRemoveDepthMask()
+//    rRemoveDepthMask()
   }
 
   // scrolling logic / ui events
