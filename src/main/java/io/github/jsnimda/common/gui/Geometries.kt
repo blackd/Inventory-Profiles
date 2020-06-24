@@ -36,8 +36,40 @@ fun Size.toPoint() = Point(width, height)
 // Rectangle
 // ============
 
+//https://stackoverflow.com/questions/19753134/get-the-points-of-intersection-from-2-rectangles
+// ref: java.awt.Rectangle.intersection()
+// rect1: pt1 pt2, rect2: pt3 pt4
+private fun intersect(pt1: Point, pt2: Point, pt3: Point, pt4: Point): Rectangle {
+  val x5 = maxOf(pt1.x, pt3.x)
+  val y5 = maxOf(pt1.y, pt3.y)
+  val x6 = minOf(pt2.x, pt4.x)
+  val y6 = minOf(pt2.y, pt4.y)
+  return (Point(x5, y5) to Point(x6, y6)).asRectangle().positiveOrEmpty()
+}
+
 fun Rectangle.asPoints() =
   location to (location + size)
+
+fun Pair<Point, Point>.asRectangle() =
+  Rectangle(first, (second - first).toSize())
+
+fun Rectangle.intersect(other: Rectangle): Rectangle {
+  val (pt1, pt2) = this.normalize().asPoints()
+  val (pt3, pt4) = other.normalize().asPoints()
+  return intersect(pt1, pt2, pt3, pt4)
+}
+
+fun Rectangle.positiveOrEmpty() = // no negative width/height
+  if (width > 0 && height > 0) this else Rectangle(0, 0, 0, 0)
+
+private fun Rectangle.normalizeWidth() =
+  if (width >= 0) this else Rectangle(x + width, y, -width, height)
+
+private fun Rectangle.normalizeHeight() =
+  if (height >= 0) this else Rectangle(x, y + height, width, -height)
+
+fun Rectangle.normalize() =
+  this.normalizeWidth().normalizeHeight()
 
 data class Rectangle(
   val x: Int,

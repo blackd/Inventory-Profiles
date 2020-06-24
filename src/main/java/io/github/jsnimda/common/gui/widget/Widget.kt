@@ -6,6 +6,7 @@ import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.rDepthMask
 
 data class LocationChangedEvent(val oldValue: Point, val newValue: Point)
 data class SizeChangedEvent(val oldValue: Size, val newValue: Size)
@@ -21,12 +22,9 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
   override var anchor = AnchorStyles.default
 
   override var visible = true
-  override var overflow = Overflow.UNSET
+  final override var overflow = Overflow.UNSET
   override var isDragging = false
-  var zIndex = 0
-
-  override fun childrenZIndexed() =
-    children.sortedBy { it.zIndex }
+  override var zIndex = 0
 
   //region position
   override var location by detectable(Point(0, 0)) { oldValue, newValue ->
@@ -101,7 +99,15 @@ private interface IWidget<T : IWidget<T>> :
   IWidgetHierarchical<T>, IWidgetPositioning, IWidgetEventTarget<T>, IWidgetRenderer {
   override var parent: T?
   override val children: List<T>
-  override fun childrenZIndexed(): List<T>
+  override var absoluteBounds: Rectangle
+    get() = super.absoluteBounds
+    set(value) {
+      super.absoluteBounds = value
+    }
+
+  val zIndex: Int
+  override fun childrenZIndexed() =
+    children.sortedBy { it.zIndex }
 }
 
 private interface IWidgetHierarchical<T : IWidgetHierarchical<T>> {
@@ -302,11 +308,20 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
 
 private interface IWidgetRenderer {
   val visible: Boolean
+  val overflow: Overflow
+  val absoluteBounds: Rectangle
   fun childrenZIndexed(): List<IWidgetRenderer>
   fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    childrenZIndexed().forEach {
-      if (it.visible) it.render(mouseX, mouseY, partialTicks)
+    if (overflow == Overflow.HIDDEN) { // notice that mask only apply to children (self render unaffected)
+      rDepthMask(absoluteBounds) {
+        renderChildren(mouseX, mouseY, partialTicks)
+      }
+    } else {
+      renderChildren(mouseX, mouseY, partialTicks)
     }
+  }
+  private fun renderChildren(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    childrenZIndexed().forEach { if (it.visible) it.render(mouseX, mouseY, partialTicks) }
   }
 }
 

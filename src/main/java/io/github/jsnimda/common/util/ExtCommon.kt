@@ -1,12 +1,9 @@
 package io.github.jsnimda.common.util
 
-infix fun Int.mod(other: Int) = Math.floorMod(this, other)
-infix fun Long.mod(other: Long) = Math.floorMod(this, other)
-
 fun <T : Enum<T>> T.previous(amount: Int = 1) = next(-amount)
 fun <T : Enum<T>> T.next(amount: Int = 1): T {
   val values = declaringClass.enumConstants
-  return values[(ordinal + amount) % values.size]
+  return values[(ordinal + amount) mod values.size]
 }
 
 // ============

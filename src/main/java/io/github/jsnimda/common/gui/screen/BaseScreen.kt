@@ -8,8 +8,8 @@ import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.common.vanilla.alias.Text
-import io.github.jsnimda.common.vanilla.render.flattenDepth
-import io.github.jsnimda.common.vanilla.render.enableBlend
+import io.github.jsnimda.common.vanilla.render.rClearDepth
+import io.github.jsnimda.common.vanilla.render.rStandardGlState
 
 abstract class BaseScreen(text: Text) : Screen(text) {
   constructor() : this(LiteralText(""))
@@ -29,8 +29,8 @@ abstract class BaseScreen(text: Text) : Screen(text) {
   }
 
   open fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    flattenDepth()
-    enableBlend()
+    rStandardGlState()
+    rClearDepth()
   }
 
   //region Override vanilla methods

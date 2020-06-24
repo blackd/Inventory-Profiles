@@ -6,7 +6,8 @@ import io.github.jsnimda.common.vanilla.Vanilla
 
 fun bindTexture(identifier: Identifier) {
   Vanilla.textureManager().bindTexture(identifier)
-  enableBlend()
+//  rEnableBlend()
+  rStandardGlState()
 }
 
 // for 256 x 256 texture

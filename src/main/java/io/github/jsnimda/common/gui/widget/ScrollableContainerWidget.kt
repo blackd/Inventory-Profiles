@@ -121,14 +121,14 @@ class ScrollableContainerWidget : Widget() {
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }
 
-    // unknown reason overflow content is not hidden with old code, add this to fix it // fixme find out find and remove this
-    disableAlphaTest()
-    fillColor(VanillaRender.screenBounds, 0)
-    enableAlphaTest()
+//    // unknown reason overflow content is not hidden with old code, add this to fix it // fixme find out find and remove this
+//    disableAlphaTest()
+//    fillColor(VanillaRender.screenBounds, 0)
+//    enableAlphaTest()
     // render content
-    createDepthMask(viewport.absoluteBounds)
+    rCreateDepthMask(viewport.absoluteBounds)
     super.render(mouseX, mouseY, partialTicks)
-    removeDepthMask()
+    rRemoveDepthMask()
   }
 
   // scrolling logic / ui events

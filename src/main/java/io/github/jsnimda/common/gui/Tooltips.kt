@@ -13,8 +13,9 @@ object Tooltips { // TODO clean up code
     private fun renderTooltip(firstLineGap: Boolean) { // ref: Screen.renderTooltip
       if (list.isEmpty()) return
 //      disableRescaleNormal()
-      disableAll()
-      enableAlphaTest()
+//      disableAll()
+//      enableAlphaTest()
+      rStandardGlState()
       val maxStringWidth = list.map { measureText(it) }.max() ?: return
       val p = list.size * 10 - 2
       val textX = run {
