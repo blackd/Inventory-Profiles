@@ -69,7 +69,7 @@ class FlowLayout(val owner: Widget, val flowDirection: FlowDirection = LEFT_TO_R
     offset += dimension
     child.anchor = anchor
     child.bounds = Rectangle(x, y, width, height)
-    owner.widgets.add(child)
+    owner.addChild(child)
   }
 
   fun addSpace(dimension: Int) {

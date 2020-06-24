@@ -21,7 +21,7 @@ open class AnchoredListWidget : Widget() {
   var anchorHeader = AnchorHeader()
   val container = ScrollableContainerWidget().apply {
     anchor = AnchorStyles.all
-    this@AnchoredListWidget.widgets.add(this)
+    this@AnchoredListWidget.addChild(this)
     top = anchorHeader.height
     right = 0
     bottom = 0
@@ -47,14 +47,14 @@ open class AnchoredListWidget : Widget() {
 
     init {
       anchor = AnchorStyles.noBottom
-      this@AnchoredListWidget.widgets.add(this)
+      this@AnchoredListWidget.addChild(this)
       height = rowHeight
       right = 0
       zIndex = 1
       sizeChanged += {
         // re calc
         if (width != anchorsManager.width) {
-          widgets.clear()
+          clearChildren()
           anchorsManager.let { old ->
             anchorsManager = AnchorsManager().also { new ->
               // update anchors rowIndexes
@@ -108,7 +108,7 @@ open class AnchoredListWidget : Widget() {
         textLeft += textWidth + SEPARATOR_WIDTH
         Anchor(displayText, toScrollY, textRowIndex).apply {
           anchors.add(this)
-          this@AnchorHeader.widgets.add(this.textButtonWidget)
+          this@AnchorHeader.addChild(this.textButtonWidget)
         }
         updateTexts()
       }
@@ -199,7 +199,7 @@ open class AnchoredListWidget : Widget() {
       }
 
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-      expanded = isMouseOver(mouseX, mouseY) && anchorsManager.totalTextRow > 1
+      expanded = contains(mouseX, mouseY) && anchorsManager.totalTextRow > 1
       val (pt1, pt2) = absoluteBounds.asPoints()
       val (x1, y1) = pt1
       val (x2, y2) = pt2

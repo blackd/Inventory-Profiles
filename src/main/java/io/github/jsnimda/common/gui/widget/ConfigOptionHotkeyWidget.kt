@@ -48,7 +48,7 @@ class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWid
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     setKeyButton.text = keybindDisplayText
     super.render(mouseX, mouseY, partialTicks)
-    if (iconButton.isMouseOver(mouseX, mouseY)) { // show Advanced Keybind Settings
+    if (iconButton.contains(mouseX, mouseY)) { // show Advanced Keybind Settings
       Tooltips.addTooltip(keybindSettingsTooltipText, mouseX, mouseY)
     }
   }

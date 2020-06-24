@@ -39,7 +39,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
       val baseTop = 2 + 20 + index * 20
       configOption.toWidget().apply {
         anchor = AnchorStyles.none
-        dialogWidget.widgets.add(this)
+        dialogWidget.addChild(this)
         width = 150
         right = 10
         top = baseTop
@@ -47,12 +47,12 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
       object : TextButtonWidget(configOption.displayName) {
         override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
           super.render(mouseX, mouseY, partialTicks)
-          if (showTooltips && isMouseOver(mouseX, mouseY)) {
+          if (showTooltips && contains(mouseX, mouseY)) {
             Tooltips.addTooltip(configOption.description, mouseX, mouseY, VanillaRender.screenWidth * 2 / 3)
           }
         }
       }.apply {
-        dialogWidget.widgets.add(this)
+        dialogWidget.addChild(this)
         left = 10
         top = baseTop + 6
         zIndex = 1

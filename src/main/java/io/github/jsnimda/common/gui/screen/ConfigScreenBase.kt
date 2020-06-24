@@ -19,7 +19,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
       field?.parent = null
       field = value?.apply {
         anchor = AnchorStyles.topRight
-        this@ConfigScreenBase.widgets.add(this)
+        this@ConfigScreenBase.addWidget(this)
         size = Size(150, 20)
         top = 5
         right = 10 // do set right after add
@@ -34,7 +34,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
   val navigationButtonsContainer = Widget().apply {
     anchor = AnchorStyles.noRight
-    this@ConfigScreenBase.widgets.add(this)
+    this@ConfigScreenBase.addWidget(this)
     top = 30
     left = 10
     bottom = 0
@@ -47,7 +47,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
       field?.parent = null
       field = value?.apply {
         anchor = AnchorStyles.all
-        this@ConfigScreenBase.widgets.add(this)
+        this@ConfigScreenBase.addWidget(this)
         top = 30
         left = 10 + navigationButtonsContainer.width + 5
         right = 10
@@ -60,7 +60,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
   var selectedIndex = -1
     set(value) {
-      if (value < 0 || value >= navigationButtonsContainer.widgets.size) {
+      if (value < 0 || value >= navigationButtonsContainer.childCount) {
         field = -1
         updateButtonsActive()
         selectedIndexChanged()
@@ -75,7 +75,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
   open fun selectedIndexChanged() {}
 
   private fun updateButtonsActive() {
-    navigationButtonsContainer.widgets.forEachIndexed { index, child ->
+    navigationButtonsContainer.children.forEachIndexed { index, child ->
       child.active = selectedIndex != index
     }
   }
@@ -87,7 +87,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
   }
 
   fun addNavigationButton(buttonText: String, action: () -> Unit) {
-    val id = navigationButtonsContainer.widgets.size
+    val id = navigationButtonsContainer.childCount
     navigationButtonsContainer.apply {
       width = max(width, measureText(buttonText) + 20)
     }

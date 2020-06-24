@@ -6,8 +6,7 @@ package io.github.jsnimda.common.gui
 
 data class Point(val x: Int, val y: Int) {
   operator fun unaryPlus() = this
-  operator fun unaryMinus() =
-    Point(-x, -y)
+  operator fun unaryMinus() = Point(-x, -y)
 
   operator fun minus(size: Size) = this - size.toPoint()
   operator fun minus(point: Point) = this + -point
@@ -22,7 +21,14 @@ fun Point.toSize() = Size(x, y)
 // Size
 // ============
 
-data class Size(val width: Int, val height: Int)
+data class Size(val width: Int, val height: Int) {
+  operator fun unaryPlus() = this
+  operator fun unaryMinus() = Size(-width, -height)
+
+  operator fun minus(size: Size) = this + -size
+  operator fun plus(size: Size) =
+    Size(width + size.width, height + size.height)
+}
 
 fun Size.toPoint() = Point(width, height)
 

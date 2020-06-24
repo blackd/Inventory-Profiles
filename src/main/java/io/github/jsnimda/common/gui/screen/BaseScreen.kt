@@ -22,13 +22,10 @@ abstract class BaseScreen(text: Text) : Screen(text) {
   open val screenInfo
     get() = ScreenInfo.default
 
-  open val rootWidget by lazy { RootWidget(this) }
-
-  val widgets
-    get() = rootWidget.widgets
+  open val rootWidget = RootWidget(this)
 
   fun addWidget(widget: Widget) {
-    rootWidget.widgets.add(widget)
+    rootWidget.addChild(widget)
   }
 
   open fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {

@@ -37,7 +37,7 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
 
     val optionWidget: ConfigOptionBaseWidget<*> = configOption.toWidget().apply {
       anchor = AnchorStyles.all
-      this@ConfigOptionEntry.widgets.add(this)
+      this@ConfigOptionEntry.addChild(this)
       top = 0
       left = this@ConfigOptionEntry.width / 2
       right = 0
@@ -46,7 +46,7 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
 
     val displayNameTextWidget = TextButtonWidget(displayName).apply {
       clickThrough = true
-      this@ConfigOptionEntry.widgets.add(this)
+      this@ConfigOptionEntry.addChild(this)
       top = textY
       left = 2
       zIndex = 1
@@ -55,7 +55,7 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       if (outOfContainer) return
       super.render(mouseX, mouseY, partialTicks)
-      if (displayNameTextWidget.isMouseOver(mouseX, mouseY) && !anchorHeader.isMouseOver(mouseX, mouseY)) {
+      if (displayNameTextWidget.contains(mouseX, mouseY) && !anchorHeader.contains(mouseX, mouseY)) {
         Tooltips.addTooltip(description, mouseX, mouseY, VanillaRender.screenWidth * 2 / 3)
       }
     }

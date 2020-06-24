@@ -22,7 +22,7 @@ class ScrollableContainerWidget : Widget() {
   val viewport = Widget().apply {
     overflow = HIDDEN
     anchor = AnchorStyles.all
-    this@ScrollableContainerWidget.widgets.add(this)
+    this@ScrollableContainerWidget.addChild(this)
     top = padding
     left = padding
     bottom = padding
@@ -39,7 +39,7 @@ class ScrollableContainerWidget : Widget() {
     }
   }.apply {
     anchor = AnchorStyles.noBottom
-    viewport.widgets.add(this)
+    viewport.addChild(this)
     top = 0
     left = 0
     right = 0

@@ -35,7 +35,7 @@ open class ButtonWidget private constructor(private val clickEvent: (button: Int
   }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    renderButton(isMouseOver(mouseX, mouseY))
+    renderButton(contains(mouseX, mouseY))
     super.render(mouseX, mouseY, partialTicks)
   }
 
