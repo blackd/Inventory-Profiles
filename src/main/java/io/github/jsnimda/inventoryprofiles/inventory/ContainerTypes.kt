@@ -4,34 +4,35 @@ import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
 
 private val nonStorage = setOf(TEMP_SLOTS)
+
 object ContainerTypes {
   private val innerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
 
   init {
     register(
-      PlayerContainer::class.java           to setOf(PLAYER_INVENTORY, PLAYER, CRAFTING),
-      CreativeContainer::class.java         to setOf(PLAYER_INVENTORY, CREATIVE),
+      PlayerContainer::class.java           /**/ to setOf(PLAYER_INVENTORY, PLAYER, CRAFTING),
+      CreativeContainer::class.java         /**/ to setOf(PLAYER_INVENTORY, CREATIVE),
 
-      EnchantingTableContainer::class.java  to nonStorage,
-      AnvilContainer::class.java            to nonStorage,
-      BeaconContainer::class.java           to nonStorage,
-      CartographyTableContainer::class.java to nonStorage,
-      GrindstoneContainer::class.java       to nonStorage,
-      LecternContainer::class.java          to nonStorage,
-      LoomContainer::class.java             to nonStorage,
-      StonecutterContainer::class.java      to nonStorage,
+      EnchantingTableContainer::class.java  /**/ to nonStorage,
+      AnvilContainer::class.java            /**/ to nonStorage,
+      BeaconContainer::class.java           /**/ to nonStorage,
+      CartographyTableContainer::class.java /**/ to nonStorage,
+      GrindstoneContainer::class.java       /**/ to nonStorage,
+      LecternContainer::class.java          /**/ to nonStorage,
+      LoomContainer::class.java             /**/ to nonStorage,
+      StonecutterContainer::class.java      /**/ to nonStorage,
 
-      MerchantContainer::class.java         to setOf(TRADER),
-      CraftingTableContainer::class.java    to setOf(CRAFTING),
+      MerchantContainer::class.java         /**/ to setOf(TRADER),
+      CraftingTableContainer::class.java    /**/ to setOf(CRAFTING),
 
-      HopperContainer::class.java           to setOf(NO_SORTING_STORAGE),
-      BrewingStandContainer::class.java     to setOf(NO_SORTING_STORAGE),
-      AbstractFurnaceContainer::class.java  to setOf(NO_SORTING_STORAGE),
+      HopperContainer::class.java           /**/ to setOf(NO_SORTING_STORAGE),
+      BrewingStandContainer::class.java     /**/ to setOf(NO_SORTING_STORAGE),
+      AbstractFurnaceContainer::class.java  /**/ to setOf(NO_SORTING_STORAGE),
 
-      GenericContainer::class.java          to setOf(ANY_ITEM_STORAGE, RECTANGULAR, WIDTH_9),
-      ShulkerBoxContainer::class.java       to setOf(ANY_ITEM_STORAGE, RECTANGULAR, WIDTH_9),
-      HorseContainer::class.java            to setOf(ANY_ITEM_STORAGE, RECTANGULAR, HEIGHT_3, HORSE_STORAGE),
-      Generic3x3Container::class.java       to setOf(ANY_ITEM_STORAGE, RECTANGULAR, HEIGHT_3)
+      GenericContainer::class.java          /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, WIDTH_9),
+      ShulkerBoxContainer::class.java       /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, WIDTH_9),
+      HorseContainer::class.java            /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, HEIGHT_3, HORSE_STORAGE),
+      Generic3x3Container::class.java       /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, HEIGHT_3)
 
     )
   }

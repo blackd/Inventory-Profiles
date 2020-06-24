@@ -2,7 +2,6 @@ package io.github.jsnimda.inventoryprofiles.item.rule.natives
 
 import io.github.jsnimda.common.util.LogicalStringComparator
 import io.github.jsnimda.common.vanilla.VanillaUtils
-import io.github.jsnimda.common.vanilla.alias.CompoundTag
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.BaseRule
@@ -104,10 +103,6 @@ class NbtRule : NativeRule() {
   }
 }
 
-class NbtPathRule : NativeRule() {
+class NbtPathRule : NativeRule()
 
-}
-
-class PotionEffectRule : NativeRule() {
-
-}
+class PotionEffectRule : NativeRule()

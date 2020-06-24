@@ -1,13 +1,13 @@
 package io.github.jsnimda.common.gui.widgets
 
+import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.SliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget
-import io.github.jsnimda.common.vanilla.Vanilla
 import net.minecraft.client.font.TextRenderer
 
 open class VanillaWidget<T : AbstractButtonWidget>(
-    val vanilla: T
+  val vanilla: T
 ) : Widget() {
   init {
     sizeChanged += {
@@ -71,8 +71,8 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
 }
 
 class SliderWidget(
-    val minValue: Double = 0.0,
-    val maxValue: Double = 1.0
+  val minValue: Double = 0.0,
+  val maxValue: Double = 1.0
 ) : VanillaWidget<SliderWidget>(CustomVanillaSliderWidget(minValue, maxValue)) {
 
   private val silder
@@ -91,13 +91,15 @@ class SliderWidget(
     }
 }
 
-private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) : TextFieldWidget(textRenderer, i, j, k, l, string) {
+private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) :
+  TextFieldWidget(textRenderer, i, j, k, l, string) {
   public override fun setFocused(bl: Boolean) {
     super.setFocused(bl)
   }
 }
 
-class TextFieldWidget(height: Int) : VanillaWidget<TextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
+class TextFieldWidget(height: Int) :
+  VanillaWidget<TextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
 
   var textPredicate: (string: String) -> Boolean = { true }
     set(value) {
@@ -132,7 +134,7 @@ class TextFieldWidget(height: Int) : VanillaWidget<TextFieldWidget>(CustomTextFi
   }
 
   fun editing() =
-      vanilla.method_20315()
+    vanilla.method_20315()
 
   init {
     textPredicate = textPredicate

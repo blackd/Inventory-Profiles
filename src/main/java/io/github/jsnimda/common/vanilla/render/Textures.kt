@@ -1,8 +1,8 @@
 package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.vanilla.DrawableHelper
-import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.Identifier
 
 fun bindTexture(identifier: Identifier) {
   Vanilla.textureManager().bindTexture(identifier)

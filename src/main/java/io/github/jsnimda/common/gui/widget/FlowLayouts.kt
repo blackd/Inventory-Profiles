@@ -34,10 +34,10 @@ class BiDirectionalFlowLayout(val owner: Widget, val flowDirection: BiDirectiona
 
 class FlowLayout(val owner: Widget, val flowDirection: FlowDirection = LEFT_TO_RIGHT) {
   enum class FlowDirection(val anchor: AnchorStyles) {
-    LEFT_TO_RIGHT(AnchorStyles.noRight),
-    TOP_DOWN     (AnchorStyles.noBottom),
-    RIGHT_TO_LEFT(AnchorStyles.noLeft),
-    BOTTOM_UP    (AnchorStyles.noTop);
+    LEFT_TO_RIGHT/**/(AnchorStyles.noRight),
+    TOP_DOWN     /**/(AnchorStyles.noBottom),
+    RIGHT_TO_LEFT/**/(AnchorStyles.noLeft),
+    BOTTOM_UP    /**/(AnchorStyles.noTop);
   }
 
   var offset = 0
@@ -48,7 +48,12 @@ class FlowLayout(val owner: Widget, val flowDirection: FlowDirection = LEFT_TO_R
       TOP_DOWN, BOTTOM_UP -> owner.width
     }
 
-  fun add(child: Widget, dimension: Int, anchorBothSides: Boolean = true, orthogonalDimension: Int = defaultOrthogonalDimension) {
+  fun add(
+    child: Widget,
+    dimension: Int,
+    anchorBothSides: Boolean = true,
+    orthogonalDimension: Int = defaultOrthogonalDimension
+  ) {
     var (x, y, width, height) = Rectangle(0, 0, 0, 0)
     var anchor = flowDirection.anchor
     when (flowDirection) {

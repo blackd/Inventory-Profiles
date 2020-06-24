@@ -3,7 +3,10 @@ package io.github.jsnimda.common.gui.widgets
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
-import io.github.jsnimda.common.vanilla.render.*
+import io.github.jsnimda.common.vanilla.render.drawOutline
+import io.github.jsnimda.common.vanilla.render.fillColor
+import io.github.jsnimda.common.vanilla.render.rCreateDepthMask
+import io.github.jsnimda.common.vanilla.render.rRemoveDepthMask
 import kotlin.math.roundToInt
 
 // private static final int COLOR_WHITE              = 0xFFFFFFFF;

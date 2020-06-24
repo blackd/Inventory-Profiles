@@ -1,9 +1,9 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
 import io.github.jsnimda.common.gui.debug.BaseDebugScreen
-import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaState
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.item.*
 

@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.VanillaInGame
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.common.vanilla.alias.Slot

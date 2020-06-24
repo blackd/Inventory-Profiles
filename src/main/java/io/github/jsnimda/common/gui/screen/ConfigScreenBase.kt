@@ -4,10 +4,13 @@ import io.github.jsnimda.common.config.options.ConfigHotkey
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.FlowLayout
-import io.github.jsnimda.common.gui.widgets.*
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
-import io.github.jsnimda.common.vanilla.alias.Text
+import io.github.jsnimda.common.gui.widgets.ButtonWidget
+import io.github.jsnimda.common.gui.widgets.ConfigOptionHotkeyWidget
+import io.github.jsnimda.common.gui.widgets.Widget
+import io.github.jsnimda.common.gui.widgets.toWidget
 import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.drawText
 import io.github.jsnimda.common.vanilla.render.measureText
 import kotlin.math.max

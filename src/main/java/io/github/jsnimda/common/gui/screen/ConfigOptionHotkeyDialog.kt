@@ -8,9 +8,9 @@ import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widgets.TextButtonWidget
 import io.github.jsnimda.common.gui.widgets.toWidget
 import io.github.jsnimda.common.input.ConfigKeybindSettings
+import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.render.measureText
 import kotlin.math.max
 

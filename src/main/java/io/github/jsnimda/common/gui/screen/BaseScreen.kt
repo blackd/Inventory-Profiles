@@ -3,7 +3,7 @@ package io.github.jsnimda.common.gui.screen
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Screen

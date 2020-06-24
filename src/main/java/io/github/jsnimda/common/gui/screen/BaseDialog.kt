@@ -1,10 +1,10 @@
 package io.github.jsnimda.common.gui.screen
 
 import io.github.jsnimda.common.gui.widget.AnchorStyles
-import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.gui.widget.moveToCenter
-import io.github.jsnimda.common.vanilla.alias.Text
+import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.drawOutline
 import io.github.jsnimda.common.vanilla.render.fillColor
 

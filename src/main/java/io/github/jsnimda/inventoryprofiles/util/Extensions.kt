@@ -1,7 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.util
 
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.vanilla.*
+import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.VanillaInGame
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.CreativeInventoryScreen
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
