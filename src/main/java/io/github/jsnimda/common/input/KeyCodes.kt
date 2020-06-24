@@ -2,9 +2,10 @@ package io.github.jsnimda.common.input
 
 import org.lwjgl.glfw.GLFW
 
-@Suppress("MemberVisibilityCanBePrivate", "Reformat")
+@Suppress("MemberVisibilityCanBePrivate")
 object KeyCodes {
   //region const val KEY_s
+  //@formatter:off
   const val KEY_UNKNOWN       = GLFW.GLFW_KEY_UNKNOWN
   const val KEY_SPACE         = GLFW.GLFW_KEY_SPACE
   const val KEY_APOSTROPHE    = GLFW.GLFW_KEY_APOSTROPHE
@@ -127,6 +128,7 @@ object KeyCodes {
   const val KEY_RIGHT_SUPER   = GLFW.GLFW_KEY_RIGHT_SUPER
   const val KEY_MENU          = GLFW.GLFW_KEY_MENU
   const val KEY_LAST          = GLFW.GLFW_KEY_LAST
+  //@formatter:on
   //endregion
   //region const val MOUSE_s
   const val MOUSE_BUTTON_1 = GLFW.GLFW_MOUSE_BUTTON_1 - 100
@@ -169,6 +171,7 @@ object KeyCodes {
   }
 
   init {
+    //@formatter:off
     addEntry("UNKNOWN"      , null            , KEY_UNKNOWN)
     addEntry("SPACE"        , "Space"         , KEY_SPACE)
     addEntry("APOSTROPHE"   , "'"             , KEY_APOSTROPHE)
@@ -299,5 +302,6 @@ object KeyCodes {
     addEntry("BUTTON_6"     , null            , MOUSE_BUTTON_6)
     addEntry("BUTTON_7"     , null            , MOUSE_BUTTON_7)
     addEntry("BUTTON_8"     , null            , MOUSE_BUTTON_8)
+    //@formatter:on
   }
 }

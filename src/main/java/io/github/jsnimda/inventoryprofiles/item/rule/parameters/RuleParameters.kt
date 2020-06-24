@@ -1,5 +1,3 @@
-@file:Suppress("Reformat")
-
 package io.github.jsnimda.inventoryprofiles.item.rule.parameters
 
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
@@ -8,26 +6,26 @@ import java.text.Collator
 // for .* imports
 
 val PARAMETERS_MAP = mutableMapOf<String, Parameter<*>>()
-val string_compare           by enum<StringCompare>()
-val locale                   by any_string
-val strength                 by enum<Strength>()
-val logical                  by type_boolean
-val match                    by enum<Match>()
-val has_custom_name          by parameterOf(match.argumentType)
-val number_order             by enum<NumberOrder>()
-val sub_comparator_match     by any_comparator
-val sub_comparator_not_match by any_comparator
-val nbt                      by any_nbt
-val allow_extra              by type_boolean
-val require_nbt              by enum<RequireNbt>()
-val tag_name                 by any_tag_name
-val item_name                by any_item_name
-val nbt_path                 by any_nbt_path
-val has_nbt_path             by parameterOf(match.argumentType)
-val reverse                  by type_boolean
-val sub_comparator           by any_comparator
-val has_potion_name          by parameterOf(match.argumentType)
-val has_potion_effects       by parameterOf(match.argumentType)
+val string_compare           /**/ by enum<StringCompare>()
+val locale                   /**/ by any_string
+val strength                 /**/ by enum<Strength>()
+val logical                  /**/ by type_boolean
+val match                    /**/ by enum<Match>()
+val has_custom_name          /**/ by parameterOf(match.argumentType)
+val number_order             /**/ by enum<NumberOrder>()
+val sub_comparator_match     /**/ by any_comparator
+val sub_comparator_not_match /**/ by any_comparator
+val nbt                      /**/ by any_nbt
+val allow_extra              /**/ by type_boolean
+val require_nbt              /**/ by enum<RequireNbt>()
+val tag_name                 /**/ by any_tag_name
+val item_name                /**/ by any_item_name
+val nbt_path                 /**/ by any_nbt_path
+val has_nbt_path             /**/ by parameterOf(match.argumentType)
+val reverse                  /**/ by type_boolean
+val sub_comparator           /**/ by any_comparator
+val has_potion_name          /**/ by parameterOf(match.argumentType)
+val has_potion_effects       /**/ by parameterOf(match.argumentType)
 
 enum class StringCompare(val comparator: Comparator<in String>?) {
   UNICODE(naturalOrder()),

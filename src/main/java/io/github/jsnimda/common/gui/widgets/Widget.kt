@@ -322,6 +322,7 @@ private interface IWidgetRenderer {
       renderChildren(mouseX, mouseY, partialTicks)
     }
   }
+
   private fun renderChildren(mouseX: Int, mouseY: Int, partialTicks: Float) {
     childrenZIndexed().forEach { if (it.visible) it.render(mouseX, mouseY, partialTicks) }
   }

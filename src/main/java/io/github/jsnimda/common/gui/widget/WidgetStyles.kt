@@ -6,8 +6,9 @@ data class AnchorStyles(
   val left: Boolean,
   val right: Boolean
 ) {
-  @Suppress("Reformat", "BooleanLiteralArgument", "MemberVisibilityCanBePrivate")
+  @Suppress("BooleanLiteralArgument", "MemberVisibilityCanBePrivate")
   companion object {
+    //@formatter:off
     val none        = AnchorStyles(false, false, false, false)
     val all         = AnchorStyles(true, true, true, true)
     val noTop       = all.copy(top    = false)
@@ -24,6 +25,7 @@ data class AnchorStyles(
     val bottomRight = none.copy(bottom = true, right  = true)
     val leftRight   = none.copy(left   = true, right  = true)
     val topBottom   = none.copy(top    = true, bottom = true)
+    //@formatter:on
 
     val default = topLeft
   }
