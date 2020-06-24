@@ -3,6 +3,7 @@ package io.github.jsnimda.inventoryprofiles.inventory
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaInGame
+import io.github.jsnimda.common.vanilla.alias.BeaconContainer
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
@@ -15,7 +16,6 @@ import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.util.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.util.`(slots)`
 import io.github.jsnimda.inventoryprofiles.util.focusedSlot
-import net.minecraft.container.BeaconContainer
 
 object GeneralInventoryActions {
 

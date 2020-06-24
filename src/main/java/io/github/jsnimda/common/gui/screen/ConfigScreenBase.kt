@@ -9,10 +9,10 @@ import io.github.jsnimda.common.gui.widgets.ButtonWidget
 import io.github.jsnimda.common.gui.widgets.ConfigOptionHotkeyWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.gui.widgets.toWidget
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.rDrawText
 import io.github.jsnimda.common.vanilla.render.rMeasureText
+import io.github.jsnimda.common.vanilla.render.rRenderVanillaScreenBackground
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
@@ -87,7 +87,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
   }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    VanillaRender.renderVanillaScreenBackground()
+    rRenderVanillaScreenBackground()
     rDrawText(this.titleString, 20, 10, COLOR_WHITE)
     super.render(mouseX, mouseY, partialTicks)
   }

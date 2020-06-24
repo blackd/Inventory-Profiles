@@ -8,10 +8,10 @@ import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widgets.TextButtonWidget
 import io.github.jsnimda.common.gui.widgets.toWidget
 import io.github.jsnimda.common.input.ConfigKeybindSettings
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
 import io.github.jsnimda.common.vanilla.render.rMeasureText
+import io.github.jsnimda.common.vanilla.render.rScreenWidth
 import kotlin.math.max
 
 private const val COLOR_WHITE = -0x1
@@ -48,7 +48,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
         override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
           super.render(mouseX, mouseY, partialTicks)
           if (showTooltips && contains(mouseX, mouseY)) {
-            Tooltips.addTooltip(configOption.description, mouseX, mouseY, VanillaRender.screenWidth * 2 / 3)
+            Tooltips.addTooltip(configOption.description, mouseX, mouseY, rScreenWidth * 2 / 3)
           }
         }
       }.apply {

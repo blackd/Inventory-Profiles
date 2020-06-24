@@ -3,7 +3,6 @@ package io.github.jsnimda.common.vanilla.render
 import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.intersect
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import net.minecraft.client.render.DiffuseLighting
@@ -29,7 +28,7 @@ fun rClearDepth() {
   gEnableDepthTest()
   GlStateManager.depthMask(true)
   GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false)
-  rOverwriteDepth(VanillaRender.screenBounds)
+  rOverwriteDepth(rScreenBounds)
 }
 
 inline fun rDepthMask(bounds: Rectangle, block: () -> Unit) {

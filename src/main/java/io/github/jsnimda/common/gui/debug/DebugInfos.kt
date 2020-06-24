@@ -2,13 +2,14 @@ package io.github.jsnimda.common.gui.debug
 
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.KeyCodes
-import io.github.jsnimda.common.vanilla.VanillaRender
+import io.github.jsnimda.common.vanilla.render.rScreenHeight
+import io.github.jsnimda.common.vanilla.render.rScreenWidth
 
 object DebugInfos {
   val width
-    get() = VanillaRender.screenWidth
+    get() = rScreenWidth
   val height
-    get() = VanillaRender.screenHeight
+    get() = rScreenHeight
   var mouseX = 0
   var mouseY = 0
   var keys = listOf<Int>()

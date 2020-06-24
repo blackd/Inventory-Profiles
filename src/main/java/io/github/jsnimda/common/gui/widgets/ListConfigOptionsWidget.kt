@@ -4,9 +4,9 @@ import io.github.jsnimda.common.config.CategorizedConfigOptions
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.widget.AnchorStyles
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.render.rDrawCenteredText
+import io.github.jsnimda.common.vanilla.render.rScreenWidth
 
 private const val COLOR_WHITE = -0x1
 private const val textY = 6
@@ -57,7 +57,7 @@ class ListConfigOptionsWidget(private val displayNamePrefix: String, private val
       if (outOfContainer) return
       super.render(mouseX, mouseY, partialTicks)
       if (displayNameTextWidget.contains(mouseX, mouseY) && !anchorHeader.contains(mouseX, mouseY)) {
-        Tooltips.addTooltip(description, mouseX, mouseY, VanillaRender.screenWidth * 2 / 3)
+        Tooltips.addTooltip(description, mouseX, mouseY, rScreenWidth * 2 / 3)
       }
     }
 

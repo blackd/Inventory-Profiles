@@ -1,7 +1,7 @@
 package io.github.jsnimda.common.vanilla.render
 
-import io.github.jsnimda.common.vanilla.DrawableHelper
 import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 import io.github.jsnimda.common.vanilla.alias.Identifier
 
 fun rBindTexture(identifier: Identifier) {

@@ -7,8 +7,10 @@ import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow
 import io.github.jsnimda.common.util.*
-import io.github.jsnimda.common.vanilla.VanillaRender
 import io.github.jsnimda.common.vanilla.render.rDepthMask
+import io.github.jsnimda.common.vanilla.render.rScreenHeight
+import io.github.jsnimda.common.vanilla.render.rScreenSize
+import io.github.jsnimda.common.vanilla.render.rScreenWidth
 
 data class LocationChangedEvent(val oldValue: Point, val newValue: Point)
 data class SizeChangedEvent(val oldValue: Size, val newValue: Size)
@@ -177,11 +179,11 @@ private interface IWidgetPositioning {
   // ============
 
   val containerWidth
-    get() = parent?.width ?: VanillaRender.screenWidth
+    get() = parent?.width ?: rScreenWidth
   val containerHeight
-    get() = parent?.height ?: VanillaRender.screenHeight
+    get() = parent?.height ?: rScreenHeight
   val containerSize
-    get() = parent?.size ?: VanillaRender.screenSize
+    get() = parent?.size ?: rScreenSize
   val containerScreenX
     get() = parent?.screenX ?: 0
   val containerScreenY

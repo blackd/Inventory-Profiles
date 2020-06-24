@@ -1,17 +1,7 @@
 package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.gui.Rectangle
-import io.github.jsnimda.common.vanilla.DrawableHelper
-import io.github.jsnimda.common.vanilla.VanillaRender
-
-val rScreenWidth
-  get() = VanillaRender.screenWidth
-val rScreenHeight
-  get() = VanillaRender.screenHeight
-val rScreenSize
-  get() = VanillaRender.screenSize
-val rScreenBounds
-  get() = VanillaRender.screenBounds
+import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 
 fun rFillGradient(x1: Int, y1: Int, x2: Int, y2: Int, color1: Int, color2: Int) {
   dummyDrawableHelper.fillGradient(x1, y1, x2, y2, color1, color2)
