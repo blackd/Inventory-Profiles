@@ -9,12 +9,12 @@ import io.github.jsnimda.common.vanilla.render.*
 class DepthTestScreen : BaseOverlay() {
   class Rect(var color: Int, val name: String) : Widget() {
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-      rDrawOutline(absoluteBounds.inflated(-2), color)
-      rDrawOutline(absoluteBounds.inflated(-1), color)
-      rDrawOutline(absoluteBounds.inflated(-0), color)
-      rDrawOutline(absoluteBounds.inflated(1), 0.opaque)
-      rDrawOutline(absoluteBounds.inflated(2), 0xff808080.toInt())
-      rDrawOutline(absoluteBounds.inflated(3), 0xff808080.toInt())
+      rDrawOutline(absoluteBounds.inflated(-2), color.alpha(0.5f))
+      rDrawOutline(absoluteBounds.inflated(-1), color.alpha(0.5f))
+      rDrawOutline(absoluteBounds.inflated(-0), color.alpha(0.5f))
+      rDrawOutline(absoluteBounds.inflated(1), 0.alpha(0.5f))
+      rDrawOutline(absoluteBounds.inflated(2), 0xff808080.toInt().alpha(0.5f))
+      rDrawOutline(absoluteBounds.inflated(3), 0xff808080.toInt().alpha(0.5f))
       super.render(mouseX, mouseY, partialTicks)
     }
   }

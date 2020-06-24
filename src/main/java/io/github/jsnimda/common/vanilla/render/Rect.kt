@@ -37,8 +37,8 @@ fun rDrawOutline(bounds: Rectangle, color: Int) { // same size with fill(...)
 private fun rInclusiveOutline(x1: Int, y1: Int, x2: Int, y2: Int, color: Int) {
   rDrawHorizontalLine(x1, x2, y1, color)
   rDrawHorizontalLine(x1, x2, y2, color)
-  rDrawVerticalLine(x1, y1, y2, color)
-  rDrawVerticalLine(x2, y1, y2, color)
+  rDrawVerticalLine(x1, y1 + 1, y2 - 1, color) // -2
+  rDrawVerticalLine(x2, y1 + 1, y2 - 1, color) // -2
 }
 
 private val dummyDrawableHelper = object : DrawableHelper() {

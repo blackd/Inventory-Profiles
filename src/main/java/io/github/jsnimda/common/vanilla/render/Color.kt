@@ -4,14 +4,7 @@ import io.github.jsnimda.common.util.land
 import io.github.jsnimda.common.util.lnot
 import io.github.jsnimda.common.util.lor
 
-const val COLOR_WHITE = 0xFFFFFFFF.toInt()
-const val COLOR_BLACK = 0xFF000000.toInt()
-
-
-const val COLOR_HUD_TEXT_BG = 0x90505050.toInt()
-const val COLOR_HUD_TEXT = 0xE0E0E0
-
-// as kotlin color regarded as long
+// as kotlin regards (some) color as long
 val Long.color
   get() = this.toInt()
 
@@ -41,15 +34,28 @@ fun Int.dropRed() = 0xff0000.lnot() land this
 fun Int.dropGreen() = 0xff00.lnot() land this
 fun Int.dropBlue() = 0xff.lnot() land this
 
-// usage: 0xAA aRgb 0xRRGGBB
-infix fun Int.argb(rgb: Int) = rgb.dropAlpha() lor this.asAlpha()
+fun Int.alpha(value: Int) = this.dropAlpha() lor value.asAlpha()
+fun Int.red(value: Int) = this.dropRed() lor value.asRed()
+fun Int.green(value: Int) = this.dropGreen() lor value.asGreen()
+fun Int.blue(value: Int) = this.dropBlue() lor value.asBlue()
 
-// usage 0xAA ar 0xRR g 0xGG b 0xBB
-infix fun Int.r(r: Int) = this.asAlpha() lor r.asRed()
-infix fun Int.g(g: Int) = this lor g.asGreen()
-infix fun Int.b(b: Int) = this lor b.asBlue()
+// usage: 0xAA rgb 0xRRGGBB
+infix fun Int.rgb(rgb: Int) = rgb.alpha(this)
+
+// usage 0xAA r 0xRR g 0xGG b 0xBB
+infix fun Int.r(r: Int) = 0.alpha(this).red(r)
+infix fun Int.g(g: Int) = this.green(g)
+infix fun Int.b(b: Int) = this.blue(b)
 
 fun color(r: Int, g: Int, b: Int) = 255.r(r).g(g).b(b)
 fun color(a: Int, r: Int, g: Int, b: Int) = a.r(r).g(g).b(b) // funny syntax a r r g g b b
-fun color(a: Int, rgb: Int) = a argb rgb
+fun color(a: Int, rgb: Int) = a.rgb(rgb)
 
+// ============
+// float
+// ============
+
+fun Int.alpha(value: Float) = this.alpha((value * 255 + 0.5).toInt())
+fun Int.red(value: Float) = this.red((value * 255 + 0.5).toInt())
+fun Int.green(value: Float) = this.green((value * 255 + 0.5).toInt())
+fun Int.blue(value: Float) = this.blue((value * 255 + 0.5).toInt())
