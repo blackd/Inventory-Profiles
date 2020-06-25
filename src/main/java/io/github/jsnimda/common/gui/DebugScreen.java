@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.input.KeyCodes;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 public class DebugScreen extends OverlayScreen {
@@ -60,18 +62,18 @@ public class DebugScreen extends OverlayScreen {
     return DebugInfos.getString();
   }
 
-  private void drawTexts() {
+  private void drawTexts(MatrixStack matrices) {
     List<String> strings = getStrings();
     int bgh = 9;
     int y1 = textPosition < 2 ? 1 : this.height - 1 - bgh * strings.size(); // is top
     for (String s : strings) {
-      int w = this.font.getWidth(s);
+      int w = this.textRenderer.getWidth(s);
       int bgw = w + 2;
       int x1 = textPosition % 3 == 0 ? 1 : this.width - bgw - 1; // is left
       int x2 = x1 + bgw;
       int y2 = y1 + bgh;
-      fill(x1, y1, x2, y2, COLOR_TEXT_BG);
-      this.font.draw(s, x1 + 1, y1 + 1, COLOR_TEXT);
+      fill(matrices, x1, y1, x2, y2, COLOR_TEXT_BG);
+      this.textRenderer.draw(matrices, s, x1 + 1, y1 + 1, COLOR_TEXT);
       y1 += bgh;
     }
   }
@@ -81,7 +83,7 @@ public class DebugScreen extends OverlayScreen {
     int bgh = 9;
     int y1 = textPosition < 2 ? 1 : this.height - 1 - bgh * strings.size(); // is top
     for (String s : strings) {
-      int w = this.font.getWidth(s);
+      int w = this.textRenderer.getWidth(s);
       int bgw = w + 2;
       int x1 = textPosition % 3 == 0 ? 1 : this.width - bgw - 1; // is left
       int x2 = x1 + bgw;
@@ -95,7 +97,7 @@ public class DebugScreen extends OverlayScreen {
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
     super.render(mouseX, mouseY, partialTicks);
     
     DebugInfos.mouseX = mouseX;
@@ -106,15 +108,15 @@ public class DebugScreen extends OverlayScreen {
     }
 
     // GuiLighting.disable();
-    GlStateManager.disableLighting();
+    RenderSystem.disableLighting();
     GlStateManager.disableDepthTest();
 
-    drawTexts();
+    drawTexts(matrices);
 
     if (toggleColor < 2) {
       int color = toggleColor == 0 ? COLOR_WHITE : COLOR_BLACK;
-      VHLine.v(mouseX, 1, this.height - 2, color);
-      VHLine.h(1, this.width - 2, mouseY, color);
+      VHLine.v(matrices, mouseX, 1, this.height - 2, color);
+      VHLine.h(matrices, 1, this.width - 2, mouseY, color);
     }
   }
 

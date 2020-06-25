@@ -5,6 +5,9 @@ import java.util.function.BiConsumer;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.MinecraftClient;
@@ -16,9 +19,17 @@ public class RightClickableButtonWidget extends AbstractButtonWidget {
 
   protected final BiConsumer<RightClickableButtonWidget, Integer> pressAction;
 
-  public RightClickableButtonWidget(int i, int j, int k, int l, String string, BiConsumer<RightClickableButtonWidget, Integer> pressAction) {
-    super(i, j, k, l, string);
+  public RightClickableButtonWidget(int x, int y, int width, int height, Text text, BiConsumer<RightClickableButtonWidget, Integer> pressAction) {
+    super(x, y, width, height, text);
     this.pressAction = pressAction;
+  }
+
+  /**
+   * @deprecated Use {@link #RightClickableButtonWidget(int, int, int, int, Text, BiConsumer)} instead.
+   */
+  @Deprecated
+  public RightClickableButtonWidget(int i, int j, int k, int l, String string, BiConsumer<RightClickableButtonWidget, Integer> pressAction) {
+    this(i, j, k, l, new LiteralText(string), pressAction);
   }
 
   @Override
@@ -53,7 +64,7 @@ public class RightClickableButtonWidget extends AbstractButtonWidget {
   }
 
   @Override
-  public void renderButton(int i, int j, float f) { // ref: AbstractButtonWidget
+  public void renderButton(MatrixStack matrices, int i, int j, float f) { // ref: AbstractButtonWidget
     MinecraftClient minecraftClient = MinecraftClient.getInstance();
     TextRenderer textRenderer = minecraftClient.textRenderer;
     minecraftClient.getTextureManager().bindTexture(WIDGETS_LOCATION);
@@ -62,11 +73,11 @@ public class RightClickableButtonWidget extends AbstractButtonWidget {
     RenderSystem.enableBlend();
     RenderSystem.defaultBlendFunc();
     RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-    this.blit(this.x, this.y, 0, 46 + k * 20, this.width / 2, this.height);
-    this.blit(this.x + this.width / 2, this.y, 200 - (this.width - this.width / 2), 46 + k * 20, this.width - this.width / 2, this.height); // fix odd number width
-    this.renderBg(minecraftClient, i, j);
+    this.drawTexture(matrices, this.x, this.y, 0, 46 + k * 20, this.width / 2, this.height);
+    this.drawTexture(matrices, this.x + this.width / 2, this.y, 200 - (this.width - this.width / 2), 46 + k * 20, this.width - this.width / 2, this.height); // fix odd number width
+    this.renderBg(matrices, minecraftClient, i, j);
     int l = this.active ? 16777215 : 10526880;
-    this.drawCenteredString(textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, l | MathHelper.ceil(this.alpha * 255.0F) << 24);
+    this.drawCenteredText(matrices, textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, l | MathHelper.ceil(this.alpha * 255.0F) << 24);
   }
   
 }

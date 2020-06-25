@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Drawable;
@@ -125,9 +127,9 @@ public class ScrollableContainerWidget extends DrawableHelper implements Drawabl
   private static final int COLOR_SCROLLBAR_HOVER_SHADOW   = 0xFFC0C0C0;
   private static final int COLOR_SCROLLBAR_HOVER          = 0xFFFFFFFF;
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
     if (renderBorder) {
-      VHLine.outline(x, y, x + width, y + height, borderColor);
+      VHLine.outline(matrices, x, y, x + width, y + height, borderColor);
     }
 
     // render scrollbar, ref: EntryListWidget.render
@@ -138,34 +140,34 @@ public class ScrollableContainerWidget extends DrawableHelper implements Drawabl
       int y2 = y1 + getViewportHeight();
       int sy1 = y1 + getScrollbarYOffset();
       int sy2 = sy1 + getScrollbarThumbHeight();
-      fill(x1, y1, x2, y2, COLOR_SCROLLBAR_BG);
+      fill(matrices, x1, y1, x2, y2, COLOR_SCROLLBAR_BG);
       boolean hover = VHLine.contains(x1, sy1, x2, sy2, mouseX, mouseY) || scrolling;
-      fill(x1, sy1, x2, sy2, hover ? COLOR_SCROLLBAR_HOVER_SHADOW : COLOR_SCROLLBAR_SHADOW);
-      fill(x1, sy1, x2 - 1, sy2 - 1, hover ? COLOR_SCROLLBAR_HOVER : COLOR_SCROLLBAR);
-      // fill(x1, sy1, x2, sy2, hover ? COLOR_SCROLLBAR_HOVER : COLOR_SCROLLBAR);
+      fill(matrices, x1, sy1, x2, sy2, hover ? COLOR_SCROLLBAR_HOVER_SHADOW : COLOR_SCROLLBAR_SHADOW);
+      fill(matrices, x1, sy1, x2 - 1, sy2 - 1, hover ? COLOR_SCROLLBAR_HOVER : COLOR_SCROLLBAR);
+      // fill(matrices, x1, sy1, x2, sy2, hover ? COLOR_SCROLLBAR_HOVER : COLOR_SCROLLBAR);
     }
 
     // render content
     if (contentRenderer.isPresent()) {
-      GlStateManager.pushMatrix();
-      GlStateManager.translatef(0, 0, -400.0F); // ref: AdvancementsScreen widget
+      matrices.push();
+      matrices.translate(0, 0, -400.0F); // ref: AdvancementsScreen widget
       GlStateManager.enableDepthTest();
       GlStateManager.depthFunc(GL11.GL_GEQUAL); // 518
 
       // draw mask
-      GlStateManager.disableAlphaTest();
+      RenderSystem.disableAlphaTest();
       int vx = getViewportX();
       int vy = getViewportY();
       int vw = getViewportWidth();
       int vh = getViewportHeight();
-      fill(vx, vy, vx + vw, vy + vh, 0);
-      GlStateManager.enableAlphaTest();
+      fill(matrices, vx, vy, vx + vw, vy + vh, 0);
+      RenderSystem.enableAlphaTest();
 
       // exit draw mask
       GlStateManager.depthFunc(GL11.GL_LEQUAL); // 515, return default
-      contentRenderer.get().render(mouseX, mouseY, partialTicks, vx, vy, vw, vh, scrollY);
+      contentRenderer.get().render(matrices, mouseX, mouseY, partialTicks, vx, vy, vw, vh, scrollY);
   
-      GlStateManager.popMatrix();
+      matrices.pop();
       GlStateManager.disableDepthTest();
     }
 
@@ -253,6 +255,6 @@ public class ScrollableContainerWidget extends DrawableHelper implements Drawabl
   }
 
   public interface IContentRenderer {
-    void render(int mouseX, int mouseY, float partialTicks, int viewportX, int viewportY, int viewportWidth, int viewportHeight, int scrollY);
+    void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, int viewportX, int viewportY, int viewportWidth, int viewportHeight, int scrollY);
   }
 }

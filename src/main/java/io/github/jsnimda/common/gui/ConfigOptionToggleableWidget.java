@@ -6,6 +6,8 @@ import java.util.function.Function;
 
 import io.github.jsnimda.common.config.IConfigOptionToggleable;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 
 public class ConfigOptionToggleableWidget<T extends IConfigOptionToggleable> extends ConfigOptionWidgetBase<T> {
 
@@ -19,15 +21,15 @@ public class ConfigOptionToggleableWidget<T extends IConfigOptionToggleable> ext
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    super.render(mouseX, mouseY, partialTicks);
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+    super.render(matrices, mouseX, mouseY, partialTicks);
     toggleButton.x = x;
     toggleButton.y = y;
     toggleButton.setWidth(availableWidth);
     if (displayText != null) {
-      toggleButton.setMessage(displayText.apply(configOption));
+      toggleButton.setMessage(new LiteralText(displayText.apply(configOption)));
     }
-    toggleButton.render(mouseX, mouseY, partialTicks);
+    toggleButton.render(matrices, mouseX, mouseY, partialTicks);
   }
 
   @Override

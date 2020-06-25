@@ -5,15 +5,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.StringRenderable;
 
 public class Tooltips {
 
@@ -36,21 +40,21 @@ public class Tooltips {
       this.mouseX = mouseX;
       this.mouseY = mouseY;
     }
-    public void render() {
-      renderTooltip(false);
+    public void render(MatrixStack matrices) {
+      renderTooltip(matrices, false);
       // MinecraftClient.getInstance().currentScreen.renderTooltip(strings, mouseX, mouseY);
     }
 
-    private void renderTooltip(boolean firstLineGap) { // ref: Screen.renderTooltip
+    private void renderTooltip(MatrixStack matrices, boolean firstLineGap) { // ref: Screen.renderTooltip
       List<String> list = strings;
       int width = MinecraftClient.getInstance().currentScreen.width;
       int height = MinecraftClient.getInstance().currentScreen.height;
       TextRenderer font = MinecraftClient.getInstance().textRenderer;
       ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
       if (!list.isEmpty()) {
-        GlStateManager.disableRescaleNormal();
+        RenderSystem.disableRescaleNormal();
         DiffuseLighting.disable();
-        GlStateManager.disableLighting();
+        RenderSystem.disableLighting();
         GlStateManager.disableDepthTest();
         int maxStringWidth = 0;
         Iterator<String> var5 = list.iterator();
@@ -84,24 +88,24 @@ public class Tooltips {
             textY = 6;
         }
 
-        this.setBlitOffset(300);
+        this.setZOffset(300);
         itemRenderer.zOffset = 300.0F;
         int COLOR_BG = 0xF0100010;
-        this.fillGradient(textX - 3, textY - 4, textX + maxStringWidth + 3, textY - 3, COLOR_BG, COLOR_BG);
-        this.fillGradient(textX - 3, textY + p + 3, textX + maxStringWidth + 3, textY + p + 4, COLOR_BG, COLOR_BG);
-        this.fillGradient(textX - 3, textY - 3, textX + maxStringWidth + 3, textY + p + 3, COLOR_BG, COLOR_BG);
-        this.fillGradient(textX - 4, textY - 3, textX - 3, textY + p + 3, COLOR_BG, COLOR_BG);
-        this.fillGradient(textX + maxStringWidth + 3, textY - 3, textX + maxStringWidth + 4, textY + p + 3, COLOR_BG, COLOR_BG);
+        this.fillGradient(matrices, textX - 3, textY - 4, textX + maxStringWidth + 3, textY - 3, COLOR_BG, COLOR_BG);
+        this.fillGradient(matrices, textX - 3, textY + p + 3, textX + maxStringWidth + 3, textY + p + 4, COLOR_BG, COLOR_BG);
+        this.fillGradient(matrices, textX - 3, textY - 3, textX + maxStringWidth + 3, textY + p + 3, COLOR_BG, COLOR_BG);
+        this.fillGradient(matrices, textX - 4, textY - 3, textX - 3, textY + p + 3, COLOR_BG, COLOR_BG);
+        this.fillGradient(matrices, textX + maxStringWidth + 3, textY - 3, textX + maxStringWidth + 4, textY + p + 3, COLOR_BG, COLOR_BG);
         int COLOR_OUTLINE_TOP = 0x505000FF;
         int COLOR_OUTLINE_BOTTOM = 0x5028007F;
-        this.fillGradient(textX - 3, textY - 3 + 1, textX - 3 + 1, textY + p + 3 - 1, COLOR_OUTLINE_TOP, COLOR_OUTLINE_BOTTOM);
-        this.fillGradient(textX + maxStringWidth + 2, textY - 3 + 1, textX + maxStringWidth + 3, textY + p + 3 - 1, COLOR_OUTLINE_TOP, COLOR_OUTLINE_BOTTOM);
-        this.fillGradient(textX - 3, textY - 3, textX + maxStringWidth + 3, textY - 3 + 1, COLOR_OUTLINE_TOP, COLOR_OUTLINE_TOP);
-        this.fillGradient(textX - 3, textY + p + 2, textX + maxStringWidth + 3, textY + p + 3, COLOR_OUTLINE_BOTTOM, COLOR_OUTLINE_BOTTOM);
+        this.fillGradient(matrices, textX - 3, textY - 3 + 1, textX - 3 + 1, textY + p + 3 - 1, COLOR_OUTLINE_TOP, COLOR_OUTLINE_BOTTOM);
+        this.fillGradient(matrices, textX + maxStringWidth + 2, textY - 3 + 1, textX + maxStringWidth + 3, textY + p + 3 - 1, COLOR_OUTLINE_TOP, COLOR_OUTLINE_BOTTOM);
+        this.fillGradient(matrices, textX - 3, textY - 3, textX + maxStringWidth + 3, textY - 3 + 1, COLOR_OUTLINE_TOP, COLOR_OUTLINE_TOP);
+        this.fillGradient(matrices, textX - 3, textY + p + 2, textX + maxStringWidth + 3, textY + p + 3, COLOR_OUTLINE_BOTTOM, COLOR_OUTLINE_BOTTOM);
 
         for(int t = 0; t < list.size(); ++t) {
            String string2 = (String)list.get(t);
-           font.drawWithShadow(string2, (float)textX, (float)textY, -1);
+           font.drawWithShadow(matrices, string2, (float)textX, (float)textY, -1);
            if (t == 0) {
               textY += (firstLineGap ? 2 : 0);
            }
@@ -109,12 +113,12 @@ public class Tooltips {
            textY += 10;
         }
 
-        this.setBlitOffset(0);
+        this.setZOffset(0);
         itemRenderer.zOffset = 0.0F;
-        GlStateManager.enableLighting();
+        RenderSystem.enableLighting();
         GlStateManager.enableDepthTest();
         DiffuseLighting.enable();
-        GlStateManager.enableRescaleNormal();
+        RenderSystem.enableRescaleNormal();
       }
     }
   }
@@ -127,19 +131,27 @@ public class Tooltips {
   public void addTooltip(List<String> strings, int x, int y) {
     tooltips.add(new Tooltip(strings, x, y));
   }
-  public void renderAll() {
-    tooltips.forEach(x -> x.render());
+  public void renderAll(MatrixStack matrices) {
+    tooltips.forEach(x -> x.render(matrices));
     tooltips.clear();
   }
 
+  /**
+   * @deprecated Ideally, {@link Tooltip Tooltip} should use {@link net.minecraft.text.Text Text} or {@link StringRenderable}.
+   */
+  @Deprecated
+  private static List<String> renderableListToStrings(List<StringRenderable> renderables) {
+    return renderables.stream().map(StringRenderable::getString).collect(Collectors.toList());
+  }
+
   public void addTooltip(String string, int mouseX, int mouseY, int maxWidth) {
-    this.addTooltip(MinecraftClient.getInstance().textRenderer.wrapLines(string, maxWidth), mouseX, mouseY);
+    this.addTooltip(renderableListToStrings(MinecraftClient.getInstance().textRenderer.wrapLines(StringRenderable.plain(string), maxWidth)), mouseX, mouseY);
   }
 
   public void addTooltip(String string, int mouseX, int mouseY, Function<Integer, Integer> maxWidthProvider) {
-    this.addTooltip(MinecraftClient.getInstance().textRenderer.wrapLines(string, maxWidthProvider.apply(
+    this.addTooltip(renderableListToStrings(MinecraftClient.getInstance().textRenderer.wrapLines(StringRenderable.plain(string), maxWidthProvider.apply(
       MinecraftClient.getInstance().currentScreen.width
-    )), mouseX, mouseY);
+                                                                                                                               ))), mouseX, mouseY);
   }
 
 }

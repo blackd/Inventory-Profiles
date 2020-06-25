@@ -13,7 +13,8 @@ import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.TranslatableText;
 
 public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends AbstractParentElement implements Drawable {
 
@@ -21,7 +22,7 @@ public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends Ab
   public int y;
   public int width;
   public int height;
-  protected ButtonWidget resetButton = new ButtonWidget(10, 10, 200, 20, "", x -> reset());
+  protected ButtonWidget resetButton = new ButtonWidget(10, 10, 200, 20, VHLine.EMPTY_TEXT, x -> reset());
   public boolean showResetButton = true;
   public int resetButtonGap = 2;
   protected final T configOption;
@@ -32,17 +33,17 @@ public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends Ab
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
     if (showResetButton) {
-      String s = I18n.translate("inventoryprofiles.common.gui.config.reset");
-      int w = MinecraftClient.getInstance().textRenderer.getWidth(s);
+      TranslatableText t = new TranslatableText("inventoryprofiles.common.gui.config.reset");
+      int w = MinecraftClient.getInstance().textRenderer.getWidth(t);
       int bw = w + 15;
       resetButton.x = x + width - bw;
       resetButton.y = y;
       resetButton.setWidth(bw);
-      resetButton.setMessage(s);
+      resetButton.setMessage(t);
       resetButton.active = resetButtonActive();
-      resetButton.render(mouseX, mouseY, partialTicks);
+      resetButton.render(matrices, mouseX, mouseY, partialTicks);
     }
     availableWidth = width - (showResetButton ? resetButton.getWidth() + resetButtonGap : 0);
   }

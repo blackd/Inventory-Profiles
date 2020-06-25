@@ -2,6 +2,7 @@ package io.github.jsnimda.common.gui;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
 
 public class TextButtonWidget extends ButtonWidget {
 
@@ -11,7 +12,7 @@ public class TextButtonWidget extends ButtonWidget {
   public int pressableMargin = 0;
 
   public TextButtonWidget(int i, int j, String text, PressAction pressAction) {
-    super(i, j, getStringWidth(text), 9, "", pressAction);
+    super(i, j, getStringWidth(text), 9, VHLine.EMPTY_TEXT, pressAction);
     this.text = text;
     hoverText = text;
     inactiveText = text;
@@ -60,10 +61,11 @@ public class TextButtonWidget extends ButtonWidget {
   }
 
   @Override
-  public void renderButton(int i, int j, float f) {
-    isHovered = isMouseOver(i, j);
+  public void renderButton(MatrixStack matrices, int i, int j, float f) {
+    hovered = isMouseOver(i, j);
     checkUpdateWidth();
-    drawString(MinecraftClient.getInstance().textRenderer, getDisplayText(), x, y, 0xFFFFFFFF);
+    // drawString(MinecraftClient.getInstance().textRenderer, getDisplayText(), x, y, 0xFFFFFFFF);
+    MinecraftClient.getInstance().textRenderer.draw(matrices, getDisplayText(), x, y, 0xFFFFFFFF);
   }
 
   @Override

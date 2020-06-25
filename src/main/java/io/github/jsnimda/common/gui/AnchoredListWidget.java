@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.AbstractParentElement;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.util.math.MatrixStack;
 
 public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends AbstractParentElement implements Drawable {
 
@@ -132,18 +133,18 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Abst
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
       isMouseOver(mouseX, mouseY); // update expanded state
       if (expanded) {
         int y1 = getExpandedY();
         int y2 = getExpandedY() + getExpandedHeight();
-        VHLine.h(x, x + width - 1, y1, COLOR_ANCHOR_BORDER_HOVER);
-        VHLine.h(x, x + width - 1, y2, COLOR_ANCHOR_BORDER_HOVER);
-        fill(x, y1 + 1, x + width, y2, COLOR_ANCHOR_BG_HOVER);
+        VHLine.h(matrices, x, x + width - 1, y1, COLOR_ANCHOR_BORDER_HOVER);
+        VHLine.h(matrices, x, x + width - 1, y2, COLOR_ANCHOR_BORDER_HOVER);
+        fill(matrices, x, y1 + 1, x + width, y2, COLOR_ANCHOR_BG_HOVER);
       } else {
-        VHLine.h(x, x + width - 1, y, COLOR_ANCHOR_BORDER);
-        VHLine.h(x, x + width - 1, y + anchorHeaderHeight, COLOR_ANCHOR_BORDER);
-        fill(x, y + 1, x + width, y + anchorHeaderHeight, COLOR_ANCHOR_BG);
+        VHLine.h(matrices, x, x + width - 1, y, COLOR_ANCHOR_BORDER);
+        VHLine.h(matrices, x, x + width - 1, y + anchorHeaderHeight, COLOR_ANCHOR_BORDER);
+        fill(matrices, x, y + 1, x + width, y + anchorHeaderHeight, COLOR_ANCHOR_BG);
       }
       if (!anchors.isEmpty()) {
         int startY = expanded ? getExpandedY() : getHiddenStartY();
@@ -162,11 +163,13 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Abst
           textWidget.visible = expanded || anchor.rowIndex == viewingRowIndex;
           textWidget.x = getStartX() + offsetX;
           textWidget.y = startY + getTextOffsetY() + anchor.rowIndex * rowHeight;
-          textWidget.render(mouseX, mouseY, partialTicks);
+          textWidget.render(matrices, mouseX, mouseY, partialTicks);
           offsetX += textWidget.getWidth() + SEPARATOR_WIDTH;
           if (!expanded && getTotalTextRow() > 1 && anchor.rowIndex == viewingRowIndex
               && (i + 1 >= anchors.size() || anchor.rowIndex != anchors.get(i + 1).rowIndex)) {
-            drawString(MinecraftClient.getInstance().textRenderer, " ... ...", getStartX() + offsetX - SEPARATOR_WIDTH, y + getTextOffsetY(), COLOR_WHITE);
+            // this method doesn't exist anymore, thanks 1.16
+            //drawString(MinecraftClient.getInstance().textRenderer, " ... ...", getStartX() + offsetX - SEPARATOR_WIDTH, y + getTextOffsetY(), COLOR_WHITE);
+            MinecraftClient.getInstance().textRenderer.draw(matrices, " ... ...", getStartX() + offsetX - SEPARATOR_WIDTH, y + getTextOffsetY(), COLOR_WHITE);
           }
         }
       }
@@ -202,12 +205,12 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Abst
     children.add(anchorHeader);
     children.add(container);
     setBounds(x, y, width, height);
-    container.setContentRenderer((mx, my, p, vx, vy, vw, vh, sy) -> {
+    container.setContentRenderer((matrices, mx, my, p, vx, vy, vw, vh, sy) -> {
       int dy = vy - sy;
       for (E e : entries) {
         int eh = e.getHeight();
         if (dy + eh > vy && dy < vy + vh) {
-          e.render(mx, my, p, vx, dy, vw);
+          e.render(matrices, mx, my, p, vx, dy, vw);
         }
         dy += eh;
       }
@@ -238,15 +241,15 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Abst
   private static final int COLOR_BORDER             = 0xFF999999;
   public int borderColor = COLOR_BORDER;
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
     if (renderBorder) {
-      VHLine.outline(x, y, x + width, y + height, borderColor);
+      VHLine.outline(matrices, x, y, x + width, y + height, borderColor);
     }
 
-    container.render(mouseX, mouseY, partialTicks);
+    container.render(matrices, mouseX, mouseY, partialTicks);
 
     // render header
-    anchorHeader.render(mouseX, mouseY, partialTicks);
+    anchorHeader.render(matrices, mouseX, mouseY, partialTicks);
   }
 
 
@@ -300,7 +303,7 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Abst
 
   public static interface Entry extends Element {
     int getHeight();
-    void render(int mouseX, int mouseY, float partialTicks, int offsetX, int offsetY, int viewportWidth);
+    void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, int offsetX, int offsetY, int viewportWidth);
   }
 
 
