@@ -53,7 +53,7 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
   public void render(MatrixStack matrices, int int_1, int int_2, float float_1, CallbackInfo info) {
     if (!ToolTips.current.isEmpty()) {
       matrices.push();
-      ToolTips.renderAll();
+      ToolTips.renderAll(matrices);
       RenderSystem.disableLighting();
       matrices.pop();
     }

@@ -3,8 +3,12 @@ package io.github.jsnimda.inventoryprofiles.gui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import io.github.jsnimda.common.gui.Tooltips;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.StringRenderable;
 
 /**
  * Tooltips
@@ -27,9 +31,17 @@ public class ToolTips {
       this.x = x;
       this.y = y;
     }
-    public void render() {
-      Current.screen().renderTooltip(strings, x, y);
+    public void render(MatrixStack matrices) {
+      Current.screen().renderTooltip(matrices, stringListToRenderables(strings), x, y);
     }
+  }
+
+  /**
+   * @deprecated Ideally, {@link ToolTips.ToolTip ToolTip} should use {@link net.minecraft.text.Text Text} or {@link StringRenderable}.
+   */
+  @Deprecated
+  private static List<StringRenderable> stringListToRenderables(List<String> strings) {
+    return strings.stream().map(StringRenderable::plain).collect(Collectors.toList());
   }
 
   public static void add(String string, int x, int y) {
@@ -39,9 +51,9 @@ public class ToolTips {
     current.add(new ToolTip(strings, x, y));
   }
 
-  public static void renderAll() {
+  public static void renderAll(MatrixStack matrices) {
     for (ToolTip t : current) {
-      t.render();
+      t.render(matrices);
     }
     current.clear();
   }

@@ -23,6 +23,7 @@ import net.minecraft.client.gui.screen.ingame.SmokerScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.Identifier;
@@ -179,7 +180,7 @@ public class GuiSortingButtons {
     }
 
     @Override
-    public void renderButton(int int_1, int int_2, float float_1) {
+    public void renderButton(MatrixStack matrices, int int_1, int int_2, float float_1) {
       this.x = originalX;
       // check if creative and if non inventory tab
       if (Current.screen() instanceof CreativeInventoryScreen) {
@@ -196,12 +197,12 @@ public class GuiSortingButtons {
         this.x = this.originalX + 177 - 200 / 2; // from RecipeBookWidget.findLeftEdge
       }
       
-      super.renderButton(int_1, int_2, float_1);
-      this.renderToolTip(int_1, int_2);
+      super.renderButton(matrices, int_1, int_2, float_1);
+      this.renderToolTip(matrices, int_1, int_2);
     }
     
     @Override
-    public void renderToolTip(int x, int y) {
+    public void renderToolTip(MatrixStack matrices, int x, int y) {
       if (GuiSettings.SHOW_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
         ToolTips.add(I18n.translate(tooltipText), x, y);
     }

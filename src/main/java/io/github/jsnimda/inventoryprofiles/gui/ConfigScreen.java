@@ -12,6 +12,7 @@ import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
 public class ConfigScreen extends ConfigScreenBase {
@@ -80,14 +81,14 @@ public class ConfigScreen extends ConfigScreenBase {
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    renderBackground(0);
-    openConfigMenuHotkeyWidget.render(mouseX, mouseY, partialTicks);
-    super.render(mouseX, mouseY, partialTicks);
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+    renderBackground(matrices, 0);
+    openConfigMenuHotkeyWidget.render(matrices, mouseX, mouseY, partialTicks);
+    super.render(matrices, mouseX, mouseY, partialTicks);
   }
 
   @Override
-  public void renderBackground() {
+  public void renderBackground(MatrixStack matrices) {
     // do nothing
   }
 
@@ -95,7 +96,7 @@ public class ConfigScreen extends ConfigScreenBase {
   public void onClose() {
     Configs.saveLoadManager.save();
     if (parent != null) {
-      this.minecraft.openScreen(parent);
+      this.client.openScreen(parent);
     } else {
       super.onClose();
     }
