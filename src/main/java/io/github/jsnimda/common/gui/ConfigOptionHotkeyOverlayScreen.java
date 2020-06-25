@@ -37,7 +37,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
   private static final int COLOR_BG     = 0xFF000000;
   @Override
   public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
-    super.render(mouseX, mouseY, partialTicks);
+    super.render(matrices, mouseX, mouseY, partialTicks);
     DiffuseLighting.disable();
     GlStateManager.disableDepthTest();
     GlStateManager.pushMatrix();
@@ -75,7 +75,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
       widget.render(matrices, mouseX, mouseY, partialTicks);
     }
 
-    Tooltips.getInstance().renderAll();
+    Tooltips.getInstance().renderAll(matrices);
 
     GlStateManager.popMatrix();
   }

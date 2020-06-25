@@ -45,7 +45,7 @@ public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListW
   @Override
   public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
     super.render(matrices, mouseX, mouseY, partialTicks);
-    Tooltips.getInstance().renderAll();
+    Tooltips.getInstance().renderAll(matrices);
   }
 
   public class ConfigOptionEntry extends ConfigOptionListWidget.Entry {

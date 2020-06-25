@@ -98,7 +98,7 @@ public class DebugScreen extends OverlayScreen {
 
   @Override
   public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
-    super.render(mouseX, mouseY, partialTicks);
+    super.render(matrices, mouseX, mouseY, partialTicks);
     
     DebugInfos.mouseX = mouseX;
     DebugInfos.mouseY = mouseY;
