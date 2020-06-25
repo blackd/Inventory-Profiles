@@ -4,7 +4,7 @@ import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
 import io.github.jsnimda.common.vanilla.render.rDrawOutline
-import io.github.jsnimda.common.vanilla.render.rFillColor
+import io.github.jsnimda.common.vanilla.render.rFillRect
 import kotlin.math.roundToInt
 
 // private static final int COLOR_WHITE              = 0xFFFFFFFF;
@@ -114,10 +114,10 @@ class ScrollableContainerWidget : Widget() {
     }
     // render scrollbar, ref: EntryListWidget.render
     if (scrollbar.visible) {
-      rFillColor(scrollbar.trackAbsoluteBounds, COLOR_SCROLLBAR_BG)
+      rFillRect(scrollbar.trackAbsoluteBounds, COLOR_SCROLLBAR_BG)
       val hover = scrollbar.thumbAbsoluteBounds.contains(mouseX, mouseY) || draggingScrollbar
-      rFillColor(scrollbar.thumbAbsoluteBounds, if (hover) COLOR_SCROLLBAR_HOVER_SHADOW else COLOR_SCROLLBAR_SHADOW)
-      rFillColor(scrollbar.thumbAbsoluteBounds.run {
+      rFillRect(scrollbar.thumbAbsoluteBounds, if (hover) COLOR_SCROLLBAR_HOVER_SHADOW else COLOR_SCROLLBAR_SHADOW)
+      rFillRect(scrollbar.thumbAbsoluteBounds.run {
         copy(width = width - 1, height = height - 1)
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }

@@ -32,9 +32,8 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
     Companion.selectedIndex = selectedIndex
   }
 
-  override fun onClose() {
+  override fun closeScreen() {
     SaveLoadManager.save()
-    super.onClose()
+    super.closeScreen()
   }
-
 }

@@ -29,12 +29,12 @@ inline fun <R> tryCatch(onFailure: (Throwable) -> R, tryToRun: () -> R): R =
 // ============
 
 class Event<T> {
-  internal val handlers = mutableSetOf<((data: T) -> Unit)>()
-  operator fun plusAssign(handler: T.() -> Unit) {
+  private val handlers = mutableSetOf<((data: T) -> Unit)>()
+  operator fun plusAssign(handler: (T) -> Unit) {
     handlers.add(handler)
   }
 
-  operator fun minusAssign(handler: T.() -> Unit) {
+  operator fun minusAssign(handler: (T) -> Unit) {
     handlers.remove(handler)
   }
 
@@ -43,6 +43,17 @@ class Event<T> {
   }
 }
 
-operator fun Event<Unit>.invoke() {
-  handlers.forEach { it(Unit) }
+class RoutedEvent<T> {
+  private val handlers = mutableSetOf<((data: T, handled: Boolean) -> Boolean)>()
+  operator fun plusAssign(handler: (T, handled: Boolean) -> Boolean) {
+    handlers.add(handler)
+  }
+
+  operator fun minusAssign(handler: (T, handled: Boolean) -> Boolean) {
+    handlers.remove(handler)
+  }
+
+  operator fun invoke(data: T, handled: Boolean): Boolean {
+    return handlers.map { it(data, handled) }.any { it }
+  }
 }

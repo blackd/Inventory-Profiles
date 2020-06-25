@@ -208,7 +208,7 @@ open class AnchoredListWidget : Widget() {
       val (x2, y2) = pt2
       rDrawHorizontalLine(x1, x2 - 1, y1, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
       rDrawHorizontalLine(x1, x2 - 1, y2, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
-      rFillColor(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
+      rFillRect(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
       super.render(mouseX, mouseY, partialTicks)
       lastHighlightingAnchorIndex = anchorsManager.highlightingAnchorIndex
       if (!expanded && anchorsManager.totalTextRow > 1) {

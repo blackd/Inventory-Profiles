@@ -3,13 +3,8 @@ package io.github.jsnimda.common.vanilla.render
 import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.intersect
-import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
-import io.github.jsnimda.common.vanilla.alias.Identifier
 import net.minecraft.client.render.DiffuseLighting
 import org.lwjgl.opengl.GL11
-
-val VANILLA_TEXTURE_WIDGETS: Identifier
-  get() = AbstractButtonWidget.WIDGETS_LOCATION
 
 // ============
 // api
@@ -65,7 +60,7 @@ fun rRemoveDepthMask() {
 private fun rOverwriteDepth(bounds: Rectangle) {
   gDepthFunc(GL11.GL_ALWAYS)
   gDisableAlphaTest()
-  rFillColor(bounds, 0)
+  rFillRect(bounds, 0)
   gEnableAlphaTest()
   gDepthFunc(GL11.GL_LEQUAL)
 }

@@ -12,17 +12,16 @@ open class BaseOverlay : BaseScreen {
     parent = Vanilla.screen()
   }
 
+  open fun renderParentPost(mouseX: Int, mouseY: Int, partialTicks: Float) {}
+
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     parent?.render(mouseX, mouseY, partialTicks)
-    postParentRender(mouseX, mouseY, partialTicks)
+    renderParentPost(mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
   }
-
-  open fun postParentRender(mouseX: Int, mouseY: Int, partialTicks: Float) {}
 
   override fun resize(minecraftClient: MinecraftClient, width: Int, height: Int) {
     parent?.resize(minecraftClient, width, height)
     super.resize(minecraftClient, width, height)
   }
-
 }

@@ -23,7 +23,7 @@ open class BaseDebugScreen : BaseOverlay() { // TODO clean up code
 
   private fun drawTexts() {
     stringsToBounds.forEach { (s, bounds) ->
-      rFillColor(bounds, COLOR_HUD_TEXT_BG)
+      rFillRect(bounds, COLOR_HUD_TEXT_BG)
       rDrawText(s, bounds.x + 1, bounds.y + 1, COLOR_HUD_TEXT)
     }
   }

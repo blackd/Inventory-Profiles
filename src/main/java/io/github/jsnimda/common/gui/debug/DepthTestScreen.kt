@@ -2,6 +2,7 @@ package io.github.jsnimda.common.gui.debug
 
 import io.github.jsnimda.common.gui.Rectangle
 import io.github.jsnimda.common.gui.screen.BaseOverlay
+import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.vanilla.render.*
@@ -43,6 +44,38 @@ class DepthTestScreen : BaseOverlay() {
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     super.render(mouseX, mouseY, partialTicks)
     rDrawText("overflowHidden = $overflowHidden", 2, 2, -1)
+    testFillOutline()
+  }
+
+  private fun testFillOutline() {
+    val possibles = listOf(
+      AnchorStyles.none,
+      AnchorStyles.all,
+      AnchorStyles.noTop,
+      AnchorStyles.noBottom,
+      AnchorStyles.noLeft,
+      AnchorStyles.noRight,
+      AnchorStyles.topOnly,
+      AnchorStyles.bottomOnly,
+      AnchorStyles.leftOnly,
+      AnchorStyles.rightOnly,
+      AnchorStyles.topLeft,
+      AnchorStyles.topRight,
+      AnchorStyles.bottomLeft,
+      AnchorStyles.bottomRight,
+      AnchorStyles.leftRight,
+      AnchorStyles.topBottom,
+    )
+    val x = 270
+    val y = 10
+    val outline = 255.asBlue().alpha(0.5f)
+    val fill = 255.asRed().alpha(0.5f)
+    possibles.forEachIndexed { i, border ->
+      val dx = (i / 8) * 25
+      val dy = (i % 8) * 25
+      rFillOutline(Rectangle(x + dx, y + dy, 15, 15), fill, outline, border)
+      rFillOutline(Rectangle(x + dx + 50, y + dy, 15, 15), fill, outline, border, 4)
+    }
   }
 
   override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {

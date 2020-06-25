@@ -15,37 +15,47 @@ abstract class BaseScreen(text: Text) : Screen(text) {
   constructor() : this(LiteralText(""))
 
   var parent: Screen? = null
-
   val titleString: String
     get() = this.title.asFormattedString()
-
   open val screenInfo
     get() = ScreenInfo.default
 
-  open val rootWidget = RootWidget(this)
+  open fun closeScreen() {
+    VanillaUtils.openScreenNullable(parent)
+  }
 
+  // ============
+  // widget
+  // ============
+  val rootWidget = RootWidget(this)
   fun addWidget(widget: Widget) {
     rootWidget.addChild(widget)
   }
 
-  open fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
+  // ============
+  // render
+  // ============
+  open fun renderWidgetPre(mouseX: Int, mouseY: Int, partialTicks: Float) {
     rStandardGlState()
     rClearDepth()
   }
 
-  //region Override vanilla methods
-
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    preRender(mouseX, mouseY, partialTicks)
+    renderWidgetPre(mouseX, mouseY, partialTicks)
     rootWidget.render(mouseX, mouseY, partialTicks)
   }
 
-  override fun isPauseScreen(): Boolean = screenInfo.isPauseScreen
-
-  override fun onClose() {
-    VanillaUtils.openScreenNullable(parent)
+  // ============
+  // vanilla overrides
+  // ============
+  final override fun isPauseScreen(): Boolean = screenInfo.isPauseScreen
+  final override fun onClose() {
+    closeScreen()
   }
 
+  // ============
+  // event delegates
+  // ============
   override fun resize(minecraftClient: MinecraftClient, width: Int, height: Int) {
     super.resize(minecraftClient, width, height)
     rootWidget.size = Size(width, height)
@@ -71,8 +81,4 @@ abstract class BaseScreen(text: Text) : Screen(text) {
 
   override fun charTyped(charIn: Char, modifiers: Int): Boolean =
     rootWidget.charTyped(charIn, modifiers)
-
-
-  //endregion
-
 }
