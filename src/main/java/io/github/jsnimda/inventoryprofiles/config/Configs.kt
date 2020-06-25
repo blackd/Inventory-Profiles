@@ -13,7 +13,7 @@ object ModSettings : ConfigDeclaration {
 
     .CATEGORY("$category.inventory_sorting")
   val SORT_ORDER                                /**/ by enum(SortingMethod.DEFAULT)
-  val CUSTOM_RULE                               /**/ by bool(false) // TODO
+  val CUSTOM_RULE                               /**/ by string("@default")
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
   val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10, 1, 500)
   val RESTOCK_HOTBAR                            /**/ by bool(false)
@@ -28,18 +28,18 @@ object GuiSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
     .CATEGORY("$category.inventory")
-  val SHOW_SORT_BUTTON                          /**/ by bool(true)
-  val DEFAULT_POST_ACTION                       /**/ by enum(PostAction.NONE)
-  val DEFAULT_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)
-  val DEFAULT_CUSTOM_RULE                       /**/ by bool(false) // TODO
+  val SHOW_REGULAR_SORT_BUTTON                  /**/ by bool(true)
+  val REGULAR_POST_ACTION                       /**/ by enum(PostAction.NONE)
+  val REGULAR_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)
+  val REGULAR_CUSTOM_RULE                       /**/ by string("@default")
   val SHOW_SORT_IN_COLUMNS_BUTTON               /**/ by bool(true)
   val IN_COLUMNS_POST_ACTION                    /**/ by enum(PostAction.GROUP_IN_COLUMNS)
   val IN_COLUMNS_SORT_ORDER                     /**/ by enum(SortingMethodIndividual.GLOBAL)
-  val IN_COLUMNS_CUSTOM_RULE                    /**/ by bool(false) // TODO
+  val IN_COLUMNS_CUSTOM_RULE                    /**/ by string("@default")
   val SHOW_SORT_IN_ROWS_BUTTON                  /**/ by bool(true)
   val IN_ROWS_POST_ACTION                       /**/ by enum(PostAction.GROUP_IN_ROWS)
   val IN_ROWS_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)
-  val IN_ROWS_CUSTOM_RULE                       /**/ by bool(false) // TODO
+  val IN_ROWS_CUSTOM_RULE                       /**/ by string("@default")
   val SHOW_MOVE_ALL_BUTTON                      /**/ by bool(true)
   val SHOW_BUTTON_TOOLTIPS                      /**/ by bool(true)
 }
@@ -92,4 +92,4 @@ val Configs = listOf(
   Debugs
 )
 
-object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toConfigElement(), FILE_PATH)
+object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toMultiConfig(), FILE_PATH)

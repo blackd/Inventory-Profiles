@@ -20,7 +20,7 @@ import io.github.jsnimda.inventoryprofiles.util.focusedSlot
 object GeneralInventoryActions {
 
   fun doSort() {
-    InnerActions.doSort(GuiSettings.DEFAULT_SORT_ORDER.value.rule, GuiSettings.DEFAULT_POST_ACTION.value)
+    InnerActions.doSort(GuiSettings.REGULAR_SORT_ORDER.value.rule, GuiSettings.REGULAR_POST_ACTION.value)
   }
 
   fun doSortInColumns() {

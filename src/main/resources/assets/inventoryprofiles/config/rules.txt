@@ -7,7 +7,7 @@
     ::custom_name
     ::creative_menu_group_index
     ::raw_id
-//    @default_nbt_rule
+//    @default_nbt_rule // todo uncomment this line
 
 @item_name
     ::display_name

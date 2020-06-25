@@ -20,7 +20,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
   BaseDialog(TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings")) {
   private val keybindSettingElement =
     with(configHotkey.mainKeybind) { ConfigKeybindSettings(defaultSettings, settings) }
-  val configs = keybindSettingElement.getConfigOptionsList()
+  val configs = keybindSettingElement.getConfigOptionList()
 
   private val IConfigOption.displayName
     get() = I18n.translate("inventoryprofiles.common.gui.config.$key")

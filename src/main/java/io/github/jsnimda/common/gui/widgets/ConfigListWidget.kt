@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.gui.widgets
 
-import io.github.jsnimda.common.config.CategorizedConfigOptions
+import io.github.jsnimda.common.config.CategorizedMultiConfig
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.widget.AnchorStyles
@@ -11,9 +11,9 @@ import io.github.jsnimda.common.vanilla.render.rScreenWidth
 private const val COLOR_WHITE = -0x1
 private const val textY = 6
 
-fun CategorizedConfigOptions.toWidget(displayNamePrefix: String, descriptionPrefix: String): ListConfigOptionsWidget =
-  ListConfigOptionsWidget(displayNamePrefix, descriptionPrefix).apply {
-    this@toWidget.categories.forEach { (categoryNameKey, configOptions) ->
+fun CategorizedMultiConfig.toListWidget(displayNamePrefix: String, descriptionPrefix: String): ConfigListWidget =
+  ConfigListWidget(displayNamePrefix, descriptionPrefix).apply {
+    this@toListWidget.categories.forEach { (categoryNameKey, configOptions) ->
       I18n.translate(categoryNameKey).let { categoryName ->
         addAnchor(categoryName)
         addEntry(CategoryEntry(categoryName))
@@ -22,7 +22,7 @@ fun CategorizedConfigOptions.toWidget(displayNamePrefix: String, descriptionPref
     }
   }
 
-class ListConfigOptionsWidget(private val displayNamePrefix: String, private val descriptionPrefix: String) :
+class ConfigListWidget(private val displayNamePrefix: String, private val descriptionPrefix: String) :
   AnchoredListWidget() {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {

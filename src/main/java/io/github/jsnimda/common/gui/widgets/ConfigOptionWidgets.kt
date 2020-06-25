@@ -1,5 +1,6 @@
 package io.github.jsnimda.common.gui.widgets
 
+import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.IConfigOptionNumeric
 import io.github.jsnimda.common.config.IConfigOptionToggleable
@@ -31,6 +32,7 @@ fun IConfigOption.toWidget(): ConfigOptionBaseWidget<IConfigOption> = when (this
   is ConfigEnum<*> -> this.toWidget()
   is ConfigHotkey -> this.toWidget()
   else -> object : ConfigOptionBaseWidget<IConfigOption>(this) {}
+    .also { Log.warn("unknown config option $this") }
 }
 
 //endregion

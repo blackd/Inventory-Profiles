@@ -2,10 +2,10 @@
 
 package io.github.jsnimda.common.config.builder
 
-import io.github.jsnimda.common.config.CategorizedConfigOptions
+import io.github.jsnimda.common.config.CategorizedMultiConfig
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.options.*
-import io.github.jsnimda.common.config.toConfigElement
+import io.github.jsnimda.common.config.toMultiConfig
 import io.github.jsnimda.common.input.KeybindSettings
 import io.github.jsnimda.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 import io.github.jsnimda.common.util.PropertyNameChecker
@@ -30,6 +30,9 @@ fun ConfigDeclaration.hotkeyedBool(defaultValue: Boolean) =
 fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) =
   ConfigEnum(defaultValue).addTo(this)
 
+fun ConfigDeclaration.string(defaultValue: String) =
+  ConfigString(defaultValue).addTo(this)
+
 // createBuilder()
 fun ConfigDeclaration.createBuilder() = ConfigDeclarationBuilder().apply {
   innerConfig.key = this@createBuilder.javaClass.simpleName
@@ -45,7 +48,7 @@ fun ConfigDeclarationBuilder.CATEGORY(name: String) =
   this.also { innerConfig.addCategory(name) }
 
 class ConfigDeclarationBuilder {
-  val innerConfig = CategorizedConfigOptions()
+  val innerConfig = CategorizedMultiConfig()
 }
 
 // ============
@@ -74,6 +77,6 @@ fun <T : IConfigOption> ConfigOptionDelegateProvider<T>.CATEGORY(name: String) =
 // extensions
 // ============
 
-fun List<ConfigDeclaration>.toConfigElement() = toConfigList().toConfigElement()
-fun List<ConfigDeclaration>.toConfigList() =
+fun List<ConfigDeclaration>.toMultiConfig() = toConfigList().toMultiConfig()
+fun List<ConfigDeclaration>.toConfigList(): List<CategorizedMultiConfig> =
   this.map { it.builder.innerConfig }

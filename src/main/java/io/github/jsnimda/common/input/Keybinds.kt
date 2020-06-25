@@ -129,7 +129,7 @@ class ConfigKeybindSettings(
       orderSensitive.booleanValue
     )
 
-  override fun getConfigOptionsMap() = getConfigOptionsMapFromList()
-  override fun getConfigOptionsList() =
+  override fun getConfigOptionMap() = getConfigOptionMapFromList()
+  override fun getConfigOptionList() =
     listOf(activateOn, context, allowExtraKeys, orderSensitive) // gui display order
 }

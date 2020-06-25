@@ -98,7 +98,7 @@ public class GuiSortingButtons {
         if (addNonChestSide) list.add(sortColumnsButton(false, x0));
         x0 -= 12;
       }
-      if (GuiSettings.INSTANCE.getSHOW_SORT_BUTTON().getBooleanValue()) {
+      if (GuiSettings.INSTANCE.getSHOW_REGULAR_SORT_BUTTON().getBooleanValue()) {
         if (addChestSide)    list.add(sortButton(true, x0));
         if (addNonChestSide) list.add(sortButton(false, x0));
         x0 -= 12;

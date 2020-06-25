@@ -38,32 +38,32 @@ interface IConfigElementObject : IConfigElementResettable {
 interface IConfigElementResettableMultiple : IConfigElementObject {
 
   // sub class should impl one of the getConfigOptionsMap() or getConfigOptionsList()
-  fun getConfigOptionsMapFromList(): Map<String, IConfigOption> = getConfigOptionsList().associateBy { it.key }
-  fun getConfigOptionsMap(): Map<String, IConfigOption>
+  fun getConfigOptionMapFromList(): Map<String, IConfigOption> = getConfigOptionList().associateBy { it.key }
+  fun getConfigOptionMap(): Map<String, IConfigOption>
 
-  fun getConfigOptionsListFromMap(): List<IConfigOption> = getConfigOptionsMap().values.toList()
-  fun getConfigOptionsList(): List<IConfigOption>
+  fun getConfigOptionListFromMap(): List<IConfigOption> = getConfigOptionMap().values.toList()
+  fun getConfigOptionList(): List<IConfigOption>
 
   override fun toJsonElement() = JsonObject().apply {
-    getConfigOptionsList().forEach {
+    getConfigOptionList().forEach {
       if (it.isModified) this.add(it.key, it.toJsonElement())
     }
   }
 
   override fun fromJsonObject(obj: JsonObject) {
-    val configOptionsMap = getConfigOptionsMap()
+    val configOptionMap = getConfigOptionMap()
     obj.forEach { (key, value) ->
-      configOptionsMap[key]
+      configOptionMap[key]
         ?.fromJsonElement(value)
         ?: Log.warn("Unknown config key '$key' with value '$value'")
     }
   }
 
   override val isModified
-    get() = getConfigOptionsList().any { it.isModified }
+    get() = getConfigOptionList().any { it.isModified }
 
   override fun resetToDefault() =
-    getConfigOptionsList().forEach { it.resetToDefault() }
+    getConfigOptionList().forEach { it.resetToDefault() }
 }
 
 // ============

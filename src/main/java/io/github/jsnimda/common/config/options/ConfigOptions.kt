@@ -36,3 +36,8 @@ class ConfigEnum<E : Enum<E>>(override val defaultValue: E) :
   override fun toggleNext() = run { value = value.next() }
   override fun togglePrevious() = run { value = value.previous() }
 }
+
+class ConfigString(override val defaultValue: String) :
+  ConfigOptionBase(), IConfigOptionPrimitive<String> {
+  override var value = defaultValue
+}
