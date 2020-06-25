@@ -30,15 +30,15 @@ fun rFillOutline( // handle corner pixels for you
   val (x, y, width, height) = bounds
   listOf(
     //@formatter:off
-    (top || left)     to Rectangle(x             , y             , l          , l),
-    (top)             to Rectangle(x + l         , y             , width - lz , l),
-    (top || right)    to Rectangle(x + width - l , y             , l          , l),
-    (left)            to Rectangle(x             , y + l         , l          , height - lz),
-    false             to Rectangle(x + l         , y + l         , width - lz , height - lz),
-    (right)           to Rectangle(x + width - l , y + l         , l          , height - lz),
-    (bottom || left)  to Rectangle(x             , y + width - l , l          , l),
-    (bottom)          to Rectangle(x + l         , y + width - l , width - lz , l),
-    (bottom || right) to Rectangle(x + width - l , y + width - l , l          , l),
+    (top || left)     to Rectangle(x             , y              , l          , l),
+    (top)             to Rectangle(x + l         , y              , width - lz , l),
+    (top || right)    to Rectangle(x + width - l , y              , l          , l),
+    (left)            to Rectangle(x             , y + l          , l          , height - lz),
+    false             to Rectangle(x + l         , y + l          , width - lz , height - lz),
+    (right)           to Rectangle(x + width - l , y + l          , l          , height - lz),
+    (bottom || left)  to Rectangle(x             , y + height - l , l          , l),
+    (bottom)          to Rectangle(x + l         , y + height - l , width - lz , l),
+    (bottom || right) to Rectangle(x + width - l , y + height - l , l          , l),
     //@formatter:on
   ).forEach { (outline, rect) ->
     rFillRect(rect, if (outline) outlineColor else fillColor)

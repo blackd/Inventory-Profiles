@@ -1,12 +1,14 @@
 package io.github.jsnimda.common.gui.widgets
 
-import io.github.jsnimda.common.gui.asPoints
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.FlowLayout
 import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
 import io.github.jsnimda.common.gui.widget.Overflow.VISIBLE
 import io.github.jsnimda.common.vanilla.alias.I18n
-import io.github.jsnimda.common.vanilla.render.*
+import io.github.jsnimda.common.vanilla.render.rDrawOutline
+import io.github.jsnimda.common.vanilla.render.rDrawText
+import io.github.jsnimda.common.vanilla.render.rFillOutline
+import io.github.jsnimda.common.vanilla.render.rMeasureText
 
 private const val COLOR_ANCHOR_BORDER = -0x7f666667
 private const val COLOR_ANCHOR_BG = 0x40999999
@@ -203,12 +205,10 @@ open class AnchoredListWidget : Widget() {
 
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       expanded = contains(mouseX, mouseY) && anchorsManager.totalTextRow > 1
-      val (pt1, pt2) = absoluteBounds.asPoints()
-      val (x1, y1) = pt1
-      val (x2, y2) = pt2
-      rDrawHorizontalLine(x1, x2 - 1, y1, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
-      rDrawHorizontalLine(x1, x2 - 1, y2, if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER)
-      rFillRect(x1, y1 + 1, x2, y2, if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG)
+      val outline = if (expanded) COLOR_ANCHOR_BORDER_HOVER else COLOR_ANCHOR_BORDER
+      val fill = if (expanded) COLOR_ANCHOR_BG_HOVER else COLOR_ANCHOR_BG
+      val rect = absoluteBounds.run { copy(height = height + 1) }
+      rFillOutline(rect, fill, outline, AnchorStyles.topBottom)
       super.render(mouseX, mouseY, partialTicks)
       lastHighlightingAnchorIndex = anchorsManager.highlightingAnchorIndex
       if (!expanded && anchorsManager.totalTextRow > 1) {
