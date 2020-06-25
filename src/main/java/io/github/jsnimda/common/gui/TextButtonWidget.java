@@ -32,7 +32,7 @@ public class TextButtonWidget extends ButtonWidget {
     updateWidth();
   }
   private static int getStringWidth(String text) {
-    return MinecraftClient.getInstance().textRenderer.getStringWidth(text);
+    return MinecraftClient.getInstance().textRenderer.getWidth(text);
   }
 
 

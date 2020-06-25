@@ -7,19 +7,19 @@ import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.ContainerScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.client.recipe.book.ClientRecipeBook;
+import net.minecraft.client.recipebook.ClientRecipeBook;
 import net.minecraft.client.resource.language.LanguageManager;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.container.Container;
-import net.minecraft.container.PlayerContainer;
-import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 
 /**
  * Current
@@ -66,8 +66,8 @@ public class Current {
    * @NonNull if in-game, null is returned otherwise
    * @return playerContainer if nothing is opened
    */
-  public static Container container() {
-    return player() == null ? null : player().container;
+  public static ScreenHandler container() {
+    return player() == null ? null : player().currentScreenHandler;
   }
   /**
    * @return ItemStack.EMPTY if no item is being grabbed
@@ -100,7 +100,7 @@ public class Current {
   }
   public static Slot focusedSlot(boolean raw) {
     if (!raw) return focusedSlot();
-    return (screen() instanceof ContainerScreen) ? 
+    return (screen() instanceof HandledScreen) ? 
         ((IMixinContainerScreen) screen()).getFocusedSlot() : null;
   }
 
@@ -130,8 +130,8 @@ public class Current {
    * only if player != null
    */
   @Nonnull
-  public static PlayerContainer playerContainer() {
-    return player().playerContainer;
+  public static PlayerScreenHandler playerContainer() {
+    return player().playerScreenHandler;
   }
   /**
    * @return 0-8, hotbar slot

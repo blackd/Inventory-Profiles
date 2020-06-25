@@ -1,11 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.sorter.custom;
 
 import java.util.List;
-
+import net.minecraft.screen.PlayerScreenHandler;
 import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerInfo;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CurrentState;
-import net.minecraft.container.PlayerContainer;
 
 /**
  * ProfileProcessor
@@ -13,7 +12,7 @@ import net.minecraft.container.PlayerContainer;
 public class ProfileProcessor {
 
   public static void setProfile(Profile profile) {
-    if (!(Current.inGame() && Current.container() instanceof PlayerContainer)) return;
+    if (!(Current.inGame() && Current.container() instanceof PlayerScreenHandler)) return;
     new ProfileProcessor().process(profile);
   }
 

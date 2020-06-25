@@ -13,16 +13,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
 import io.github.jsnimda.inventoryprofiles.gui.inject.GuiSortingButtons;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.ContainerScreen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
-import net.minecraft.container.Container;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 
 /**
  * MixinAbstractContainerScreen
  */
-@Mixin(ContainerScreen.class)
-public abstract class MixinContainerScreen<T extends Container> extends Screen {
+@Mixin(HandledScreen.class)
+public abstract class MixinContainerScreen<T extends ScreenHandler> extends Screen {
 
   @Shadow
   protected int containerWidth;

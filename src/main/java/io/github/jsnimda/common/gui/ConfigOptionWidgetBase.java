@@ -35,7 +35,7 @@ public abstract class ConfigOptionWidgetBase<T extends IConfigOption> extends Ab
   public void render(int mouseX, int mouseY, float partialTicks) {
     if (showResetButton) {
       String s = I18n.translate("inventoryprofiles.common.gui.config.reset");
-      int w = MinecraftClient.getInstance().textRenderer.getStringWidth(s);
+      int w = MinecraftClient.getInstance().textRenderer.getWidth(s);
       int bw = w + 15;
       resetButton.x = x + width - bw;
       resetButton.y = y;

@@ -65,7 +65,7 @@ public class DebugScreen extends OverlayScreen {
     int bgh = 9;
     int y1 = textPosition < 2 ? 1 : this.height - 1 - bgh * strings.size(); // is top
     for (String s : strings) {
-      int w = this.font.getStringWidth(s);
+      int w = this.font.getWidth(s);
       int bgw = w + 2;
       int x1 = textPosition % 3 == 0 ? 1 : this.width - bgw - 1; // is left
       int x2 = x1 + bgw;
@@ -81,7 +81,7 @@ public class DebugScreen extends OverlayScreen {
     int bgh = 9;
     int y1 = textPosition < 2 ? 1 : this.height - 1 - bgh * strings.size(); // is top
     for (String s : strings) {
-      int w = this.font.getStringWidth(s);
+      int w = this.font.getWidth(s);
       int bgw = w + 2;
       int x1 = textPosition % 3 == 0 ? 1 : this.width - bgw - 1; // is left
       int x2 = x1 + bgw;

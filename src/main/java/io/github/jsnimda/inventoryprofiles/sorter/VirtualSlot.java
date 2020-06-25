@@ -3,9 +3,8 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
+import net.minecraft.screen.slot.Slot;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Getter;
-import net.minecraft.container.Slot;
 
 /**
  * VirtualSlot

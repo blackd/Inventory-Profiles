@@ -52,7 +52,7 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Abst
     private List<Anchor> anchors = new ArrayList<>();
     private boolean expanded = false;
     private final int SEPARATOR_WIDTH = 10;
-    private final int DOT_DOT_DOT_WIDTH = MinecraftClient.getInstance().textRenderer.getStringWidth(" ... ...");
+    private final int DOT_DOT_DOT_WIDTH = MinecraftClient.getInstance().textRenderer.getWidth(" ... ...");
     private int rowHeight = 13;
 
     private int currentTextX = 0;
@@ -103,7 +103,7 @@ public class AnchoredListWidget<E extends AnchoredListWidget.Entry> extends Abst
       addAnchor(displayText, entriesTotalHeight);
     }
     public void addAnchor(String displayText, int toScrollY) {
-      int w = MinecraftClient.getInstance().textRenderer.getStringWidth("§n" + displayText);
+      int w = MinecraftClient.getInstance().textRenderer.getWidth("§n" + displayText);
       if (w + currentTextX > getAvailableStringWidth()) {
         currentTextX = 0;
         currentTextRow++;

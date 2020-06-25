@@ -57,7 +57,7 @@ public class Tooltips {
 
         while(var5.hasNext()) {
            String string = var5.next();
-           int l = font.getStringWidth(string);
+           int l = font.getWidth(string);
            if (l > maxStringWidth) {
               maxStringWidth = l;
            }
@@ -133,11 +133,11 @@ public class Tooltips {
   }
 
   public void addTooltip(String string, int mouseX, int mouseY, int maxWidth) {
-    this.addTooltip(MinecraftClient.getInstance().textRenderer.wrapStringToWidthAsList(string, maxWidth), mouseX, mouseY);
+    this.addTooltip(MinecraftClient.getInstance().textRenderer.wrapLines(string, maxWidth), mouseX, mouseY);
   }
 
   public void addTooltip(String string, int mouseX, int mouseY, Function<Integer, Integer> maxWidthProvider) {
-    this.addTooltip(MinecraftClient.getInstance().textRenderer.wrapStringToWidthAsList(string, maxWidthProvider.apply(
+    this.addTooltip(MinecraftClient.getInstance().textRenderer.wrapLines(string, maxWidthProvider.apply(
       MinecraftClient.getInstance().currentScreen.width
     )), mouseX, mouseY);
   }

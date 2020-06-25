@@ -2,7 +2,9 @@ package io.github.jsnimda.inventoryprofiles.sorter;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import io.github.jsnimda.inventoryprofiles.config.Configs.ModSettings;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.GroupingShapeProviders;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
@@ -13,9 +15,6 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.Converter;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import io.github.jsnimda.inventoryprofiles.sorter.util.CurrentState;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Getter;
-import net.minecraft.client.gui.screen.ingame.ContainerScreen;
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
 
 /**
  * VirtualSorterPort
@@ -45,7 +44,7 @@ public class VirtualSorterPort {
     }
   }
   public static void doSort(boolean sortPlayer, ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
-    if (Current.screen() != null && !(Current.screen() instanceof ContainerScreen)) return;
+    if (Current.screen() != null && !(Current.screen() instanceof HandledScreen)) return;
 
     ContainerInfo info = CurrentState.containerInfo();
     ContainerActions.cleanCursor();
@@ -61,7 +60,7 @@ public class VirtualSorterPort {
     doSort(info.container, slots, slotIds, sortingProvider, groupingProvider);
   }
 
-  public static void doSort(Container container, List<Slot> slots, List<Integer> slotIds,
+  public static void doSort(ScreenHandler container, List<Slot> slots, List<Integer> slotIds,
       ISortingMethodProvider sortingProvider, IGroupingShapeProvider groupingProvider) {
     // boolean targetsFirst = AdvancedOptions.SORT_CLICK_TARGETS_FIRST.getBooleanValue();
     // List<OldClick> clicks = VirtualSorter.doSort(Converter.toVirtualItemStackList(slots), sortingProvider, groupingProvider, targetsFirst);

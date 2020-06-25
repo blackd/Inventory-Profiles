@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot;
-import net.minecraft.container.Slot;
+import net.minecraft.screen.slot.Slot;
 
 /**
  * Getter

@@ -80,7 +80,7 @@ public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListW
       String displayName = I18n.translate(displayNamePrefix + option.getKey());
       int tx = offsetX + 2;
       int ty = offsetY + textY;
-      int tw = MinecraftClient.getInstance().textRenderer.getStringWidth(displayName);
+      int tw = MinecraftClient.getInstance().textRenderer.getWidth(displayName);
       drawString(MinecraftClient.getInstance().textRenderer, displayName, tx, ty, COLOR_WHITE);
       if (VHLine.contains(tx, ty - 1, tx + tw, ty + 9 + 1, mouseX, mouseY)) {
         Tooltips.getInstance().addTooltip(I18n.translate(descriptionPrefix + option.getKey()), mouseX, mouseY, x -> x * 2 / 3);

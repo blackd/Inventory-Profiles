@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemType;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlot;
-import net.minecraft.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.Slot;
 
 /**
  * Converter

@@ -45,9 +45,9 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
     configHotkey.getMainKeybind().setSettings(keybindSettingElement.getSettings());
 
     dialogHeight = 5 * 20 + 2 + 10;
-    int maxTextW = configs.stream().mapToInt(x -> this.font.getStringWidth(I18n.translate("inventoryprofiles.common.gui.config." + x.getKey()))).max().orElse(0);
+    int maxTextW = configs.stream().mapToInt(x -> this.font.getWidth(I18n.translate("inventoryprofiles.common.gui.config." + x.getKey()))).max().orElse(0);
     dialogWidth = maxTextW + 150 + 2 + 20;
-    dialogWidth = Math.max(this.font.getStringWidth("§l" + this.title.asFormattedString()) + 20, dialogWidth);
+    dialogWidth = Math.max(this.font.getWidth("§l" + this.title.asFormattedString()) + 20, dialogWidth);
     dialogX = (this.width - dialogWidth) / 2;
     dialogY = (this.height - dialogHeight) / 2;
 
@@ -62,7 +62,7 @@ public class ConfigOptionHotkeyOverlayScreen extends OverlayScreen {
       String displayName = I18n.translate("inventoryprofiles.common.gui.config." + widget.configOption.getKey());
       int tx = dialogX + 10;
       int ty = y0 + 6;
-      int tw = this.font.getStringWidth(displayName);
+      int tw = this.font.getWidth(displayName);
       drawString(this.font, displayName, tx, ty, COLOR_WHITE);
       if (VHLine.contains(tx, ty - 1, tx + tw, ty + 9 + 1, mouseX, mouseY)) {
         Tooltips.getInstance().addTooltip(I18n.translate("inventoryprofiles.common.gui.config.description." + widget.configOption.getKey()), mouseX, mouseY, k -> k * 2 / 3);

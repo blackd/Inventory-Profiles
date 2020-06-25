@@ -2,25 +2,25 @@ package io.github.jsnimda.inventoryprofiles.sorter.util;
 
 import io.github.jsnimda.inventoryprofiles.Log;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.container.AbstractFurnaceContainer;
-import net.minecraft.container.AnvilContainer;
-import net.minecraft.container.BeaconContainer;
-import net.minecraft.container.BrewingStandContainer;
-import net.minecraft.container.CartographyTableContainer;
-import net.minecraft.container.Container;
-import net.minecraft.container.CraftingTableContainer;
-import net.minecraft.container.EnchantingTableContainer;
-import net.minecraft.container.Generic3x3Container;
-import net.minecraft.container.GenericContainer;
-import net.minecraft.container.GrindstoneContainer;
-import net.minecraft.container.HopperContainer;
-import net.minecraft.container.HorseContainer;
-import net.minecraft.container.LecternContainer;
-import net.minecraft.container.LoomContainer;
-import net.minecraft.container.MerchantContainer;
-import net.minecraft.container.PlayerContainer;
-import net.minecraft.container.ShulkerBoxContainer;
-import net.minecraft.container.StonecutterContainer;
+import net.minecraft.screen.AbstractFurnaceScreenHandler;
+import net.minecraft.screen.AnvilScreenHandler;
+import net.minecraft.screen.BeaconScreenHandler;
+import net.minecraft.screen.BrewingStandScreenHandler;
+import net.minecraft.screen.CartographyTableScreenHandler;
+import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.screen.EnchantmentScreenHandler;
+import net.minecraft.screen.Generic3x3ContainerScreenHandler;
+import net.minecraft.screen.GenericContainerScreenHandler;
+import net.minecraft.screen.GrindstoneScreenHandler;
+import net.minecraft.screen.HopperScreenHandler;
+import net.minecraft.screen.HorseScreenHandler;
+import net.minecraft.screen.LecternScreenHandler;
+import net.minecraft.screen.LoomScreenHandler;
+import net.minecraft.screen.MerchantScreenHandler;
+import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ShulkerBoxScreenHandler;
+import net.minecraft.screen.StonecutterScreenHandler;
 
 public enum ContainerCategory {
     TRADABLE,
@@ -34,46 +34,46 @@ public enum ContainerCategory {
     PLAYER_CREATIVE,
     UNKNOWN;
 
-    public static ContainerCategory of(Container container) {
-      if (container instanceof GenericContainer
-          || container instanceof ShulkerBoxContainer
+    public static ContainerCategory of(ScreenHandler container) {
+      if (container instanceof GenericContainerScreenHandler
+          || container instanceof ShulkerBoxScreenHandler
           ) {
         return ContainerCategory.SORTABLE_9xN;
       }
-      if (container instanceof HorseContainer) {
+      if (container instanceof HorseScreenHandler) {
         return ContainerCategory.SORTABLE_Nx3;
       }
-      if (container instanceof Generic3x3Container) {
+      if (container instanceof Generic3x3ContainerScreenHandler) {
         return ContainerCategory.SORTABLE_3x3;
       }
-      if (container instanceof HopperContainer
-          || container instanceof BrewingStandContainer
-          || container instanceof AbstractFurnaceContainer
+      if (container instanceof HopperScreenHandler
+          || container instanceof BrewingStandScreenHandler
+          || container instanceof AbstractFurnaceScreenHandler
           ) {
         return ContainerCategory.NON_SORTABLE_STORAGE;
       }
   
-      if (container instanceof CreativeInventoryScreen.CreativeContainer) {
+      if (container instanceof CreativeInventoryScreen.CreativeScreenHandler) {
         return ContainerCategory.PLAYER_CREATIVE;
       }
-      if (container instanceof PlayerContainer) {
+      if (container instanceof PlayerScreenHandler) {
         return ContainerCategory.PLAYER_SURVIVAL;
       }
-      if (container instanceof CraftingTableContainer) {
+      if (container instanceof CraftingScreenHandler) {
         return ContainerCategory.CRAFTABLE_3x3;
       }
-      if (container instanceof EnchantingTableContainer
-          || container instanceof AnvilContainer
-          || container instanceof BeaconContainer
-          || container instanceof CartographyTableContainer
-          || container instanceof GrindstoneContainer
-          || container instanceof LecternContainer
-          || container instanceof LoomContainer
-          || container instanceof StonecutterContainer
+      if (container instanceof EnchantmentScreenHandler
+          || container instanceof AnvilScreenHandler
+          || container instanceof BeaconScreenHandler
+          || container instanceof CartographyTableScreenHandler
+          || container instanceof GrindstoneScreenHandler
+          || container instanceof LecternScreenHandler
+          || container instanceof LoomScreenHandler
+          || container instanceof StonecutterScreenHandler
           ) {
         return ContainerCategory.NON_STORAGE;
       }
-      if (container instanceof MerchantContainer) {
+      if (container instanceof MerchantScreenHandler) {
         return ContainerCategory.TRADABLE;
       }
       // TODO handle mods

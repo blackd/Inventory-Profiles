@@ -19,9 +19,9 @@ public class ConfigOptionToggleableButtonWidget extends RightClickableButtonWidg
   @Override
   public void drawCenteredString(TextRenderer textRenderer, String string, int i, int j, int k) {
     if (drawShadow) {
-      textRenderer.drawWithShadow(string, (float)(i - textRenderer.getStringWidth(string) / 2), (float)j, k);
+      textRenderer.drawWithShadow(string, (float)(i - textRenderer.getWidth(string) / 2), (float)j, k);
     } else {
-      textRenderer.draw(string, (float)(i - textRenderer.getStringWidth(string) / 2), (float)j, k);
+      textRenderer.draw(string, (float)(i - textRenderer.getWidth(string) / 2), (float)j, k);
     }
   }
 

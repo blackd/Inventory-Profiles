@@ -1,9 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
+import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
-
-import net.minecraft.container.Slot;
 
 /**
  * IMixinSlot

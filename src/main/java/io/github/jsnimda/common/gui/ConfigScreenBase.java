@@ -72,7 +72,7 @@ public class ConfigScreenBase extends Screen {
       buttonsDirty = false;
       calculatedButtonsWidth = 0;
       navigationButtons.forEach(x -> {
-        int w = this.font.getStringWidth(x.getLeft());
+        int w = this.font.getWidth(x.getLeft());
         calculatedButtonsWidth = Math.max(w, calculatedButtonsWidth);
       });
       calculatedButtonsWidth = calculatedButtonsWidth == 0 ? 10 : calculatedButtonsWidth + 20;

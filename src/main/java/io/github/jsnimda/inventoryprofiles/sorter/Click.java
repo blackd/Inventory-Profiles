@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.sorter;
 
-import net.minecraft.container.SlotActionType;
+import net.minecraft.screen.slot.SlotActionType;
 
 public class Click {
 
