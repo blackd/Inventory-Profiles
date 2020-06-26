@@ -6,6 +6,7 @@ import io.github.jsnimda.common.config.CategorizedMultiConfig
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.options.*
 import io.github.jsnimda.common.config.toMultiConfig
+import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.input.KeybindSettings
 import io.github.jsnimda.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 import io.github.jsnimda.common.util.PropertyNameChecker
@@ -32,6 +33,9 @@ fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) =
 
 fun ConfigDeclaration.string(defaultValue: String) =
   ConfigString(defaultValue).addTo(this)
+
+fun ConfigDeclaration.button(info: ConfigButtonInfo) =
+  ConfigButton(info).addTo(this)
 
 // createBuilder()
 fun ConfigDeclaration.createBuilder() = ConfigDeclarationBuilder().apply {

@@ -4,12 +4,10 @@ import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.IConfigOptionNumeric
 import io.github.jsnimda.common.config.IConfigOptionToggleable
-import io.github.jsnimda.common.config.options.ConfigBoolean
-import io.github.jsnimda.common.config.options.ConfigEnum
-import io.github.jsnimda.common.config.options.ConfigHotkey
-import io.github.jsnimda.common.config.options.ConfigString
+import io.github.jsnimda.common.config.options.*
 import io.github.jsnimda.common.gui.widget.Axis
 import io.github.jsnimda.common.gui.widget.BiFlex
+import io.github.jsnimda.common.vanilla.VanillaSound
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.render.rBindTexture
@@ -30,12 +28,15 @@ fun ConfigEnum<*>.toWidget() = ConfigToggleableWidget(this) { it.value.toString(
 
 fun ConfigString.toWidget() = ConfigStringWidget(this)
 
+fun ConfigButton.toWidget() = ConfigButtonWidget(this)
+
 fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this) {
   is ConfigBoolean -> this.toWidget()
   is IConfigOptionNumeric<*> -> this.toWidget()
   is ConfigEnum<*> -> this.toWidget()
   is ConfigHotkey -> this.toWidget()
   is ConfigString -> this.toWidget()
+  is ConfigButton -> this.toWidget()
   else -> object : ConfigWidgetBase<IConfigOption>(this) {}
     .also { Log.warn("unknown config option $this") }
 }
@@ -197,5 +198,27 @@ class ConfigStringWidget(configOption: ConfigString) : ConfigWidgetBase<ConfigSt
     flex.reverse.addSpace(2)
     flex.addAndFit(textField)
     textField.top = 1
+  }
+}
+
+open class ConfigButtonInfo {
+  open val buttonText: String = ""
+  open fun onClick(widget: ButtonWidget) {}
+}
+
+class ConfigButtonWidget(configOption: ConfigButton) : ConfigWidgetBase<ConfigButton>(configOption) {
+  val button = ButtonWidget().apply {
+    text = configOption.info.buttonText
+    clickEvent = { button ->
+      if (button == 0) {
+        VanillaSound.playClick()
+        configOption.info.onClick(this)
+      }
+    }
+  }
+
+  init {
+    flex.reverse.offset = 0
+    flex.addAndFit(button)
   }
 }

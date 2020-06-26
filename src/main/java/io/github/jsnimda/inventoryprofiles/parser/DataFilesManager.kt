@@ -1,6 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.parser
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.config.options.ConfigButton
+import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.custom.CustomRuleRegister
@@ -8,6 +10,10 @@ import io.github.jsnimda.inventoryprofiles.item.rule.custom.RulesFile
 import java.nio.file.Path
 
 private val strCmpLogical = LogicalStringComparator.file()
+
+object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
+
+}
 
 object DataFilesManager {
   val internalRulesTxtContent = VanillaUtils.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""

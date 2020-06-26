@@ -17,7 +17,13 @@ fun CategorizedMultiConfig.toListWidget(
 ): ConfigListWidget =
   ConfigListWidget(displayNameOf, descriptionOf).apply {
     categories.forEach { (categoryName, configOptions) ->
-      addCategory(categoryNameOf(categoryName))
+      val name = categoryNameOf(categoryName)
+      if (name.isNotEmpty()) { // skip ""
+        if (name.isBlank()) // " " -> no anchor
+          addEntry(CategoryEntry(name))
+        else // -> do add anchor
+          addCategory(name)
+      }
       configOptions.forEach { addConfigOption(it) }
     }
   }

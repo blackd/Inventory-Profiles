@@ -6,21 +6,26 @@ import io.github.jsnimda.common.vanilla.render.rBindTexture
 import io.github.jsnimda.common.vanilla.render.rBlit
 import io.github.jsnimda.common.vanilla.render.rDrawCenteredText
 
-open class ButtonWidget private constructor(private val clickEvent: (button: Int) -> Unit, dummy: Unit) : Widget() {
+open class ButtonWidget : Widget {
+  var clickEvent: (Int) -> Unit = { }
 
-  constructor(clickEvent: (button: Int) -> Unit) : this({ button ->
-    VanillaSound.playClick()
-    clickEvent(button)
-  }, Unit)
-
-  constructor(clickEvent: () -> Unit) : this({ button ->
-    if (button == 0) {
+  constructor(clickEvent: (button: Int) -> Unit) {
+    this.clickEvent = { button ->
       VanillaSound.playClick()
-      clickEvent()
+      clickEvent(button)
     }
-  }, Unit)
+  }
 
-  constructor() : this({ }, Unit)
+  constructor(clickEvent: () -> Unit) {
+    this.clickEvent = { button ->
+      if (button == 0) {
+        VanillaSound.playClick()
+        clickEvent()
+      }
+    }
+  }
+
+  constructor()
 
   var clickThrough = false
 

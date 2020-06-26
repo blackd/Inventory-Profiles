@@ -1,9 +1,13 @@
 package io.github.jsnimda.common.config.options
 
+import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.ConfigOptionBase
 import io.github.jsnimda.common.config.ConfigOptionNumericBase
 import io.github.jsnimda.common.config.IConfigOptionPrimitive
 import io.github.jsnimda.common.config.IConfigOptionToggleable
+import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.util.next
 import io.github.jsnimda.common.util.previous
 
@@ -40,4 +44,18 @@ class ConfigEnum<E : Enum<E>>(override val defaultValue: E) :
 class ConfigString(override val defaultValue: String) :
   ConfigOptionBase(), IConfigOptionPrimitive<String> {
   override var value = defaultValue
+}
+
+class ConfigButton(val info: ConfigButtonInfo) : ConfigOptionBase() { // fake config that acts as button
+  override fun toJsonElement(): JsonElement {
+    Log.warn("this is a config button")
+    return JsonNull.INSTANCE
+  }
+
+  override fun fromJsonElement(element: JsonElement) {
+    Log.warn("this is a config button $element")
+  }
+
+  override val isModified = false
+  override fun resetToDefault() {}
 }
