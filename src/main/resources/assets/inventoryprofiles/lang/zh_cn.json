@@ -135,6 +135,17 @@
     "inventoryprofiles.config.name.screen_depth_test": "Screen Depth Test",
     "inventoryprofiles.enum.sorting_method.global": "Global (%s)",
     "inventoryprofiles.enum.sorting_method.raw_id": "Item Numerical ID",
-    "inventoryprofiles.enum.sorting_method.custom": "Custom Rule"
+    "inventoryprofiles.enum.sorting_method.custom": "Custom Rule",
+    "inventoryprofiles.config.name.open_config_folder": "Open Config Folder",
+    "inventoryprofiles.config.name.reload_rule_files": "Reload Rule File",
+    "inventoryprofiles.config.description.open_config_folder": "Open folder .minecraft/config/inventoryprofiles",
+    "inventoryprofiles.config.description.reload_rule_files": "Reload rule.*.txt under config folder",
+    "inventoryprofiles.enum.none": "None",
+    "inventoryprofiles.enum.group_in_rows": "Group In Rows",
+    "inventoryprofiles.enum.group_in_columns": "Group In Columns",
+    "inventoryprofiles.enum.distribute_evenly": "Distribute Evenly",
+    "inventoryprofiles.enum.shuffle": "Shuffle",
+    "inventoryprofiles.enum.fill_one": "Fill One",
+    "inventoryprofiles.enum.reverse": "Reverse"
 
 }

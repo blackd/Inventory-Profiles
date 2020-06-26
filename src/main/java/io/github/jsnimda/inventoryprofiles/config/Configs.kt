@@ -5,6 +5,7 @@ package io.github.jsnimda.inventoryprofiles.config
 import io.github.jsnimda.common.Savable
 import io.github.jsnimda.common.config.builder.*
 import io.github.jsnimda.common.input.KeybindSettings
+import io.github.jsnimda.inventoryprofiles.parser.OpenConfigFolderButtonInfo
 import io.github.jsnimda.inventoryprofiles.parser.ReloadRuleFileButtonInfo
 
 private const val category = "inventoryprofiles.config.category"
@@ -12,6 +13,7 @@ private const val category = "inventoryprofiles.config.category"
 object ModSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
+  val OPEN_CONFIG_FOLDER                        /**/ by button(OpenConfigFolderButtonInfo)
   val RELOAD_RULE_FILES                         /**/ by button(ReloadRuleFileButtonInfo)
 
     .CATEGORY("$category.inventory_sorting")

@@ -15,6 +15,10 @@ object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
 
 }
 
+object OpenConfigFolderButtonInfo : ConfigButtonInfo() {
+
+}
+
 object DataFilesManager {
   val internalRulesTxtContent = VanillaUtils.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""
   val internalRulesTxt = "<internal rules.txt>" to internalRulesTxtContent

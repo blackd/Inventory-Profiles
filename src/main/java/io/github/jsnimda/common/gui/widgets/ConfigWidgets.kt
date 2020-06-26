@@ -218,7 +218,9 @@ class ConfigButtonWidget(configOption: ConfigButton) : ConfigWidgetBase<ConfigBu
   }
 
   init {
-    flex.reverse.offset = 0
+    flex.normal.offset = 2
+    flex.reverse.offset = 2
     flex.addAndFit(button)
+    resetButton.visible = false
   }
 }
