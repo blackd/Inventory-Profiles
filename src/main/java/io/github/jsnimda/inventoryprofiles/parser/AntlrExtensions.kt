@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.parser
 
 import org.antlr.v4.runtime.*
 
+data class SyntaxErrorException(val line: Int, val pos: Int, val msg: String) : RuntimeException()
 
 fun <T : Parser> String.parseBy(
   lexerConstructor: (CharStream) -> Lexer,

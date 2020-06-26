@@ -41,8 +41,16 @@
 
 
 
-    "inventoryprofiles.config.name.open_config_folder":             "Open Config Folder",
-    "inventoryprofiles.config.name.reload_rule_files":              "Reload Rule File",
+    "inventoryprofiles.config.name.open_config_folder":             "§aOpen Config Folder",
+    "inventoryprofiles.config.name.reload_rule_files":              "§aReload Rule File",
+
+    "inventoryprofiles.config.description.open_config_folder":          "Open folder .minecraft/config/inventoryprofiles",
+    "inventoryprofiles.config.description.reload_rule_files":           "Reload rule.*.txt in config folder",
+
+    "inventoryprofiles.gui.config.button.open_config_folder": "config/inventoryprofiles",
+    "inventoryprofiles.gui.config.button.reload_rule_files": "Reload rule.*.txt",
+
+
     "inventoryprofiles.config.name.sort_order":                     "Sort Order",
     "inventoryprofiles.config.name.custom_rule":                    "Custom Rule",
     "inventoryprofiles.config.name.add_interval_between_clicks":    "Add Interval Between Clicks",
@@ -52,8 +60,6 @@
     "inventoryprofiles.config.name.stop_at_screen_close":           "Stop At Screen Close",
     "inventoryprofiles.config.name.debug_logs":                     "Debug Logs",
 
-    "inventoryprofiles.config.description.open_config_folder":          "Open folder .minecraft/config/inventoryprofiles",
-    "inventoryprofiles.config.description.reload_rule_files":           "Reload rule.*.txt in config folder",
     "inventoryprofiles.config.description.sort_order":                  "The sorting method used for inventory sorting",
     "inventoryprofiles.config.description.custom_rule":                 "The rule for custom sorting method",
     "inventoryprofiles.config.description.add_interval_between_clicks": "Adds some interval between clicks while sorting. Amount of interval can be set by \"intervalBetweenClicksMs\". Might be useful on some laggy servers or inventory.fastclick disabled servers. (To bypass some servers, 67 ms is recommended)",

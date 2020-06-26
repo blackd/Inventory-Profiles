@@ -3,6 +3,8 @@ package io.github.jsnimda.common.vanilla
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.Screen
+import net.minecraft.util.Util
+import java.io.File
 import java.nio.file.Path
 
 val Path.loggingPath
@@ -30,4 +32,8 @@ object VanillaUtils {
   fun loggingString(path: Path): String = // return ".minecraft/config/file.txt" etc
     (if (path.isAbsolute) path pathFrom (runDirectory() / "..") else path).toString()
 
+  fun open(file: File) {
+    // ResourcePackOptionsScreen.init()
+    Util.getOperatingSystem().open(file)
+  }
 }

@@ -2,9 +2,11 @@ package io.github.jsnimda.inventoryprofiles.parser
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.options.ConfigButton
+import io.github.jsnimda.common.gui.widgets.ButtonWidget
 import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaUtils
+import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.inventoryprofiles.item.rule.custom.CustomRuleRegister
 import io.github.jsnimda.inventoryprofiles.item.rule.custom.RulesFile
 import java.nio.file.Path
@@ -12,15 +14,26 @@ import java.nio.file.Path
 private val strCmpLogical = LogicalStringComparator.file()
 
 object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
+  override val buttonText: String
+    get() = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files")
 
+  override fun onClick(widget: ButtonWidget) {
+    super.onClick(widget)
+  }
 }
 
 object OpenConfigFolderButtonInfo : ConfigButtonInfo() {
+  override val buttonText: String
+    get() = I18n.translate("inventoryprofiles.gui.config.button.open_config_folder")
 
+  override fun onClick(widget: ButtonWidget) {
+    VanillaUtils.open(VanillaUtils.configDirectory("inventoryprofiles").toFile())
+  }
 }
 
 object DataFilesManager {
   val internalRulesTxtContent = VanillaUtils.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""
+    .also { Log.error("Failed to load in-jar file inventoryprofiles:config/rules.txt") }
   val internalRulesTxt = "<internal rules.txt>" to internalRulesTxtContent
 
   fun load() {
@@ -43,12 +56,12 @@ object DataFilesManager {
 
   private fun readFiles(regex: String): List<Pair<String, String>> =
     VanillaUtils.configDirectory("inventoryprofiles").listFiles(regex)
-      .sortedWith(Comparator { a, b -> strCmpLogical.compare(a.name, b.name) })
+      .sortedWith { a, b -> strCmpLogical.compare(a.name, b.name) }
       .let { readFiles(it) }
 
   private fun readFiles(paths: List<Path>): List<Pair<String, String>> =
     paths.mapNotNull { path ->
-      tryOrNull(onFailure = { Log.error("Failed to load file $path") }) { path.readFileToString() }
+      tryOrNull(onFailure = { Log.error("Failed to read file $path") }) { path.readFileToString() }
         ?.let { path.name to it }
     }
 
