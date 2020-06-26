@@ -4,6 +4,8 @@ import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.custom.CustomRuleRegister
 
+private const val ENUM = "inventoryprofiles.enum"
+
 enum class SortingMethod(private val ruleName: String?) {
   DEFAULT("default"),
   ITEM_NAME("item_name"),
@@ -15,7 +17,7 @@ enum class SortingMethod(private val ruleName: String?) {
     get() = ruleName?.let { CustomRuleRegister.getOrEmpty(it) } ?: TODO("custom rule")
 
   override fun toString(): String =
-    I18n.translate("inventoryprofiles.enum.sorting_method.${name.toLowerCase()}")
+    I18n.translate("$ENUM.sorting_method.${name.toLowerCase()}")
 }
 
 enum class SortingMethodIndividual {
@@ -34,7 +36,13 @@ enum class SortingMethodIndividual {
         SortingMethod.values()[ordinal - 1].rule
 
   override fun toString(): String =
-    I18n.translate("inventoryprofiles.enum.sorting_method.${name.toLowerCase()}")
+    if (this == GLOBAL)
+      I18n.translate(
+        "$ENUM.sorting_method.global",
+        ModSettings.SORT_ORDER.value.toString().substringBefore('(').trim()
+      )
+    else
+      I18n.translate("$ENUM.sorting_method.${name.toLowerCase()}")
 }
 
 enum class PostAction {
@@ -44,6 +52,9 @@ enum class PostAction {
   DISTRIBUTE_EVENLY,
   SHUFFLE,
   FILL_ONE,
-  REVERSE
+  REVERSE;
+
+  override fun toString(): String =
+    I18n.translate("$ENUM.post_action.${name.toLowerCase()}")
 }
 

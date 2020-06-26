@@ -22,5 +22,5 @@ typealias ItemStack = ItemStack
 typealias CompoundTag = CompoundTag
 
 object I18n {
-  fun translate(string: String, vararg objects: Any?): String = I18n.translate(string, objects)
+  fun translate(string: String, vararg objects: Any?): String = I18n.translate(string, *objects)
 }
