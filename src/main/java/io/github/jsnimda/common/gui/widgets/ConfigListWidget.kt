@@ -48,7 +48,7 @@ class ConfigListWidget(private val displayNameOf: (String) -> String, private va
     val description
       get() = descriptionOf(configOption.key)
 
-    val optionWidget: ConfigOptionBaseWidget<*> = configOption.toConfigWidget().apply {
+    val configWidget: ConfigWidgetBase<*> = configOption.toConfigWidget().apply {
       anchor = AnchorStyles.all
       this@ConfigOptionEntry.addChild(this)
       top = 0
@@ -75,7 +75,7 @@ class ConfigListWidget(private val displayNameOf: (String) -> String, private va
 
     init {
       sizeChanged += {
-        optionWidget.left = width / 2
+        configWidget.left = width / 2
       }
     }
   }

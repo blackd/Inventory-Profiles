@@ -7,6 +7,7 @@ import io.github.jsnimda.common.config.IConfigOptionToggleable
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.config.options.ConfigHotkey
+import io.github.jsnimda.common.config.options.ConfigString
 import io.github.jsnimda.common.gui.widget.Axis
 import io.github.jsnimda.common.gui.widget.BiFlex
 import io.github.jsnimda.common.vanilla.alias.I18n
@@ -27,27 +28,27 @@ fun IConfigOptionNumeric<*>.toWidget() = ConfigNumericWidget(this)
 
 fun ConfigEnum<*>.toWidget() = ConfigToggleableWidget(this) { it.value.toString() }
 
-fun IConfigOption.toConfigWidget(): ConfigOptionBaseWidget<IConfigOption> = when (this) {
+fun ConfigString.toWidget() = ConfigStringWidget(this)
+
+fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this) {
   is ConfigBoolean -> this.toWidget()
   is IConfigOptionNumeric<*> -> this.toWidget()
   is ConfigEnum<*> -> this.toWidget()
   is ConfigHotkey -> this.toWidget()
-  else -> object : ConfigOptionBaseWidget<IConfigOption>(this) {}
+  is ConfigString -> this.toWidget()
+  else -> object : ConfigWidgetBase<IConfigOption>(this) {}
     .also { Log.warn("unknown config option $this") }
 }
 
 //endregion
 
-abstract class ConfigOptionBaseWidget<out T : IConfigOption>(val configOption: T) : Widget() {
+abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Widget() {
 
   val resetButton = ButtonWidget { -> reset() }.apply {
     text = I18n.translate("inventoryprofiles.common.gui.config.reset")
   }
 
-  val flow = BiFlex(
-    this,
-    Axis.HORIZONTAL
-  )
+  val flex = BiFlex(this, Axis.HORIZONTAL)
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     resetButton.active = resetButtonActive()
@@ -64,8 +65,8 @@ abstract class ConfigOptionBaseWidget<out T : IConfigOption>(val configOption: T
 
   init {
     height = 20
-    flow.reverse.add(resetButton, rMeasureText(resetButton.text) + 15)
-    flow.reverse.addSpace(2)
+    flex.reverse.add(resetButton, rMeasureText(resetButton.text) + 15)
+    flex.reverse.addSpace(2)
   }
 
 }
@@ -83,7 +84,7 @@ class ConfigOptionToggleableButtonWidget(
   }
 }
 
-class ConfigBooleanWidget(configOption: ConfigBoolean) : ConfigOptionBaseWidget<ConfigBoolean>(configOption) {
+class ConfigBooleanWidget(configOption: ConfigBoolean) : ConfigWidgetBase<ConfigBoolean>(configOption) {
   var trueText = I18n.translate("inventoryprofiles.common.gui.config.true")
   var falseText = I18n.translate("inventoryprofiles.common.gui.config.false")
   val booleanButton = ConfigOptionToggleableButtonWidget(configOption) {
@@ -91,16 +92,16 @@ class ConfigBooleanWidget(configOption: ConfigBoolean) : ConfigOptionBaseWidget<
   }
 
   init {
-    flow.addAndFit(booleanButton)
+    flex.addAndFit(booleanButton)
   }
 }
 
 class ConfigToggleableWidget<T : IConfigOptionToggleable>(configOption: T, var displayText: (T) -> String) :
-  ConfigOptionBaseWidget<T>(configOption) {
+  ConfigWidgetBase<T>(configOption) {
   val toggleButton = ConfigOptionToggleableButtonWidget(configOption) { displayText(configOption) }
 
   init {
-    flow.addAndFit(toggleButton)
+    flex.addAndFit(toggleButton)
   }
 }
 
@@ -110,7 +111,7 @@ private val PATTERN_INTEGER = Regex("-?[0-9]*")
 private val PATTERN_DOUBLE = Regex("^-?([0-9]+(\\.[0-9]*)?)?")
 
 class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
-  ConfigOptionBaseWidget<IConfigOptionNumeric<*>>(configOption) {
+  ConfigWidgetBase<IConfigOptionNumeric<*>>(configOption) {
   val pattern = if (configOption.defaultValue is Double) PATTERN_DOUBLE else PATTERN_INTEGER
 
   var useSlider = true
@@ -165,15 +166,36 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
   }
 
   init {
-    flow.reverse.add(toggleButton, 16, false, 16)
-    flow.reverse.addSpace(2)
-    flow.reverse.offset.let { offset ->
-      flow.reverse.addAndFit(slider)
-      flow.reverse.offset = offset
-      flow.reverse.addSpace(1)
-      flow.normal.addSpace(2)
-      flow.addAndFit(textField)
+    flex.reverse.add(toggleButton, 16, false, 16)
+    flex.reverse.addSpace(2)
+    flex.reverse.offset.let { offset ->
+      flex.reverse.addAndFit(slider)
+      flex.reverse.offset = offset
+      flex.reverse.addSpace(1)
+      flex.normal.addSpace(2)
+      flex.addAndFit(textField)
       textField.top = 1
     }
+  }
+}
+
+class ConfigStringWidget(configOption: ConfigString) : ConfigWidgetBase<ConfigString>(configOption) {
+  val textField = TextFieldWidget(18).apply {
+    changedEvent = {
+      configOption.value = vanillaText
+    }
+  }
+
+  override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    if (!textField.editing())
+      textField.vanillaText = configOption.value
+    super.render(mouseX, mouseY, partialTicks)
+  }
+
+  init {
+    flex.normal.addSpace(2)
+    flex.reverse.addSpace(2)
+    flex.addAndFit(textField)
+    textField.top = 1
   }
 }
