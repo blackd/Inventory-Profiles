@@ -3,18 +3,17 @@ package io.github.jsnimda.common.event
 object GlobalInitHandler {
 
   fun onInit() {
-    registeredInitHandlers.forEach { it() }
+    registered.forEach { it() }
   }
 
   // ============
   // api
   // ============
-  private val registeredInitHandlers = mutableSetOf<() -> Unit>()
+  private val registered = mutableSetOf<() -> Unit>()
 
-  fun registerInitHandler(initHandler: () -> Unit): Boolean =
-    registeredInitHandlers.add(initHandler)
+  fun register(initHandler: () -> Unit): Boolean =
+    registered.add(initHandler)
 
-  fun removeInitHandler(initHandler: () -> Unit): Boolean =
-    registeredInitHandlers.remove(initHandler)
-
+  fun unregister(initHandler: () -> Unit): Boolean =
+    registered.remove(initHandler)
 }

@@ -6,7 +6,7 @@ import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widgets.TextButtonWidget
-import io.github.jsnimda.common.gui.widgets.toWidget
+import io.github.jsnimda.common.gui.widgets.toConfigWidget
 import io.github.jsnimda.common.input.ConfigKeybindSettings
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
@@ -37,7 +37,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
     dialogWidget.size = Size(dialogWidth, dialogHeight)
     configs.forEachIndexed { index, configOption ->
       val baseTop = 2 + 20 + index * 20
-      configOption.toWidget().apply {
+      configOption.toConfigWidget().apply {
         anchor = AnchorStyles.none
         dialogWidget.addChild(this)
         width = 150

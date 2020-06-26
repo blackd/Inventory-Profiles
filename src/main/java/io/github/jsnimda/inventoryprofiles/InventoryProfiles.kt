@@ -11,12 +11,12 @@ import io.github.jsnimda.inventoryprofiles.parser.DataFilesManager
 @Suppress("unused")
 fun init() {
 
-  GlobalInitHandler.registerInitHandler {
+  GlobalInitHandler.register {
 
     Log.debugHandler = { if (ModSettings.DEBUG_LOGS.booleanValue) Log.info(it()) }
 
     // Keybind register
-    GlobalInputHandler.registerInputHandler(InputHandler())
+    GlobalInputHandler.register(InputHandler())
 
     SaveLoadManager.load()
     DataFilesManager.load()

@@ -1,8 +1,8 @@
 package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.gui.widget.AnchorStyles
-import io.github.jsnimda.common.gui.widget.FlowLayout
-import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
+import io.github.jsnimda.common.gui.widget.Flex
+import io.github.jsnimda.common.gui.widget.FlexDirection.TOP_DOWN
 import io.github.jsnimda.common.gui.widget.Overflow.VISIBLE
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.render.rDrawOutline
@@ -31,7 +31,7 @@ open class AnchoredListWidget : Widget() {
     bottom = 0
   }
   val containerContentFlowLayout =
-    FlowLayout(container.contentContainer, TOP_DOWN)
+    Flex(container.contentContainer, TOP_DOWN)
 
   var renderBorder = true
   var borderColor = COLOR_BORDER
@@ -42,10 +42,28 @@ open class AnchoredListWidget : Widget() {
     renderBorder = false
   }
 
+  override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    if (renderBorder) {
+      rDrawOutline(absoluteBounds, borderColor)
+    }
+    super.render(mouseX, mouseY, partialTicks)
+  }
+
+  fun addEntry(entry: Widget) {
+    containerContentFlowLayout.add(entry, entry.height)
+    container.contentHeight = containerContentFlowLayout.offset
+  }
+
+  fun addAnchor(displayText: String) {
+    anchorHeader.addAnchor(displayText)
+  }
+
+  fun isOutOfContainer(entry: Widget): Boolean =
+    container.scrollY > entry.bounds.bottom || container.scrollY + container.viewport.height < entry.top
+
   // ============
   // AnchorHeader
   // ============
-
   inner class AnchorHeader : Widget() {
     private val ellipsisText = I18n.translate("inventoryprofiles.common.gui.config.more")
     private val ellipsisTextWidth = rMeasureText(ellipsisText)
@@ -222,24 +240,4 @@ open class AnchoredListWidget : Widget() {
       true.also { super.mouseClicked(x, y, button) }
 
   }
-
-  override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    if (renderBorder) {
-      rDrawOutline(absoluteBounds, borderColor)
-    }
-    super.render(mouseX, mouseY, partialTicks)
-  }
-
-  fun addEntry(entry: Widget) {
-    containerContentFlowLayout.add(entry, entry.height)
-    container.contentHeight = containerContentFlowLayout.offset
-  }
-
-  fun addAnchor(displayText: String) {
-    anchorHeader.addAnchor(displayText)
-  }
-
-  fun isOutOfContainer(entry: Widget): Boolean =
-    container.scrollY > entry.bounds.bottom || container.scrollY + container.viewport.height < entry.top
-
 }

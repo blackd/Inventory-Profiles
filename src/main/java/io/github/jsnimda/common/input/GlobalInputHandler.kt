@@ -49,7 +49,7 @@ object GlobalInputHandler {
       handleAssignKeybind()
       return true
     }
-    registeredInputHandlers.forEach { it.onInput(lastKey, lastAction) }
+    registered.forEach { it.onInput(lastKey, lastAction) }
     return false
   }
 
@@ -109,10 +109,11 @@ object GlobalInputHandler {
   // ============
   // api
   // ============
-  private val registeredInputHandlers: MutableSet<IInputHandler> = mutableSetOf()
+  private val registered: MutableSet<IInputHandler> = mutableSetOf()
 
-  fun registerInputHandler(inputHandler: IInputHandler): Boolean = registeredInputHandlers.add(inputHandler)
+  fun register(inputHandler: IInputHandler): Boolean =
+    registered.add(inputHandler)
 
-  fun removeInputHandler(inputHandler: IInputHandler): Boolean = registeredInputHandlers.remove(inputHandler)
-
+  fun unregister(inputHandler: IInputHandler): Boolean =
+    registered.remove(inputHandler)
 }

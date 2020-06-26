@@ -20,7 +20,7 @@ private fun translate(suffix: String): String {
   return I18n.translate(textPrefix + suffix)
 }
 
-class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWidget<ConfigHotkey>(configOption) {
+class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWidget<ConfigHotkey>(configOption) {
   private val setKeyButton = ButtonWidget { -> GlobalInputHandler.currentAssigningKeybind = configOption.mainKeybind }
   private val iconButton = object : ButtonWidget({ button ->
     if (button == GLFW_MOUSE_BUTTON_RIGHT) {
@@ -81,8 +81,8 @@ class ConfigOptionHotkeyWidget(configOption: ConfigHotkey) : ConfigOptionBaseWid
   }
 
   init {
-    flow.least.add(iconButton, 20, false, 20)
-    flow.least.addSpace(2)
+    flow.normal.add(iconButton, 20, false, 20)
+    flow.normal.addSpace(2)
     flow.addAndFit(setKeyButton)
   }
 }

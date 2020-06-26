@@ -3,10 +3,10 @@ package io.github.jsnimda.common.gui.screen
 import io.github.jsnimda.common.config.options.ConfigHotkey
 import io.github.jsnimda.common.gui.Size
 import io.github.jsnimda.common.gui.widget.AnchorStyles
-import io.github.jsnimda.common.gui.widget.FlowLayout
-import io.github.jsnimda.common.gui.widget.FlowLayout.FlowDirection.TOP_DOWN
+import io.github.jsnimda.common.gui.widget.Flex
+import io.github.jsnimda.common.gui.widget.FlexDirection.TOP_DOWN
 import io.github.jsnimda.common.gui.widgets.ButtonWidget
-import io.github.jsnimda.common.gui.widgets.ConfigOptionHotkeyWidget
+import io.github.jsnimda.common.gui.widgets.ConfigHotkeyWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.gui.widgets.toWidget
 import io.github.jsnimda.common.vanilla.alias.Text
@@ -19,7 +19,7 @@ private const val COLOR_WHITE = 0xFFFFFFFF.toInt()
 
 open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
-  var openConfigMenuHotkeyWidget: ConfigOptionHotkeyWidget? = null
+  var openConfigMenuHotkeyWidget: ConfigHotkeyWidget? = null
     private set(value) {
       field?.parent = null
       field = value?.apply {
@@ -46,7 +46,7 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
   }
 
   private val navigationButtonsFlowLayout =
-    FlowLayout(navigationButtonsContainer, TOP_DOWN)
+    Flex(navigationButtonsContainer, TOP_DOWN)
 
   var currentConfigList: Widget? = null
     set(value) {

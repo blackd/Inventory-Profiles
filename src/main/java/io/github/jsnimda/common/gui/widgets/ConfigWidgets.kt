@@ -7,7 +7,8 @@ import io.github.jsnimda.common.config.IConfigOptionToggleable
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.config.options.ConfigHotkey
-import io.github.jsnimda.common.gui.widget.BiDirectionalFlowLayout
+import io.github.jsnimda.common.gui.widget.Axis
+import io.github.jsnimda.common.gui.widget.BiFlex
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.render.rBindTexture
@@ -18,15 +19,15 @@ import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
 //region Widget Providers for Config Options
 
-fun ConfigHotkey.toWidget() = ConfigOptionHotkeyWidget(this)
+fun ConfigHotkey.toWidget() = ConfigHotkeyWidget(this)
 
-fun ConfigBoolean.toWidget() = ConfigOptionBooleanWidget(this)
+fun ConfigBoolean.toWidget() = ConfigBooleanWidget(this)
 
-fun IConfigOptionNumeric<*>.toWidget() = ConfigOptionNumericWidget(this)
+fun IConfigOptionNumeric<*>.toWidget() = ConfigNumericWidget(this)
 
-fun ConfigEnum<*>.toWidget() = ConfigOptionToggleableWidget(this) { it.value.toString() }
+fun ConfigEnum<*>.toWidget() = ConfigToggleableWidget(this) { it.value.toString() }
 
-fun IConfigOption.toWidget(): ConfigOptionBaseWidget<IConfigOption> = when (this) {
+fun IConfigOption.toConfigWidget(): ConfigOptionBaseWidget<IConfigOption> = when (this) {
   is ConfigBoolean -> this.toWidget()
   is IConfigOptionNumeric<*> -> this.toWidget()
   is ConfigEnum<*> -> this.toWidget()
@@ -43,9 +44,9 @@ abstract class ConfigOptionBaseWidget<out T : IConfigOption>(val configOption: T
     text = I18n.translate("inventoryprofiles.common.gui.config.reset")
   }
 
-  val flow = BiDirectionalFlowLayout(
+  val flow = BiFlex(
     this,
-    BiDirectionalFlowLayout.BiDirectionalFlowDirection.HORIZONTAL
+    Axis.HORIZONTAL
   )
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -63,8 +64,8 @@ abstract class ConfigOptionBaseWidget<out T : IConfigOption>(val configOption: T
 
   init {
     height = 20
-    flow.most.add(resetButton, rMeasureText(resetButton.text) + 15)
-    flow.most.addSpace(2)
+    flow.reverse.add(resetButton, rMeasureText(resetButton.text) + 15)
+    flow.reverse.addSpace(2)
   }
 
 }
@@ -82,7 +83,7 @@ class ConfigOptionToggleableButtonWidget(
   }
 }
 
-class ConfigOptionBooleanWidget(configOption: ConfigBoolean) : ConfigOptionBaseWidget<ConfigBoolean>(configOption) {
+class ConfigBooleanWidget(configOption: ConfigBoolean) : ConfigOptionBaseWidget<ConfigBoolean>(configOption) {
   var trueText = I18n.translate("inventoryprofiles.common.gui.config.true")
   var falseText = I18n.translate("inventoryprofiles.common.gui.config.false")
   val booleanButton = ConfigOptionToggleableButtonWidget(configOption) {
@@ -94,7 +95,7 @@ class ConfigOptionBooleanWidget(configOption: ConfigBoolean) : ConfigOptionBaseW
   }
 }
 
-class ConfigOptionToggleableWidget<T : IConfigOptionToggleable>(configOption: T, var displayText: (T) -> String) :
+class ConfigToggleableWidget<T : IConfigOptionToggleable>(configOption: T, var displayText: (T) -> String) :
   ConfigOptionBaseWidget<T>(configOption) {
   val toggleButton = ConfigOptionToggleableButtonWidget(configOption) { displayText(configOption) }
 
@@ -108,7 +109,7 @@ private val WIDGETS_TEXTURE =
 private val PATTERN_INTEGER = Regex("-?[0-9]*")
 private val PATTERN_DOUBLE = Regex("^-?([0-9]+(\\.[0-9]*)?)?")
 
-class ConfigOptionNumericWidget(configOption: IConfigOptionNumeric<*>) :
+class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
   ConfigOptionBaseWidget<IConfigOptionNumeric<*>>(configOption) {
   val pattern = if (configOption.defaultValue is Double) PATTERN_DOUBLE else PATTERN_INTEGER
 
@@ -164,13 +165,13 @@ class ConfigOptionNumericWidget(configOption: IConfigOptionNumeric<*>) :
   }
 
   init {
-    flow.most.add(toggleButton, 16, false, 16)
-    flow.most.addSpace(2)
-    flow.most.offset.let { offset ->
-      flow.most.addAndFit(slider)
-      flow.most.offset = offset
-      flow.most.addSpace(1)
-      flow.least.addSpace(2)
+    flow.reverse.add(toggleButton, 16, false, 16)
+    flow.reverse.addSpace(2)
+    flow.reverse.offset.let { offset ->
+      flow.reverse.addAndFit(slider)
+      flow.reverse.offset = offset
+      flow.reverse.addSpace(1)
+      flow.normal.addSpace(2)
       flow.addAndFit(textField)
       textField.top = 1
     }

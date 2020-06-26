@@ -4,25 +4,25 @@ import io.github.jsnimda.common.config.CategorizedMultiConfig
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.widget.AnchorStyles
-import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.render.rDrawCenteredText
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
 
 private const val COLOR_WHITE = -0x1
 private const val textY = 6
 
-fun CategorizedMultiConfig.toListWidget(displayNamePrefix: String, descriptionPrefix: String): ConfigListWidget =
-  ConfigListWidget(displayNamePrefix, descriptionPrefix).apply {
-    this@toListWidget.categories.forEach { (categoryNameKey, configOptions) ->
-      I18n.translate(categoryNameKey).let { categoryName ->
-        addAnchor(categoryName)
-        addEntry(CategoryEntry(categoryName))
-        configOptions.forEach { addEntry(ConfigOptionEntry(it)) }
-      }
+fun CategorizedMultiConfig.toListWidget(
+  displayNameOf: (String) -> String,
+  descriptionOf: (String) -> String,
+  categoryNameOf: (String) -> String
+): ConfigListWidget =
+  ConfigListWidget(displayNameOf, descriptionOf).apply {
+    categories.forEach { (categoryName, configOptions) ->
+      addCategory(categoryNameOf(categoryName))
+      configOptions.forEach { addConfigOption(it) }
     }
   }
 
-class ConfigListWidget(private val displayNamePrefix: String, private val descriptionPrefix: String) :
+class ConfigListWidget(private val displayNameOf: (String) -> String, private val descriptionOf: (String) -> String) :
   AnchoredListWidget() {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -30,13 +30,25 @@ class ConfigListWidget(private val displayNamePrefix: String, private val descri
     Tooltips.renderAll()
   }
 
+  fun addCategory(categoryName: String) {
+    addAnchor(categoryName)
+    addEntry(CategoryEntry(categoryName))
+  }
+
+  fun addConfigOption(configOption: IConfigOption) {
+    addEntry(ConfigOptionEntry(configOption))
+  }
+
+  // ============
+  // inner classes
+  // ============
   inner class ConfigOptionEntry(val configOption: IConfigOption) : Entry() {
     val displayName
-      get() = I18n.translate(displayNamePrefix + configOption.key)
+      get() = displayNameOf(configOption.key)
     val description
-      get() = I18n.translate(descriptionPrefix + configOption.key)
+      get() = descriptionOf(configOption.key)
 
-    val optionWidget: ConfigOptionBaseWidget<*> = configOption.toWidget().apply {
+    val optionWidget: ConfigOptionBaseWidget<*> = configOption.toConfigWidget().apply {
       anchor = AnchorStyles.all
       this@ConfigOptionEntry.addChild(this)
       top = 0
@@ -71,7 +83,7 @@ class ConfigListWidget(private val displayNamePrefix: String, private val descri
   inner class CategoryEntry(private val categoryName: String) : Entry() {
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       if (outOfContainer) return
-      rDrawCenteredText(categoryName, screenX + width / 2, screenY + textY, COLOR_WHITE)
+      rDrawCenteredText(categoryName, absoluteBounds, COLOR_WHITE)
     }
   }
 
@@ -83,5 +95,4 @@ class ConfigListWidget(private val displayNamePrefix: String, private val descri
     val outOfContainer: Boolean
       get() = isOutOfContainer(this)
   }
-
 }

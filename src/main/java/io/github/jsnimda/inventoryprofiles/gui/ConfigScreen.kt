@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
-import io.github.jsnimda.common.config.builder.toConfigList
+import io.github.jsnimda.common.config.CategorizedMultiConfig
+import io.github.jsnimda.common.config.builder.toMultiConfigList
 import io.github.jsnimda.common.gui.screen.ConfigScreenBase
 import io.github.jsnimda.common.gui.widgets.toListWidget
 import io.github.jsnimda.common.vanilla.alias.I18n
@@ -17,13 +18,18 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
     var selectedIndex = 0
   }
 
+  private fun CategorizedMultiConfig.toListWidget() =
+    this.toListWidget(
+      { I18n.translate(DISPLAY_NAME_PREFIX + it) },
+      { I18n.translate(DESCRIPTION_PREFIX + it) },
+      I18n::translate
+    )
+
   init {
     openConfigMenuHotkey = Hotkeys.OPEN_CONFIG_MENU
-    (Configs - if (ModSettings.DEBUG_LOGS.booleanValue) listOf() else listOf(Debugs))
-      .toConfigList().forEach {
-        addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + it.key)) {
-          it.toListWidget(DISPLAY_NAME_PREFIX, DESCRIPTION_PREFIX)
-        }
+    (Configs - if (ModSettings.DEBUG_LOGS.booleanValue) listOf() else listOf(Debugs)) // hide debugs class
+      .toMultiConfigList().forEach { multi ->
+        addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
       }
     selectedIndex = Companion.selectedIndex
   }

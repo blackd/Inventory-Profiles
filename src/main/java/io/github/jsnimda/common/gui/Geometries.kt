@@ -17,6 +17,8 @@ data class Point(val x: Int, val y: Int) {
 
 fun Point.toSize() = Size(x, y)
 
+fun Point.transpose() = Point(y, x)
+
 // ============
 // Size
 // ============
@@ -31,6 +33,8 @@ data class Size(val width: Int, val height: Int) {
 }
 
 fun Size.toPoint() = Point(width, height)
+
+fun Size.transpose() = Size(height, width)
 
 // ============
 // Rectangle
