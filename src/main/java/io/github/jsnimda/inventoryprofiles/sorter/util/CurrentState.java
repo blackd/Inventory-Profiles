@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.sorter.util;
 
-import net.minecraft.container.Container;
+import net.minecraft.screen.ScreenHandler;
 
 /**
  * CurrentState
@@ -12,10 +12,10 @@ public class CurrentState {
   private static ContainerInfoCache playerContainerInfoCache = new ContainerInfoCache();
 
   private static class ContainerInfoCache {
-    public Container cachedContainer = null;
+    public ScreenHandler cachedContainer = null;
     public ContainerInfo cachedContainerInfo = null;
 
-    public ContainerInfo get(Container container) {
+    public ContainerInfo get(ScreenHandler container) {
       if (cachedContainer != container || cachedContainerInfo == null) {
         cachedContainerInfo = ContainerInfo.of(cachedContainer = container);
       }

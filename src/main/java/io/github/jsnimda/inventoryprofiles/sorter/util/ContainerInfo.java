@@ -8,13 +8,13 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
 import io.github.jsnimda.inventoryprofiles.Log;
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
-import net.minecraft.container.TradeOutputSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.TradeOutputSlot;
 import net.minecraft.village.TraderInventory;
 
 public class ContainerInfo {
@@ -24,7 +24,7 @@ public class ContainerInfo {
     //   offhand 40
     //   hotbar 0 - 8    left to right
     //   storage 9 - 35    left to right, top to bottom
-    public final Container container;
+    public final ScreenHandler container;
     public final ContainerCategory category;
     public List<Slot> playerHotbarSlots = new ArrayList<>();    // typically 9 slots,  always exist
     public List<Slot> playerStorageSlots = new ArrayList<>();   // typically 27 slots, always exist
@@ -52,14 +52,14 @@ public class ContainerInfo {
 
     public int sortableWidth = 9; // = 3 in SORTABLE_3x3, = 1 to 5 in SORTABLE_Nx3, = 9 by default
     
-    public static ContainerInfo of(Container container) {
+    public static ContainerInfo of(ScreenHandler container) {
       return new ContainerInfo(container);
     }
 
     private void translatePlayer() {
       translatePlayer(container);
     }
-    private void translatePlayer(Container asContainer) {
+    private void translatePlayer(ScreenHandler asContainer) {
       Slot[] armorSlots = new Slot[5];
       for (Slot s : asContainer.slots) { // assumed in order of slot.id
         if (!(s.inventory instanceof PlayerInventory)) continue;
@@ -141,7 +141,7 @@ public class ContainerInfo {
       translatePlayer(Current.playerContainer());
     }
 
-    public ContainerInfo(Container container) {
+    public ContainerInfo(ScreenHandler container) {
       this.container = container;
       category = ContainerCategory.of(container);
       if (category != ContainerCategory.PLAYER_CREATIVE) {

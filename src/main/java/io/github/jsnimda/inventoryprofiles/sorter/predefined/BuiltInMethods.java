@@ -77,11 +77,11 @@ public class BuiltInMethods {
   }
 
   public static double getEnchantmentsScore(VirtualItemType type) {
-    Map<Enchantment, Integer> enc = EnchantmentHelper.getEnchantments(ItemUtils.getItemStack(type));
+    Map<Enchantment, Integer> enc = EnchantmentHelper.get(ItemUtils.getItemStack(type));
     double score = 0;
     for (Entry<Enchantment, Integer> e : enc.entrySet()) {
       if (!e.getKey().isCursed()) { // cursed enchantments +0 scores
-        score += e.getValue() / (double)e.getKey().getMaximumLevel();
+        score += e.getValue() / (double)e.getKey().getMaxLevel();
       }
     }
     return score;

@@ -12,12 +12,14 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 
 public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOptionPrimitiveNumeric<?>> {
   public static Identifier WIDGETS_TEXTURE = new Identifier("inventoryprofiles", "textures/gui/widgets.png");
 
-  private SliderWidget slider = new SliderWidget(10, 10, 200, 20, 0.5) {
+  private SliderWidget slider = new SliderWidget(10, 10, 200, 20, VHLine.EMPTY_TEXT, 0.5) {
 
     @Override
     protected void updateMessage() {
@@ -32,34 +34,32 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
       slider.x = ConfigOptionNumericWidget.this.x;
       slider.y = ConfigOptionNumericWidget.this.y;
       slider.setWidth(availableWidth - 16 - 2);
-      slider.setMessage(String.valueOf(configOption.getValue()));
+      slider.setMessage(new LiteralText(String.valueOf(configOption.getValue())));
       double min = configOption.getMinValue().doubleValue();
       double max = configOption.getMaxValue().doubleValue();
       double val = configOption.getValue().doubleValue();
       value = (val - min) / (max - min);
-      super.render(mouseX, mouseY, partialTicks);
+      super.render(matrices, mouseX, mouseY, partialTicks);
     }
 
   };
   private boolean useSlider = true;
-  private TextFieldWidget textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, 10, 10, 200, 18, "");
+  private TextFieldWidget textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, 10, 10, 200, 18, VHLine.EMPTY_TEXT);
 
-  private ButtonWidget toggleButton = new ButtonWidget(10, 10, 16, 16, "", x -> {
-    useSlider = !useSlider;
-  }) {
+  private ButtonWidget toggleButton = new ButtonWidget(10, 10, 16, 16, VHLine.EMPTY_TEXT, x -> useSlider = !useSlider) {
     @Override
-    public void renderButton(int i, int j, float f) { // ref: TexturedButtonWidget
+    public void renderButton(MatrixStack matrices, int i, int j, float f) { // ref: TexturedButtonWidget
        MinecraftClient minecraftClient = MinecraftClient.getInstance();
        minecraftClient.getTextureManager().bindTexture(WIDGETS_TEXTURE);
        GlStateManager.disableDepthTest();
        int textureX = this.isHovered() ? 32 : 16;
        int textureY = useSlider ? 16 : 0;
  
-       blit(this.x, this.y, textureX, textureY, this.width, this.height, 256, 256);
+       drawTexture(matrices, this.x, this.y, textureX, textureY, this.width, this.height, 256, 256);
        GlStateManager.enableDepthTest();
     }
   };
@@ -88,18 +88,18 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    super.render(mouseX, mouseY, partialTicks);
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+    super.render(matrices, mouseX, mouseY, partialTicks);
     toggleButton.x = x + availableWidth - 16;
     toggleButton.y = y + (20 - 16) / 2;
-    toggleButton.render(mouseX, mouseY, partialTicks);
+    toggleButton.render(matrices, mouseX, mouseY, partialTicks);
     textField.x = x + 2;
     textField.y = y + 1;
     textField.setWidth(availableWidth - 16 - 2 - 4);
     if (!textField.isActive() && !useSlider) { // is editing // method_20315
       textField.setText(String.valueOf(configOption.getValue()));
     }
-    (useSlider ? slider : textField).render(mouseX, mouseY, partialTicks);
+    (useSlider ? slider : textField).render(matrices, mouseX, mouseY, partialTicks);
   }
 
   @Override

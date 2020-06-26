@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import org.lwjgl.glfw.GLFW;
 
 import io.github.jsnimda.common.config.options.ConfigHotkey;
@@ -18,7 +20,7 @@ import net.minecraft.util.Identifier;
 
 public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotkey> {
 
-  private ButtonWidget setKeyButton = new ButtonWidget(10, 10, 200, 20, "", x -> {
+  private ButtonWidget setKeyButton = new ButtonWidget(10, 10, 200, 20, VHLine.EMPTY_TEXT, x -> {
     GlobalInputHandler.getInstance().setCurrentSettingKeybind(configOption.getMainKeybind());
   });
 
@@ -33,8 +35,8 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    super.render(mouseX, mouseY, partialTicks);
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+    super.render(matrices, mouseX, mouseY, partialTicks);
 
     int textureX = 20 + ((targetKeybind.isSettingsModified() || !configOption.getAlternativeKeybinds().isEmpty()) ? 20 : 0);
     int textureY = 160 + targetKeybind.getSettings().activateOn.ordinal() * 20;
@@ -44,7 +46,7 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
 
     MinecraftClient.getInstance().getTextureManager().bindTexture(WIDGETS_TEXTURE);
     GlStateManager.disableDepthTest();
-    blit(this.x, this.y, textureX, textureY, 20, 20, 256, 256);
+    drawTexture(matrices, this.x, this.y, textureX, textureY, 20, 20, 256, 256);
     GlStateManager.enableDepthTest();
 
     if (VHLine.contains(this.x, this.y, this.x + 20, this.y + 20, mouseX, mouseY)) {
@@ -56,9 +58,9 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
     setKeyButton.y = y;
     setKeyButton.setWidth(availableWidth - 20 - 2);
     String displayText = targetKeybind.getDisplayText();
-    setKeyButton.setMessage(GlobalInputHandler.getInstance().getCurrentSettingKeybind() == targetKeybind
-      ? ("> §e" + displayText + "§r <") : displayText);
-    setKeyButton.render(mouseX, mouseY, partialTicks);
+    setKeyButton.setMessage(new LiteralText(GlobalInputHandler.getInstance().getCurrentSettingKeybind() == targetKeybind
+      ? ("> §e" + displayText + "§r <") : displayText));
+    setKeyButton.render(matrices, mouseX, mouseY, partialTicks);
 
   }
 

@@ -15,11 +15,11 @@ import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlotsStats;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.DistributeSorter;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.container.BeaconContainer;
-import net.minecraft.container.Container;
-import net.minecraft.container.Slot;
-import net.minecraft.container.SlotActionType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.BeaconScreenHandler;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 
 /**
  * ContainerActions
@@ -135,7 +135,7 @@ public class ContainerActions {
     if (ContainerCategory.of(Current.container()).isStorage()) {
       return;
     }
-    if (!(Current.container() instanceof BeaconContainer)) return;
+    if (!(Current.container() instanceof BeaconScreenHandler)) return;
     if (Current.container().getSlot(0).hasStack()) { // beacon item
       shiftClick(Current.container(), 0);
     }
@@ -224,24 +224,24 @@ public class ContainerActions {
   public static void rightClick(int slotId) {
     rightClick(Current.container(), slotId);
   }
-  public static void leftClick(Container container, int slotId) {
+  public static void leftClick(ScreenHandler container, int slotId) {
     click(container, slotId, 0);
   }
-  public static void rightClick(Container container, int slotId) {
+  public static void rightClick(ScreenHandler container, int slotId) {
     click(container, slotId, 1);
   }
   // public static void middleClick(Container container, int slotId) {
   //   click(container, slotId, 2);
   // }
-  public static void shiftClick(Container container, int slotId) {
+  public static void shiftClick(ScreenHandler container, int slotId) {
     genericClick(container, slotId, 0, SlotActionType.QUICK_MOVE);
   }
-  public static void click(Container container, int slotId, int button) {
+  public static void click(ScreenHandler container, int slotId, int button) {
     genericClick(container, slotId, button, SlotActionType.PICKUP);
   }
 
-  public static void genericClick(Container container, int slotId, int button, SlotActionType actionType) {
-    if (container instanceof CreativeInventoryScreen.CreativeContainer) {
+  public static void genericClick(ScreenHandler container, int slotId, int button, SlotActionType actionType) {
+    if (container instanceof CreativeInventoryScreen.CreativeScreenHandler) {
       // creative menu dont use method_2906
       // simulate the action in CreativeInventoryScreen line 135
       Current.playerContainer().onSlotClick(slotId, button, actionType, Current.player());
@@ -251,11 +251,11 @@ public class ContainerActions {
     Current.interactionManager().clickSlot(container.syncId, slotId, button, actionType, Current.player());
   }
 
-  public static void genericClick(Container container, Click click) {
+  public static void genericClick(ScreenHandler container, Click click) {
     genericClick(container, click.slotId, click.button, click.actionType);
   }
 
-  public static void genericClicks(Container container, List<Click> clicks, int interval) {
+  public static void genericClicks(ScreenHandler container, List<Click> clicks, int interval) {
     int lclick = 0;
     int rclick = 0;
     for (Click c : clicks) {

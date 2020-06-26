@@ -12,9 +12,9 @@ import io.github.jsnimda.inventoryprofiles.sorter.Click;
 import io.github.jsnimda.inventoryprofiles.sorter.DiffCalculator;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualItemStack;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSlot;
-import net.minecraft.container.Slot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.Slot;
 
 /**
  * ContainerUtils

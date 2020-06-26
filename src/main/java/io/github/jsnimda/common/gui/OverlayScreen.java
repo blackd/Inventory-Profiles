@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
@@ -25,15 +26,15 @@ public class OverlayScreen extends Screen {
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
     if (parent != null) {
-      parent.render(mouseX, mouseY, partialTicks);
+      parent.render(matrices, mouseX, mouseY, partialTicks);
     }
   }
 
   @Override
   public void onClose() {
-    this.minecraft.openScreen(parent);
+    this.client.openScreen(parent);
   }
 
   @Override

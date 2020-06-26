@@ -1,11 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
-import net.minecraft.client.gui.screen.ingame.ContainerScreen;
-import net.minecraft.container.Slot;
 
-@Mixin(ContainerScreen.class)
+@Mixin(HandledScreen.class)
 public interface IMixinContainerScreen {
 
   @Accessor("focusedSlot")

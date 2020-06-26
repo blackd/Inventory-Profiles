@@ -15,7 +15,7 @@ import io.github.jsnimda.inventoryprofiles.sorter.util.ContainerCategory;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
-import net.minecraft.client.gui.screen.ingame.CraftingTableScreen;
+import net.minecraft.client.gui.screen.ingame.CraftingScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
@@ -23,8 +23,9 @@ import net.minecraft.client.gui.screen.ingame.SmokerScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.container.Container;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.util.Identifier;
 
 /**
@@ -35,13 +36,13 @@ public class GuiSortingButtons {
   public static final Identifier TEXTURE = new Identifier(ModInfo.MOD_ID, "textures/gui/gui_buttons.png");
 
   private Screen screen;
-  private Container container;
+  private ScreenHandler container;
   private int left;
   private int top;
   private int containerWidth;
   private int containerHeight;
   
-  public GuiSortingButtons(Screen screen, Container container, int left, int top, int containerWidth,
+  public GuiSortingButtons(Screen screen, ScreenHandler container, int left, int top, int containerWidth,
       int containerHeight) {
     this.screen = screen;
     this.container = container;
@@ -119,7 +120,7 @@ public class GuiSortingButtons {
     return list;
   }
 
-  public static List<AbstractButtonWidget> gets(Screen screen, Container container, int left, int top, int containerWidth, int containerHeight) {
+  public static List<AbstractButtonWidget> gets(Screen screen, ScreenHandler container, int left, int top, int containerWidth, int containerHeight) {
     return new GuiSortingButtons(screen, container, left, top, containerWidth, containerHeight).gets();
   }
 
@@ -153,7 +154,7 @@ public class GuiSortingButtons {
   }
 
   private static boolean isRecipeBookOpen() {
-    if (Current.screen() instanceof InventoryScreen || Current.screen() instanceof CraftingTableScreen) {
+    if (Current.screen() instanceof InventoryScreen || Current.screen() instanceof CraftingScreen) {
       return Current.recipeBook().isGuiOpen();
     }
     if (Current.screen() instanceof FurnaceScreen) {
@@ -179,7 +180,7 @@ public class GuiSortingButtons {
     }
 
     @Override
-    public void renderButton(int int_1, int int_2, float float_1) {
+    public void renderButton(MatrixStack matrices, int int_1, int int_2, float float_1) {
       this.x = originalX;
       // check if creative and if non inventory tab
       if (Current.screen() instanceof CreativeInventoryScreen) {
@@ -196,12 +197,12 @@ public class GuiSortingButtons {
         this.x = this.originalX + 177 - 200 / 2; // from RecipeBookWidget.findLeftEdge
       }
       
-      super.renderButton(int_1, int_2, float_1);
-      this.renderToolTip(int_1, int_2);
+      super.renderButton(matrices, int_1, int_2, float_1);
+      this.renderToolTip(matrices, int_1, int_2);
     }
     
     @Override
-    public void renderToolTip(int x, int y) {
+    public void renderToolTip(MatrixStack matrices, int x, int y) {
       if (GuiSettings.SHOW_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
         ToolTips.add(I18n.translate(tooltipText), x, y);
     }

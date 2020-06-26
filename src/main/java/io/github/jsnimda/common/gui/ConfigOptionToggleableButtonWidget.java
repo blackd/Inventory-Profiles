@@ -1,5 +1,7 @@
 package io.github.jsnimda.common.gui;
 
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.StringRenderable;
 import org.lwjgl.glfw.GLFW;
 
 import io.github.jsnimda.common.config.IConfigOptionToggleable;
@@ -10,18 +12,28 @@ public class ConfigOptionToggleableButtonWidget extends RightClickableButtonWidg
   public boolean drawShadow = true;
 
   public ConfigOptionToggleableButtonWidget(int i, int j, int k, int l, IConfigOptionToggleable configOptionToggleable) {
-    super(i, j, k, l, "", (x, b) -> {
+    super(i, j, k, l, VHLine.EMPTY_TEXT, (x, b) -> {
       if (b == GLFW.GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext();
       else if (b == GLFW.GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious();
     });
   }
 
+  // why doesn't this method delegate to drawCenteredString? :mojank:
   @Override
-  public void drawCenteredString(TextRenderer textRenderer, String string, int i, int j, int k) {
+  public void drawCenteredText(MatrixStack matrices, TextRenderer textRenderer, StringRenderable stringRenderable, int i, int j, int k) {
     if (drawShadow) {
-      textRenderer.drawWithShadow(string, (float)(i - textRenderer.getStringWidth(string) / 2), (float)j, k);
+      textRenderer.drawWithShadow(matrices, stringRenderable, (float)(i - textRenderer.getWidth(stringRenderable) / 2), (float)j, k);
     } else {
-      textRenderer.draw(string, (float)(i - textRenderer.getStringWidth(string) / 2), (float)j, k);
+      textRenderer.draw(matrices, stringRenderable, (float)(i - textRenderer.getWidth(stringRenderable) / 2), (float)j, k);
+    }
+  }
+
+  @Override
+  public void drawCenteredString(MatrixStack matrices, TextRenderer textRenderer, String string, int i, int j, int k) {
+    if (drawShadow) {
+      textRenderer.drawWithShadow(matrices, string, (float)(i - textRenderer.getWidth(string) / 2), (float)j, k);
+    } else {
+      textRenderer.draw(matrices, string, (float)(i - textRenderer.getWidth(string) / 2), (float)j, k);
     }
   }
 

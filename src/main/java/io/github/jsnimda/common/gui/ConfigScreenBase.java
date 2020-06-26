@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.client.gui.Element;
@@ -41,17 +43,18 @@ public class ConfigScreenBase extends Screen {
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    this.renderBackground();
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+    this.renderBackground(matrices);
     renderPre(mouseX, mouseY, partialTicks);
     boolean overList = currentConfigList.map(x -> x.isMouseOver(mouseX, mouseY)).orElse(false);
     for(int k = 0; k < this.buttons.size(); ++k) { // super.render
-      this.buttons.get(k).render(overList ? -1 : mouseX, overList ? -1 : mouseY, partialTicks);
+      this.buttons.get(k).render(matrices, overList ? -1 : mouseX, overList ? -1 : mouseY, partialTicks);
     }
 
-    this.drawString(this.font, this.title.asFormattedString(), 20, 10, COLOR_WHITE);
+    // this.drawString(this.textRenderer, this.title.asFormattedString(), 20, 10, COLOR_WHITE);
+    this.textRenderer.draw(matrices, this.title, 20, 10, COLOR_WHITE);
 
-    currentConfigList.ifPresent(x -> x.render(mouseX, mouseY, partialTicks));
+    currentConfigList.ifPresent(x -> x.render(matrices, mouseX, mouseY, partialTicks));
 
   }
 
@@ -61,7 +64,7 @@ public class ConfigScreenBase extends Screen {
   @Override
   public List<? extends Element> children() {
     List<Element> newList = new ArrayList<>();
-    currentConfigList.ifPresent(x -> newList.add(x));
+    currentConfigList.ifPresent(newList::add);
     newList.addAll(children);
     return newList;
   }
@@ -72,7 +75,7 @@ public class ConfigScreenBase extends Screen {
       buttonsDirty = false;
       calculatedButtonsWidth = 0;
       navigationButtons.forEach(x -> {
-        int w = this.font.getStringWidth(x.getLeft());
+        int w = this.textRenderer.getWidth(x.getLeft());
         calculatedButtonsWidth = Math.max(w, calculatedButtonsWidth);
       });
       calculatedButtonsWidth = calculatedButtonsWidth == 0 ? 10 : calculatedButtonsWidth + 20;
@@ -85,7 +88,7 @@ public class ConfigScreenBase extends Screen {
     int w = getButtonsWidth();
     for (Pair<String, Runnable> e : navigationButtons) {
       final int ind = k++;
-      ButtonWidget b = new ButtonWidget(x, y + h * ind, w, 20, e.getLeft(), m -> setSelectedIndex(ind));
+      ButtonWidget b = new ButtonWidget(x, y + h * ind, w, 20, new LiteralText(e.getLeft()), m -> setSelectedIndex(ind));
       b.active = selectedIndex != ind;
       this.addButton(b);
       navigationButtonWidgets.add(b);

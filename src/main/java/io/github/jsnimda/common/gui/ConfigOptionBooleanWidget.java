@@ -6,6 +6,8 @@ import java.util.List;
 import io.github.jsnimda.common.config.options.ConfigBoolean;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.TranslatableText;
 
 public class ConfigOptionBooleanWidget extends ConfigOptionWidgetBase<ConfigBoolean> {
   private ConfigOptionToggleableButtonWidget booleanButton;
@@ -17,13 +19,13 @@ public class ConfigOptionBooleanWidget extends ConfigOptionWidgetBase<ConfigBool
     // booleanButton.drawShadow = false;
   }
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    super.render(mouseX, mouseY, partialTicks);
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+    super.render(matrices, mouseX, mouseY, partialTicks);
     booleanButton.x = x;
     booleanButton.y = y;
     booleanButton.setWidth(availableWidth);
-    booleanButton.setMessage(configOption.getBooleanValue() ? I18n.translate(trueTextKey) : I18n.translate(falseTextKey));
-    booleanButton.render(mouseX, mouseY, partialTicks);
+    booleanButton.setMessage(new TranslatableText(configOption.getBooleanValue() ? trueTextKey : falseTextKey));
+    booleanButton.render(matrices, mouseX, mouseY, partialTicks);
   }
 
   @Override

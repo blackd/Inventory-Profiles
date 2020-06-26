@@ -13,6 +13,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.ParentElement;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 
 public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListWidget.Entry> {
 
@@ -42,9 +43,9 @@ public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListW
   }
 
   @Override
-  public void render(int mouseX, int mouseY, float partialTicks) {
-    super.render(mouseX, mouseY, partialTicks);
-    Tooltips.getInstance().renderAll();
+  public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+    super.render(matrices, mouseX, mouseY, partialTicks);
+    Tooltips.getInstance().renderAll(matrices);
   }
 
   public class ConfigOptionEntry extends ConfigOptionListWidget.Entry {
@@ -68,20 +69,21 @@ public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListW
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks, int offsetX, int offsetY, int viewportWidth) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, int offsetX, int offsetY, int viewportWidth) {
       boolean outOfContainer = !getContainer().isMouseOverViewport(mouseX, mouseY) || anchorHeader.isMouseOver(mouseX, mouseY);
 
       int xMid = offsetX + viewportWidth / 2;
       optionWidget.x = xMid;
       optionWidget.y = offsetY;
       optionWidget.width = offsetX + viewportWidth - 2 - xMid;
-      optionWidget.render(outOfContainer ? -1 : mouseX, outOfContainer ? -1 : mouseY, partialTicks);
+      optionWidget.render(matrices, outOfContainer ? -1 : mouseX, outOfContainer ? -1 : mouseY, partialTicks);
 
       String displayName = I18n.translate(displayNamePrefix + option.getKey());
       int tx = offsetX + 2;
       int ty = offsetY + textY;
-      int tw = MinecraftClient.getInstance().textRenderer.getStringWidth(displayName);
-      drawString(MinecraftClient.getInstance().textRenderer, displayName, tx, ty, COLOR_WHITE);
+      int tw = MinecraftClient.getInstance().textRenderer.getWidth(displayName);
+      // drawString(MinecraftClient.getInstance().textRenderer, displayName, tx, ty, COLOR_WHITE);
+      MinecraftClient.getInstance().textRenderer.draw(matrices, displayName, tx, ty, COLOR_WHITE);
       if (VHLine.contains(tx, ty - 1, tx + tw, ty + 9 + 1, mouseX, mouseY)) {
         Tooltips.getInstance().addTooltip(I18n.translate(descriptionPrefix + option.getKey()), mouseX, mouseY, x -> x * 2 / 3);
       }
@@ -109,8 +111,8 @@ public class ConfigOptionListWidget extends AnchoredListWidget<ConfigOptionListW
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks, int offsetX, int offsetY, int viewportWidth) {
-      drawCenteredString(MinecraftClient.getInstance().textRenderer, categoryName, offsetX + viewportWidth / 2, offsetY + textY, COLOR_WHITE);
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks, int offsetX, int offsetY, int viewportWidth) {
+      drawCenteredString(matrices, MinecraftClient.getInstance().textRenderer, categoryName, offsetX + viewportWidth / 2, offsetY + textY, COLOR_WHITE);
     }
   }
 
