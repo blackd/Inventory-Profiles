@@ -87,6 +87,7 @@ object Tweaks : ConfigDeclaration {
   val PREVENT_CLOSE_GUI_DROP_ITEM               /**/ by hotkeyedBool(false)
   val DISABLE_SCREEN_SHAKING_ON_DAMAGE          /**/ by hotkeyedBool(false)
   val DISABLE_LAVA_FOG                          /**/ by hotkeyedBool(false)
+  val CONTAINER_SWIPE_MOVING_ITEMS              /**/ by hotkeyedBool(true)
 }
 
 object Debugs : ConfigDeclaration {
