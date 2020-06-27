@@ -1,8 +1,8 @@
 -libraryjars <java.home>/lib/rt.jar
 
-#-keep class !io.github.jsnimda.common.embedded.** { *; }
--keep class io.github.jsnimda.inventoryprofiles.** { *; }
--keep class io.github.jsnimda.common.mixin.** { *; }
+-keep class !io.github.jsnimda.common.embedded.** { *; }
+#-keep class io.github.jsnimda.inventoryprofiles.** { *; }
+#-keep class io.github.jsnimda.common.mixin.** { *; }
 #-ignorewarnings
 -optimizationpasses 5 # (828K -> 811K)
 #-dontobfuscate
@@ -13,3 +13,10 @@
 -keepattributes *Annotation*
 
 #-dontoptimize
+
+# https://stackoverflow.com/questions/33189249/how-to-tell-proguard-to-keep-enum-constants-and-fields
+-keepclassmembers class * extends java.lang.Enum {
+    <fields>;
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
