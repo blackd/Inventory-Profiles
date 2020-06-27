@@ -129,10 +129,14 @@ object AutoRefillHandler {
       GeneralInventoryActions.cleanCursor()
       val foundSlotId = findCorrespondingSlot()
       foundSlotId ?: return
-      ContainerClicker.leftClick(foundSlotId) // todo, use swap 1-9 for mainhand
-      ContainerClicker.leftClick(storedSlotId)
-      if (!VanillaInGame.cursorStack().`(itemStack)`.isEmpty()) {
-        ContainerClicker.leftClick(foundSlotId) // put back
+      if ((storedSlotId - 36) in 0..8) { // use swap
+        ContainerClicker.swap(foundSlotId, storedSlotId - 36)
+      } else {
+        ContainerClicker.leftClick(foundSlotId)
+        ContainerClicker.leftClick(storedSlotId)
+        if (!VanillaInGame.cursorStack().`(itemStack)`.isEmpty()) {
+          ContainerClicker.leftClick(foundSlotId) // put back
+        }
       }
     }
 

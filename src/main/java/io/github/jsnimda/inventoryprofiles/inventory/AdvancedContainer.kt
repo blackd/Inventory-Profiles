@@ -142,17 +142,21 @@ class AdvancedContainer(
 object ContainerClicker {
   fun leftClick(slotId: Int) = click(slotId, 0)
   fun rightClick(slotId: Int) = click(slotId, 1)
-  fun shiftClick(slotId: Int) {
+  fun shiftClick(slotId: Int) { // SlotActionType.QUICK_MOVE
     genericClick(slotId, 0, SlotActionType.QUICK_MOVE)
   }
 
-  fun click(slotId: Int, button: Int) {
+  fun click(slotId: Int, button: Int) { // SlotActionType.PICKUP
     genericClick(slotId, button, SlotActionType.PICKUP)
   }
 
-  var contentUpdates = true
+  fun swap(slotId: Int, hotbarSlotId: Int) { // hotbarSlotId 0 - 8 SlotActionType.SWAP
+    genericClick(slotId, hotbarSlotId, SlotActionType.SWAP)
+  }
+
+  var doSendContentUpdates = true
   fun genericClick(slotId: Int, button: Int, actionType: SlotActionType) =
-    genericClick(Vanilla.container(), slotId, button, actionType, contentUpdates)
+    genericClick(Vanilla.container(), slotId, button, actionType, doSendContentUpdates)
 
   fun genericClick(
     container: Container,
@@ -187,10 +191,10 @@ object ContainerClicker {
     logClicks(clicks.size, lclick, rclick, interval)
     if (interval == 0) {
       if (Vanilla.container() is CreativeContainer) { // bulk content updates
-        contentUpdates = false
+        doSendContentUpdates = false
         clicks.forEach { click(it.first, it.second) }
         sendContentUpdates()
-        contentUpdates = true
+        doSendContentUpdates = true
       } else {
         clicks.forEach { click(it.first, it.second) }
       }
@@ -201,7 +205,7 @@ object ContainerClicker {
       timer(period = interval.toLong()) {
         if (Vanilla.container() != currentContainer) {
           cancel()
-          Log.debug("[inventoryprofiles] Click cancelled due to container changed")
+          Log.debug("Click cancelled due to container changed")
           return@timer
         }
         // FIXME when gui close cursor stack will put back to container that will influence the sorting result
@@ -210,7 +214,7 @@ object ContainerClicker {
             currentScreen = Vanilla.screen()
           } else {
             cancel()
-            Log.debug("[inventoryprofiles] Click cancelled due to screen closed")
+            Log.debug("Click cancelled due to screen closed")
             return@timer
           }
         }
@@ -226,7 +230,7 @@ object ContainerClicker {
 
   private fun logClicks(total: Int, lclick: Int, rclick: Int, interval: Int) {
     Log.debug(
-      "[inventoryprofiles] Click count total $total. $lclick left. $rclick right." +
+      "Click count total $total. $lclick left. $rclick right." +
           " Time = ${total * interval / 1000.toDouble()}s"
     )
   }
