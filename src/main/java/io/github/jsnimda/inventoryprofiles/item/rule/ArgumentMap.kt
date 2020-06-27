@@ -39,7 +39,6 @@ class ArgumentMap {
 //    values[parameter.name] = value
 //  }
 
-  // may throw
   fun trySetArgument(parameter: Parameter<*>, argument: String): Boolean { // true if success, false if failed
     if (parameter.name !in this) return false
     val argumentValue = parameter.argumentType.parse(argument)

@@ -84,7 +84,7 @@ object RuleFileRegister {
     val ruleDefinition = RuleFinder(ruleName).searchCustomRule()
     cachedRules[ruleName] = ruleDefinition
     // then remove empty file
-    ruleFiles.removeAll { it.rulesMap.isEmpty().ifTrue { Log.debug("Removed empty file ${it.fileName}") } }
+    ruleFiles.removeAll { it.rulesMap.isEmpty().ifTrue { Log.debug("Removed validated file ${it.fileName}") } }
     return ruleDefinition
   }
 
