@@ -78,7 +78,10 @@ class ConfigListWidget(private val displayNameOf: (String) -> String, private va
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       if (outOfContainer) return
       super.render(mouseX, mouseY, partialTicks)
-      if (displayNameTextWidget.contains(mouseX, mouseY) && !anchorHeader.contains(mouseX, mouseY)) {
+      if (description.isNotEmpty()
+        && displayNameTextWidget.contains(mouseX, mouseY)
+        && !anchorHeader.contains(mouseX, mouseY)
+      ) {
         Tooltips.addTooltip(description, mouseX, mouseY, rScreenWidth * 2 / 3)
       }
     }

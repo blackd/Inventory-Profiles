@@ -21,9 +21,9 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
 
   private fun CategorizedMultiConfig.toListWidget() =
     this.toListWidget(
-      { I18n.translate(DISPLAY_NAME_PREFIX + it) },
-      { I18n.translate(DESCRIPTION_PREFIX + it) },
-      I18n::translate
+      { I18n.translateOrElse(DISPLAY_NAME_PREFIX + it) { it } },
+      { I18n.translateOrEmpty(DESCRIPTION_PREFIX + it) },
+      { I18n.translateOrElse(it) { it.substringAfterLast('.') } }
     )
 
   init {
