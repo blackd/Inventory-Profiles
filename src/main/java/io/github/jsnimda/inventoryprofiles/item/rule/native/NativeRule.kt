@@ -1,22 +1,25 @@
-package io.github.jsnimda.inventoryprofiles.item.rule.natives
+package io.github.jsnimda.inventoryprofiles.item.rule.native
 
 import io.github.jsnimda.common.util.LogicalStringComparator
+import io.github.jsnimda.common.util.orElse
+import io.github.jsnimda.common.util.selfIf
+import io.github.jsnimda.common.util.selfIfNotEquals
 import io.github.jsnimda.common.vanilla.VanillaUtils
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.BaseRule
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
-import io.github.jsnimda.inventoryprofiles.item.rule.parameters.*
+import io.github.jsnimda.inventoryprofiles.item.rule.parameter.*
 import java.text.Collator
 import java.util.*
 
 abstract class NativeRule : BaseRule()
 
-abstract class TypedRule<T> : NativeRule() {
+abstract class TypeBasedRule<T> : NativeRule() {
   abstract var valueOf: (ItemType) -> T
 }
 
-class StringTypedRule : TypedRule<String>() {
+class StringBasedRule : TypeBasedRule<String>() {
   override var valueOf: (ItemType) -> String = { "" }
 
   init {
@@ -26,39 +29,46 @@ class StringTypedRule : TypedRule<String>() {
       defineParameter(strength, Strength.PRIMARY)
       defineParameter(logical, true)
     }
-    innerCompare = { a, b -> compareString(valueOf(a), valueOf(b)) }
+    comparator = { a, b -> compareString(valueOf(a), valueOf(b)) }
   }
 
-  private fun compareString(str1: String, str2: String): Int {
-    val rawComparator: Comparator<in String> = arguments[string_compare].comparator ?: run {
-      val langTag = arguments[locale].let {
-        (if (it == "mc") VanillaUtils.languageCode() else it).replace('_', '-')
-      }
+  private val lazyCompareString: Comparator<in String> by lazy(LazyThreadSafetyMode.NONE) {
+    val rawComparator: Comparator<in String> = arguments[string_compare].comparator ?: run { // locale cmp
+      val langTag = arguments[locale].selfIfNotEquals("mc") { VanillaUtils.languageCode() }.replace('_', '-')
       val locale = if (langTag == "sys") Locale.getDefault() else Locale.forLanguageTag(langTag)
       val strength = arguments[strength].value
-      Collator.getInstance(locale).apply {
-        this.strength = strength
-      }
+      Collator.getInstance(locale).apply { this.strength = strength }
     }
-    val comparator: Comparator<in String> =
-      if (arguments[logical]) LogicalStringComparator(rawComparator) else rawComparator
-    return comparator.compare(str1, str2)
+    return@lazy rawComparator.selfIf { !arguments[logical] orElse { LogicalStringComparator(rawComparator) } }
+  } // interestingly if using if else, compiler cannot guess type
+
+  private fun compareString(str1: String, str2: String): Int {
+    return lazyCompareString.compare(str1, str2)
+//    val rawComparator: Comparator<in String> = arguments[string_compare].comparator ?: run { // locale cmp
+//      val langTag = arguments[locale].selfIfNotEquals("mc") { VanillaUtils.languageCode() }.replace('_', '-')
+//      val locale = if (langTag == "sys") Locale.getDefault() else Locale.forLanguageTag(langTag)
+//      val strength = arguments[strength].value
+//      Collator.getInstance(locale).apply { this.strength = strength }
+//    }
+//    val comparator: Comparator<in String> =
+//      if (arguments[logical]) LogicalStringComparator(rawComparator) else rawComparator
+//    return comparator.compare(str1, str2)
   }
 }
 
-class NumberTypedRule : TypedRule<Number>() {
+class NumberBasedRule : TypeBasedRule<Number>() {
   override var valueOf: (ItemType) -> Number = { 0 }
 
   init {
     arguments.defineParameter(number_order, NumberOrder.ASCENDING)
-    innerCompare = { a, b -> compareNumber(valueOf(a), valueOf(b)) }
+    comparator = { a, b -> compareNumber(valueOf(a), valueOf(b)) }
   }
 
   private fun compareNumber(num1: Number, num2: Number) =
     arguments[number_order].compare(num1, num2)
 }
 
-class BooleanTypedRule : TypedRule<Boolean>() {
+class BooleanBasedRule : TypeBasedRule<Boolean>() {
   override var valueOf: (ItemType) -> Boolean = { false } // matchBy
 
   init {
@@ -67,7 +77,7 @@ class BooleanTypedRule : TypedRule<Boolean>() {
       defineParameter(sub_comparator_match, EmptyRule())
       defineParameter(sub_comparator_not_match, EmptyRule())
     }
-    innerCompare = { itemType1, itemType2 ->
+    comparator = { itemType1, itemType2 ->
       compareBoolean(
         itemType1, itemType2, valueOf, arguments[match],
         arguments[sub_comparator_match]::compare,
@@ -95,9 +105,12 @@ fun compareBoolean(
   }
 }
 
+// ============
+// other native rules
+// ============
 class NbtRule : NativeRule() {
   init {
-    innerCompare = { a, b -> // compare a.tag and b.tag
+    comparator = { a, b -> // compare a.tag and b.tag
       NbtUtils.compareNbt(a.tag, b.tag)
     }
   }

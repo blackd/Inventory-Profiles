@@ -5,38 +5,45 @@ import io.github.jsnimda.inventoryprofiles.gen.RulesLexer
 import io.github.jsnimda.inventoryprofiles.gen.RulesParser
 import io.github.jsnimda.inventoryprofiles.gen.RulesParser.CustomRuleEOFContext
 import io.github.jsnimda.inventoryprofiles.gen.RulesParser.SubRuleContext
-import io.github.jsnimda.inventoryprofiles.item.rule.custom.CustomRuleDefinition
-import io.github.jsnimda.inventoryprofiles.item.rule.custom.SubRuleDefinition
+import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleDefinition
+import io.github.jsnimda.inventoryprofiles.item.rule.file.SubRuleDefinition
 
 object RuleParser {
 
   // throw SyntaxErrorException
-  fun parseCustomRule(data: IndentedData): CustomRuleDefinition {
+  fun parseRuleDefinition(data: IndentedData): RuleDefinition {
     val lines = data.lines
     val text = lines.joinToString("\n") { it.rawText }
     try {
-      val parser = text.parseBy(::RulesLexer, ::RulesParser)
-      return parser.customRuleEOF().toCustomRuleDefinition()
+      return parseRuleDefinition(text)
     } catch (e: SyntaxErrorException) {
       throw e.copy(line = lines.getOrNull(e.line)?.lineNumber ?: -1)
     }
   }
 
-  fun parseSubRule(text: String) =
-    text.parseBy(::RulesLexer, ::RulesParser, lexerMode = RulesLexer.mSubRule)
+  fun parseSubRule(content: String): SubRuleDefinition =
+    content.parseBy(::RulesLexer, ::RulesParser, lexerMode = RulesLexer.mSubRule)
       .subRuleEOF().subRule().toSubRuleDefinition()
 
-  private fun CustomRuleEOFContext.toCustomRuleDefinition() = CustomRuleDefinition(this.head().RuleName().text,
-    subRule().map { it.toSubRuleDefinition() })
+  // ============
+  // private
+  // ============
+  private fun parseRuleDefinition(content: String): RuleDefinition {
+    val parser = content.parseBy(::RulesLexer, ::RulesParser)
+    return parser.customRuleEOF().toRuleDefinition()
+  }
+
+  private fun CustomRuleEOFContext.toRuleDefinition() =
+    RuleDefinition(this.head().RuleName().text, subRule().map { it.toSubRuleDefinition() })
 
   private fun SubRuleContext.toSubRuleDefinition(): SubRuleDefinition {
     with(subRuleIdentifier()) {
       val args = linkedMapOf<String, String>()
       if (REVERSE() != null) args["reverse"] = "true"
-      val isCustomElseNative = AT() != null
+      val prefix = AT()?.let { "@" } ?: "::"
       val name: String = when {
         AT() != null || DOUBLE_COLON() != null -> RuleName().text
-        else -> (if (HASHTAG() != null) "item" else "tag").let { itemOrTag -> // #tag or item
+        else -> (HASHTAG()?.let { "tag" } ?: "item").let { itemOrTag -> // #tag or item
           NBT()?.text?.let {
             args["require_nbt"] = "required"
             args["nbt"] = it
@@ -48,7 +55,7 @@ object RuleParser {
       arguments()?.pair()?.forEach {
         args[it.Parameter().text] = it.Argument().text
       }
-      return SubRuleDefinition(isCustomElseNative, name, args.toList())
+      return SubRuleDefinition(prefix, name, args.toList())
     }
   }
 

@@ -9,7 +9,7 @@ import io.github.jsnimda.common.config.toMultiConfig
 import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.input.KeybindSettings
 import io.github.jsnimda.common.input.KeybindSettings.Companion.INGAME_DEFAULT
-import io.github.jsnimda.common.util.PropertyNameChecker
+import io.github.jsnimda.common.util.ByPropertyName
 
 // ============
 // api
@@ -67,11 +67,9 @@ fun <T : IConfigOption> T.addTo(declaration: ConfigDeclaration): ConfigOptionDel
 class ConfigOptionDelegateProvider<T : IConfigOption>(
   value: T,
   val declaration: ConfigDeclaration
-) : PropertyNameChecker<T>(value) {
-  override fun checkName(name: String) {
-    value.key = name.toLowerCase()
-  }
-}
+) : ByPropertyName<T>({ name ->
+  value.apply { key = name.toLowerCase() }
+})
 
 @Suppress("FunctionName")
 fun <T : IConfigOption> ConfigOptionDelegateProvider<T>.CATEGORY(name: String) =

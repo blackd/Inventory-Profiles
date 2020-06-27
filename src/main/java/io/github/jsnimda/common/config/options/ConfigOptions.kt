@@ -48,7 +48,7 @@ class ConfigString(override val defaultValue: String) :
 
 class ConfigButton(val info: ConfigButtonInfo) : ConfigOptionBase() { // fake config that acts as button
   override fun toJsonElement(): JsonElement {
-    Log.warn("this is a config button")
+    Log.error("this is a config button") // shouldn't be called
     return JsonNull.INSTANCE
   }
 

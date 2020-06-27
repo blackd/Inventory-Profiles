@@ -38,7 +38,7 @@ fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this
   is ConfigString -> this.toWidget()
   is ConfigButton -> this.toWidget()
   else -> object : ConfigWidgetBase<IConfigOption>(this) {}
-    .also { Log.warn("unknown config option $this") }
+    .also { Log.error("unknown config option $this") }
 }
 
 //endregion

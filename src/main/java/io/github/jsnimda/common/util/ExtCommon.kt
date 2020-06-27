@@ -29,6 +29,14 @@ infix fun <T : Any> Boolean.orElse(elseValue: T): T? = orElse { elseValue }
 inline infix fun <T : Any> Boolean.orElse(elseValue: () -> T): T? =
   if (this) null else elseValue()
 
+fun <T> T.selfIfEquals(value: T, elseValue: T) = selfIfEquals(value) { elseValue }
+inline fun <T> T.selfIfEquals(value: T, elseValue: T.() -> T): T =
+  if (this == value) this else elseValue()
+
+fun <T> T.selfIfNotEquals(value: T, elseValue: T) = selfIfNotEquals(value) { elseValue }
+inline fun <T> T.selfIfNotEquals(value: T, elseValue: T.() -> T): T =
+  if (this != value) this else elseValue()
+
 // ============
 // Boolean Extensions
 // ============
@@ -66,15 +74,15 @@ fun <T> List<Comparator<T>>.compare(a: T, b: T): Int {
 // deplete
 // ============
 
-// element is removed if action do not do non-local returns.
-// at the end the list becomes empty
-inline fun <T> MutableList<T>.consume(action: (T) -> Unit) = this.apply {
-  val it = this.iterator()
-  while (it.hasNext()) {
-    action(it.next())
-    it.remove()
-  }
-}
+// like removeAll but allowing local returns to stop the while loop
+//inline fun <T> MutableList<T>.deplete(action: (T) -> Boolean) = this.apply {
+//  val it = this.iterator()
+//  while (it.hasNext()) {
+//    if (action(it.next())) {
+//      it.remove()
+//    }
+//  }
+//}
 
-inline fun <T> MutableList<T>.consumeReversed(action: (T) -> Unit) =
-  this.asReversed().consume(action)
+//inline fun <T> MutableList<T>.depleteReversed(action: (T) -> Boolean) =
+//  this.asReversed().deplete(action)

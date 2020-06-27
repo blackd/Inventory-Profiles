@@ -25,7 +25,7 @@
     ::enchantments_score
     ::damage
     ::display_name
-    ::has_potion_effects(match = last)
-    ::potion_name(has_potion_name = first)
+//    ::has_potion_effects(match = last)
+//    ::potion_name(has_potion_name = first)
     ::potion_effects
     ::nbt

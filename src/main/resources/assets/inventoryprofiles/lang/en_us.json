@@ -42,13 +42,14 @@
 
 
     "inventoryprofiles.config.name.open_config_folder":             "§aOpen Config Folder",
-    "inventoryprofiles.config.name.reload_rule_files":              "§aReload Rule File",
+    "inventoryprofiles.config.name.reload_rule_files":              "§aReload Rule Files",
 
     "inventoryprofiles.config.description.open_config_folder":          "Open folder .minecraft/config/inventoryprofiles",
-    "inventoryprofiles.config.description.reload_rule_files":           "Reload rule.*.txt in config folder",
+    "inventoryprofiles.config.description.reload_rule_files":           "Reload rule.*.txt files in config folder",
 
     "inventoryprofiles.gui.config.button.open_config_folder": "config/inventoryprofiles",
     "inventoryprofiles.gui.config.button.reload_rule_files": "Reload rule.*.txt",
+    "inventoryprofiles.gui.config.button.reload_rule_files.reloaded": "All reloaded!",
 
 
     "inventoryprofiles.config.name.sort_order":                     "Sort Order",
@@ -143,13 +144,13 @@
     "inventoryprofiles.enum.sorting_method.raw_id": "Item Numerical ID",
     "inventoryprofiles.enum.sorting_method.custom": "Custom Rule",
 
-    "inventoryprofiles.enum.none":             "None",
-    "inventoryprofiles.enum.group_in_rows":    "Group In Rows",
-    "inventoryprofiles.enum.group_in_columns": "Group In Columns",
-    "inventoryprofiles.enum.distribute_evenly":"Distribute Evenly",
-    "inventoryprofiles.enum.shuffle":          "Shuffle",
-    "inventoryprofiles.enum.fill_one":         "Fill One",
-    "inventoryprofiles.enum.reverse":          "Reverse",
+    "inventoryprofiles.enum.post_action.none":             "None",
+    "inventoryprofiles.enum.post_action.group_in_rows":    "Group In Rows",
+    "inventoryprofiles.enum.post_action.group_in_columns": "Group In Columns",
+    "inventoryprofiles.enum.post_action.distribute_evenly":"Distribute Evenly",
+    "inventoryprofiles.enum.post_action.shuffle":          "Shuffle",
+    "inventoryprofiles.enum.post_action.fill_one":         "Fill One",
+    "inventoryprofiles.enum.post_action.reverse":          "Reverse",
 
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",

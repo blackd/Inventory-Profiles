@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.config
 
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
-import io.github.jsnimda.inventoryprofiles.item.rule.custom.CustomRuleRegister
+import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFileRegister
 
 private const val ENUM = "inventoryprofiles.enum"
 
@@ -14,7 +14,7 @@ enum class SortingMethod(private val ruleName: String?) {
   CUSTOM(null);
 
   val rule: Rule
-    get() = ruleName?.let { CustomRuleRegister.getOrEmpty(it) } ?: TODO("custom rule")
+    get() = ruleName?.let { RuleFileRegister.getCustomRuleOrEmpty(it) } ?: TODO("custom rule")
 
   override fun toString(): String =
     I18n.translate("$ENUM.sorting_method.${name.toLowerCase()}")
