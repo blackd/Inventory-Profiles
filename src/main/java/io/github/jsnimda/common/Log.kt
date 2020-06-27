@@ -12,6 +12,7 @@ object Log {
   fun error(message: String) = innerLogger.error("[$id] $message")
   fun warn(message: String) = innerLogger.warn("[$id] $message")
   fun info(message: String) = innerLogger.info("[$id] $message")
+//  fun printDebug(message: String) = innerLogger.debug("[$id] $message")
 
   fun debug(message: String) = debugHandler { message }
   fun debug(message: () -> String) = debugHandler(message)
