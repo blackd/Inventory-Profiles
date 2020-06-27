@@ -60,5 +60,8 @@ enum class PostAction {
 
 enum class ThresholdUnit {
   ABSOLUTE,
-  PERCENTAGE
+  PERCENTAGE;
+
+  override fun toString(): String =
+    I18n.translate("$ENUM.threshold_unit.${name.toLowerCase()}")
 }

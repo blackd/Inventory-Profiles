@@ -55,6 +55,7 @@ object AutoRefillHandler {
 
   val monitors = mutableListOf<ItemSlotMonitor>()
 
+  // fixme auto refill fail if item ran out then instantly pick some items
   fun handleAutoRefill() {
     tryCatch { // just in case (index out of range etc)
       monitors.forEach { it.updateCurrent() }
@@ -128,7 +129,7 @@ object AutoRefillHandler {
       GeneralInventoryActions.cleanCursor()
       val foundSlotId = findCorrespondingSlot()
       foundSlotId ?: return
-      ContainerClicker.leftClick(foundSlotId)
+      ContainerClicker.leftClick(foundSlotId) // todo, use swap 1-9 for mainhand
       ContainerClicker.leftClick(storedSlotId)
       if (!VanillaInGame.cursorStack().`(itemStack)`.isEmpty()) {
         ContainerClicker.leftClick(foundSlotId) // put back
