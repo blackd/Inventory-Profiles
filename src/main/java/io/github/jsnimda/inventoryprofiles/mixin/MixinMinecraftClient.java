@@ -1,7 +1,9 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
+import io.github.jsnimda.inventoryprofiles.event.MinecraftEventHandler;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,5 +24,11 @@ public abstract class MixinMinecraftClient {
     if (this.itemUseCooldown > 0 && Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
       this.itemUseCooldown = 0;
     }
+    MinecraftEventHandler.INSTANCE.onTick();
+  }
+
+  @Inject(at = @At("HEAD"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V")
+  public void joinWorld(ClientWorld clientWorld, CallbackInfo info) {
+    MinecraftEventHandler.INSTANCE.onJoinWorld();
   }
 }

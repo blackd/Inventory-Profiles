@@ -11,6 +11,7 @@ import io.github.jsnimda.inventoryprofiles.config.PostAction
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer.Companion.cleanCursor
 import io.github.jsnimda.inventoryprofiles.inventory.action.restockFrom
 import io.github.jsnimda.inventoryprofiles.inventory.action.sort
+import io.github.jsnimda.inventoryprofiles.item.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.util.`(itemStack)`
@@ -41,10 +42,15 @@ object GeneralInventoryActions {
 //    ContainerActions.moveAllAlike(VanillaState.shiftDown())
   }
 
-  fun handleCloseContainer() {
+  fun cleanCursor() {
+    if (VanillaInGame.cursorStack().`(itemStack)`.isEmpty()) return
     AdvancedContainer.arrange(true) { ->
       cleanCursor()
     }
+  }
+
+  fun handleCloseContainer() {
+    cleanCursor()
     InnerActions.cleanTempSlotsForClosing()
   }
 

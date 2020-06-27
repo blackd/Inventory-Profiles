@@ -8,6 +8,7 @@ import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
 import io.github.jsnimda.inventoryprofiles.ModInfo
 import io.github.jsnimda.inventoryprofiles.config.*
+import io.github.jsnimda.inventoryprofiles.event.AutoRefillHandler
 
 private const val BUTTON_PREFIX = "inventoryprofiles.gui.config."
 private const val DISPLAY_NAME_PREFIX = "inventoryprofiles.config.name."
@@ -40,6 +41,7 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
 
   override fun closeScreen() {
     SaveLoadManager.save()
+    AutoRefillHandler.init() // update
     super.closeScreen()
   }
 }

@@ -18,11 +18,11 @@ fun CategorizedMultiConfig.toListWidget(
   ConfigListWidget(displayNameOf, descriptionOf).apply {
     categories.forEach { (categoryName, configOptions) ->
       val name = categoryNameOf(categoryName)
-      if (name.isNotEmpty()) { // skip ""
-        if (name.isBlank()) // " " -> no anchor
-          addEntry(CategoryEntry(name))
-        else // -> do add anchor
-          addCategory(name)
+      when {
+        name.isEmpty() -> Unit
+        name.isBlank() -> addEntry(CategoryEntry(name))
+        name.startsWith("§§h:") -> addHeight(name.substring(4).toIntOrNull() ?: 0)
+        else -> addCategory(name)
       }
       configOptions.forEach { addConfigOption(it) }
     }
@@ -43,6 +43,10 @@ class ConfigListWidget(private val displayNameOf: (String) -> String, private va
 
   fun addConfigOption(configOption: IConfigOption) {
     addEntry(ConfigOptionEntry(configOption))
+  }
+
+  fun addHeight(height: Int) {
+    addEntry(Entry().apply { this.height = height })
   }
 
   // ============

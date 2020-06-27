@@ -13,12 +13,23 @@ private const val category = "inventoryprofiles.config.category"
 object ModSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
+    .CATEGORY("§§h:3")
   val OPEN_CONFIG_FOLDER                        /**/ by button(OpenConfigFolderButtonInfo)
   val RELOAD_RULE_FILES                         /**/ by button(ReloadRuleFileButtonInfo)
 
     .CATEGORY("$category.inventory_sorting")
   val SORT_ORDER                                /**/ by enum(SortingMethod.DEFAULT)
   val CUSTOM_RULE                               /**/ by string("@default")
+
+    .CATEGORY("$category.auto_refill")
+  val ENABLE_AUTO_REFILL                        /**/ by bool(true)
+  val REFILL_ARMOR                              /**/ by bool(true)
+  val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
+  val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10, 0, 100)
+  val THRESHOLD_UNIT                            /**/ by enum(ThresholdUnit.ABSOLUTE)
+  val AUTO_REFILL_WAIT_TICK                     /**/ by int(0, 0, 100)
+
+    .CATEGORY("$category.advanced_options")
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
   val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10, 1, 500)
   val RESTOCK_HOTBAR                            /**/ by bool(false)

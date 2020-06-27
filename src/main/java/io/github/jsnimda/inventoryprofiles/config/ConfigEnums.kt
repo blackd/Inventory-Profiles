@@ -58,3 +58,7 @@ enum class PostAction {
     I18n.translate("$ENUM.post_action.${name.toLowerCase()}")
 }
 
+enum class ThresholdUnit {
+  ABSOLUTE,
+  PERCENTAGE
+}

@@ -1,7 +1,7 @@
 {
 
     "inventoryprofiles.gui.config.title": "Inventory Profiles v%s 配置菜单",
-    
+
     "inventoryprofiles.common.gui.config.reset": "重置",
     "inventoryprofiles.common.gui.config.true": "§2开",
     "inventoryprofiles.common.gui.config.false": "§4关",
