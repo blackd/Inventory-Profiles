@@ -55,7 +55,7 @@ object AutoRefillHandler {
 
   val monitors = mutableListOf<ItemSlotMonitor>()
 
-  // fixme auto refill fail if item ran out then instantly pick some items
+  // fixed ~.~ [later fun change reminder: see if auto refill fail if item ran out then instantly pick up some items]
   fun handleAutoRefill() {
     tryCatch { // just in case (index out of range etc)
       monitors.forEach { it.updateCurrent() }

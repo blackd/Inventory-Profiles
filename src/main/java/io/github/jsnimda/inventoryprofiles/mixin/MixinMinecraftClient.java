@@ -24,10 +24,14 @@ public abstract class MixinMinecraftClient {
     if (this.itemUseCooldown > 0 && Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
       this.itemUseCooldown = 0;
     }
+  }
+
+  @Inject(at = @At("RETURN"), method = "tick()V")
+  public void tick2(CallbackInfo info) {
     MinecraftEventHandler.INSTANCE.onTick();
   }
 
-  @Inject(at = @At("HEAD"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V")
+  @Inject(at = @At("RETURN"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V")
   public void joinWorld(ClientWorld clientWorld, CallbackInfo info) {
     MinecraftEventHandler.INSTANCE.onJoinWorld();
   }
