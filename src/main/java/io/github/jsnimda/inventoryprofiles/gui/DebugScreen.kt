@@ -8,7 +8,7 @@ import io.github.jsnimda.inventoryprofiles.item.*
 import io.github.jsnimda.inventoryprofiles.util.*
 
 class DebugScreen : BaseDebugScreen() {
-  class PageContainer : Page("Container") {
+  inner class PageContainer : Page("Container") {
     override val content: List<String>
       get() {
         val slot = slot
@@ -22,6 +22,7 @@ class DebugScreen : BaseDebugScreen() {
               |
               """.trimMargin()
           }
+        val itemType = itemType
         val c = "itemType: $itemType"
         val d =
           itemType.run {
@@ -48,8 +49,10 @@ class DebugScreen : BaseDebugScreen() {
           }
         return listOf(a, b, c, d).joinToString("\n").split("\n")
       }
-    val slot: Slot? = VanillaInGame.focusedSlot()
-    val itemType: ItemType = slot?.`(itemStack)`?.itemType ?: ItemType.EMPTY
+    val slot: Slot?
+      get() = VanillaInGame.focusedSlot(parent)
+    val itemType: ItemType
+      get() = slot?.`(itemStack)`?.itemType ?: ItemType.EMPTY
   }
 
   init {

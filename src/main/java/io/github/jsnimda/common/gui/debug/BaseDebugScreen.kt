@@ -11,6 +11,7 @@ import io.github.jsnimda.common.util.orElse
 import io.github.jsnimda.common.util.selfIf
 import io.github.jsnimda.common.vanilla.VanillaState
 import io.github.jsnimda.common.vanilla.render.*
+import kotlin.math.sign
 
 /*
   text bounds: (2 + rMeasureText(s)) x 9
@@ -97,12 +98,17 @@ open class BaseDebugScreen : BaseOverlay() { // TODO clean up code
     return super.mouseClicked(d, e, i)
   }
 
+  override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean {
+    textPosition = (textPosition + sign(-f).toInt()) mod 4
+    return super.mouseScrolled(d, e, f)
+  }
+
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     page?.preRender(mouseX, mouseY, partialTicks)
     updateHudText()
-    if (hudTextContains(mouseX, mouseY)) {
-      textPosition = (textPosition + 1) % 4
-    }
+//    if (hudTextContains(mouseX, mouseY)) {
+//      textPosition = (textPosition + 1) % 2 // (textPosition + 1) % 4
+//    }
     super.render(mouseX, mouseY, partialTicks)
   }
 
