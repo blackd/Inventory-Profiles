@@ -1,12 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
 import io.github.jsnimda.common.gui.debug.BaseDebugScreen
-import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.VanillaInGame
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Slot
+import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.item.*
-import io.github.jsnimda.inventoryprofiles.util.*
 
 class DebugScreen : BaseDebugScreen() {
   inner class PageContainer : Page("Container") {
@@ -19,7 +17,7 @@ class DebugScreen : BaseDebugScreen() {
           slot.run {
             """invSlot: $`(invSlot)` id: $`(id)`
               |inventory: ${`(inventory)`.javaClass.simpleName}
-              |x: $`(x)` y: $`(y)`
+              |x: $`(left)` y: $`(top)`
               |
               """.trimMargin()
           }
@@ -51,7 +49,7 @@ class DebugScreen : BaseDebugScreen() {
         return listOf(a, b, c, d).joinToString("\n").split("\n")
       }
     val slot: Slot?
-      get() = VanillaInGame.focusedSlot(parent)
+      get() = parent?.`(focusedSlot)`
     val itemType: ItemType
       get() = slot?.`(itemStack)`?.itemType ?: ItemType.EMPTY
   }

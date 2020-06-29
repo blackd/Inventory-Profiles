@@ -2,18 +2,17 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.VanillaInGame
-import io.github.jsnimda.common.vanilla.VanillaState
+import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.item.EMPTY
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
-import io.github.jsnimda.inventoryprofiles.item.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
-import io.github.jsnimda.inventoryprofiles.util.`(itemStack)`
-import io.github.jsnimda.inventoryprofiles.util.`(slots)`
-import io.github.jsnimda.inventoryprofiles.util.vSelectedSlot
+import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
+import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
+import io.github.jsnimda.inventoryprofiles.ingame.vMainhandIndex
 
 object AutoRefillHandler {
   var screenOpening = false
@@ -21,7 +20,7 @@ object AutoRefillHandler {
   fun onTick() {
     if (Vanilla.screen() != null) {
       screenOpening = true
-    } else if (VanillaState.inGame()) { //  Vanilla.screen() == null
+    } else if (VanillaUtil.inGame()) { //  Vanilla.screen() == null
       if (screenOpening) {
         screenOpening = false
         init() // close screen -> init
@@ -37,7 +36,7 @@ object AutoRefillHandler {
   fun init() {
     monitors.clear()
     val list = listOf(
-      ItemSlotMonitor { 36 + vSelectedSlot() }, // main hand inv 0-8
+      ItemSlotMonitor { 36 + vMainhandIndex() }, // main hand inv 0-8
       ItemSlotMonitor(45) // offhand inv 40
     ) + if (!ModSettings.REFILL_ARMOR.booleanValue) listOf() else
       listOf(
@@ -134,7 +133,7 @@ object AutoRefillHandler {
       } else {
         ContainerClicker.leftClick(foundSlotId)
         ContainerClicker.leftClick(storedSlotId)
-        if (!VanillaInGame.cursorStack().`(itemStack)`.isEmpty()) {
+        if (!vCursorStack().isEmpty()) {
           ContainerClicker.leftClick(foundSlotId) // put back
         }
       }

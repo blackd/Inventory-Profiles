@@ -3,7 +3,7 @@ package io.github.jsnimda.common.vanilla.render
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.VanillaState
+import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.Screen
 
@@ -25,7 +25,7 @@ fun rRenderBlackOverlay() { // Screen.renderBackground
 }
 
 fun rRenderVanillaScreenBackground() { // Screen.renderBackground
-  if (VanillaState.inGame()) {
+  if (VanillaUtil.inGame()) {
     rRenderBlackOverlay()
   } else {
     rRenderDirtBackground()

@@ -5,13 +5,13 @@ import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.Savable
 import io.github.jsnimda.common.config.IConfigElement
 import io.github.jsnimda.common.util.*
-import io.github.jsnimda.common.vanilla.VanillaUtils
+import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.loggingPath
 import java.io.IOException
 import java.nio.file.Path
 
 class ConfigSaveLoadManager(private val config: IConfigElement, path: String) : Savable {
-  private val configFile: Path = VanillaUtils.configDirectory("path")
+  private val configFile: Path = VanillaUtil.configDirectory() / path
   private val path = configFile.loggingPath
 
   override fun save() {

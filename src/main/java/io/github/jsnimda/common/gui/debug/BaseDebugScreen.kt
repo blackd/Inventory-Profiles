@@ -9,7 +9,7 @@ import io.github.jsnimda.common.util.detectable
 import io.github.jsnimda.common.util.mod
 import io.github.jsnimda.common.util.orElse
 import io.github.jsnimda.common.util.selfIf
-import io.github.jsnimda.common.vanilla.VanillaState
+import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.render.*
 import kotlin.math.sign
 
@@ -93,7 +93,7 @@ open class BaseDebugScreen : BaseOverlay() {
   }
 
   override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
-    val inc = if (VanillaState.shiftDown()) -1 else 1
+    val inc = if (VanillaUtil.shiftDown()) -1 else 1
     if (i == 1) switchPage((pageIndex + inc) mod pages.size) // right click
     return super.mouseClicked(d, e, i)
   }
@@ -121,8 +121,8 @@ open class BaseDebugScreen : BaseOverlay() {
         get() = DebugInfos.asTexts +
             """
               |
-              |mouseX ${VanillaState.mouseX} mouseY ${VanillaState.mouseY}
-              |lastMouseX ${VanillaState.lastMouseX} lastMouseY ${VanillaState.lastMouseY}
+              |mouseX ${VanillaUtil.mouseX} mouseY ${VanillaUtil.mouseY}
+              |lastMouseX ${VanillaUtil.lastMouseX} lastMouseY ${VanillaUtil.lastMouseY}
             """.trimMargin().split("\n")
 
       override fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {

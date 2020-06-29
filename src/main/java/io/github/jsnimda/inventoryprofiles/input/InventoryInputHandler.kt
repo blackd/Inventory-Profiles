@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.input
 
 import io.github.jsnimda.common.IInputHandler
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.VanillaState
+import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
@@ -10,7 +10,7 @@ import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 object InventoryInputHandler : IInputHandler {
 
   override fun onInput(lastKey: Int, lastAction: Int): Boolean {
-    if (!VanillaState.inGame()) return false
+    if (!VanillaUtil.inGame()) return false
     if (Vanilla.screen() != null && Vanilla.screen() !is ContainerScreen<*>) return false
 
     listOf(

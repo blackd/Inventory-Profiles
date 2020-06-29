@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.input
 import io.github.jsnimda.common.IInputHandler
 import io.github.jsnimda.common.gui.debug.DepthTestScreen
 import io.github.jsnimda.common.util.tryCatch
-import io.github.jsnimda.common.vanilla.VanillaUtils
+import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.inventoryprofiles.config.Debugs
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
@@ -17,7 +17,7 @@ class InputHandler : IInputHandler {
   override fun onInput(lastKey: Int, lastAction: Int): Boolean {
     return tryCatch(false) {
       if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
-        VanillaUtils.openScreen(ConfigScreen())
+        VanillaUtil.openScreen(ConfigScreen())
       }
 
       if (InventoryInputHandler.onInput(lastKey, lastAction)) {
@@ -29,8 +29,7 @@ class InputHandler : IInputHandler {
           Debugs.DEBUG_SCREEN.isActivated() -> DebugScreen()
           Debugs.SCREEN_DEPTH_TEST.isActivated() -> DepthTestScreen()
           else -> null
-        }?.let { VanillaUtils.openDistinctScreenQuiet(it); return true }
-        // end if
+        }?.let { VanillaUtil.openDistinctScreenQuiet(it); return true }
       }
 
       return false

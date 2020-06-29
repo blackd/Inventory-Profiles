@@ -10,14 +10,9 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
-// ==========
-// #! Vanilla mapping dependence
-// ==========
-
-val VanillaItemStack.`(itemType)`
-  get() = ItemType(item, tag)
-val VanillaItemStack.`(itemStack)`
-  get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`, count)
+// ============
+// vanillamapping code depends on mappings
+// ============
 
 // ============
 // ItemStack

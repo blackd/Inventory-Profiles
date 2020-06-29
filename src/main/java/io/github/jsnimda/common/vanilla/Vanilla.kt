@@ -36,8 +36,8 @@ object Vanilla {
   // in-game objects
   // ============
 
-  internal fun worldNullable() = mc().world ?: null
-  internal fun playerNullable() = mc().player ?: null
+  fun worldNullable() = mc().world ?: null
+  fun playerNullable() = mc().player ?: null
 
   fun world() = worldNullable() ?: error("mc.world is not initialized! Probably not in game")
   fun player() = playerNullable() ?: error("mc.player is not initialized! Probably not in game")

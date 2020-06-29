@@ -1,14 +1,13 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.VanillaInGame
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.common.vanilla.alias.Slot
-import io.github.jsnimda.inventoryprofiles.util.`(invSlot)`
-import io.github.jsnimda.inventoryprofiles.util.`(inventory)`
-import io.github.jsnimda.inventoryprofiles.util.`(selectedSlot)`
-import io.github.jsnimda.inventoryprofiles.util.focusedSlot
+import io.github.jsnimda.inventoryprofiles.ingame.`(invSlot)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(inventory)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(selectedSlot)`
+import io.github.jsnimda.inventoryprofiles.ingame.vFocusedSlot
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35
@@ -17,7 +16,7 @@ private val mainhandInvSlot
   get() = Vanilla.playerInventory().`(selectedSlot)`
 
 object ZoneTypes {
-  val focusedSlot = ZoneType.matchSlots(VanillaInGame.focusedSlot())
+  val focusedSlot = ZoneType.matchSlots(vFocusedSlot())
 
   val playerStorage = ZoneType.player(storageInvSlots.toList())
   val playerHotbar = ZoneType.player(hotbarInvSlots.toList())

@@ -7,7 +7,7 @@ import io.github.jsnimda.common.util.LogicalStringComparator
 import io.github.jsnimda.common.util.listFiles
 import io.github.jsnimda.common.util.name
 import io.github.jsnimda.common.util.readFileToString
-import io.github.jsnimda.common.vanilla.VanillaUtils
+import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.loggingPath
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFile
@@ -37,11 +37,11 @@ object OpenConfigFolderButtonInfo : ConfigButtonInfo() {
     get() = I18n.translate("inventoryprofiles.gui.config.button.open_config_folder")
 
   override fun onClick(widget: ButtonWidget) {
-    VanillaUtils.open(configFolder.toFile())
+    VanillaUtil.open(configFolder.toFile())
   }
 }
 
-val configFolder = VanillaUtils.configDirectory("inventoryprofiles")
+val configFolder = VanillaUtil.configDirectory("inventoryprofiles")
 fun getFiles(regex: String) =
   configFolder.listFiles(regex).sortedWith { a, b -> strCmpLogical.compare(a.name, b.name) }
 
@@ -73,7 +73,7 @@ object CustomDataFileLoader {
 // rule loader
 // ============
 object RuleLoader : Loader {
-  private val internalRulesTxtContent = VanillaUtils.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""
+  private val internalRulesTxtContent = VanillaUtil.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""
     .also { Log.error("Failed to load in-jar file inventoryprofiles:config/rules.txt") }
   private const val regex = "^rules\\.(?:.*\\.)?txt\$"
 

@@ -2,7 +2,7 @@ package io.github.jsnimda.common.mixin;
 
 import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.vanilla.Vanilla;
-import io.github.jsnimda.common.vanilla.VanillaState;
+import io.github.jsnimda.common.vanilla.VanillaUtil;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinMouse {
   @Inject(method = "onCursorPos", at = @At("RETURN"))
   private void onCursorPos(long handle, double xpos, double ypos, CallbackInfo ci) {
-    VanillaState.INSTANCE.updateMouse();
+    VanillaUtil.INSTANCE.updateMouse();
   }
 
   @Inject(method = "onMouseButton", at = @At(value = "RETURN"))
