@@ -11,16 +11,15 @@ import io.github.jsnimda.inventoryprofiles.item.`(itemStack)`
 fun VanillaInGame.focusedSlot() = focusedSlot(Vanilla.screen())
 fun VanillaInGame.focusedSlot(screen: Screen?): Slot? =
   realFocusedSlot(screen)?.let {
-    if (Vanilla.screen() is CreativeInventoryScreen) {
+    if (screen is CreativeInventoryScreen) {
       val id = it.`(id)`
       val invSlot = it.`(invSlot)`
       return@let if (it.`(inventory)` is PlayerInventory && invSlot in 0..8 && id == 45 + invSlot) {
         Vanilla.playerContainer().`(slots)`[36 + invSlot]
       } else if (it.`(inventory)` is PlayerInventory && invSlot in 0..45 && id == 0) {
         Vanilla.playerContainer().`(slots)`[invSlot]
-      } else {
-        Log.debug("interesting slot $it")
-        null
+      } else { // other creative slot
+        it
       }
     } else it
   }

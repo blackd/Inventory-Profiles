@@ -196,8 +196,6 @@
     "inventoryprofiles.config.category.debugs": "Debugs",
 
     "inventoryprofiles.config.name.debug_screen":                   "Debug Screen",
-    "inventoryprofiles.config.name.screen_depth_test":              "Screen Depth Test",
-
     "inventoryprofiles.config.description.debug_screen":            "Open debug screen",
 
 

@@ -33,13 +33,17 @@ object GeneralInventoryActions {
   }
 
   fun doMoveMatch() {
-
+    //todo
 //    ContainerActions.moveAllAlike(VanillaState.shiftDown())
   }
 
   fun doMoveMatch(chestSide: Boolean) {
-
+    //todo
 //    ContainerActions.moveAllAlike(VanillaState.shiftDown())
+  }
+
+  fun continuousCrafting() {
+    // todo
   }
 
   fun cleanCursor() {
