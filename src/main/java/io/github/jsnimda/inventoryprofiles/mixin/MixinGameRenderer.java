@@ -12,12 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-
   @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(F)V", cancellable = true)
   public void bobViewWhenHurt(float float_1, CallbackInfo info) {
     if (Tweaks.INSTANCE.getDISABLE_SCREEN_SHAKING_ON_DAMAGE().getBooleanValue()) {
       info.cancel();
     }
   }
-
 }

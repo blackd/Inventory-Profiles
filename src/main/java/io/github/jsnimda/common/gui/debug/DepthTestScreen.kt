@@ -1,21 +1,21 @@
 package io.github.jsnimda.common.gui.debug
 
-import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.gui.screen.BaseOverlay
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow
 import io.github.jsnimda.common.gui.widgets.Widget
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.render.*
 
 class DepthTestScreen : BaseOverlay() {
   class Rect(var color: Int, val name: String) : Widget() {
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-      rDrawOutline(absoluteBounds.inflated(-2), color.alpha(0.5f))
-      rDrawOutline(absoluteBounds.inflated(-1), color.alpha(0.5f))
-      rDrawOutline(absoluteBounds.inflated(-0), color.alpha(0.5f))
-      rDrawOutline(absoluteBounds.inflated(1), 0.alpha(0.5f))
-      rDrawOutline(absoluteBounds.inflated(2), 0xff808080.toInt().alpha(0.5f))
-      rDrawOutline(absoluteBounds.inflated(3), 0xff808080.toInt().alpha(0.5f))
+      rDrawOutline(absoluteBounds.inflated(-2), color.alpha(alpha))
+      rDrawOutline(absoluteBounds.inflated(-1), color.alpha(alpha))
+      rDrawOutline(absoluteBounds.inflated(-0), color.alpha(alpha))
+      rDrawOutline(absoluteBounds.inflated(1), 0.alpha(alpha))
+      rDrawOutline(absoluteBounds.inflated(2), 0xff808080.toInt().alpha(alpha))
+      rDrawOutline(absoluteBounds.inflated(3), 0xff808080.toInt().alpha(alpha))
       super.render(mouseX, mouseY, partialTicks)
     }
   }
@@ -45,6 +45,7 @@ class DepthTestScreen : BaseOverlay() {
     super.render(mouseX, mouseY, partialTicks)
     rDrawText("overflowHidden = $overflowHidden", 2, 2, -1)
     testFillOutline()
+    rFillGradient(Rectangle(370, 10, 50, 200), 0xffff00.opaque, 255.asBlue().opaque)
   }
 
   private fun testFillOutline() {
@@ -68,8 +69,8 @@ class DepthTestScreen : BaseOverlay() {
     )
     val x = 270
     val y = 10
-    val outline = 255.asBlue().alpha(0.5f)
-    val fill = 255.asRed().alpha(0.5f)
+    val outline = 255.asBlue().alpha(alpha)
+    val fill = 255.asRed().alpha(alpha)
     possibles.forEachIndexed { i, border ->
       val dx = (i / 8) * 25
       val dy = (i % 8) * 25
@@ -84,5 +85,9 @@ class DepthTestScreen : BaseOverlay() {
       it.overflow = if (overflowHidden) Overflow.HIDDEN else Overflow.UNSET
     }
     return super.mouseClicked(d, e, i)
+  }
+
+  companion object {
+    const val alpha = 0.75f
   }
 }
