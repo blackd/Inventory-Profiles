@@ -19,6 +19,11 @@ object VanillaUtils {
     if (Vanilla.screen()?.javaClass != screen.javaClass) openScreen(screen)
   }
 
+  fun openDistinctScreenQuiet(screen: Screen) { // dont trigger Screen.remove()
+    Vanilla.mc().currentScreen = null
+    openDistinctScreen(screen)
+  }
+
   fun runDirectory(): Path = Vanilla.runDirectoryFile().toPath().normalize()
   fun configDirectory(): Path = runDirectory() / "config"
   fun configDirectory(modName: String): Path = (configDirectory() / modName).apply { createDirectories() }

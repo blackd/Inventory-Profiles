@@ -10,7 +10,15 @@ import io.github.jsnimda.inventoryprofiles.item.`(itemStack)`
 // interpreted for creative inventory
 fun VanillaInGame.focusedSlot() = focusedSlot(Vanilla.screen())
 fun VanillaInGame.focusedSlot(screen: Screen?): Slot? =
-  realFocusedSlot(screen)?.let {
+  delegatedSlot(realFocusedSlot(screen), screen)
+
+// in-game safe
+fun VanillaInGame.realFocusedSlot(): Slot? = realFocusedSlot(Vanilla.screen())
+fun VanillaInGame.realFocusedSlot(screen: Screen?): Slot? =
+  (screen as? ContainerScreen<*>)?.`(focusedSlot)`
+
+fun VanillaInGame.delegatedSlot(slot: Slot?, screen: Screen?): Slot? =
+  slot?.let {
     if (screen is CreativeInventoryScreen) {
       val id = it.`(id)`
       val invSlot = it.`(invSlot)`
@@ -23,11 +31,5 @@ fun VanillaInGame.focusedSlot(screen: Screen?): Slot? =
       }
     } else it
   }
-
-// in-game safe
-fun VanillaInGame.realFocusedSlot(): Slot? = realFocusedSlot(Vanilla.screen())
-fun VanillaInGame.realFocusedSlot(screen: Screen?): Slot? =
-  (screen as? ContainerScreen<*>)?.`(focusedSlot)`
-
 
 

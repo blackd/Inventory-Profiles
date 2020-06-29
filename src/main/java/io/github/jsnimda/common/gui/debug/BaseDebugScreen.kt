@@ -1,10 +1,10 @@
 package io.github.jsnimda.common.gui.debug
 
-import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.gui.screen.BaseOverlay
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.fillParent
 import io.github.jsnimda.common.gui.widgets.Widget
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.util.detectable
 import io.github.jsnimda.common.util.mod
 import io.github.jsnimda.common.util.orElse
@@ -118,7 +118,12 @@ open class BaseDebugScreen : BaseOverlay() {
   init {
     val page1 = object : Page("Input") {
       override val content: List<String>
-        get() = DebugInfos.asTexts
+        get() = DebugInfos.asTexts +
+            """
+              |
+              |mouseX ${VanillaState.mouseX} mouseY ${VanillaState.mouseY}
+              |lastMouseX ${VanillaState.lastMouseX} lastMouseY ${VanillaState.lastMouseY}
+            """.trimMargin().split("\n")
 
       override fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
         DebugInfos.mouseX = mouseX

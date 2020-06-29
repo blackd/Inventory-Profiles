@@ -24,9 +24,9 @@ fun rFillOutline(bounds: Rectangle, fillColor: Int, outlineColor: Int) {
 fun rFillOutline( // handle corner pixels for you
   bounds: Rectangle, fillColor: Int, outlineColor: Int,
   top: Boolean, bottom: Boolean, left: Boolean, right: Boolean, // border switch
-  drawWidth: Int = 1
+  outlineWidth: Int = 1
 ) {
-  val (l, lz) = drawWidth to drawWidth * 2
+  val (l, lz) = outlineWidth to outlineWidth * 2
   val (x, y, width, height) = bounds
   listOf(
     //@formatter:off
@@ -45,9 +45,9 @@ fun rFillOutline( // handle corner pixels for you
   }
 }
 
-fun rFillOutline(bounds: Rectangle, fillColor: Int, outlineColor: Int, borders: AnchorStyles, drawWidth: Int = 1) {
+fun rFillOutline(bounds: Rectangle, fillColor: Int, outlineColor: Int, borders: AnchorStyles, outlineWidth: Int = 1) {
   val (top, bottom, left, right) = borders
-  rFillOutline(bounds, fillColor, outlineColor, top, bottom, left, right, drawWidth)
+  rFillOutline(bounds, fillColor, outlineColor, top, bottom, left, right, outlineWidth)
 }
 
 fun rDrawPixel(x: Int, y: Int, color: Int) {

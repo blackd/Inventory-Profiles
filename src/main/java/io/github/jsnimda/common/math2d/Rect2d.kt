@@ -8,8 +8,8 @@ data class Point(val x: Int, val y: Int) {
   operator fun unaryPlus() = this
   operator fun unaryMinus() = Point(-x, -y)
 
-  operator fun minus(size: Size) = this - size.toPoint()
-  operator fun minus(point: Point) = this + -point
+  operator fun minus(size: Size): Point = this - size.toPoint()
+  operator fun minus(point: Point) = this + (-point)
   operator fun plus(size: Size): Point = this + size.toPoint()
   operator fun plus(point: Point) =
     Point(x + point.x, y + point.y)
@@ -29,7 +29,7 @@ data class Size(val width: Int, val height: Int) {
   operator fun unaryPlus() = this
   operator fun unaryMinus() = Size(-width, -height)
 
-  operator fun minus(size: Size) = this + -size
+  operator fun minus(size: Size) = this + (-size)
   operator fun plus(size: Size) =
     Size(width + size.width, height + size.height)
 }
@@ -47,32 +47,20 @@ fun Size.transpose() =
 //https://stackoverflow.com/questions/19753134/get-the-points-of-intersection-from-2-rectangles
 // ref: java.awt.Rectangle.intersection()
 // rect1: pt1 pt2, rect2: pt3 pt4
-private fun intersect(pt1: Point, pt2: Point, pt3: Point, pt4: Point): Rectangle {
-  val x5 = maxOf(pt1.x, pt3.x)
-  val y5 = maxOf(pt1.y, pt3.y)
-  val x6 = minOf(pt2.x, pt4.x)
-  val y6 = minOf(pt2.y, pt4.y)
-  return (Point(
-    x5,
-    y5
-  ) to Point(x6, y6)).asRectangle().positiveOrEmpty()
-}
-
-fun Rectangle.asPoints() =
-  location to (location + size)
-
-fun Pair<Point, Point>.asRectangle() =
-  Rectangle(first, (second - first).toSize())
-
 fun Rectangle.intersect(other: Rectangle): Rectangle {
-  val (pt1, pt2) = this.normalize().asPoints()
-  val (pt3, pt4) = other.normalize().asPoints()
-  return intersect(pt1, pt2, pt3, pt4)
+  val (x1, y1, x2, y2) = this.normalize().diagonal
+  val (x3, y3, x4, y4) = other.normalize().diagonal
+  val x5 = maxOf(x1, x3)
+  val y5 = maxOf(y1, y3)
+  val x6 = minOf(x2, x4)
+  val y6 = minOf(y2, y4)
+  return Line(x5, y5, x6, y6).toRectangle().positiveOrEmpty()
 }
 
 fun Rectangle.positiveOrEmpty() = // no negative width/height
   if (width > 0 && height > 0) this else Rectangle(0, 0, 0, 0)
 
+// normalize
 private fun Rectangle.normalizeWidth() =
   if (width >= 0) this else Rectangle(x + width, y, -width, height)
 
@@ -82,13 +70,13 @@ private fun Rectangle.normalizeHeight() =
 fun Rectangle.normalize() =
   this.normalizeWidth().normalizeHeight()
 
+// class
 data class Rectangle(
   val x: Int,
   val y: Int,
   val width: Int,
   val height: Int
 ) {
-
   constructor(location: Point, size: Size) : this(location.x, location.y, size.width, size.height)
 
   val left: Int
@@ -100,15 +88,24 @@ data class Rectangle(
   val bottom: Int
     get() = y + height
 
+  val topLeft: Point
+    get() = Point(left, top)
+  val topRight: Point
+    get() = Point(right, top)
+  val bottomLeft: Point
+    get() = Point(left, bottom)
+  val bottomRight: Point
+    get() = Point(right, bottom)
+
   val location: Point
     get() = Point(x, y)
   val size: Size
     get() = Size(width, height)
 
   fun copy(location: Point = this.location, size: Size = this.size) =
-    Rectangle(location.x, location.y, size.width, size.height)
+    Rectangle(location, size)
 
-  fun inflated(amount: Int): Rectangle =
+  fun inflated(amount: Int): Rectangle = // make bigger
     Rectangle(
       x - amount,
       y - amount,
@@ -116,11 +113,8 @@ data class Rectangle(
       height + amount * 2
     )
 
-  fun asPair() =
-    location to size
-
+  operator fun contains(point: Point) = contains(point.x, point.y)
   fun contains(x: Int, y: Int): Boolean {
     return x in left until right && y in top until bottom
   }
-
 }

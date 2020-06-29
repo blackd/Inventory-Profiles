@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
 import io.github.jsnimda.common.gui.debug.BaseDebugScreen
+import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaInGame
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Slot
@@ -55,9 +56,25 @@ class DebugScreen : BaseDebugScreen() {
       get() = slot?.`(itemStack)`?.itemType ?: ItemType.EMPTY
   }
 
+  inner class PageContainerScreen : Page("Container Screen") {
+    override val content: List<String>
+      get() {
+        val screen = parent
+        if (screen !is ContainerScreen<*>) return listOf()
+        return screen.`(containerBounds)`.run {
+          """
+            |container
+            |x: $x y: $y
+            |width: $width height: $height
+            """.trimMargin().split("\n")
+        }
+      }
+  }
+
   init {
     if (parent is ContainerScreen<*>) {
       pages.add(PageContainer())
+      pages.add(PageContainerScreen())
     }
     switchPage(storedPageIndex)
   }

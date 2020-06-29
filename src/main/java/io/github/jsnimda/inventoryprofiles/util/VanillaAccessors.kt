@@ -2,6 +2,7 @@
 
 package io.github.jsnimda.inventoryprofiles.util
 
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.item.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen
@@ -31,6 +32,8 @@ val Slot.`(y)`: Int
 
 val ContainerScreen<*>.`(focusedSlot)`: Slot?
   get() = (this as IMixinContainerScreen).focusedSlot
+val ContainerScreen<*>.`(containerBounds)`: Rectangle
+  get() = (this as IMixinContainerScreen).run { Rectangle(containerX, containerY, containerWidth, containerHeight) }
 
 val PlayerInventory.`(selectedSlot)`
   get() = selectedSlot

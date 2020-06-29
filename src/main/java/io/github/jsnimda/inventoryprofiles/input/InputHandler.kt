@@ -29,7 +29,7 @@ class InputHandler : IInputHandler {
           Debugs.DEBUG_SCREEN.isActivated() -> DebugScreen()
           Debugs.SCREEN_DEPTH_TEST.isActivated() -> DepthTestScreen()
           else -> null
-        }?.let { VanillaUtils.openDistinctScreen(it); return true }
+        }?.let { VanillaUtils.openDistinctScreenQuiet(it); return true }
         // end if
       }
 
