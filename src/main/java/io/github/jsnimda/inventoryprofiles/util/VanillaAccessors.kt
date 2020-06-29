@@ -24,6 +24,10 @@ val Slot.`(itemStack)`
   get() = stack.`(itemStack)`
 val Slot.`(inventory)`: Inventory
   get() = inventory
+val Slot.`(x)`: Int
+  get() = xPosition
+val Slot.`(y)`: Int
+  get() = yPosition
 
 val ContainerScreen<*>.`(focusedSlot)`: Slot?
   get() = (this as IMixinContainerScreen).focusedSlot

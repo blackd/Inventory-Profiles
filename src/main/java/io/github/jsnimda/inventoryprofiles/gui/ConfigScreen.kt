@@ -16,7 +16,7 @@ private const val DESCRIPTION_PREFIX = "inventoryprofiles.config.description."
 
 class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.config.title", ModInfo.MOD_VERSION)) {
   companion object {
-    var selectedIndex = 0
+    var storedSelectedIndex = 0
   }
 
   private fun CategorizedMultiConfig.toListWidget() =
@@ -32,14 +32,11 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
       .toMultiConfigList().forEach { multi ->
         addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
       }
-    selectedIndex = Companion.selectedIndex
-  }
-
-  override fun selectedIndexChanged() {
-    Companion.selectedIndex = selectedIndex
+    selectedIndex = storedSelectedIndex
   }
 
   override fun closeScreen() {
+    storedSelectedIndex = selectedIndex
     SaveLoadManager.save()
     AutoRefillHandler.init() // update
     super.closeScreen()

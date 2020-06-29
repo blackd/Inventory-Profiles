@@ -31,6 +31,7 @@ object MinecraftEventHandler {
 object MiscHandler {
   fun swipeMoving() {
     // todo fixme fix mouse too fast skip slots
+    // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
     if (!VanillaState.shiftDown()) return
     val focusedSlot = VanillaInGame.focusedSlot()
     focusedSlot ?: return

@@ -32,6 +32,10 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     rootWidget.addChild(widget)
   }
 
+  fun clearWidgets() {
+    rootWidget.clearChildren()
+  }
+
   // ============
   // render
   // ============
