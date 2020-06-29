@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.vanilla.render
 
-import io.github.jsnimda.common.gui.Rectangle
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 

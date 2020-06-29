@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.vanilla.render
 
-import io.github.jsnimda.common.gui.Rectangle
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
 
 fun rMeasureText(string: String) =

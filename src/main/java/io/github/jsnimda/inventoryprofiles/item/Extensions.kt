@@ -38,7 +38,7 @@ fun ItemStack.isFull() =
   count >= itemType.maxCount
 
 val ItemStack.room
-  get() = itemType.maxCount - count // todo need check empty?
+  get() = itemType.maxCount - count // fixme need check empty?
 
 fun ItemStack.swapWith(another: ItemStack) {
   itemType = another.itemType.also { another.itemType = itemType }

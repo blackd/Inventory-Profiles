@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.gui.screen
 
-import io.github.jsnimda.common.gui.Size
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.vanilla.VanillaUtils
@@ -72,7 +72,7 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     rootWidget.mouseReleased(d.toInt(), e.toInt(), i)
 
   override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean =
-    rootWidget.mouseDragged(d, e, i, f, g) // TODO fix dx dy decimal rounding off
+    rootWidget.mouseDragged(d, e, i, f, g) // fixme fix dx dy decimal rounding off
 
   override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean =
     rootWidget.mouseScrolled(d.toInt(), e.toInt(), f)

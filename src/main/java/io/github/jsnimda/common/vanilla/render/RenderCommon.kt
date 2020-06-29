@@ -1,8 +1,8 @@
 package io.github.jsnimda.common.vanilla.render
 
 import com.mojang.blaze3d.platform.GlStateManager
-import io.github.jsnimda.common.gui.Rectangle
-import io.github.jsnimda.common.gui.intersect
+import io.github.jsnimda.common.math2d.Rectangle
+import io.github.jsnimda.common.math2d.intersect
 import net.minecraft.client.render.DiffuseLighting
 import org.lwjgl.opengl.GL11
 

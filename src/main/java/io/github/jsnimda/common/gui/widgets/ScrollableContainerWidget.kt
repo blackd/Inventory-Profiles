@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.gui.widgets
 
-import io.github.jsnimda.common.gui.Rectangle
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow.HIDDEN
 import io.github.jsnimda.common.vanilla.render.rDrawOutline
@@ -122,14 +122,7 @@ class ScrollableContainerWidget : Widget() {
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }
 
-//    // unknown reason overflow content is not hidden with old code, add this to fix it // fixme find out find and remove this
-//    disableAlphaTest()
-//    fillColor(VanillaRender.screenBounds, 0)
-//    enableAlphaTest()
-    // render content
-//    rCreateDepthMask(viewport.absoluteBounds)
     super.render(mouseX, mouseY, partialTicks)
-//    rRemoveDepthMask()
   }
 
   // scrolling logic / ui events

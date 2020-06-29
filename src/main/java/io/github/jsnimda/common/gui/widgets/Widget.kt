@@ -1,9 +1,9 @@
 package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.gui.Point
-import io.github.jsnimda.common.gui.Rectangle
-import io.github.jsnimda.common.gui.Size
+import io.github.jsnimda.common.math2d.Point
+import io.github.jsnimda.common.math2d.Rectangle
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow
 import io.github.jsnimda.common.util.*
@@ -31,7 +31,12 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
   override var zIndex = 0
 
   //region position
-  override var location by detectable(Point(0, 0)) { oldValue, newValue ->
+  override var location by detectable(
+    Point(
+      0,
+      0
+    )
+  ) { oldValue, newValue ->
     screenLocationChanged()
     locationChanged(LocationChangedEvent(oldValue, newValue))
   }
@@ -93,7 +98,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     focusedWidget = null
   }
 
-  // todo make inherited properties final
+  // fixme make inherited properties final
 
   final override fun equals(other: Any?) = super.equals(other)
   final override fun hashCode() = super.hashCode()
@@ -224,7 +229,7 @@ private interface IWidgetPositioning {
     set(value) {
       screenLocation = screenLocation.copy(y = value)
     }
-  var screenLocation: Point // todo cache value and update by screenLocationChanged ? (reduce look up to parent)
+  var screenLocation: Point // fixme cache value and update by screenLocationChanged ? (reduce look up to parent)
     get() = containerScreenLocation + location
     set(value) {
       location = value - containerScreenLocation
@@ -284,7 +289,7 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
         .ifTrue { focusedWidget = it; if (button == 0) isDragging = true }
     }.ifFalse { focusedWidget = null }
 
-  fun mouseReleased(x: Int, y: Int, button: Int): Boolean = // TODO find better solution
+  fun mouseReleased(x: Int, y: Int, button: Int): Boolean = // fixme find better solution
     false.also {
       if (button == 0) isDragging = false
       childrenZIndexed().asReversed().forEach { it.mouseReleased(x, y, button) }
@@ -293,7 +298,7 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
   fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean =
     childrenZIndexed().asReversed().any { it.captures(x, y) && it.mouseScrolled(x, y, amount) }
 
-  fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double): Boolean = // TODO precise dx dy
+  fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double): Boolean = // fixme precise dx dy
     isDragging && focusedWidget?.mouseDragged(x, y, button, dx, dy) ?: false
 
   fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =

@@ -64,7 +64,7 @@ object RuleFileRegister {
   // ============
   // ~.~ methods
   // ============
-  fun getCustomRule(ruleName: String): CustomRule? { // todo
+  fun getCustomRule(ruleName: String): CustomRule? {
     val ruleDefinition =
       if (cachedRules.containsKey(ruleName)) cachedRules.getValue(ruleName) else searchAndPutCustomRule(ruleName)
     return ruleDefinition?.createCustomRule() // should not throw

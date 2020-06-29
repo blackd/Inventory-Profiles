@@ -2,7 +2,7 @@ package io.github.jsnimda.common.gui
 
 import io.github.jsnimda.common.vanilla.render.*
 
-object Tooltips { // TODO clean up code
+object Tooltips { // fixme clean up code
   class Tooltip(val list: List<String>, val mouseX: Int, val mouseY: Int) {
     constructor(string: String, mouseX: Int, mouseY: Int) : this(string.split("\n"), mouseX, mouseY)
 

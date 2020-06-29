@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.gui
+package io.github.jsnimda.common.math2d
 
 // ============
 // Point
@@ -15,9 +15,11 @@ data class Point(val x: Int, val y: Int) {
     Point(x + point.x, y + point.y)
 }
 
-fun Point.toSize() = Size(x, y)
+fun Point.toSize() =
+  Size(x, y)
 
-fun Point.transpose() = Point(y, x)
+fun Point.transpose() =
+  Point(y, x)
 
 // ============
 // Size
@@ -32,9 +34,11 @@ data class Size(val width: Int, val height: Int) {
     Size(width + size.width, height + size.height)
 }
 
-fun Size.toPoint() = Point(width, height)
+fun Size.toPoint() =
+  Point(width, height)
 
-fun Size.transpose() = Size(height, width)
+fun Size.transpose() =
+  Size(height, width)
 
 // ============
 // Rectangle
@@ -48,7 +52,10 @@ private fun intersect(pt1: Point, pt2: Point, pt3: Point, pt4: Point): Rectangle
   val y5 = maxOf(pt1.y, pt3.y)
   val x6 = minOf(pt2.x, pt4.x)
   val y6 = minOf(pt2.y, pt4.y)
-  return (Point(x5, y5) to Point(x6, y6)).asRectangle().positiveOrEmpty()
+  return (Point(
+    x5,
+    y5
+  ) to Point(x6, y6)).asRectangle().positiveOrEmpty()
 }
 
 fun Rectangle.asPoints() =
@@ -102,7 +109,12 @@ data class Rectangle(
     Rectangle(location.x, location.y, size.width, size.height)
 
   fun inflated(amount: Int): Rectangle =
-    Rectangle(x - amount, y - amount, width + amount * 2, height + amount * 2)
+    Rectangle(
+      x - amount,
+      y - amount,
+      width + amount * 2,
+      height + amount * 2
+    )
 
   fun asPair() =
     location to size
