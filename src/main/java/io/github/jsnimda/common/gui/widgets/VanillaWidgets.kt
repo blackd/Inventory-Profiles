@@ -6,6 +6,10 @@ import io.github.jsnimda.common.vanilla.alias.SliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget
 import net.minecraft.client.font.TextRenderer
 
+// ============
+// vanillamapping code depends on mappings
+// ============
+
 open class VanillaWidget<T : AbstractButtonWidget>(
   val vanilla: T
 ) : Widget() {

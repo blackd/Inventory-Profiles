@@ -11,7 +11,7 @@ import java.io.IOException
 import java.nio.file.Path
 
 class ConfigSaveLoadManager(private val config: IConfigElement, path: String) : Savable {
-  private val configFile: Path = VanillaUtils.configDirectory() / path
+  private val configFile: Path = VanillaUtils.configDirectory("path")
   private val path = configFile.loggingPath
 
   override fun save() {

@@ -11,6 +11,10 @@ import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.rClearDepth
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
 
+// ============
+// vanillamapping code depends on mappings (package io.github.jsnimda.common.gui.screen)
+// ============
+
 abstract class BaseScreen(text: Text) : Screen(text) {
   constructor() : this(LiteralText(""))
 

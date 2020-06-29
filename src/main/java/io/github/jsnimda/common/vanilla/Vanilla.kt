@@ -4,6 +4,10 @@ import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.common.vanilla.alias.Window
 
+// ============
+// vanillamapping code depends on mappings (package io.github.jsnimda.common.vanilla)
+// ============
+
 object Vanilla {
 
   // ============
