@@ -39,7 +39,7 @@ val Slot.`(top)`: Int
   get() = yPosition
 
 val Screen.`(focusedSlot)`: Slot?
-  get() = vPlayerSlotOf((this as? ContainerScreen<*>)?.`(rawFocusedSlot)`, this)
+  get() = (this as? ContainerScreen<*>)?.`(rawFocusedSlot)`?.let { vPlayerSlotOf(it, this) }
 
 val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
   get() = (this as IMixinContainerScreen).focusedSlot

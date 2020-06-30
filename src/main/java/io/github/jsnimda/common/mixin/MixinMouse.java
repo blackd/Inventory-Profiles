@@ -16,7 +16,7 @@ public class MixinMouse {
     VanillaUtil.INSTANCE.updateMouse();
   }
 
-  @Inject(method = "onMouseButton", at = @At(value = "RETURN"))
+  @Inject(method = "onMouseButton", at = @At(value = "HEAD"))
   private void onMouseButton(long handle, int button, int action, int mods, CallbackInfo ci) {
     if (handle == Vanilla.INSTANCE.window().getHandle()) {
       GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);

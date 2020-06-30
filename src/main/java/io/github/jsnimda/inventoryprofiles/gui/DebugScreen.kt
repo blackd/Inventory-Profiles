@@ -11,16 +11,8 @@ class DebugScreen : BaseDebugScreen() {
     override val content: List<String>
       get() {
         val slot = slot
-        val a = "slot: ${slot?.javaClass?.simpleName}"
+        val a = if (slot == slot2) slot.content else "${slot.content}\n${slot2.content}"
         slot ?: return listOf(a)
-        val b =
-          slot.run {
-            """invSlot: $`(invSlot)` id: $`(id)`
-              |inventory: ${`(inventory)`.javaClass.simpleName}
-              |x: $`(left)` y: $`(top)`
-              |
-              """.trimMargin()
-          }
         val itemType = itemType
         val c = "itemType: $itemType"
         val d =
@@ -46,12 +38,29 @@ class DebugScreen : BaseDebugScreen() {
               ::potionEffectValues,
             ).joinToString("\n") { "${it.name}: ${it.get()}" }
           }
-        return listOf(a, b, c, d).joinToString("\n").split("\n")
+        return listOf(a, c, d).joinToString("\n").split("\n")
       }
     val slot: Slot?
+      get() = (parent as? ContainerScreen<*>)?.`(rawFocusedSlot)`
+    val slot2: Slot?
       get() = parent?.`(focusedSlot)`
     val itemType: ItemType
       get() = slot?.`(itemStack)`?.itemType ?: ItemType.EMPTY
+    val Slot?.content: String
+      get() {
+        val slot = this
+        val a = "slot: ${slot?.javaClass?.simpleName}"
+        slot ?: return a
+        val b =
+          slot.run {
+            """invSlot: $`(invSlot)` id: $`(id)`
+              |inventory: ${`(inventory)`.javaClass.simpleName}
+              |x: $`(left)` y: $`(top)`
+              |
+              """.trimMargin()
+          }
+        return "$a\n$b"
+      }
   }
 
   inner class PageContainerScreen : Page("Container Screen") {

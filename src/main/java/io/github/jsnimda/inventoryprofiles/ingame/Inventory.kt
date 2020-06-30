@@ -10,19 +10,18 @@ import io.github.jsnimda.inventoryprofiles.item.ItemStack
 // ============
 
 val vPlayerSlots
-  get() = Vanilla.container().`(slots)`
+  get() = Vanilla.playerContainer().`(slots)`
 
 fun vCursorStack() = Vanilla.playerInventory().cursorStack?.`(itemStack)` ?: ItemStack.EMPTY
 
-fun vPlayerSlotOf(slot: Slot?, screen: Screen?): Slot? { // creative slot to survival slot
-  slot ?: return slot
+fun vPlayerSlotOf(slot: Slot, screen: Screen?): Slot { // creative slot to survival slot
   if (screen !is CreativeInventoryScreen) return slot
   if (slot.`(inventory)` !is PlayerInventory) return slot
   val id = slot.`(id)`
   val invSlot = slot.`(invSlot)`
   return when {
-    invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar
-    invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // other
+    invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar in other tab
+    invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // slot in backpack tab
     else -> slot
   }
 }

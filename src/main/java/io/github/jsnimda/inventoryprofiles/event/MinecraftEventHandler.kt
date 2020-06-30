@@ -33,6 +33,7 @@ object MinecraftEventHandler {
   }
 
   fun onJoinWorld() {
+    GlobalInputHandler.pressedKeys.clear() // sometimes left up not captured
     if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
       AutoRefillHandler.onJoinWorld()
     }
@@ -42,20 +43,18 @@ object MinecraftEventHandler {
 
 object MiscHandler {
   fun swipeMoving() {
+    if (!VanillaUtil.shiftDown()) return
+    if (!GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) return
     // fixed mouse too fast skip slots
     // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
     val screen = Vanilla.screen()
-    if (screen !is ContainerScreen<*>) return
-    if (!VanillaUtil.shiftDown()) return
-    if (!GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) return
-    val containerBounds = screen.`(containerBounds)`
+    val containerBounds = (screen as? ContainerScreen<*>)?.`(containerBounds)` ?: return
     val line = with(MinecraftEventHandler) { Line(lastX, lastY, x, y) }
-    val slots = Vanilla.container().`(slots)`.filter { // mouse intersects those
-      line.intersects(Rectangle(containerBounds.x + it.`(left)`, containerBounds.y + it.`(top)`, 16, 16))
-    }
-    for (slot in slots) {
+    for (slot in Vanilla.container().`(slots)`) {
+      val rect = Rectangle(containerBounds.x + slot.`(left)`, containerBounds.y + slot.`(top)`, 16, 16)
+      if (!line.intersects(rect)) continue
       if (slot.`(itemStack)`.isEmpty()) continue
-      ContainerClicker.shiftClick(slot.`(id)`)
+      ContainerClicker.shiftClick(vPlayerSlotOf(slot, screen).`(id)`)
     }
   }
 }
