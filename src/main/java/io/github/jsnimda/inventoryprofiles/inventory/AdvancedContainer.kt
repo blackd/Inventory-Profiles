@@ -113,22 +113,28 @@ class AdvancedContainer(
          */
         // 1.
         tracker.subTracker(AreaTypes.focusedSlot).let { sandbox.cursorPutTo(it, skipEmpty = false) }
+        if (tracker.cursor.isEmpty()) return@sandbox
         // 2.
         val skipEmpty = tracker.joinedSubTracker(AreaTypes.playerHandsAndHotbar, AreaTypes.playerStorage)
         sandbox.cursorPutTo(skipEmpty, skipEmpty = true)
+        if (tracker.cursor.isEmpty()) return@sandbox
         // 3.
         val allowEmpty =
           tracker.joinedSubTracker(AreaTypes.playerStorage, AreaTypes.playerHotbar, AreaTypes.playerOffhand)
         sandbox.cursorPutTo(allowEmpty, skipEmpty = false)
+        if (tracker.cursor.isEmpty()) return@sandbox
         // 4.
         tracker.subTracker(AreaTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = true) }
+        if (tracker.cursor.isEmpty()) return@sandbox
         // 5.
         tracker.subTracker(AreaTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = false) }
+//        if (tracker.cursor.isEmpty()) return@sandbox
       }
     }
 
     fun ContainerSandbox.cursorPutTo(destination: SubTracker, skipEmpty: Boolean) {
       val tracker = this.items
+      if (tracker.cursor.isEmpty()) return
       destination.indexedSlots.forEach { (slotIndex, slotItem) ->
         if (skipEmpty && slotItem.isEmpty()) return@forEach
         if (tracker.cursor.stackableWith(slotItem)) this.leftClick(slotIndex)

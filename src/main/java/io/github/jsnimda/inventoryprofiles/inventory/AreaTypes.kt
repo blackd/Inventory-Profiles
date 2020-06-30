@@ -17,7 +17,7 @@ private val mainhandInvSlot
   get() = Vanilla.playerInventory().`(selectedSlot)`
 
 object AreaTypes {
-  val focusedSlot = AreaType.matchSlots(vFocusedSlot())
+  val focusedSlot = AreaType.match { it == vFocusedSlot() }
 
   val playerStorage = AreaType.player(storageInvSlots.toList())
   val playerHotbar = AreaType.player(hotbarInvSlots.toList())
@@ -75,7 +75,7 @@ class AreaType() {
   companion object {
 
 
-    fun matchSlots(vararg slots: Slot?) = match { it in slots }
+    //    fun matchSlots(vararg slots: Slot?) = match { it in slots }
     fun match(predicate: (Slot) -> Boolean) = AreaType { _, vanillaSlots ->
       vanillaSlots.forEachIndexed { slotIndex, slot ->
         if (predicate(slot)) slotIndices.add(slotIndex)
