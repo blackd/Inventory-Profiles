@@ -202,7 +202,7 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
 
     override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
       super.render(mouseX, mouseY, partialTicks)
-      if (contains(mouseX, mouseY) && tooltipText.isNotEmpty()) {
+      if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX, mouseY) && tooltipText.isNotEmpty()) {
         Tooltips.addTooltip(tooltipText, mouseX, mouseY)
       }
     }
@@ -212,7 +212,7 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
     }
   }
 
-  open abstract class TexturedButtonWidget : ButtonWidget {
+  abstract class TexturedButtonWidget : ButtonWidget {
     constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
     constructor(clickEvent: () -> Unit) : super(clickEvent)
     constructor() : super()
