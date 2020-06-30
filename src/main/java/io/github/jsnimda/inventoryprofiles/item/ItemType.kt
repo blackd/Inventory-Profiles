@@ -21,7 +21,7 @@ data class ItemType(val item: Item, val tag: CompoundTag?) {
   }
 
   override fun hashCode(): Int {
-    if (isEmpty() && this !== ItemType.EMPTY) return ItemType.EMPTY.hashCode()
+    if (isEmpty()) return 0 // temp solution for StackOverflowError
     var result = item.hashCode()
     result = 31 * result + (tag?.hashCode() ?: 0)
     return result

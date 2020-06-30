@@ -17,7 +17,7 @@ data class ItemStack(var itemType: ItemType, var count: Int) {
   }
 
   override fun hashCode(): Int {
-    if (isEmpty() && this !== ItemStack.EMPTY) return ItemStack.EMPTY.hashCode()
+    if (isEmpty()) return 0 // temp solution for StackOverflowError
     var result = itemType.hashCode()
     result = 31 * result + count
     return result
