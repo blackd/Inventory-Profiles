@@ -17,7 +17,7 @@ data class MouseDraggedEvent(val x: Double, val y: Double, val button: Int, val 
 data class KeyEvent(val keyCode: Int, val scanCode: Int, val modifiers: Int)
 data class CharTypedEvent(val charIn: Char, val modifiers: Int)
 
-class RootWidget(val screen: BaseScreen) : Widget() {
+class RootWidget : Widget() {
   override val allowParent: Boolean
     get() = false
 

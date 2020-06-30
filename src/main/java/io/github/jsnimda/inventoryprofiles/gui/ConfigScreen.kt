@@ -28,7 +28,7 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
 
   init {
     openConfigMenuHotkey = Hotkeys.OPEN_CONFIG_MENU
-    (Configs - if (ModSettings.DEBUG_LOGS.booleanValue) listOf() else listOf(Debugs)) // hide debugs class
+    (Configs - if (ModSettings.DEBUG.booleanValue) listOf() else listOf(Debugs)) // hide debugs class
       .toMultiConfigList().forEach { multi ->
         addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
       }

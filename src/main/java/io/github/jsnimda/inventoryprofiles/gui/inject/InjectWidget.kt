@@ -1,33 +1,14 @@
-package io.github.jsnimda.common.gui.screen
+package io.github.jsnimda.inventoryprofiles.gui.inject
 
-import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
-import io.github.jsnimda.common.vanilla.VanillaUtil
-import io.github.jsnimda.common.vanilla.alias.LiteralText
-import io.github.jsnimda.common.vanilla.alias.MinecraftClient
-import io.github.jsnimda.common.vanilla.alias.Screen
-import io.github.jsnimda.common.vanilla.alias.Text
+import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.render.rClearDepth
+import io.github.jsnimda.common.vanilla.render.rScreenHeight
+import io.github.jsnimda.common.vanilla.render.rScreenWidth
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
 
-// ============
-// vanillamapping code depends on mappings (package io.github.jsnimda.common.gui.screen)
-// ============
-
-abstract class BaseScreen(text: Text) : Screen(text) {
-  constructor() : this(LiteralText(""))
-
-  var parent: Screen? = null
-  val titleString: String
-    get() = this.title.asFormattedString()
-  open val screenInfo
-    get() = ScreenInfo.default
-
-  open fun closeScreen() {
-    VanillaUtil.openScreenNullable(parent)
-  }
-
+class InjectWidget : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, "") {
   // ============
   // widget
   // ============
@@ -54,21 +35,8 @@ abstract class BaseScreen(text: Text) : Screen(text) {
   }
 
   // ============
-  // vanilla overrides
-  // ============
-  final override fun isPauseScreen(): Boolean = screenInfo.isPauseScreen
-  final override fun onClose() {
-    closeScreen()
-  }
-
-  // ============
   // event delegates
   // ============
-  override fun resize(minecraftClient: MinecraftClient, width: Int, height: Int) {
-    super.resize(minecraftClient, width, height)
-    rootWidget.size = Size(width, height)
-  }
-
   override fun mouseClicked(d: Double, e: Double, i: Int): Boolean =
     rootWidget.mouseClicked(d.toInt(), e.toInt(), i)
 

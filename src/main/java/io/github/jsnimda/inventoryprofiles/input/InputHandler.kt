@@ -24,7 +24,7 @@ class InputHandler : IInputHandler {
         return true
       }
 
-      if (ModSettings.DEBUG_LOGS.booleanValue) {
+      if (ModSettings.DEBUG.booleanValue) {
         when {
           Debugs.DEBUG_SCREEN.isActivated() -> DebugScreen()
           Debugs.SCREEN_DEPTH_TEST.isActivated() -> DepthTestScreen()

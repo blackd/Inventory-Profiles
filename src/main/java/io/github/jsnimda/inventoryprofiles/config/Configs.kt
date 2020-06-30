@@ -37,7 +37,7 @@ object ModSettings : ConfigDeclaration {
   val STOP_AT_SCREEN_CLOSE                      /**/ by bool(false)
 
     .CATEGORY("$category.debugs")
-  val DEBUG_LOGS by bool(false)
+  val DEBUG by bool(false)
 }
 
 object GuiSettings : ConfigDeclaration {
@@ -96,6 +96,7 @@ object Debugs : ConfigDeclaration {
     .CATEGORY("$category.debugs")
   val DEBUG_SCREEN                              /**/ by hotkey("Z", KeybindSettings.ANY_DEFAULT)
   val SCREEN_DEPTH_TEST                         /**/ by hotkey("X,1", KeybindSettings.ANY_DEFAULT)
+  val DEBUG_RENDER                              /**/ by bool(false)
 }
 
 const val FILE_PATH = "inventoryprofiles/inventoryprofiles.json"
