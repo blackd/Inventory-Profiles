@@ -90,6 +90,7 @@ object Tweaks : ConfigDeclaration {
     .CATEGORY("$category.inventory")
   val PREVENT_CLOSE_GUI_DROP_ITEM               /**/ by hotkeyedBool(false)
   val CONTAINER_SWIPE_MOVING_ITEMS              /**/ by hotkeyedBool(true)
+  val SWIPE_MOVE_CRAFTING_RESULT_SLOT           /**/ by hotkeyedBool(false)
 
     .CATEGORY("$category.survival")
   val INSTANT_MINING_COOLDOWN                   /**/ by hotkeyedBool(false)

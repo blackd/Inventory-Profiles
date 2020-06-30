@@ -5,15 +5,16 @@
   "mixins": [
   ],
   "client": [
-    "MixinClientPlayerInteractionManager",
-    "MixinMinecraftClient",
-    "MixinGameRenderer",
-    "MixinGlStateManager",
-    "MixinClientPlayerEntity",
     "IMixinContainerScreen",
     "IMixinSlot",
-    "MixinGuiCloseC2SPacket",
+    "MixinClientPlayerEntity",
+    "MixinClientPlayerInteractionManager",
     "MixinContainerScreen",
+    "MixinCraftingResultSlot",
+    "MixinGameRenderer",
+    "MixinGlStateManager",
+    "MixinGuiCloseC2SPacket",
+    "MixinMinecraftClient",
     "MixinScreen"
   ],
   "injectors": {

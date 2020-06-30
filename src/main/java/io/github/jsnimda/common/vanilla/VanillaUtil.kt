@@ -13,6 +13,9 @@ val Path.loggingPath
   get() = VanillaUtil.loggingString(this)
 
 object VanillaUtil {
+  fun isOnClientThread(): Boolean = // Thread.currentThread() == this.getThread()
+    Vanilla.mc().isOnThread // isOnThread()
+
   // ============
   // info
   // ============

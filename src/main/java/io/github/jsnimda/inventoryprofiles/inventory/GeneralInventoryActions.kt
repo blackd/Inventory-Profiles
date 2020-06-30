@@ -78,7 +78,7 @@ object GeneralInventoryActions {
 
   fun cleanCursor() {
     if (vCursorStack().isEmpty()) return
-    AdvancedContainer.arrange(true) { ->
+    AdvancedContainer.arrange(instant = true) { ->
       cleanCursor()
     }
   }
