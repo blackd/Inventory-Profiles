@@ -91,6 +91,9 @@
     "inventoryprofiles.gui.config.GuiSettings": "Gui Settings",
     "inventoryprofiles.config.category.inventory": "Inventory",
 
+    "inventoryprofiles.config.name.show_continuous_crafting_checkbox":  "Show Continuous Crafting Checkbox",
+    "inventoryprofiles.config.name.continuous_crafting_checkbox_value": "§bCheckbox Value",
+    "inventoryprofiles.config.name.continuous_crafting_saved_value":    "§bSaved Value",
     "inventoryprofiles.config.name.show_regular_sort_button":       "Show Regular Sort Button",
     "inventoryprofiles.config.name.regular_post_action":            "§bPost Action",
     "inventoryprofiles.config.name.regular_sort_order":             "§bSort Order",
@@ -106,6 +109,9 @@
     "inventoryprofiles.config.name.show_move_all_button":           "Show Move All Button",
     "inventoryprofiles.config.name.show_button_tooltips":           "Show Button Tooltips",
 
+    "inventoryprofiles.config.description.show_continuous_crafting_checkbox":  "Show continuous crafting checkbox on GUI (crafting table & survival inventory)",
+    "inventoryprofiles.config.description.continuous_crafting_checkbox_value": "Remember the checkbox value or set it next time of opening screen",
+    "inventoryprofiles.config.description.continuous_crafting_saved_value":    "Internal saved value of checkbox",
     "inventoryprofiles.config.description.show_regular_sort_button":    "Show regular sort button on GUI",
     "inventoryprofiles.config.description.regular_post_action":         "Set the post action for regular sort button",
     "inventoryprofiles.config.description.regular_sort_order":          "Set the sort order for regular sort button",
@@ -175,6 +181,7 @@
     "inventoryprofiles.config.name.prevent_close_gui_drop_item":        "Prevent Close Gui Drop Item",
     "inventoryprofiles.config.name.disable_screen_shaking_on_damage":   "Disable Screen Shaking On Damage",
     "inventoryprofiles.config.name.disable_lava_fog":                   "Disable Lava Fog",
+    "inventoryprofiles.config.name.container_swipe_moving_items":       "Container Swipe Moving Items",
 
     "inventoryprofiles.config.description.instant_mining_cooldown":             "Adds breaking delay to the blocks that you can instantly mine. This option has lower priority than \"disableBlockBreakingCooldown\".",
     "inventoryprofiles.config.description.disable_block_breaking_cooldown":     "Removes breaking delay for all blocks",
@@ -182,6 +189,7 @@
     "inventoryprofiles.config.description.prevent_close_gui_drop_item":         "Closing GUI will no longer drop the item that holding by the cursor",
     "inventoryprofiles.config.description.disable_screen_shaking_on_damage":    "Receiving damage no longer shakes your screen",
     "inventoryprofiles.config.description.disable_lava_fog":                    "Allows you to have a clearer view underneath lava",
+    "inventoryprofiles.config.description.container_swipe_moving_items":        "Allows you to move items for the slots under the cursor while holding shift and left click",
 
 
 
@@ -235,10 +243,14 @@
     "inventoryprofiles.enum.threshold_unit.absolute":      "Absolute Value",
     "inventoryprofiles.enum.threshold_unit.percentage":    "Percentage (%%)",
 
+    "inventoryprofiles.enum.continuous_crafting_checkbox_value.remember":    "Remember",
+    "inventoryprofiles.enum.continuous_crafting_checkbox_value.checked":     "Checked",
+    "inventoryprofiles.enum.continuous_crafting_checkbox_value.unchecked":   "Unchecked",
+
 
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",
     "inventoryprofiles.tooltip.sort_rows_button": "Sort Inventory in Rows",
-    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6Hold §oSHIFT§r\n§6 - Include Hotbar\n§6Hold §oCTRL§r\n§6 - Move All§r"
-
+    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6Hold §oSHIFT§r\n§6 - Include Hotbar\n§6Hold §oCTRL§r\n§6 - Move All§r",
+    "inventoryprofiles.tooltip.continuous_crafting_checkbox": "Continuous Crafting"
 }

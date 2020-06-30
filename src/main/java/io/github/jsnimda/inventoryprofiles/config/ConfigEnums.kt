@@ -69,5 +69,8 @@ enum class ThresholdUnit {
 enum class ContinuousCraftingCheckboxValue {
   REMEMBER,
   CHECKED,
-  UNCHECKED
+  UNCHECKED;
+
+  override fun toString(): String =
+    I18n.translate("$ENUM.continuous_crafting_checkbox_value.${name.toLowerCase()}")
 }
