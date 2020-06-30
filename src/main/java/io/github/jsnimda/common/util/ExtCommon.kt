@@ -10,10 +10,13 @@ fun <T : Enum<T>> T.next(amount: Int = 1): T {
 // Class Extensions
 // ============
 
-val <T : Any> Class<T>.primitiveType
-  get() = this.kotlin.javaPrimitiveType
-val <T : Any> Class<T>.objectType
-  get() = this.kotlin.javaObjectType
+//val <T : Any> Class<T>.primitiveType
+//  get() = this.kotlin.javaPrimitiveType
+//val <T : Any> Class<T>.objectType
+//  get() = this.kotlin.javaObjectType
+
+val Class<*>.usefulName // as simpleName sometimes return "" which is useless
+  get() = name.substringAfterLast('.')
 
 // ============
 // Scope Functions with if else

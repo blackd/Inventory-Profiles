@@ -23,13 +23,13 @@ object AreaTypes {
   val playerHotbar = AreaType.player(hotbarInvSlots.toList())
   val playerHandsAndHotbar =
     AreaType.player(
-      (listOf(mainhandInvSlot, offhandInvSlot) + hotbarInvSlots.toList()).distinct()
+      (listOf(mainhandInvSlot, offhandInvSlot) + hotbarInvSlots).distinct()
     ) // priority: mainhand -> offhand -> hotbar 1-9
 
   val playerOffhand = AreaType.player(offhandInvSlot)
 
   val itemStorage: AreaType = // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
-    AreaType { vanillaContainer, vanillaSlots ->
+    AreaType { vanillaContainer, vanillaSlots -> // only non empty for SORTABLE_STORAGE
       val types = ContainerTypes.getTypes(vanillaContainer)
       if (types.contains(SORTABLE_STORAGE)) {
         val isHorse = types.contains(HORSE_STORAGE)
@@ -64,6 +64,10 @@ object AreaTypes {
         }
       }
     }
+
+  val nonPlayer = AreaType.match { it.`(inventory)` !is PlayerInventory }
+  val playerHotbarAndOffhand = AreaType.player(hotbarInvSlots + offhandInvSlot)
+  val playerStorageAndHotbarAndOffhand = AreaType.player(storageInvSlots + hotbarInvSlots + offhandInvSlot)
 
 }
 

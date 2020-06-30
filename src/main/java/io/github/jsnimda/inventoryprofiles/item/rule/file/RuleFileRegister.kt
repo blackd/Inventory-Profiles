@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule.file
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.util.ifTrue
+import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
@@ -120,7 +121,7 @@ object RuleFileRegister {
           Log.error("interesting rule @$ruleName (at file $fileName)") // shouldn't go here
         } catch (e: Exception) {
           Log.warn("Found error while creating rule '@$ruleName' (at file $fileName)")
-          Log.warn("  ${e.javaClass.simpleName}: ${e.message}")
+          Log.warn("  ${e.javaClass.usefulName}: ${e.message}")
           when (e) {
             is NoSuchElementException,
             is SelfReferenceException,

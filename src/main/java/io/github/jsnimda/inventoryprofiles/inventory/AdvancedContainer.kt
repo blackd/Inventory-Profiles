@@ -34,9 +34,18 @@ class AdvancedContainer(
   fun getItemArea(areaType: AreaType): ItemArea =
     cachedAreaMap.getOrPut(areaType, { areaType.getItemArea(vanillaContainer, vanillaSlots) })
 
+  // ============
+  // ItemArea
+  // ============
   fun ItemTracker.subTracker(itemArea: ItemArea) =
     subTracker(itemArea.slotIndices)
 
+  fun ItemTracker.joinedSubTracker(vararg itemAreas: ItemArea) =
+    itemAreas.fold(subTracker(listOf())) { acc, itemArea -> acc + subTracker(itemArea) }
+
+  // ============
+  // AreaType
+  // ============
   fun ItemTracker.subTracker(areaType: AreaType) =
     subTracker(getItemArea(areaType).slotIndices)
 

@@ -3,6 +3,7 @@ package io.github.jsnimda.inventoryprofiles.gui
 import io.github.jsnimda.common.gui.debug.BaseDebugScreen
 import io.github.jsnimda.common.gui.debug.DebugInfos
 import io.github.jsnimda.common.gui.widgets.Widget
+import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.ingame.*
@@ -51,12 +52,12 @@ class DebugScreen : BaseDebugScreen() {
     val Slot?.content: String
       get() {
         val slot = this
-        val a = "slot: ${slot?.javaClass?.simpleName}"
+        val a = "slot: ${slot?.javaClass?.usefulName}"
         slot ?: return a
         val b =
           slot.run {
             """invSlot: $`(invSlot)` id: $`(id)`
-              |inventory: ${`(inventory)`.javaClass.simpleName}
+              |inventory: ${`(inventory)`.javaClass.usefulName}
               |x: $`(left)` y: $`(top)`
               |
               """.trimMargin()

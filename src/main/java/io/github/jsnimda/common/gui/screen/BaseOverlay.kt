@@ -1,6 +1,7 @@
 package io.github.jsnimda.common.gui.screen
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Text
@@ -19,7 +20,7 @@ open class BaseOverlay : BaseScreen {
     try {
       parent?.render(mouseX, mouseY, partialTicks)
     } catch (e: Throwable) {
-      Log.error("rendering parent exception: ${e.javaClass.simpleName}")
+      Log.error("rendering parent exception: ${e.javaClass.usefulName}")
     }
     renderParentPost(mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
