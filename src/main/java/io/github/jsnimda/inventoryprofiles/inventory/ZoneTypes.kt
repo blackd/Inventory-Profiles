@@ -8,6 +8,7 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(invSlot)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(inventory)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(selectedSlot)`
 import io.github.jsnimda.inventoryprofiles.ingame.vFocusedSlot
+import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35
@@ -29,8 +30,9 @@ object ZoneTypes {
 
   val itemStorage: ZoneType = // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
     ZoneType { vanillaContainer, vanillaSlots ->
-      if (ContainerTypes.isItemStorage(vanillaContainer)) {
-        val isHorse = ContainerTypes.isHorseStorage(vanillaContainer)
+      val types = ContainerTypes.getTypes(vanillaContainer)
+      if (types.contains(SORTABLE_STORAGE)) {
+        val isHorse = types.contains(HORSE_STORAGE)
         vanillaSlots.forEachIndexed { slotIndex, slot ->
           if (slot.`(inventory)` is PlayerInventory) return@forEachIndexed
           // first two slot of horse is not item storage
@@ -40,18 +42,18 @@ object ZoneTypes {
         }
       }
       // check rectangular
-      if (slotIndices.isNotEmpty() && ContainerTypes.match(vanillaContainer, VanillaContainerType.RECTANGULAR)) {
+      if (slotIndices.isNotEmpty() && types.contains(RECTANGULAR)) {
         val total = slotIndices.size
-        with(ContainerTypes.getTypes(vanillaContainer)) {
+        with(types) {
           when {
-            contains(VanillaContainerType.WIDTH_9) -> {
+            contains(WIDTH_9) -> {
               if (total % 9 == 0) {
                 isRectangular = true
                 width = 9
                 height = total / 9
               }
             }
-            contains(VanillaContainerType.HEIGHT_3) -> {
+            contains(HEIGHT_3) -> {
               if (total % 3 == 0) {
                 isRectangular = true
                 width = total / 3

@@ -10,8 +10,8 @@ object ContainerTypes {
 
   init {
     register(
-      PlayerContainer::class.java           /**/ to setOf(PLAYER_INVENTORY, PLAYER, CRAFTING),
-      CreativeContainer::class.java         /**/ to setOf(PLAYER_INVENTORY, CREATIVE),
+      PlayerContainer::class.java           /**/ to setOf(PURE_BACKPACK, PLAYER, CRAFTING),
+      CreativeContainer::class.java         /**/ to setOf(PURE_BACKPACK, CREATIVE),
 
       EnchantingTableContainer::class.java  /**/ to nonStorage,
       AnvilContainer::class.java            /**/ to nonStorage,
@@ -29,15 +29,15 @@ object ContainerTypes {
       BrewingStandContainer::class.java     /**/ to setOf(NO_SORTING_STORAGE),
       AbstractFurnaceContainer::class.java  /**/ to setOf(NO_SORTING_STORAGE),
 
-      GenericContainer::class.java          /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, WIDTH_9),
-      ShulkerBoxContainer::class.java       /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, WIDTH_9),
-      HorseContainer::class.java            /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, HEIGHT_3, HORSE_STORAGE),
-      Generic3x3Container::class.java       /**/ to setOf(ANY_ITEM_STORAGE, RECTANGULAR, HEIGHT_3)
+      GenericContainer::class.java          /**/ to setOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9),
+      ShulkerBoxContainer::class.java       /**/ to setOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9),
+      HorseContainer::class.java            /**/ to setOf(SORTABLE_STORAGE, RECTANGULAR, HEIGHT_3, HORSE_STORAGE),
+      Generic3x3Container::class.java       /**/ to setOf(SORTABLE_STORAGE, RECTANGULAR, HEIGHT_3)
 
     )
   }
 
-  private val unknownContainerDefaultTypes = setOf(ANY_ITEM_STORAGE, RECTANGULAR, WIDTH_9)
+  private val unknownContainerDefaultTypes = setOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9)
 
   fun register(containerClass: Class<*>, types: Set<ContainerType>) {
     innerMap[containerClass] = innerMap.getOrDefault(containerClass, setOf()) + types
@@ -58,9 +58,9 @@ object ContainerTypes {
   fun getTypes(container: Container) =
     innerMap.getOrDefault(getRepresentingClass(container), unknownContainerDefaultTypes)
 
-  fun match(container: Container, vararg with: ContainerType) = match(container, with.toSet())
-  fun match(container: Container, with: Set<ContainerType> = setOf(), without: Set<ContainerType> = setOf()) =
-    getTypes(container).match(with, without)
+//  fun match(container: Container, vararg with: ContainerType) = match(container, with.toSet())
+//  fun match(container: Container, with: Set<ContainerType> = setOf(), without: Set<ContainerType> = setOf()) =
+//    getTypes(container).match(with, without)
 }
 
 interface ContainerType
@@ -69,12 +69,12 @@ enum class VanillaContainerType : ContainerType {
   PLAYER,
   CREATIVE,
 
-  PLAYER_INVENTORY,
+  PURE_BACKPACK, // which press 'e' to open
 
   TEMP_SLOTS,
   NO_SORTING_STORAGE, // sorting should be disabled on this container
 
-  ANY_ITEM_STORAGE, // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
+  SORTABLE_STORAGE, // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
   HORSE_STORAGE, // first two slot is not item storage
   CRAFTING,
   TRADER,
@@ -84,6 +84,3 @@ enum class VanillaContainerType : ContainerType {
   HEIGHT_3,
 
 }
-
-fun ContainerTypes.isItemStorage(container: Container) = match(container, ANY_ITEM_STORAGE)
-fun ContainerTypes.isHorseStorage(container: Container) = match(container, HORSE_STORAGE)

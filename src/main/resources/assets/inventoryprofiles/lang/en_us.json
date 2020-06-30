@@ -109,7 +109,7 @@
     "inventoryprofiles.config.name.show_move_all_button":           "Show Move All Button",
     "inventoryprofiles.config.name.show_button_tooltips":           "Show Button Tooltips",
 
-    "inventoryprofiles.config.description.show_continuous_crafting_checkbox":  "Show continuous crafting checkbox on GUI (crafting table & survival inventory)",
+    "inventoryprofiles.config.description.show_continuous_crafting_checkbox":  "Show continuous crafting checkbox on GUI (crafting table & survival inventory)\nContinuous Crafting: Auto refill the ingredient slots",
     "inventoryprofiles.config.description.continuous_crafting_checkbox_value": "Remember the checkbox value or set it next time of opening screen",
     "inventoryprofiles.config.description.continuous_crafting_saved_value":    "Internal saved value of checkbox",
     "inventoryprofiles.config.description.show_regular_sort_button":    "Show regular sort button on GUI",

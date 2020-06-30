@@ -74,8 +74,8 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
       }
     }
 
-    val addChestSide = types.contains(ANY_ITEM_STORAGE)
-    val addNonChestSide = types.contains(PLAYER_INVENTORY)
+    val addChestSide = types.contains(SORTABLE_STORAGE)
+    val addNonChestSide = types.contains(PURE_BACKPACK)
     val shouldAdd = addChestSide || addNonChestSide
     private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort() }.apply {
       tx = 10
@@ -96,7 +96,7 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
       tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
     }
     val moveAllVisible = GuiSettings.SHOW_MOVE_ALL_BUTTON.booleanValue &&
-        types.containsAny(setOf(ANY_ITEM_STORAGE, NO_SORTING_STORAGE, CRAFTING))
+        types.containsAny(setOf(SORTABLE_STORAGE, NO_SORTING_STORAGE, CRAFTING))
     private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(false) }.apply {
       tx = 50
       this@SortingButtonContainer.addChild(this)
