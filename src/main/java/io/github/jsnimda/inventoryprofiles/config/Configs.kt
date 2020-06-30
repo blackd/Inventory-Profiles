@@ -84,13 +84,18 @@ object Tweaks : ConfigDeclaration {
   override val builder = createBuilder()
 
     .CATEGORY("$category.client_side_tweaks")
+    .CATEGORY("§§vgap:-5")
+    .CATEGORY("$category.inventory")
+  val PREVENT_CLOSE_GUI_DROP_ITEM               /**/ by hotkeyedBool(false)
+  val CONTAINER_SWIPE_MOVING_ITEMS              /**/ by hotkeyedBool(true)
+
+    .CATEGORY("$category.survival")
   val INSTANT_MINING_COOLDOWN                   /**/ by hotkeyedBool(false)
   val DISABLE_BLOCK_BREAKING_COOLDOWN           /**/ by hotkeyedBool(false)
   val DISABLE_ITEM_USE_COOLDOWN                 /**/ by hotkeyedBool(false)
-  val PREVENT_CLOSE_GUI_DROP_ITEM               /**/ by hotkeyedBool(false)
   val DISABLE_SCREEN_SHAKING_ON_DAMAGE          /**/ by hotkeyedBool(false)
   val DISABLE_LAVA_FOG                          /**/ by hotkeyedBool(false)
-  val CONTAINER_SWIPE_MOVING_ITEMS              /**/ by hotkeyedBool(true)
+
 }
 
 object Debugs : ConfigDeclaration {

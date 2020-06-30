@@ -174,22 +174,23 @@
 
     "inventoryprofiles.gui.config.Tweaks": "Tweaks",
     "inventoryprofiles.config.category.client_side_tweaks": "Client-side Tweaks",
+    "inventoryprofiles.config.category.survival": "Survival",
+
+    "inventoryprofiles.config.name.prevent_close_gui_drop_item":         "Prevent Close Gui Drop Item",
+    "inventoryprofiles.config.name.container_swipe_moving_items":        "Container Swipe Moving Items",
+    "inventoryprofiles.config.description.prevent_close_gui_drop_item":  "Closing GUI will no longer drop the item that holding by the cursor",
+    "inventoryprofiles.config.description.container_swipe_moving_items": "Allows you to move items for the slots under the cursor while holding shift and left click",
 
     "inventoryprofiles.config.name.instant_mining_cooldown":            "Instant Mining Cooldown",
     "inventoryprofiles.config.name.disable_block_breaking_cooldown":    "Disable Block Breaking Cooldown",
     "inventoryprofiles.config.name.disable_item_use_cooldown":          "Disable Item Use Cooldown",
-    "inventoryprofiles.config.name.prevent_close_gui_drop_item":        "Prevent Close Gui Drop Item",
     "inventoryprofiles.config.name.disable_screen_shaking_on_damage":   "Disable Screen Shaking On Damage",
     "inventoryprofiles.config.name.disable_lava_fog":                   "Disable Lava Fog",
-    "inventoryprofiles.config.name.container_swipe_moving_items":       "Container Swipe Moving Items",
-
     "inventoryprofiles.config.description.instant_mining_cooldown":             "Adds breaking delay to the blocks that you can instantly mine. This option has lower priority than \"disableBlockBreakingCooldown\".",
     "inventoryprofiles.config.description.disable_block_breaking_cooldown":     "Removes breaking delay for all blocks",
     "inventoryprofiles.config.description.disable_item_use_cooldown":           "Removes use key cooldown so you can have equivalently 1 right click every game tick. Can use along with Tweakeroo \"tweakPlacementRestriction\".",
-    "inventoryprofiles.config.description.prevent_close_gui_drop_item":         "Closing GUI will no longer drop the item that holding by the cursor",
     "inventoryprofiles.config.description.disable_screen_shaking_on_damage":    "Receiving damage no longer shakes your screen",
     "inventoryprofiles.config.description.disable_lava_fog":                    "Allows you to have a clearer view underneath lava",
-    "inventoryprofiles.config.description.container_swipe_moving_items":        "Allows you to move items for the slots under the cursor while holding shift and left click",
 
 
 
