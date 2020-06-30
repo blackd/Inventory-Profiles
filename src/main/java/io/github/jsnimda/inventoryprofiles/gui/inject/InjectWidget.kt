@@ -8,6 +8,10 @@ import io.github.jsnimda.common.vanilla.render.rScreenHeight
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
 
+// ============
+// vanillamapping code depends on mappings
+// ============
+
 class InjectWidget : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, "") {
   // ============
   // widget
@@ -24,14 +28,14 @@ class InjectWidget : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, "")
   // ============
   // render
   // ============
-  open fun renderWidgetPre(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    rStandardGlState()
-    rClearDepth()
-  }
+//  open fun renderWidgetPre(mouseX: Int, mouseY: Int, partialTicks: Float) {
+//    rStandardGlState()
+//    rClearDepth()
+//  }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    renderWidgetPre(mouseX, mouseY, partialTicks)
-    rootWidget.render(mouseX, mouseY, partialTicks)
+//    renderWidgetPre(mouseX, mouseY, partialTicks)
+//    rootWidget.render(mouseX, mouseY, partialTicks)
   }
 
   // ============

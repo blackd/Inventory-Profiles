@@ -34,9 +34,9 @@ public abstract class MixinContainerScreen<T extends Container> extends Screen {
     addButton(ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen)(Object)this));
   }
 
-  @Inject(at = @At("RETURN"), method = "render(IIF)V")
-  public void render(int int_1, int int_2, float float_1, CallbackInfo info) {
-    Tooltips.INSTANCE.renderAll();
-  }
+//  @Inject(at = @At("RETURN"), method = "render(IIF)V")
+//  public void render(int int_1, int int_2, float float_1, CallbackInfo info) {
+//    Tooltips.INSTANCE.renderAll();
+//  }
 
 }

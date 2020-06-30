@@ -13,7 +13,8 @@
     "IMixinContainerScreen",
     "IMixinSlot",
     "MixinGuiCloseC2SPacket",
-    "MixinContainerScreen"
+    "MixinContainerScreen",
+    "MixinScreen"
   ],
   "injectors": {
     "defaultRequire": 1

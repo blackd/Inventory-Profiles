@@ -10,11 +10,12 @@ import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.Tweaks
+import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 
-object MinecraftEventHandler {
+object GameEventHandler {
   var x = -1
   var y = -1
   var lastX = -1
@@ -39,6 +40,18 @@ object MinecraftEventHandler {
     }
   }
 
+  fun postScreenRender() {
+    // partial tick = this.client.getLastFrameDuration()
+    ContainerScreenHandler.postRender()
+  }
+
+  fun preRenderTooltip() {
+    ContainerScreenHandler.preRenderTooltip()
+  }
+
+  fun preScreenRender() {
+    ContainerScreenHandler.preScreenRender()
+  }
 }
 
 object MiscHandler {
@@ -49,7 +62,7 @@ object MiscHandler {
     // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
     val screen = Vanilla.screen()
     val containerBounds = (screen as? ContainerScreen<*>)?.`(containerBounds)` ?: return
-    val line = with(MinecraftEventHandler) { Line(lastX, lastY, x, y) }
+    val line = with(GameEventHandler) { Line(lastX, lastY, x, y) }
     for (slot in Vanilla.container().`(slots)`) {
       val rect = Rectangle(containerBounds.x + slot.`(left)`, containerBounds.y + slot.`(top)`, 16, 16)
       if (!line.intersects(rect)) continue

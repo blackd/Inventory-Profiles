@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
+import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,5 +18,10 @@ public class MixinGameRenderer {
     if (Tweaks.INSTANCE.getDISABLE_SCREEN_SHAKING_ON_DAMAGE().getBooleanValue()) {
       info.cancel();
     }
+  }
+
+  @Inject(at = @At("RETURN"), method = "render")
+  public void render(float f, long l, boolean bl, CallbackInfo ci) {
+    GameEventHandler.INSTANCE.postScreenRender();
   }
 }

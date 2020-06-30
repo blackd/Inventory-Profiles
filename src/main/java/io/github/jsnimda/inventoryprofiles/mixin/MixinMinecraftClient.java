@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
-import io.github.jsnimda.inventoryprofiles.event.MinecraftEventHandler;
+import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,11 +28,11 @@ public abstract class MixinMinecraftClient {
 
   @Inject(at = @At("RETURN"), method = "tick()V")
   public void tick2(CallbackInfo info) {
-    MinecraftEventHandler.INSTANCE.onTick();
+    GameEventHandler.INSTANCE.onTick();
   }
 
   @Inject(at = @At("RETURN"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V")
   public void joinWorld(ClientWorld clientWorld, CallbackInfo info) {
-    MinecraftEventHandler.INSTANCE.onJoinWorld();
+    GameEventHandler.INSTANCE.onJoinWorld();
   }
 }

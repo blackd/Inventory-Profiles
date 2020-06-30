@@ -27,6 +27,8 @@ object VanillaUtil {
   // Mouse.onCursorPos() / GameRenderer.render()
   fun mouseX(): Int = (Vanilla.mouse().x * rScreenWidth / Vanilla.window().width).toInt()
   fun mouseY(): Int = (Vanilla.mouse().y * rScreenHeight / Vanilla.window().height).toInt()
+  // this.client.getLastFrameDuration()
+  fun lastFrameDuration(): Float = Vanilla.mc().lastFrameDuration
 
   var lastMouseX: Int = -1
     private set
