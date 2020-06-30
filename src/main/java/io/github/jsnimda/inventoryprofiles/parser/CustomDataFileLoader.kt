@@ -10,6 +10,7 @@ import io.github.jsnimda.common.util.readFileToString
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.loggingPath
+import io.github.jsnimda.inventoryprofiles.event.TellPlayer
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFile
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFileRegister
 import java.util.*
@@ -29,6 +30,8 @@ object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
       widget.text = buttonText
       widget.active = true
     }
+    val fileNames = RuleFileRegister.loadedFileNames.filter { it != RuleLoader.internalFileDisplayName }
+    TellPlayer.chat("Reloaded ${fileNames.size} files: $fileNames")
   }
 }
 
@@ -73,6 +76,7 @@ object CustomDataFileLoader {
 // rule loader
 // ============
 object RuleLoader : Loader {
+  const val internalFileDisplayName = "<internal rules.txt>"
   private val internalRulesTxtContent = VanillaUtil.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""
     .also { Log.error("Failed to load in-jar file inventoryprofiles:config/rules.txt") }
   private const val regex = "^rules\\.(?:.*\\.)?txt\$"
@@ -80,7 +84,7 @@ object RuleLoader : Loader {
   override fun reload() {
     Log.debug("Rule reloading")
     val files = getFiles(regex)
-    val ruleFiles = mutableListOf(RuleFile("<internal rules.txt>", internalRulesTxtContent))
+    val ruleFiles = mutableListOf(RuleFile(internalFileDisplayName, internalRulesTxtContent))
     for (file in files) {
       try {
         Log.debug("Trying to read file ${file.name}")

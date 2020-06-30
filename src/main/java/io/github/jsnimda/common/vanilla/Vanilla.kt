@@ -24,6 +24,9 @@ object Vanilla {
   fun languageManager() = mc().languageManager ?: error("mc.languageManager is not initialized!")
   fun resourceManager() = mc().resourceManager ?: error("mc.resourceManager is not initialized!")
 
+  fun inGameHud() = mc().inGameHud ?: error("mc.inGameHud is not initialized!")
+  fun chatHud() = inGameHud().chatHud ?: throw AssertionError("unreachable")
+
   fun mouse() = mc().mouse ?: error("mc.mouse is not initialized!")
 
   // ============

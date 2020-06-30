@@ -18,6 +18,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.parameter.NativeParameters
 
 */
 object RuleFileRegister {
+  val loadedFileNames = mutableSetOf<String>()
   private val ruleFiles = mutableListOf<RuleFile>()
   private val cachedRules = mutableMapOf<String, RuleDefinition?>() // store RuleDefinition of SUCCESS
 
@@ -31,6 +32,7 @@ object RuleFileRegister {
   }
 
   private fun clear() {
+    loadedFileNames.clear()
     ruleFiles.clear()
     cachedRules.clear()
     names.clear()
@@ -102,6 +104,7 @@ object RuleFileRegister {
         rulesMap.remove(ruleName)
         if (ruleDefinition != null) {
           Log.debug("Found one at file $fileName")
+          loadedFileNames.add(fileName)
           return ruleDefinition
         } else {
           Log.debug("None of them usable at file $fileName")
