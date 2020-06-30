@@ -9,6 +9,7 @@ import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot
+import net.minecraft.item.ItemGroup
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -48,3 +49,6 @@ val ContainerScreen<*>.`(containerBounds)`: Rectangle
 
 val PlayerInventory.`(selectedSlot)`
   get() = selectedSlot
+
+val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
+  get() = method_2469() == ItemGroup.INVENTORY.getIndex()

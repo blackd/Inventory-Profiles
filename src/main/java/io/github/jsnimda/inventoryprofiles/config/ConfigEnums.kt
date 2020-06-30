@@ -65,3 +65,9 @@ enum class ThresholdUnit {
   override fun toString(): String =
     I18n.translate("$ENUM.threshold_unit.${name.toLowerCase()}")
 }
+
+enum class ContinuousCraftingCheckboxValue {
+  REMEMBER,
+  CHECKED,
+  UNCHECKED
+}

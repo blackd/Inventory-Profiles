@@ -16,12 +16,13 @@ fun CategorizedMultiConfig.toListWidget(
   categoryNameOf: (String) -> String
 ): ConfigListWidget =
   ConfigListWidget(displayNameOf, descriptionOf).apply {
-    categories.forEach { (categoryName, configOptions) ->
+    for ((categoryName, configOptions) in categories) {
       val name = categoryNameOf(categoryName)
       when {
         name.isEmpty() -> Unit
         name.isBlank() -> addEntry(CategoryEntry(name))
-        name.startsWith("§§h:") -> addHeight(name.substring(4).toIntOrNull() ?: 0)
+        name.startsWith("§§vgap:") -> addHeight(name.substring(7).toIntOrNull() ?: 0)
+        name.startsWith("§§hide") -> continue
         else -> addCategory(name)
       }
       configOptions.forEach { addConfigOption(it) }

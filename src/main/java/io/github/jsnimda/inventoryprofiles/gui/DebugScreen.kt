@@ -1,6 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.gui
 
 import io.github.jsnimda.common.gui.debug.BaseDebugScreen
+import io.github.jsnimda.common.gui.debug.DebugInfos
+import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.ingame.*
@@ -63,25 +65,37 @@ class DebugScreen : BaseDebugScreen() {
       }
   }
 
-  inner class PageContainerScreen : Page("Container Screen") {
-    override val content: List<String>
-      get() {
-        val screen = parent
-        if (screen !is ContainerScreen<*>) return listOf()
-        return screen.`(containerBounds)`.run {
-          """
-            |container
-            |x: $x y: $y
-            |width: $width height: $height
-            """.trimMargin().split("\n")
-        }
+  fun addContent(additionalContent: Page.() -> List<String>, page: Page): Page {
+    return object : Page(page.name) {
+      override val content: List<String>
+        get() = page.content + page.additionalContent()
+
+      override fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
+        page.preRender(mouseX, mouseY, partialTicks)
       }
+
+      override val widget: Widget
+        get() = page.widget
+    }
   }
 
   init {
+    val parent = parent
     if (parent is ContainerScreen<*>) {
+      val page0Plus = addContent({
+        parent.`(containerBounds)`.run {
+          """
+            |
+            |container
+            |x: $x y: $y
+            |width: $width height: $height
+            |relative mouse
+            |x: ${DebugInfos.mouseX - x} y: ${DebugInfos.mouseY - y}
+            """.trimMargin().split("\n")
+        }
+      }, pages[0]) // todo better code
+      pages[0] = page0Plus
       pages.add(PageContainer())
-      pages.add(PageContainerScreen())
     }
     switchPage(storedPageIndex)
   }

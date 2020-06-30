@@ -28,6 +28,19 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     VanillaUtil.openScreenNullable(parent)
   }
 
+  fun hasParent(screen: Screen): Boolean {
+    val parents = mutableSetOf<BaseScreen>()
+    var currentParent = this
+    while (currentParent != screen) {
+      parents.add(currentParent)
+      currentParent = (currentParent.parent as? BaseScreen) ?: return (currentParent.parent == screen)
+      if (currentParent in parents) { // loop
+        return false
+      }
+    }
+    return true
+  }
+
   // ============
   // widget
   // ============

@@ -36,7 +36,7 @@ object GeneralInventoryActions {
 //    ContainerActions.moveAllAlike(VanillaState.shiftDown())
   }
 
-  fun doMoveMatch(chestSide: Boolean) {
+  fun doMoveMatch(toPlayer: Boolean) { // toPlayer or toContainer
     //todo
 //    ContainerActions.moveAllAlike(VanillaState.shiftDown())
   }

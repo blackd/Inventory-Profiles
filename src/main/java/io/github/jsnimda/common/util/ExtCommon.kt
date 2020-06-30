@@ -46,6 +46,13 @@ inline fun Boolean.ifTrue(block: () -> Unit) = also { if (this) block() }
 inline fun Boolean.ifFalse(block: () -> Unit) = also { if (!this) block() }
 
 // ============
+// Collections
+// ============
+
+fun <T> Iterable<T>.containsAny(collection: Iterable<T>): Boolean =
+  collection.any { this.contains(it) }
+
+// ============
 // Bulk Comparisons
 // ============
 

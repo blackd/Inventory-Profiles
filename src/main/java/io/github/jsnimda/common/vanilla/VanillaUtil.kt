@@ -57,8 +57,10 @@ object VanillaUtil {
   }
 
   fun openDistinctScreenQuiet(screen: Screen) { // don't trigger Screen.remove()
-    Vanilla.mc().currentScreen = null
-    openDistinctScreen(screen)
+    if (Vanilla.screen()?.javaClass != screen.javaClass) {
+      Vanilla.mc().currentScreen = null
+      openScreen(screen)
+    }
   }
 
   private fun runDirectory(): Path = Vanilla.runDirectoryFile().toPath().normalize()

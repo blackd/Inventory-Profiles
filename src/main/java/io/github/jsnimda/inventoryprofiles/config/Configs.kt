@@ -13,7 +13,7 @@ private const val category = "inventoryprofiles.config.category"
 object ModSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
-    .CATEGORY("§§h:3")
+    .CATEGORY("§§vgap:3")
   val OPEN_CONFIG_FOLDER                        /**/ by button(OpenConfigFolderButtonInfo)
   val RELOAD_RULE_FILES                         /**/ by button(ReloadRuleFileButtonInfo)
 
@@ -44,6 +44,9 @@ object GuiSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
     .CATEGORY("$category.inventory")
+  val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by bool(true)
+  val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)
+  val CONTINUOUS_CRAFTING_SAVED_VALUE           /**/ by bool(true)
   val SHOW_REGULAR_SORT_BUTTON                  /**/ by bool(true)
   val REGULAR_POST_ACTION                       /**/ by enum(PostAction.NONE)
   val REGULAR_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)

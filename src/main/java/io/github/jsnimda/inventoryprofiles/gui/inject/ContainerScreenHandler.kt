@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.gui.inject
 
+import io.github.jsnimda.common.gui.screen.BaseScreen
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
@@ -17,7 +18,11 @@ object ContainerScreenHandler {
     renderedThisFrame = true
     val currentWidget = currentWidget
     currentWidget ?: return
-    if (currentWidget.screen == Vanilla.screen()) {
+    val currentScreen = Vanilla.screen()
+    val targetScreen = currentWidget.screen
+    val matchScreen = (currentScreen is BaseScreen && currentScreen.hasParent(targetScreen))
+        || currentScreen == targetScreen
+    if (matchScreen) {
       currentWidget.postRender(VanillaUtil.mouseX(), VanillaUtil.mouseY(), VanillaUtil.lastFrameDuration())
     }
   }
