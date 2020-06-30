@@ -17,6 +17,8 @@ data class KeybindSettings(
     val INGAME_DEFAULT = KeybindSettings(INGAME, PRESS, allowExtraKeys = false, orderSensitive = true)
     val GUI_DEFAULT = KeybindSettings(GUI, PRESS, allowExtraKeys = false, orderSensitive = true)
     val ANY_DEFAULT = KeybindSettings(ANY, PRESS, allowExtraKeys = false, orderSensitive = true)
+
+    val GUI_EXTRA = GUI_DEFAULT.copy(allowExtraKeys = true)
   }
 
   enum class KeyAction {

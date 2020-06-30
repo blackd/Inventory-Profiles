@@ -32,10 +32,12 @@ object GeneralInventoryActions {
     InnerActions.doSort(GuiSettings.IN_ROWS_SORT_ORDER.value.rule, GuiSettings.IN_ROWS_POST_ACTION.value)
   }
 
-  fun doMoveMatch() { // SORT_AT_CURSOR off = to container, on -> (pointing container -> to player) else to container
+  // MOVE_ALL_AT_CURSOR off = to container, on -> (pointing container -> to player) else to container
+  // use MOVE_ALL_AT_CURSOR instead of SORT_AT_CURSOR
+  fun doMoveMatch() {
     val types = ContainerTypes.getTypes(Vanilla.container())
     if (types.contains(CREATIVE)) return // no do creative menu
-    val forceToPlayer = ModSettings.SORT_AT_CURSOR.booleanValue &&
+    val forceToPlayer = ModSettings.MOVE_ALL_AT_CURSOR.booleanValue &&
         vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
     if (forceToPlayer) {
       doMoveMatch(true) // container to player // non player and player by PlayerInventory
@@ -47,8 +49,8 @@ object GeneralInventoryActions {
   fun doMoveMatch(toPlayer: Boolean) { // true container to player or false player to container
     val types = ContainerTypes.getTypes(Vanilla.container())
     if (types.contains(CREATIVE)) return // no do creative menu
-    val includeHotbar = VanillaUtil.shiftDown()
-    val moveAll = VanillaUtil.ctrlDown()
+    val includeHotbar = VanillaUtil.altDown()
+    val moveAll = VanillaUtil.shiftDown()
     AdvancedContainer.arrange { tracker ->
       val player =
         getItemArea(if (includeHotbar) AreaTypes.playerStorageAndHotbarAndOffhand else AreaTypes.playerStorage)

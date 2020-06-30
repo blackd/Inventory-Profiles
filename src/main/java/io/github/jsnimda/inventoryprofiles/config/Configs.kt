@@ -34,6 +34,7 @@ object ModSettings : ConfigDeclaration {
   val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10, 1, 500)
   val RESTOCK_HOTBAR                            /**/ by bool(false)
   val SORT_AT_CURSOR                            /**/ by bool(false)
+  val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)
   val STOP_AT_SCREEN_CLOSE                      /**/ by bool(false)
 
     .CATEGORY("$category.debugs")
@@ -77,7 +78,7 @@ object Hotkeys : ConfigDeclaration {
   val SORT_INVENTORY                            /**/ by hotkey("R", KeybindSettings.GUI_DEFAULT)
   val SORT_INVENTORY_IN_COLUMNS                 /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
   val SORT_INVENTORY_IN_ROWS                    /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
-  val MOVE_ALL_ITEMS                            /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
+  val MOVE_ALL_ITEMS                            /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
 }
 
 object Tweaks : ConfigDeclaration {

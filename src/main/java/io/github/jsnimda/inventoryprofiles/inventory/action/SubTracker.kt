@@ -45,7 +45,7 @@ fun SubTracker.moveAllTo(another: SubTracker) {
 fun SubTracker.moveMatchTo(another: SubTracker) {
   val anotherSlots = another.slots
   val itemTypes = anotherSlots.itemTypes()
-  slots.forEach { if (itemTypes.contains(it)) it.moveTo(anotherSlots) }
+  slots.forEach { if (itemTypes.contains(it.itemType)) it.moveTo(anotherSlots) }
 }
 
 // ============
@@ -128,9 +128,9 @@ private fun ItemStack.moveTo(destination: List<ItemStack>) {
 }
 
 
-fun List<ItemStack>.itemTypes(): Set<ItemStack> =
-  mutableSetOf<ItemStack>().also { set ->
-    this.forEach { if (!it.isEmpty()) set.add(it) }
+fun List<ItemStack>.itemTypes(): Set<ItemType> =
+  mutableSetOf<ItemType>().also { set ->
+    this.forEach { if (!it.isEmpty()) set.add(it.itemType) }
   }
 
 fun List<ItemStack>.counts() = ItemCounter().apply {
