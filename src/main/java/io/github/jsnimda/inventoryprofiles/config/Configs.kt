@@ -79,6 +79,7 @@ object Hotkeys : ConfigDeclaration {
   val SORT_INVENTORY_IN_COLUMNS                 /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
   val SORT_INVENTORY_IN_ROWS                    /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
   val MOVE_ALL_ITEMS                            /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+  val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
 }
 
 object Tweaks : ConfigDeclaration {

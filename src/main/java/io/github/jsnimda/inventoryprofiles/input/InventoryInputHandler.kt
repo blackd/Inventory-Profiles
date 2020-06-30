@@ -13,19 +13,22 @@ object InventoryInputHandler : IInputHandler {
     if (!VanillaUtil.inGame()) return false
     if (Vanilla.screen() != null && Vanilla.screen() !is ContainerScreen<*>) return false
 
-    listOf(
-      Hotkeys.SORT_INVENTORY to GeneralInventoryActions::doSort,
-      Hotkeys.SORT_INVENTORY_IN_COLUMNS to GeneralInventoryActions::doSortInColumns,
-      Hotkeys.SORT_INVENTORY_IN_ROWS to GeneralInventoryActions::doSortInRows,
-      Hotkeys.MOVE_ALL_ITEMS to GeneralInventoryActions::doMoveMatch
-    ).forEach { (hotkey, action) ->
+    with(GeneralInventoryActions) {
+      listOf(
+        Hotkeys.SORT_INVENTORY            /**/ to ::doSort,
+        Hotkeys.SORT_INVENTORY_IN_COLUMNS /**/ to ::doSortInColumns,
+        Hotkeys.SORT_INVENTORY_IN_ROWS    /**/ to ::doSortInRows,
+        Hotkeys.MOVE_ALL_ITEMS            /**/ to ::doMoveMatch,
+        Hotkeys.DUMP_ITEM_NBT_TO_CHAT     /**/ to ::dumpItemNbt,
+      )
+    }.forEach { (hotkey, action) ->
       try {
         if (hotkey.isActivated()) {
           action()
           return true
         }
       } catch (e: Throwable) {
-
+        e.printStackTrace()
       }
     }
 

@@ -8,6 +8,7 @@ import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.PostAction
+import io.github.jsnimda.inventoryprofiles.event.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer.Companion.cleanCursor
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CREATIVE
@@ -17,6 +18,7 @@ import io.github.jsnimda.inventoryprofiles.inventory.action.restockFrom
 import io.github.jsnimda.inventoryprofiles.inventory.action.sort
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
+import io.github.jsnimda.inventoryprofiles.item.toNamespacedString
 
 object GeneralInventoryActions {
 
@@ -63,6 +65,11 @@ object GeneralInventoryActions {
         source.moveMatchTo(destination)
       }
     }
+  }
+
+  fun dumpItemNbt() {
+    val stack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
+    TellPlayer.chat(stack.itemType.toNamespacedString())
   }
 
   fun continuousCrafting() {

@@ -67,6 +67,10 @@ fun ItemStack.splitHalfTo(cursor: ItemStack) { // for odd count, cursor more tar
 // ItemType
 // ============
 
+fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with namespace
+  return itemId + (tag ?: "")
+}
+
 val ItemType.Companion.EMPTY
   get() = ItemType(Items.AIR, null)
 
