@@ -69,15 +69,15 @@ private object InnerActions {
     AdvancedContainer.arrange { tracker ->
       val forcePlayerSide = ModSettings.SORT_AT_CURSOR.booleanValue &&
           vFocusedSlot()?.inventory is PlayerInventory
-      val target: Zone
-      if (forcePlayerSide || getZone(ZoneTypes.itemStorage).isEmpty()) {
-        target = getZone(ZoneTypes.playerStorage)
+      val target: ItemArea
+      if (forcePlayerSide || getItemArea(AreaTypes.itemStorage).isEmpty()) {
+        target = getItemArea(AreaTypes.playerStorage)
         if (ModSettings.RESTOCK_HOTBAR.booleanValue) {
           // priority: mainhand -> offhand -> hotbar 1-9
-          tracker.subTracker(ZoneTypes.playerHandsAndHotbar).restockFrom(tracker.subTracker(target))
+          tracker.subTracker(AreaTypes.playerHandsAndHotbar).restockFrom(tracker.subTracker(target))
         }
       } else {
-        target = getZone(ZoneTypes.itemStorage)
+        target = getItemArea(AreaTypes.itemStorage)
       }
       tracker.subTracker(target).sort(sortingRule, postAction, target.isRectangular, target.width, target.height)
     }

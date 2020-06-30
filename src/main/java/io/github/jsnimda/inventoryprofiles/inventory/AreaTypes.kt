@@ -16,20 +16,20 @@ private const val offhandInvSlot = 40
 private val mainhandInvSlot
   get() = Vanilla.playerInventory().`(selectedSlot)`
 
-object ZoneTypes {
-  val focusedSlot = ZoneType.matchSlots(vFocusedSlot())
+object AreaTypes {
+  val focusedSlot = AreaType.matchSlots(vFocusedSlot())
 
-  val playerStorage = ZoneType.player(storageInvSlots.toList())
-  val playerHotbar = ZoneType.player(hotbarInvSlots.toList())
+  val playerStorage = AreaType.player(storageInvSlots.toList())
+  val playerHotbar = AreaType.player(hotbarInvSlots.toList())
   val playerHandsAndHotbar =
-    ZoneType.player(
+    AreaType.player(
       (listOf(mainhandInvSlot, offhandInvSlot) + hotbarInvSlots.toList()).distinct()
     ) // priority: mainhand -> offhand -> hotbar 1-9
 
-  val playerOffhand = ZoneType.player(offhandInvSlot)
+  val playerOffhand = AreaType.player(offhandInvSlot)
 
-  val itemStorage: ZoneType = // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
-    ZoneType { vanillaContainer, vanillaSlots ->
+  val itemStorage: AreaType = // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
+    AreaType { vanillaContainer, vanillaSlots ->
       val types = ContainerTypes.getTypes(vanillaContainer)
       if (types.contains(SORTABLE_STORAGE)) {
         val isHorse = types.contains(HORSE_STORAGE)
@@ -67,19 +67,19 @@ object ZoneTypes {
 
 }
 
-class ZoneType() {
+class AreaType() {
   companion object {
 
 
     fun matchSlots(vararg slots: Slot?) = match { it in slots }
-    fun match(predicate: (Slot) -> Boolean) = ZoneType { _, vanillaSlots ->
+    fun match(predicate: (Slot) -> Boolean) = AreaType { _, vanillaSlots ->
       vanillaSlots.forEachIndexed { slotIndex, slot ->
         if (predicate(slot)) slotIndices.add(slotIndex)
       }
     }
 
     fun player(vararg invSlots: Int) = player(invSlots.toList())
-    fun player(invSlots: List<Int>) = ZoneType { _, vanillaSlots ->
+    fun player(invSlots: List<Int>) = AreaType { _, vanillaSlots ->
       val map = mutableMapOf<Int, Int>() // invSlot, slotIndex
       vanillaSlots.forEachIndexed { slotIndex, slot ->
         if (slot.`(inventory)` is PlayerInventory) map[slot.`(invSlot)`] = slotIndex
@@ -88,14 +88,14 @@ class ZoneType() {
     }
   }
 
-  private var add: Zone.(Container, List<Slot>) -> Unit = { _, _ -> }
+  private var add: ItemArea.(Container, List<Slot>) -> Unit = { _, _ -> }
 
-  constructor(add: Zone.(Container, List<Slot>) -> Unit) : this() {
+  constructor(add: ItemArea.(Container, List<Slot>) -> Unit) : this() {
     this.add = add
   }
 
-  fun getZone(vanillaContainer: Container, vanillaSlots: List<Slot>): Zone =
-    Zone(this).apply {
+  fun getItemArea(vanillaContainer: Container, vanillaSlots: List<Slot>): ItemArea =
+    ItemArea(this).apply {
       add(vanillaContainer, vanillaSlots)
       if (!isRectangular) {
         val total = slotIndices.size
@@ -108,7 +108,7 @@ class ZoneType() {
     }
 }
 
-class Zone(val type: ZoneType) {
+class ItemArea(val type: AreaType) {
   var isRectangular = false
   var width = 0
   var height = 0

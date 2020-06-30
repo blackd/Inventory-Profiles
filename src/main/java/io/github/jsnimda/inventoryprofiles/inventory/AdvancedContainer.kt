@@ -30,18 +30,18 @@ class AdvancedContainer(
     vanillaSlots.map { it.`(itemStack)` }
   ))
 
-  private val cachedZoneMap = mutableMapOf<ZoneType, Zone>()
-  fun getZone(zoneType: ZoneType): Zone =
-    cachedZoneMap.getOrPut(zoneType, { zoneType.getZone(vanillaContainer, vanillaSlots) })
+  private val cachedAreaMap = mutableMapOf<AreaType, ItemArea>()
+  fun getItemArea(areaType: AreaType): ItemArea =
+    cachedAreaMap.getOrPut(areaType, { areaType.getItemArea(vanillaContainer, vanillaSlots) })
 
-  fun ItemTracker.subTracker(zone: Zone) =
-    subTracker(zone.slotIndices)
+  fun ItemTracker.subTracker(itemArea: ItemArea) =
+    subTracker(itemArea.slotIndices)
 
-  fun ItemTracker.subTracker(zoneType: ZoneType) =
-    subTracker(getZone(zoneType).slotIndices)
+  fun ItemTracker.subTracker(areaType: AreaType) =
+    subTracker(getItemArea(areaType).slotIndices)
 
-  fun ItemTracker.joinedSubTracker(vararg zoneTypes: ZoneType) =
-    zoneTypes.fold(subTracker(listOf())) { acc, zoneType -> acc + subTracker(zoneType) }
+  fun ItemTracker.joinedSubTracker(vararg areaTypes: AreaType) =
+    areaTypes.fold(subTracker(listOf())) { acc, areaType -> acc + subTracker(areaType) }
 
   private val slotIdClicks: List<Pair<Int, Int>>
     get() = vanillaSlots.let { slots ->
@@ -103,18 +103,18 @@ class AdvancedContainer(
          *  -> if container is storage -> 4. container alike -> 5. container empty
          */
         // 1.
-        tracker.subTracker(ZoneTypes.focusedSlot).let { sandbox.cursorPutTo(it, skipEmpty = false) }
+        tracker.subTracker(AreaTypes.focusedSlot).let { sandbox.cursorPutTo(it, skipEmpty = false) }
         // 2.
-        val skipEmpty = tracker.joinedSubTracker(ZoneTypes.playerHandsAndHotbar, ZoneTypes.playerStorage)
+        val skipEmpty = tracker.joinedSubTracker(AreaTypes.playerHandsAndHotbar, AreaTypes.playerStorage)
         sandbox.cursorPutTo(skipEmpty, skipEmpty = true)
         // 3.
         val allowEmpty =
-          tracker.joinedSubTracker(ZoneTypes.playerStorage, ZoneTypes.playerHotbar, ZoneTypes.playerOffhand)
+          tracker.joinedSubTracker(AreaTypes.playerStorage, AreaTypes.playerHotbar, AreaTypes.playerOffhand)
         sandbox.cursorPutTo(allowEmpty, skipEmpty = false)
         // 4.
-        tracker.subTracker(ZoneTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = true) }
+        tracker.subTracker(AreaTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = true) }
         // 5.
-        tracker.subTracker(ZoneTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = false) }
+        tracker.subTracker(AreaTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = false) }
       }
     }
 
