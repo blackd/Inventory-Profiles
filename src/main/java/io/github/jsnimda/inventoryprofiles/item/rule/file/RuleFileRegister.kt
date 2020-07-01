@@ -60,7 +60,7 @@ object RuleFileRegister {
   }
 
   fun getCustomRuleOrEmpty(ruleName: String): Rule =
-    getCustomRule(ruleName) ?: EmptyRule()
+    getCustomRule(ruleName) ?: EmptyRule
       .also { Log.warn("Rule @$ruleName not found") }
 
 

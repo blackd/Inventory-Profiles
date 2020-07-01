@@ -3,6 +3,7 @@ package io.github.jsnimda.inventoryprofiles.config
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFileRegister
+import io.github.jsnimda.inventoryprofiles.parser.TemporaryRuleParser
 
 private const val ENUM = "inventoryprofiles.enum"
 
@@ -14,7 +15,8 @@ enum class SortingMethod(private val ruleName: String?) {
   CUSTOM(null);
 
   val rule: Rule
-    get() = ruleName?.let { RuleFileRegister.getCustomRuleOrEmpty(it) } ?: TODO("custom rule")
+    get() = ruleName?.let { RuleFileRegister.getCustomRuleOrEmpty(it) }
+      ?: TemporaryRuleParser.parse(ModSettings.CUSTOM_RULE.value)
 
   override fun toString(): String =
     I18n.translate("$ENUM.sorting_method.${name.toLowerCase()}")
@@ -28,12 +30,13 @@ enum class SortingMethodIndividual {
   RAW_ID,
   CUSTOM;
 
-  val rule: Rule
-    get() =
-      if (this == GLOBAL)
-        ModSettings.SORT_ORDER.value.rule
-      else
-        SortingMethod.values()[ordinal - 1].rule
+  fun rule(customContent: String): Rule {
+    return when (this) {
+      GLOBAL -> ModSettings.SORT_ORDER.value.rule
+      CUSTOM -> TemporaryRuleParser.parse(customContent)
+      else -> SortingMethod.values()[ordinal - 1].rule
+    }
+  }
 
   override fun toString(): String =
     if (this == GLOBAL)

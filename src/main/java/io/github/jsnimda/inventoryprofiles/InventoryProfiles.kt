@@ -13,7 +13,7 @@ fun init() {
 
   GlobalInitHandler.register {
 
-    Log.debugHandler = { if (ModSettings.DEBUG.booleanValue) Log.info(it()) }
+    Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
 
     // Keybind register
     GlobalInputHandler.register(InputHandler())

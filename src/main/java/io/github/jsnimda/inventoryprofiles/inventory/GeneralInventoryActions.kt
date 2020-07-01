@@ -1,5 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
+import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.config.options.ConfigEnum
+import io.github.jsnimda.common.config.options.ConfigString
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
@@ -8,6 +11,7 @@ import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.PostAction
+import io.github.jsnimda.inventoryprofiles.config.SortingMethodIndividual
 import io.github.jsnimda.inventoryprofiles.event.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer.Companion.cleanCursor
@@ -23,15 +27,25 @@ import io.github.jsnimda.inventoryprofiles.item.toNamespacedString
 object GeneralInventoryActions {
 
   fun doSort() {
-    InnerActions.doSort(GuiSettings.REGULAR_SORT_ORDER.value.rule, GuiSettings.REGULAR_POST_ACTION.value)
+    with(GuiSettings) { doSort(REGULAR_SORT_ORDER, REGULAR_CUSTOM_RULE, REGULAR_POST_ACTION) }
   }
 
   fun doSortInColumns() {
-    InnerActions.doSort(GuiSettings.IN_COLUMNS_SORT_ORDER.value.rule, GuiSettings.IN_COLUMNS_POST_ACTION.value)
+    with(GuiSettings) { doSort(IN_COLUMNS_SORT_ORDER, IN_COLUMNS_CUSTOM_RULE, IN_COLUMNS_POST_ACTION) }
   }
 
   fun doSortInRows() {
-    InnerActions.doSort(GuiSettings.IN_ROWS_SORT_ORDER.value.rule, GuiSettings.IN_ROWS_POST_ACTION.value)
+    with(GuiSettings) { doSort(IN_ROWS_SORT_ORDER, IN_ROWS_CUSTOM_RULE, IN_ROWS_POST_ACTION) }
+  }
+
+  fun doSort(
+    sortOrder: ConfigEnum<SortingMethodIndividual>,
+    customRule: ConfigString,
+    postAction: ConfigEnum<PostAction>
+  ) {
+    TellPlayer.listenLog(Log.LogLevel.WARN) {
+      InnerActions.doSort(sortOrder.value.rule(customRule.value), postAction.value)
+    }
   }
 
   // MOVE_ALL_AT_CURSOR off = to container, on -> (pointing container -> to player) else to container

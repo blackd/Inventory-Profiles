@@ -19,7 +19,7 @@ object ModSettings : ConfigDeclaration {
 
     .CATEGORY("$category.inventory_sorting")
   val SORT_ORDER                                /**/ by enum(SortingMethod.DEFAULT)
-  val CUSTOM_RULE                               /**/ by string("@default")
+  val CUSTOM_RULE                               /**/ by string("@custom")
 
     .CATEGORY("$category.auto_refill")
   val ENABLE_AUTO_REFILL                        /**/ by bool(true)
@@ -51,15 +51,15 @@ object GuiSettings : ConfigDeclaration {
   val SHOW_REGULAR_SORT_BUTTON                  /**/ by bool(true)
   val REGULAR_POST_ACTION                       /**/ by enum(PostAction.NONE)
   val REGULAR_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)
-  val REGULAR_CUSTOM_RULE                       /**/ by string("@default")
+  val REGULAR_CUSTOM_RULE                       /**/ by string("@custom")
   val SHOW_SORT_IN_COLUMNS_BUTTON               /**/ by bool(true)
   val IN_COLUMNS_POST_ACTION                    /**/ by enum(PostAction.GROUP_IN_COLUMNS)
   val IN_COLUMNS_SORT_ORDER                     /**/ by enum(SortingMethodIndividual.GLOBAL)
-  val IN_COLUMNS_CUSTOM_RULE                    /**/ by string("@default")
+  val IN_COLUMNS_CUSTOM_RULE                    /**/ by string("@custom")
   val SHOW_SORT_IN_ROWS_BUTTON                  /**/ by bool(true)
   val IN_ROWS_POST_ACTION                       /**/ by enum(PostAction.GROUP_IN_ROWS)
   val IN_ROWS_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)
-  val IN_ROWS_CUSTOM_RULE                       /**/ by string("@default")
+  val IN_ROWS_CUSTOM_RULE                       /**/ by string("@custom")
   val SHOW_MOVE_ALL_BUTTON                      /**/ by bool(true)
   val SHOW_BUTTON_TOOLTIPS                      /**/ by bool(true)
 }

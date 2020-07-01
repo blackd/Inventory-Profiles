@@ -3,6 +3,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule.native
 import io.github.jsnimda.common.util.ByPropertyName
 import io.github.jsnimda.inventoryprofiles.item.*
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
+import io.github.jsnimda.inventoryprofiles.item.rule.MutableEmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.Match
@@ -75,7 +76,7 @@ object NativeRules {
 
 private val NATIVE_MAP = mutableMapOf<String, () -> Rule>()
 
-val none by rule(::EmptyRule)
+val none by rule(::MutableEmptyRule)
 
 // ============
 // String Typed Rule

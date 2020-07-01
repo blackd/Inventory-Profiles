@@ -23,7 +23,9 @@ object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
     get() = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files")
 
   override fun onClick(widget: ButtonWidget) {
-    RuleLoader.reload()
+    TellPlayer.listenLog(Log.LogLevel.WARN) {
+      RuleLoader.reload()
+    }
     widget.active = false
     widget.text = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files.reloaded")
     Timer().schedule(5000) { // reset after 5 sec
@@ -97,5 +99,7 @@ object RuleLoader : Loader {
     Log.debug("Total ${ruleFiles.size} rule files (including <internal>)")
     RuleFileRegister.reloadRuleFiles(ruleFiles)
     Log.debug("Rule reload end")
+
+    TemporaryRuleParser.onReload()
   }
 }

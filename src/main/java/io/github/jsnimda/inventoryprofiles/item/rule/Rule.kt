@@ -9,7 +9,7 @@ interface Rule : Comparator<ItemType> {
   override fun compare(itemType1: ItemType, itemType2: ItemType): Int
 }
 
-object DefaultEmptyRule : Rule {
+object EmptyRule : Rule {
   override val arguments: ArgumentMap
     get() = ArgumentMap()
 
@@ -18,7 +18,7 @@ object DefaultEmptyRule : Rule {
   }
 }
 
-class EmptyRule : BaseRule()
+class MutableEmptyRule : BaseRule()
 
 abstract class BaseRule : Rule {
   final override val arguments = ArgumentMap()
@@ -27,7 +27,7 @@ abstract class BaseRule : Rule {
   init {
     arguments.apply {
       defineParameter(reverse, false)
-      defineParameter(sub_comparator, DefaultEmptyRule)
+      defineParameter(sub_comparator, EmptyRule)
     }
   }
 
