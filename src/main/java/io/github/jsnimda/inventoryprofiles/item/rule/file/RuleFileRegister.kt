@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule.file
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.util.ifTrue
+import io.github.jsnimda.common.util.ordinalName
 import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
@@ -23,8 +24,11 @@ object RuleFileRegister {
   private val cachedRules = mutableMapOf<String, RuleDefinition?>() // store RuleDefinition of SUCCESS
 
   fun reloadRuleFiles(ruleFiles: List<RuleFile>) {
-    Log.debug("Rule file parse step: (1.) parse indent (2.) parse rule")
+    Log.trace("[-] Rule file parsing...")
+    Log.trace("    step: (1) parse indent -> (2) parse rule -> syntax ok")
+    Log.indent()
     ruleFiles.forEach { it.parseContent() }
+    Log.unindent()
     clear()
     this.ruleFiles.addAll(ruleFiles)
     checkOverrides()
@@ -40,11 +44,11 @@ object RuleFileRegister {
 
   private val names = mutableSetOf<String>()
   private fun checkOverrides() { // and log
-    Log.debug("Check overrides...")
+    Log.trace("[-] Check overrides...")
     for (ruleFile in ruleFiles) {
       for (name in ruleFile.rulesMap.keys) {
         if (name in names) {
-          Log.info("Rule $name overrode by file ${ruleFile.fileName}")
+          Log.info("Rule @$name overrode by file ${ruleFile.fileName}")
         }
         names.add(name)
       }
@@ -52,11 +56,15 @@ object RuleFileRegister {
   }
 
   private fun validateRules() {
-    Log.debug("Validate rules...")
+    Log.trace("[-] Validate rules...")
+    Log.indent()
     for (name in names) {
-      Log.debug("Validating rule $name")
-      getCustomRule(name) ?: Log.debug("rule $name failed to parse")
+      Log.trace("[-] Validating rule @$name")
+      Log.indent()
+      getCustomRule(name) ?: Log.debug("rule @$name failed to parse")
+      Log.unindent()
     }
+    Log.unindent()
   }
 
   fun getCustomRuleOrEmpty(ruleName: String): Rule =
@@ -83,11 +91,17 @@ object RuleFileRegister {
   // private
   // ============
   private fun searchAndPutCustomRule(ruleName: String): RuleDefinition? {
-    Log.debug("Searching rule @$ruleName...")
+    Log.trace("[-] Searching rule @$ruleName...")
+    Log.indent()
     val ruleDefinition = RuleFinder(ruleName).searchCustomRule()
-    cachedRules[ruleName] = ruleDefinition
+    Log.unindent()
+    if (cachedRules.containsKey(ruleName)) {
+      Log.trace(">> rule $ruleName already exist in cached map... skip putting")
+    } else {
+      cachedRules[ruleName] = ruleDefinition
+    }
     // then remove empty file
-    ruleFiles.removeAll { it.rulesMap.isEmpty().ifTrue { Log.debug("Removed validated file ${it.fileName}") } }
+    ruleFiles.removeAll { it.rulesMap.isEmpty().ifTrue { Log.trace("Remove validated file ${it.fileName}") } }
     return ruleDefinition
   }
 
@@ -97,34 +111,39 @@ object RuleFileRegister {
         val rulesMap = ruleFile.rulesMap
         if (!rulesMap.containsKey(ruleName)) continue
         val fileName = ruleFile.fileName
-        Log.debug("Searching rule @$ruleName at file $fileName")
+        Log.trace("Searching rule @$ruleName at file $fileName")
         val list = rulesMap.getValue(ruleName)
+        Log.indent()
         val ruleDefinition = findUsableRule(list.asReversed(), fileName) // list won't update
+        Log.unindent()
         // result found, -> remove key
         rulesMap.remove(ruleName)
         if (ruleDefinition != null) {
-          Log.debug("Found one at file $fileName")
+          Log.trace("    > Found @$ruleName at file $fileName")
           loadedFileNames.add(fileName)
           return ruleDefinition
         } else {
-          Log.debug("None of them usable at file $fileName")
+          Log.trace("    > None of @$ruleName usable at file $fileName")
         }
       }
-      Log.debug("@$ruleName not found in all files")
+      Log.trace(">> @$ruleName not found in all files")
       return null
     }
 
     private fun findUsableRule(list: List<RuleDefinition>, fileName: String): RuleDefinition? { // from 0+
+      var count = list.size
       for (ruleDefinition in list) {
+        Log.trace("Instantiating rule @$ruleName#$count")
+        Log.indent()
         try {
           ruleDefinition.createCustomRule()
           if (ruleDefinition.status == RuleDefinition.Status.SUCCESS) {
             return ruleDefinition // no throws, meaning success
           }
-          Log.error("interesting rule @$ruleName (at file $fileName)") // shouldn't go here
+          Log.error("interesting rule @$ruleName#$count (at file $fileName)") // shouldn't go here
         } catch (e: Exception) {
-          Log.warn("Found error while creating rule '@$ruleName' (at file $fileName)")
-          Log.warn("  ${e.javaClass.usefulName}: ${e.message}")
+          Log.warn("Error in ${count.ordinalName} '@$ruleName' (at file $fileName)")
+          Log.warn("  > ${e.javaClass.usefulName}: ${e.message}")
           when (e) {
             is NoSuchElementException,
             is SelfReferenceException,
@@ -132,6 +151,9 @@ object RuleFileRegister {
             else -> e.printStackTrace()
           }
           continue // next rule definition
+        } finally {
+          Log.unindent()
+          count--
         }
       }
       return null // no search

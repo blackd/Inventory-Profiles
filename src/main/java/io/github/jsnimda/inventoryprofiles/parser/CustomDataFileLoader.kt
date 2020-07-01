@@ -23,7 +23,7 @@ object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
     get() = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files")
 
   override fun onClick(widget: ButtonWidget) {
-    TellPlayer.listenLog(Log.LogLevel.WARN) {
+    TellPlayer.listenLog(Log.LogLevel.INFO) {
       RuleLoader.reload()
     }
     widget.active = false
@@ -84,21 +84,22 @@ object RuleLoader : Loader {
   private const val regex = "^rules\\.(?:.*\\.)?txt\$"
 
   override fun reload() {
-    Log.debug("Rule reloading")
+    Log.clearIndent()
+    Log.trace("[-] Rule reloading...")
     val files = getFiles(regex)
     val ruleFiles = mutableListOf(RuleFile(internalFileDisplayName, internalRulesTxtContent))
     for (file in files) {
       try {
-        Log.debug("Trying to read file ${file.name}")
+        Log.trace("    Trying to read file ${file.name}")
         val content = file.readFileToString()
         ruleFiles.add(RuleFile(file.name, content))
       } catch (e: Exception) {
         Log.error("Failed to read file ${file.loggingPath}")
       }
     }
-    Log.debug("Total ${ruleFiles.size} rule files (including <internal>)")
+    Log.trace("[-] Total ${ruleFiles.size} rule files (including <internal>)")
     RuleFileRegister.reloadRuleFiles(ruleFiles)
-    Log.debug("Rule reload end")
+    Log.trace("Rule reload end")
 
     TemporaryRuleParser.onReload()
   }

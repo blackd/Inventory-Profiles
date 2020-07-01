@@ -19,8 +19,8 @@ object TemporaryRuleParser {
     val subRules = try {
       RuleParser.parseSubRule(content)
     } catch (e: SyntaxErrorException) {
-      Log.warn("Found syntax error while parsing '$content'")
-      Log.warn("  at: ${e.line}:${e.pos} ${e.msg}")
+      Log.warn("Syntax error in '$content'")
+      Log.warn("  > at: ${e.line}:${e.pos} ${e.msg}")
       return EmptyRule
     } catch (e: Exception) {
       e.printStackTrace()
@@ -31,8 +31,8 @@ object TemporaryRuleParser {
       cachedMap[content] = result
       result
     } catch (e: Exception) {
-      Log.warn("Found error while creating rule '$content'")
-      Log.warn("  ${e.javaClass.usefulName}: ${e.message}")
+      Log.warn("Error in '$content'")
+      Log.warn("  > ${e.javaClass.usefulName}: ${e.message}")
       when (e) {
         is NoSuchElementException,
         is SelfReferenceException,

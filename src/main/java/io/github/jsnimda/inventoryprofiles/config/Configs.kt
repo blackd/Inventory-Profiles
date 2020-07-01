@@ -105,10 +105,11 @@ object Debugs : ConfigDeclaration {
   override val builder = createBuilder()
 
     .CATEGORY("$category.debugs")
+  val TRACE_LOGS                                /**/ by bool(false)
+  val DEBUG_RENDER                              /**/ by bool(false)
   val DEBUG_SCREEN                              /**/ by hotkey("Z", KeybindSettings.ANY_DEFAULT)
   val SCREEN_DEPTH_TEST                         /**/ by hotkey("X,1", KeybindSettings.ANY_DEFAULT)
   val CLEAN_CURSOR                              /**/ by hotkey("X,2", KeybindSettings.GUI_DEFAULT)
-  val DEBUG_RENDER                              /**/ by bool(false)
 }
 
 const val FILE_PATH = "inventoryprofiles/inventoryprofiles.json"

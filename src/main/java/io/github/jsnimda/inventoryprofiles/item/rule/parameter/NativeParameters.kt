@@ -1,7 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
 import io.github.jsnimda.common.util.ByPropertyName
-import io.github.jsnimda.common.util.trySwallow
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import java.text.Collator
@@ -23,7 +22,7 @@ private inline fun <reified T : Enum<T>> enum() = param(
 private val any_string     /**/ = param(StringArgumentType)
 private val type_boolean   /**/ = param(BooleanArgumentType)
 private val any_nbt        /**/ = param(NbtArgumentType)
-private val any_comparator /**/ = param(ComparatorArgumentType)
+private val any_rule       /**/ = param(RuleArgumentType)
 private val any_tag_name   /**/ = param(TagNameArgumentType)
 private val any_item_name  /**/ = param(ItemNameArgumentType)
 private val any_nbt_path   /**/ = param(NbtPathArgumentType)
@@ -43,8 +42,8 @@ val logical                  /**/ by type_boolean
 val match                    /**/ by enum<Match>()
 val has_custom_name          /**/ by param(match.argumentType)
 val number_order             /**/ by enum<NumberOrder>()
-val sub_comparator_match     /**/ by any_comparator
-val sub_comparator_not_match /**/ by any_comparator
+val sub_rule_match           /**/ by any_rule
+val sub_rule_not_match       /**/ by any_rule
 val nbt                      /**/ by any_nbt
 val allow_extra              /**/ by type_boolean
 val require_nbt              /**/ by enum<RequireNbt>()
@@ -53,7 +52,7 @@ val item_name                /**/ by any_item_name
 val nbt_path                 /**/ by any_nbt_path
 val has_nbt_path             /**/ by param(match.argumentType)
 val reverse                  /**/ by type_boolean
-val sub_comparator           /**/ by any_comparator
+val sub_rule                 /**/ by any_rule
 val has_potion_name          /**/ by param(match.argumentType)
 val has_potion_effects       /**/ by param(match.argumentType)
 

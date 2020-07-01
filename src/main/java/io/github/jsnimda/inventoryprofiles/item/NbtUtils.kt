@@ -35,7 +35,7 @@ object NbtUtils {
     return tryCatch(listOf()) { nbtPath.get(target) }
   }
 
-  private fun parseNbt(nbt: String): CompoundTag? {
+  fun parseNbt(nbt: String): CompoundTag? {
     // StringNbtReader
     return tryCatch { StringNbtReader.parse(nbt) }
   }

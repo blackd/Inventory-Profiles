@@ -18,6 +18,15 @@ inline infix fun Long.`&`(other: Long) = this.and(other)
 inline infix fun Long.land(other: Long) = this.and(other)
 inline fun Long.lnot() = this.inv()
 
-
-
-
+val Int.ordinalName: String // 1 -> 1st, 11 -> 11th etc
+  get() {
+    return this.toString() + when (this % 100) {
+      11, 12, 13 -> "th"
+      else -> when (this % 10) {
+        1 -> "st"
+        2 -> "nd"
+        3 -> "rd"
+        else -> "th"
+      }
+    }
+  }

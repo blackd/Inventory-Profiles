@@ -9,6 +9,7 @@ object Log {
   val innerLogger: Logger = LogManager.getLogger(id)
 
   var shouldDebug: () -> Boolean = { false }
+  var shouldTrace: () -> Boolean = { false }
 
   fun error(message: String) = innerLogger.error("[$id] $message").also { onLog(ERROR, message) }
   fun warn(message: String) = innerLogger.warn("[$id] $message").also { onLog(WARN, message) }
@@ -19,13 +20,36 @@ object Log {
   fun debug(message: () -> String) {
     val messageString = message()
     if (shouldDebug()) {
-      innerLogger.info("[$id] $messageString").also { onLog(DEBUG, messageString) }
+      innerLogger.info("[$id/DEBUG] $messageString").also { onLog(DEBUG, messageString) }
+    }
+  }
+
+  // for trace
+  private var indent = 0
+  fun indent() {
+    indent++
+  }
+
+  fun unindent() {
+    indent--
+  }
+
+  fun clearIndent() {
+    indent = 0
+  }
+
+  fun trace(message: String) = trace { message }
+  fun trace(message: () -> String) {
+    val messageString = " ".repeat(indent * 4) + message()
+    if (shouldTrace()) {
+      innerLogger.info("[$id/TRACE] $messageString").also { onLog(TRACE, messageString) }
     }
   }
 
   data class LogMessage(val level: LogLevel, val message: String)
 
   enum class LogLevel : Comparable<LogLevel> {
+    TRACE,
     DEBUG,
     INFO,
     WARN,

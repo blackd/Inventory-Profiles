@@ -15,25 +15,25 @@ class RuleFile(val fileName: String, val content: String) {
   val rulesMap = mutableMapOf<String, MutableList<RuleDefinition>>()
 
   fun parseContent() {
-    Log.debug("Parsing file $fileName")
+    Log.trace("[-] Parsing file $fileName")
     val data = IndentedDataFileParser.parse(content, fileName)
     for (subData in data.subData) {
-      Log.debug("  parsing rule: ${subData.text}")
+      Log.trace("    - parsing rule: ${subData.text}")
       try {
         val definition = RuleParser.parseRuleDefinition(subData)
         // then add to rules
         rulesMap.getOrPut(definition.ruleName, { mutableListOf() }).add(definition)
       } catch (e: SyntaxErrorException) {
-        Log.warn("Found syntax error while parsing ${subData.text} in file $fileName")
-        Log.warn("  at: ${e.line}:${e.pos} ${e.msg}")
+        Log.warn("Syntax error in '$fileName' (${subData.text})")
+        Log.warn("  > at: ${e.line}:${e.pos} ${e.msg}")
       } catch (e: Exception) {
         e.printStackTrace()
       }
     }
-    Log.debug {
-      "  Added ${rulesMap.values.flatten().size} rules: " +
+    Log.trace {
+      "    Added ${rulesMap.values.flatten().size} rules: " +
           rulesMap.map { (name, list) -> if (list.size == 1) name else "$name x${list.size}" }
     }
-    Log.debug("  $fileName parse finished")
+    Log.trace("    $fileName parse finished")
   }
 }

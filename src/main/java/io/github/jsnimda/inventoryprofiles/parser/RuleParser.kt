@@ -10,7 +10,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.file.SubRuleDefinition
 
 object RuleParser {
 
-  // throw SyntaxErrorException
+  @Throws // throw SyntaxErrorException
   fun parseRuleDefinition(data: IndentedData): RuleDefinition {
     val lines = data.lines
     val text = lines.joinToString("\n") { it.rawText }
@@ -21,6 +21,7 @@ object RuleParser {
     }
   }
 
+  @Throws // may throws
   fun parseSubRule(content: String): List<SubRuleDefinition> =
     content.parseBy(::RulesLexer, ::RulesParser, lexerMode = RulesLexer.mSubRule)
       .subRuleEOF().subRule().map { it.toSubRuleDefinition() }

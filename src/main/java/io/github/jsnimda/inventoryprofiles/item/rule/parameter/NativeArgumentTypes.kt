@@ -2,8 +2,10 @@ package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
 import io.github.jsnimda.common.util.trySwallow
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
+import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
+import io.github.jsnimda.inventoryprofiles.parser.TemporaryRuleParser
 
 object StringArgumentType : ArgumentType<String> {
   override fun toString(value: String) = value
@@ -24,24 +26,13 @@ class EnumArgumentType<T : Enum<T>>(val enumClass: Class<T>) :
 }
 
 object NbtArgumentType : ArgumentType<CompoundTag> {
-  override fun parse(argument: String): CompoundTag {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
-
-  override fun toString(value: CompoundTag): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
+  override fun toString(value: CompoundTag) = value.toString()
+  override fun parse(argument: String) = NbtUtils.parseNbt(argument)
 }
 
-object ComparatorArgumentType :
-  ArgumentType<Rule> {
-  override fun parse(argument: String): Rule {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
-
-  override fun toString(value: Rule): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
+object RuleArgumentType :  ArgumentType<Rule> {
+  override fun toString(value: Rule) = "(todo)" // todo
+  override fun parse(argument: String) = TemporaryRuleParser.parse(argument)
 }
 
 object TagNameArgumentType : ArgumentType<String> {

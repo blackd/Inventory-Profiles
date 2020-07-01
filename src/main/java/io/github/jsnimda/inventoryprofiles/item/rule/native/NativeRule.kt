@@ -74,14 +74,14 @@ class BooleanBasedRule : TypeBasedRule<Boolean>() {
   init {
     arguments.apply {
       defineParameter(match, Match.FIRST)
-      defineParameter(sub_comparator_match, EmptyRule)
-      defineParameter(sub_comparator_not_match, EmptyRule)
+      defineParameter(sub_rule_match, EmptyRule)
+      defineParameter(sub_rule_not_match, EmptyRule)
     }
     comparator = { itemType1, itemType2 ->
       compareBoolean(
         itemType1, itemType2, valueOf, arguments[match],
-        arguments[sub_comparator_match]::compare,
-        arguments[sub_comparator_not_match]::compare
+        arguments[sub_rule_match]::compare,
+        arguments[sub_rule_not_match]::compare
       )
     }
   }
