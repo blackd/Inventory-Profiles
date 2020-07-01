@@ -17,7 +17,10 @@ object RuleParser {
     try {
       return parseRuleDefinition(text)
     } catch (e: SyntaxErrorException) {
-      throw e.copy(line = lines.getOrNull(e.line)?.lineNumber ?: -1)
+      throw e.copy(
+        line = lines.getOrNull(e.line - 1)?.lineNumber ?: -1, // line number starts at 1 ~.~
+        pos = e.pos + 1 // antlr start at 0 but text editor start at 1
+      )
     }
   }
 
