@@ -53,7 +53,7 @@ object ContinuousCraftingHandler {
   var odd = 0
   fun handle() {
     if (!isCrafting) return
-    if (odd++ > 0) { // slow down
+    if (odd++ > 0) { // slow down, odd tick // todo quick craft from recipe book
       odd = 0
       return
     }

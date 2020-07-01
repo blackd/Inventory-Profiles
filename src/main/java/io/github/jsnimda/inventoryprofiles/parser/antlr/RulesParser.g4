@@ -4,8 +4,8 @@ options {
     tokenVocab=RulesLexer;
 }
 
-customRuleEOF: head subRule+ EOF;
-subRuleEOF: subRule EOF;
+customRuleEOF: head subRuleEOF;
+subRuleEOF: subRule+ EOF;
 head: AT RuleName;
 subRule: REVERSE? subRuleIdentifier arguments?;
 subRuleIdentifier

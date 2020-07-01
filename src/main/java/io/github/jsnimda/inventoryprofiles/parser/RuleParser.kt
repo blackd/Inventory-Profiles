@@ -21,9 +21,9 @@ object RuleParser {
     }
   }
 
-  fun parseSubRule(content: String): SubRuleDefinition =
+  fun parseSubRule(content: String): List<SubRuleDefinition> =
     content.parseBy(::RulesLexer, ::RulesParser, lexerMode = RulesLexer.mSubRule)
-      .subRuleEOF().subRule().toSubRuleDefinition()
+      .subRuleEOF().subRule().map { it.toSubRuleDefinition() }
 
   // ============
   // private
@@ -34,7 +34,7 @@ object RuleParser {
   }
 
   private fun CustomRuleEOFContext.toRuleDefinition() =
-    RuleDefinition(this.head().RuleName().text, subRule().map { it.toSubRuleDefinition() })
+    RuleDefinition(this.head().RuleName().text, subRuleEOF().subRule().map { it.toSubRuleDefinition() })
 
   private fun SubRuleContext.toSubRuleDefinition(): SubRuleDefinition {
     with(subRuleIdentifier()) {

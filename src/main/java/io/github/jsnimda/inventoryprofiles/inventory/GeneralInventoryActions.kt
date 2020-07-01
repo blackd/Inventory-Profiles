@@ -72,10 +72,6 @@ object GeneralInventoryActions {
     TellPlayer.chat(stack.itemType.toNamespacedString())
   }
 
-  fun continuousCrafting() {
-    // todo
-  }
-
   fun cleanCursor() {
     if (vCursorStack().isEmpty()) return
     AdvancedContainer.arrange(instant = true) { ->

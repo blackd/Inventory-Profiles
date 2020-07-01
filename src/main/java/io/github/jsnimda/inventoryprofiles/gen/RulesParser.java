@@ -100,12 +100,8 @@ public class RulesParser extends Parser {
 		public HeadContext head() {
 			return getRuleContext(HeadContext.class,0);
 		}
-		public TerminalNode EOF() { return getToken(RulesParser.EOF, 0); }
-		public List<SubRuleContext> subRule() {
-			return getRuleContexts(SubRuleContext.class);
-		}
-		public SubRuleContext subRule(int i) {
-			return getRuleContext(SubRuleContext.class,i);
+		public SubRuleEOFContext subRuleEOF() {
+			return getRuleContext(SubRuleEOFContext.class,0);
 		}
 		public CustomRuleEOFContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -124,28 +120,13 @@ public class RulesParser extends Parser {
 	public final CustomRuleEOFContext customRuleEOF() throws RecognitionException {
 		CustomRuleEOFContext _localctx = new CustomRuleEOFContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_customRuleEOF);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(14);
 			head();
-			setState(16); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(15);
-				subRule();
-				}
-				}
-				setState(18); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AT) | (1L << REVERSE) | (1L << DOUBLE_COLON) | (1L << HASHTAG) | (1L << NamespacedId))) != 0) );
-			setState(20);
-			match(EOF);
+			setState(15);
+			subRuleEOF();
 			}
 		}
 		catch (RecognitionException re) {
@@ -160,10 +141,13 @@ public class RulesParser extends Parser {
 	}
 
 	public static class SubRuleEOFContext extends ParserRuleContext {
-		public SubRuleContext subRule() {
-			return getRuleContext(SubRuleContext.class,0);
-		}
 		public TerminalNode EOF() { return getToken(RulesParser.EOF, 0); }
+		public List<SubRuleContext> subRule() {
+			return getRuleContexts(SubRuleContext.class);
+		}
+		public SubRuleContext subRule(int i) {
+			return getRuleContext(SubRuleContext.class,i);
+		}
 		public SubRuleEOFContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -181,12 +165,25 @@ public class RulesParser extends Parser {
 	public final SubRuleEOFContext subRuleEOF() throws RecognitionException {
 		SubRuleEOFContext _localctx = new SubRuleEOFContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_subRuleEOF);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
+			setState(18); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(17);
+				subRule();
+				}
+				}
+				setState(20); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AT) | (1L << REVERSE) | (1L << DOUBLE_COLON) | (1L << HASHTAG) | (1L << NamespacedId))) != 0) );
 			setState(22);
-			subRule();
-			setState(23);
 			match(EOF);
 			}
 		}
@@ -224,9 +221,9 @@ public class RulesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(25);
+			setState(24);
 			match(AT);
-			setState(26);
+			setState(25);
 			match(RuleName);
 			}
 		}
@@ -270,24 +267,24 @@ public class RulesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
+			setState(28);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==REVERSE) {
 				{
-				setState(28);
+				setState(27);
 				match(REVERSE);
 				}
 			}
 
-			setState(31);
+			setState(30);
 			subRuleIdentifier();
-			setState(33);
+			setState(32);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OPEN) {
 				{
-				setState(32);
+				setState(31);
 				arguments();
 				}
 			}
@@ -331,14 +328,14 @@ public class RulesParser extends Parser {
 		enterRule(_localctx, 8, RULE_subRuleIdentifier);
 		int _la;
 		try {
-			setState(44);
+			setState(43);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case AT:
 			case DOUBLE_COLON:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(35);
+				setState(34);
 				_la = _input.LA(1);
 				if ( !(_la==AT || _la==DOUBLE_COLON) ) {
 				_errHandler.recoverInline(this);
@@ -348,7 +345,7 @@ public class RulesParser extends Parser {
 					_errHandler.reportMatch(this);
 					consume();
 				}
-				setState(36);
+				setState(35);
 				match(RuleName);
 				}
 				break;
@@ -356,24 +353,24 @@ public class RulesParser extends Parser {
 			case NamespacedId:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(38);
+				setState(37);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==HASHTAG) {
 					{
-					setState(37);
+					setState(36);
 					match(HASHTAG);
 					}
 				}
 
-				setState(40);
+				setState(39);
 				match(NamespacedId);
-				setState(42);
+				setState(41);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==NBT) {
 					{
-					setState(41);
+					setState(40);
 					match(NBT);
 					}
 				}
@@ -427,42 +424,42 @@ public class RulesParser extends Parser {
 		enterRule(_localctx, 10, RULE_arguments);
 		int _la;
 		try {
-			setState(59);
+			setState(58);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(46);
+				setState(45);
 				match(OPEN);
-				setState(47);
+				setState(46);
 				pair();
-				setState(52);
+				setState(51);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==COMMA) {
 					{
 					{
-					setState(48);
+					setState(47);
 					match(COMMA);
-					setState(49);
+					setState(48);
 					pair();
 					}
 					}
-					setState(54);
+					setState(53);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(55);
+				setState(54);
 				match(CLOSE);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(57);
+				setState(56);
 				match(OPEN);
-				setState(58);
+				setState(57);
 				match(CLOSE);
 				}
 				break;
@@ -503,11 +500,11 @@ public class RulesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61);
+			setState(60);
 			match(Parameter);
-			setState(62);
+			setState(61);
 			match(EQUAL);
-			setState(63);
+			setState(62);
 			match(Argument);
 			}
 		}
@@ -523,24 +520,24 @@ public class RulesParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24D\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\6\2\23\n\2\r\2\16\2"+
-		"\24\3\2\3\2\3\3\3\3\3\3\3\4\3\4\3\4\3\5\5\5 \n\5\3\5\3\5\5\5$\n\5\3\6"+
-		"\3\6\3\6\5\6)\n\6\3\6\3\6\5\6-\n\6\5\6/\n\6\3\7\3\7\3\7\3\7\7\7\65\n\7"+
-		"\f\7\16\78\13\7\3\7\3\7\3\7\3\7\5\7>\n\7\3\b\3\b\3\b\3\b\3\b\2\2\t\2\4"+
-		"\6\b\n\f\16\2\3\4\2\4\4\7\7\2D\2\20\3\2\2\2\4\30\3\2\2\2\6\33\3\2\2\2"+
-		"\b\37\3\2\2\2\n.\3\2\2\2\f=\3\2\2\2\16?\3\2\2\2\20\22\5\6\4\2\21\23\5"+
-		"\b\5\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2\2\2\24\25\3\2\2\2\25\26\3"+
-		"\2\2\2\26\27\7\2\2\3\27\3\3\2\2\2\30\31\5\b\5\2\31\32\7\2\2\3\32\5\3\2"+
-		"\2\2\33\34\7\4\2\2\34\35\7\r\2\2\35\7\3\2\2\2\36 \7\6\2\2\37\36\3\2\2"+
-		"\2\37 \3\2\2\2 !\3\2\2\2!#\5\n\6\2\"$\5\f\7\2#\"\3\2\2\2#$\3\2\2\2$\t"+
-		"\3\2\2\2%&\t\2\2\2&/\7\r\2\2\')\7\b\2\2(\'\3\2\2\2()\3\2\2\2)*\3\2\2\2"+
-		"*,\7\t\2\2+-\7\13\2\2,+\3\2\2\2,-\3\2\2\2-/\3\2\2\2.%\3\2\2\2.(\3\2\2"+
-		"\2/\13\3\2\2\2\60\61\7\n\2\2\61\66\5\16\b\2\62\63\7\22\2\2\63\65\5\16"+
-		"\b\2\64\62\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\679\3\2\2\2"+
-		"8\66\3\2\2\29:\7\20\2\2:>\3\2\2\2;<\7\n\2\2<>\7\20\2\2=\60\3\2\2\2=;\3"+
-		"\2\2\2>\r\3\2\2\2?@\7\16\2\2@A\7\17\2\2AB\7\24\2\2B\17\3\2\2\2\n\24\37"+
-		"#(,.\66=";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24C\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\3\3\6\3\25\n\3"+
+		"\r\3\16\3\26\3\3\3\3\3\4\3\4\3\4\3\5\5\5\37\n\5\3\5\3\5\5\5#\n\5\3\6\3"+
+		"\6\3\6\5\6(\n\6\3\6\3\6\5\6,\n\6\5\6.\n\6\3\7\3\7\3\7\3\7\7\7\64\n\7\f"+
+		"\7\16\7\67\13\7\3\7\3\7\3\7\3\7\5\7=\n\7\3\b\3\b\3\b\3\b\3\b\2\2\t\2\4"+
+		"\6\b\n\f\16\2\3\4\2\4\4\7\7\2C\2\20\3\2\2\2\4\24\3\2\2\2\6\32\3\2\2\2"+
+		"\b\36\3\2\2\2\n-\3\2\2\2\f<\3\2\2\2\16>\3\2\2\2\20\21\5\6\4\2\21\22\5"+
+		"\4\3\2\22\3\3\2\2\2\23\25\5\b\5\2\24\23\3\2\2\2\25\26\3\2\2\2\26\24\3"+
+		"\2\2\2\26\27\3\2\2\2\27\30\3\2\2\2\30\31\7\2\2\3\31\5\3\2\2\2\32\33\7"+
+		"\4\2\2\33\34\7\r\2\2\34\7\3\2\2\2\35\37\7\6\2\2\36\35\3\2\2\2\36\37\3"+
+		"\2\2\2\37 \3\2\2\2 \"\5\n\6\2!#\5\f\7\2\"!\3\2\2\2\"#\3\2\2\2#\t\3\2\2"+
+		"\2$%\t\2\2\2%.\7\r\2\2&(\7\b\2\2\'&\3\2\2\2\'(\3\2\2\2()\3\2\2\2)+\7\t"+
+		"\2\2*,\7\13\2\2+*\3\2\2\2+,\3\2\2\2,.\3\2\2\2-$\3\2\2\2-\'\3\2\2\2.\13"+
+		"\3\2\2\2/\60\7\n\2\2\60\65\5\16\b\2\61\62\7\22\2\2\62\64\5\16\b\2\63\61"+
+		"\3\2\2\2\64\67\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\668\3\2\2\2\67\65\3"+
+		"\2\2\289\7\20\2\29=\3\2\2\2:;\7\n\2\2;=\7\20\2\2</\3\2\2\2<:\3\2\2\2="+
+		"\r\3\2\2\2>?\7\16\2\2?@\7\17\2\2@A\7\24\2\2A\17\3\2\2\2\n\26\36\"\'+-"+
+		"\65<";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
