@@ -46,13 +46,19 @@ object ContinuousCraftingHandler {
     isCrafting = types.contains(CRAFTING)
     if (!isCrafting) return
     monitor = Monitor(container)
+    onCraftCount = 0
   }
 
-  var onCraft = false // this tick crafted item
+  var onCraftCount = 0 // this tick crafted item
+  var odd = 0
   fun handle() {
     if (!isCrafting) return
-    if (onCraft) {
-      onCraft = false
+    if (odd++ > 0) { // slow down
+      odd = 0
+      return
+    }
+    if (onCraftCount > 0) {
+      onCraftCount--
       monitor.autoRefill()
     }
     monitor.save()
@@ -60,7 +66,7 @@ object ContinuousCraftingHandler {
 
   fun onCrafted() {
     if (!isCrafting) return
-    onCraft = true
+    onCraftCount++
   }
 
   private fun shouldHandle(storedItem: ItemStack, currentItem: ItemStack): Boolean {
@@ -95,7 +101,7 @@ object ContinuousCraftingHandler {
         val playerSubTracker = tracker.subTracker(playerSlotIndices)
         val counter = playerSubTracker.slots.counts()
         val map: Map<ItemType, Pair<Int, List<ItemStack>>> = typeToSlotListMap.mapValues { (type, list) ->
-          (counter.getCount(type) / list.size) to list.map { tracker.slots[it] }
+          (counter.getCount(type) / list.size).coerceAtMost(type.maxCount) to list.map { tracker.slots[it] }
         }
         playerSubTracker.slots.forEach { source ->
           map[source.itemType]?.let { (eachCount, fedList) ->
