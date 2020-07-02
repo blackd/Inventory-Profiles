@@ -3,10 +3,12 @@ package io.github.jsnimda.inventoryprofiles.inventory
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.config.options.ConfigString
+import io.github.jsnimda.common.util.containsAny
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.BeaconContainer
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
@@ -15,7 +17,7 @@ import io.github.jsnimda.inventoryprofiles.config.SortingMethodIndividual
 import io.github.jsnimda.inventoryprofiles.event.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer.Companion.cleanCursor
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CREATIVE
+import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
 import io.github.jsnimda.inventoryprofiles.inventory.action.moveAllTo
 import io.github.jsnimda.inventoryprofiles.inventory.action.moveMatchTo
 import io.github.jsnimda.inventoryprofiles.inventory.action.restockFrom
@@ -43,6 +45,8 @@ object GeneralInventoryActions {
     customRule: ConfigString,
     postAction: ConfigEnum<PostAction>
   ) {
+    val screen = Vanilla.screen()
+    if (screen != null && screen !is ContainerScreen<*>) return
     TellPlayer.listenLog(Log.LogLevel.WARN) {
       InnerActions.doSort(sortOrder.value.rule(customRule.value), postAction.value)
     }
@@ -53,6 +57,7 @@ object GeneralInventoryActions {
   fun doMoveMatch() {
     val types = ContainerTypes.getTypes(Vanilla.container())
     if (types.contains(CREATIVE)) return // no do creative menu
+    if (!types.containsAny(setOf(SORTABLE_STORAGE, NO_SORTING_STORAGE, CRAFTING))) return
     val forceToPlayer = ModSettings.MOVE_ALL_AT_CURSOR.booleanValue &&
         vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
     if (forceToPlayer) {
@@ -70,7 +75,7 @@ object GeneralInventoryActions {
     AdvancedContainer.arrange { tracker ->
       val player =
         getItemArea(if (includeHotbar) AreaTypes.playerStorageAndHotbarAndOffhand else AreaTypes.playerStorage)
-      val container = getItemArea(AreaTypes.nonPlayer)
+      val container = getItemArea(AreaTypes.nonPlayerNonOutput)
       val source = tracker.subTracker(if (toPlayer) container else player)
       val destination = tracker.subTracker(if (toPlayer) player else container) // source -> destination
       if (moveAll) {

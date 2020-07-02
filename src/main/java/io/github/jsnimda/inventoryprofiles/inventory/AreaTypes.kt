@@ -1,14 +1,13 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.alias.Container
-import io.github.jsnimda.common.vanilla.alias.PlayerInventory
-import io.github.jsnimda.common.vanilla.alias.Slot
+import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(invSlot)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(inventory)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(selectedSlot)`
 import io.github.jsnimda.inventoryprofiles.ingame.vFocusedSlot
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
+import net.minecraft.container.CraftingResultSlot
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35
@@ -66,6 +65,12 @@ object AreaTypes {
     }
 
   val nonPlayer = AreaType.match { it.`(inventory)` !is PlayerInventory }
+  val nonPlayerNonOutput = AreaType.match {
+    it.`(inventory)` !is PlayerInventory
+        && it.`(inventory)` !is CraftingResultInventory
+        && it !is CraftingResultSlot
+        && it !is TradeOutputSlot
+  }
   val playerHotbarAndOffhand = AreaType.player(hotbarInvSlots + offhandInvSlot)
   val playerStorageAndHotbarAndOffhand = AreaType.player(storageInvSlots + hotbarInvSlots + offhandInvSlot)
 

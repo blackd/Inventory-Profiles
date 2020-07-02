@@ -109,9 +109,9 @@ object Debugs : ConfigDeclaration {
     .CATEGORY("$category.debugs")
   val TRACE_LOGS                                /**/ by bool(false)
   val DEBUG_RENDER                              /**/ by bool(false)
-  val DEBUG_SCREEN                              /**/ by hotkey("Z", KeybindSettings.ANY_DEFAULT)
-  val SCREEN_DEPTH_TEST                         /**/ by hotkey("X,1", KeybindSettings.ANY_DEFAULT)
-  val CLEAN_CURSOR                              /**/ by hotkey("X,2", KeybindSettings.GUI_DEFAULT)
+  val DEBUG_SCREEN                              /**/ by hotkey("Z,1", KeybindSettings.ANY_DEFAULT)
+  val SCREEN_DEPTH_TEST                         /**/ by hotkey("Z,2", KeybindSettings.ANY_DEFAULT)
+  val CLEAN_CURSOR                              /**/ by hotkey("X,1", KeybindSettings.GUI_DEFAULT)
   val GEN_TAG_VANILLA_TXT                       /**/ by button(GenerateTagVanillaTxtButtonInfo)
   val GEN_RULE_LIST                             /**/ by button(GenerateRuleListButtonInfo)
 }
