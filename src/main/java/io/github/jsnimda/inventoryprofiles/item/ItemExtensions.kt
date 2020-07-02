@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item
 
+import net.minecraft.client.resource.language.I18n
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.item.Item
@@ -99,7 +100,7 @@ val ItemType.customName: String
 val ItemType.displayName: String
   get() = vanillaStack.name.string
 val ItemType.translatedName: String
-  get() = vanillaStack.let { item.getName(it) }.string
+  get() = I18n.translate(translationKey)
 val ItemType.itemId: String
   get() = identifier.toString()
 val ItemType.translationKey: String
@@ -120,8 +121,8 @@ val ItemType.rawId: Int
 val ItemType.damage: Int
   get() = vanillaStack.damage
 val ItemType.enchantmentsScore: Double
-  get() = EnchantmentHelper.getEnchantments(vanillaStack).toList().fold(0.0) { acc, (key, value) ->
-    acc + if (key.isCursed) 0.0 else value / key.maximumLevel.toDouble()
+  get() = EnchantmentHelper.getEnchantments(vanillaStack).toList().fold(0.0) { acc, (enchantment, level) ->
+    acc + if (enchantment.isCursed) -0.001 else level.toDouble() / enchantment.maximumLevel
   } // cursed enchantments +0 scores
 
 //endregion

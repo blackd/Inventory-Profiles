@@ -2,17 +2,13 @@ package io.github.jsnimda.inventoryprofiles.item.rule.native
 
 import io.github.jsnimda.common.util.ByPropertyName
 import io.github.jsnimda.inventoryprofiles.item.*
-import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.MutableEmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
-import io.github.jsnimda.inventoryprofiles.item.rule.parameter.Match
+import io.github.jsnimda.inventoryprofiles.item.rule.parameter.*
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.NumberOrder.DESCENDING
+import io.github.jsnimda.inventoryprofiles.item.rule.parameter.RequireNbt.*
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.StringCompare.UNICODE
-import io.github.jsnimda.inventoryprofiles.item.rule.parameter.has_custom_name
-import io.github.jsnimda.inventoryprofiles.item.rule.parameter.has_potion_name
-import io.github.jsnimda.inventoryprofiles.item.rule.parameter.number_order
-import io.github.jsnimda.inventoryprofiles.item.rule.parameter.string_compare
 
 // ============
 // Some helper functions for creating rules
@@ -37,30 +33,38 @@ import io.github.jsnimda.inventoryprofiles.item.rule.parameter.string_compare
 //    }
 //  }.also { NATIVE_RULES_MAP[property.name] = it }
 //}
-private class TypeBasedRuleProvider<T>(
-  supplier: () -> TypeBasedRule<T>,
-  valueOf: (ItemType) -> T,
-  val args: MutableList<Pair<Parameter<Any>, Any>> = mutableListOf(),
-  val postActions: MutableList<TypeBasedRule<T>.() -> Unit> = mutableListOf()
+private class TypeBasedRuleProvider<T, R : TypeBasedRule<T>>(
+  supplier: () -> R,
+  valueOf: (Rule.(ItemType) -> T)? = null,
+  val args: MutableList<Pair<Parameter<*>, Any?>> = mutableListOf(),
+  val postActions: MutableList<R.() -> Unit> = mutableListOf()
 ) : ByPropertyName<() -> Rule>({ name ->
   { // return () -> Rule
     supplier().apply {
-      this.valueOf = valueOf
-      arguments.apply { args.forEach { defineParameter(it.first, it.second) } }
+      valueOf?.let { this.valueOf = it }
+      arguments.apply {
+        args.forEach { (parameter, value) ->
+          @Suppress("UNCHECKED_CAST")
+          value?.let { defineParameter(parameter as Parameter<Any>, value) } ?: defineParameter(parameter)
+        }
+      }
       postActions.forEach { it() }
     }
   }.also { NATIVE_MAP[name] = it } // don't use NativeRules.map (un-init-ed)
 }) {
   fun <P : Any> param(parameter: Parameter<P>, value: P) = // custom param on specific rule
-    this.also { @Suppress("UNCHECKED_CAST") args.add(parameter as Parameter<Any> to value as Any) }
+    this.also { args.add(parameter to value) }
 
-  fun post(postAction: TypeBasedRule<T>.() -> Unit) =
+  fun param(parameter: Parameter<*>) = // custom param on specific rule
+    this.also { args.add(parameter to null) }
+
+  fun post(postAction: R.() -> Unit) =
     this.also { postActions.add(postAction) }
 }
 
-private fun <T> type(
-  supplier: () -> TypeBasedRule<T>,
-  valueOf: (ItemType) -> T
+private fun <T, R : TypeBasedRule<T>> type(
+  supplier: () -> R,
+  valueOf: (Rule.(ItemType) -> T)? = null
 ) = TypeBasedRuleProvider(supplier, valueOf)
 
 private fun <R : Rule> rule(supplier: () -> R) = ByPropertyName<() -> R> { name ->
@@ -79,44 +83,34 @@ private val NATIVE_MAP = mutableMapOf<String, () -> Rule>()
 val none by rule(::MutableEmptyRule)
 
 // ============
-// String Typed Rule
+// String Type Rule
 val display_name    /**/ by type(::StringBasedRule) { it.displayName }
-val custom_name     /**/ by type(::StringBasedRule) { it.customName }.param(has_custom_name, Match.FIRST)
-  .post {
-    val defaultInnerCompare = comparator
-    comparator = { itemType1, itemType2 ->
-      compareBoolean(itemType1, itemType2, { it.hasCustomName }, arguments[has_custom_name], defaultInnerCompare)
-    }
-  }
+val custom_name     /**/ by type(::StringBasedRule) { it.customName }
 val translated_name /**/ by type(::StringBasedRule) { it.translatedName }
 val translation_key /**/ by type(::StringBasedRule) { it.translationKey }.param(string_compare, UNICODE)
 val item_id         /**/ by type(::StringBasedRule) { it.itemId }    /**/.param(string_compare, UNICODE)
 val potion_name     /**/ by type(::StringBasedRule) { it.potionName }/**/.param(string_compare, UNICODE)
-  .param(has_potion_name, Match.FIRST).post {
-    val defaultInnerCompare = comparator
-    comparator = { itemType1, itemType2 ->
-      compareBoolean(itemType1, itemType2, { it.hasPotionName }, arguments[has_potion_name], defaultInnerCompare)
-    }
-  }
 
 // ============
-// Number Typed Rule
+// Number Type Rule
 val raw_id                    /**/ by type(::NumberBasedRule) { it.rawId }
 val creative_menu_group_index /**/ by type(::NumberBasedRule) { it.groupIndex }
 val damage                    /**/ by type(::NumberBasedRule) { it.damage }
 val enchantments_score        /**/ by type(::NumberBasedRule) { it.enchantmentsScore }.param(number_order, DESCENDING)
 
 // ============
-// Boolean Typed Rule
+// Boolean Type Rule
 val has_custom_name           /**/ by type(::BooleanBasedRule) { it.hasCustomName }
-val has_nbt                   /**/ by type(::BooleanBasedRule) { it.tag != null }
-val is_tag                    /**/ by type(::BooleanBasedRule) { false/*TODO*/ }
-val is_item                   /**/ by type(::BooleanBasedRule) { false/*TODO*/ }
-val has_custom_potion_effects /**/ by type(::BooleanBasedRule) { it.hasCustomPotionEffects }
-val has_potion_effects        /**/ by type(::BooleanBasedRule) { it.hasPotionEffects }
+val match_nbt                 /**/ by rule(::MatchNbtRule)
+val is_tag                    /**/ by type(::MatchNbtRule).param(tag_name).param(require_nbt, NOT_REQUIRED)
+  .post { andValue { arguments[require_nbt].match(it) && arguments[tag_name].match(it) } }
+val is_item                   /**/ by type(::MatchNbtRule).param(item_name).param(require_nbt, NOT_REQUIRED)
+  .post { andValue { arguments[require_nbt].match(it) && arguments[item_name].match(it) } }
+//val has_custom_potion_effects /**/ by type(::BooleanBasedRule) { it.hasCustomPotionEffects }
+//val has_potion_effects        /**/ by type(::BooleanBasedRule) { it.hasPotionEffects }
 
 // ============
 // Other
-val nbt            /**/ by rule(::NbtRule)
-val by_nbt_path    /**/ by rule(::NbtPathRule)
-val potion_effects /**/ by rule(::PotionEffectRule)
+val by_nbt         /**/ by rule(::ByNbtRule)
+val nbt_comparator /**/ by rule(::NbtComparatorRule)
+val potion_effect  /**/ by rule(::PotionEffectRule)

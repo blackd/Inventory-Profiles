@@ -50,9 +50,5 @@ abstract class BaseRule : Rule {
 
   final override fun compare(itemType1: ItemType, itemType2: ItemType): Int {
     return lazyCompare(itemType1, itemType2)
-//    val result = comparator(itemType1, itemType2)
-//    if (result != 0) return result * if (arguments[reverse]) -1 else 1
-//    if (arguments.isDefaultValue(sub_comparator)) return 0 // still empty rule
-//    return arguments[sub_comparator].compare(itemType1, itemType2)
   }
 }

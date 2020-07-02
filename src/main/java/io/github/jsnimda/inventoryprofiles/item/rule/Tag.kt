@@ -1,3 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule
 
-class Tag
+import io.github.jsnimda.inventoryprofiles.item.ItemType
+
+class Tag {
+  operator fun contains(itemType: ItemType): Boolean = TODO()
+}

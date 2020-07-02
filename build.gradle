@@ -120,7 +120,7 @@ publishing {
 compileKotlin.kotlinOptions.jvmTarget = "1.8"
 compileKotlin {
   kotlinOptions {
-    freeCompilerArgs = ['-Xjvm-default=compatibility', '-Xopt-in=kotlin.ExperimentalStdlibApi']
+    freeCompilerArgs = ['-Xopt-in=kotlin.ExperimentalStdlibApi']
     // includeRuntime = true
     // noStdlib = false
   }

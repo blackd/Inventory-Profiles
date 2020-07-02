@@ -16,6 +16,10 @@ object NbtUtils {
 
   private fun Tag.compareTo(another: Tag) = 0
 
+  fun matchNbtNoExtra(a: CompoundTag?, b: CompoundTag?): Boolean { // handle null and empty
+    return a?.takeUnless { it.isEmpty } == b?.takeUnless { it.isEmpty }
+  }
+
   fun matchNbt(a: CompoundTag?, b: CompoundTag?): Boolean { // b superset of a (a <= b)
     if (a == null || a.isEmpty) return true // treats {} as null
     return innerMatchNbt(a, b)

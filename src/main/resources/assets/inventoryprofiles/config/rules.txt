@@ -7,7 +7,7 @@
     ::custom_name
     ::creative_menu_group_index
     ::raw_id
-//    @default_nbt_rule // todo uncomment this line
+    @default_nbt_rule
 
 @item_name
     ::display_name
@@ -25,7 +25,7 @@
     ::enchantments_score
     ::damage
     ::display_name
-//    ::has_potion_effects(match = last)
+//    ::has_potion_effects(match = last) // todo uncomment this line
 //    ::potion_name(has_potion_name = first)
-    ::potion_effects
-    ::nbt
+//    ::potion_effects
+//    ::nbt

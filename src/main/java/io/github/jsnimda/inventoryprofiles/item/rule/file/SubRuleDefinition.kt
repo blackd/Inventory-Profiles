@@ -3,6 +3,8 @@ package io.github.jsnimda.inventoryprofiles.item.rule.file
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 
+class MissingParameterException(message: String) : RuntimeException(message)
+
 /*
   SubRuleDefinition:
   @default
@@ -37,6 +39,10 @@ class SubRuleDefinition(
         }
       } // end try set
     } // end for
+    val missingParameters = rule.arguments.missingParameters
+    if (missingParameters.isNotEmpty()) {
+      throw MissingParameterException("required parameter is missing: " + missingParameters.joinToString())
+    }
     return rule
   }
 }

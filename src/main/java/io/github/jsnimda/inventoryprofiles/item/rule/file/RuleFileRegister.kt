@@ -147,6 +147,7 @@ object RuleFileRegister {
           when (e) {
             is NoSuchElementException,
             is SelfReferenceException,
+            is MissingParameterException,
             -> Unit // do nothing
             else -> e.printStackTrace()
           }

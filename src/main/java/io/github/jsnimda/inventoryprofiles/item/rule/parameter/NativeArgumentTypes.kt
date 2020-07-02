@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
 import io.github.jsnimda.common.util.trySwallow
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
+import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
@@ -18,8 +19,7 @@ object BooleanArgumentType : ArgumentType<Boolean> {
     argument.takeIf { it == "true" || it == "false" }?.toBoolean()
 }
 
-class EnumArgumentType<T : Enum<T>>(val enumClass: Class<T>) :
-  ArgumentType<T> {
+class EnumArgumentType<T : Enum<T>>(val enumClass: Class<T>) : ArgumentType<T> {
   override fun toString(value: T) = value.name.toLowerCase()
   override fun parse(argument: String) =
     trySwallow { java.lang.Enum.valueOf(enumClass, argument.toUpperCase()) }
@@ -35,23 +35,17 @@ object RuleArgumentType :  ArgumentType<Rule> {
   override fun parse(argument: String) = TemporaryRuleParser.parse(argument)
 }
 
-object TagNameArgumentType : ArgumentType<String> {
-  override fun parse(argument: String): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
-
-  override fun toString(value: String): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+object TagNameArgumentType : ArgumentType<ItemTypeMatcher> {
+  override fun toString(value: ItemTypeMatcher) = value.toString()
+  override fun parse(argument: String): ItemTypeMatcher? {
+    TODO("Not yet implemented")
   }
 }
 
-object ItemNameArgumentType : ArgumentType<String> {
-  override fun parse(argument: String): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
-
-  override fun toString(value: String): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+object ItemNameArgumentType : ArgumentType<ItemTypeMatcher> {
+  override fun toString(value: ItemTypeMatcher) = value.toString()
+  override fun parse(argument: String): ItemTypeMatcher? {
+    TODO("Not yet implemented")
   }
 }
 

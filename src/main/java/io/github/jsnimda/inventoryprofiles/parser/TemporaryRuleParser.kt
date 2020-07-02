@@ -5,6 +5,7 @@ import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.file.CustomRule
+import io.github.jsnimda.inventoryprofiles.item.rule.file.MissingParameterException
 import io.github.jsnimda.inventoryprofiles.item.rule.file.SelfReferenceException
 
 // add to reload
@@ -36,6 +37,7 @@ object TemporaryRuleParser {
       when (e) {
         is NoSuchElementException,
         is SelfReferenceException,
+        is MissingParameterException,
         -> Unit // do nothing
         else -> e.printStackTrace()
       }

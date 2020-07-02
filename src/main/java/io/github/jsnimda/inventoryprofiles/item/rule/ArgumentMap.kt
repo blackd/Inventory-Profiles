@@ -13,8 +13,12 @@ class Parameter<T : Any>(
 class ArgumentMap {
   private val defaultValues = mutableMapOf<String, Any?>()
   private val values = mutableMapOf<String, Any>()
-//  val requiredMissing // false only if all required parameter is configured
-//    get() = values.values.any { it == null }
+  val missingParameters: List<String> // required parameters haven't set
+    get() {
+      return defaultValues.mapNotNull { (name, value) ->
+        name.takeIf { value == null && !values.containsKey(name) }
+      }
+    }
 //  val keys
 //    get() = defaultValues.keys
 
@@ -23,9 +27,9 @@ class ArgumentMap {
     defaultValues[parameter.name] = defaultValue
   }
 
-//  fun defineParameter(parameter: Parameter<*>) {  // required parameter
-//    define(parameter.name, null)
-//  }
+  fun defineParameter(parameter: Parameter<*>) {  // required parameter
+    defaultValues[parameter.name] = null
+  }
 
   @Suppress("UNCHECKED_CAST")
   // called by native rule when comparing item
