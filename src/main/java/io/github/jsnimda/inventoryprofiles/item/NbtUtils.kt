@@ -1,6 +1,9 @@
 package io.github.jsnimda.inventoryprofiles.item
 
 import com.mojang.brigadier.StringReader
+import io.github.jsnimda.common.util.AsComparable
+import io.github.jsnimda.common.util.asComparable
+import io.github.jsnimda.common.util.compareTo
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
 import io.github.jsnimda.common.vanilla.alias.Identifier
@@ -36,17 +39,42 @@ object NbtUtils {
   // nbt
   // ============
   fun compareNbt(a: CompoundTag?, b: CompoundTag?): Int {
-    return 0
-    TODO()
+    val b1 = a == null
+    val b2 = b == null
+    if (b1 != b2)
+      return if (b1) -1 else 1 // no nbt = first
+    if (a == null || b == null) return 0
+    val keys1: List<String> = a.keys.sorted()
+    val keys2: List<String> = b.keys.sorted()
+    val pairs1 = keys1.map { (it to a.get(it)).asComparable(::compareStringTag) }
+    val pairs2 = keys2.map { (it to b.get(it)).asComparable(::compareStringTag) }
+    return pairs1.compareTo(pairs2)
+  }
+
+  private fun compareStringTag(p1: Pair<String, Tag?>, p2: Pair<String, Tag?>): Int {
+    val (key1, tag1) = p1
+    val (key2, tag2) = p2
+    val result = key1.compareTo(key2)
+    if (result != 0) return result
+    if (tag1 == null || tag2 == null) return 0 // actually they should be non null
+    return tag1.compareTo(tag2)
+  }
+
+  private fun Tag.compareTo(other: Tag): Int {
+    val w1 = WrappedTag(this)
+    val w2 = WrappedTag(other)
+    return when {
+      w1.isNumber -> if (w2.isNumber) w1.asDouble.compareTo(w2.asDouble) else null
+      w1.isCompound -> if (w2.isCompound) compareNbt(w1.asCompound, w2.asCompound) else null
+      w1.isList -> if (w2.isList) w1.asListComparable.compareTo(w2.asListComparable) else null
+      else -> null
+    } ?: w1.asString.compareTo(w2.asString)
   }
 
   fun parseNbt(nbt: String): CompoundTag? {
     // StringNbtReader
     return tryCatch { StringNbtReader.parse(nbt) }
   }
-
-
-  private fun Tag.compareTo(another: Tag) = 0
 
   // ============
   // match nbt
@@ -87,14 +115,16 @@ object NbtUtils {
       get() = value.asString()
     val asNumber: Number // todo what if number is long > double precision range
       get() = (value as? AbstractNumberTag)?.double ?: 0
+    val asDouble: Double
+      get() = (value as? AbstractNumberTag)?.double ?: 0.0
     val asCompound: CompoundTag
       get() = value as? CompoundTag ?: CompoundTag()
     val asList: List<WrappedTag>
-      get() {
-        if (value.type.toInt() == 9)
-          return (value as? ListTag)?.map { WrappedTag(it) } ?: listOf()
-        return (value as? AbstractListTag<*>)?.map { WrappedTag(it) } ?: listOf()
-      }
+      get() = (value as? AbstractListTag<*>)?.map { WrappedTag(it) } ?: listOf()
+    val asListUnwrapped: List<Tag>
+      get() = (value as? AbstractListTag<*>)?.toList() ?: listOf()
+    val asListComparable: List<AsComparable<Tag>>
+      get() = asListUnwrapped.map { it.asComparable { a, b -> a.compareTo(b) } }
   }
 
   // ============
