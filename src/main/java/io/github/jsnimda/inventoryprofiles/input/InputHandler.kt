@@ -21,6 +21,7 @@ class InputHandler : IInputHandler {
         VanillaUtil.openScreen(ConfigScreen())
       }
 
+      // todo fix hotkey while typing text field
       if (InventoryInputHandler.onInput(lastKey, lastAction)) {
         return true
       }

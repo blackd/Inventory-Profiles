@@ -1,5 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule
 
+import io.github.jsnimda.inventoryprofiles.item.rule.parameter.NativeParameters
+
 interface ArgumentType<T : Any> {
   fun toString(value: T): String
   fun parse(argument: String): T? // null if string cannot be parsed
@@ -69,5 +71,17 @@ class ArgumentMap {
 
   operator fun contains(parameterName: String): Boolean {
     return defaultValues.contains(parameterName)
+  }
+
+  // for generate rule list
+  fun dumpAsPairList(): List<Pair<String, String>> {
+    return defaultValues.keys.map { key ->
+      val value = get(key)
+      value ?: return@map key to value.toString()
+      @Suppress("UNCHECKED_CAST")
+      val arg = NativeParameters.map[key]?.argumentType as ArgumentType<Any>?
+      arg ?: return@map key to value.toString()
+      return@map key to arg.toString(value)
+    }
   }
 }

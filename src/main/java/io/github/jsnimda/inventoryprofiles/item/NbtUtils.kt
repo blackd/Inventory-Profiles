@@ -1,10 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.item
 
 import com.mojang.brigadier.StringReader
-import io.github.jsnimda.common.util.AsComparable
-import io.github.jsnimda.common.util.asComparable
-import io.github.jsnimda.common.util.compareTo
-import io.github.jsnimda.common.util.tryCatch
+import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.Item
@@ -137,10 +135,10 @@ object NbtUtils {
 
   private fun getNbtPath(path: String): NbtPathArgumentType.NbtPath? {
     // NbtPathArgumentType().parse(StringReader(path))
-    return tryCatch { NbtPathArgumentType().parse(StringReader(path)) }
+    return tryOrNull({ Log.warn(it.toString()) }) { NbtPathArgumentType().parse(StringReader(path)) }
   }
 
   private fun getTagsForPath(nbtPath: NbtPathArgumentType.NbtPath, target: Tag): List<Tag> {
-    return tryCatch(listOf()) { nbtPath.get(target) }
+    return trySwallow(listOf()) { nbtPath.get(target) }
   }
 }

@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
 import io.github.jsnimda.common.util.trySwallow
+import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
@@ -29,8 +30,8 @@ object NbtArgumentType : ArgumentType<CompoundTag> {
   override fun parse(argument: String) = NbtUtils.parseNbt(argument)
 }
 
-object RuleArgumentType :  ArgumentType<Rule> {
-  override fun toString(value: Rule) = value.toString()
+object RuleArgumentType : ArgumentType<Rule> {
+  override fun toString(value: Rule) = "[${value.javaClass.usefulName}]" //value.toString() // todo
   override fun parse(argument: String) = TemporaryRuleParser.parse(argument)
 }
 

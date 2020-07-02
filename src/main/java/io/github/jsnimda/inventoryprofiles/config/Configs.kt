@@ -5,6 +5,7 @@ package io.github.jsnimda.inventoryprofiles.config
 import io.github.jsnimda.common.Savable
 import io.github.jsnimda.common.config.builder.*
 import io.github.jsnimda.common.input.KeybindSettings
+import io.github.jsnimda.inventoryprofiles.debug.GenerateRuleListButtonInfo
 import io.github.jsnimda.inventoryprofiles.debug.GenerateTagVanillaTxtButtonInfo
 import io.github.jsnimda.inventoryprofiles.parser.OpenConfigFolderButtonInfo
 import io.github.jsnimda.inventoryprofiles.parser.ReloadRuleFileButtonInfo
@@ -112,6 +113,7 @@ object Debugs : ConfigDeclaration {
   val SCREEN_DEPTH_TEST                         /**/ by hotkey("X,1", KeybindSettings.ANY_DEFAULT)
   val CLEAN_CURSOR                              /**/ by hotkey("X,2", KeybindSettings.GUI_DEFAULT)
   val GEN_TAG_VANILLA_TXT                       /**/ by button(GenerateTagVanillaTxtButtonInfo)
+  val GEN_RULE_LIST                             /**/ by button(GenerateRuleListButtonInfo)
 }
 
 const val FILE_PATH = "inventoryprofiles/inventoryprofiles.json"
