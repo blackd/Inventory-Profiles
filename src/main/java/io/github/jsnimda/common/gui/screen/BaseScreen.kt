@@ -1,8 +1,8 @@
 package io.github.jsnimda.common.gui.screen
 
-import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient

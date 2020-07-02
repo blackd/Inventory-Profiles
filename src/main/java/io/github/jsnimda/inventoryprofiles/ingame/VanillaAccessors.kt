@@ -51,4 +51,4 @@ val PlayerInventory.`(selectedSlot)`
   get() = selectedSlot
 
 val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
-  get() = method_2469() == ItemGroup.INVENTORY.getIndex()
+  get() = method_2469() == ItemGroup.INVENTORY.index

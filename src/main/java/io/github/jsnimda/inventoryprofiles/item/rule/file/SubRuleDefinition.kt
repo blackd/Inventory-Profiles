@@ -22,7 +22,7 @@ class SubRuleDefinition(
 
   @Throws // may throws (no need to cache this)
   fun toRule(): Rule {
-    val rule = when(prefix) {
+    val rule = when (prefix) {
       "@" -> RuleFileRegister.getCustomRule(name)
       "::" -> RuleFileRegister.getNativeRule(name)
       else -> null

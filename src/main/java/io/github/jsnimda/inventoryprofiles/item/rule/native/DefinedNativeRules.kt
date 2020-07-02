@@ -7,7 +7,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.*
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.NumberOrder.DESCENDING
-import io.github.jsnimda.inventoryprofiles.item.rule.parameter.RequireNbt.*
+import io.github.jsnimda.inventoryprofiles.item.rule.parameter.RequireNbt.NOT_REQUIRED
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.StringCompare.UNICODE
 
 // ============

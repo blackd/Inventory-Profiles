@@ -1,7 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.ingame
 
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.alias.*
+import io.github.jsnimda.common.vanilla.alias.CreativeInventoryScreen
+import io.github.jsnimda.common.vanilla.alias.PlayerInventory
+import io.github.jsnimda.common.vanilla.alias.Screen
+import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.item.EMPTY
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 

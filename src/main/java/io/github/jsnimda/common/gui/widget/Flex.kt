@@ -1,10 +1,10 @@
 package io.github.jsnimda.common.gui.widget
 
-import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.gui.widget.Axis.HORIZONTAL
 import io.github.jsnimda.common.gui.widget.Axis.VERTICAL
-import io.github.jsnimda.common.gui.widget.FlexDirection.*
+import io.github.jsnimda.common.gui.widget.FlexDirection.LEFT_TO_RIGHT
 import io.github.jsnimda.common.gui.widgets.Widget
+import io.github.jsnimda.common.math2d.Rectangle
 
 class BiFlex(val owner: Widget, val axis: Axis = HORIZONTAL) {
 

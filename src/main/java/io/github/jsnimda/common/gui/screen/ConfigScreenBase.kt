@@ -1,7 +1,6 @@
 package io.github.jsnimda.common.gui.screen
 
 import io.github.jsnimda.common.config.options.ConfigHotkey
-import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Flex
 import io.github.jsnimda.common.gui.widget.FlexDirection.TOP_DOWN
@@ -9,6 +8,7 @@ import io.github.jsnimda.common.gui.widgets.ButtonWidget
 import io.github.jsnimda.common.gui.widgets.ConfigHotkeyWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.gui.widgets.toWidget
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.rDrawText
 import io.github.jsnimda.common.vanilla.render.rMeasureText

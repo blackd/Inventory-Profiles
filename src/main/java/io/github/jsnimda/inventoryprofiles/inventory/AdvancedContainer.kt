@@ -5,6 +5,10 @@ import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
+import io.github.jsnimda.inventoryprofiles.ingame.`(id)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
+import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
 import io.github.jsnimda.inventoryprofiles.inventory.action.SubTracker
 import io.github.jsnimda.inventoryprofiles.inventory.action.subTracker
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
@@ -13,10 +17,6 @@ import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ItemTracker
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.stackableWith
-import io.github.jsnimda.inventoryprofiles.ingame.`(id)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
-import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
 
 class AdvancedContainer(
   val vanillaContainer: Container,

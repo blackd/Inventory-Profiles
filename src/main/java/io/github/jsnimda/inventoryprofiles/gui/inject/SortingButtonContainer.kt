@@ -222,8 +222,6 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
     abstract val hoveringTexturePt: Point
 
     override fun renderButton(hovered: Boolean) {
-      val texture = texture
-      texture ?: return
       val textureLocation = if (hovered) hoveringTexturePt else texturePt
       rBindTexture(texture)
       rBlit(screenLocation, textureLocation, size)

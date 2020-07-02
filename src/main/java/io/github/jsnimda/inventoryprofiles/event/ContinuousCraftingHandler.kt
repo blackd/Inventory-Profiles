@@ -15,10 +15,8 @@ import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CRAFTING
 import io.github.jsnimda.inventoryprofiles.inventory.action.counts
 import io.github.jsnimda.inventoryprofiles.inventory.action.subTracker
-import io.github.jsnimda.inventoryprofiles.inventory.sandbox.counts
 import io.github.jsnimda.inventoryprofiles.item.*
 import net.minecraft.client.gui.screen.ingame.ContainerScreen
-import net.minecraft.container.CraftingResultSlot
 
 object ContinuousCraftingHandler {
   var targetScreen: ContainerScreen<*>? = null
@@ -77,7 +75,8 @@ object ContinuousCraftingHandler {
   class Monitor(container: Container) {
     val containerSlots = container.`(slots)`
     val ingredientSlots = containerSlots.filter { it.`(inventory)` is CraftingInventory }
-//    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
+
+    //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
     val slotMonitors = ingredientSlots.map { ItemSlotMonitor(it) }
 
     val playerSlotIndices = AreaTypes.playerStorageAndHotbarAndOffhand.getItemArea(container, containerSlots)
@@ -87,7 +86,7 @@ object ContinuousCraftingHandler {
       // do statistic
       val typeToSlotListMap = mutableMapOf<ItemType, MutableList<Int>>() // slotIndex
       for (slotMonitor in slotMonitors) {
-        with (slotMonitor) {
+        with(slotMonitor) {
           if (shouldHandle(storedItem, slot.`(itemStack)`)) {
             // record this
             typeToSlotListMap.getOrPut(storedItem.itemType, { mutableListOf() }).add(slot.`(id)`)

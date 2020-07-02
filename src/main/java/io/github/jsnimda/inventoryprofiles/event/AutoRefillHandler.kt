@@ -4,15 +4,15 @@ import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
+import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
+import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
+import io.github.jsnimda.inventoryprofiles.ingame.vMainhandIndex
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.item.EMPTY
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
-import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
-import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
-import io.github.jsnimda.inventoryprofiles.ingame.vMainhandIndex
 
 object AutoRefillHandler {
   var screenOpening = false

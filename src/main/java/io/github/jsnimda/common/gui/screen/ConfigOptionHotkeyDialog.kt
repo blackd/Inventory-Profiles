@@ -2,12 +2,12 @@ package io.github.jsnimda.common.gui.screen
 
 import io.github.jsnimda.common.config.IConfigOption
 import io.github.jsnimda.common.config.options.ConfigHotkey
-import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widgets.TextButtonWidget
 import io.github.jsnimda.common.gui.widgets.toConfigWidget
 import io.github.jsnimda.common.input.ConfigKeybindSettings
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
 import io.github.jsnimda.common.vanilla.render.rMeasureText
