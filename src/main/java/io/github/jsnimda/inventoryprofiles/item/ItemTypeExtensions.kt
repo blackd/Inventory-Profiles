@@ -81,17 +81,18 @@ val ItemType.hasCustomPotionEffects: Boolean
   get() = PotionUtil.getCustomPotionEffects(tag).isNotEmpty()
 val ItemType.potionEffects: List<StatusEffectInstance>
   get() = PotionUtil.getPotionEffects(tag)
-val ItemType.potionEffectValues: List<EffectValue>
-  get() = potionEffects.map { it.`(effectValue)` }
-val StatusEffectInstance.`(effectValue)`: EffectValue
-  get() = EffectValue(
+val ItemType.comparablePotionEffects: List<PotionEffect>
+  get() = potionEffects.map { it.`(asComparable)` }
+
+val StatusEffectInstance.`(asComparable)`: PotionEffect
+  get() = PotionEffect(
     Registry.STATUS_EFFECT.getId(this.effectType).toString(),
     this.amplifier,
     this.duration
   )
 
-data class EffectValue(val effect: String, val amplifier: Int, val duration: Int) : Comparable<EffectValue> {
-  override fun compareTo(other: EffectValue): Int { // stronger first
+data class PotionEffect(val effect: String, val amplifier: Int, val duration: Int) : Comparable<PotionEffect> {
+  override fun compareTo(other: PotionEffect): Int { // stronger first
     this.effect.compareTo(other.effect).let { if (it != 0) return it }
     other.amplifier.compareTo(this.amplifier).let { if (it != 0) return it }
     other.duration.compareTo(this.duration).let { if (it != 0) return it }

@@ -7,7 +7,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.parameter.sub_rule
 interface Rule : Comparator<ItemType> {
   val arguments: ArgumentMap
   override fun compare(itemType1: ItemType, itemType2: ItemType): Int
-}
+} // todo toString()
 
 object EmptyRule : Rule {
   override val arguments: ArgumentMap

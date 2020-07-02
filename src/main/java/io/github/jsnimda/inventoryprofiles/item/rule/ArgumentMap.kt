@@ -31,10 +31,18 @@ class ArgumentMap {
     defaultValues[parameter.name] = null
   }
 
+  fun defineParametersFrom(other: ArgumentMap) {
+    defaultValues.putAll(other.defaultValues)
+  }
+
   @Suppress("UNCHECKED_CAST")
   // called by native rule when comparing item
   operator fun <T : Any> get(parameter: Parameter<T>): T =
     (values[parameter.name] ?: defaultValues.getValue(parameter.name)) as T
+
+  // for setArgumentsFrom
+  private operator fun get(name: String): Any? =
+    (values[name] ?: defaultValues.getValue(name))
 
   fun isDefaultValue(parameter: Parameter<*>): Boolean =
     !values.containsKey(parameter.name)
@@ -49,6 +57,14 @@ class ArgumentMap {
     argumentValue ?: return false
     values[parameter.name] = argumentValue
     return true
+  }
+
+  fun setArgumentsFrom(other: ArgumentMap) {
+    for (key in other.defaultValues.keys) {
+      if (key in this) {
+        other[key]?.let { values[key] = it }
+      }
+    }
   }
 
   operator fun contains(parameterName: String): Boolean {

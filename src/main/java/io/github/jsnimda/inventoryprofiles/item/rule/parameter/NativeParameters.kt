@@ -56,9 +56,9 @@ val allow_extra              /**/ by type_boolean
 val require_nbt              /**/ by enum<RequireNbt>()
 val tag_name                 /**/ by any_tag_name
 val item_name                /**/ by any_item_name
+
 val nbt_path                 /**/ by any_nbt_path
-val has_nbt_path             /**/ by param(match.argumentType)
-val has_potion_effects       /**/ by param(match.argumentType)
+val not_found                /**/ by param(match.argumentType)
 
 enum class StringCompare(val comparator: Comparator<in String>?) {
   UNICODE(naturalOrder()),

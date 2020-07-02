@@ -38,7 +38,7 @@ class DebugScreen : BaseDebugScreen() {
               ::hasPotionName,
               ::potionName,
               ::potionEffects,
-              ::potionEffectValues,
+              ::comparablePotionEffects,
             ).joinToString("\n") { "${it.name}: ${it.get()}" }
           }
         return listOf(a, c, d).joinToString("\n").split("\n")

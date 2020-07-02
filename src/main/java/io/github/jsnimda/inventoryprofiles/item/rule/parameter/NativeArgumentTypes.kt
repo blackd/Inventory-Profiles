@@ -2,7 +2,6 @@ package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
 import io.github.jsnimda.common.util.trySwallow
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
-import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
@@ -31,7 +30,7 @@ object NbtArgumentType : ArgumentType<CompoundTag> {
 }
 
 object RuleArgumentType :  ArgumentType<Rule> {
-  override fun toString(value: Rule) = "(todo)" // todo
+  override fun toString(value: Rule) = value.toString()
   override fun parse(argument: String) = TemporaryRuleParser.parse(argument)
 }
 
@@ -45,12 +44,7 @@ object ItemNameArgumentType : ArgumentType<ItemTypeMatcher> {
   override fun parse(argument: String) = ItemTypeMatcher.forItem(argument)
 }
 
-object NbtPathArgumentType : ArgumentType<String> {
-  override fun parse(argument: String): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
-
-  override fun toString(value: String): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-  }
+object NbtPathArgumentType : ArgumentType<NbtUtils.NbtPath> {
+  override fun toString(value: NbtUtils.NbtPath) = value.toString()
+  override fun parse(argument: String) = NbtUtils.NbtPath.of(argument)
 }
