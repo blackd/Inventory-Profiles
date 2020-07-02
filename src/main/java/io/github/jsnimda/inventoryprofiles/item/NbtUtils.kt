@@ -3,16 +3,44 @@ package io.github.jsnimda.inventoryprofiles.item
 import com.mojang.brigadier.StringReader
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
+import io.github.jsnimda.common.vanilla.alias.Identifier
+import io.github.jsnimda.common.vanilla.alias.Item
+import io.github.jsnimda.common.vanilla.alias.Registry
 import net.minecraft.command.arguments.NbtPathArgumentType
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.StringNbtReader
 import net.minecraft.nbt.Tag
+import net.minecraft.tag.ItemTags
+import net.minecraft.tag.Tag as TagTag
+
+// ============
+// vanillamapping code depends on mappings
+// ============
 
 object NbtUtils {
-  fun compareNbt(a: CompoundTag?, b: CompoundTag?) =
-    //todo
-    0
+  // ============
+  // Vanilla Item
+  // ============
+  fun getItemFromId(id: Identifier): Item? {
+    return Registry.ITEM.get(id)
+  }
 
+  fun getTagFromId(id: Identifier): TagTag<Item>? {
+    // see ItemPredicateArgumentType
+    // (for data pack)
+    // Tag<Item> tag = ((ServerCommandSource)commandContext.getSource()).getMinecraftServer().getTagManager().items().get(identifier);
+    // (hard coded)
+    // ItemTags.getContainer()
+    return ItemTags.getContainer().get(id)
+  }
+
+  // ============
+  // nbt
+  // ============
+  fun compareNbt(a: CompoundTag?, b: CompoundTag?): Int {
+    return 0
+    TODO()
+  }
 
   private fun Tag.compareTo(another: Tag) = 0
 

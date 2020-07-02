@@ -1,71 +1,14 @@
 package io.github.jsnimda.inventoryprofiles.item
 
-import net.minecraft.client.resource.language.I18n
+import io.github.jsnimda.common.vanilla.alias.*
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
-import net.minecraft.item.Items
 import net.minecraft.potion.PotionUtil
-import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
 // vanillamapping code depends on mappings
-// ============
-
-// ============
-// ItemStack
-// ============
-
-val ItemStack.Companion.EMPTY
-  get() = ItemStack(ItemType.EMPTY, 0)
-
-fun ItemStack.isEmpty() =
-  itemType.isEmpty() || count <= 0
-
-fun ItemStack.setEmpty() {
-  itemType = ItemType.EMPTY
-  count = 0
-}
-
-fun ItemStack.isFull() =
-  count >= itemType.maxCount
-
-val ItemStack.room
-  get() = itemType.maxCount - count // fixme need check empty?
-
-fun ItemStack.swapWith(another: ItemStack) {
-  itemType = another.itemType.also { another.itemType = itemType }
-  count = another.count.also { another.count = count }
-}
-
-fun ItemStack.stackableWith(b: ItemStack) =
-  itemType == b.itemType || isEmpty() || b.isEmpty()
-
-fun ItemStack.transferTo(another: ItemStack) = transferNTo(another, count)
-fun ItemStack.transferOneTo(another: ItemStack) = transferNTo(another, 1)
-fun ItemStack.transferNTo(another: ItemStack, n: Int) {
-  if (!stackableWith(another)) return
-  if (isEmpty()) return
-  if (another.isEmpty()) {
-    another.itemType = itemType
-    another.count = 0
-  }
-  val transferableCount = n.coerceAtMost(minOf(count, another.room)).coerceAtLeast(0)
-  count -= transferableCount
-  another.count += transferableCount
-  if (isEmpty()) setEmpty()
-  if (another.isEmpty()) another.setEmpty()
-}
-
-fun ItemStack.splitHalfTo(cursor: ItemStack) { // for odd count, cursor more target less
-  transferNTo(cursor, count - count / 2)
-}
-
-// ============
-// ItemType
 // ============
 
 fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with namespace
@@ -81,13 +24,12 @@ fun ItemType.isEmpty() =
 val ItemType.maxCount
   get() = vanillaStack.maxCount
 
-// TODO need to verify
-
 val ItemType.vanillaStack: VanillaItemStack
   get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }
 
 val ItemType.identifier: Identifier
   get() = Registry.ITEM.getId(item)
+
 val ItemType.namespace: String
   get() = identifier.namespace
 

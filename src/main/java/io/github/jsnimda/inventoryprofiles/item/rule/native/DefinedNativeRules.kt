@@ -13,26 +13,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.parameter.StringCompare.UNI
 // ============
 // Some helper functions for creating rules
 // ============
-//private class TypedRuleProvider<T>(
-//  private val supplier: () -> TypeBasedRule<T>,
-//  private val valueOf: (ItemType) -> T
-//) {
-//  private val args = mutableListOf<Pair<Parameter<Any>, Any>>() // additional param
-//  private val postActions = mutableListOf<TypeBasedRule<T>.() -> Unit>()
-//  fun <P : Any> param(parameter: Parameter<P>, value: P) = // custom param on specific rule
-//    this.also { @Suppress("UNCHECKED_CAST") args.add(parameter as Parameter<Any> to value as Any) }
-//
-//  fun post(postAction: TypeBasedRule<T>.() -> Unit) =
-//    this.also { postActions.add(postAction) }
-//
-//  operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): () -> Rule = {
-//    supplier().apply {
-//      this.valueOf = this@TypedRuleProvider.valueOf
-//      arguments.apply { args.forEach { defineParameter(it.first, it.second) } }
-//      postActions.forEach { it() }
-//    }
-//  }.also { NATIVE_RULES_MAP[property.name] = it }
-//}
+
 private class TypeBasedRuleProvider<T, R : TypeBasedRule<T>>(
   supplier: () -> R,
   valueOf: (Rule.(ItemType) -> T)? = null,

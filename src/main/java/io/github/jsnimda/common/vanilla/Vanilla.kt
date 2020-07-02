@@ -1,5 +1,6 @@
 package io.github.jsnimda.common.vanilla
 
+import io.github.jsnimda.common.vanilla.alias.IntegratedServer
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.common.vanilla.alias.Window
@@ -28,6 +29,8 @@ object Vanilla {
   fun chatHud() = inGameHud().chatHud ?: throw AssertionError("unreachable")
 
   fun mouse() = mc().mouse ?: error("mc.mouse is not initialized!")
+
+  fun server(): IntegratedServer? = mc().server
 
   // ============
   // java objects

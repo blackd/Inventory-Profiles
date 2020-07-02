@@ -37,16 +37,12 @@ object RuleArgumentType :  ArgumentType<Rule> {
 
 object TagNameArgumentType : ArgumentType<ItemTypeMatcher> {
   override fun toString(value: ItemTypeMatcher) = value.toString()
-  override fun parse(argument: String): ItemTypeMatcher? {
-    TODO("Not yet implemented")
-  }
+  override fun parse(argument: String) = ItemTypeMatcher.forTag(argument)
 }
 
 object ItemNameArgumentType : ArgumentType<ItemTypeMatcher> {
   override fun toString(value: ItemTypeMatcher) = value.toString()
-  override fun parse(argument: String): ItemTypeMatcher? {
-    TODO("Not yet implemented")
-  }
+  override fun parse(argument: String) = ItemTypeMatcher.forItem(argument)
 }
 
 object NbtPathArgumentType : ArgumentType<String> {
