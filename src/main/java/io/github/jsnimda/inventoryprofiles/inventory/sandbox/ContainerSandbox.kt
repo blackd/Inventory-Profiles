@@ -1,15 +1,20 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox
 
+import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
 import io.github.jsnimda.inventoryprofiles.item.*
 
 //import io.github.jsnimda.common.vanilla.alias.Slot as VanillaSlot
 
 class ContainerSandbox(
-  override val items: ItemTracker,
-  clicks: SandboxClick? = null
-) : IContainerSandbox {
+  items: MutableItemTracker,
+  clickNode: SandboxClick? = null
+) {
+  private val mutableItems = items
+  val items: ItemTracker
+    get() = mutableItems
 
-  override fun leftClick(slotIndex: Int) = with(items) {
+  fun leftClick(slotIndex: Int) = with(mutableItems) {
     val target = slots[slotIndex]
     if (cursor.isEmpty() || target.isEmpty() || !cursor.stackableWith(target)) {
       cursor.swapWith(target)
@@ -19,7 +24,7 @@ class ContainerSandbox(
     addClick(slotIndex, 0)
   }
 
-  override fun rightClick(slotIndex: Int) = with(items) {
+  fun rightClick(slotIndex: Int) = with(mutableItems) {
     val target = slots[slotIndex]
     if (cursor.isEmpty()) {
       target.splitHalfTo(cursor)
@@ -31,65 +36,30 @@ class ContainerSandbox(
     addClick(slotIndex, 1)
   }
 
-  override fun leftClickOutside() = with(items) {
+  fun leftClickOutside() = with(mutableItems) {
     thrownItems.add(cursor)
     cursor.setEmpty()
     addClick(-999, 0)
   }
 
-  override fun rightClickOutside() = with(items) { // in creative mode throw all
-    val dummy = ItemStack.EMPTY
+  fun rightClickOutside() = with(mutableItems) { // in creative mode throw all
+    val dummy = MutableItemStack.empty()
     cursor.transferOneTo(dummy)
     thrownItems.add(dummy)
     addClick(-999, 1)
   }
 
-  override val clickCount
-    get() = clicks?.clickIndex?.plus(1) ?: 0
-  override var clicks: SandboxClick? = clicks
+  val clickCount
+    get() = clickNode?.clickIndex?.plus(1) ?: 0
+  var clickNode: SandboxClick? = clickNode
     private set
 
   private fun addClick(slotIndex: Int, button: Int) {
-    SandboxClick(clickCount, slotIndex, button, clicks).also { clicks = it }
+    SandboxClick(clickCount, slotIndex, button, clickNode).also { clickNode = it }
   }
 
-  override fun copy() = ContainerSandbox(items.copy(), clicks)
+//  fun copy() = ContainerSandbox(items.copyAsMutable(), clicks)
 }
-
-class ItemTracker(
-  val cursor: ItemStack,
-  val slots: List<ItemStack>,
-  val thrownItems: ItemCounter = ItemCounter()
-) {
-  fun copy() = ItemTracker(
-    cursor.copy(),
-    slots.copy(),
-    thrownItems.copy()
-  )
-
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (javaClass != other?.javaClass) return false
-
-    other as ItemTracker
-
-    if (cursor != other.cursor) return false
-    if (slots != other.slots) return false
-    if (thrownItems != other.thrownItems) return false
-
-    return true
-  }
-
-  override fun hashCode(): Int {
-    var result = cursor.hashCode()
-    result = 31 * result + slots.hashCode()
-    result = 31 * result + thrownItems.hashCode()
-    return result
-  }
-
-}
-
-fun List<ItemStack>.copy() = map { it.copy() }
 
 data class SandboxClick(
   val clickIndex: Int,
@@ -107,15 +77,4 @@ fun SandboxClick?.toList(): List<SandboxClick> {
   }
   list.reverse()
   return list
-}
-
-private interface IContainerSandbox {
-  val items: ItemTracker
-  val clickCount: Int
-  val clicks: SandboxClick?
-  fun leftClick(slotIndex: Int)
-  fun rightClick(slotIndex: Int)
-  fun leftClickOutside() // throw all
-  fun rightClickOutside() // throw one
-  fun copy(): IContainerSandbox
 }

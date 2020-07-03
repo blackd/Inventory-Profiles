@@ -13,8 +13,7 @@ import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer
 import io.github.jsnimda.inventoryprofiles.inventory.AreaTypes
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CRAFTING
-import io.github.jsnimda.inventoryprofiles.inventory.action.counts
-import io.github.jsnimda.inventoryprofiles.inventory.action.subTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.*
 import net.minecraft.client.gui.screen.ingame.ContainerScreen
 
@@ -98,9 +97,9 @@ object ContinuousCraftingHandler {
       }
       AdvancedContainer.arrange(instant = true) { tracker ->
         val playerSubTracker = tracker.subTracker(playerSlotIndices)
-        val counter = playerSubTracker.slots.counts()
-        val map: Map<ItemType, Pair<Int, List<ItemStack>>> = typeToSlotListMap.mapValues { (type, list) ->
-          (counter.getCount(type) / list.size).coerceAtMost(type.maxCount) to list.map { tracker.slots[it] }
+        val counter = playerSubTracker.slots.collect()
+        val map: Map<ItemType, Pair<Int, List<MutableItemStack>>> = typeToSlotListMap.mapValues { (type, list) ->
+          (counter.count(type) / list.size).coerceAtMost(type.maxCount) to list.map { tracker.slots[it] }
         }
         playerSubTracker.slots.forEach { source ->
           map[source.itemType]?.let { (eachCount, fedList) ->

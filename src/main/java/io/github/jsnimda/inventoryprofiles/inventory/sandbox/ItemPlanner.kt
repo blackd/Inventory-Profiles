@@ -1,10 +1,15 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox
 
-class ItemPlanner(items: ItemTracker) : IItemPlanner {
-  val innerSandbox = ContainerSandbox(items)
+import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.collect
+import org.spongepowered.asm.mixin.Mutable
+
+class ItemPlanner(items: MutableItemTracker) {
+  private val innerSandbox = ContainerSandbox(items)
 
   private var trackingItems: ItemTracker? = null
-  fun innerSync() {
+  private fun innerSync() {
     trackingItems?.let { trackingItems ->
       DiffCalculator.INSTANCE.apply(innerSandbox, trackingItems)
       if (innerSandbox.items != trackingItems)
@@ -14,38 +19,30 @@ class ItemPlanner(items: ItemTracker) : IItemPlanner {
   }
 
   private val itemTracker: ItemTracker
-    get() = (trackingItems ?: innerSandbox.items).copy()
+    get() = trackingItems ?: innerSandbox.items
 
-  override fun sandbox(action: (ContainerSandbox) -> Unit) { // sandbox is in-place
+  // ============
+  // public
+  // ============
+  fun sandbox(action: (ContainerSandbox) -> Unit) { // sandbox is in-place
     innerSync()
     action(innerSandbox)
   }
 
-  override fun tracker(action: (ItemTracker) -> Unit) { // tracker is copy of original
+  fun tracker(action: (MutableItemTracker) -> Unit) { // tracker is copy of original
     val syncId = innerSandbox.clickCount
     val before = itemTracker
-    val after = itemTracker.also(action)
+    val after = itemTracker.copyAsMutable().also(action)
     if (syncId != innerSandbox.clickCount)
       error("ContainerSandbox out of sync expected $syncId current ${innerSandbox.clickCount}")
-    if (before.counts() != after.counts())
+    if (before.collect() != after.collect())
       error("Unequal before and after item counts")
     trackingItems = after
   }
 
-  override val clicks: List<SandboxClick>
+  val clicks: List<SandboxClick>
     get() {
       innerSync()
-      return innerSandbox.clicks.toList()
+      return innerSandbox.clickNode.toList()
     }
-}
-
-fun ItemTracker.counts() = thrownItems.copy().apply {
-  add(cursor)
-  slots.forEach { add(it) }
-}
-
-private interface IItemPlanner {
-  fun sandbox(action: ContainerSandbox.() -> Unit)
-  fun tracker(action: ItemTracker.() -> Unit)
-  val clicks: List<SandboxClick>
 }

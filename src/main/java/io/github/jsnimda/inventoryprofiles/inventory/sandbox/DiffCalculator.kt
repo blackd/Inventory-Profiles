@@ -1,11 +1,13 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox
 
+import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.isFull
 
 interface DiffCalculator {
   fun apply(sandbox: ContainerSandbox, goal: ItemTracker)
-  fun calc(init: ItemTracker, goal: ItemTracker) = ContainerSandbox(init).apply { apply(this, goal) }
+//  fun calc(init: ItemTracker, goal: ItemTracker) = ContainerSandbox(init).apply { apply(this, goal) }
 
   companion object {
     val INSTANCE: DiffCalculator
@@ -21,10 +23,10 @@ class SimpleDiffCalculator : DiffCalculator {
   private class Instance(val sandbox: ContainerSandbox, val goal: ItemTracker) {
     val now
       get() = sandbox.items
-    val toBeThrown = goal.thrownItems - now.thrownItems
+    val toBeThrown = (goal.thrownItems - now.thrownItems).copyAsMutable()
 
     fun checkPossible() {
-      if (now.counts() != goal.counts())
+      if (now.collect() != goal.collect())
         error("Unequal sandbox and goal item counts")
       if (!goal.thrownItems.containsAll(now.thrownItems))
         error("Impossible. Thrown items cannot be reverted")
@@ -47,7 +49,7 @@ class SimpleDiffCalculator : DiffCalculator {
         sandbox.leftClickOutside()
       }
       toBeThrown.contains(now.cursor.itemType) -> {
-        val throwCount = toBeThrown.getCount(now.cursor.itemType)
+        val throwCount = toBeThrown.count(now.cursor.itemType)
         toBeThrown.remove(now.cursor)
         repeat(throwCount) { sandbox.rightClickOutside() }
       }

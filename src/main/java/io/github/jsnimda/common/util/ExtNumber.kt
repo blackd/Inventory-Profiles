@@ -5,6 +5,9 @@ package io.github.jsnimda.common.util
 infix fun Int.mod(other: Int) = Math.floorMod(this, other)
 infix fun Long.mod(other: Long) = Math.floorMod(this, other)
 
+fun Int.divCeil(other: Int) = (this + other - 1) / other
+fun Long.divCeil(other: Long) = (this + other - 1) / other
+
 // as kotlin or/and is really misleading in bitwise flags operation
 inline infix fun Int.`|`(other: Int) = this.or(other)
 inline infix fun Int.lor(other: Int) = this.or(other)

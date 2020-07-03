@@ -1,10 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.inventory.action
 
-import io.github.jsnimda.inventoryprofiles.inventory.sandbox.copy
-import io.github.jsnimda.inventoryprofiles.item.EMPTY
-import io.github.jsnimda.inventoryprofiles.item.ItemStack
-import io.github.jsnimda.inventoryprofiles.item.ItemType
-import io.github.jsnimda.inventoryprofiles.item.isEmpty
+import io.github.jsnimda.inventoryprofiles.item.*
 
 object PostActions {
 
@@ -28,7 +24,7 @@ object PostActions {
       GroupInColumnsCalculator(slotCountPairList, width, height).calc()
     } ?: return slots
 
-    val ans = MutableList(width * height) { ItemStack.EMPTY }
+    val ans = MutableList(width * height) { MutableItemStack.empty() }
     calcResult.forEach { (itemType, slotIndices) ->
       val sortedIndices = slotIndices.sorted()
       groups.getValue(itemType).forEachIndexed { index, (newItemType, newCount) ->
@@ -40,13 +36,13 @@ object PostActions {
     return ans
   }
 
-  fun distribute(slots: List<ItemStack>) = slots.copy().apply {
-    group().forEach { (_, slots) ->
-      distributeMonontonic(slots.sumBy { it.count }, slots.size).forEachIndexed { index, count ->
-        slots[index].count = count
-      }
-    }
-  }
+//  fun distribute(slots: List<ItemStack>) = slots.cop().apply {
+//    group().forEach { (_, slots) ->
+//      distributeMonontonic(slots.sumBy { it.count }, slots.size).forEachIndexed { index, count ->
+//        slots[index].count = count
+//      }
+//    }
+//  }
 
 }
 
@@ -193,13 +189,4 @@ private fun Collection<Pair<Int, Int>>.connected(): Boolean { // not disconnecte
   }
   return active.isEmpty()
 }
-
-// return list of size [listSize], with sum equal to [sum]
-// (9, 6) -> [1, 2, 1, 2, 1, 2]
-private fun distribute(sum: Int, listSize: Int): List<Int> =
-  (0..listSize).map { sum * it / listSize }.zipWithNext { a, b -> b - a }
-
-// (9, 6) -> [2, 2, 2, 1, 1, 1]
-private fun distributeMonontonic(sum: Int, listSize: Int): List<Int> =
-  List(sum % listSize) { sum / listSize + 1 } + List(listSize - sum % listSize) { sum / listSize }
 

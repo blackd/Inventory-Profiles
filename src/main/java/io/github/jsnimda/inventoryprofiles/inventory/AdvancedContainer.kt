@@ -6,14 +6,14 @@ import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.ingame.`(id)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(mutableItemStack)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
 import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
-import io.github.jsnimda.inventoryprofiles.inventory.action.SubTracker
-import io.github.jsnimda.inventoryprofiles.inventory.action.subTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.SubTracker
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ItemPlanner
-import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ItemTracker
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.stackableWith
@@ -25,9 +25,9 @@ class AdvancedContainer(
 
   val vanillaSlots
     get() = vanillaContainer.`(slots)`
-  val planner = ItemPlanner(ItemTracker(
-    cursor.copy(),
-    vanillaSlots.map { it.`(itemStack)` }
+  val planner = ItemPlanner(MutableItemTracker(
+    cursor.copyAsMutable(),
+    vanillaSlots.map { it.`(mutableItemStack)` }
   ))
 
   private val cachedAreaMap = mutableMapOf<AreaType, ItemArea>()
@@ -40,7 +40,13 @@ class AdvancedContainer(
   fun ItemTracker.subTracker(itemArea: ItemArea) =
     subTracker(itemArea.slotIndices)
 
+  fun MutableItemTracker.subTracker(itemArea: ItemArea) =
+    subTracker(itemArea.slotIndices)
+
   fun ItemTracker.joinedSubTracker(vararg itemAreas: ItemArea) =
+    itemAreas.fold(subTracker(listOf())) { acc, itemArea -> acc + subTracker(itemArea) }
+
+  fun MutableItemTracker.joinedSubTracker(vararg itemAreas: ItemArea) =
     itemAreas.fold(subTracker(listOf())) { acc, itemArea -> acc + subTracker(itemArea) }
 
   // ============
@@ -49,7 +55,13 @@ class AdvancedContainer(
   fun ItemTracker.subTracker(areaType: AreaType) =
     subTracker(getItemArea(areaType).slotIndices)
 
+  fun MutableItemTracker.subTracker(areaType: AreaType) =
+    subTracker(getItemArea(areaType).slotIndices)
+
   fun ItemTracker.joinedSubTracker(vararg areaTypes: AreaType) =
+    areaTypes.fold(subTracker(listOf())) { acc, areaType -> acc + subTracker(areaType) }
+
+  fun MutableItemTracker.joinedSubTracker(vararg areaTypes: AreaType) =
     areaTypes.fold(subTracker(listOf())) { acc, areaType -> acc + subTracker(areaType) }
 
   private val slotIdClicks: List<Pair<Int, Int>>
@@ -76,7 +88,7 @@ class AdvancedContainer(
     fun arrange(
       instant: Boolean = false,
       cleanCursor: Boolean = true,
-      action: AdvancedContainer.(tracker: ItemTracker) -> Unit
+      action: AdvancedContainer.(tracker: MutableItemTracker) -> Unit
     ) {
       if (!VanillaUtil.inGame()) return
       create().apply {

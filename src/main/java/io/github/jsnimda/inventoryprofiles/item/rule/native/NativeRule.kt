@@ -148,7 +148,6 @@ inline fun <T> compareByMatchSeparate(
 // ============
 // other native rules
 // ============
-// todo
 class ByNbtRule : NativeRule() {
   val dummyStringRule = StringBasedRule()
   val dummyNumberRule = NumberBasedRule()

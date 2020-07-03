@@ -55,6 +55,15 @@ inline fun Boolean.ifFalse(block: () -> Unit) = also { if (!this) block() }
 fun <T> Iterable<T>.containsAny(collection: Iterable<T>): Boolean =
   collection.any { this.contains(it) }
 
+fun <T> List<T>.indexed(): List<IndexedValue<T>> =
+  mapIndexed { index, value -> IndexedValue(index, value) }
+
+//fun <T : Any> List<T?>.indexedUnlessNull(): List<IndexedValue<T>?> =
+//  mapIndexed { index, value -> value?.let { IndexedValue(index, value) } }
+//
+//fun <T : Any> List<T?>.indexedNotNull(): List<IndexedValue<T>> =
+//  mapIndexedNotNull { index, value -> value?.let { IndexedValue(index, value) } }
+
 // ============
 // Bulk Comparisons
 // ============
