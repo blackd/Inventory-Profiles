@@ -3,16 +3,17 @@ package io.github.jsnimda.inventoryprofiles.event
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
+import io.github.jsnimda.common.vanilla.alias.Items
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
+import io.github.jsnimda.inventoryprofiles.config.ThresholdUnit
+import io.github.jsnimda.inventoryprofiles.config.ThresholdUnit.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
 import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
 import io.github.jsnimda.inventoryprofiles.ingame.vMainhandIndex
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
-import io.github.jsnimda.inventoryprofiles.item.EMPTY
-import io.github.jsnimda.inventoryprofiles.item.ItemStack
-import io.github.jsnimda.inventoryprofiles.item.isEmpty
+import io.github.jsnimda.inventoryprofiles.item.*
 
 object AutoRefillHandler {
   var screenOpening = false
@@ -142,14 +143,41 @@ object AutoRefillHandler {
     private fun shouldHandleItem(): Boolean {
       if (storedItem.isEmpty()) return false // nothing become anything
       if (currentItem.isEmpty()) return true // something become nothing
+      val itemType = currentItem.itemType
+      if (itemType.isDamageable) {
+        if (ModSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
+          val threshold = when(ModSettings.THRESHOLD_UNIT.value) {
+            ABSOLUTE -> ModSettings.TOOL_DAMAGE_THRESHOLD.integerValue
+            PERCENTAGE -> ModSettings.TOOL_DAMAGE_THRESHOLD.integerValue * itemType.maxDamage / 100
+          }.coerceAtLeast(0)
+          if (itemType.durability <= threshold) return true
+        }
+      }
+      if (storedItem.itemType.isBucket) return false
       // todo potion -> bottle, soup -> bowl etc
+      if (storedItem.itemType.item == Items.POTION
+        && currentItem.itemType.item == Items.GLASS_BOTTLE) return true
+      if (storedItem.itemType.isStew
+        && currentItem.itemType.item == Items.BOWL) return true
+      // todo any else?
+
       return false
     }
 
     private fun findCorrespondingSlot(): Int? { // for stored item
       // found slot id 9..35 (same inv)
       val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
-      val index = items.indexOfFirst { it.itemType.item == storedItem.itemType.item } // test // todo
+      var index = -1
+      if (storedItem.itemType.isDamageable) {
+        // find best tool match criteria
+      } else if(storedItem.itemType.hasPotionEffects) {
+        // find best potion match
+      } else {
+        // find item
+
+
+      }
+      index = items.indexOfFirst { it.itemType.item == storedItem.itemType.item } // test // todo
       return index.takeUnless { it == -1 }?.plus(9)
     }
   }

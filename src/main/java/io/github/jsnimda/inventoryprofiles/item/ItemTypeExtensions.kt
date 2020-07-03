@@ -1,9 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.item
 
 import io.github.jsnimda.common.vanilla.alias.*
+import io.github.jsnimda.common.vanilla.alias.Item
+import io.github.jsnimda.common.vanilla.alias.Items
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.item.ItemGroup
+import net.minecraft.item.*
 import net.minecraft.potion.PotionUtil
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
@@ -67,6 +69,17 @@ val ItemType.enchantmentsScore: Double
     acc + if (enchantment.isCursed) -0.001 else level.toDouble() / enchantment.maximumLevel
   } // cursed enchantments +0 scores
 
+val ItemType.isDamageable: Boolean
+  get() = vanillaStack.isDamageable
+val ItemType.maxDamage: Int
+  get() = vanillaStack.maxDamage
+val ItemType.durability: Int
+  get() = maxDamage - damage
+
+val ItemType.isBucket: Boolean
+  get() = item is BucketItem || item is MilkBucketItem || item is FishBucketItem
+val ItemType.isStew: Boolean
+  get() = item is MushroomStewItem || item is SuspiciousStewItem
 //endregion
 
 //region ItemType Potion Relative

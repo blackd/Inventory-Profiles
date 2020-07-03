@@ -39,6 +39,9 @@ class DebugScreen : BaseDebugScreen() {
               ::potionName,
               ::potionEffects,
               ::comparablePotionEffects,
+              ::isDamageable,
+              ::maxDamage,
+              ::durability,
             ).joinToString("\n") { "${it.name}: ${it.get()}" }
           }
         return listOf(a, c, d).joinToString("\n").split("\n")
