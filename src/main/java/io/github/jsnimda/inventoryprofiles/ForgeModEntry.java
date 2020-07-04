@@ -15,9 +15,9 @@ import net.minecraftforge.fml.common.Mod;
  * InventoryProfiles
  */
 @Mod(ModInfo.MOD_ID)
-public class InventoryProfiles {
+public class ForgeModEntry {
 
-  public InventoryProfiles() {
+  public ForgeModEntry() {
 
     MinecraftForge.EVENT_BUS.register(new CommonForgeEventHandler());
 
@@ -27,9 +27,11 @@ public class InventoryProfiles {
       return (x,y)->new ConfigScreen();
     });
 
-    GlobalInputHandler.getInstance().registerInputHandler(new InputHandler());
+//    GlobalInputHandler.getInstance().registerInputHandler(new InputHandler());
+//
+//    Configs.saveLoadManager.load();
 
-    Configs.saveLoadManager.load();
+    InventoryProfilesKt.init();
 
   }
 
