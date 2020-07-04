@@ -16,7 +16,7 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-      "io.github.jsnimda.inventoryprofiles.InventoryProfiles"
+      "io.github.jsnimda.inventoryprofiles.InventoryProfilesKt::init"
     ],
     "modmenu": [
       "io.github.jsnimda.inventoryprofiles.compat.ModMenuApiImpl"

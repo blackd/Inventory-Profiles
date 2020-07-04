@@ -1,0 +1,230 @@
+package io.github.jsnimda.inventoryprofiles.gui.inject
+
+import io.github.jsnimda.common.gui.Tooltips
+import io.github.jsnimda.common.gui.widget.Overflow
+import io.github.jsnimda.common.gui.widget.setBottomRight
+import io.github.jsnimda.common.gui.widget.setTopRight
+import io.github.jsnimda.common.gui.widgets.ButtonWidget
+import io.github.jsnimda.common.gui.widgets.Widget
+import io.github.jsnimda.common.math2d.Point
+import io.github.jsnimda.common.math2d.Size
+import io.github.jsnimda.common.util.containsAny
+import io.github.jsnimda.common.util.detectable
+import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.I18n
+import io.github.jsnimda.common.vanilla.alias.Identifier
+import io.github.jsnimda.common.vanilla.render.*
+import io.github.jsnimda.inventoryprofiles.config.ContinuousCraftingCheckboxValue.*
+import io.github.jsnimda.inventoryprofiles.config.Debugs
+import io.github.jsnimda.inventoryprofiles.config.GuiSettings
+import io.github.jsnimda.inventoryprofiles.config.SaveLoadManager
+import io.github.jsnimda.inventoryprofiles.ingame.`(containerBounds)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(isInventoryTab)`
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
+import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
+import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
+import net.minecraft.client.gui.screen.ingame.ContainerScreen
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen
+
+class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
+  val TEXTURE = Identifier("inventoryprofiles", "textures/gui/gui_buttons.png")
+  override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {} // do nothing
+
+  // try to render this as late as possible (but need to before tooltips render)
+  fun postRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    rStandardGlState()
+    rClearDepth()
+    absoluteBounds = screen.`(containerBounds)`
+    init()
+    super.render(mouseX, mouseY, partialTicks)
+    if (Debugs.DEBUG_RENDER.booleanValue) {
+      rDrawOutline(absoluteBounds.inflated(1), 0xffff00.opaque)
+    }
+    Tooltips.renderAll()
+  }
+
+  var initialized = false
+  fun init() {
+    if (initialized) return
+    initialized = true
+    InitWidgets()
+  }
+
+  init {
+    overflow = Overflow.VISIBLE
+  }
+
+  inner class InitWidgets { // todo cleanup code
+    val container = Vanilla.container()
+    val types = ContainerTypes.getTypes(container)
+
+    val dummyRenderUpdater = object : Widget() { // update buttons in CreativeInventoryScreen
+      init {
+        this@SortingButtonContainer.addChild(this)
+      }
+
+      val buttons by lazy(LazyThreadSafetyMode.NONE) { listOf(sortButton, sortInColumnButton, sortInRowButton) }
+      val originalVisibles by lazy(LazyThreadSafetyMode.NONE) { buttons.map { it.visible } }
+      override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+        if (screen !is CreativeInventoryScreen) return
+        val visible = screen.`(isInventoryTab)`
+        buttons.forEachIndexed { index, button ->
+          button.visible = originalVisibles[index] && visible
+        }
+      }
+    }
+
+    val addChestSide = types.contains(SORTABLE_STORAGE)
+    val addNonChestSide = types.contains(PURE_BACKPACK)
+    val shouldAdd = addChestSide || addNonChestSide
+    private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort() }.apply {
+      tx = 10
+      this@SortingButtonContainer.addChild(this)
+      visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
+      tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_button")
+    }
+    private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns() }.apply {
+      tx = 20
+      this@SortingButtonContainer.addChild(this)
+      visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
+      tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
+    }
+    private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows() }.apply {
+      tx = 30
+      this@SortingButtonContainer.addChild(this)
+      visible = GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.booleanValue && shouldAdd
+      tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
+    }
+    val moveAllVisible = GuiSettings.SHOW_MOVE_ALL_BUTTON.booleanValue &&
+        types.containsAny(setOf(SORTABLE_STORAGE, NO_SORTING_STORAGE, CRAFTING))
+    private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(false) }.apply {
+      tx = 50
+      this@SortingButtonContainer.addChild(this)
+      visible = moveAllVisible
+      tooltipText = I18n.translate("inventoryprofiles.tooltip.move_all_button")
+    }
+    private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(true) }.apply {
+      tx = 60
+      this@SortingButtonContainer.addChild(this)
+      visible = moveAllVisible && !types.contains(CRAFTING)
+      tooltipText = I18n.translate("inventoryprofiles.tooltip.move_all_button")
+    }
+
+    // ============
+    // continuous crafting
+    // ============
+    fun updateConfigValue(newValue: Boolean) {
+      GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.value = newValue
+      SaveLoadManager.save() // todo save when onClose instead of every time check box value change
+    }
+
+    var continuousCraftingValue
+        by detectable(GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue) { _, newValue ->
+          updateConfigValue(newValue)
+        }
+
+    init {
+      continuousCraftingValue = when (GuiSettings.CONTINUOUS_CRAFTING_CHECKBOX_VALUE.value) {
+        REMEMBER -> GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
+        CHECKED -> true
+        UNCHECKED -> false
+      }
+    }
+
+    private val continuousCraftingCheckbox = SortButtonWidget { -> switchContinuousCraftingValue() }.apply {
+//      tx = 70 or 80
+      tx = if (continuousCraftingValue) 80 else 70
+      this@SortingButtonContainer.addChild(this)
+      visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue && types.contains(CRAFTING)
+      tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox")
+    }
+
+    fun switchContinuousCraftingValue() {
+      continuousCraftingValue = !continuousCraftingValue
+      continuousCraftingCheckbox.tx = if (continuousCraftingValue) 80 else 70
+    }
+
+    init {
+      // right = 7, each + 12
+      val bottom = 85
+      val top = 5
+      var right = 7
+      if (types.contains(CREATIVE)) {
+        right += 18
+      }
+      // move all location
+      if (moveAllVisible) {
+        val isPlayer = types.contains(PLAYER)
+        moveAllToContainer.setBottomRight(bottom + if (isPlayer) 12 else 0, right)
+        if (moveAllToPlayer.visible) {
+          moveAllToPlayer.setTopRight(top, right)
+        }
+        if (!isPlayer) { // player _| shape
+          right += 12
+        }
+      }
+      // sort buttons location
+      listOf(sortInRowButton, sortInColumnButton, sortButton).forEach { button ->
+        with(button) {
+          if (visible) {
+            if (addChestSide) {
+              this.setTopRight(top, right)
+            } else {
+              this.setBottomRight(bottom, right)
+            }
+            right += 12
+          }
+        }
+      }
+      // checkbox location
+      if (types.contains(PLAYER)) {
+        continuousCraftingCheckbox.setBottomRight(113, 31)
+      } else {
+        continuousCraftingCheckbox.setBottomRight(96, 81)
+      }
+    }
+  }
+
+  open inner class SortButtonWidget : TexturedButtonWidget {
+    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
+    constructor(clickEvent: () -> Unit) : super(clickEvent)
+    constructor() : super()
+
+    var tx = 0
+    var ty = 0
+    var tooltipText: String = ""
+    override val texture: Identifier
+      get() = TEXTURE
+    override val texturePt: Point
+      get() = Point(tx, ty)
+    override val hoveringTexturePt: Point
+      get() = Point(tx, ty + 10)
+
+    override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+      super.render(mouseX, mouseY, partialTicks)
+      if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX, mouseY) && tooltipText.isNotEmpty()) {
+        Tooltips.addTooltip(tooltipText, mouseX, mouseY)
+      }
+    }
+
+    init {
+      size = Size(10, 10)
+    }
+  }
+
+  abstract class TexturedButtonWidget : ButtonWidget {
+    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
+    constructor(clickEvent: () -> Unit) : super(clickEvent)
+    constructor() : super()
+
+    abstract val texture: Identifier
+    abstract val texturePt: Point
+    abstract val hoveringTexturePt: Point
+
+    override fun renderButton(hovered: Boolean) {
+      val textureLocation = if (hovered) hoveringTexturePt else texturePt
+      rBindTexture(texture)
+      rBlit(screenLocation, textureLocation, size)
+    }
+  }
+}
