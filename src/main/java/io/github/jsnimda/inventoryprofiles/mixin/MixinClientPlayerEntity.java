@@ -31,7 +31,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
 
   @Inject(at = @At("HEAD"), method = "closeHandledScreen()V")
   public void closeContainer(CallbackInfo info) {
-    // if (Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM.getBooleanValue()) {
+    // if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()) {
     //   SorterEventPort.handleCloseContainer(this.client);
     // }
     // TODO remove this class, code moved to MixinGuiCloseC2SPacket

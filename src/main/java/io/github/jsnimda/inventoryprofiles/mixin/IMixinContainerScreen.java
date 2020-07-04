@@ -11,4 +11,16 @@ public interface IMixinContainerScreen {
   @Accessor("focusedSlot")
   Slot getFocusedSlot();
 
+  @Accessor("x")
+  int getContainerX();
+
+  @Accessor("y")
+  int getContainerY();
+
+  @Accessor("backgroundWidth")
+  int getContainerWidth();
+
+  @Accessor("backgroundHeight")
+  int getContainerHeight();
+
 }
