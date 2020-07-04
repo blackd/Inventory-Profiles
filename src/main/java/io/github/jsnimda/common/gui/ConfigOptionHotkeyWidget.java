@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import io.github.jsnimda.common.input.IKeybind;
 import org.lwjgl.glfw.GLFW;
 
 import io.github.jsnimda.common.config.options.ConfigHotkey;
 import io.github.jsnimda.common.input.GlobalInputHandler;
-import io.github.jsnimda.common.input.Keybind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.widget.button.Button;
@@ -19,13 +19,13 @@ import net.minecraft.util.ResourceLocation;
 public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotkey> {
 
   private Button setKeyButton = new Button(10, 10, 200, 20, "", x -> {
-    GlobalInputHandler.getInstance().setCurrentSettingKeybind(configOption.getMainKeybind());
+    GlobalInputHandler.INSTANCE.setCurrentAssigningKeybind(configOption.getMainKeybind());
   });
 
   private static ResourceLocation WIDGETS_TEXTURE = new ResourceLocation("inventoryprofiles", "textures/gui/widgets.png");
 
-  public boolean isInConfigHotkeyOverlay = false;
-  public Keybind targetKeybind;
+  public boolean  isInConfigHotkeyOverlay = false;
+  public IKeybind targetKeybind;
 
   protected ConfigOptionHotkeyWidget(ConfigHotkey configOption) {
     super(configOption);
@@ -56,7 +56,7 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
     setKeyButton.y = y;
     setKeyButton.setWidth(availableWidth - 20 - 2);
     String displayText = targetKeybind.getDisplayText();
-    setKeyButton.setMessage(GlobalInputHandler.getInstance().getCurrentSettingKeybind() == targetKeybind
+    setKeyButton.setMessage(GlobalInputHandler.INSTANCE.getCurrentAssigningKeybind() == targetKeybind
       ? ("> \u00a7e" + displayText + "\u00a7r <") : displayText);
     setKeyButton.render(mouseX, mouseY, partialTicks);
 
@@ -115,5 +115,5 @@ public class ConfigOptionHotkeyWidget extends ConfigOptionWidgetBase<ConfigHotke
     return Arrays.asList(resetButton, setKeyButton);
   }
 
-  
+
 }

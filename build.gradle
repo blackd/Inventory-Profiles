@@ -171,3 +171,14 @@ publishing {
         }
     }
 }
+
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
+compileKotlin {
+  kotlinOptions {
+    freeCompilerArgs = ['-Xjvm-default=compatibility']
+  }
+}
+sourceSets {
+    main.java.srcDirs += 'src'
+    main.kotlin.srcDirs += 'src'
+}

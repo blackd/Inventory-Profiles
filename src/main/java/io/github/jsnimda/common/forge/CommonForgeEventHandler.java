@@ -10,18 +10,18 @@ public class CommonForgeEventHandler {
   // Keyboard <-> KeyboardListener , onKey <-> onKeyEvent // ref: malilib forge 1.14.4 ForgeInputEventHandler
   @SubscribeEvent
   public void onKeyboardInput(InputEvent.KeyInputEvent event) {
-    GlobalInputHandler.getInstance().onKey(event.getKey(), event.getScanCode(), event.getAction(), event.getModifiers());
+    GlobalInputHandler.INSTANCE.onKey(event.getKey(), event.getScanCode(), event.getAction(), event.getModifiers());
   }
 
   @SubscribeEvent
   public void onMouseInputEvent(InputEvent.MouseInputEvent event) {
-    GlobalInputHandler.getInstance().onMouseButton(event.getButton(), event.getAction(), event.getMods());
-  }
+    GlobalInputHandler.INSTANCE.onMouseButton(event.getButton(), event.getAction(), event.getMods());
+  } // fixme occasionally throw npe on Vanilla.mc() (idk why, build/class loading related?)
 
   @SubscribeEvent
   public void onWorldLoad(WorldEvent.Load event) {
     // clear keybind (pressing keys)
-    GlobalInputHandler.getInstance().pressingKeys.clear();
+    GlobalInputHandler.INSTANCE.getPressedKeys().clear();
   }
 
 }

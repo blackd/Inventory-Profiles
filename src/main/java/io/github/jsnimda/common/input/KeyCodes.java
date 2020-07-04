@@ -158,15 +158,15 @@ public class KeyCodes {
   }
 
   public static String getKeyName(int key) {
-    return KEY_TO_NAME_MAP.containsKey(key) ? KEY_TO_NAME_MAP.get(key) : "keycode " + key;
+    return KEY_TO_NAME_MAP.getOrDefault(key, "keycode " + key);
   }
 
   public static int getKeyFromName(String name) {
-    return NAME_TO_KEY_MAP.containsKey(name) ? NAME_TO_KEY_MAP.get(name) : -1;
+    return NAME_TO_KEY_MAP.getOrDefault(name, -1);
   }
 
   public static String getFriendlyName(String name) {
-    return NAME_TO_DISPLAY_TEXT_MAP.containsKey(name) ? NAME_TO_DISPLAY_TEXT_MAP.get(name) : name;
+    return NAME_TO_DISPLAY_TEXT_MAP.getOrDefault(name, name);
   }
 
   public static String getFriendlyName(int key) {

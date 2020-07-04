@@ -3,9 +3,9 @@ package io.github.jsnimda.inventoryprofiles.gui.inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.jsnimda.common.gui.Tooltips;
 import io.github.jsnimda.inventoryprofiles.ModInfo;
 import io.github.jsnimda.inventoryprofiles.config.Configs.GuiSettings;
-import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort;
 import io.github.jsnimda.inventoryprofiles.sorter.VirtualSorterPort.GroupingType;
 import io.github.jsnimda.inventoryprofiles.sorter.predefined.SortingMethodProviders;
@@ -39,7 +39,7 @@ public class GuiSortingButtons {
   private int top;
   private int containerWidth;
   private int containerHeight;
-  
+
   public GuiSortingButtons(Screen screen, Container container, int left, int top, int containerWidth,
       int containerHeight) {
     this.screen = screen;
@@ -114,7 +114,7 @@ public class GuiSortingButtons {
         x0 -= 12;
       }
     }
-    
+
     return list;
   }
 
@@ -145,7 +145,7 @@ public class GuiSortingButtons {
   }
 
   private SortButtonWidget moveAllButton(boolean chestSide, int buttonX) {
-    return new SortButtonWidget(buttonX, chestSide ? chest_y : player_y - (cate == ContainerCategory.PLAYER_SURVIVAL ? 12 : 0), 
+    return new SortButtonWidget(buttonX, chestSide ? chest_y : player_y - (cate == ContainerCategory.PLAYER_SURVIVAL ? 12 : 0),
     chestSide ? 6 : 5, 0, x->{
       ContainerActions.moveAllAlike(chestSide, Screen.hasShiftDown());
     }, "inventoryprofiles.tooltip.move_all_button");
@@ -194,18 +194,18 @@ public class GuiSortingButtons {
       if (isRecipeBookOpen() && !isNarrow) {
         this.x = this.originalX + 177 - 200 / 2; // from RecipeBookWidget.findLeftEdge
       }
-      
+
       super.renderButton(int_1, int_2, float_1);
       this.renderToolTip(int_1, int_2);
     }
-    
+
     @Override
     public void renderToolTip(int x, int y) {
       if (GuiSettings.SHOW_BUTTON_TOOLTIPS.getBooleanValue() && this.isHovered() && !tooltipText.isEmpty())
-        ToolTips.add(I18n.format(tooltipText), x, y);
+        Tooltips.getInstance().addTooltip(I18n.format(tooltipText), x, y);
     }
 
   }
 
-  
+
 }

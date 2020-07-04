@@ -10,7 +10,7 @@ fun init() {
   // ProfilesConfigHandler.init();
 
   // Keybind register
-  GlobalInputHandler.getInstance().registerInputHandler(InputHandler())
+  GlobalInputHandler.registerInputHandler(InputHandler())
 
   Configs.saveLoadManager.load()
 

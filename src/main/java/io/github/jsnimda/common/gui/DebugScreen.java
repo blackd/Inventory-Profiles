@@ -49,7 +49,7 @@ public class DebugScreen extends OverlayScreen {
       s += "\nonMouse: " + Arrays.stream(buttons).mapToObj(String::valueOf).collect(Collectors.joining(", "));
       String name = KeyCodes.getKeyName(key);
       s += String.format("\nKey: %s (%s)", name, KeyCodes.getFriendlyName(name));
-      s += "\nPressing keys: " + GlobalInputHandler.getInstance().pressingKeys.stream().map(x -> KeyCodes.getFriendlyName(x)).collect(Collectors.joining(" + "));
+      s += "\nPressing keys: " + GlobalInputHandler.INSTANCE.getPressedKeys().stream().map(x -> KeyCodes.getFriendlyName(x)).collect(Collectors.joining(" + "));
       return Arrays.asList(s.trim().split("\n"));
     }
   }

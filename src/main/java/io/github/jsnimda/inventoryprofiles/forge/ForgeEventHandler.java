@@ -1,16 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.forge;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
-import org.apache.commons.lang3.reflect.FieldUtils;
-
+import io.github.jsnimda.common.gui.Tooltips;
 import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
-import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
 import io.github.jsnimda.inventoryprofiles.gui.inject.GuiSortingButtons;
-import io.github.jsnimda.inventoryprofiles.sorter.SorterEventPort;
+import io.github.jsnimda.inventoryprofiles.main.InventoryUserActions;
 import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -26,6 +20,10 @@ import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import org.apache.commons.lang3.reflect.FieldUtils;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * ForgeEventHandler
@@ -38,9 +36,15 @@ public class ForgeEventHandler {
 
   @SubscribeEvent
   public void onDrawScreenPost(DrawScreenEvent.Post e) { // MixinAbstractContainerScreen.render
-    if (!ToolTips.current.isEmpty()) {
+//    if (!ToolTips.current.isEmpty()) {
+//      GlStateManager.pushMatrix();
+//      ToolTips.renderAll();
+//      GlStateManager.disableLighting();
+//      GlStateManager.popMatrix();
+//    }
+    if (!Tooltips.getInstance().tooltips.isEmpty()) {
       GlStateManager.pushMatrix();
-      ToolTips.renderAll();
+      Tooltips.getInstance().renderAll();
       GlStateManager.disableLighting();
       GlStateManager.popMatrix();
     }
@@ -67,7 +71,7 @@ public class ForgeEventHandler {
     InputMappings.Input mouseKey = InputMappings.getInputByCode(e.getKeyCode(), e.getScanCode());
     if (Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM.getBooleanValue()
         && (e.getKeyCode() == 256 || Current.MC().gameSettings.keyBindInventory.isActiveAndMatches(mouseKey))) {
-      SorterEventPort.handleCloseContainer();
+      InventoryUserActions.INSTANCE.handleCloseContainer();
     }
   }
 
