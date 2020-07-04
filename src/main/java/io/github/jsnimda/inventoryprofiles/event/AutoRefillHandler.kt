@@ -243,6 +243,8 @@ object AutoRefillHandler {
           val aType = a.value.itemType
           val bType = b.value.itemType
           RuleFileRegister.getCustomRuleOrEmpty("auto_refill_best").compare(aType, bType)
+        }.thenComparator{ a, b ->
+          b.value.count - a.value.count
         })
         index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
         return index.takeUnless { it < 0 }?.plus(9)
