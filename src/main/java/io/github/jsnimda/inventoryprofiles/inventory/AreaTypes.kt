@@ -74,6 +74,12 @@ object AreaTypes {
   val playerHotbarAndOffhand = AreaType.player(hotbarInvSlots + offhandInvSlot)
   val playerStorageAndHotbarAndOffhand = AreaType.player(storageInvSlots + hotbarInvSlots + offhandInvSlot)
 
+  val craftingIngredient = AreaType.match {
+    it.`(inventory)` is CraftingInventory
+        && it.`(inventory)` !is CraftingResultInventory
+        && it !is CraftingResultSlot
+        && it !is TradeOutputSlot
+  }
 }
 
 class AreaType() {

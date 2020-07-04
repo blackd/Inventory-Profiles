@@ -18,10 +18,7 @@ import io.github.jsnimda.inventoryprofiles.event.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer.Companion.cleanCursor
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
-import io.github.jsnimda.inventoryprofiles.inventory.action.moveAllTo
-import io.github.jsnimda.inventoryprofiles.inventory.action.moveMatchTo
-import io.github.jsnimda.inventoryprofiles.inventory.action.restockFrom
-import io.github.jsnimda.inventoryprofiles.inventory.action.sort
+import io.github.jsnimda.inventoryprofiles.inventory.action.*
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.toNamespacedString
@@ -70,6 +67,10 @@ object GeneralInventoryActions {
   fun doMoveMatch(toPlayer: Boolean) { // true container to player or false player to container
     val types = ContainerTypes.getTypes(Vanilla.container())
     if (types.contains(CREATIVE)) return // no do creative menu
+    if (types.contains(CRAFTING)) {
+      doMoveMatchCrafting()
+      return
+    }
     val includeHotbar = VanillaUtil.altDown()
     val moveAll = VanillaUtil.shiftDown()
     AdvancedContainer.arrange { tracker ->
@@ -83,6 +84,18 @@ object GeneralInventoryActions {
       } else {
         source.moveMatchTo(destination)
       }
+    }
+  }
+
+  fun doMoveMatchCrafting() {
+    val includeHotbar = VanillaUtil.altDown()
+    AdvancedContainer.arrange { tracker ->
+      val player =
+        getItemArea(if (includeHotbar) AreaTypes.playerStorageAndHotbarAndOffhand else AreaTypes.playerStorage)
+      val target = getItemArea(AreaTypes.craftingIngredient)
+      val source = tracker.subTracker(player)
+      val destination = tracker.subTracker(target) // source -> destination
+      source.moveMatchCraftingTo(destination)
     }
   }
 

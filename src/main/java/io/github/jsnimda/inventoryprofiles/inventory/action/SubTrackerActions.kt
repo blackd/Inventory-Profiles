@@ -33,6 +33,14 @@ fun MutableSubTracker.moveMatchTo(another: MutableSubTracker) {
   slots.forEach { if (itemTypes.contains(it.itemType)) it.moveTo(anotherSlots) }
 }
 
+fun MutableSubTracker.moveMatchCraftingTo(crafting: MutableSubTracker) {
+  val mainTracker = crafting.mainTracker
+  val nonEmptyIndices = crafting.indexedSlots.filterNot { it.value.isEmpty() }.map { it.index }
+  val nonEmptyTracker = mainTracker.subTracker(nonEmptyIndices)
+  moveMatchTo(nonEmptyTracker)
+  nonEmptyTracker.slots.distributeMonotonic().writeTo(nonEmptyTracker.slots)
+}
+
 // ============
 // Complex SubTracker operations
 // ============

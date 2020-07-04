@@ -100,6 +100,18 @@ fun List<ItemStack>.spreadItemCount(): List<ItemStack> { // random distribute co
   }
 }
 
+fun List<ItemStack>.distribute(): List<ItemStack> {
+  return writeEachItemType { entry ->
+    distribute(entry.itemCount, entry.slotCount)
+  }
+}
+
+fun List<ItemStack>.distributeMonotonic(): List<ItemStack> {
+  return writeEachItemType { entry ->
+    distributeMonotonic(entry.itemCount, entry.slotCount)
+  }
+}
+
 fun List<ItemStack>.fillOne(): List<ItemStack> {
   return writeEachItemType { entry ->
     fillOne(entry.itemCount, entry.itemType.maxCount, entry.slotCount)
