@@ -77,11 +77,14 @@ val potion_name     /**/ by type(::StringBasedRule) { it.potionName }/**/.param(
 val raw_id                    /**/ by type(::NumberBasedRule) { it.rawId }
 val creative_menu_group_index /**/ by type(::NumberBasedRule) { it.groupIndex }
 val damage                    /**/ by type(::NumberBasedRule) { it.damage }
+val max_damage                /**/ by type(::NumberBasedRule) { it.maxDamage }
+val durability                /**/ by type(::NumberBasedRule) { it.durability }
 val enchantments_score        /**/ by type(::NumberBasedRule) { it.enchantmentsScore }.param(number_order, DESCENDING)
 
 // ============
 // Boolean Type Rule
 val has_custom_name           /**/ by type(::BooleanBasedRule) { it.hasCustomName }
+val is_damageable             /**/ by type(::BooleanBasedRule) { it.isDamageable }
 val match_nbt                 /**/ by rule(::MatchNbtRule)
 val is_tag                    /**/ by type(::MatchNbtRule).param(tag_name).param(require_nbt, NOT_REQUIRED)
   .post { andValue { arguments[require_nbt].match(it) && arguments[tag_name].match(it) } }
