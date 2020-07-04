@@ -53,12 +53,14 @@
     "inventoryprofiles.config.description.custom_rule":                 "The rule for custom sorting method",
 
     "inventoryprofiles.config.name.enable_auto_refill":                 "Enable Auto Refill",
+    "inventoryprofiles.config.name.disable_for_drop_item":              "Disable For Drop Item",
     "inventoryprofiles.config.name.refill_armor":                       "Refill Armor",
     "inventoryprofiles.config.name.refill_before_tool_break":           "Refill Before Tool Break",
     "inventoryprofiles.config.name.tool_damage_threshold":              "Tool Damage Threshold",
     "inventoryprofiles.config.name.threshold_unit":                     "Threshold Unit",
     "inventoryprofiles.config.name.auto_refill_wait_tick":              "Auto Refill Wait Tick",
     "inventoryprofiles.config.description.enable_auto_refill":          "Refill the item in your hand when they have ran out",
+    "inventoryprofiles.config.description.disable_for_drop_item":       "Disable Auto Refill for drop item",
     "inventoryprofiles.config.description.refill_armor":                "Refill the item in armor slots when they have broken",
     "inventoryprofiles.config.description.refill_before_tool_break":    "Refill tool/armor before durability is empty (threshold value by \"Tool Damage Threshold\")",
     "inventoryprofiles.config.description.tool_damage_threshold":       "When durability below this value (Absolute or %%), refill the item.",
@@ -69,11 +71,13 @@
     "inventoryprofiles.config.name.interval_between_clicks_ms":         "Interval Between Clicks (ms)",
     "inventoryprofiles.config.name.restock_hotbar":                     "Restock Hotbar",
     "inventoryprofiles.config.name.sort_at_cursor":                     "Sort At Cursor",
+    "inventoryprofiles.config.name.move_all_at_cursor":                 "Move All At Cursor",
     "inventoryprofiles.config.name.stop_at_screen_close":               "Stop At Screen Close",
     "inventoryprofiles.config.description.add_interval_between_clicks": "Adds some interval between clicks while sorting. Amount of interval can be set by \"intervalBetweenClicksMs\". Might be useful on some laggy servers or inventory.fastclick disabled servers. (To bypass some servers, 67 ms is recommended)",
     "inventoryprofiles.config.description.interval_between_clicks_ms":  "Interval between clicks. In milliseconds. (To bypass some servers, 67 ms is recommended)",
     "inventoryprofiles.config.description.restock_hotbar":              "Auto restock your hotbar while sorting",
     "inventoryprofiles.config.description.sort_at_cursor":              "When this is true, using hotkey sorting will sort the slots that curosr is pointing to. Otherwise it will always sort the container.",
+    "inventoryprofiles.config.description.move_all_at_cursor":          "When curosr is pointing container, \"Move All\" hotkey move from container to player. Otherwise it will always move from player to container.",
     "inventoryprofiles.config.description.stop_at_screen_close":        "Stop sorting (when \"Add Interval Between Clicks\" enabled) if inventory screen is closed",
 
     "inventoryprofiles.config.name.debug_logs":                         "Debug Logs",
@@ -156,12 +160,14 @@
     "inventoryprofiles.config.name.sort_inventory_in_columns":      "Sort Inventory In Columns",
     "inventoryprofiles.config.name.sort_inventory_in_rows":         "Sort Inventory In Rows",
     "inventoryprofiles.config.name.move_all_items":                 "Move All Items",
+    "inventoryprofiles.config.name.dump_item_nbt_to_chat":          "Dump Item Nbt To Chat",
 
     "inventoryprofiles.config.description.open_config_menu":            "The key open the in-game config GUI",
     "inventoryprofiles.config.description.sort_inventory":              "The key to sort the inventory",
     "inventoryprofiles.config.description.sort_inventory_in_columns":   "The key to sort the inventory in columns",
     "inventoryprofiles.config.description.sort_inventory_in_rows":      "The key to sort the inventory in rows",
     "inventoryprofiles.config.description.move_all_items":              "The key to move all the itmes that already existed in the container",
+    "inventoryprofiles.config.description.dump_item_nbt_to_chat":       "Prints the item string with nbt to the chat",
 
 
 
@@ -178,8 +184,10 @@
 
     "inventoryprofiles.config.name.prevent_close_gui_drop_item":         "Prevent Close Gui Drop Item",
     "inventoryprofiles.config.name.container_swipe_moving_items":        "Container Swipe Moving Items",
+    "inventoryprofiles.config.name.swipe_move_crafting_result_slot":     "Swipe Move Crafting Result Slot",
     "inventoryprofiles.config.description.prevent_close_gui_drop_item":  "Closing GUI will no longer drop the item that holding by the cursor",
     "inventoryprofiles.config.description.container_swipe_moving_items": "Allows you to move items for the slots under the cursor while holding shift and left click",
+    "inventoryprofiles.config.description.swipe_move_crafting_result_slot": "Enable \"Swipe Moving Items\" in crafting result slot",
 
     "inventoryprofiles.config.name.instant_mining_cooldown":            "Instant Mining Cooldown",
     "inventoryprofiles.config.name.disable_block_breaking_cooldown":    "Disable Block Breaking Cooldown",
