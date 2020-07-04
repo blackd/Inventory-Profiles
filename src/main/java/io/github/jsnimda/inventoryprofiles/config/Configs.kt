@@ -25,11 +25,17 @@ object ModSettings : ConfigDeclaration {
 
     .CATEGORY("$category.auto_refill")
   val ENABLE_AUTO_REFILL                        /**/ by bool(true)
+  val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
   val REFILL_ARMOR                              /**/ by bool(true)
   val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
   val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10, 0, 100)
   val THRESHOLD_UNIT                            /**/ by enum(ThresholdUnit.ABSOLUTE)
   val AUTO_REFILL_WAIT_TICK                     /**/ by int(0, 0, 100)
+
+/* todo
+  auto pick
+  ref: MiningToolItem.getMiningSpeed()
+*/
 
     .CATEGORY("$category.advanced_options")
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
