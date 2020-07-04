@@ -49,15 +49,15 @@ object GameEventHandler {
 
   fun postScreenRender() {
     // partial tick = this.client.getLastFrameDuration()
-//    ContainerScreenHandler.postRender()
+    ContainerScreenHandler.postRender()
   }
 
   fun preRenderTooltip() {
-//    ContainerScreenHandler.preRenderTooltip()
+    ContainerScreenHandler.preRenderTooltip()
   }
 
   fun preScreenRender() {
-//    ContainerScreenHandler.preScreenRender()
+    ContainerScreenHandler.preScreenRender()
   }
 
   // only client should call this

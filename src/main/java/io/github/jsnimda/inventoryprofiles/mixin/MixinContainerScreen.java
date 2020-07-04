@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
 import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.InjectWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.ScreenHandler;
@@ -9,6 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 /**
  * MixinAbstractContainerScreen
@@ -22,7 +25,10 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
 
   @Inject(at = @At("RETURN"), method = "init()V")
   protected void init(CallbackInfo info) {
-    addButton(ContainerScreenHandler.INSTANCE.getContainerInjector((HandledScreen) (Object) this));
+    List<InjectWidget> list = ContainerScreenHandler.INSTANCE.getContainerInjector((HandledScreen) (Object) this);
+    for (InjectWidget iw : list) {
+      addButton(iw);
+    }
   }
 
 //  @Inject(at = @At("RETURN"), method = "render(IIF)V")
