@@ -7,10 +7,14 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
+    dependencies {
+        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
+    }
 }
 
 plugins {
     id "org.jetbrains.kotlin.jvm"
+  id "com.github.johnrengelman.shadow" version "5.2.0"
 }
 
 repositories {
@@ -149,6 +153,13 @@ jar {
         ])
     }
 }
+//jar {
+//  from "LICENSE"
+//}
+
+//remapJar { // fabric thing
+//  archiveName = "${archivesBaseName}-${version}-remapped-dev.jar"
+//}
 
 // Example configuration to allow publishing using the maven-publish task
 // we define a custom artifact that is sourced from the reobfJar output task
@@ -165,6 +176,16 @@ publishing {
             artifact reobfArtifact
         }
     }
+//  publications {
+//    mavenJava(MavenPublication) {
+//      // add all the jars that should be included when publishing to maven
+//      artifact(remapJar) {
+//        builtBy remapJar
+//      }
+////      artifact(sourcesJar) {
+////        builtBy remapSourcesJar
+////      }
+//    }
     repositories {
         maven {
             url "file:///${project.projectDir}/mcmodsrepo"
@@ -176,9 +197,82 @@ compileKotlin.kotlinOptions.jvmTarget = "1.8"
 compileKotlin {
   kotlinOptions {
     freeCompilerArgs = ['-Xjvm-default=compatibility']
+    // includeRuntime = true
+    // noStdlib = false
   }
 }
-sourceSets {
-    main.java.srcDirs += 'src'
-    main.kotlin.srcDirs += 'src'
+//sourceSets {
+//    main.java.srcDirs += 'src'
+//    main.kotlin.srcDirs += 'src'
+//}
+jar {
+    archiveFileName = "inventoryprofiles-forge-${project.minecraft_version}-${project.version}-non-shadow.jar"
 }
+shadowJar {
+  archiveFileName = "inventoryprofiles-forge-${project.minecraft_version}-${project.version}-all.jar"
+  dependencies {
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-common"))
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
+  }
+  relocate 'kotlin', 'io.github.jsnimda.common.embedded.kotlin'
+  exclude '**/*.kotlin_metadata'
+  exclude '**/*.kotlin_module'
+  exclude '**/*.kotlin_builtins'
+}
+
+//task remapShadowJar(type: net.fabricmc.loom.task.RemapJarTask) {
+//  input = shadowJar.archivePath
+//  addNestedDependencies = remapJar.addNestedDependencies
+//  archiveClassifier = "remapped-all"
+//}
+//task remapShadowJar() {
+//
+//
+//}
+task customJar(type: org.gradle.api.tasks.bundling.Jar) { // do nothing (actually it make a 1 KB jar), for reobf  only
+  archiveFileName = "inventoryprofiles-forge-${project.minecraft_version}-${project.version}.jar"
+  doLast {
+    copy {
+      from "build/libs/inventoryprofiles-forge-${project.minecraft_version}-${project.version}-all-proguard.jar"
+      into "build/libs"
+      rename { String fileName ->
+        fileName.replace(
+            "inventoryprofiles-forge-${project.minecraft_version}-${project.version}-all-proguard.jar",
+            "inventoryprofiles-forge-${project.minecraft_version}-${project.version}.jar"
+        )
+      }
+    }
+  }
+}
+reobf {
+    customJar {}
+}
+//tasks.remapShadowJar.dependsOn tasks.shadowJar
+
+task proguard(type: proguard.gradle.ProGuardTask) {
+  configuration 'proguard.txt'
+
+  injars "build/libs/inventoryprofiles-forge-${project.minecraft_version}-${project.version}-all.jar"
+  outjars "build/libs/inventoryprofiles-forge-${project.minecraft_version}-${project.version}-all-proguard.jar"
+
+  doFirst {
+      libraryjars configurations.findByName('runtimeClasspath').getFiles()
+  }
+}
+
+
+//tasks.shadowJar.mustRunAfter tasks.compileKotlin
+
+tasks.proguard.dependsOn tasks.shadowJar
+tasks.customJar.dependsOn tasks.proguard
+tasks.build.dependsOn tasks.customJar
+//tasks.proguard.dependsOn tasks.shadowJar
+//tasks.remapShadowJar.dependsOn tasks.proguard
+//tasks.build.dependsOn tasks.remapShadowJar
+
+//tasks.proguard.dependsOn tasks.remapShadowJar
+//tasks.build.dependsOn tasks.proguard
+
+// https://forums.minecraftforge.net/topic/62995-shadowing-dependencies/
+//https://github.com/Choonster-Minecraft-Mods/TestMod3/blob/97c54505d9b62ea8b3a19c37d9ceb55f209eb2b1/build.gradle#L55-L69

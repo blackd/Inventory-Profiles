@@ -1,18 +1,18 @@
 package io.github.jsnimda.common.gui;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import io.github.jsnimda.common.config.IConfigOptionPrimitiveNumeric;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.widget.AbstractSlider;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOptionPrimitiveNumeric<?>> {
   public static ResourceLocation WIDGETS_TEXTURE = new ResourceLocation("inventoryprofiles", "textures/gui/widgets.png");
@@ -22,7 +22,7 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
     @Override
     protected void updateMessage() {
     }
-  
+
     @Override
     protected void applyValue() {
       double min = configOption.getMinValue().doubleValue();
@@ -58,12 +58,12 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
        GlStateManager.disableDepthTest();
        int textureX = this.isHovered() ? 32 : 16;
        int textureY = useSlider ? 16 : 0;
- 
+
        blit(this.x, this.y, textureX, textureY, this.width, this.height, 256, 256);
        GlStateManager.enableDepthTest();
     }
   };
-  
+
   private static final Pattern PATTERN_INTEGER = Pattern.compile("-?[0-9]*");
   private static final Pattern PATTERN_DOUBLE = Pattern.compile("^-?([0-9]+(\\.[0-9]*)?)?");
 
@@ -99,7 +99,16 @@ public class ConfigOptionNumericWidget extends ConfigOptionWidgetBase<IConfigOpt
     if (!textField.func_212955_f() && !useSlider) { // is editing
       textField.setText(String.valueOf(configOption.getValue()));
     }
-    (useSlider ? slider : textField).render(mouseX, mouseY, partialTicks);
+//    (useSlider ? slider : textField).render(mouseX, mouseY, partialTicks);
+    g().render(mouseX, mouseY, partialTicks);
+  }
+
+  private Widget g() {
+    if (useSlider) {
+      return slider;
+    } else {
+      return textField;
+    }
   }
 
   @Override
