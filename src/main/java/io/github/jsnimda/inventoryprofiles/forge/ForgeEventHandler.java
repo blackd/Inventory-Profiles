@@ -1,30 +1,29 @@
 package io.github.jsnimda.inventoryprofiles.forge;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import io.github.jsnimda.common.gui.Tooltips;
 import io.github.jsnimda.common.vanilla.Vanilla;
 import io.github.jsnimda.common.vanilla.VanillaUtil;
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
+import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
 import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler;
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.client.util.InputMappings;
-import net.minecraft.inventory.container.Container;
 import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ForgeEventHandler
@@ -43,139 +42,112 @@ public class ForgeEventHandler {
 //      GlStateManager.disableLighting();
 //      GlStateManager.popMatrix();
 //    }
-    if (!Tooltips.INSTANCE.getTooltips().isEmpty()) {
-      GlStateManager.pushMatrix();
-      Tooltips.INSTANCE.renderAll();
-      GlStateManager.disableLighting();
-      GlStateManager.popMatrix();
-    }
+//    if (!Tooltips.INSTANCE.getTooltips().isEmpty()) {
+//      GlStateManager.pushMatrix();
+//      Tooltips.INSTANCE.renderAll();
+//      GlStateManager.disableLighting();
+//      GlStateManager.popMatrix();
+//    }
   }
 
   @SubscribeEvent
   public void onInitGuiPost(InitGuiEvent.Post e) { // MixinAbstractContainerScreen.init
     if (e.getGui() instanceof ContainerScreen) {
-      e.addWidget(ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) (Object) this));
+      e.addWidget(ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui()));
     }
   }
 
   /*
   todo tweaks:
    @Mixin(ClientPlayerInteractionManager.class)
-public class MixinClientPlayerInteractionManager {
-
-  @Shadow
-  private int field_3716;
-
-  @Inject(at = @At("HEAD"), method = "method_2902(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
-  public void method_2902(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
-    if (this.field_3716 > 0 && Tweaks.INSTANCE.getDISABLE_BLOCK_BREAKING_COOLDOWN().getBooleanValue()) {
-      this.field_3716 = 0;
-    }
-  }
-
-  @Inject(at = @At(value = "INVOKE_ASSIGN", target="Lnet/minecraft/client/network/ClientPlayerInteractionManager;"
-      + "breakBlock(Lnet/minecraft/util/math/BlockPos;)Z"),
-      method = "attackBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
-  public void attackBlock(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
-    if (Tweaks.INSTANCE.getINSTANT_MINING_COOLDOWN().getBooleanValue()) {
-      this.field_3716 = 5;
-    }
-  }
-
-}
-
+// INSTANT_MINING_COOLDOWN
+//  @Inject(at = @At(value = "INVOKE_ASSIGN", target="Lnet/minecraft/client/network/ClientPlayerInteractionManager;"
+//      + "breakBlock(Lnet/minecraft/util/math/BlockPos;)Z"),
+//      method = "attackBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
+//  public void attackBlock(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
+//    if (Tweaks.INSTANCE.getINSTANT_MINING_COOLDOWN().getBooleanValue()) {
+//      this.field_3716 = 5;
+//    }
+//  }
 
 // ============
 // MixinGameRenderer
 // ============
 
-@Mixin(GameRenderer.class)
-public class MixinGameRenderer {
-  @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(F)V", cancellable = true)
-  public void bobViewWhenHurt(float float_1, CallbackInfo info) {
-    if (Tweaks.INSTANCE.getDISABLE_SCREEN_SHAKING_ON_DAMAGE().getBooleanValue()) {
-      info.cancel();
-    }
-  }
+// DISABLE_SCREEN_SHAKING_ON_DAMAGE
+//@Mixin(GameRenderer.class)
+//public class MixinGameRenderer {
+//  @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(F)V", cancellable = true)
+//  public void bobViewWhenHurt(float float_1, CallbackInfo info) {
+//    if (Tweaks.INSTANCE.getDISABLE_SCREEN_SHAKING_ON_DAMAGE().getBooleanValue()) {
+//      info.cancel();
+//    }
+//  }
 
-  @Inject(at = @At("RETURN"), method = "render")
-  public void render(float f, long l, boolean bl, CallbackInfo ci) {
+// DISABLE_LAVA_FOG
+//@Mixin(GlStateManager.class)
+//public class MixinGlStateManager {
+//
+//  @ModifyVariable(method = "fogDensity(F)V", at = @At("HEAD"), argsOnly = true)
+//  private static float fogDensity(float fogDensity) {
+//    if (fogDensity == 2.0f && Tweaks.INSTANCE.getDISABLE_LAVA_FOG().getBooleanValue()) {
+//      return 0.02f;
+//    }
+//    return fogDensity;
+//  }
+//
+//}
+   */
+
+  // fabric GameRenderer.render() = forge updateCameraAndRender()
+  // forge line 554
+  @SubscribeEvent
+  public void postScreenRender(DrawScreenEvent.Post e) {
     GameEventHandler.INSTANCE.postScreenRender();
   }
-}
 
-@Mixin(GlStateManager.class)
-public class MixinGlStateManager {
-
-  @ModifyVariable(method = "fogDensity(F)V", at = @At("HEAD"), argsOnly = true)
-  private static float fogDensity(float fogDensity) {
-    if (fogDensity == 2.0f && Tweaks.INSTANCE.getDISABLE_LAVA_FOG().getBooleanValue()) {
-      return 0.02f;
-    }
-    return fogDensity;
-  }
-
-}
-
-@Mixin(GuiCloseC2SPacket.class)
-public class MixinGuiCloseC2SPacket {
-
-  @Inject(method = "<init>(I)V", at = @At("RETURN"))
-  private void onConstructed(CallbackInfo ci) {
-    if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()) {
-      GeneralInventoryActions.INSTANCE.handleCloseContainer();
+  @SubscribeEvent
+  public void clientClick(ClientTickEvent e) {
+    if (e.phase == Phase.START) {
+      onTickPre();
+    } else { // e.phase == Phase.END
+      onTickPost();
     }
   }
 
-}
-@Mixin(MinecraftClient.class)
-public abstract class MixinMinecraftClient {
-
-  @Shadow
-  private int itemUseCooldown;
-
-  @Inject(at = @At("HEAD"), method = "tick()V")
-  public void tick(CallbackInfo info) {
-    if (this.itemUseCooldown > 0 && Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
-      this.itemUseCooldown = 0;
-    }
-  }
-
-  @Inject(at = @At("RETURN"), method = "tick()V")
-  public void tick2(CallbackInfo info) {
+  public void onTickPost() {
     GameEventHandler.INSTANCE.onTick();
   }
 
-  @Inject(at = @At("RETURN"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V")
-  public void joinWorld(ClientWorld clientWorld, CallbackInfo info) {
-    GameEventHandler.INSTANCE.onJoinWorld();
+  @SubscribeEvent
+  public void joinWorld(WorldEvent.Load event) {
+    if (VanillaUtil.INSTANCE.isOnClientThread()) {
+      GameEventHandler.INSTANCE.onJoinWorld();
+    }
   }
-}
 
-@Mixin(CraftingResultSlot.class)
-public class MixinCraftingResultSlot {
-  @Inject(at = @At("HEAD"), method = "onCrafted(Lnet/minecraft/item/ItemStack;)V")
-  public void onCrafted(ItemStack itemStack, CallbackInfo ci) {
+  @SubscribeEvent
+  public void onCrafted(PlayerEvent.ItemCraftedEvent event) {
     if (VanillaUtil.INSTANCE.isOnClientThread()) {
       GameEventHandler.INSTANCE.onCrafted();
     }
   }
-}
 
-@Mixin(Screen.class)
-public class MixinScreen {
-  @Inject(at= @At("HEAD"), method = "renderTooltip(Ljava/util/List;II)V")
-  public void renderTooltip(List<String> list, int i, int j, CallbackInfo ci) {
+  @SubscribeEvent
+  public void preRenderTooltip(RenderTooltipEvent.Pre event) {
     GameEventHandler.INSTANCE.preRenderTooltip();
   }
 
-  @Inject(at= @At("HEAD"), method = "render")
-  public void render(int i, int j, float f, CallbackInfo ci) {
+  @SubscribeEvent
+  public void preScreenRender(GuiScreenEvent.DrawScreenEvent.Pre event) {
     GameEventHandler.INSTANCE.preScreenRender();
   }
-}
 
-   */
+
+  // ============
+  // old event
+  // ============
+
   @SubscribeEvent
   public void onGuiKeyPressedPre(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
     if (!VanillaUtil.INSTANCE.inGame()) return;
@@ -194,10 +166,8 @@ public class MixinScreen {
   //rightClickDelayTimer
   Field rightClickDelayTimerField = null; // field_71467_ac
 
-  @SubscribeEvent
-  public void onTick(ClientTickEvent e) { // Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN, Tweaks.DISABLE_ITEM_USE_COOLDOWN
+  public void onTickPre() { // Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN, Tweaks.DISABLE_ITEM_USE_COOLDOWN
     if (!VanillaUtil.INSTANCE.inGame()) return;
-    if (e.phase != Phase.START) return;
     if (Tweaks.INSTANCE.getDISABLE_BLOCK_BREAKING_COOLDOWN().getBooleanValue()) {
       if (pc == null || pc != Vanilla.INSTANCE.interactionManager()) {
         pc = Vanilla.INSTANCE.interactionManager();
