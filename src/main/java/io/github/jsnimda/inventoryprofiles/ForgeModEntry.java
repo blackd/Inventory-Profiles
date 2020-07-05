@@ -1,6 +1,5 @@
 package io.github.jsnimda.inventoryprofiles;
 
-import io.github.jsnimda.common.event.GlobalInitHandler;
 import io.github.jsnimda.common.forge.CommonForgeEventHandler;
 import io.github.jsnimda.inventoryprofiles.forge.ForgeEventHandler;
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen;
@@ -31,8 +30,8 @@ public class ForgeModEntry {
 
     InventoryProfilesKt.init();
 
-    GlobalInitHandler.INSTANCE.onInit();
-
+//    GlobalInitHandler.INSTANCE.onInit();
+    // ^^ let do it on first tick event
   }
 
 }

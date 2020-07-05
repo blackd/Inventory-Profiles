@@ -1,13 +1,14 @@
 package io.github.jsnimda.common.forge;
 
+import io.github.jsnimda.common.event.GlobalInitHandler;
 import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.vanilla.Vanilla;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 public class CommonForgeEventHandler {
 
@@ -51,5 +52,18 @@ public class CommonForgeEventHandler {
     VanillaUtil.INSTANCE.updateMouse();
   }
    */
+
+  boolean initialized = false;
+
+  // do onInit() on first tick (minecraft client ready)
+  @SubscribeEvent
+  public void clientClick(TickEvent.ClientTickEvent e) {
+    if (e.phase == TickEvent.Phase.START) {
+      if (!initialized) {
+        initialized = true;
+        GlobalInitHandler.INSTANCE.onInit();
+      }
+    }
+  }
 
 }
