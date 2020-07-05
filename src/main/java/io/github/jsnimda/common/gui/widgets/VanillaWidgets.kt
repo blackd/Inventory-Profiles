@@ -24,6 +24,12 @@ open class VanillaWidget<T : AbstractButtonWidget>(
     }
   }
 
+  var vanillaMessage: String
+    get() = vanilla.message
+    set(value) {
+      vanilla.message = value
+    }
+
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     vanilla.render(mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
@@ -67,7 +73,7 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
     valueChangedEvent()
   }
 
-  var translatedValue
+  var translatedValue: Double
     get() = (maxValue - minValue) * super.value + minValue
     set(value) {
       super.value = (value - minValue) / (maxValue - minValue)
@@ -82,13 +88,13 @@ class SliderWidget(
   private val silder
     get() = vanilla as CustomVanillaSliderWidget
 
-  var valueChangedEvent
+  var valueChangedEvent: () -> Unit
     get() = silder.valueChangedEvent
     set(value) {
       silder.valueChangedEvent = value
     }
 
-  var value
+  var value: Double
     get() = silder.translatedValue
     set(value) {
       silder.translatedValue = value
@@ -118,7 +124,7 @@ class TextFieldWidget(height: Int) :
       }
     }
 
-  var vanillaText
+  var vanillaText: String
     get() = vanilla.text
     set(value) {
       if (vanilla.text != value) {
@@ -126,7 +132,7 @@ class TextFieldWidget(height: Int) :
       }
     }
 
-  var vanillaFocused
+  var vanillaFocused: Boolean
     get() = vanilla.isFocused
     set(value) {
       (vanilla as CustomTextFieldWidget).isFocused = value
@@ -137,7 +143,7 @@ class TextFieldWidget(height: Int) :
     vanillaFocused = false
   }
 
-  fun editing() =
+  fun editing(): Boolean =
     vanilla.method_20315()
 
   init {
