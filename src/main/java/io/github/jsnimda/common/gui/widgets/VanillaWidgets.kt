@@ -2,9 +2,9 @@ package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
-import io.github.jsnimda.common.vanilla.alias.SliderWidget
-import io.github.jsnimda.common.vanilla.alias.TextFieldWidget
 import net.minecraft.client.font.TextRenderer
+import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
+import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
 // ============
 // vanillamapping code depends on mappings
@@ -58,7 +58,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
   }
 }
 
-private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : SliderWidget(0, 0, 0, 20, 0.5) {
+private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : VanillaSliderWidget(0, 0, 0, 20, 0.5) {
 
   var valueChangedEvent: () -> Unit = { }
 
@@ -77,7 +77,7 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
 class SliderWidget(
   val minValue: Double = 0.0,
   val maxValue: Double = 1.0
-) : VanillaWidget<SliderWidget>(CustomVanillaSliderWidget(minValue, maxValue)) {
+) : VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue, maxValue)) {
 
   private val silder
     get() = vanilla as CustomVanillaSliderWidget
@@ -96,14 +96,14 @@ class SliderWidget(
 }
 
 private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) :
-  TextFieldWidget(textRenderer, i, j, k, l, string) {
+  VanillaTextFieldWidget(textRenderer, i, j, k, l, string) {
   public override fun setFocused(bl: Boolean) {
     super.setFocused(bl)
   }
 }
 
 class TextFieldWidget(height: Int) :
-  VanillaWidget<TextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
+  VanillaWidget<VanillaTextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
 
   var textPredicate: (string: String) -> Boolean = { true }
     set(value) {
