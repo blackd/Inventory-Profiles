@@ -13,7 +13,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm"
+  id "org.jetbrains.kotlin.jvm"
   id "com.github.johnrengelman.shadow" version "5.2.0"
   id 'antlr'
 }
@@ -22,12 +22,6 @@ repositories {
   mavenCentral()
   maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
   maven { url 'https://kotlin.bintray.com/kotlinx' }
-}
-
-repositories {
-    mavenCentral()
-    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
-    maven { url 'https://kotlin.bintray.com/kotlinx' }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -337,3 +331,16 @@ task genAntlr(type: JavaExec) {
 
 generateGrammarSource { }
 generateGrammarSource.enabled = false
+
+//https://stackoverflow.com/questions/49638136/kotlin-gradle-plugin-how-to-use-custom-output-directory
+//println(compileKotlin.destinationDir)
+//tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+//  destinationDir = new File(buildDir, "classes/java/main")
+//}
+// tmp solution fixing duplicate classes or forge not loading the .class files
+//https://discuss.gradle.org/t/duplicated-classes-output-jar-with-gradle/17301
+//     ensure you're excluding duplicates
+jar {
+  duplicatesStrategy = 'exclude'
+}
+
