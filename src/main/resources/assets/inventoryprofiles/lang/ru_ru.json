@@ -36,7 +36,7 @@
     "inventoryprofiles.gui.config.ModSettings": "Настройки",
 
     "inventoryprofiles.config.category.inventory_sorting": "Настройки сортировки",
-    "inventoryprofiles.config.category.auto_refill": "Авто-заполнение",
+    "inventoryprofiles.config.category.auto_refill": "Авто-замена",
     "inventoryprofiles.config.category.advanced_options": "Расширенные настройки",
 
     "inventoryprofiles.config.name.open_config_folder":                 "§aОткрыть директорию",
