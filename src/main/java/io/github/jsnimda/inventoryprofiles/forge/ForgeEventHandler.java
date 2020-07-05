@@ -53,6 +53,10 @@ public class ForgeEventHandler {
   @SubscribeEvent
   public void onInitGuiPost(InitGuiEvent.Post e) { // MixinAbstractContainerScreen.init
     if (e.getGui() instanceof ContainerScreen) {
+      // on forge this is called twice on creative screen lol
+      // fix:
+      if (Vanilla.INSTANCE.screen() != e.getGui()) return;
+
       e.addWidget(ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui()));
     }
   }
