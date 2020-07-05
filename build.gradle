@@ -15,6 +15,13 @@ buildscript {
 plugins {
     id "org.jetbrains.kotlin.jvm"
   id "com.github.johnrengelman.shadow" version "5.2.0"
+  id 'antlr'
+}
+
+repositories {
+  mavenCentral()
+  maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+  maven { url 'https://kotlin.bintray.com/kotlinx' }
 }
 
 repositories {
@@ -125,6 +132,11 @@ dependencies {
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
+    implementation "org.jetbrains.kotlin:kotlin-script-runtime"
+    antlr "org.antlr:antlr4:4.8"
+    implementation "org.antlr:antlr4-runtime:4.8"
+
+
     // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
     // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
@@ -196,7 +208,7 @@ publishing {
 compileKotlin.kotlinOptions.jvmTarget = "1.8"
 compileKotlin {
   kotlinOptions {
-    freeCompilerArgs = ['-Xjvm-default=compatibility']
+    freeCompilerArgs = ['-Xopt-in=kotlin.ExperimentalStdlibApi']
     // includeRuntime = true
     // noStdlib = false
   }
@@ -213,12 +225,18 @@ shadowJar {
   dependencies {
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib-common"))
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7"))
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
+    include(dependency("org.antlr:antlr4-runtime"))
   }
   relocate 'kotlin', 'io.github.jsnimda.common.embedded.kotlin'
+  relocate 'org.antlr', 'io.github.jsnimda.common.embedded.org.antlr'
   exclude '**/*.kotlin_metadata'
   exclude '**/*.kotlin_module'
   exclude '**/*.kotlin_builtins'
+  exclude '**/*_ws.class' // fixme find a better solution for removing *.ws.kts
+  exclude '**/*_ws$*.class'
+  exclude 'mappings/mappings.tiny' // before kt, build .jar don't have this folder (this 500K thing)
 }
 
 //task remapShadowJar(type: net.fabricmc.loom.task.RemapJarTask) {
@@ -250,6 +268,27 @@ reobf {
 }
 //tasks.remapShadowJar.dependsOn tasks.shadowJar
 
+/*
+output jars: (embedding library: kotlin, antlr)
+*-dev.jar              | no embedded kotlin, no mapping
+*-remapped-dev.jar     | no embedded kotlin, mapped
+*-all.jar              | embedded kotlin, no mapping
+*-all-proguard.jar     | embedded kotlin, removed unused embedding classes, no mapping
+*.jar                  | embedded kotlin, removed unused embedding classes, mapped
+
+*/
+
+//tasks.remapShadowJar.dependsOn tasks.shadowJar
+
+// this line solve 'Could not resolve all files' error for configurations.findByName('runtimeClasspath').getFiles()
+// but not needed if by doFirst
+//allprojects {
+//  repositories {
+//    jcenter()
+//    mavenCentral()
+//  }
+//}
+
 task proguard(type: proguard.gradle.ProGuardTask) {
   configuration 'proguard.txt'
 
@@ -276,3 +315,25 @@ tasks.build.dependsOn tasks.customJar
 
 // https://forums.minecraftforge.net/topic/62995-shadowing-dependencies/
 //https://github.com/Choonster-Minecraft-Mods/TestMod3/blob/97c54505d9b62ea8b3a19c37d9ceb55f209eb2b1/build.gradle#L55-L69
+
+//https://stackoverflow.com/questions/10615966/compiling-3-2-antlr-grammar-with-gradle
+task genAntlr(type: JavaExec) {
+  description = 'Generates Java sources from Antlr4 grammars.'
+
+  def destinationDir = "src/main/java/io/github/jsnimda/inventoryprofiles/gen"
+  def antlrSource = 'src/main/java/io/github/jsnimda/inventoryprofiles/parser/antlr'
+  def packageName = "io.github.jsnimda.inventoryprofiles.gen"
+
+  inputs.dir file(antlrSource)
+  outputs.dir file(destinationDir)
+
+  def grammars = fileTree(antlrSource).include('**/*.g4')
+  def files = grammars.files.collect { file('.').relativePath(it) } // no absolute path in generated files
+
+  main = 'org.antlr.v4.Tool'
+  classpath = configurations.antlr
+  args = ["-o", destinationDir, "-package", packageName, files].flatten()
+}
+
+generateGrammarSource { }
+generateGrammarSource.enabled = false

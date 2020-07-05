@@ -1,17 +1,18 @@
 package io.github.jsnimda.common.input
 
-import io.github.jsnimda.common.gui.DebugScreen.DebugInfos
+import io.github.jsnimda.common.IInputHandler
+import io.github.jsnimda.common.gui.debug.DebugInfos
 import io.github.jsnimda.common.vanilla.Vanilla
 import org.lwjgl.glfw.GLFW.*
 
 object GlobalInputHandler {
 
-  val pressedKeys: MutableList<Int> = mutableListOf()
-  var oldPressedKeys: List<Int> = pressedKeys.toList()
+  val pressedKeys = mutableSetOf<Int>()
+  var previousPressedKeys = pressedKeys.toSet()
     private set
   var lastKey = -1
     private set
-  var lastAction = -1
+  var lastAction = -1 // only GLFW_PRESS or GLFW_RELEASE
     private set
 
   fun isActivated(keyCodes: List<Int>, settings: KeybindSettings): Boolean {
@@ -20,22 +21,24 @@ object GlobalInputHandler {
     if (!settings.context.isValid(Vanilla.screen())) return false
     // checked: context, activateOn
     // ref: malilib KeybindMulti.updateIsPressed()
-    val isPressElseRelease = lastAction == GLFW_PRESS
-    val validateKeys = if (isPressElseRelease) pressedKeys else oldPressedKeys
+    val validateKeys = if (lastAction == GLFW_PRESS) pressedKeys else previousPressedKeys
     return validateKeys.size >= keyCodes.size && (settings.allowExtraKeys || validateKeys.size == keyCodes.size) &&
         if (settings.orderSensitive) {
-          (keyCodes.asReversed() zip validateKeys.asReversed()).all { (a, b) -> a == b }
+          validateKeys.toList().takeLast(keyCodes.size) == keyCodes
         } else { // order insensitive
           keyCodes.contains(lastKey) && validateKeys.containsAll(keyCodes)
         }
   }
 
-  private fun onKey(key: Int, action: Int): Boolean {
-    val isPressElseRelease = action == GLFW_PRESS
-    if (isPressElseRelease == pressedKeys.contains(key)) // (PRESS && contain) || (RELEASE && !contain)
+  private fun onKey(key: Int, action: Int): Boolean { // action: only GLFW_PRESS or GLFW_RELEASE
+    val isPress = action == GLFW_PRESS
+    if (isPress == pressedKeys.contains(key)) // (PRESS && contain) || (RELEASE && !contain)
       return false // should err / cancelled by other mod
-    oldPressedKeys = pressedKeys.toList()
-    if (isPressElseRelease) pressedKeys.add(key) else pressedKeys.remove(key)
+    previousPressedKeys = pressedKeys.toSet()
+    if (isPress)
+      pressedKeys.add(key)
+    else
+      pressedKeys.remove(key)
     lastKey = key
     lastAction = action
     return onInput()
@@ -46,7 +49,7 @@ object GlobalInputHandler {
       handleAssignKeybind()
       return true
     }
-    registeredInputHandlers.forEach { it.onInput(lastKey, lastAction) }
+    registered.forEach { it.onInput(lastKey, lastAction) }
     return false
   }
 
@@ -56,20 +59,28 @@ object GlobalInputHandler {
   var currentAssigningKeybind: IKeybind? = null
     set(value) {
       pressedFirstKey = false
+      ignoreLeftClick = true // left down -> ignore, left up -> set false
       field = value
     }
   private var pressedFirstKey = false
+  private var ignoreLeftClick = false // fix forge version while compatible with fabric version
 
   private fun handleAssignKeybind() {
     if (lastAction == GLFW_PRESS) {
+      if (lastKey == KeyCodes.MOUSE_BUTTON_1 && ignoreLeftClick) { // GLFW_MOUSE_BUTTON_1 - 100
+        return
+      }
       pressedFirstKey = true
-      if (lastKey == GLFW_KEY_ESCAPE) {
+      if (lastKey == GLFW_KEY_ESCAPE) { // clear keybind
         currentAssigningKeybind?.keyCodes = listOf()
         currentAssigningKeybind = null
       } else {
         currentAssigningKeybind?.keyCodes = pressedKeys.toList()
       }
-    } else if (lastAction == GLFW_RELEASE) {
+    } else { // lastAction == GLFW_RELEASE
+      if (lastKey == KeyCodes.MOUSE_BUTTON_1) {
+        ignoreLeftClick = false
+      }
       if (pressedKeys.isEmpty() && pressedFirstKey) {
         currentAssigningKeybind = null // all key released, assignment end
       }
@@ -96,12 +107,13 @@ object GlobalInputHandler {
   }
 
   // ============
-  // Api
+  // api
   // ============
-  private val registeredInputHandlers: MutableSet<IInputHandler> = mutableSetOf()
+  private val registered: MutableSet<IInputHandler> = mutableSetOf()
 
-  fun registerInputHandler(inputHandler: IInputHandler): Boolean = registeredInputHandlers.add(inputHandler)
+  fun register(inputHandler: IInputHandler): Boolean =
+    registered.add(inputHandler)
 
-  fun removeInputHandler(inputHandler: IInputHandler): Boolean = registeredInputHandlers.remove(inputHandler)
-
+  fun unregister(inputHandler: IInputHandler): Boolean =
+    registered.remove(inputHandler)
 }

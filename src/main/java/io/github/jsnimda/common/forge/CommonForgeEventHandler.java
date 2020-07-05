@@ -24,4 +24,12 @@ public class CommonForgeEventHandler {
     GlobalInputHandler.INSTANCE.getPressedKeys().clear();
   }
 
+  // todo mouse move event
+  /*
+  @Inject(method = "onCursorPos", at = @At("RETURN"))
+  private void onCursorPos(long handle, double xpos, double ypos, CallbackInfo ci) {
+    VanillaUtil.INSTANCE.updateMouse();
+  }
+   */
+
 }
