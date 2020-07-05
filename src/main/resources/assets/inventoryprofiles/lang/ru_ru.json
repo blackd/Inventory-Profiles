@@ -2,7 +2,7 @@
 
     "inventoryprofiles.gui.config.title": "Меню настройки Inventory Profiles v%s",
 
-    "inventoryprofiles.common.gui.config.reset": "Сбросить",
+    "inventoryprofiles.common.gui.config.reset": "Сброс",
     "inventoryprofiles.common.gui.config.true": "§2да",
     "inventoryprofiles.common.gui.config.false": "§4нет",
     "inventoryprofiles.common.gui.config.yes": "да",
