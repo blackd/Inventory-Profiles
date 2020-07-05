@@ -24,9 +24,20 @@ fun vPlayerSlotOf(slot: Slot, screen: Screen?): Slot { // creative slot to survi
   val invSlot = slot.`(invSlot)`
   return when {
     invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar in other tab
-    invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // slot in backpack tab
+    // fabric
+//    invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // slot in backpack tab
+    // forge
+    invSlot in 9..35 && id == 0 -> vPlayerSlots[invSlot]
+    invSlot in 0..8 && id == 0 -> vPlayerSlots[36 + invSlot]
+    invSlot in 36..39 && id == 0 -> vPlayerSlots[44 - invSlot]
+    invSlot in 40..40 && id == 0 -> vPlayerSlots[45]
     else -> slot
   }
+  // funny, forge creative screen is different
+  // inventory tab
+  // forge 0..8 = fabric 36..44
+  // forge 36 37 38 39 40 = fabric 8 7 6 5 45 (boot legs chest head offhand)
+  // forge use invSlot, fabric use id
 }
 
 // interpreted for creative inventory
