@@ -4,6 +4,7 @@ object GlobalInitHandler {
 
   fun onInit() {
     registered.forEach { it() }
+    registered.clear()
   }
 
   // ============
