@@ -47,13 +47,13 @@ object ContinuousCraftingHandler {
   }
 
   var onCraftCount = 0 // this tick crafted item
-  var odd = 0
+//  var odd = 0
   fun handle() {
     if (!isCrafting) return
-    if (odd++ > 0) { // slow down, odd tick // todo quick craft from recipe book
-      odd = 0
-      return
-    }
+//    if (odd++ > 0) { // slow down, odd tick // todo quick craft from recipe book
+//      odd = 0
+//      return
+//    }
     if (onCraftCount > 0) {
       onCraftCount--
       monitor.autoRefill()
@@ -63,7 +63,8 @@ object ContinuousCraftingHandler {
 
   fun onCrafted() {
     if (!isCrafting) return
-    onCraftCount++
+    onCraftCount = (onCraftCount + 2).coerceAtMost(2)
+    // ^^ i think this is the right approach can really fix the stability
   }
 
   private fun shouldHandle(storedItem: ItemStack, currentItem: ItemStack): Boolean {
