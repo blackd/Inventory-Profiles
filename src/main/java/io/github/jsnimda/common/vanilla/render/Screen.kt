@@ -17,7 +17,7 @@ val rScreenBounds
   get() = Rectangle(0, 0, rScreenWidth, rScreenHeight)
 
 fun rRenderDirtBackground() { // Screen.renderDirtBackground
-  (Vanilla.screen() ?: dummyScreen).renderDirtBackground(0)
+  (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)
 }
 
 fun rRenderBlackOverlay() { // Screen.renderBackground

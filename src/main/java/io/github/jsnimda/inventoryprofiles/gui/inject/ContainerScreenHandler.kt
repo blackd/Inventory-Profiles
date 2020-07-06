@@ -7,10 +7,10 @@ import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 
 object ContainerScreenHandler {
   var currentWidget: SortingButtonContainer? = null
-  fun getContainerInjector(screen: ContainerScreen<*>): InjectWidget {
-    return InjectWidget().apply {
+  fun getContainerInjector(screen: ContainerScreen<*>): List<InjectWidget> {
+    return listOf(InjectWidget().apply {
       addWidget(SortingButtonContainer(screen).also { currentWidget = it })
-    }
+    })
   }
 
   var renderedThisFrame = false

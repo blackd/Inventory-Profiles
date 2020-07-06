@@ -1,5 +1,6 @@
 package io.github.jsnimda.common.gui.screen
 
+import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Size
@@ -9,7 +10,9 @@ import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.rClearDepth
+import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
+import net.minecraft.client.util.math.MatrixStack
 
 // ============
 // vanillamapping code depends on mappings (package io.github.jsnimda.common.gui.screen)
@@ -61,9 +64,14 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     rClearDepth()
   }
 
-  override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+  open fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     renderWidgetPre(mouseX, mouseY, partialTicks)
     rootWidget.render(mouseX, mouseY, partialTicks)
+  }
+
+  override fun render(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
+    rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
+    render(i, j, f)
   }
 
   // ============

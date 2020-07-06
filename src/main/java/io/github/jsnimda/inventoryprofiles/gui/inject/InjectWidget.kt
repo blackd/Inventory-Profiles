@@ -3,14 +3,16 @@ package io.github.jsnimda.inventoryprofiles.gui.inject
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.render.rScreenHeight
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
+import net.minecraft.client.util.math.MatrixStack
 
 // ============
 // vanillamapping code depends on mappings
 // ============
 
-class InjectWidget : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, "") {
+class InjectWidget : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, LiteralText("")) {
   // ============
   // widget
   // ============
@@ -31,7 +33,7 @@ class InjectWidget : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, "")
 //    rClearDepth()
 //  }
 
-  override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+  override fun render(matrixStack: MatrixStack?, mouseX: Int, mouseY: Int, partialTicks: Float) {
 //    renderWidgetPre(mouseX, mouseY, partialTicks)
 //    rootWidget.render(mouseX, mouseY, partialTicks)
   }

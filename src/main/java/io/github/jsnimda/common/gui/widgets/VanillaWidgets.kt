@@ -25,13 +25,13 @@ open class VanillaWidget<T : AbstractButtonWidget>(
   }
 
   var vanillaMessage: String
-    get() = vanilla.message
+    get() = vanilla.message.asString()
     set(value) {
-      vanilla.message = value
+      vanilla.message = LiteralText(value)
     }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    vanilla.render(mouseX, mouseY, partialTicks)
+    vanilla.render(rMatrixStack, mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
   }
 
@@ -64,7 +64,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
   }
 }
 
-private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : VanillaSliderWidget(0, 0, 0, 20, 0.5) {
+private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : VanillaSliderWidget(0, 0, 0, 20, LiteralText(""), 0.5) {
 
   var valueChangedEvent: () -> Unit = { }
 
@@ -102,7 +102,7 @@ class SliderWidget(
 }
 
 private class CustomTextFieldWidget(textRenderer: FontRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) :
-  VanillaTextFieldWidget(textRenderer, i, j, k, l, string) {
+  VanillaTextFieldWidget(textRenderer, i, j, k, l, LiteralText(string)) {
   public override fun setFocused(bl: Boolean) {
     super.setFocused(bl)
   }

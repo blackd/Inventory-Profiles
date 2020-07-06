@@ -18,7 +18,7 @@ fun rBindTexture(identifier: Identifier) {
 
 // for 256 x 256 texture
 fun rBlit(screenX: Int, screenY: Int, textureX: Int, textureY: Int, width: Int, height: Int) {
-  DrawableHelper.blit(screenX, screenY, 0, textureX.toFloat(), textureY.toFloat(), width, height, 256, 256)
+  DrawableHelper.drawTexture(rMatrixStack, screenX, screenY, 0, textureX.toFloat(), textureY.toFloat(), width, height, 256, 256)
 }
 
 fun rBlit(screenLocation: Point, textureLocation: Point, size: Size) {

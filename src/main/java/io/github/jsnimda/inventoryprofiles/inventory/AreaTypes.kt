@@ -7,7 +7,6 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(inventory)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(selectedSlot)`
 import io.github.jsnimda.inventoryprofiles.ingame.vFocusedSlot
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
-import net.minecraft.inventory.container.CraftingResultSlot
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35

@@ -5,6 +5,8 @@ import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Text
+import io.github.jsnimda.common.vanilla.render.rMatrixStack
+import net.minecraft.client.util.math.MatrixStack
 
 open class BaseOverlay : BaseScreen {
   constructor(text: Text) : super(text)
@@ -18,7 +20,7 @@ open class BaseOverlay : BaseScreen {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     try {
-      parent?.render(mouseX, mouseY, partialTicks)
+      parent?.render(rMatrixStack, mouseX, mouseY, partialTicks)
     } catch (e: Throwable) {
       Log.error("rendering parent exception: ${e.javaClass.usefulName}")
     }
