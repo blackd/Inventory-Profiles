@@ -144,7 +144,7 @@ class TextFieldWidget(height: Int) :
   }
 
   fun editing(): Boolean =
-    vanilla.func_212955_f() // func_212955_f() = method_20315() = isActive
+    vanilla.canWrite() // func_212955_f() = method_20315() = isActive = forge canWrite()
 
   init {
     textPredicate = textPredicate
