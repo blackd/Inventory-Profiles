@@ -3,7 +3,6 @@ package io.github.jsnimda.inventoryprofiles.inventory.sandbox
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
-import org.spongepowered.asm.mixin.Mutable
 
 class ItemPlanner(items: MutableItemTracker) {
   private val innerSandbox = ContainerSandbox(items)

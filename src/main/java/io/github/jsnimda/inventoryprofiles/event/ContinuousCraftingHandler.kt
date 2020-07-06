@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.Container
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.CraftingInventory
 import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
@@ -15,7 +16,6 @@ import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CRAFTING
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.*
-import net.minecraft.client.gui.screen.ingame.ContainerScreen
 
 object ContinuousCraftingHandler {
   var targetScreen: ContainerScreen<*>? = null
@@ -47,13 +47,13 @@ object ContinuousCraftingHandler {
   }
 
   var onCraftCount = 0 // this tick crafted item
-  var odd = 0
+//  var odd = 0
   fun handle() {
     if (!isCrafting) return
-    if (odd++ > 0) { // slow down, odd tick // todo quick craft from recipe book
-      odd = 0
-      return
-    }
+//    if (odd++ > 0) { // slow down, odd tick // todo quick craft from recipe book
+//      odd = 0
+//      return
+//    }
     if (onCraftCount > 0) {
       onCraftCount--
       monitor.autoRefill()
@@ -63,7 +63,8 @@ object ContinuousCraftingHandler {
 
   fun onCrafted() {
     if (!isCrafting) return
-    onCraftCount++
+    onCraftCount = (onCraftCount + 2).coerceAtMost(2)
+    // ^^ i think this is the right approach can really fix the stability
   }
 
   private fun shouldHandle(storedItem: ItemStack, currentItem: ItemStack): Boolean {

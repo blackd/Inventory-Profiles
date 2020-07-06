@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.event
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
-import net.minecraft.text.LiteralText
+import io.github.jsnimda.common.vanilla.alias.LiteralText
 
 object TellPlayer {
   fun chat(message: String) {

@@ -1,12 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.item
 
 import io.github.jsnimda.common.vanilla.alias.*
-import io.github.jsnimda.common.vanilla.alias.Item
 import io.github.jsnimda.common.vanilla.alias.Items
+import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(getRawId)`
 import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.item.*
-import net.minecraft.potion.PotionUtil
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -23,14 +22,17 @@ val ItemType.Companion.EMPTY
 fun ItemType.isEmpty() =
   item == Items.AIR
 
-val ItemType.maxCount
+val ItemType.maxCount: Int
   get() = vanillaStack.maxCount
 
 val ItemType.vanillaStack: VanillaItemStack
   get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }
 
+fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
+  VanillaItemStack(this.item, count).apply { tag = this@vanillaStackWithCount.tag }
+
 val ItemType.identifier: Identifier
-  get() = Registry.ITEM.getId(item)
+  get() = Registry.ITEM.`(getIdentifier)`(item)
 
 val ItemType.namespace: String
   get() = identifier.namespace
@@ -61,7 +63,7 @@ val ItemType.groupIndex: Int
     else -> ItemGroup.GROUPS.size
   }
 val ItemType.rawId: Int
-  get() = Item.getRawId(item)
+  get() = Registry.ITEM.`(getRawId)`(item)
 val ItemType.damage: Int
   get() = vanillaStack.damage
 val ItemType.enchantmentsScore: Double

@@ -20,6 +20,7 @@ import net.minecraft.container.MerchantContainer
 import net.minecraft.container.PlayerContainer
 import net.minecraft.container.ShulkerBoxContainer
 import net.minecraft.container.Slot
+import net.minecraft.container.SlotActionType
 import net.minecraft.container.StonecutterContainer
 import net.minecraft.container.TradeOutputSlot
 import net.minecraft.entity.player.PlayerInventory
@@ -57,3 +58,5 @@ typealias TraderInventory = TraderInventory
 
 typealias Slot = Slot
 typealias TradeOutputSlot = TradeOutputSlot
+
+typealias SlotActionType = SlotActionType

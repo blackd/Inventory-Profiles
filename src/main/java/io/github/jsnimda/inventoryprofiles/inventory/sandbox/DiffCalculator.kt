@@ -1,9 +1,12 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox
 
+import io.github.jsnimda.common.Log
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.isFull
+
+const val MAX_CLICK_BOUND = 100_000
 
 interface DiffCalculator {
   fun apply(sandbox: ContainerSandbox, goal: ItemTracker)
@@ -35,6 +38,12 @@ class SimpleDiffCalculator : DiffCalculator {
     fun run() {
       checkPossible()
       while (now != goal) {
+        // todo fix cursor not empty inv full cause inf loop
+        // safety call. inf loop detect:
+        if (sandbox.clickCount > MAX_CLICK_BOUND) {
+          Log.error("Infinity loop detected. ${sandbox.clickCount} > $MAX_CLICK_BOUND")
+          return
+        }
         if (now.cursor.isEmpty())
           grabAnything()
         else

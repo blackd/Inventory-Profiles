@@ -2,10 +2,10 @@ package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
-import io.github.jsnimda.common.vanilla.alias.SliderWidget
-import io.github.jsnimda.common.vanilla.alias.TextFieldWidget
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
 import net.minecraft.client.font.TextRenderer
+import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
+import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
 // ============
 // vanillamapping code depends on mappings
@@ -24,6 +24,12 @@ open class VanillaWidget<T : AbstractButtonWidget>(
       vanilla.y = screenY
     }
   }
+
+  var vanillaMessage: String
+    get() = vanilla.message
+    set(value) {
+      vanilla.message = value
+    }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     rStandardGlState() // added this todo (unknown reason fixing text field overflow)
@@ -60,7 +66,8 @@ open class VanillaWidget<T : AbstractButtonWidget>(
   }
 }
 
-private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : SliderWidget(0, 0, 0, 20, 0.5) {
+private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) :
+  VanillaSliderWidget(0, 0, 0, 20, 0.5) {
 
   var valueChangedEvent: () -> Unit = { }
 
@@ -69,7 +76,7 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
     valueChangedEvent()
   }
 
-  var translatedValue
+  var translatedValue: Double
     get() = (maxValue - minValue) * super.value + minValue
     set(value) {
       super.value = (value - minValue) / (maxValue - minValue)
@@ -79,18 +86,18 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
 class SliderWidget(
   val minValue: Double = 0.0,
   val maxValue: Double = 1.0
-) : VanillaWidget<SliderWidget>(CustomVanillaSliderWidget(minValue, maxValue)) {
+) : VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue, maxValue)) {
 
   private val silder
     get() = vanilla as CustomVanillaSliderWidget
 
-  var valueChangedEvent
+  var valueChangedEvent: () -> Unit
     get() = silder.valueChangedEvent
     set(value) {
       silder.valueChangedEvent = value
     }
 
-  var value
+  var value: Double
     get() = silder.translatedValue
     set(value) {
       silder.translatedValue = value
@@ -98,14 +105,14 @@ class SliderWidget(
 }
 
 private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) :
-  TextFieldWidget(textRenderer, i, j, k, l, string) {
+  VanillaTextFieldWidget(textRenderer, i, j, k, l, string) {
   public override fun setFocused(bl: Boolean) {
     super.setFocused(bl)
   }
 }
 
 class TextFieldWidget(height: Int) :
-  VanillaWidget<TextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
+  VanillaWidget<VanillaTextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(), 0, 0, 0, height, "")) {
 
   var textPredicate: (string: String) -> Boolean = { true }
     set(value) {
@@ -120,7 +127,7 @@ class TextFieldWidget(height: Int) :
       }
     }
 
-  var vanillaText
+  var vanillaText: String
     get() = vanilla.text
     set(value) {
       if (vanilla.text != value) {
@@ -128,7 +135,7 @@ class TextFieldWidget(height: Int) :
       }
     }
 
-  var vanillaFocused
+  var vanillaFocused: Boolean
     get() = vanilla.isFocused
     set(value) {
       (vanilla as CustomTextFieldWidget).isFocused = value
@@ -139,7 +146,7 @@ class TextFieldWidget(height: Int) :
     vanillaFocused = false
   }
 
-  fun editing() =
+  fun editing(): Boolean =
 //    vanilla.method_20315()
     vanilla.isActive
 

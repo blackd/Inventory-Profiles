@@ -79,8 +79,9 @@ object CustomDataFileLoader {
 // ============
 object RuleLoader : Loader {
   const val internalFileDisplayName = "<internal rules.txt>"
-  private val internalRulesTxtContent = VanillaUtil.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""
-    .also { Log.error("Failed to load in-jar file inventoryprofiles:config/rules.txt") }
+  private val internalRulesTxtContent
+    get() = VanillaUtil.getResourceAsString("inventoryprofiles:config/rules.txt") ?: ""
+      .also { Log.error("Failed to load in-jar file inventoryprofiles:config/rules.txt") }
   private const val regex = "^rules\\.(?:.*\\.)?txt\$"
 
   override fun reload() {
