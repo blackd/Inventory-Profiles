@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.Container
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.CraftingInventory
 import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
@@ -15,7 +16,6 @@ import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CRAFTING
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.*
-import net.minecraft.client.gui.screen.ingame.ContainerScreen
 
 object ContinuousCraftingHandler {
   var targetScreen: ContainerScreen<*>? = null

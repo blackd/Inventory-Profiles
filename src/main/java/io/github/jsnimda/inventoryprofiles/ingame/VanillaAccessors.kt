@@ -8,6 +8,7 @@ import io.github.jsnimda.inventoryprofiles.item.*
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot
 import net.minecraft.item.ItemGroup
+import net.minecraft.util.registry.DefaultedRegistry
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -30,9 +31,9 @@ val Slot.`(id)`
   get() = id
 val Slot.`(invSlot)`
   get() = (this as IMixinSlot).invSlot
-val Slot.`(itemStack)`
+val Slot.`(itemStack)`: ItemStack
   get() = stack.`(itemStack)`
-val Slot.`(mutableItemStack)`
+val Slot.`(mutableItemStack)`: MutableItemStack
   get() = stack.`(mutableItemStack)`
 val Slot.`(inventory)`: Inventory
   get() = inventory
@@ -42,7 +43,7 @@ val Slot.`(top)`: Int
   get() = yPosition
 
 fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
-  return isItemValid(itemStack.vanillaStack)
+  return canInsert(itemStack.vanillaStack)
 }
 
 val Screen.`(focusedSlot)`: Slot?
@@ -53,8 +54,40 @@ val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
 val ContainerScreen<*>.`(containerBounds)`: Rectangle
   get() = (this as IMixinContainerScreen).run { Rectangle(containerX, containerY, containerWidth, containerHeight) }
 
-val PlayerInventory.`(selectedSlot)`
+val PlayerInventory.`(selectedSlot)`: Int
   get() = selectedSlot
 
 val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
   get() = method_2469() == ItemGroup.INVENTORY.index
+
+// ============
+// Registry
+// ============
+fun <T> DefaultedRegistry<T>.`(getIdentifier)`(value: T): Identifier {
+  return getId(value)
+}
+fun <T> DefaultedRegistry<T>.`(getRawId)`(value: T): Int {
+  return getRawId(value)
+}
+fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
+  return get(id)
+}
+
+fun <T> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
+  return getId(value)
+}
+fun <T> Registry<T>.`(getRawId)`(value: T): Int {
+  return getRawId(value)
+}
+fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
+  return get(id)
+}
+
+// ============
+// nbt Tag
+// ============
+val Tag.`(type)`: Int
+  get() = type.toInt()
+val Tag.`(asString)`: String
+  get() = asString()
+

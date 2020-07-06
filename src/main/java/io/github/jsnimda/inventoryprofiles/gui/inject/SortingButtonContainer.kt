@@ -11,6 +11,8 @@ import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.util.containsAny
 import io.github.jsnimda.common.util.detectable
 import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
+import io.github.jsnimda.common.vanilla.alias.CreativeInventoryScreen
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.render.*
@@ -23,8 +25,6 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(isInventoryTab)`
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
-import net.minecraft.client.gui.screen.ingame.ContainerScreen
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen
 
 class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
   val TEXTURE = Identifier("inventoryprofiles", "textures/gui/gui_buttons.png")

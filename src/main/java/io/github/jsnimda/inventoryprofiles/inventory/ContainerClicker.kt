@@ -4,8 +4,8 @@ import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
+import io.github.jsnimda.common.vanilla.alias.SlotActionType
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
-import net.minecraft.container.SlotActionType
 import kotlin.concurrent.timer
 
 // ============
