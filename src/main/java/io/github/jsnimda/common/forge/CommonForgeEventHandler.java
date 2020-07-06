@@ -3,6 +3,7 @@ package io.github.jsnimda.common.forge;
 import io.github.jsnimda.common.event.GlobalInitHandler;
 import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.vanilla.Vanilla;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
@@ -22,15 +23,27 @@ public class CommonForgeEventHandler {
 
   // Keyboard.onKey()
   // fix vanilla keybind swallow my listener
+  // by line 308 aboolean[0] early returned
   // (e.g. pressing z + 1 while hovering slots)
   @SubscribeEvent
   public void onKey1(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
+    // tmp solution fixing crafting recipe crash when opening other screen
+    // (as post will also be swallowed if vanilla screen handle it)
+    // fixme better approach
+    Screen lastScreen = Vanilla.INSTANCE.screen();
     GlobalInputHandler.INSTANCE.onKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_PRESS, event.getModifiers());
+    if (lastScreen != Vanilla.INSTANCE.screen() && event.isCancelable()) { // detect gui change, cancel vanilla
+      event.setCanceled(true);
+    }
   }
 
   @SubscribeEvent
   public void onKey0(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
+    Screen lastScreen = Vanilla.INSTANCE.screen();
     GlobalInputHandler.INSTANCE.onKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_RELEASE, event.getModifiers());
+    if (lastScreen != Vanilla.INSTANCE.screen() && event.isCancelable()) { // detect gui change, cancel vanilla
+      event.setCanceled(true);
+    }
   }
 
 
