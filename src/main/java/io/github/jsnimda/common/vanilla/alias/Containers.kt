@@ -14,11 +14,6 @@ import net.minecraft.inventory.container.Container
 import net.minecraft.inventory.container.CraftingResultSlot
 import net.minecraft.inventory.container.GrindstoneContainer
 import net.minecraft.inventory.container.HopperContainer
-import net.minecraft.screen.*
-import net.minecraft.screen.slot.CraftingResultSlot
-import net.minecraft.screen.slot.Slot
-import net.minecraft.screen.slot.SlotActionType
-import net.minecraft.screen.slot.TradeOutputSlot
 import net.minecraft.inventory.container.LecternContainer
 import net.minecraft.inventory.container.LoomContainer
 import net.minecraft.inventory.container.MerchantContainer

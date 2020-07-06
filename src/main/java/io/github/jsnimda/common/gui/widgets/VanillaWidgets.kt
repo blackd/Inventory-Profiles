@@ -2,6 +2,8 @@ package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.LiteralText
+import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import net.minecraft.client.gui.FontRenderer
 import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
@@ -15,44 +17,55 @@ open class VanillaWidget<T : AbstractButtonWidget>(
 ) : Widget() {
   init {
     sizeChanged += {
-      vanilla.width = width
+//      vanilla.width = width
+      vanilla.func_230991_b_(width)
       // TODO set height
     }
     screenLocationChanged += {
-      vanilla.x = screenX
-      vanilla.y = screenY
+//      vanilla.x = screenX
+      vanilla.field_230690_l_ = screenX
+//      vanilla.y = screenY
+      vanilla.field_230691_m_ = screenY
     }
   }
 
   var vanillaMessage: String
-    get() = vanilla.message.asString()
+//    get() = vanilla.message.asString()
+    get() = vanilla.func_230458_i_().unformattedComponentText
     set(value) {
-      vanilla.message = LiteralText(value)
+//      vanilla.message = LiteralText(value)
+      vanilla.func_238482_a_(LiteralText(value))
     }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    vanilla.render(rMatrixStack, mouseX, mouseY, partialTicks)
+//    vanilla.render(rMatrixStack, mouseX, mouseY, partialTicks)
+    vanilla.func_230430_a_(rMatrixStack, mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
   }
 
   override fun mouseClicked(x: Int, y: Int, button: Int): Boolean {
-    return super.mouseClicked(x, y, button) || vanilla.mouseClicked(x.toDouble(), y.toDouble(), button)
+//    return super.mouseClicked(x, y, button) || vanilla.mouseClicked(x.toDouble(), y.toDouble(), button)
+    return super.mouseClicked(x, y, button) || vanilla.func_231044_a_(x.toDouble(), y.toDouble(), button)
   }
 
   override fun mouseReleased(x: Int, y: Int, button: Int): Boolean {
-    return super.mouseReleased(x, y, button) || vanilla.mouseReleased(x.toDouble(), y.toDouble(), button)
+//    return super.mouseReleased(x, y, button) || vanilla.mouseReleased(x.toDouble(), y.toDouble(), button)
+    return super.mouseReleased(x, y, button) || vanilla.func_231048_c_(x.toDouble(), y.toDouble(), button)
   }
 
   override fun mouseScrolled(x: Int, y: Int, amount: Double): Boolean {
-    return super.mouseScrolled(x, y, amount) || vanilla.mouseScrolled(x.toDouble(), y.toDouble(), amount)
+//    return super.mouseScrolled(x, y, amount) || vanilla.mouseScrolled(x.toDouble(), y.toDouble(), amount)
+    return super.mouseScrolled(x, y, amount) || vanilla.func_231043_a_(x.toDouble(), y.toDouble(), amount)
   }
 
   override fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double): Boolean {
-    return super.mouseDragged(x, y, button, dx, dy) || vanilla.mouseDragged(x, y, button, dx, dy)
+//    return super.mouseDragged(x, y, button, dx, dy) || vanilla.mouseDragged(x, y, button, dx, dy)
+    return super.mouseDragged(x, y, button, dx, dy) || vanilla.func_231045_a_(x, y, button, dx, dy)
   }
 
   override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
-    return super.keyPressed(keyCode, scanCode, modifiers) || vanilla.keyPressed(keyCode, scanCode, modifiers)
+//    return super.keyPressed(keyCode, scanCode, modifiers) || vanilla.keyPressed(keyCode, scanCode, modifiers)
+    return super.keyPressed(keyCode, scanCode, modifiers) || vanilla.func_231046_a_(keyCode, scanCode, modifiers)
   }
 
   override fun keyReleased(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
@@ -60,7 +73,8 @@ open class VanillaWidget<T : AbstractButtonWidget>(
   }
 
   override fun charTyped(charIn: Char, modifiers: Int): Boolean {
-    return super.charTyped(charIn, modifiers) || vanilla.charTyped(charIn, modifiers)
+//    return super.charTyped(charIn, modifiers) || vanilla.charTyped(charIn, modifiers)
+    return super.charTyped(charIn, modifiers) || vanilla.func_231042_a_(charIn, modifiers)
   }
 }
 
@@ -68,15 +82,19 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
 
   var valueChangedEvent: () -> Unit = { }
 
-  override fun updateMessage() {}
-  override fun applyValue() {
+//  override fun updateMessage() {}
+  override fun func_230979_b_() {}
+//  override fun applyValue() {
+  override fun func_230972_a_() {
     valueChangedEvent()
   }
 
   var translatedValue: Double
-    get() = (maxValue - minValue) * super.value + minValue
+//    get() = (maxValue - minValue) * super.value + minValue
+    get() = (maxValue - minValue) * super.field_230683_b_ + minValue
     set(value) {
-      super.value = (value - minValue) / (maxValue - minValue)
+//      super.value = (value - minValue) / (maxValue - minValue)
+      super.field_230683_b_ = (value - minValue) / (maxValue - minValue)
     }
 }
 
@@ -103,9 +121,12 @@ class SliderWidget(
 
 private class CustomTextFieldWidget(textRenderer: FontRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) :
   VanillaTextFieldWidget(textRenderer, i, j, k, l, LiteralText(string)) {
-  public override fun setFocused(bl: Boolean) {
-    super.setFocused(bl)
+//  public override fun setFocused(bl: Boolean) {
+  public override fun func_230996_d_(bl: Boolean) {
+//    super.setFocused(bl)
+    super.func_230996_d_(bl)
   }
+  fun setFocused(bl: Boolean) = func_230996_d_(bl)
 }
 
 class TextFieldWidget(height: Int) :
@@ -133,9 +154,11 @@ class TextFieldWidget(height: Int) :
     }
 
   var vanillaFocused: Boolean
-    get() = vanilla.isFocused
+//    get() = vanilla.isFocused
+    get() = vanilla.func_230999_j_()
     set(value) {
-      (vanilla as CustomTextFieldWidget).isFocused = value
+//      (vanilla as CustomTextFieldWidget).isFocused = value
+      (vanilla as CustomTextFieldWidget).func_230996_d_(value)
     }
 
   override fun lostFocus() {

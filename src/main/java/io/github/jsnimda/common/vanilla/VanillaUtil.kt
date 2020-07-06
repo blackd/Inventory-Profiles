@@ -23,9 +23,12 @@ object VanillaUtil {
 
   fun languageCode(): String = Vanilla.languageManager().currentLanguage.code
 
-  fun shiftDown() = Screen.hasShiftDown()
-  fun ctrlDown() = Screen.hasControlDown()
-  fun altDown() = Screen.hasAltDown()
+//  fun shiftDown() = Screen.hasShiftDown()
+//  fun ctrlDown() = Screen.hasControlDown()
+//  fun altDown() = Screen.hasAltDown()
+  fun shiftDown() = Screen.func_231173_s_() // line 391
+  fun ctrlDown() = Screen.func_231172_r_() // line 383
+  fun altDown() = Screen.func_231174_t_() // line 395
 
   // Mouse.onCursorPos() / GameRenderer.render()
   fun mouseX(): Int = (Vanilla.mouse().mouseX * rScreenWidth / Vanilla.window().width).toInt()

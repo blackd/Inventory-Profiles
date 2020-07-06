@@ -8,7 +8,8 @@ import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 import io.github.jsnimda.common.vanilla.alias.Identifier
 
 val VANILLA_TEXTURE_WIDGETS: Identifier
-  get() = AbstractButtonWidget.WIDGETS_LOCATION
+//  get() = AbstractButtonWidget.WIDGETS_LOCATION
+  get() = AbstractButtonWidget.field_230687_i_
 
 fun rBindTexture(identifier: Identifier) {
   Vanilla.textureManager().bindTexture(identifier)
@@ -18,7 +19,8 @@ fun rBindTexture(identifier: Identifier) {
 
 // for 256 x 256 texture
 fun rBlit(screenX: Int, screenY: Int, textureX: Int, textureY: Int, width: Int, height: Int) {
-  DrawableHelper.drawTexture(rMatrixStack, screenX, screenY, 0, textureX.toFloat(), textureY.toFloat(), width, height, 256, 256)
+//  DrawableHelper.drawTexture(rMatrixStack, screenX, screenY, 0, textureX.toFloat(), textureY.toFloat(), width, height, 256, 256)
+  DrawableHelper.func_238464_a_(rMatrixStack, screenX, screenY, 0, textureX.toFloat(), textureY.toFloat(), width, height, 256, 256)
 }
 
 fun rBlit(screenLocation: Point, textureLocation: Point, size: Size) {

@@ -42,7 +42,8 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
   fun TagCollection<Item>.toTagTxtContent(): String { // lets sort it
     val list = mutableListOf<Pair<String, MutableList<String>>>()
     for ((identifier, tag) in tagMap) { // forge tagMap = entries
-      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
+//      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
+      list += identifier.toString() to tag.func_230236_b_().map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
     }
     list.sortBy { it.first }
     list.forEach { it.second.sort() }

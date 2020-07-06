@@ -15,7 +15,8 @@ sealed class ItemTypeMatcher {
     override fun match(itemType: ItemType): Boolean {
       val tag = tag
       tag ?: return false.also { Log.warn("Unknown tag #$identifier") }
-      return tag.contains(itemType.item)
+//      return tag.contains(itemType.item)
+      return tag.func_230235_a_(itemType.item)
     }
   }
 

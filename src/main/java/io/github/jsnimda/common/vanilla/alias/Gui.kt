@@ -7,8 +7,8 @@ import net.minecraft.client.gui.screen.inventory.CreativeScreen
 import net.minecraft.client.gui.widget.AbstractSlider
 import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.client.gui.widget.Widget
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
-import net.minecraft.util.text.TextComponent
 import net.minecraft.util.text.TranslationTextComponent
 
 typealias Screen = Screen
@@ -19,7 +19,7 @@ typealias AbstractButtonWidget = Widget
 typealias SliderWidget = AbstractSlider
 typealias TextFieldWidget = TextFieldWidget
 
-typealias Text = TextComponent
+typealias Text = ITextComponent // TextComponent is BaseText!!!!!!!
 typealias LiteralText = StringTextComponent
 typealias TranslatableText = TranslationTextComponent
 

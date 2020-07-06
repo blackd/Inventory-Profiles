@@ -9,7 +9,7 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(getByIdentifier)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(type)`
 import net.minecraft.nbt.*
 import net.minecraft.tags.ItemTags
-import net.minecraft.tags.Tag as TagTag
+import net.minecraft.tags.ITag as TagTag // ~.~ Tag is SetTag!!!!!!
 
 // ============
 // vanillamapping code depends on mappings

@@ -1,19 +1,21 @@
 package io.github.jsnimda.common.vanilla.render
 
+import com.mojang.blaze3d.matrix.MatrixStack
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
-import net.minecraft.client.util.math.MatrixStack
 
 var rMatrixStack = MatrixStack()
 
 fun rMeasureText(string: String): Int =
-  Vanilla.textRenderer().getWidth(string) // getStringWidth() = getWidth()
+  Vanilla.textRenderer().getStringWidth(string) // getStringWidth() = getWidth()
 
 fun rDrawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
   if (shadow) {
-    Vanilla.textRenderer().drawStringWithShadow(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
+//    Vanilla.textRenderer().drawStringWithShadow(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
+    Vanilla.textRenderer().func_238405_a_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
   } else {
-    Vanilla.textRenderer().drawString(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
+//    Vanilla.textRenderer().drawString(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
+    Vanilla.textRenderer().func_238421_b_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
   }
 }
 
@@ -35,4 +37,5 @@ fun rDrawText(
 }
 
 fun rWrapText(string: String, maxWidth: Int): String =
-  Vanilla.textRenderer().trimStringToWidth(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
+//  Vanilla.textRenderer().trimStringToWidth(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
+  Vanilla.textRenderer().func_238412_a_(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
