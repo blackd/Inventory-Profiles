@@ -41,6 +41,10 @@ val Slot.`(left)`: Int
 val Slot.`(top)`: Int
   get() = yPosition
 
+fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
+  return isItemValid(itemStack.vanillaStack)
+}
+
 val Screen.`(focusedSlot)`: Slot?
   get() = (this as? ContainerScreen<*>)?.`(rawFocusedSlot)`?.let { vPlayerSlotOf(it, this) }
 

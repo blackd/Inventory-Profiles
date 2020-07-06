@@ -5,10 +5,7 @@ import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
-import io.github.jsnimda.inventoryprofiles.ingame.`(id)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(mutableItemStack)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
-import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
+import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.SubTracker
@@ -123,6 +120,7 @@ class AdvancedContainer(
          *  -> 3. empty: storage, hotbar, offhand
          *  -> if container is storage -> 4. container alike -> 5. container empty
          */
+        // ++ (can put to slot checking)
         // 1.
         tracker.subTracker(AreaTypes.focusedSlot).let { sandbox.cursorPutTo(it, skipEmpty = false) }
         if (tracker.cursor.isEmpty()) return@sandbox
@@ -144,15 +142,17 @@ class AdvancedContainer(
       }
     }
 
-    fun ContainerSandbox.cursorPutTo(destination: SubTracker, skipEmpty: Boolean) {
-      val tracker = this.items
-      if (tracker.cursor.isEmpty()) return
-      destination.indexedSlots.forEach { (slotIndex, slotItem) ->
-        if (skipEmpty && slotItem.isEmpty()) return@forEach
-        if (tracker.cursor.stackableWith(slotItem)) this.leftClick(slotIndex)
-        if (tracker.cursor.isEmpty()) return
-      }
-    }
+  } // end companion object
 
+  fun ContainerSandbox.cursorPutTo(destination: SubTracker, skipEmpty: Boolean) {
+    val tracker = this.items
+    if (tracker.cursor.isEmpty()) return
+    destination.indexedSlots.forEach { (slotIndex, slotItem) ->
+      if (skipEmpty && slotItem.isEmpty()) return@forEach
+      if (!vanillaSlots[slotIndex].`(canInsert)`(slotItem)) return@forEach
+      if (tracker.cursor.stackableWith(slotItem)) this.leftClick(slotIndex)
+      if (tracker.cursor.isEmpty()) return
+    }
   }
+
 }
