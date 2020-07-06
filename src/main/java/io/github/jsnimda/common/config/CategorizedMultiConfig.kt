@@ -4,12 +4,12 @@ fun List<IConfigOption>.toMultiConfig(): CategorizedMultiConfig =
   CategorizedMultiConfig().apply { forEach { addConfigOption(it) } }
 
 class CategorizedMultiConfig : ConfigOptionBase(), IConfigElementResettableMultiple {
-  val categories = mutableMapOf<String, List<IConfigOption>>()
+  val categories = mutableListOf<Pair<String, List<IConfigOption>>>()
   private var currentCategory: MutableList<IConfigOption>? = null
 
   fun addCategory(categoryName: String) = mutableListOf<IConfigOption>().also {
     currentCategory = it
-    categories[categoryName] = it
+    categories += categoryName to it
   }
 
   fun addConfigOption(configOption: IConfigOption) {
@@ -17,5 +17,5 @@ class CategorizedMultiConfig : ConfigOptionBase(), IConfigElementResettableMulti
   }
 
   override fun getConfigOptionMap() = getConfigOptionMapFromList()
-  override fun getConfigOptionList() = categories.values.flatten()
+  override fun getConfigOptionList() = categories.flatMap { it.second }
 }
