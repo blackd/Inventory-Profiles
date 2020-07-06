@@ -1,31 +1,29 @@
 package io.github.jsnimda.inventoryprofiles.forge;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
-import com.mojang.blaze3d.platform.GlStateManager;
-
-import org.apache.commons.lang3.reflect.FieldUtils;
-
-import io.github.jsnimda.inventoryprofiles.config.Configs.Tweaks;
-import io.github.jsnimda.inventoryprofiles.gui.ToolTips;
-import io.github.jsnimda.inventoryprofiles.gui.inject.GuiSortingButtons;
-import io.github.jsnimda.inventoryprofiles.sorter.SorterEventPort;
-import io.github.jsnimda.inventoryprofiles.sorter.util.Current;
+import io.github.jsnimda.common.vanilla.Vanilla;
+import io.github.jsnimda.common.vanilla.VanillaUtil;
+import io.github.jsnimda.inventoryprofiles.config.Tweaks;
+import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler;
+import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.client.util.InputMappings;
-import net.minecraft.inventory.container.Container;
 import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import org.apache.commons.lang3.reflect.FieldUtils;
+
+import java.lang.reflect.Field;
 
 /**
  * ForgeEventHandler
@@ -38,36 +36,129 @@ public class ForgeEventHandler {
 
   @SubscribeEvent
   public void onDrawScreenPost(DrawScreenEvent.Post e) { // MixinAbstractContainerScreen.render
-    if (!ToolTips.current.isEmpty()) {
-      GlStateManager.pushMatrix();
-      ToolTips.renderAll();
-      GlStateManager.disableLighting();
-      GlStateManager.popMatrix();
-    }
+//    if (!ToolTips.current.isEmpty()) {
+//      GlStateManager.pushMatrix();
+//      ToolTips.renderAll();
+//      GlStateManager.disableLighting();
+//      GlStateManager.popMatrix();
+//    }
+//    if (!Tooltips.INSTANCE.getTooltips().isEmpty()) {
+//      GlStateManager.pushMatrix();
+//      Tooltips.INSTANCE.renderAll();
+//      GlStateManager.disableLighting();
+//      GlStateManager.popMatrix();
+//    }
   }
 
   @SubscribeEvent
   public void onInitGuiPost(InitGuiEvent.Post e) { // MixinAbstractContainerScreen.init
     if (e.getGui() instanceof ContainerScreen) {
-      ContainerScreen<?> containerScreen = (ContainerScreen<?>) e.getGui();
-      Container container = containerScreen.getContainer();
-      int left = (containerScreen.width - containerScreen.getXSize()) / 2;
-      int top = (containerScreen.height - containerScreen.getYSize()) / 2;
-      int containerWidth = containerScreen.getXSize();
-      int containerHeight = containerScreen.getYSize();
-      List<Widget> buttons = GuiSortingButtons.gets(containerScreen, container, left, top, containerWidth,
-          containerHeight);
-      buttons.forEach(x -> e.addWidget(x));
+      // on forge this is called twice on creative screen lol
+      // fix:
+      if (Vanilla.INSTANCE.screen() != e.getGui()) return;
+
+      e.addWidget(ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui()));
+    }
+  }
+
+  /*
+  todo tweaks:
+   @Mixin(ClientPlayerInteractionManager.class)
+// INSTANT_MINING_COOLDOWN
+//  @Inject(at = @At(value = "INVOKE_ASSIGN", target="Lnet/minecraft/client/network/ClientPlayerInteractionManager;"
+//      + "breakBlock(Lnet/minecraft/util/math/BlockPos;)Z"),
+//      method = "attackBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
+//  public void attackBlock(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
+//    if (Tweaks.INSTANCE.getINSTANT_MINING_COOLDOWN().getBooleanValue()) {
+//      this.field_3716 = 5;
+//    }
+//  }
+
+// ============
+// MixinGameRenderer
+// ============
+
+// DISABLE_SCREEN_SHAKING_ON_DAMAGE
+//@Mixin(GameRenderer.class)
+//public class MixinGameRenderer {
+//  @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(F)V", cancellable = true)
+//  public void bobViewWhenHurt(float float_1, CallbackInfo info) {
+//    if (Tweaks.INSTANCE.getDISABLE_SCREEN_SHAKING_ON_DAMAGE().getBooleanValue()) {
+//      info.cancel();
+//    }
+//  }
+
+// DISABLE_LAVA_FOG
+//@Mixin(GlStateManager.class)
+//public class MixinGlStateManager {
+//
+//  @ModifyVariable(method = "fogDensity(F)V", at = @At("HEAD"), argsOnly = true)
+//  private static float fogDensity(float fogDensity) {
+//    if (fogDensity == 2.0f && Tweaks.INSTANCE.getDISABLE_LAVA_FOG().getBooleanValue()) {
+//      return 0.02f;
+//    }
+//    return fogDensity;
+//  }
+//
+//}
+   */
+
+  // fabric GameRenderer.render() = forge updateCameraAndRender()
+  // forge line 554
+  @SubscribeEvent
+  public void postScreenRender(DrawScreenEvent.Post e) {
+    GameEventHandler.INSTANCE.postScreenRender();
+  }
+
+  @SubscribeEvent
+  public void clientClick(ClientTickEvent e) {
+    if (e.phase == Phase.START) {
+      onTickPre();
+    } else { // e.phase == Phase.END
+      onTickPost();
+    }
+  }
+
+  public void onTickPost() {
+    GameEventHandler.INSTANCE.onTick();
+  }
+
+  @SubscribeEvent
+  public void joinWorld(WorldEvent.Load event) {
+    if (VanillaUtil.INSTANCE.isOnClientThread()) {
+      GameEventHandler.INSTANCE.onJoinWorld();
     }
   }
 
   @SubscribeEvent
+  public void onCrafted(PlayerEvent.ItemCraftedEvent event) {
+    if (VanillaUtil.INSTANCE.isOnClientThread()) {
+      GameEventHandler.INSTANCE.onCrafted();
+    }
+  }
+
+  @SubscribeEvent
+  public void preRenderTooltip(RenderTooltipEvent.Pre event) {
+    GameEventHandler.INSTANCE.preRenderTooltip();
+  }
+
+  @SubscribeEvent
+  public void preScreenRender(GuiScreenEvent.DrawScreenEvent.Pre event) {
+    GameEventHandler.INSTANCE.preScreenRender();
+  }
+
+
+  // ============
+  // old event
+  // ============
+
+  @SubscribeEvent
   public void onGuiKeyPressedPre(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
-    if (!Current.inGame()) return;
+    if (!VanillaUtil.INSTANCE.inGame()) return;
     InputMappings.Input mouseKey = InputMappings.getInputByCode(e.getKeyCode(), e.getScanCode());
-    if (Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM.getBooleanValue()
-        && (e.getKeyCode() == 256 || Current.MC().gameSettings.keyBindInventory.isActiveAndMatches(mouseKey))) {
-      SorterEventPort.handleCloseContainer();
+    if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
+        && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory.isActiveAndMatches(mouseKey))) {
+      GeneralInventoryActions.INSTANCE.handleCloseContainer();
     }
   }
 
@@ -79,13 +170,11 @@ public class ForgeEventHandler {
   //rightClickDelayTimer
   Field rightClickDelayTimerField = null; // field_71467_ac
 
-  @SubscribeEvent
-  public void onTick(ClientTickEvent e) { // Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN, Tweaks.DISABLE_ITEM_USE_COOLDOWN
-    if (!Current.inGame()) return;
-    if (e.phase != Phase.START) return;
-    if (Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN.getBooleanValue()) {
-      if (pc == null || pc != Current.interactionManager()) {
-        pc = Current.interactionManager();
+  public void onTickPre() { // Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN, Tweaks.DISABLE_ITEM_USE_COOLDOWN
+    if (!VanillaUtil.INSTANCE.inGame()) return;
+    if (Tweaks.INSTANCE.getDISABLE_BLOCK_BREAKING_COOLDOWN().getBooleanValue()) {
+      if (pc == null || pc != Vanilla.INSTANCE.interactionManager()) {
+        pc = Vanilla.INSTANCE.interactionManager();
         blockHitDelayField = ObfuscationReflectionHelper.findField(PlayerController.class, "field_78781_i");
       }
       try {
@@ -94,12 +183,12 @@ public class ForgeEventHandler {
         e2.printStackTrace();
       }
     }
-    if (Tweaks.DISABLE_ITEM_USE_COOLDOWN.getBooleanValue()) {
+    if (Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
       if (rightClickDelayTimerField == null) {
         rightClickDelayTimerField = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71467_ac");
       }
       try {
-        FieldUtils.writeField(rightClickDelayTimerField, Current.MC(), 0, true);
+        FieldUtils.writeField(rightClickDelayTimerField, Vanilla.INSTANCE.mc(), 0, true);
       } catch (IllegalAccessException e2) {
         e2.printStackTrace();
       }

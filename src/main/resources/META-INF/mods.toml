@@ -26,7 +26,7 @@ issueTrackerURL="https://github.com/jsnimda/Inventory-Profiles/issues" #optional
     displayName="Inventory Profiles" #mandatory
 
     # A URL to query for updates for this mod. See the JSON update specification <here>
-    updateJSONURL="http://myurl.me/" #optional
+#    updateJSONURL="http://myurl.me/" #optional
 
     # A URL for the "homepage" for this mod, displayed in the mod UI
     displayURL="https://www.curseforge.com/minecraft/mc-mods/inventory-profiles" #optional
