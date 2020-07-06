@@ -10,8 +10,13 @@ import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.Item
 import io.github.jsnimda.common.vanilla.alias.Registry
 import io.github.jsnimda.inventoryprofiles.event.TellPlayer
+import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagContainer
+
+// ============
+// vanillamapping code depends on mappings
+// ============
 
 object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
   val fileDatapack = VanillaUtil.configDirectory("inventoryprofiles") / "tags.vanilla.datapack.txt"
@@ -37,7 +42,8 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
   fun TagContainer<Item>.toTagTxtContent(): String { // lets sort it
     val list = mutableListOf<Pair<String, MutableList<String>>>()
     for ((identifier, tag) in entries) {
-      list += identifier.toString() to tag.values().map { Registry.ITEM.getId(it).toString() }.toMutableList()
+      list += identifier.toString() to tag.values().map { Registry.ITEM.`(getIdentifier)`(it).toString() }
+        .toMutableList()
     }
     list.sortBy { it.first }
     list.forEach { it.second.sort() }

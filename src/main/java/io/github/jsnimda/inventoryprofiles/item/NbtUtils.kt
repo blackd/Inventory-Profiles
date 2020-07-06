@@ -3,12 +3,10 @@ package io.github.jsnimda.inventoryprofiles.item
 import com.mojang.brigadier.StringReader
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.util.*
-import io.github.jsnimda.common.vanilla.alias.CompoundTag
-import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.alias.Item
-import io.github.jsnimda.common.vanilla.alias.Registry
-import net.minecraft.command.arguments.NbtPathArgumentType
-import net.minecraft.nbt.*
+import io.github.jsnimda.common.vanilla.alias.*
+import io.github.jsnimda.inventoryprofiles.ingame.`(asString)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(getByIdentifier)`
+import io.github.jsnimda.inventoryprofiles.ingame.`(type)`
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.Tag as TagTag
 
@@ -21,7 +19,7 @@ object NbtUtils {
   // Vanilla Item
   // ============
   fun getItemFromId(id: Identifier): Item? {
-    return Registry.ITEM.get(id)
+    return Registry.ITEM.`(getByIdentifier)`(id)
   }
 
   fun getTagFromId(id: Identifier): TagTag<Item>? {
@@ -86,7 +84,7 @@ object NbtUtils {
     return innerMatchNbt(a, b)
   }
 
-  class NbtPath(val value: NbtPathArgumentType.NbtPath) { // wrapper class to avoid direct imports to vanilla code
+  class NbtPath(val value: NbtPathArgumentTypeNbtPath) { // wrapper class to avoid direct imports to vanilla code
     companion object {
       fun of(string: String): NbtPath? {
         return getNbtPath(string)?.let { NbtPath(it) }
@@ -102,15 +100,15 @@ object NbtUtils {
 
   class WrappedTag(val value: Tag) {
     val isString: Boolean
-      get() = value.type.toInt() == 8
+      get() = value.`(type)` == 8
     val isNumber: Boolean
-      get() = value.type in 1..6
+      get() = value.`(type)` in 1..6
     val isCompound: Boolean
-      get() = value.type.toInt() == 10
+      get() = value.`(type)` == 10
     val isList: Boolean
-      get() = value.type.toInt() in listOf(7, 9, 11, 12)
+      get() = value.`(type)` in listOf(7, 9, 11, 12)
     val asString: String
-      get() = value.asString()
+      get() = value.`(asString)`
     val asNumber: Number // todo what if number is long > double precision range
       get() = (value as? AbstractNumberTag)?.double ?: 0
     val asDouble: Double
@@ -133,12 +131,12 @@ object NbtUtils {
     return NbtHelper.matches(a, b, true) // criteria, testTarget, allowExtra (for list)
   }
 
-  private fun getNbtPath(path: String): NbtPathArgumentType.NbtPath? {
+  private fun getNbtPath(path: String): NbtPathArgumentTypeNbtPath? {
     // NbtPathArgumentType().parse(StringReader(path))
     return tryOrNull({ Log.warn(it.toString()) }) { NbtPathArgumentType().parse(StringReader(path)) }
   }
 
-  private fun getTagsForPath(nbtPath: NbtPathArgumentType.NbtPath, target: Tag): List<Tag> {
+  private fun getTagsForPath(nbtPath: NbtPathArgumentTypeNbtPath, target: Tag): List<Tag> {
     return trySwallow(listOf()) { nbtPath.get(target) }
   }
 }

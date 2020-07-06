@@ -154,7 +154,7 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
   }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    slider.vanilla.message = LiteralText(configOption.value.toString())
+    slider.vanillaMessage = LiteralText(configOption.value.toString())
     slider.visible = useSlider
     textField.visible = !useSlider
     if (useSlider) {
@@ -162,7 +162,7 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
       textField.vanillaFocused = false
     }
     if (!textField.editing() && !useSlider) { // is editing
-      textField.vanilla.text = configOption.value.toString()
+      textField.vanillaText = configOption.value.toString()
     }
     super.render(mouseX, mouseY, partialTicks)
   }

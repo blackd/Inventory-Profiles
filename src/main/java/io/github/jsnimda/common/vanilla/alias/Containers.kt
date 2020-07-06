@@ -8,6 +8,7 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.screen.*
 import net.minecraft.screen.slot.CraftingResultSlot
 import net.minecraft.screen.slot.Slot
+import net.minecraft.screen.slot.SlotActionType
 import net.minecraft.screen.slot.TradeOutputSlot
 import net.minecraft.village.TraderInventory
 
@@ -41,3 +42,5 @@ typealias TraderInventory = TraderInventory
 typealias Slot = Slot
 typealias TradeOutputSlot = TradeOutputSlot
 typealias CraftingResultSlot = CraftingResultSlot
+
+typealias SlotActionType = SlotActionType
