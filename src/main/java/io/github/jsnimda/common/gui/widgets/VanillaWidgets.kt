@@ -2,6 +2,8 @@ package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.LiteralText
+import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
 import net.minecraft.client.font.TextRenderer
 import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
@@ -26,9 +28,9 @@ open class VanillaWidget<T : AbstractButtonWidget>(
   }
 
   var vanillaMessage: String
-    get() = vanilla.message
+    get() = vanilla.message.asString()
     set(value) {
-      vanilla.message = value
+      vanilla.message = LiteralText(value)
     }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {

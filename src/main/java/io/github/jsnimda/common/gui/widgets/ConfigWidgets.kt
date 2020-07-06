@@ -10,7 +10,6 @@ import io.github.jsnimda.common.gui.widget.BiFlex
 import io.github.jsnimda.common.vanilla.VanillaSound
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.render.rBindTexture
 import io.github.jsnimda.common.vanilla.render.rBlit
 import io.github.jsnimda.common.vanilla.render.rMeasureText
@@ -154,7 +153,7 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
   }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    slider.vanillaMessage = LiteralText(configOption.value.toString())
+    slider.vanillaMessage = configOption.value.toString()
     slider.visible = useSlider
     textField.visible = !useSlider
     if (useSlider) {
