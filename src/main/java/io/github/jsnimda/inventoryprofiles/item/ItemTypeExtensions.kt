@@ -29,6 +29,9 @@ val ItemType.maxCount: Int
 val ItemType.vanillaStack: VanillaItemStack
   get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }
 
+fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
+  VanillaItemStack(this.item, count).apply { tag = this@vanillaStackWithCount.tag }
+
 val ItemType.identifier: Identifier
   get() = Registry.ITEM.`(getIdentifier)`(item)
 

@@ -19,6 +19,9 @@ val ItemStack.room
 fun ItemStack.stackableWith(b: ItemStack) =
   itemType == b.itemType || isEmpty() || b.isEmpty()
 
+val ItemStack.vanillaStack
+  get() = itemType.vanillaStackWithCount(count)
+
 // ============
 // MutableItemStack
 // ============
