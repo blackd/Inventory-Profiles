@@ -101,11 +101,15 @@ object Tweaks : ConfigDeclaration {
   val SWIPE_MOVE_CRAFTING_RESULT_SLOT           /**/ by hotkeyedBool(false)
 
     .CATEGORY("$category.survival")
+    .CATEGORY("§§hide")
   val INSTANT_MINING_COOLDOWN                   /**/ by hotkeyedBool(false)
+    .CATEGORY("")
   val DISABLE_BLOCK_BREAKING_COOLDOWN           /**/ by hotkeyedBool(false)
   val DISABLE_ITEM_USE_COOLDOWN                 /**/ by hotkeyedBool(false)
+    .CATEGORY("§§hide")
   val DISABLE_SCREEN_SHAKING_ON_DAMAGE          /**/ by hotkeyedBool(false)
   val DISABLE_LAVA_FOG                          /**/ by hotkeyedBool(false)
+    .CATEGORY("")
 
 }
 
