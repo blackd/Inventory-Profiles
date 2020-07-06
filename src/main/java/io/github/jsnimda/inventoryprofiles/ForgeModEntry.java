@@ -1,8 +1,10 @@
 package io.github.jsnimda.inventoryprofiles;
 
+import io.github.jsnimda.common.event.GlobalInitHandler;
 import io.github.jsnimda.common.forge.CommonForgeEventHandler;
 import io.github.jsnimda.inventoryprofiles.forge.ForgeEventHandler;
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen;
+import kotlin.Unit;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -29,6 +31,11 @@ public class ForgeModEntry {
 //    Configs.saveLoadManager.load();
 
     InventoryProfilesKt.init();
+
+    GlobalInitHandler.INSTANCE.register(() -> {
+      ModInfo.MOD_VERSION = ModInfo.getModVersion();
+      return Unit.INSTANCE;
+    });
 
 //    GlobalInitHandler.INSTANCE.onInit();
     // ^^ let do it on first tick event
