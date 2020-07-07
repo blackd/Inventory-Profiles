@@ -5,6 +5,7 @@ import io.github.jsnimda.common.vanilla.VanillaUtil;
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
 import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
 import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.InjectWidget;
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * ForgeEventHandler
@@ -57,7 +59,10 @@ public class ForgeEventHandler {
       // fix:
       if (Vanilla.INSTANCE.screen() != e.getGui()) return;
 
-      e.addWidget(ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui()));
+      List<InjectWidget> list = ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui());
+      for (InjectWidget iw : list) {
+        e.addWidget(iw);
+      }
     }
   }
 
