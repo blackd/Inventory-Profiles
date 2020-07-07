@@ -25,8 +25,8 @@ object ModSettings : ConfigDeclaration {
 
     .CATEGORY("$category.move_matching_items")
   val INCLUDE_HOTBAR_MODIFIER                   /**/ by hotkey("LEFT_ALT", KeybindSettings.GUI_EXTRA)
-  val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
   val MOVE_ALL_MODIFIER                         /**/ by hotkey("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
+  val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
   val ALWAYS_MOVE_ALL                           /**/ by bool(false)
 
     .CATEGORY("$category.auto_refill")

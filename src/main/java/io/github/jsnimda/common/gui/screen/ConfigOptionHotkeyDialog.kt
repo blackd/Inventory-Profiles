@@ -33,7 +33,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
   var showTooltips = false
 
   init {
-    val dialogHeight = 5 * 20 + 2 + 10
+    val dialogHeight = (configs.size + 1) * 20 + 2 + 10
     val dialogWidth = max(maxTextWidth + 150 + 2, rMeasureText("§l$titleString")) + 20
     dialogWidget.size = Size(dialogWidth, dialogHeight)
     configs.forEachIndexed { index, configOption ->

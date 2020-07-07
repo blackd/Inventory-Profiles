@@ -1,7 +1,12 @@
 package io.github.jsnimda.common.input
 
+import io.github.jsnimda.common.config.IConfigElementResettableMultiple
+import io.github.jsnimda.common.config.options.ConfigBoolean
+import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.input.KeybindSettings.Context.*
 import io.github.jsnimda.common.input.KeybindSettings.KeyAction.PRESS
+import io.github.jsnimda.common.input.KeybindSettings.ModifierKey.NORMAL
+import io.github.jsnimda.common.util.containsAny
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Screen
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
@@ -11,7 +16,8 @@ data class KeybindSettings(
   val context: Context,
   val activateOn: KeyAction,
   val allowExtraKeys: Boolean,
-  val orderSensitive: Boolean
+  val orderSensitive: Boolean,
+  val modifierKey: ModifierKey = NORMAL,
 ) {
   companion object {
     val INGAME_DEFAULT = KeybindSettings(INGAME, PRESS, allowExtraKeys = false, orderSensitive = true)
@@ -49,4 +55,70 @@ data class KeybindSettings(
     }
   }
 
+  enum class ModifierKey {
+    DIFFERENTIATE, NORMAL;
+
+    fun handleKeys(keys: List<Int>) = when (this) {
+      DIFFERENTIATE -> keys
+      NORMAL -> if (KeyCodes.modifiers.containsAny(keys))
+        keys.map { KeyCodes.getModifierKeyCode(it) }.distinct() else keys
+    }
+
+    override fun toString(): String {
+      return I18n.translate("inventoryprofiles.common.enum.modifier_key." + name.toLowerCase())
+    }
+  }
+
+  // validate boolean values
+  fun validates(pressedKeys: Set<Int>, registeredKeys: List<Int>): Boolean {
+    // move from GlobalInputHandler.isActivated()
+    if (registeredKeys.isEmpty()) return false
+    return rawValidates(
+      modifierKey.handleKeys(pressedKeys.toList()),
+      modifierKey.handleKeys(registeredKeys)
+    )
+  }
+
+  private fun rawValidates(pressedKeys: List<Int>, registeredKeys: List<Int>): Boolean {
+    return pressedKeys.size >= registeredKeys.size && (allowExtraKeys || pressedKeys.size == registeredKeys.size) &&
+        if (orderSensitive) {
+          pressedKeys.toList().takeLast(registeredKeys.size) == registeredKeys
+        } else { // order insensitive
+          registeredKeys.contains(GlobalInputHandler.lastKey) && pressedKeys.containsAll(registeredKeys)
+        }
+  }
+}
+
+// ============
+// ConfigKeybindSettings
+// ============
+
+@Suppress("CanBeParameter", "MemberVisibilityCanBePrivate")
+class ConfigKeybindSettings(
+  val defaultSettings: KeybindSettings,
+  settings: KeybindSettings
+) : IConfigElementResettableMultiple {
+  val context = ConfigEnum(defaultSettings.context)
+    .apply { key = "context"; value = settings.context }
+  val activateOn = ConfigEnum(defaultSettings.activateOn)
+    .apply { key = "activate_on"; value = settings.activateOn }
+  val allowExtraKeys = ConfigBoolean(defaultSettings.allowExtraKeys)
+    .apply { key = "allow_extra_keys"; value = settings.allowExtraKeys }
+  val orderSensitive = ConfigBoolean(defaultSettings.orderSensitive)
+    .apply { key = "order_sensitive"; value = settings.orderSensitive }
+  val modifierKey = ConfigEnum(defaultSettings.modifierKey)
+    .apply { key = "modifier_key"; value = settings.modifierKey }
+
+  val settings: KeybindSettings
+    get() = KeybindSettings(
+      context.value,
+      activateOn.value,
+      allowExtraKeys.booleanValue,
+      orderSensitive.booleanValue,
+      modifierKey.value,
+    )
+
+  override fun getConfigOptionMap() = getConfigOptionMapFromList()
+  override fun getConfigOptionList() =
+    listOf(activateOn, context, allowExtraKeys, orderSensitive, modifierKey) // gui display order
 }

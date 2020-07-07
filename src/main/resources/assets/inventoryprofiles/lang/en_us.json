@@ -14,6 +14,7 @@
     "inventoryprofiles.common.gui.config.context": "Context",
     "inventoryprofiles.common.gui.config.allow_extra_keys": "Allow Extra Keys",
     "inventoryprofiles.common.gui.config.order_sensitive": "Order Sensitive",
+    "inventoryprofiles.common.gui.config.modifier_key": "Ctrl/Alt/Shift",
     "inventoryprofiles.common.gui.config.keybind_settings_tips": "- Left click to configure\n- Right click to reset to defaults",
 
     "inventoryprofiles.common.enum.key_action.press": "Press",
@@ -22,6 +23,8 @@
     "inventoryprofiles.common.enum.context.ingame": "In-game",
     "inventoryprofiles.common.enum.context.gui": "Gui",
     "inventoryprofiles.common.enum.context.any": "In-game / Gui",
+    "inventoryprofiles.common.enum.modifier_key.differentiate": "Diff left/right",
+    "inventoryprofiles.common.enum.modifier_key.normal": "Normal",
 
 
 

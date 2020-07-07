@@ -22,12 +22,7 @@ object GlobalInputHandler {
     // checked: context, activateOn
     // ref: malilib KeybindMulti.updateIsPressed()
     val validateKeys = if (lastAction == GLFW_PRESS) pressedKeys else previousPressedKeys
-    return validateKeys.size >= keyCodes.size && (settings.allowExtraKeys || validateKeys.size == keyCodes.size) &&
-        if (settings.orderSensitive) {
-          validateKeys.toList().takeLast(keyCodes.size) == keyCodes
-        } else { // order insensitive
-          keyCodes.contains(lastKey) && validateKeys.containsAll(keyCodes)
-        }
+    return settings.validates(validateKeys, keyCodes)
   }
 
   private fun onKey(key: Int, action: Int): Boolean { // action: only GLFW_PRESS or GLFW_RELEASE

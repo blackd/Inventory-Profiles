@@ -1,11 +1,13 @@
 package io.github.jsnimda.inventoryprofiles.input
 
 import io.github.jsnimda.common.IInputHandler
+import io.github.jsnimda.common.config.options.ConfigHotkey
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
+import kotlin.reflect.KFunction0
 
 object InventoryInputHandler : IInputHandler {
 
@@ -14,7 +16,7 @@ object InventoryInputHandler : IInputHandler {
     if (Vanilla.screen() != null && Vanilla.screen() !is ContainerScreen<*>) return false
 
     with(GeneralInventoryActions) {
-      listOf(
+      listOf<Pair<ConfigHotkey, KFunction0<Unit>>>(
         Hotkeys.SORT_INVENTORY            /**/ to ::doSort,
         Hotkeys.SORT_INVENTORY_IN_COLUMNS /**/ to ::doSortInColumns,
         Hotkeys.SORT_INVENTORY_IN_ROWS    /**/ to ::doSortInRows,
