@@ -39,6 +39,7 @@
     "inventoryprofiles.gui.config.ModSettings": "Mod Settings",
 
     "inventoryprofiles.config.category.inventory_sorting": "Sorting Options",
+    "inventoryprofiles.config.category.move_matching_items": "Move Matching Items",
     "inventoryprofiles.config.category.auto_refill": "Auto Refill",
     "inventoryprofiles.config.category.advanced_options": "Advanced Options",
 
@@ -54,6 +55,15 @@
     "inventoryprofiles.config.name.custom_rule":                        "Custom Rule",
     "inventoryprofiles.config.description.sort_order":                  "The sorting method used for inventory sorting",
     "inventoryprofiles.config.description.custom_rule":                 "The rule for custom sorting method",
+
+    "inventoryprofiles.config.name.include_hotbar_modifier":            "Include Hotbar Modifier",
+    "inventoryprofiles.config.name.move_all_modifier":                  "Move All Modifier",
+    "inventoryprofiles.config.name.always_include_hotbar":              "Always Include Hotbar",
+    "inventoryprofiles.config.name.always_move_all":                    "Always Move All",
+    "inventoryprofiles.config.description.include_hotbar_modifier":     "Hold this key to include hotbar",
+    "inventoryprofiles.config.description.move_all_modifier":           "Hold this key to move all",
+    "inventoryprofiles.config.description.always_include_hotbar":       "Include hotbar without holding the modifier key (then holding the modifier key is to exclude hotbar)",
+    "inventoryprofiles.config.description.always_move_all":             "Move all without holding the modifier key (then holding the modifier key is to move matching items only)",
 
     "inventoryprofiles.config.name.enable_auto_refill":                 "Enable Auto Refill",
     "inventoryprofiles.config.name.disable_for_drop_item":              "Disable For Drop Item",
@@ -157,6 +167,7 @@
 
     "inventoryprofiles.gui.config.Hotkeys": "Hotkeys",
     "inventoryprofiles.config.category.hotkeys": "Hotkeys",
+    "inventoryprofiles.config.category.misc": "Misc",
 
     "inventoryprofiles.config.name.open_config_menu":               "Open Config Menu",
     "inventoryprofiles.config.name.sort_inventory":                 "Sort Inventory",
