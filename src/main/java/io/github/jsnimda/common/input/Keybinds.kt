@@ -7,6 +7,7 @@ import io.github.jsnimda.common.config.IConfigElementObject
 import io.github.jsnimda.common.config.IConfigElementResettableMultiple
 import io.github.jsnimda.common.config.options.ConfigBoolean
 import io.github.jsnimda.common.config.options.ConfigEnum
+import io.github.jsnimda.common.input.KeybindSettings.ModifierKey.*
 
 // ============
 // Keybinds
@@ -53,7 +54,10 @@ interface IKeybind : IConfigElementObject {
     GlobalInputHandler.isActivated(keyCodes, settings)
 
   val displayText
-    get() = getDisplayText(keyCodes)
+    get() = when(settings.modifierKey) {
+      DIFFERENTIATE -> getDisplayText(keyCodes)
+      NORMAL -> getDisplayTextModifier(keyCodes)
+    }
 
   val isKeyCodesModified
     get() = defaultKeyCodes != keyCodes
@@ -96,6 +100,7 @@ interface IKeybind : IConfigElementObject {
   companion object {
     fun getStorageString(keyCodes: List<Int>) = keyCodes.joinToString(",") { KeyCodes.getName(it) }
     fun getDisplayText(keyCodes: List<Int>) = keyCodes.joinToString(" + ") { KeyCodes.getFriendlyName(it) }
+    fun getDisplayTextModifier(keyCodes: List<Int>) = keyCodes.joinToString(" + ") { KeyCodes.getModifierName(it) }
     fun getKeyCodes(storageString: String): List<Int> =
       storageString.split(",")
         .map { KeyCodes.getKeyCode(it.trim()) }

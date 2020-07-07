@@ -61,6 +61,9 @@ object GlobalInputHandler {
   private var ignoreLeftClick = false // fix forge version while compatible with fabric version
 
   private fun handleAssignKeybind() {
+    val pressedKeys: List<Int> = currentAssigningKeybind
+      ?.run { settings.modifierKey.handleKeys(pressedKeys.toList()) }
+      ?: pressedKeys.toList()
     if (lastAction == GLFW_PRESS) {
       if (lastKey == KeyCodes.MOUSE_BUTTON_1 && ignoreLeftClick) { // GLFW_MOUSE_BUTTON_1 - 100
         return
@@ -70,7 +73,7 @@ object GlobalInputHandler {
         currentAssigningKeybind?.keyCodes = listOf()
         currentAssigningKeybind = null
       } else {
-        currentAssigningKeybind?.keyCodes = pressedKeys.toList()
+        currentAssigningKeybind?.keyCodes = pressedKeys
       }
     } else { // lastAction == GLFW_RELEASE
       if (lastKey == KeyCodes.MOUSE_BUTTON_1) {
