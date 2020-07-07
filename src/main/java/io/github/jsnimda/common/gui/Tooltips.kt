@@ -34,6 +34,7 @@ object Tooltips {
     private fun renderTooltip() { // ref: Screen.renderTooltip
       if (list.isEmpty()) return
       rStandardGlState()
+      rClearDepth()
       val maxTextWidth = list.map { rMeasureText(it) }.max() ?: return
       val boxW = maxTextWidth + 8
       val boxH = list.size * 10 + 6
