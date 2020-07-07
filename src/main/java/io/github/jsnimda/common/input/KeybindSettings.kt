@@ -70,21 +70,24 @@ data class KeybindSettings(
   }
 
   // validate boolean values
-  fun validates(pressedKeys: Set<Int>, registeredKeys: List<Int>): Boolean {
+  fun validates(pressedKeys: Set<Int>, registeredKeys: List<Int>, justPressed: Boolean = true): Boolean {
     // move from GlobalInputHandler.isActivated()
     if (registeredKeys.isEmpty()) return false
     return rawValidates(
       modifierKey.handleKeys(pressedKeys.toList()),
-      modifierKey.handleKeys(registeredKeys)
+      modifierKey.handleKeys(registeredKeys),
+      justPressed
     )
   }
 
-  private fun rawValidates(pressedKeys: List<Int>, registeredKeys: List<Int>): Boolean {
+  private fun rawValidates(pressedKeys: List<Int>, registeredKeys: List<Int>, justPressed: Boolean): Boolean {
     return pressedKeys.size >= registeredKeys.size && (allowExtraKeys || pressedKeys.size == registeredKeys.size) &&
         if (orderSensitive) {
-          pressedKeys.toList().takeLast(registeredKeys.size) == registeredKeys
+          (if (justPressed) pressedKeys else pressedKeys.dropLastWhile { it != registeredKeys.last() })
+            .takeLast(registeredKeys.size) == registeredKeys
         } else { // order insensitive
-          registeredKeys.contains(GlobalInputHandler.lastKey) && pressedKeys.containsAll(registeredKeys)
+          (!justPressed || registeredKeys.contains(pressedKeys.last()))
+              && pressedKeys.containsAll(registeredKeys)
         }
   }
 }

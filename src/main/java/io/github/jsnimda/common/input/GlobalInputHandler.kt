@@ -25,6 +25,12 @@ object GlobalInputHandler {
     return settings.validates(validateKeys, keyCodes)
   }
 
+  fun isPressing(keyCodes: List<Int>, settings: KeybindSettings): Boolean {
+    if (keyCodes.isEmpty()) return false
+    if (!settings.context.isValid(Vanilla.screen())) return false
+    return settings.validates(pressedKeys, keyCodes, justPressed = false)
+  }
+
   private fun onKey(key: Int, action: Int): Boolean { // action: only GLFW_PRESS or GLFW_RELEASE
     val isPress = action == GLFW_PRESS
     if (isPress == pressedKeys.contains(key)) // (PRESS && contain) || (RELEASE && !contain)

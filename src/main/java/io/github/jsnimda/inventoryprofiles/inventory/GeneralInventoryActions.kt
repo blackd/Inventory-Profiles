@@ -71,8 +71,10 @@ object GeneralInventoryActions {
       doMoveMatchCrafting()
       return
     }
-    val includeHotbar = VanillaUtil.altDown()
-    val moveAll = VanillaUtil.shiftDown()
+    val includeHotbar = // xor
+      ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
+    val moveAll = // xor
+      ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
     AdvancedContainer.arrange { tracker ->
       val player =
         getItemArea(if (includeHotbar) AreaTypes.playerStorageAndHotbarAndOffhand else AreaTypes.playerStorage)

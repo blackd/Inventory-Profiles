@@ -53,6 +53,9 @@ interface IKeybind : IConfigElementObject {
   fun isActivated() =
     GlobalInputHandler.isActivated(keyCodes, settings)
 
+  fun isPressing() =
+    GlobalInputHandler.isPressing(keyCodes, settings)
+
   val displayText
     get() = when(settings.modifierKey) {
       DIFFERENTIATE -> getDisplayText(keyCodes)
