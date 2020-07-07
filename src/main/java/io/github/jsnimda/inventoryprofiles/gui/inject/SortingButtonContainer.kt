@@ -103,10 +103,13 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
       val line1 = if (ALWAYS_MOVE_ALL.booleanValue) "title_move_all" else "title_move_matching"
       val line2 = if (ALWAYS_INCLUDE_HOTBAR.booleanValue) "exclude_hotbar" else "include_hotbar"
       val line3 = if (ALWAYS_MOVE_ALL.booleanValue) "move_matching_only" else "move_all"
-      return@with """${I18n.translate("$prefix.$line1")}
-                    |${I18n.translate("$prefix.$line2", INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.toUpperCase())}
-                    |${I18n.translate("$prefix.$line3", MOVE_ALL_MODIFIER.mainKeybind.displayText.toUpperCase())}
-                    """.trimMargin()
+      val key2 = INCLUDE_HOTBAR_MODIFIER.mainKeybind
+      val key3 = MOVE_ALL_MODIFIER.mainKeybind
+      return@with listOf(line1 to null, line2 to key2, line3 to key3)
+        .filter { (_, keybind) -> keybind?.keyCodes?.isEmpty() != true }
+        .joinToString("\n")
+        { (suffix, keybind) -> I18n.translate("$prefix.$suffix", keybind?.displayText?.toUpperCase()) }
+      // extra I18n.translate null is ok
     }
     private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(false) }.apply {
       tx = 50
