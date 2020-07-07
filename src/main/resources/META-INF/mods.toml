@@ -62,6 +62,6 @@ Inventory Profiles description here_
 [[dependencies.inventoryprofiles]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16,)"
     ordering="NONE"
     side="CLIENT"
