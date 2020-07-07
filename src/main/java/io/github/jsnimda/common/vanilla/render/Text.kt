@@ -2,6 +2,7 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.LiteralText
 import net.minecraft.client.util.math.MatrixStack
 
 var rMatrixStack = MatrixStack()
@@ -35,4 +36,6 @@ fun rDrawText(
 }
 
 fun rWrapText(string: String, maxWidth: Int): String =
-  Vanilla.textRenderer().trimToWidth(string, maxWidth) // wrapStringToWidth() = trimToWidth()
+  // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
+  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+
