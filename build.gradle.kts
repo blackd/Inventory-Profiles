@@ -11,7 +11,7 @@ buildscript {
 plugins {
   kotlin("jvm") version kotlin_version
   id("fabric-loom") version loom_version
-//  id("maven-publish")
+  `maven-publish`
   id("com.github.johnrengelman.shadow") version "5.2.0"
   id("antlr")
 }
@@ -77,6 +77,21 @@ tasks.compileKotlin {
   kotlinOptions {
     jvmTarget = "1.8"
     freeCompilerArgs = listOf("-Xopt-in=kotlin.ExperimentalStdlibApi")
+  }
+}
+
+// ============
+// run client
+// ============
+
+publishing {
+  publications {
+    create<MavenPublication>("mavenJava") {
+      // add all the jars that should be included when publishing to maven
+      artifact(tasks.jar.get()) {
+        builtBy(tasks.remapJar)
+      }
+    }
   }
 }
 
