@@ -208,3 +208,7 @@ task genAntlr(type: JavaExec) {
 
 generateGrammarSource { }
 generateGrammarSource.enabled = false
+
+tasks.named('wrapper') {
+  distributionType = Wrapper.DistributionType.ALL
+}
