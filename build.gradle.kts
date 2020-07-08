@@ -122,7 +122,7 @@ tasks.shadowJar {
 val remapShadowJar by tasks.registering(net.fabricmc.loom.task.RemapJarTask::class) {
 //  input = shadowJar.archivePath
   input.set(file("build/libs/$buildBaseName-all-proguard.jar"))
-  addNestedDependencies.set(true)
+  addNestedDependencies.set(tasks.remapJar.get().addNestedDependencies.get())
 }
 
 
@@ -137,9 +137,17 @@ val proguard by tasks.registering(proguard.gradle.ProGuardTask::class) {
   }
 }
 
-proguard.get().dependsOn(tasks.shadowJar)
-remapShadowJar.get().dependsOn(proguard)
-tasks.build.get().dependsOn(remapShadowJar)
+tasks {
+  proguard {
+    dependsOn(shadowJar)
+  }
+  remapShadowJar {
+    dependsOn(proguard)
+  }
+  build {
+    dependsOn(remapShadowJar)
+  }
+}
 
 // ============
 // antlr
@@ -166,7 +174,9 @@ val genAntlr by tasks.registering(JavaExec::class) {
 }
 
 // disable default antlr generateGrammarSource
-tasks.generateGrammarSource.get().enabled = false
+tasks.generateGrammarSource {
+  enabled = false
+}
 
 tasks.wrapper {
   distributionType = Wrapper.DistributionType.ALL
