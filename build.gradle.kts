@@ -1,9 +1,10 @@
 buildscript {
   repositories {
     jcenter() // for shadow plugin
+    google() // for proguard 7.0.0
   }
   dependencies {
-    classpath("net.sf.proguard:proguard-gradle:6.2.2")
+    classpath("com.guardsquare:proguard-gradle:7.0.0")
   }
 }
 
