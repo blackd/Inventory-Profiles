@@ -111,6 +111,10 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int,
   public override fun setFocused(bl: Boolean) {
     super.setFocused(bl)
   }
+
+  init {
+    setMaxLength(32767)
+  }
 }
 
 class TextFieldWidget(height: Int) :
