@@ -1,8 +1,6 @@
+import proguard.gradle.ProGuardTask
+
 buildscript {
-  repositories {
-    jcenter() // for shadow plugin
-    google() // for proguard 7.0.0
-  }
   dependencies {
     classpath("com.guardsquare:proguard-gradle:7.0.0")
   }
@@ -152,7 +150,7 @@ tasks.shadowJar {
   exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
 }
 
-val proguard by tasks.registering(proguard.gradle.ProGuardTask::class) {
+val proguard by tasks.registering(ProGuardTask::class) {
   configuration("proguard.txt")
 
   injars("build/libs/$buildBaseName-all.jar")
