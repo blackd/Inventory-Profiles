@@ -22,12 +22,13 @@ object GlobalInputHandler {
     // checked: context, activateOn
     // ref: malilib KeybindMulti.updateIsPressed()
     val validateKeys = if (lastAction == GLFW_PRESS) pressedKeys else previousPressedKeys
-    return validateKeys.size >= keyCodes.size && (settings.allowExtraKeys || validateKeys.size == keyCodes.size) &&
-        if (settings.orderSensitive) {
-          validateKeys.toList().takeLast(keyCodes.size) == keyCodes
-        } else { // order insensitive
-          keyCodes.contains(lastKey) && validateKeys.containsAll(keyCodes)
-        }
+    return settings.validates(validateKeys, keyCodes)
+  }
+
+  fun isPressing(keyCodes: List<Int>, settings: KeybindSettings): Boolean {
+    if (keyCodes.isEmpty()) return false
+    if (!settings.context.isValid(Vanilla.screen())) return false
+    return settings.validates(pressedKeys, keyCodes, justPressed = false)
   }
 
   private fun onKey(key: Int, action: Int): Boolean { // action: only GLFW_PRESS or GLFW_RELEASE
@@ -66,6 +67,9 @@ object GlobalInputHandler {
   private var ignoreLeftClick = false // fix forge version while compatible with fabric version
 
   private fun handleAssignKeybind() {
+    val pressedKeys: List<Int> = currentAssigningKeybind
+      ?.run { settings.modifierKey.handleKeys(pressedKeys.toList()) }
+      ?: pressedKeys.toList()
     if (lastAction == GLFW_PRESS) {
       if (lastKey == KeyCodes.MOUSE_BUTTON_1 && ignoreLeftClick) { // GLFW_MOUSE_BUTTON_1 - 100
         return
@@ -75,7 +79,7 @@ object GlobalInputHandler {
         currentAssigningKeybind?.keyCodes = listOf()
         currentAssigningKeybind = null
       } else {
-        currentAssigningKeybind?.keyCodes = pressedKeys.toList()
+        currentAssigningKeybind?.keyCodes = pressedKeys
       }
     } else { // lastAction == GLFW_RELEASE
       if (lastKey == KeyCodes.MOUSE_BUTTON_1) {

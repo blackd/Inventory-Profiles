@@ -1,8 +1,6 @@
 -libraryjars <java.home>/lib/rt.jar
 
 -keep class !io.github.jsnimda.common.embedded.** { *; }
-#-keep class io.github.jsnimda.inventoryprofiles.** { *; }
-#-keep class io.github.jsnimda.common.mixin.** { *; }
 #-ignorewarnings
 -optimizationpasses 5 # (828K -> 811K)
 #-dontobfuscate
@@ -15,8 +13,31 @@
 #-dontoptimize
 
 # https://stackoverflow.com/questions/33189249/how-to-tell-proguard-to-keep-enum-constants-and-fields
--keepclassmembers class * extends java.lang.Enum {
-    <fields>;
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
+#-keepclassmembers class * extends java.lang.Enum {
+#    <fields>;
+#    public static **[] values();
+#    public static ** valueOf(java.lang.String);
+#}
+
+# min build
+#-keep class io.github.jsnimda.common.mixin.** { *; }
+#-keep class io.github.jsnimda.inventoryprofiles.mixin.** { *; }
+#-keep class io.github.jsnimda.inventoryprofiles.InventoryProfilesKt { *; }
+#-keep class io.github.jsnimda.inventoryprofiles.compat.** { *; }
+#-keep class io.github.jsnimda.inventoryprofiles.config.** { *; }
+
+# https://proandroiddev.com/is-your-kotlin-code-really-obfuscated-a36abf033dde
+-assumenosideeffects class io.github.jsnimda.common.embedded.kotlin.jvm.internal.Intrinsics {
+  public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void checkNotNull(java.lang.Object);
+  public static void checkNotNull(java.lang.Object, java.lang.String);
+  public static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
+  public static void checkNotNullParameter(java.lang.Object, java.lang.String);
+  public static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String);
+  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+  public static void throwUninitializedPropertyAccessException(java.lang.String);
 }
+#-assumenosideeffects class io.github.jsnimda.common.embedded.kotlin.jvm.internal.Intrinsics { *; }

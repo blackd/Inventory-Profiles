@@ -127,6 +127,10 @@ private class CustomTextFieldWidget(textRenderer: FontRenderer?, i: Int, j: Int,
     super.func_230996_d_(bl)
   }
   fun setFocused(bl: Boolean) = func_230996_d_(bl)
+
+  init {
+    setMaxLength(32767)
+  }
 }
 
 class TextFieldWidget(height: Int) :

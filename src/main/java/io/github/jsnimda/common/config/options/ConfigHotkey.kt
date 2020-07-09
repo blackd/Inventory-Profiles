@@ -17,6 +17,9 @@ class ConfigHotkey(defaultStorageString: String, defaultSettings: KeybindSetting
   fun isActivated(): Boolean =
     mainKeybind.isActivated() || alternativeKeybinds.any { it.isActivated() }
 
+  fun isPressing(): Boolean =
+    mainKeybind.isPressing() || alternativeKeybinds.any { it.isPressing() }
+
   override val isModified
     get() = alternativeKeybinds.isNotEmpty() || mainKeybind.isModified
 

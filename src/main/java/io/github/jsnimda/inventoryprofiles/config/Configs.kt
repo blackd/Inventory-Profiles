@@ -23,6 +23,12 @@ object ModSettings : ConfigDeclaration {
   val SORT_ORDER                                /**/ by enum(SortingMethod.DEFAULT)
   val CUSTOM_RULE                               /**/ by string("@custom")
 
+    .CATEGORY("$category.move_matching_items")
+  val INCLUDE_HOTBAR_MODIFIER                   /**/ by hotkey("LEFT_ALT", KeybindSettings.GUI_EXTRA)
+  val MOVE_ALL_MODIFIER                         /**/ by hotkey("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
+  val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
+  val ALWAYS_MOVE_ALL                           /**/ by bool(false)
+
     .CATEGORY("$category.auto_refill")
   val ENABLE_AUTO_REFILL                        /**/ by bool(true)
   val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
@@ -87,6 +93,8 @@ object Hotkeys : ConfigDeclaration {
   val SORT_INVENTORY_IN_COLUMNS                 /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
   val SORT_INVENTORY_IN_ROWS                    /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
   val MOVE_ALL_ITEMS                            /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+
+    .CATEGORY("$category.misc")
   val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
 }
 

@@ -3,6 +3,7 @@ package io.github.jsnimda.common.vanilla.render
 import com.mojang.blaze3d.matrix.MatrixStack
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.LiteralText
 
 var rMatrixStack = MatrixStack()
 
@@ -39,3 +40,6 @@ fun rDrawText(
 fun rWrapText(string: String, maxWidth: Int): String =
 //  Vanilla.textRenderer().trimStringToWidth(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
   Vanilla.textRenderer().func_238412_a_(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
+  // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
+  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+

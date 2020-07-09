@@ -74,6 +74,10 @@ object MiscHandler {
     // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
     val screen = Vanilla.screen()
     val containerBounds = (screen as? ContainerScreen<*>)?.`(containerBounds)` ?: return
+
+    // swipe move should disabled when cursor has item
+    if (!vCursorStack().isEmpty()) return
+
     val line = with(GameEventHandler) { Line(lastX, lastY, x, y) }
 
     val types = ContainerTypes.getTypes(Vanilla.container())

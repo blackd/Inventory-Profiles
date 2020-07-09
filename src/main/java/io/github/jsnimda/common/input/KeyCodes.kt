@@ -157,6 +157,17 @@ object KeyCodes {
     return getFriendlyName(getName(keyCode))
   }
 
+  val modifiers: Set<Int>
+    get() = MODIFIER_KEY_CODES.keys
+
+  fun getModifierName(keyCode: Int): String {
+    return MODIFIER_DISPLAY_TEXTS.getOrElse(keyCode, { getName(keyCode) })
+  }
+
+  fun getModifierKeyCode(keyCode: Int): Int {
+    return MODIFIER_KEY_CODES.getOrDefault(keyCode, keyCode)
+  }
+
   // ============
   // private
   // ============
@@ -170,7 +181,16 @@ object KeyCodes {
     MAP_NAME_TO_DISPLAY_TEXT.getOrPut(name, { if (displayText.isNullOrEmpty()) name else displayText })
   }
 
+  private val MODIFIER_KEY_CODES = mutableMapOf<Int, Int>()
+  private val MODIFIER_DISPLAY_TEXTS = mutableMapOf<Int, String>()
+  private fun addModifier(displayText: String, keyCode: Int, vararg moreKeyCodes: Int) {
+    val modifiers = moreKeyCodes + keyCode
+    modifiers.forEach { MODIFIER_KEY_CODES[it] = keyCode }
+    modifiers.forEach { MODIFIER_DISPLAY_TEXTS[it] = displayText }
+  }
+
   init {
+    //region addEntry()s
     //@formatter:off
     addEntry("UNKNOWN"      , null            , KEY_UNKNOWN)
     addEntry("SPACE"        , "Space"         , KEY_SPACE)
@@ -302,6 +322,13 @@ object KeyCodes {
     addEntry("BUTTON_6"     , null            , MOUSE_BUTTON_6)
     addEntry("BUTTON_7"     , null            , MOUSE_BUTTON_7)
     addEntry("BUTTON_8"     , null            , MOUSE_BUTTON_8)
+    //@formatter:on
+    //endregion
+    //@formatter:off
+    addModifier("Shift", KEY_LEFT_SHIFT  , KEY_RIGHT_SHIFT)
+    addModifier("Ctrl" , KEY_LEFT_CONTROL, KEY_RIGHT_CONTROL)
+    addModifier("Alt"  , KEY_LEFT_ALT    , KEY_RIGHT_ALT)
+    addModifier("Win"  , KEY_LEFT_SUPER  , KEY_RIGHT_SUPER)
     //@formatter:on
   }
 }

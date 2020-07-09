@@ -63,6 +63,7 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
           |${translate("context")}: §9$context
           |${translate("allow_extra_keys")}: §6${if (allowExtraKeys) yes else no}
           |${translate("order_sensitive")}: §6${if (orderSensitive) yes else no}
+          |${translate("modifier_key")}: §9$modifierKey
           |
           |${translate("keybind_settings_tips")}""".trimMargin()
       }

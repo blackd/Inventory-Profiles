@@ -19,6 +19,7 @@ import io.github.jsnimda.common.vanilla.render.*
 import io.github.jsnimda.inventoryprofiles.config.ContinuousCraftingCheckboxValue.*
 import io.github.jsnimda.inventoryprofiles.config.Debugs
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
+import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.SaveLoadManager
 import io.github.jsnimda.inventoryprofiles.ingame.`(containerBounds)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(isInventoryTab)`
@@ -97,17 +98,30 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
     }
     val moveAllVisible = GuiSettings.SHOW_MOVE_ALL_BUTTON.booleanValue &&
         types.containsAny(setOf(SORTABLE_STORAGE, NO_SORTING_STORAGE, CRAFTING))
+    val moveAllToolTip: String = with(ModSettings) {
+      val prefix = "inventoryprofiles.tooltip.move_all_button"
+      val line1 = if (ALWAYS_MOVE_ALL.booleanValue) "title_move_all" else "title_move_matching"
+      val line2 = if (ALWAYS_INCLUDE_HOTBAR.booleanValue) "exclude_hotbar" else "include_hotbar"
+      val line3 = if (ALWAYS_MOVE_ALL.booleanValue) "move_matching_only" else "move_all"
+      val key2 = INCLUDE_HOTBAR_MODIFIER.mainKeybind
+      val key3 = MOVE_ALL_MODIFIER.mainKeybind
+      return@with listOf(line1 to null, line2 to key2, line3 to key3)
+        .filter { (_, keybind) -> keybind?.keyCodes?.isEmpty() != true }
+        .joinToString("\n")
+        { (suffix, keybind) -> I18n.translate("$prefix.$suffix", keybind?.displayText?.toUpperCase()) }
+      // extra I18n.translate null is ok
+    }
     private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(false) }.apply {
       tx = 50
       this@SortingButtonContainer.addChild(this)
       visible = moveAllVisible
-      tooltipText = I18n.translate("inventoryprofiles.tooltip.move_all_button")
+      tooltipText = moveAllToolTip
     }
     private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(true) }.apply {
       tx = 60
       this@SortingButtonContainer.addChild(this)
       visible = moveAllVisible && !types.contains(CRAFTING)
-      tooltipText = I18n.translate("inventoryprofiles.tooltip.move_all_button")
+      tooltipText = moveAllToolTip
     }
 
     // ============
