@@ -69,7 +69,7 @@ dependencies {
 
 minecraft {
   mappings(mapOf("channel" to mappings_channel, "version" to mappings_version))
-  runs.register("client") {
+  runs.create("client") {
     workingDirectory(project.file("run"))
 
     // Recommended logging data for a userdev environment
@@ -78,27 +78,8 @@ minecraft {
     // Recommended logging level for the console
     property("forge.logging.console.level", "debug")
 
-    mods.register("examplemod") {
+    mods.create("invpro") {
       source(sourceSets.main.get())
-    }
-  }
-}
-
-// Example configuration to allow publishing using the maven-publish task
-// we define a custom artifact that is sourced from the reobfJar output task
-// and then declare that to be published
-// Note you"ll need to add a repository here
-val reobfFile = file("$buildDir/reobfJar/output.jar")
-val reobfArtifact = artifacts.add("default", reobfFile) {
-  type = "jar"
-  builtBy(reobf)
-}
-
-publishing {
-  publications {
-    create<MavenPublication>("mavenJava") {
-      // add all the jars that should be included when publishing to maven
-      artifact(reobfArtifact)
     }
   }
 }
