@@ -15,23 +15,6 @@ const val minecraft_version = "1.16.1"
 const val mod_loader = "forge"
 
 // ============
-// fabric
-// ============
-
-// Fabric Properties
-// Check these on https://modmuss50.me/fabric.html
-const val yarn_mappings = "1.16.1+build.20"
-const val loader_version = "0.8.9+build.203"
-
-const val loom_version = "0.4-SNAPSHOT"
-
-// Dependencies
-// currently not on the main fabric site, check on the maven: https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api
-//  fabric_version=0.13.1+build.370-1.16
-// https://maven.fabricmc.net/io/github/prospector/modmenu/
-const val mod_menu_version = "1.12.2+build.16"
-
-// ============
 // forge
 // ============
 
