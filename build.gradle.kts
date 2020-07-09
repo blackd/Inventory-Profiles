@@ -136,7 +136,7 @@ val customJar by dummyJar( // dummy jar
   fromJarName = "$buildBaseName-all-proguard.jar"
 )
 
-fun dummyJar(thisJarName: String, fromJarName: String) = tasks.registering(Jar::class) { // dummy jar for reobf
+fun dummyJar(thisJarName: String, fromJarName: String) = tasks.creating(Jar::class) { // dummy jar for reobf
   archiveFileName.set(thisJarName)
   doLast {
     copy {
@@ -146,11 +146,15 @@ fun dummyJar(thisJarName: String, fromJarName: String) = tasks.registering(Jar::
     }
   }
 }
+val reobfOriginalJar = reobf.create("originalJar")
+val reobfCustomJar = reobf.create("customJar")
 
-reobf.register("originalJar")
-reobf.register("customJar")
+reobf.create("jar").enabled = false // disable reobfJar
 
-val remapCustomJar = customJar
+val remapCustomJar by tasks.registering {
+  dependsOn(reobfOriginalJar)
+  dependsOn(reobfCustomJar)
+}
 
 // ============
 // common task
