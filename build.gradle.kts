@@ -9,11 +9,12 @@ buildscript {
 }
 
 plugins {
-  kotlin("jvm") version kotlin_version
-  id("fabric-loom") version loom_version
   `maven-publish`
+  kotlin("jvm") version kotlin_version
   id("com.github.johnrengelman.shadow") version "5.2.0"
   id("antlr")
+
+  id("fabric-loom") version loom_version
 }
 
 repositories {
@@ -21,9 +22,6 @@ repositories {
   maven("https://dl.bintray.com/kotlin/kotlin-eap")
   maven("https://kotlin.bintray.com/kotlinx")
 }
-
-// ref: https://github.com/DaemonicLabs/fabric-example-mod-kotlin
-// ref: https://github.com/natanfudge/fabric-example-mod-kotlin
 
 java {
   sourceCompatibility = JavaVersion.VERSION_1_8
@@ -36,35 +34,6 @@ base {
 
 version = mod_version
 group = maven_group
-
-minecraft {
-}
-
-dependencies {
-  //to change the versions see the gradle.properties file
-  minecraft("com.mojang:minecraft:$minecraft_version")
-  mappings("net.fabricmc:yarn:$yarn_mappings")
-  modCompile("net.fabricmc:fabric-loader:$loader_version")
-//  compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-
-  // Fabric API. This is technically optional, but you probably want it anyway.
-  //modCompile "net.fabricmc.fabric-api(:fabric-api:${project.fabric_version}")
-
-  // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-  // You may need to force-disable transitiveness on them.
-  modCompile("io.github.prospector:modmenu:$mod_menu_version")
-
-  implementation(kotlin("stdlib-jdk8"))
-  implementation(kotlin("script-runtime"))
-  antlr("org.antlr:antlr4:4.8")
-  implementation("org.antlr:antlr4-runtime:4.8")
-}
-
-tasks.processResources {
-  filesMatching("fabric.mod.json") {
-    expand("version" to project.version)
-  }
-}
 
 // ensure that the encoding is set to UTF-8, no matter what the system default is
 // this fixes some edge cases with special characters not displaying correctly
@@ -81,8 +50,32 @@ tasks.compileKotlin {
 }
 
 // ============
+// dependencies
+// ============
+
+dependencies {
+  implementation(kotlin("stdlib-jdk8"))
+  implementation(kotlin("script-runtime"))
+  antlr("org.antlr:antlr4:4.8")
+  implementation("org.antlr:antlr4-runtime:4.8")
+
+  // minecraft
+  minecraft("com.mojang:minecraft:$minecraft_version")
+  mappings("net.fabricmc:yarn:$yarn_mappings")
+  modCompile("net.fabricmc:fabric-loader:$loader_version")
+
+  modCompile("io.github.prospector:modmenu:$mod_menu_version")
+}
+
+// ============
 // run client
 // ============
+
+// ref: https://github.com/DaemonicLabs/fabric-example-mod-kotlin
+// ref: https://github.com/natanfudge/fabric-example-mod-kotlin
+
+minecraft {
+}
 
 publishing {
   publications {
@@ -95,6 +88,12 @@ publishing {
   }
 }
 
+tasks.processResources {
+  filesMatching("fabric.mod.json") {
+    expand("version" to project.version)
+  }
+}
+
 // ============
 // build task
 // ============
@@ -103,7 +102,7 @@ val buildBaseName = "${base.archivesBaseName}-$version"
 
 /*
 output jars: (embedding library: kotlin, antlr)
-                    *-dev.jar          | no embedded kotlin, no mapping
+                    *-non-shadow.jar   | no embedded kotlin, no mapping
 (by remapJar)       *-remapped-dev.jar | no embedded kotlin, mapped
 (by shadowJar)      *-all.jar          | embedded kotlin, no mapping
 (by proguard)       *-all-proguard.jar | embedded kotlin, removed unused embedding classes, no mapping
@@ -111,11 +110,29 @@ output jars: (embedding library: kotlin, antlr)
 
  */
 
-// default fabric remap task
-// *-dev.jar to *-remapped-dev.jar
-tasks.remapJar {
+tasks.jar {
+  archiveFileName.set("$buildBaseName-non-shadow.jar")
+}
+
+// ============
+// distinct task
+// ============
+
+tasks.remapJar { // fabric
   archiveFileName.set("$buildBaseName-remapped-dev.jar")
 }
+
+val remapShadowJar by tasks.registering(net.fabricmc.loom.task.RemapJarTask::class) {
+//  input = shadowJar.archivePath
+  input.set(file("build/libs/$buildBaseName-all-proguard.jar"))
+  addNestedDependencies.set(tasks.remapJar.get().addNestedDependencies.get())
+}
+
+val remapCustomJar = remapShadowJar
+
+// ============
+// common task
+// ============
 
 tasks.shadowJar {
   dependencies {
@@ -135,13 +152,6 @@ tasks.shadowJar {
   exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
 }
 
-val remapShadowJar by tasks.registering(net.fabricmc.loom.task.RemapJarTask::class) {
-//  input = shadowJar.archivePath
-  input.set(file("build/libs/$buildBaseName-all-proguard.jar"))
-  addNestedDependencies.set(tasks.remapJar.get().addNestedDependencies.get())
-}
-
-
 val proguard by tasks.registering(proguard.gradle.ProGuardTask::class) {
   configuration("proguard.txt")
 
@@ -157,11 +167,11 @@ tasks {
   proguard {
     dependsOn(shadowJar)
   }
-  remapShadowJar {
+  remapCustomJar {
     dependsOn(proguard)
   }
   build {
-    dependsOn(remapShadowJar)
+    dependsOn(remapCustomJar)
   }
 }
 
@@ -194,6 +204,14 @@ tasks.generateGrammarSource {
   enabled = false
 }
 
+// ============
+// wrapper
+// ============
+
 tasks.wrapper {
   distributionType = Wrapper.DistributionType.ALL
 }
+
+// ============
+// other
+// ============
