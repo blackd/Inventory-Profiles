@@ -4,6 +4,7 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.render.rMatrixStack
+import io.github.jsnimda.common.vanilla.render.rStandardGlState
 import net.minecraft.client.gui.FontRenderer
 import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
@@ -38,6 +39,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
     }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    rStandardGlState() // added this todo (unknown reason fixing text field overflow)
 //    vanilla.render(rMatrixStack, mouseX, mouseY, partialTicks)
     vanilla.func_230430_a_(rMatrixStack, mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
