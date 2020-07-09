@@ -1,8 +1,6 @@
+import proguard.gradle.ProGuardTask
+
 buildscript {
-  repositories {
-    jcenter() // for shadow plugin
-    google() // for proguard 7.0.0
-  }
   dependencies {
     classpath("com.guardsquare:proguard-gradle:7.0.0")
   }
@@ -129,25 +127,22 @@ tasks.jar {
 // distinct task
 // ============
 
-val originalJar by tasks.registering(DummyJar::class) {
-  thisJarName = "$buildBaseName-remapped-dev.jar"
+val originalJar by dummyJar(
+  thisJarName = "$buildBaseName-remapped-dev.jar",
   fromJarName = "$buildBaseName-non-shadow.jar"
-}
-val customJar by tasks.registering(DummyJar::class) { // dummy jar
-  thisJarName = "$buildBaseName.jar"
+)
+val customJar by dummyJar( // dummy jar
+  thisJarName = "$buildBaseName.jar",
   fromJarName = "$buildBaseName-all-proguard.jar"
-}
-class DummyJar : Jar() { // dummy jar for reobf
-  var thisJarName = ""
-  var fromJarName = ""
-  init {
-    archiveFileName.set(thisJarName)
-    doLast {
-      copy {
-        from("build/libs/$fromJarName")
-        into("build/libs")
-        rename { thisJarName }
-      }
+)
+
+fun dummyJar(thisJarName: String, fromJarName: String) = tasks.registering(Jar::class) { // dummy jar for reobf
+  archiveFileName.set(thisJarName)
+  doLast {
+    copy {
+      from("build/libs/$fromJarName")
+      into("build/libs")
+      rename { thisJarName }
     }
   }
 }
@@ -179,7 +174,7 @@ tasks.shadowJar {
   exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
 }
 
-val proguard by tasks.registering(proguard.gradle.ProGuardTask::class) {
+val proguard by tasks.registering(ProGuardTask::class) {
   configuration("proguard.txt")
 
   injars("build/libs/$buildBaseName-all.jar")
