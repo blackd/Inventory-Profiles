@@ -6,15 +6,6 @@ buildscript {
   dependencies {
     classpath("com.guardsquare:proguard-gradle:7.0.0")
   }
-
-  repositories {
-    maven("https://files.minecraftforge.net/maven")
-  }
-  dependencies {
-    classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "3.+") {
-      isChanging = true
-    }
-  }
 }
 
 plugins {
@@ -22,9 +13,9 @@ plugins {
   kotlin("jvm") version kotlin_version
   id("com.github.johnrengelman.shadow") version "5.2.0"
   id("antlr")
-}
 
-apply(plugin = "net.minecraftforge.gradle")
+  id("net.minecraftforge.gradle")
+}
 
 repositories {
   mavenCentral()
@@ -45,7 +36,7 @@ version = mod_version
 group = maven_group
 
 dependencies {
-  add("minecraft", "net.minecraftforge:forge:$minecraft_version-$forge_version")
+  minecraft("net.minecraftforge:forge:$minecraft_version-$forge_version")
 
   implementation(kotlin("stdlib-jdk8"))
   implementation(kotlin("script-runtime"))
@@ -70,8 +61,7 @@ tasks.compileKotlin {
 
 // ref: https://github.com/proudust/minecraft-forge-kotlin-template
 
-// minecraft block
-configure<net.minecraftforge.gradle.userdev.UserDevExtension> {
+minecraft {
   mappings(mapOf("channel" to mappings_channel, "version" to mappings_version))
   runs.register("client") {
     workingDirectory(project.file("run"))
@@ -99,7 +89,7 @@ configure<net.minecraftforge.gradle.userdev.UserDevExtension> {
 val reobfFile = file("$buildDir/reobfJar/output.jar")
 val reobfArtifact = artifacts.add("default", reobfFile) {
   type = "jar"
-  builtBy("reobfJar")
+  builtBy(reobf)
 }
 
 publishing {
