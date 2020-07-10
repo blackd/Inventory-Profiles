@@ -161,7 +161,7 @@ object KeyCodes {
     get() = MODIFIER_KEY_CODES.keys
 
   fun getModifierName(keyCode: Int): String {
-    return MODIFIER_DISPLAY_TEXTS.getOrElse(keyCode, { getName(keyCode) })
+    return MODIFIER_DISPLAY_TEXTS.getOrElse(keyCode, { getFriendlyName(keyCode) })
   }
 
   fun getModifierKeyCode(keyCode: Int): Int {
