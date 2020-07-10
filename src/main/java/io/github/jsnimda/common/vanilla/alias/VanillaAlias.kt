@@ -33,7 +33,7 @@ typealias Items = Items
 typealias ItemStack = ItemStack
 
 typealias CompoundTag = CompoundTag
-typealias Tag = Tag
+typealias NbtTag = Tag
 typealias AbstractNumberTag = AbstractNumberTag
 typealias AbstractListTag<T> = AbstractListTag<T>
 
