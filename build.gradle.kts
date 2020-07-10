@@ -61,6 +61,7 @@ dependencies {
   minecraft("com.mojang:minecraft:$minecraft_version")
   mappings("net.fabricmc:yarn:$yarn_mappings")
   modCompile("net.fabricmc:fabric-loader:$loader_version")
+  compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
   modCompile("io.github.prospector:modmenu:$mod_menu_version")
 }

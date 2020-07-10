@@ -20,7 +20,7 @@ const val mod_loader = "fabric"
 
 // Fabric Properties
 // Check these on https://modmuss50.me/fabric.html
-const val yarn_mappings = "1.16.1+build.20"
+const val yarn_mappings = "1.16.1+build.21"
 const val loader_version = "0.8.9+build.203"
 
 const val loom_version = "0.4-SNAPSHOT"
