@@ -43,6 +43,16 @@ object ModSettings : ConfigDeclaration {
   ref: MiningToolItem.getMiningSpeed()
 */
 
+    .CATEGORY("$category.lock_slots")
+  val ENABLE_LOCK_SLOTS                         /**/ by bool(true)
+  val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("TAB", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_CONFIG_KEY                     /**/ by hotkey("BUTTON_1", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_QUICK_CONFIG_KEY               /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_QUICK_DISABLE                  /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
+  val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
+  val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
+
     .CATEGORY("$category.advanced_options")
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
   val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10, 1, 500)
