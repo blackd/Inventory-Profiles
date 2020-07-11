@@ -2,7 +2,6 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.KeyCodes
-import io.github.jsnimda.common.math2d.Line
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersects
 import io.github.jsnimda.common.util.containsAny
@@ -31,7 +30,7 @@ object MiscHandler {
     // swipe move should disabled when cursor has item
     if (!vCursorStack().isEmpty()) return
 
-    val line = with(ClientEventHandler) { Line(lastX, lastY, x, y) }
+    val line = MouseTracer.asLine
 
     val types = ContainerTypes.getTypes(Vanilla.container())
     val matchSet = setOf(
