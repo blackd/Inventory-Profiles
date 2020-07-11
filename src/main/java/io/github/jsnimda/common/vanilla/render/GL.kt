@@ -1,10 +1,11 @@
 package io.github.jsnimda.common.vanilla.render
 
-import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.systems.RenderSystem
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersect
-import net.minecraft.client.renderer.RenderHelper
+import io.github.jsnimda.common.vanilla.alias.DiffuseLighting
+import io.github.jsnimda.common.vanilla.alias.DstFactor
+import io.github.jsnimda.common.vanilla.alias.RenderSystem
+import io.github.jsnimda.common.vanilla.alias.SrcFactor
 import org.lwjgl.opengl.GL11
 
 // ============
@@ -76,7 +77,7 @@ private fun rEnableBlend() {
   // ref: AbstractButtonWidget.renderButton()
   RenderSystem.enableBlend()
   RenderSystem.defaultBlendFunc()
-  RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+  RenderSystem.blendFunc(SrcFactor.SRC_ALPHA, DstFactor.ONE_MINUS_SRC_ALPHA)
   RenderSystem.color4f(1f, 1f, 1f, 1f)
 }
 
@@ -87,7 +88,7 @@ private fun gPushMatrix() = RenderSystem.pushMatrix()
 private fun gPopMatrix() = RenderSystem.popMatrix()
 
 // RenderHelper.disableStandardItemLighting(); RenderHelper = DiffuseLighting
-private fun gDisableDiffuse() = RenderHelper.disableStandardItemLighting()
+private fun gDisableDiffuse() = DiffuseLighting.disableStandardItemLighting()
 private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
 private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
 private fun gDisableDepthTest() = RenderSystem.disableDepthTest()

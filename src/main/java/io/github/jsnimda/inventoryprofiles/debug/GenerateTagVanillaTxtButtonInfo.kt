@@ -6,13 +6,9 @@ import io.github.jsnimda.common.util.div
 import io.github.jsnimda.common.util.writeToFile
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
-import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.alias.Item
-import io.github.jsnimda.common.vanilla.alias.Registry
+import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.event.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
-import net.minecraft.tags.ItemTags
-import net.minecraft.tags.TagCollection
 
 // ============
 // vanillamapping code depends on mappings
@@ -39,7 +35,7 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
   val String.omittedString: String // omit minecraft
     get() = removePrefix("minecraft:")
 
-  fun TagCollection<Item>.toTagTxtContent(): String { // lets sort it
+  fun TagContainer<Item>.toTagTxtContent(): String { // lets sort it
     val list = mutableListOf<Pair<String, MutableList<String>>>()
     for ((identifier, tag) in tagMap) { // forge tagMap = entries
 //      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values

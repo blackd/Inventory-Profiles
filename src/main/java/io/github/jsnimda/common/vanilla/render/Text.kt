@@ -1,9 +1,9 @@
 package io.github.jsnimda.common.vanilla.render
 
-import com.mojang.blaze3d.matrix.MatrixStack
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.LiteralText
+import io.github.jsnimda.common.vanilla.alias.MatrixStack
 
 var rMatrixStack = MatrixStack()
 

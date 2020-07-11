@@ -3,9 +3,9 @@ package io.github.jsnimda.common.gui.widgets
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.LiteralText
+import io.github.jsnimda.common.vanilla.alias.TextRenderer
 import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
-import net.minecraft.client.gui.FontRenderer
 import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -121,7 +121,7 @@ class SliderWidget(
     }
 }
 
-private class CustomTextFieldWidget(textRenderer: FontRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) :
+private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int, k: Int, l: Int, string: String?) :
   VanillaTextFieldWidget(textRenderer, i, j, k, l, LiteralText(string)) {
 //  public override fun setFocused(bl: Boolean) {
   public override fun func_230996_d_(bl: Boolean) {

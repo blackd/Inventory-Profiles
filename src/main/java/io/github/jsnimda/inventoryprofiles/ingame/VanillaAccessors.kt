@@ -5,8 +5,6 @@ package io.github.jsnimda.inventoryprofiles.ingame
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.item.*
-import net.minecraft.item.ItemGroup
-import net.minecraft.util.registry.DefaultedRegistry
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
