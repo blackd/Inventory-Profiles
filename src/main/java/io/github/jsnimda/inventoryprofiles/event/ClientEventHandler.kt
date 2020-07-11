@@ -40,10 +40,6 @@ object ClientEventHandler {
     }
   }
 
-//  fun preRenderTooltip() {
-//    ContainerScreenHandler.preRenderTooltip()
-//  }
-
   // ============
   // craft
   // ============

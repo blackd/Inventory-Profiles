@@ -16,7 +16,6 @@ object ScreenEventHandler {
   }
 
   fun postRender() {
-    // partial tick = this.client.getLastFrameDuration()
     ContainerScreenEventHandler.postRender()
   }
 }

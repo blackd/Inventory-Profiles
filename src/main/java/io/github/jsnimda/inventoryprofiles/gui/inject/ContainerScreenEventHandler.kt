@@ -17,31 +17,17 @@ object ContainerScreenEventHandler {
     addWidget(AsVanillaWidget(widget))
   }
 
-//  var renderedThisFrame = false
-//  fun renderWidget() {
-//    renderedThisFrame = true
-//    val currentWidget = currentWidget
-//    currentWidget ?: return
-//    val currentScreen = Vanilla.screen()
-//    val targetScreen = currentWidget.screen
-//    val matchScreen = (currentScreen is BaseScreen && currentScreen.hasParent(targetScreen))
-//        || currentScreen == targetScreen
-//    if (matchScreen) {
-//      currentWidget.postRender(VanillaUtil.mouseX(), VanillaUtil.mouseY(), VanillaUtil.lastFrameDuration())
-//    }
-//  }
-
   private fun checkValid() {
     currentWidget?.run {
       val currentScreen = Vanilla.screen()
-      val matchScreen = (currentScreen as? BaseScreen)?.hasParent(screen) ?: currentScreen == screen
-      if (!matchScreen) currentWidget = null
+      val matchScreen = (currentScreen as? BaseScreen)?.hasParent(screen) ?: (currentScreen == screen)
+      if (!matchScreen)
+        currentWidget = null
     }
   }
 
   fun preRender() {
     checkValid()
-//    renderedThisFrame = false
   }
 
   fun onBackgroundRender() {
@@ -55,8 +41,4 @@ object ContainerScreenEventHandler {
   fun postRender() {
     currentWidget?.let { Tooltips.renderAll() }
   }
-
-//  fun preRenderTooltip() {
-//    if (!renderedThisFrame) renderWidget()
-//  }
 }
