@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
-import io.github.jsnimda.inventoryprofiles.event.ClientEventHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenEventHandler;
 import io.github.jsnimda.inventoryprofiles.gui.inject.ScreenEventHandler;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -37,13 +37,13 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
 
   @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
       "drawBackground(Lnet/minecraft/client/util/math/MatrixStack;FII)V", shift = At.Shift.AFTER), method = "render")
-  public void onRenderContainerBackground(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-    ScreenEventHandler.INSTANCE.onRenderContainerBackground();
+  public void onBackgroundRender(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
+    ContainerScreenEventHandler.INSTANCE.onBackgroundRender();
   }
 
   @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
       "drawForeground(Lnet/minecraft/client/util/math/MatrixStack;II)V", shift = At.Shift.AFTER), method = "render")
-  public void onRenderContainerForeground(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-    ScreenEventHandler.INSTANCE.onRenderContainerForeground();
+  public void onForegroundRender(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
+    ContainerScreenEventHandler.INSTANCE.onForegroundRender();
   }
 }

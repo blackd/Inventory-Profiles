@@ -29,12 +29,12 @@ public class MixinGameRenderer {
   @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +
       "render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V"), method = "render")
   public void preScreenRender(float f, long l, boolean bl, CallbackInfo ci) {
-    ScreenEventHandler.INSTANCE.preScreenRender();
+    ScreenEventHandler.INSTANCE.preRender();
   }
 
   @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +
       "render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V", shift = At.Shift.AFTER), method = "render")
   public void postScreenRender(float f, long l, boolean bl, CallbackInfo ci) {
-    ScreenEventHandler.INSTANCE.postScreenRender();
+    ScreenEventHandler.INSTANCE.postRender();
   }
 }

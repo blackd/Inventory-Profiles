@@ -27,12 +27,12 @@ import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
 
-class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
+class SortingButtonCollectionWidget(val screen: ContainerScreen<*>) : Widget() {
   val TEXTURE = Identifier("inventoryprofiles", "textures/gui/gui_buttons.png")
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {} // do nothing
 
   // try to render this as late as possible (but need to before tooltips render)
-  fun postRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
+  fun postBackgroundRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
     rStandardGlState()
     rClearDepth()
     absoluteBounds = screen.`(containerBounds)`
@@ -41,7 +41,7 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
     if (Debugs.DEBUG_RENDER.booleanValue) {
       rDrawOutline(absoluteBounds.inflated(1), 0xffff00.opaque)
     }
-    Tooltips.renderAll()
+//    Tooltips.renderAll()
   }
 
   var initialized = false
@@ -61,7 +61,7 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
 
     val dummyRenderUpdater = object : Widget() { // update buttons in CreativeInventoryScreen
       init {
-        this@SortingButtonContainer.addChild(this)
+        this@SortingButtonCollectionWidget.addChild(this)
       }
 
       val buttons by lazy(LazyThreadSafetyMode.NONE) { listOf(sortButton, sortInColumnButton, sortInRowButton) }
@@ -80,19 +80,19 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
     val shouldAdd = addChestSide || addNonChestSide
     private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort() }.apply {
       tx = 10
-      this@SortingButtonContainer.addChild(this)
+      this@SortingButtonCollectionWidget.addChild(this)
       visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
       tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_button")
     }
     private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns() }.apply {
       tx = 20
-      this@SortingButtonContainer.addChild(this)
+      this@SortingButtonCollectionWidget.addChild(this)
       visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
       tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
     }
     private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows() }.apply {
       tx = 30
-      this@SortingButtonContainer.addChild(this)
+      this@SortingButtonCollectionWidget.addChild(this)
       visible = GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.booleanValue && shouldAdd
       tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
     }
@@ -113,13 +113,13 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
     }
     private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(false) }.apply {
       tx = 50
-      this@SortingButtonContainer.addChild(this)
+      this@SortingButtonCollectionWidget.addChild(this)
       visible = moveAllVisible
       tooltipText = moveAllToolTip
     }
     private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(true) }.apply {
       tx = 60
-      this@SortingButtonContainer.addChild(this)
+      this@SortingButtonCollectionWidget.addChild(this)
       visible = moveAllVisible && !types.contains(CRAFTING)
       tooltipText = moveAllToolTip
     }
@@ -148,7 +148,7 @@ class SortingButtonContainer(val screen: ContainerScreen<*>) : Widget() {
     private val continuousCraftingCheckbox = SortButtonWidget { -> switchContinuousCraftingValue() }.apply {
 //      tx = 70 or 80
       tx = if (continuousCraftingValue) 80 else 70
-      this@SortingButtonContainer.addChild(this)
+      this@SortingButtonCollectionWidget.addChild(this)
       visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue && types.contains(CRAFTING)
       tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox")
     }

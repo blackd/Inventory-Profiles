@@ -6,25 +6,17 @@ import io.github.jsnimda.common.vanilla.alias.Screen
 
 object ScreenEventHandler {
   fun onScreenInit(target: Screen, addWidget: (AbstractButtonWidget) -> Unit) {
-    if (target !is ContainerScreen<*>) return
-    ContainerScreenHandler.getContainerInjector(target).forEach { addWidget(it) }
+    if (target is ContainerScreen<*>) {
+      ContainerScreenEventHandler.onScreenInit(target, addWidget)
+    }
   }
 
-  fun preScreenRender() {
-    ContainerScreenHandler.preScreenRender()
+  fun preRender() {
+    ContainerScreenEventHandler.preRender()
   }
 
-  fun onRenderContainerBackground() {
-    ContainerScreenHandler.onBackgroundRender()
-  }
-
-  fun onRenderContainerForeground() {
-
-  }
-
-  fun postScreenRender() {
+  fun postRender() {
     // partial tick = this.client.getLastFrameDuration()
-    ContainerScreenHandler.postRender()
+    ContainerScreenEventHandler.postRender()
   }
-
 }
