@@ -18,18 +18,17 @@ import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.*
 
 object ContinuousCraftingHandler {
-  var targetScreen: ContainerScreen<*>? = null
+  private val checked
+    get() = GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
+  private var trackingScreen: ContainerScreen<*>? = null
   fun onTick() {
     val screen = Vanilla.screen()
-    if (screen == null || screen !is ContainerScreen<*>
-      || !GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue
-      || !GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
-    ) {
-      targetScreen = null
+    if (screen !is ContainerScreen<*> || !checked) {
+      trackingScreen = null
       return
     }
-    if (screen != targetScreen) {
-      targetScreen = screen
+    if (screen != trackingScreen) {
+      trackingScreen = screen
       init()
     }
     handle()
@@ -47,13 +46,9 @@ object ContinuousCraftingHandler {
   }
 
   var onCraftCount = 0 // this tick crafted item
-//  var odd = 0
   fun handle() {
     if (!isCrafting) return
-//    if (odd++ > 0) { // slow down, odd tick // todo quick craft from recipe book
-//      odd = 0
-//      return
-//    }
+    // todo quick craft from recipe book
     if (onCraftCount > 0) {
       onCraftCount--
       monitor.autoRefill()

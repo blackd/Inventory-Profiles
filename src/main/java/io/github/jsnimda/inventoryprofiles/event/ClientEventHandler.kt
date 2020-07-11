@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.vanilla.VanillaUtil
+import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.Tweaks
 import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler
@@ -13,7 +14,9 @@ object ClientEventHandler {
 
   fun onTick() {
     MouseTracer.onTick()
-    ContinuousCraftingHandler.onTick()
+    if (GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
+      ContinuousCraftingHandler.onTick()
+    }
     if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
       AutoRefillHandler.onTick()
     }
