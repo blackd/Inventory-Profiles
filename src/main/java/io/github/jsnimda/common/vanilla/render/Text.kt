@@ -27,13 +27,13 @@ fun rDrawCenteredText(string: String, bounds: Rectangle, color: Int, shadow: Boo
   rDrawText(string, x + (width - rMeasureText(string)) / 2, y + (height - 8) / 2, color, shadow)
 }
 
-fun rDrawText(
-  string: String, bounds: Rectangle,
-  horizontalAlign: Int, verticalAlign: Int,
-  color: Int, shadow: Boolean = true
-) {
-
-}
+//fun rDrawText(
+//  string: String, bounds: Rectangle,
+//  horizontalAlign: Int, verticalAlign: Int,
+//  color: Int, shadow: Boolean = true
+//) {
+//
+//}
 
 fun rWrapText(string: String, maxWidth: Int): String =
   // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!

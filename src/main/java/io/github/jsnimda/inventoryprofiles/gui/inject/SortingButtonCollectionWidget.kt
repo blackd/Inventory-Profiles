@@ -7,6 +7,7 @@ import io.github.jsnimda.common.gui.widget.setTopRight
 import io.github.jsnimda.common.gui.widgets.ButtonWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Point
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.util.containsAny
 import io.github.jsnimda.common.util.detectable
@@ -237,8 +238,7 @@ class SortingButtonCollectionWidget(val screen: ContainerScreen<*>) : Widget() {
 
     override fun renderButton(hovered: Boolean) {
       val textureLocation = if (hovered) hoveringTexturePt else texturePt
-      rBindTexture(texture)
-      rBlit(screenLocation, textureLocation, size)
+      rDrawSprite(Sprite(texture, Rectangle(textureLocation, size)), screenX, screenY)
     }
   }
 }

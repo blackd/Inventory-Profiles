@@ -1,10 +1,7 @@
 package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.VanillaSound
-import io.github.jsnimda.common.vanilla.render.VANILLA_TEXTURE_WIDGETS
-import io.github.jsnimda.common.vanilla.render.rBindTexture
-import io.github.jsnimda.common.vanilla.render.rBlit
-import io.github.jsnimda.common.vanilla.render.rDrawCenteredText
+import io.github.jsnimda.common.vanilla.render.*
 
 open class ButtonWidget : Widget {
   var clickEvent: (Int) -> Unit = { }
@@ -45,14 +42,9 @@ open class ButtonWidget : Widget {
   }
 
   open fun renderButton(hovered: Boolean) {
-    rBindTexture(VANILLA_TEXTURE_WIDGETS)
     val k = if (active) if (hovered) 2 else 1 else 0
-//    VanillaRender.enableBlend()
-    val a = width / 2
-    val b = width - a
-    val textureY = 46 + k * 20
-    rBlit(screenX, screenY, 0, textureY, a, height)
-    rBlit(screenX + a, screenY, 200 - b, textureY, b, this.height)
+    val sprite = rVanillaButtonSprite.down(k)
+    rDrawDynamicWidthSprite(sprite, screenX, screenY, width)
     val textColor = if (active) if (hovered) 16777120 else 14737632 else 10526880
     rDrawCenteredText(text, screenX + width / 2, screenY + (height - 8) / 2, textColor)
   }

@@ -8,28 +8,34 @@ import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 import io.github.jsnimda.common.vanilla.alias.Identifier
 
-val VANILLA_TEXTURE_WIDGETS: Identifier
+private val VANILLA_TEXTURE_WIDGETS: Identifier
   get() = AbstractButtonWidget.WIDGETS_LOCATION
 
-fun rBindTexture(identifier: Identifier) {
+private fun rBindTexture(identifier: Identifier) {
   Vanilla.textureManager().bindTexture(identifier)
 //  rEnableBlend()
   rStandardGlState()
 }
 
 // for 256 x 256 texture
-fun rBlit(x: Int, y: Int, sx: Int, sy: Int, sw: Int, sh: Int) { // screen xy sprite xy wh
+private fun rBlit(x: Int, y: Int, sx: Int, sy: Int, sw: Int, sh: Int) { // screen xy sprite xy wh
   DrawableHelper.drawTexture(rMatrixStack, x, y, 0, sx.toFloat(), sy.toFloat(), sw, sh, 256, 256)
 }
 
 // screen xy wh sprite xy wh texture wh
-fun rBlit(x: Int, y: Int, w: Int, h: Int, sx: Int, sy: Int, sw: Int, sh: Int, tw: Int, th: Int) {
+private fun rBlit(x: Int, y: Int, w: Int, h: Int, sx: Int, sy: Int, sw: Int, sh: Int, tw: Int, th: Int) {
   DrawableHelper.drawTexture(rMatrixStack, x, y, w, h, sx.toFloat(), sy.toFloat(), sw, sh, tw, th)
 }
 
-fun rBlit(screenLocation: Point, textureLocation: Point, size: Size) {
+private fun rBlit(screenLocation: Point, textureLocation: Point, size: Size) {
   rBlit(screenLocation.x, screenLocation.y, textureLocation.x, textureLocation.y, size.width, size.height)
 }
+
+// ============
+// sprite
+// ============
+
+val rVanillaButtonSprite: Sprite = Sprite(VANILLA_TEXTURE_WIDGETS, Rectangle(0, 46, 200, 20))
 
 fun rDrawSprite(sprite: Sprite, x: Int, y: Int) {
   rBindTexture(sprite.identifier)
@@ -42,6 +48,18 @@ fun rDrawSprite(sprite: Sprite, x: Int, y: Int) {
 fun rDrawCenteredSprite(sprite: Sprite, x: Int, y: Int) {
   val (w, h) = sprite.scaledSize
   rDrawSprite(sprite, x - w / 2, y - h / 2)
+}
+
+fun rDrawDynamicWidthSprite(sprite: Sprite, x: Int, y: Int, width: Int) {
+  val w1 = width / 2
+  val x2 = x + w1
+  val w2 = width - w1
+  // todo support scaling
+  rBindTexture(sprite.identifier)
+  val (sx, sy, sw, sh) = sprite.spriteBounds
+  val (tw, th) = sprite.textureSize
+  rBlit(x, y, w1, sh, sx, sy, w1, sh, tw, th)
+  rBlit(x2, y, w2, sh, sx + sw - w2, sy, w2, sh, tw, th)
 }
 
 data class Sprite(
@@ -70,4 +88,9 @@ data class Sprite(
   fun up(amount: Double) = down(-amount)
   fun down(amount: Double) =
     copy(spriteBounds = spriteBounds.run { copy(y = y + (height * amount).toInt()) })
+
+  fun left(amount: Int = 1) = left(amount.toDouble())
+  fun right(amount: Int = 1) = right(amount.toDouble())
+  fun up(amount: Int = 1) = up(amount.toDouble())
+  fun down(amount: Int = 1) = down(amount.toDouble())
 }
