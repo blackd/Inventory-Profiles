@@ -14,7 +14,7 @@ import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.PostAction
 import io.github.jsnimda.inventoryprofiles.config.SortingMethodIndividual
-import io.github.jsnimda.inventoryprofiles.event.TellPlayer
+import io.github.jsnimda.inventoryprofiles.client.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer.Companion.cleanCursor
 import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*

@@ -10,7 +10,7 @@ import io.github.jsnimda.common.util.readFileToString
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.loggingPath
-import io.github.jsnimda.inventoryprofiles.event.TellPlayer
+import io.github.jsnimda.inventoryprofiles.client.TellPlayer
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFile
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFileRegister
 import java.util.*
