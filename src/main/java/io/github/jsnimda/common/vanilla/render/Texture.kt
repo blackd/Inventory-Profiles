@@ -62,4 +62,12 @@ data class Sprite(
     get() = (spriteBounds.height * scale).toInt()
   val scaledSize: Size
     get() = Size(scaledWidth, scaleHeight)
+
+  fun left(amount: Double) = right(-amount)
+  fun right(amount: Double) =
+    copy(spriteBounds = spriteBounds.run { copy(x = x + (width * amount).toInt()) })
+
+  fun up(amount: Double) = down(-amount)
+  fun down(amount: Double) =
+    copy(spriteBounds = spriteBounds.run { copy(y = y + (height * amount).toInt()) })
 }
