@@ -84,8 +84,8 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 // ============
 // nbt Tag
 // ============
-val Tag.`(type)`: Int
+val NbtTag.`(type)`: Int
   get() = id.toInt()
-val Tag.`(asString)`: String
+val NbtTag.`(asString)`: String
   get() = string
 

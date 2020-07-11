@@ -28,7 +28,7 @@ typealias Items = Items
 typealias ItemStack = ItemStack
 
 typealias CompoundTag = CompoundNBT
-typealias Tag = INBT
+typealias NbtTag = INBT
 typealias AbstractNumberTag = NumberNBT
 typealias AbstractListTag<T> = CollectionNBT<T>
 
