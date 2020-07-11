@@ -27,7 +27,7 @@ object AutoRefillHandler {
 
   var screenOpening = false
 
-  fun onTick() {
+  fun onTickInGame() {
     if (Vanilla.screen() != null || (ModSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey())) {
       screenOpening = true
     } else if (VanillaUtil.inGame()) { //  Vanilla.screen() == null

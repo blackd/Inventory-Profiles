@@ -2,8 +2,8 @@ package io.github.jsnimda.common.gui.debug
 
 import io.github.jsnimda.common.gui.screen.BaseOverlay
 import io.github.jsnimda.common.math2d.Rectangle
+import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.render.*
-import net.minecraft.util.Identifier
 
 private val WIDGETS_TEXTURE =
   Identifier("inventoryprofiles", "textures/gui/widgets.png")

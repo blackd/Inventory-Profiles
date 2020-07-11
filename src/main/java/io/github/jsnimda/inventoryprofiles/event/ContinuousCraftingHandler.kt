@@ -21,7 +21,7 @@ object ContinuousCraftingHandler {
   private val checked
     get() = GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
   private var trackingScreen: ContainerScreen<*>? = null
-  fun onTick() {
+  fun onTickInGame() {
     val screen = Vanilla.screen()
     if (screen !is ContainerScreen<*> || !checked) {
       trackingScreen = null

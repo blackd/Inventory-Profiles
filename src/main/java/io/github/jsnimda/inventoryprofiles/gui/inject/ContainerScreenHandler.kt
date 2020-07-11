@@ -35,7 +35,11 @@ object ContainerScreenHandler {
     renderedThisFrame = false
   }
 
-  fun preRenderTooltip() {
+  fun onBackgroundRender() {
     if (!renderedThisFrame) renderWidget()
   }
+
+//  fun preRenderTooltip() {
+//    if (!renderedThisFrame) renderWidget()
+//  }
 }
