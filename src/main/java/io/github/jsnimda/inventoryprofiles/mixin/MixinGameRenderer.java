@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
-import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
+import io.github.jsnimda.inventoryprofiles.event.ClientEventHandler;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,6 +23,6 @@ public class MixinGameRenderer {
 
   @Inject(at = @At("RETURN"), method = "render")
   public void render(float f, long l, boolean bl, CallbackInfo ci) {
-    GameEventHandler.INSTANCE.postScreenRender();
+    ClientEventHandler.INSTANCE.postScreenRender();
   }
 }

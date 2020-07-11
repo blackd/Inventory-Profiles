@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
-import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
+import io.github.jsnimda.inventoryprofiles.event.ClientEventHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +21,7 @@ public abstract class MixinMinecraftClient {
 
   @Inject(at = @At("HEAD"), method = "tick()V")
   public void tick(CallbackInfo info) {
+    ClientEventHandler.INSTANCE.onTickPre();
     if (this.itemUseCooldown > 0 && Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
       this.itemUseCooldown = 0;
     }
@@ -28,11 +29,11 @@ public abstract class MixinMinecraftClient {
 
   @Inject(at = @At("RETURN"), method = "tick()V")
   public void tick2(CallbackInfo info) {
-    GameEventHandler.INSTANCE.onTick();
+    ClientEventHandler.INSTANCE.onTick();
   }
 
   @Inject(at = @At("RETURN"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V")
   public void joinWorld(ClientWorld clientWorld, CallbackInfo info) {
-    GameEventHandler.INSTANCE.onJoinWorld();
+    ClientEventHandler.INSTANCE.onJoinWorld();
   }
 }

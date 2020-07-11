@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
-import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
+import io.github.jsnimda.inventoryprofiles.event.ClientEventHandler;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.StringRenderable;
@@ -15,11 +15,11 @@ import java.util.List;
 public class MixinScreen {
   @Inject(at= @At("HEAD"), method = "renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V")
   public void renderTooltip(MatrixStack matrixStack, List<? extends StringRenderable> list, int i, int j, CallbackInfo ci) {
-    GameEventHandler.INSTANCE.preRenderTooltip();
+    ClientEventHandler.INSTANCE.preRenderTooltip();
   }
 
   @Inject(at= @At("HEAD"), method = "render")
   public void render(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-    GameEventHandler.INSTANCE.preScreenRender();
+    ClientEventHandler.INSTANCE.preScreenRender();
   }
 }
