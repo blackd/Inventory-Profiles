@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.input
 
 import io.github.jsnimda.common.IInputHandler
 import io.github.jsnimda.common.gui.debug.DepthTestScreen
+import io.github.jsnimda.common.gui.debug.SpriteTestScreen
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.inventoryprofiles.config.Debugs
@@ -30,6 +31,7 @@ class InputHandler : IInputHandler {
         when {
           Debugs.DEBUG_SCREEN.isActivated() -> DebugScreen()
           Debugs.SCREEN_DEPTH_TEST.isActivated() -> DepthTestScreen()
+          Debugs.SCREEN_SPRITE_TEST.isActivated() -> SpriteTestScreen()
           else -> null
         }?.let { VanillaUtil.openDistinctScreenQuiet(it); return true }
 
