@@ -5,14 +5,10 @@ import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.VanillaUtil
-import io.github.jsnimda.common.vanilla.alias.LiteralText
-import io.github.jsnimda.common.vanilla.alias.MinecraftClient
-import io.github.jsnimda.common.vanilla.alias.Screen
-import io.github.jsnimda.common.vanilla.alias.Text
+import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.common.vanilla.render.rClearDepth
 import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
-import net.minecraft.client.util.math.MatrixStack
 
 // ============
 // vanillamapping code depends on mappings (package io.github.jsnimda.common.gui.screen)

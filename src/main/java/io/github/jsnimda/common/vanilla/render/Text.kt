@@ -3,7 +3,7 @@ package io.github.jsnimda.common.vanilla.render
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.LiteralText
-import net.minecraft.client.util.math.MatrixStack
+import io.github.jsnimda.common.vanilla.alias.MatrixStack
 
 var rMatrixStack = MatrixStack()
 

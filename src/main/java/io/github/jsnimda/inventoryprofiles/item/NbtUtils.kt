@@ -7,8 +7,6 @@ import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(asString)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(getByIdentifier)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(type)`
-import net.minecraft.tag.ItemTags
-import net.minecraft.tag.Tag as TagTag
 
 // ============
 // vanillamapping code depends on mappings

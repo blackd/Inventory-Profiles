@@ -1,11 +1,9 @@
 package io.github.jsnimda.inventoryprofiles.item
 
 import io.github.jsnimda.common.vanilla.alias.*
-import io.github.jsnimda.common.vanilla.alias.Items
+import io.github.jsnimda.common.vanilla.alias.items.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(getRawId)`
-import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.item.*
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============

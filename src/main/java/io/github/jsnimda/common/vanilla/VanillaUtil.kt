@@ -3,9 +3,9 @@ package io.github.jsnimda.common.vanilla
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.Screen
+import io.github.jsnimda.common.vanilla.alias.Util
 import io.github.jsnimda.common.vanilla.render.rScreenHeight
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
-import net.minecraft.util.Util
 import java.io.File
 import java.nio.file.Path
 
