@@ -1,9 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.forge;
 
+import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.vanilla.Vanilla;
 import io.github.jsnimda.common.vanilla.VanillaUtil;
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
-import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
+import io.github.jsnimda.inventoryprofiles.event.ClientEventHandler;
 import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler;
 import io.github.jsnimda.inventoryprofiles.gui.inject.InjectWidget;
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions;
@@ -112,12 +113,13 @@ public class ForgeEventHandler {
   // forge line 554
   @SubscribeEvent
   public void postScreenRender(DrawScreenEvent.Post e) {
-    GameEventHandler.INSTANCE.postScreenRender();
+    ClientEventHandler.INSTANCE.postScreenRender();
   }
 
   @SubscribeEvent
   public void clientClick(ClientTickEvent e) {
     if (e.phase == Phase.START) {
+      ClientEventHandler.INSTANCE.onTickPre();
       onTickPre();
     } else { // e.phase == Phase.END
       onTickPost();
@@ -125,31 +127,31 @@ public class ForgeEventHandler {
   }
 
   public void onTickPost() {
-    GameEventHandler.INSTANCE.onTick();
+    ClientEventHandler.INSTANCE.onTick();
   }
 
   @SubscribeEvent
   public void joinWorld(WorldEvent.Load event) {
     if (VanillaUtil.INSTANCE.isOnClientThread()) {
-      GameEventHandler.INSTANCE.onJoinWorld();
+      ClientEventHandler.INSTANCE.onJoinWorld();
     }
   }
 
   @SubscribeEvent
   public void onCrafted(PlayerEvent.ItemCraftedEvent event) {
     if (VanillaUtil.INSTANCE.isOnClientThread()) {
-      GameEventHandler.INSTANCE.onCrafted();
+      ClientEventHandler.INSTANCE.onCrafted();
     }
   }
 
   @SubscribeEvent
   public void preRenderTooltip(RenderTooltipEvent.Pre event) {
-    GameEventHandler.INSTANCE.preRenderTooltip();
+    ClientEventHandler.INSTANCE.preRenderTooltip();
   }
 
   @SubscribeEvent
   public void preScreenRender(GuiScreenEvent.DrawScreenEvent.Pre event) {
-    GameEventHandler.INSTANCE.preScreenRender();
+    ClientEventHandler.INSTANCE.preScreenRender();
   }
 
 

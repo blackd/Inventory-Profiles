@@ -1,6 +1,6 @@
-package io.github.jsnimda.common.event
+package io.github.jsnimda.inventoryprofiles.event
 
-object GlobalInitHandler {
+object ClientInitHandler {
 
   fun onInit() {
     registered.forEach { it() }
