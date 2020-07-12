@@ -93,7 +93,7 @@ object LockSlotsLoader : Loader, Savable {
   override fun load() {
     try {
       if (!file.exists()) return
-      val content = file.readFileToString()
+      val content = file.readToString()
       val slotIndices = content.lines().mapNotNull { it.trim().toIntOrNull() }
       LockSlotsHandler.lockedSlots.apply {
         clear()
@@ -127,7 +127,7 @@ object RuleLoader : Loader {
     for (file in files) {
       try {
         Log.trace("    Trying to read file ${file.name}")
-        val content = file.readFileToString()
+        val content = file.readToString()
         ruleFiles.add(RuleFile(file.name, content))
       } catch (e: Exception) {
         Log.error("Failed to read file ${file.loggingPath}")

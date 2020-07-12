@@ -27,7 +27,7 @@ class ConfigSaveLoadManager(private val config: IConfigElement, path: String) : 
   override fun load() {
     try {
       if (!configFile.exists()) return
-      configFile.readFileToString().parseAsJson()
+      configFile.readToString().parseAsJson()
         .let { config.fromJsonElement(it) }
     } catch (e: IOException) {
       Log.error("Failed to read config file $path")
