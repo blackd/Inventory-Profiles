@@ -50,8 +50,9 @@ object ModSettings : ConfigDeclaration {
   val LOCK_SLOTS_QUICK_CONFIG_KEY               /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
   val LOCK_SLOTS_QUICK_DISABLE                  /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
   val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
-  val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
   val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
+  val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
+  val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(1, 1, 4)
 
     .CATEGORY("$category.advanced_options")
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
