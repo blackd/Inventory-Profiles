@@ -123,7 +123,7 @@ open class BaseDebugScreen : BaseOverlay() {
               |
               |mouseX ${VanillaUtil.mouseX} mouseY ${VanillaUtil.mouseY}
               |lastMouseX ${VanillaUtil.lastMouseX} lastMouseY ${VanillaUtil.lastMouseY}
-            """.trimMargin().split("\n")
+            """.trimMargin().lines()
 
       override fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
         DebugInfos.mouseX = mouseX

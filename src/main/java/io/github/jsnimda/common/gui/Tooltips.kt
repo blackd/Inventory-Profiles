@@ -25,7 +25,7 @@ object Tooltips {
   const val vMargin = 2 // y minimum 2 away from screen boundary
 
   class Tooltip(val list: List<String>, val mouseX: Int, val mouseY: Int) {
-    constructor(string: String, mouseX: Int, mouseY: Int) : this(string.split("\n"), mouseX, mouseY)
+    constructor(string: String, mouseX: Int, mouseY: Int) : this(string.lines(), mouseX, mouseY)
 
     fun render() {
       renderTooltip()
