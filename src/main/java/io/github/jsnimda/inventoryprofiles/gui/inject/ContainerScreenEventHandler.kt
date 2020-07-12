@@ -6,6 +6,7 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
+import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
 
 object ContainerScreenEventHandler {
   var currentWidget: SortingButtonCollectionWidget? = null
@@ -32,13 +33,15 @@ object ContainerScreenEventHandler {
 
   fun onBackgroundRender() {
     currentWidget?.postBackgroundRender(VanillaUtil.mouseX(), VanillaUtil.mouseY(), VanillaUtil.lastFrameDuration())
+    LockSlotsHandler.onBackgroundRender()
   }
 
   fun onForegroundRender() {
-
+    LockSlotsHandler.onForegroundRender()
   }
 
   fun postRender() {
+    LockSlotsHandler.postRender()
     currentWidget?.let { Tooltips.renderAll() }
   }
 }
