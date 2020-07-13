@@ -6,12 +6,14 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
+import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
 
 object ContainerScreenEventHandler {
   var currentWidget: SortingButtonCollectionWidget? = null
 
   fun onScreenInit(target: ContainerScreen<*>, addWidget: (AbstractButtonWidget) -> Unit) {
+    if (!GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue) return
     if (target != Vanilla.screen()) return
     val widget = SortingButtonCollectionWidget(target)
     currentWidget = widget

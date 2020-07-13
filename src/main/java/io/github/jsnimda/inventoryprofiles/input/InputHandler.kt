@@ -9,6 +9,7 @@ import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.inventoryprofiles.config.Debugs
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
+import io.github.jsnimda.inventoryprofiles.debug.DebugFunc
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
 import io.github.jsnimda.inventoryprofiles.gui.DebugScreen
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
@@ -39,6 +40,7 @@ object InputHandler : IInputHandler {
         if (Debugs.CLEAN_CURSOR.isActivated()) {
           GeneralInventoryActions.cleanCursor()
         }
+        if (Debugs.DUMP_PACKET_IDS.isActivated()) DebugFunc.dumpPacketId()
       }
 
       return false

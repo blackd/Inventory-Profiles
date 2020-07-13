@@ -70,6 +70,7 @@ object GuiSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
     .CATEGORY("$category.inventory")
+  val ENABLE_INVENTORY_BUTTONS                  /**/ by bool(true)
   val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by bool(true)
   val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)
   val CONTINUOUS_CRAFTING_SAVED_VALUE           /**/ by bool(true)
@@ -142,6 +143,7 @@ object Debugs : ConfigDeclaration {
   val SCREEN_DEPTH_TEST                         /**/ by hotkey("Z,2", KeybindSettings.ANY_DEFAULT)
   val SCREEN_SPRITE_TEST                        /**/ by hotkey("Z,3", KeybindSettings.ANY_DEFAULT)
   val CLEAN_CURSOR                              /**/ by hotkey("X,1", KeybindSettings.GUI_DEFAULT)
+  val DUMP_PACKET_IDS                           /**/ by hotkey("X,2", KeybindSettings.ANY_DEFAULT)
   val GEN_TAG_VANILLA_TXT                       /**/ by button(GenerateTagVanillaTxtButtonInfo)
   val GEN_RULE_LIST                             /**/ by button(GenerateRuleListButtonInfo)
 }
