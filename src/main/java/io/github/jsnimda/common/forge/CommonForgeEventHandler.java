@@ -14,42 +14,78 @@ public class CommonForgeEventHandler {
 
   // Keyboard <-> KeyboardListener , onKey <-> onKeyEvent // ref: malilib forge 1.14.4 ForgeInputEventHandler
   @SubscribeEvent
-  public void onKeyboardInput(InputEvent.KeyInputEvent event) {
+  public void onKeyLast(InputEvent.KeyInputEvent event) {
     if (Vanilla.INSTANCE.screen() == null) { // non null is handled below
       GlobalInputHandler.INSTANCE.onKey(event.getKey(), event.getScanCode(), event.getAction(), event.getModifiers());
     }
+  }
+
+  @SubscribeEvent
+  public void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
+    onScreenKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_PRESS, event.getModifiers(), event);
+  }
+
+  @SubscribeEvent
+  public void onKeyRelease(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
+    onScreenKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_RELEASE, event.getModifiers(), event);
   }
 
   // Keyboard.onKey()
   // fix vanilla keybind swallow my listener
   // by line 308 aboolean[0] early returned
   // (e.g. pressing z + 1 while hovering slots)
-  @SubscribeEvent
-  public void onKey1(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
+  private void onScreenKey(int key, int scanCode, int action, int modifiers, GuiScreenEvent event) {
     // tmp solution fixing crafting recipe crash when opening other screen
     // (as post will also be swallowed if vanilla screen handle it)
     // fixme better approach
     Screen lastScreen = Vanilla.INSTANCE.screen();
-    GlobalInputHandler.INSTANCE.onKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_PRESS, event.getModifiers());
-    if (lastScreen != Vanilla.INSTANCE.screen() && event.isCancelable()) { // detect gui change, cancel vanilla
+    boolean result = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers);
+    if ((lastScreen != Vanilla.INSTANCE.screen() || result) && event.isCancelable()) { // detect gui change, cancel vanilla
       event.setCanceled(true);
     }
   }
 
+  // ============
+  // mouse
+  // ============
+
   @SubscribeEvent
-  public void onKey0(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
-    Screen lastScreen = Vanilla.INSTANCE.screen();
-    GlobalInputHandler.INSTANCE.onKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_RELEASE, event.getModifiers());
-    if (lastScreen != Vanilla.INSTANCE.screen() && event.isCancelable()) { // detect gui change, cancel vanilla
-      event.setCanceled(true);
+  public void onMouseButtonLast(InputEvent.MouseInputEvent event) {
+    if (Vanilla.INSTANCE.screen() == null) { // non null is handled below
+      GlobalInputHandler.INSTANCE.onMouseButton(event.getButton(), event.getAction(), event.getMods());
     }
-  }
-
-
-  @SubscribeEvent
-  public void onMouseInputEvent(InputEvent.MouseInputEvent event) {
-    GlobalInputHandler.INSTANCE.onMouseButton(event.getButton(), event.getAction(), event.getMods());
   } // fixme occasionally throw npe on Vanilla.mc() (idk why, build/class loading related?)
+
+  @SubscribeEvent
+  public void onMouseClicked(GuiScreenEvent.MouseClickedEvent.Pre event) {
+    onScreenMouseButton(event.getButton(), GLFW.GLFW_PRESS, lastMods, event);
+  }
+
+  @SubscribeEvent
+  public void onMouseReleased(GuiScreenEvent.MouseReleasedEvent.Pre event) {
+    onScreenMouseButton(event.getButton(), GLFW.GLFW_RELEASE, lastMods, event);
+  }
+
+  private void onScreenMouseButton(int button, int action, int mods, GuiScreenEvent event) {
+    Screen lastScreen = Vanilla.INSTANCE.screen();
+    boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
+    if ((result || lastScreen != Vanilla.INSTANCE.screen()) && event.isCancelable()) { // detect gui change, cancel vanilla
+      event.setCanceled(true);
+    }
+  }
+
+  private int lastMods = 0;
+  @SubscribeEvent
+  public void onRawMouse(InputEvent.RawMouseEvent event) {
+    lastMods = event.getMods();
+  }
+
+
+
+
+
+
+
 
 //  @SubscribeEvent
 //  public void onWorldLoad(WorldEvent.Load event) {

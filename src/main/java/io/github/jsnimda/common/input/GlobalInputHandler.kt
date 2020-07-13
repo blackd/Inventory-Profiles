@@ -50,6 +50,9 @@ object GlobalInputHandler {
       handleAssignKeybind()
       return true
     }
+    if (registeredCancellable.any { it.onInput(lastKey, lastAction) }) {
+      return true
+    }
     registered.forEach { it.onInput(lastKey, lastAction) }
     return false
   }
@@ -114,10 +117,17 @@ object GlobalInputHandler {
   // api
   // ============
   private val registered: MutableSet<IInputHandler> = mutableSetOf()
+  private val registeredCancellable: MutableSet<IInputHandler> = mutableSetOf() // screen only
 
   fun register(inputHandler: IInputHandler): Boolean =
     registered.add(inputHandler)
 
   fun unregister(inputHandler: IInputHandler): Boolean =
     registered.remove(inputHandler)
+
+  fun registerCancellable(inputHandler: IInputHandler): Boolean =
+    registeredCancellable.add(inputHandler)
+
+  fun unregisterCancellable(inputHandler: IInputHandler): Boolean =
+    registeredCancellable.remove(inputHandler)
 }
