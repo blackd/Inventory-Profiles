@@ -1,6 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.file
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.annotation.ThrowsCaught
+import io.github.jsnimda.common.annotation.WontThrow
 import io.github.jsnimda.common.util.ifTrue
 import io.github.jsnimda.common.util.ordinalName
 import io.github.jsnimda.common.util.usefulName
@@ -9,6 +11,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.native.NativeRules
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.NativeParameters
+import kotlin.jvm.Throws
 
 /*
   rulesFiles: [a.txt] -> [b.txt] -> [c.txt] -> ... -> [z.txt]
@@ -78,6 +81,7 @@ object RuleFileRegister {
   fun getCustomRule(ruleName: String): CustomRule? {
     val ruleDefinition =
       if (cachedRules.containsKey(ruleName)) cachedRules.getValue(ruleName) else searchAndPutCustomRule(ruleName)
+    @WontThrow
     return ruleDefinition?.createCustomRule() // should not throw
   }
 
@@ -130,12 +134,14 @@ object RuleFileRegister {
       return null
     }
 
+    @ThrowsCaught
     private fun findUsableRule(list: List<RuleDefinition>, fileName: String): RuleDefinition? { // from 0+
       var count = list.size
       for (ruleDefinition in list) {
         Log.trace("Instantiating rule @$ruleName#$count")
         Log.indent()
         try {
+          @ThrowsCaught
           ruleDefinition.createCustomRule()
           if (ruleDefinition.status == RuleDefinition.Status.SUCCESS) {
             return ruleDefinition // no throws, meaning success
