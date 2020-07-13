@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.math2d.Line
+import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.vanilla.VanillaUtil
 
 object MouseTracer {
@@ -14,6 +15,10 @@ object MouseTracer {
     private set
   val asLine
     get() = Line(lastX, lastY, x, y)
+  val location: Point
+    get() = Point(x, y)
+  val lastLocation: Point
+    get() = Point(lastX, lastY)
 
   fun onTick() {
     lastX = x

@@ -82,9 +82,14 @@ object CustomDataFileLoader {
 object LockSlotsLoader : Loader, Savable {
   val file = configFolder / "lockSlots.txt"
 
+  private var cachedValue = listOf<Int>()
+
   override fun save() {
     try {
-      LockSlotsHandler.lockedInvSlotsStoredValue.sorted().joinToString("\n").writeToFile(file)
+      val slotIndices = LockSlotsHandler.lockedInvSlotsStoredValue.sorted()
+      if (slotIndices == cachedValue) return
+      cachedValue = slotIndices
+      slotIndices.joinToString("\n").writeToFile(file)
     } catch (e: Exception) {
       Log.error("Failed to write file ${file.loggingPath}")
     }
@@ -99,6 +104,7 @@ object LockSlotsLoader : Loader, Savable {
         clear()
         addAll(slotIndices)
       }
+      cachedValue = slotIndices
     } catch (e: Exception) {
       Log.error("Failed to read file ${file.loggingPath}")
     }

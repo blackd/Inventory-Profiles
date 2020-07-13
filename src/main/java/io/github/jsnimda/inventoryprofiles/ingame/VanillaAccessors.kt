@@ -2,6 +2,7 @@
 
 package io.github.jsnimda.inventoryprofiles.ingame
 
+import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.item.*
@@ -40,6 +41,8 @@ val Slot.`(left)`: Int
   get() = x
 val Slot.`(top)`: Int
   get() = y
+val Slot.`(topLeft)`: Point
+  get() = Point(`(left)`, `(top)`)
 
 fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
   return canInsert(itemStack.vanillaStack)

@@ -117,7 +117,7 @@ fun interface AreaType {
 // ============
 
 private fun List<Slot>.toPointList(): List<Point> {
-  return map { Point(it.`(left)`, it.`(top)`) }
+  return map { it.`(topLeft)` }
 }
 
 class ItemArea(private val fromSlotLocations: List<Point>) { // vanilla things
