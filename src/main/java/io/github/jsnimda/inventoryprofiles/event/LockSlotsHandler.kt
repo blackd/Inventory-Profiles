@@ -9,8 +9,7 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
-import io.github.jsnimda.common.vanilla.render.Sprite
-import io.github.jsnimda.common.vanilla.render.rDrawCenteredSprite
+import io.github.jsnimda.common.vanilla.render.*
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.SwitchType.HOLD
 import io.github.jsnimda.inventoryprofiles.config.SwitchType.TOGGLE
@@ -63,17 +62,24 @@ object LockSlotsHandler {
 
   fun onForegroundRender() {
     if (!ModSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
-    drawSprite(foregroundSprite, null)
+    val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
+    gPushMatrix() // see HandledScreen.render() line 98: RenderSystem.translatef()
+    val topLeft = screen.`(containerBounds)`.topLeft
+    gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
+    drawSprite(foregroundSprite, null, 400)
+    gPopMatrix()
   }
 
   fun postRender() { // display config
     if (!displayingConfig) return
-    drawSprite(configSpriteLocked, configSprite)
+    drawSprite(configSpriteLocked, configSprite, 400)
   }
 
-  private fun drawSprite(lockedSprite: Sprite?, openSprite: Sprite?) {
+  private fun drawSprite(lockedSprite: Sprite?, openSprite: Sprite?, zOffset: Int = 0) {
     if (!enabled) return
     val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
+//    rClearDepth() // use translate or zOffset
+    gTranslatef(0f, 0f, zOffset.toFloat())
     val topLeft = screen.`(containerBounds)`.topLeft + Point(8, 8) // slot center offset
     for ((invSlot, slotTopLeft) in slotLocations) {
       if (invSlot in lockedInvSlotsStoredValue)
@@ -81,6 +87,7 @@ object LockSlotsHandler {
       else
         openSprite?.let { rDrawCenteredSprite(it, topLeft + slotTopLeft) }
     }
+    gTranslatef(0f, 0f, -zOffset.toFloat())
   }
 
   // ============

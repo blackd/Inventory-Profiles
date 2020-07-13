@@ -2,10 +2,7 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersect
-import io.github.jsnimda.common.vanilla.alias.DiffuseLighting
-import io.github.jsnimda.common.vanilla.alias.DstFactor
-import io.github.jsnimda.common.vanilla.alias.RenderSystem
-import io.github.jsnimda.common.vanilla.alias.SrcFactor
+import io.github.jsnimda.common.vanilla.alias.*
 import org.lwjgl.opengl.GL11
 
 // ============
@@ -71,6 +68,17 @@ private fun rOverwriteDepth(bounds: Rectangle) {
 }
 
 // ============
+// matrix
+// ============
+
+var rMatrixStack = MatrixStack()
+
+fun gPushMatrix() = RenderSystem.pushMatrix()
+fun gPopMatrix() = RenderSystem.popMatrix()
+//fun gLoadIdentity() = RenderSystem.loadIdentity()
+fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
+
+// ============
 // internal
 // ============
 private fun rEnableBlend() {
@@ -83,9 +91,6 @@ private fun rEnableBlend() {
 
 // ============
 // GlStateManager
-private fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
-private fun gPushMatrix() = RenderSystem.pushMatrix()
-private fun gPopMatrix() = RenderSystem.popMatrix()
 private fun gDisableDiffuse() = DiffuseLighting.disable()
 private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
 private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
