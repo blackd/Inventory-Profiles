@@ -76,6 +76,7 @@ public class ForgeEventHandler {
     ScreenEventHandler.INSTANCE.postRender();
   }
 
+  @SubscribeEvent
   public void onBackgroundRender(GuiContainerEvent.DrawBackground e) {
     ContainerScreenEventHandler.INSTANCE.onBackgroundRender();
   }

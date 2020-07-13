@@ -38,7 +38,7 @@ val Slot.`(inventory)`: Inventory
 val Slot.`(left)`: Int
   get() = xPos
 val Slot.`(top)`: Int
-  get() = y
+  get() = yPos
 val Slot.`(topLeft)`: Point
   get() = Point(`(left)`, `(top)`)
 
