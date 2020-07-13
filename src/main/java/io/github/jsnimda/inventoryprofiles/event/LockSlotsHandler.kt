@@ -37,7 +37,7 @@ object LockSlotsHandler {
       return Vanilla.container().`(slots)`.mapNotNull { slot ->
         val playerSlot = vPlayerSlotOf(slot, screen)
         return@mapNotNull if (playerSlot.`(inventory)` is PlayerInventory)
-          playerSlot.`(invSlot)` to playerSlot.`(topLeft)` else null
+          playerSlot.`(invSlot)` to slot.`(topLeft)` else null
       }.toMap()
     }
 
@@ -56,6 +56,7 @@ object LockSlotsHandler {
   private val configSpriteLocked = configSprite.down()
 
   fun onBackgroundRender() {
+    if (displayingConfig) return
     if (!ModSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue) return
     drawSprite(backgroundSprite, null)
   }
