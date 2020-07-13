@@ -29,6 +29,17 @@ object ModSettings : ConfigDeclaration {
   val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
   val ALWAYS_MOVE_ALL                           /**/ by bool(false)
 
+    .CATEGORY("$category.lock_slots")
+  val ENABLE_LOCK_SLOTS                         /**/ by bool(true)
+  val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("LEFT_ALT", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_CONFIG_KEY                     /**/ by hotkey("BUTTON_1", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_QUICK_CONFIG_KEY               /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_QUICK_DISABLE                  /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
+  val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
+  val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
+  val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(1, 1, 6)
+
     .CATEGORY("$category.auto_refill")
   val ENABLE_AUTO_REFILL                        /**/ by bool(true)
   val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
@@ -42,17 +53,6 @@ object ModSettings : ConfigDeclaration {
   auto pick
   ref: MiningToolItem.getMiningSpeed()
 */
-
-    .CATEGORY("$category.lock_slots")
-  val ENABLE_LOCK_SLOTS                         /**/ by bool(true)
-  val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("TAB", KeybindSettings.GUI_EXTRA)
-  val LOCK_SLOTS_CONFIG_KEY                     /**/ by hotkey("BUTTON_1", KeybindSettings.GUI_EXTRA)
-  val LOCK_SLOTS_QUICK_CONFIG_KEY               /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
-  val LOCK_SLOTS_QUICK_DISABLE                  /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
-  val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
-  val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
-  val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
-  val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(1, 1, 4)
 
     .CATEGORY("$category.advanced_options")
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)

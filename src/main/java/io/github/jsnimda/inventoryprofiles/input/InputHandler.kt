@@ -3,6 +3,7 @@ package io.github.jsnimda.inventoryprofiles.input
 import io.github.jsnimda.common.IInputHandler
 import io.github.jsnimda.common.gui.debug.DepthTestScreen
 import io.github.jsnimda.common.gui.debug.SpriteTestScreen
+import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.inventoryprofiles.config.Debugs
@@ -12,7 +13,7 @@ import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
 import io.github.jsnimda.inventoryprofiles.gui.DebugScreen
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 
-class InputHandler : IInputHandler {
+object InputHandler : IInputHandler {
 
   // public static Keybind debugKey = new Keybind("RIGHT_CONTROL,BACKSPACE", KeybindSettings.ANY_DEFAULT);
 
@@ -42,5 +43,10 @@ class InputHandler : IInputHandler {
 
       return false
     }
+  }
+
+  fun onClientInit() {
+    GlobalInputHandler.register(this)
+    GlobalInputHandler.registerCancellable(CancellableInputHandler)
   }
 }

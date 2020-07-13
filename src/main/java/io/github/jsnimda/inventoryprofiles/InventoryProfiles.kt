@@ -18,7 +18,7 @@ fun init() {
     Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
 
     // Keybind register
-    GlobalInputHandler.register(InputHandler())
+    InputHandler.onClientInit()
 
     SaveLoadManager.load()
     CustomDataFileLoader.load()

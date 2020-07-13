@@ -21,7 +21,7 @@ object ClientEventHandler {
     }
   }
 
-  fun onTickInGame() {
+  private fun onTickInGame() {
     if (GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
       ContinuousCraftingHandler.onTickInGame()
     }
@@ -31,6 +31,7 @@ object ClientEventHandler {
     if (Tweaks.CONTAINER_SWIPE_MOVING_ITEMS.booleanValue) {
       MiscHandler.swipeMoving()
     }
+    LockSlotsHandler.onTickInGame()
   }
 
   fun onJoinWorld() {

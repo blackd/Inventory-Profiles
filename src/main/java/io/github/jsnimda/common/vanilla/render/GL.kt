@@ -2,10 +2,7 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersect
-import io.github.jsnimda.common.vanilla.alias.DiffuseLighting
-import io.github.jsnimda.common.vanilla.alias.DstFactor
-import io.github.jsnimda.common.vanilla.alias.RenderSystem
-import io.github.jsnimda.common.vanilla.alias.SrcFactor
+import io.github.jsnimda.common.vanilla.alias.*
 import org.lwjgl.opengl.GL11
 
 // ============
@@ -20,6 +17,10 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
   gEnableDepthTest()
   RenderSystem.depthMask(true)
 }
+
+// ============
+// depth
+// ============
 
 fun rClearDepth() {
   gEnableDepthTest()
@@ -70,6 +71,27 @@ private fun rOverwriteDepth(bounds: Rectangle) {
   gDepthFunc(GL11.GL_LEQUAL)
 }
 
+fun rDisableDepth() { // todo see if same with disableDepthTest (?)
+  gDepthFunc(GL11.GL_ALWAYS)
+  RenderSystem.depthMask(false)
+}
+
+fun rEnableDepth() {
+  RenderSystem.depthMask(true)
+  gDepthFunc(GL11.GL_LEQUAL)
+}
+
+// ============
+// matrix
+// ============
+
+var rMatrixStack = MatrixStack()
+
+fun gPushMatrix() = RenderSystem.pushMatrix()
+fun gPopMatrix() = RenderSystem.popMatrix()
+//fun gLoadIdentity() = RenderSystem.loadIdentity()
+fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
+
 // ============
 // internal
 // ============
@@ -83,10 +105,6 @@ private fun rEnableBlend() {
 
 // ============
 // GlStateManager
-private fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
-private fun gPushMatrix() = RenderSystem.pushMatrix()
-private fun gPopMatrix() = RenderSystem.popMatrix()
-
 // RenderHelper.disableStandardItemLighting(); RenderHelper = DiffuseLighting
 private fun gDisableDiffuse() = DiffuseLighting.disableStandardItemLighting()
 private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
