@@ -55,6 +55,8 @@ val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
   get() = (this as IMixinContainerScreen).focusedSlot
 val ContainerScreen<*>.`(containerBounds)`: Rectangle
   get() = (this as IMixinContainerScreen).run { Rectangle(containerX, containerY, containerWidth, containerHeight) }
+val ContainerScreen<*>.`(container)`: Container
+  get() = screenHandler
 
 val PlayerInventory.`(selectedSlot)`: Int
   get() = selectedSlot

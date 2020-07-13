@@ -4,6 +4,8 @@ import io.github.jsnimda.common.gui.debug.BaseDebugScreen
 import io.github.jsnimda.common.gui.debug.DebugInfos
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.util.usefulName
+import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.ingame.*
@@ -69,6 +71,24 @@ class DebugScreen : BaseDebugScreen() {
       }
   }
 
+  inner class PageScreenInfo : Page("ScreenInfo") {
+    override val content: List<String>
+      get() = listOf(screen, focusedSlot, screenContainer, container).joinToString("\n").lines()
+    val screen: String
+      get() = "screen: ${parent?.javaClass?.name}"
+    val focusedSlot: String
+      get() = "focusedSlot: ${parent?.`(focusedSlot)`?.javaClass?.name}"
+    val screenContainer: String
+      get() = (parent as? ContainerScreen<*>)?.let { containerStringOf(it.`(container)`, "screenContainer") }
+        ?: "screenContainer: null"
+    val container: String
+      get() = containerStringOf(Vanilla.container(), "container")
+
+    fun containerStringOf(container: Container, title: String): String {
+      return "$title: ${container.javaClass.name}"
+    }
+  }
+
   fun addContent(additionalContent: Page.() -> List<String>, page: Page): Page {
     return object : Page(page.name) {
       override val content: List<String>
@@ -100,6 +120,7 @@ class DebugScreen : BaseDebugScreen() {
       }, pages[0]) // todo better code
       pages[0] = page0Plus
       pages.add(PageContainer())
+      pages.add(PageScreenInfo())
     }
     switchPage(storedPageIndex)
   }
