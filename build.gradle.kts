@@ -129,6 +129,8 @@ fun dummyJar(thisJarName: String, fromJarName: String) = tasks.creating(Jar::cla
 }
 val reobfOriginalJar = reobf.create("originalJar")
 val reobfCustomJar = reobf.create("customJar")
+reobfOriginalJar.mustRunAfter("proguard")
+reobfCustomJar.mustRunAfter("proguard")
 
 reobf.create("jar").enabled = false // disable reobfJar
 
