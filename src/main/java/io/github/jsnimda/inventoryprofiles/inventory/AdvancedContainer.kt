@@ -1,5 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
+import io.github.jsnimda.common.annotation.ThrowsCaught
+import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.Container
@@ -29,22 +31,29 @@ class AdvancedContainer(
   ))
   private val slotIdClicks: List<Pair<Int, Int>>
     get() = vanillaSlots.let { slots ->
-      planner.clicks.map { slots[it.slotIndex].`(id)` to it.button }
+      @ThrowsCaught
+      tryCatch { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
     }
 
   // ============
   // dsl
   // ============
 
+  @ThrowsCaught
   fun sandbox(block: SandboxDsl.() -> Unit) {
-    planner.sandbox {
-      SandboxDsl(it).block()
+    tryCatch {
+      planner.sandbox {
+        SandboxDsl(it).block()
+      }
     }
   }
 
+  @ThrowsCaught
   fun tracker(block: TrackerDsl.() -> Unit) {
-    planner.tracker {
-      TrackerDsl(it).block()
+    tryCatch {
+      planner.tracker {
+        TrackerDsl(it).block()
+      }
     }
   }
 

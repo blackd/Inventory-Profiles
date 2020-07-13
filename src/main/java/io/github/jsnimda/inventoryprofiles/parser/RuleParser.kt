@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.parser
 
+import io.github.jsnimda.common.annotation.MayThrow
 import io.github.jsnimda.common.util.IndentedData
 import io.github.jsnimda.inventoryprofiles.gen.RulesLexer
 import io.github.jsnimda.inventoryprofiles.gen.RulesParser
@@ -10,7 +11,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.file.SubRuleDefinition
 
 object RuleParser {
 
-  @Throws // throw SyntaxErrorException
+  @MayThrow // throw SyntaxErrorException
   fun parseRuleDefinition(data: IndentedData): RuleDefinition {
     val lines = data.lines
     val text = lines.joinToString("\n") { it.rawText }
@@ -24,7 +25,7 @@ object RuleParser {
     }
   }
 
-  @Throws // may throws
+  @MayThrow // may throws
   fun parseSubRule(content: String): List<SubRuleDefinition> =
     content.parseBy(::RulesLexer, ::RulesParser, lexerMode = RulesLexer.mSubRule)
       .subRuleEOF().subRule().map { it.toSubRuleDefinition() }
