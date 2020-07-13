@@ -27,19 +27,8 @@ public class MixinMouse {
   }
 
   @Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +
-      "mouseClicked(DDI)Z"), cancellable = true)
-  private void onMouseClicked(long handle, int button, int action, int mods, CallbackInfo ci) {
-    onScreenMouseButton(button, action, mods, ci);
-  }
-
-  @Inject(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +
-      "mouseReleased(DDI)Z"), cancellable = true)
-  private void onMouseReleased(long handle, int button, int action, int mods, CallbackInfo ci) {
-    onScreenMouseButton(button, action, mods, ci);
-  }
-
-
-  private void onScreenMouseButton(int button, int action, int mods, CallbackInfo ci) {
+      "wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V"), cancellable = true)
+  private void onScreenMouseButton(long handle, int button, int action, int mods, CallbackInfo ci) {
     Screen lastScreen = Vanilla.INSTANCE.screen();
     boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
     if (result || lastScreen != Vanilla.INSTANCE.screen()) { // detect gui change, cancel vanilla
