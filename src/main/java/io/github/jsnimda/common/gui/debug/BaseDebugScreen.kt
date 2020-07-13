@@ -62,7 +62,9 @@ open class BaseDebugScreen : BaseOverlay() {
   fun updateHudText() {
     val page = page ?: return
     hudTextContainer.clearChildren()
-    val texts = page.content.map { HudText(it) }
+//    val texts = page.content.map { HudText(it) }
+    val content = rWrapText(page.content.joinToString("\n"), rScreenWidth)
+    val texts = content.lines().map { HudText(it) }
     texts.forEach { hudTextContainer.addChild(it) }
     val hudTexts = hudTextContainer.children.selfIf { isTop orElse { asReversed() } }
     var dy = 1
