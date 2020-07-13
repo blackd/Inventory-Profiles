@@ -2,7 +2,9 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.KeyCodes
+import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Rectangle
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.math2d.intersects
 import io.github.jsnimda.common.util.containsAny
 import io.github.jsnimda.common.vanilla.Vanilla
@@ -25,7 +27,7 @@ object MiscHandler {
     // fixed mouse too fast skip slots
     // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
     val screen = Vanilla.screen()
-    val containerBounds = (screen as? ContainerScreen<*>)?.`(containerBounds)` ?: return
+    val topLeft = (screen as? ContainerScreen<*>)?.`(containerBounds)`?.topLeft ?: return
 
     // swipe move should disabled when cursor has item
     if (!vCursorStack().isEmpty()) return
@@ -45,7 +47,7 @@ object MiscHandler {
         if (slot.`(inventory)` is CraftingInventory || slot.`(inventory)` is CraftingResultInventory) continue
       }
 
-      val rect = Rectangle(containerBounds.x + slot.`(left)`, containerBounds.y + slot.`(top)`, 16, 16)
+      val rect = Rectangle(topLeft - Size(1, 1) + slot.`(topLeft)`, Size(18, 18))
       if (!line.intersects(rect)) continue
       if (slot.`(itemStack)`.isEmpty()) continue
       ContainerClicker.shiftClick(vPlayerSlotOf(slot, screen).`(id)`)

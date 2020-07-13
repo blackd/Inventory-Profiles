@@ -116,10 +116,10 @@ object LockSlotsHandler {
     }
     if (clicked) {
       val line = MouseTracer.asLine
-      val topLeft = screen.`(containerBounds)`.topLeft
+      val topLeft = screen.`(containerBounds)`.topLeft - Size(1, 1)
       for ((invSlot, slotTopLeft) in slotLocations) {
         if ((mode == 0) == (invSlot !in lockedInvSlotsStoredValue)
-          && line.intersects(Rectangle(topLeft + slotTopLeft, Size(16, 16)))
+          && line.intersects(Rectangle(topLeft + slotTopLeft, Size(18, 18)))
         ) {
           if (mode == 0)
             lockedInvSlotsStoredValue.add(invSlot)
@@ -144,10 +144,10 @@ object LockSlotsHandler {
         clicked = false
         return true
       } // else currentClicked == true
-      val topLeft = screen.`(containerBounds)`.topLeft
+      val topLeft = screen.`(containerBounds)`.topLeft - Size(1, 1)
       // check if on slot
       val focused = slotLocations.asIterable().firstOrNull { (_, slotTopLeft) ->
-        Rectangle(topLeft + slotTopLeft, Size(16, 16)).contains(MouseTracer.location)
+        Rectangle(topLeft + slotTopLeft, Size(18, 18)).contains(MouseTracer.location)
       }
       focused?.let { (invSlot, _) ->
         clicked = true
