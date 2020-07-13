@@ -34,89 +34,6 @@ import java.util.List;
 public class ForgeEventHandler {
 
   @SubscribeEvent
-  public void onDrawForeground(GuiContainerEvent.DrawForeground e) {
-  }
-
-  @SubscribeEvent
-  public void onDrawScreenPost(DrawScreenEvent.Post e) { // MixinAbstractContainerScreen.render
-//    if (!ToolTips.current.isEmpty()) {
-//      GlStateManager.pushMatrix();
-//      ToolTips.renderAll();
-//      GlStateManager.disableLighting();
-//      GlStateManager.popMatrix();
-//    }
-//    if (!Tooltips.INSTANCE.getTooltips().isEmpty()) {
-//      GlStateManager.pushMatrix();
-//      Tooltips.INSTANCE.renderAll();
-//      GlStateManager.disableLighting();
-//      GlStateManager.popMatrix();
-//    }
-  }
-
-  @SubscribeEvent
-  public void onInitGuiPost(InitGuiEvent.Post e) { // MixinAbstractContainerScreen.init
-    if (e.getGui() instanceof ContainerScreen) {
-      // on forge this is called twice on creative screen lol
-      // fix:
-      if (Vanilla.INSTANCE.screen() != e.getGui()) return;
-
-      List<InjectWidget> list = ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui());
-      for (InjectWidget iw : list) {
-        e.addWidget(iw);
-      }
-    }
-  }
-
-  /*
-  todo tweaks:
-   @Mixin(ClientPlayerInteractionManager.class)
-// INSTANT_MINING_COOLDOWN
-//  @Inject(at = @At(value = "INVOKE_ASSIGN", target="Lnet/minecraft/client/network/ClientPlayerInteractionManager;"
-//      + "breakBlock(Lnet/minecraft/util/math/BlockPos;)Z"),
-//      method = "attackBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
-//  public void attackBlock(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
-//    if (Tweaks.INSTANCE.getINSTANT_MINING_COOLDOWN().getBooleanValue()) {
-//      this.field_3716 = 5;
-//    }
-//  }
-
-// ============
-// MixinGameRenderer
-// ============
-
-// DISABLE_SCREEN_SHAKING_ON_DAMAGE
-//@Mixin(GameRenderer.class)
-//public class MixinGameRenderer {
-//  @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(F)V", cancellable = true)
-//  public void bobViewWhenHurt(float float_1, CallbackInfo info) {
-//    if (Tweaks.INSTANCE.getDISABLE_SCREEN_SHAKING_ON_DAMAGE().getBooleanValue()) {
-//      info.cancel();
-//    }
-//  }
-
-// DISABLE_LAVA_FOG
-//@Mixin(GlStateManager.class)
-//public class MixinGlStateManager {
-//
-//  @ModifyVariable(method = "fogDensity(F)V", at = @At("HEAD"), argsOnly = true)
-//  private static float fogDensity(float fogDensity) {
-//    if (fogDensity == 2.0f && Tweaks.INSTANCE.getDISABLE_LAVA_FOG().getBooleanValue()) {
-//      return 0.02f;
-//    }
-//    return fogDensity;
-//  }
-//
-//}
-   */
-
-  // fabric GameRenderer.render() = forge updateCameraAndRender()
-  // forge line 554
-  @SubscribeEvent
-  public void postScreenRender(DrawScreenEvent.Post e) {
-    ClientEventHandler.INSTANCE.postScreenRender();
-  }
-
-  @SubscribeEvent
   public void clientClick(ClientTickEvent e) {
     if (e.phase == Phase.START) {
       ClientEventHandler.INSTANCE.onTickPre();
@@ -124,10 +41,6 @@ public class ForgeEventHandler {
     } else { // e.phase == Phase.END
       onTickPost();
     }
-  }
-
-  public void onTickPost() {
-    ClientEventHandler.INSTANCE.onTick();
   }
 
   @SubscribeEvent
@@ -144,9 +57,22 @@ public class ForgeEventHandler {
     }
   }
 
+  // ============
+  // screen render
+  // ============
+
   @SubscribeEvent
-  public void preRenderTooltip(RenderTooltipEvent.Pre event) {
-    ClientEventHandler.INSTANCE.preRenderTooltip();
+  public void onInitGuiPost(InitGuiEvent.Post e) { // MixinAbstractContainerScreen.init
+    if (e.getGui() instanceof ContainerScreen) {
+      // on forge this is called twice on creative screen lol
+      // fix:
+      if (Vanilla.INSTANCE.screen() != e.getGui()) return;
+
+      List<InjectWidget> list = ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui());
+      for (InjectWidget iw : list) {
+        e.addWidget(iw);
+      }
+    }
   }
 
   @SubscribeEvent
@@ -154,6 +80,27 @@ public class ForgeEventHandler {
     ClientEventHandler.INSTANCE.preScreenRender();
   }
 
+  // fabric GameRenderer.render() = forge updateCameraAndRender()
+  // forge line 554
+  @SubscribeEvent
+  public void postScreenRender(DrawScreenEvent.Post e) {
+    ClientEventHandler.INSTANCE.postScreenRender();
+  }
+
+  public void onBackgroundRender(GuiContainerEvent.DrawBackground e) {}
+
+  @SubscribeEvent
+  public void onForegroundRender(GuiContainerEvent.DrawForeground e) {
+  }
+
+  public void onTickPost() {
+    ClientEventHandler.INSTANCE.onTick();
+  }
+
+  @SubscribeEvent
+  public void preRenderTooltip(RenderTooltipEvent.Pre event) {
+    ClientEventHandler.INSTANCE.preRenderTooltip();
+  }
 
   // ============
   // old event
@@ -201,4 +148,48 @@ public class ForgeEventHandler {
       }
     }
   }
+
+
+  /*
+  todo tweaks:
+   @Mixin(ClientPlayerInteractionManager.class)
+// INSTANT_MINING_COOLDOWN
+//  @Inject(at = @At(value = "INVOKE_ASSIGN", target="Lnet/minecraft/client/network/ClientPlayerInteractionManager;"
+//      + "breakBlock(Lnet/minecraft/util/math/BlockPos;)Z"),
+//      method = "attackBlock(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
+//  public void attackBlock(BlockPos blockPos_1, Direction direction_1, CallbackInfoReturnable<Boolean> info) {
+//    if (Tweaks.INSTANCE.getINSTANT_MINING_COOLDOWN().getBooleanValue()) {
+//      this.field_3716 = 5;
+//    }
+//  }
+
+// ============
+// MixinGameRenderer
+// ============
+
+// DISABLE_SCREEN_SHAKING_ON_DAMAGE
+//@Mixin(GameRenderer.class)
+//public class MixinGameRenderer {
+//  @Inject(at = @At("HEAD"), method = "bobViewWhenHurt(F)V", cancellable = true)
+//  public void bobViewWhenHurt(float float_1, CallbackInfo info) {
+//    if (Tweaks.INSTANCE.getDISABLE_SCREEN_SHAKING_ON_DAMAGE().getBooleanValue()) {
+//      info.cancel();
+//    }
+//  }
+
+// DISABLE_LAVA_FOG
+//@Mixin(GlStateManager.class)
+//public class MixinGlStateManager {
+//
+//  @ModifyVariable(method = "fogDensity(F)V", at = @At("HEAD"), argsOnly = true)
+//  private static float fogDensity(float fogDensity) {
+//    if (fogDensity == 2.0f && Tweaks.INSTANCE.getDISABLE_LAVA_FOG().getBooleanValue()) {
+//      return 0.02f;
+//    }
+//    return fogDensity;
+//  }
+//
+//}
+   */
+
 }

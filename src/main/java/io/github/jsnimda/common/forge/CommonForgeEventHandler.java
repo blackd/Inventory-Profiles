@@ -51,11 +51,11 @@ public class CommonForgeEventHandler {
     GlobalInputHandler.INSTANCE.onMouseButton(event.getButton(), event.getAction(), event.getMods());
   } // fixme occasionally throw npe on Vanilla.mc() (idk why, build/class loading related?)
 
-  @SubscribeEvent
-  public void onWorldLoad(WorldEvent.Load event) {
-    // clear keybind (pressing keys)
-    GlobalInputHandler.INSTANCE.getPressedKeys().clear();
-  }
+//  @SubscribeEvent
+//  public void onWorldLoad(WorldEvent.Load event) {
+//    // clear keybind (pressing keys)
+//    GlobalInputHandler.INSTANCE.getPressedKeys().clear();
+//  }
 
   // todo mouse move event
   /*
