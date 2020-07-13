@@ -70,6 +70,7 @@ object GuiSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
     .CATEGORY("$category.inventory")
+  val ENABLE_INVENTORY_BUTTONS                  /**/ by bool(true)
   val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by bool(true)
   val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)
   val CONTINUOUS_CRAFTING_SAVED_VALUE           /**/ by bool(true)
