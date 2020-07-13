@@ -8,7 +8,7 @@ import io.github.jsnimda.inventoryprofiles.config.ModSettings
     - move match / move crafting
     - sort
     - continuous crafting supplies storage
-
+    - auto refill supplies storage
  */
 object LockSlotsHandler {
   val lockedInvSlotsStoredValue = mutableSetOf<Int>() // locked invSlot list

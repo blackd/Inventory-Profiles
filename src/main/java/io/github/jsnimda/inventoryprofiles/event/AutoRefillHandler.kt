@@ -13,6 +13,7 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
 import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
 import io.github.jsnimda.inventoryprofiles.ingame.vMainhandIndex
+import io.github.jsnimda.inventoryprofiles.inventory.AreaTypes
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.item.*
@@ -180,8 +181,12 @@ object AutoRefillHandler {
         // vanillamapping code depends on mappings
         // ============
         // found slot id 9..35 (same inv)
-        val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
-        var filtered = items.indexed().asSequence()
+//        val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
+        var filtered = Vanilla.playerContainer().let { playerContainer ->
+          val slots = playerContainer.`(slots)`
+          with(AreaTypes) { playerStorage - lockedSlots }.getItemArea(playerContainer, slots)
+            .slotIndices.map { IndexedValue(it - 9, slots[it].`(itemStack)`) }
+        }.asSequence()
         var index = -1
         val itemType = checkingItem.itemType
         if (itemType.isDamageable) {
