@@ -84,6 +84,13 @@ minecraft {
   }
 }
 
+tasks.processResources {
+  inputs.property("version", project.version)
+  filesMatching("META-INF/mods.toml") {
+    expand("version" to project.version)
+  }
+}
+
 // ============
 // build task
 // ============
@@ -159,6 +166,7 @@ tasks.shadowJar {
   exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
   exclude("**/*_ws$*.class")
   exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+  exclude("META-INF/maven/**")
 }
 
 val proguard by tasks.registering(ProGuardTask::class) {
