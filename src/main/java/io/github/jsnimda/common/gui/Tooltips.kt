@@ -35,7 +35,7 @@ object Tooltips {
       if (list.isEmpty()) return
       rStandardGlState()
       rClearDepth()
-      val maxTextWidth = list.map { rMeasureText(it) }.max() ?: return
+      val maxTextWidth = list.map { rMeasureText(it) }.maxOrNull() ?: return
       val boxW = maxTextWidth + 8
       val boxH = list.size * 10 + 6
       val boxX = run { // minimum 5 away from screen boundary

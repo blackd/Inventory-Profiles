@@ -14,8 +14,8 @@ import io.github.jsnimda.common.vanilla.alias.PlayerInventory
 import io.github.jsnimda.inventoryprofiles.config.Tweaks
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
-import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerType
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 
 object MiscHandler {

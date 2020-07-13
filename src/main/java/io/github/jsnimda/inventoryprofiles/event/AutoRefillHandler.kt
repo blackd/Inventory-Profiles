@@ -1,6 +1,5 @@
 package io.github.jsnimda.inventoryprofiles.event
 
-import io.github.jsnimda.common.util.indexed
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil

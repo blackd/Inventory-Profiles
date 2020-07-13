@@ -4,7 +4,6 @@ package io.github.jsnimda.inventoryprofiles.ingame
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.alias.*
-import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
 import io.github.jsnimda.inventoryprofiles.item.*
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen

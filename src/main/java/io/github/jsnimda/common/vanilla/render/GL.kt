@@ -2,7 +2,10 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersect
-import io.github.jsnimda.common.vanilla.alias.*
+import io.github.jsnimda.common.vanilla.alias.DiffuseLighting
+import io.github.jsnimda.common.vanilla.alias.DstFactor
+import io.github.jsnimda.common.vanilla.alias.RenderSystem
+import io.github.jsnimda.common.vanilla.alias.SrcFactor
 import org.lwjgl.opengl.GL11
 
 // ============

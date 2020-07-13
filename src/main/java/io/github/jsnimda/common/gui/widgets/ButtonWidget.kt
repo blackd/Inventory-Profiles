@@ -1,7 +1,9 @@
 package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.VanillaSound
-import io.github.jsnimda.common.vanilla.render.*
+import io.github.jsnimda.common.vanilla.render.rDrawCenteredText
+import io.github.jsnimda.common.vanilla.render.rDrawDynamicWidthSprite
+import io.github.jsnimda.common.vanilla.render.rVanillaButtonSprite
 
 open class ButtonWidget : Widget {
   var clickEvent: (Int) -> Unit = { }
