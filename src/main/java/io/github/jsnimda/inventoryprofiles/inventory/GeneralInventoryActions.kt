@@ -138,7 +138,7 @@ private object InnerActions {
         val forcePlayerSide = forcePlayerSide()
         val target: ItemArea
         if (forcePlayerSide || itemStorage.get().isEmpty()) {
-          target = playerStorage.get()
+          target = (playerStorage - lockedSlots).get()
           if (ModSettings.RESTOCK_HOTBAR.booleanValue) {
             // priority: mainhand -> offhand -> hotbar 1-9
             (playerHands + playerHotbar).get().asSubTracker.restockFrom(target.asSubTracker)
