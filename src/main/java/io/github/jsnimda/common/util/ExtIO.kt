@@ -13,7 +13,7 @@ import java.nio.file.Paths
 // also close the input stream
 fun InputStream.readToString(): String = use { IOUtils.toString(this, StandardCharsets.UTF_8) }
 
-fun Path.readFileToString(): String = FileUtils.readFileToString(this.toFile(), StandardCharsets.UTF_8)
+fun Path.readToString(): String = FileUtils.readFileToString(this.toFile(), StandardCharsets.UTF_8)
 fun String.writeToFile(path: Path) = FileUtils.writeStringToFile(path.toFile(), this, StandardCharsets.UTF_8)
 
 fun Path.createDirectories(): Path = Files.createDirectories(this)

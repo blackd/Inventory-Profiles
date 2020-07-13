@@ -4,10 +4,8 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.config.IConfigElementObject
-import io.github.jsnimda.common.config.IConfigElementResettableMultiple
-import io.github.jsnimda.common.config.options.ConfigBoolean
-import io.github.jsnimda.common.config.options.ConfigEnum
-import io.github.jsnimda.common.input.KeybindSettings.ModifierKey.*
+import io.github.jsnimda.common.input.KeybindSettings.ModifierKey.DIFFERENTIATE
+import io.github.jsnimda.common.input.KeybindSettings.ModifierKey.NORMAL
 
 // ============
 // Keybinds
@@ -57,7 +55,7 @@ interface IKeybind : IConfigElementObject {
     GlobalInputHandler.isPressing(keyCodes, settings)
 
   val displayText
-    get() = when(settings.modifierKey) {
+    get() = when (settings.modifierKey) {
       DIFFERENTIATE -> getDisplayText(keyCodes)
       NORMAL -> getDisplayTextModifier(keyCodes)
     }

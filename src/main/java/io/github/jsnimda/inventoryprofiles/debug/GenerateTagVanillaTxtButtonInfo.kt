@@ -7,7 +7,7 @@ import io.github.jsnimda.common.util.writeToFile
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.*
-import io.github.jsnimda.inventoryprofiles.event.TellPlayer
+import io.github.jsnimda.inventoryprofiles.client.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
 
 // ============

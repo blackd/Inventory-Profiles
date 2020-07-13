@@ -1,22 +1,20 @@
 package io.github.jsnimda.inventoryprofiles.forge;
 
-import io.github.jsnimda.common.input.GlobalInputHandler;
 import io.github.jsnimda.common.vanilla.Vanilla;
 import io.github.jsnimda.common.vanilla.VanillaUtil;
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
 import io.github.jsnimda.inventoryprofiles.event.ClientEventHandler;
-import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler;
-import io.github.jsnimda.inventoryprofiles.gui.inject.InjectWidget;
+import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenEventHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.ScreenEventHandler;
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions;
+import kotlin.Unit;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
-import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -26,7 +24,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * ForgeEventHandler
@@ -39,7 +36,7 @@ public class ForgeEventHandler {
       ClientEventHandler.INSTANCE.onTickPre();
       onTickPre();
     } else { // e.phase == Phase.END
-      onTickPost();
+      ClientEventHandler.INSTANCE.onTick();
     }
   }
 
@@ -52,9 +49,7 @@ public class ForgeEventHandler {
 
   @SubscribeEvent
   public void onCrafted(PlayerEvent.ItemCraftedEvent event) {
-    if (VanillaUtil.INSTANCE.isOnClientThread()) {
-      ClientEventHandler.INSTANCE.onCrafted();
-    }
+    ClientEventHandler.INSTANCE.onCrafted();
   }
 
   // ============
@@ -63,43 +58,31 @@ public class ForgeEventHandler {
 
   @SubscribeEvent
   public void onInitGuiPost(InitGuiEvent.Post e) { // MixinAbstractContainerScreen.init
-    if (e.getGui() instanceof ContainerScreen) {
-      // on forge this is called twice on creative screen lol
-      // fix:
-      if (Vanilla.INSTANCE.screen() != e.getGui()) return;
-
-      List<InjectWidget> list = ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui());
-      for (InjectWidget iw : list) {
-        e.addWidget(iw);
-      }
-    }
+    ScreenEventHandler.INSTANCE.onScreenInit(e.getGui(), x -> {
+      e.addWidget(x);
+      return Unit.INSTANCE;
+    });
   }
 
   @SubscribeEvent
   public void preScreenRender(GuiScreenEvent.DrawScreenEvent.Pre event) {
-    ClientEventHandler.INSTANCE.preScreenRender();
+    ScreenEventHandler.INSTANCE.preRender();
   }
 
   // fabric GameRenderer.render() = forge updateCameraAndRender()
   // forge line 554
   @SubscribeEvent
   public void postScreenRender(DrawScreenEvent.Post e) {
-    ClientEventHandler.INSTANCE.postScreenRender();
+    ScreenEventHandler.INSTANCE.postRender();
   }
 
-  public void onBackgroundRender(GuiContainerEvent.DrawBackground e) {}
+  public void onBackgroundRender(GuiContainerEvent.DrawBackground e) {
+    ContainerScreenEventHandler.INSTANCE.onBackgroundRender();
+  }
 
   @SubscribeEvent
   public void onForegroundRender(GuiContainerEvent.DrawForeground e) {
-  }
-
-  public void onTickPost() {
-    ClientEventHandler.INSTANCE.onTick();
-  }
-
-  @SubscribeEvent
-  public void preRenderTooltip(RenderTooltipEvent.Pre event) {
-    ClientEventHandler.INSTANCE.preRenderTooltip();
+    ContainerScreenEventHandler.INSTANCE.onForegroundRender();
   }
 
   // ============
@@ -111,7 +94,8 @@ public class ForgeEventHandler {
     if (!VanillaUtil.INSTANCE.inGame()) return;
     InputMappings.Input mouseKey = InputMappings.getInputByCode(e.getKeyCode(), e.getScanCode());
     if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
-        && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory.isActiveAndMatches(mouseKey))) {
+        && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory
+        .isActiveAndMatches(mouseKey))) {
       GeneralInventoryActions.INSTANCE.handleCloseContainer();
     }
   }

@@ -28,7 +28,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
   private val IConfigOption.description
     get() = I18n.translate("inventoryprofiles.common.gui.config.description.$key")
 
-  private val maxTextWidth = configs.map { rMeasureText(it.displayName) }.max() ?: 0
+  private val maxTextWidth = configs.map { rMeasureText(it.displayName) }.maxOrNull() ?: 0
 
   var showTooltips = false
 

@@ -74,7 +74,7 @@ private class GroupInColumnsCalculator(
         ccList.add(cc)
       }
     }
-    return ccList.minBy { it.brokenGroups }?.apply()
+    return ccList.minByOrNull { it.brokenGroups }?.apply()
   }
 
   class ColumnsCandidate(

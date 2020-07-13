@@ -44,7 +44,7 @@ class DebugScreen : BaseDebugScreen() {
               ::durability,
             ).joinToString("\n") { "${it.name}: ${it.get()}" }
           }
-        return listOf(a, c, d).joinToString("\n").split("\n")
+        return listOf(a, c, d).joinToString("\n").lines()
       }
     val slot: Slot?
       get() = (parent as? ContainerScreen<*>)?.`(rawFocusedSlot)`
@@ -95,7 +95,7 @@ class DebugScreen : BaseDebugScreen() {
             |width: $width height: $height
             |relative mouse
             |x: ${DebugInfos.mouseX - x} y: ${DebugInfos.mouseY - y}
-            """.trimMargin().split("\n")
+            """.trimMargin().lines()
         }
       }, pages[0]) // todo better code
       pages[0] = page0Plus

@@ -5,16 +5,18 @@ import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.screen.ConfigOptionHotkeyDialog
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.IKeybind
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.render.rBindTexture
-import io.github.jsnimda.common.vanilla.render.rBlit
+import io.github.jsnimda.common.vanilla.render.Sprite
+import io.github.jsnimda.common.vanilla.render.rDrawSprite
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
-private val WIDGETS_TEXTURE =
-  Identifier("inventoryprofiles", "textures/gui/widgets.png")
+private val WIDGETS_TEXTURE = Identifier("inventoryprofiles", "textures/gui/widgets.png")
+private val baseSprite = Sprite(WIDGETS_TEXTURE, Rectangle(20, 160, 20, 20))
+private val modifiedSprite = baseSprite.right()
 private const val textPrefix = "inventoryprofiles.common.gui.config."
 private fun translate(suffix: String): String {
   return I18n.translate(textPrefix + suffix)
@@ -30,12 +32,10 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
     }
   }) {
     override fun renderButton(hovered: Boolean) {
-      rBindTexture(WIDGETS_TEXTURE)
-//      disableDepthTest()
-      val textureX = 20 + if (targetKeybind.isSettingsModified || !configOption.alternativeKeybinds.isEmpty()) 20 else 0
-      val textureY = 160 + targetKeybind.settings.activateOn.ordinal * 20
-      rBlit(screenX, screenY, textureX, textureY, 20, 20)
-//      enableDepthTest()
+      val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty())
+        modifiedSprite else baseSprite
+      val spriteY = spriteX.down(targetKeybind.settings.activateOn.ordinal)
+      rDrawSprite(spriteY, screenX, screenY)
     }
   }
 

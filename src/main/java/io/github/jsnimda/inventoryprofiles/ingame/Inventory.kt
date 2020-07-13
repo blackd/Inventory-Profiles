@@ -12,7 +12,7 @@ import io.github.jsnimda.inventoryprofiles.item.ItemStack
 // vanillamapping code depends on mappings
 // ============
 
-val vPlayerSlots
+private val vPlayerSlots
   get() = Vanilla.playerContainer().`(slots)`
 
 fun vCursorStack() = Vanilla.playerInventory().itemStack?.`(itemStack)` ?: ItemStack.EMPTY

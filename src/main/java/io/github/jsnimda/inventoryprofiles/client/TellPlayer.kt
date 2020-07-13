@@ -1,4 +1,4 @@
-package io.github.jsnimda.inventoryprofiles.event
+package io.github.jsnimda.inventoryprofiles.client
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.vanilla.Vanilla

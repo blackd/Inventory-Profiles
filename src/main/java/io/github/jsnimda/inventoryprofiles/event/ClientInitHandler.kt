@@ -2,9 +2,17 @@ package io.github.jsnimda.inventoryprofiles.event
 
 object ClientInitHandler {
 
-  fun onInit() {
+  private fun onInit() {
     registered.forEach { it() }
     registered.clear()
+  }
+
+  private var onInit = false
+  fun onTickPre() {
+    if (!onInit) {
+      onInit = true
+      onInit()
+    }
   }
 
   // ============

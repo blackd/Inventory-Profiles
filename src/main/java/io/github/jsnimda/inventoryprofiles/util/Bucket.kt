@@ -1,8 +1,5 @@
 package io.github.jsnimda.inventoryprofiles.util
 
-import io.github.jsnimda.inventoryprofiles.inventory.data.ItemBucket
-import io.github.jsnimda.inventoryprofiles.item.ItemType
-
 interface Bucket<T> {
   val size: Int
   fun count(element: T): Int

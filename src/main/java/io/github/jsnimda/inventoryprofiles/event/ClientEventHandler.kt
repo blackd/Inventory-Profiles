@@ -2,31 +2,31 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.vanilla.VanillaUtil
+import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.Tweaks
-import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler
 
 object ClientEventHandler {
-  private var onInit = false
+  private val inGame
+    get() = VanillaUtil.inGame()
+
   fun onTickPre() {
-    if (!onInit) {
-      onInit = true
-      ClientInitHandler.onInit()
+    ClientInitHandler.onTickPre()
+  }
+
+  fun onTick() {
+    MouseTracer.onTick()
+    if (inGame) {
+      onTickInGame()
     }
   }
 
-  var x = -1
-  var y = -1
-  var lastX = -1
-  var lastY = -1
-  fun onTick() {
-    lastX = x
-    lastY = y
-    x = VanillaUtil.mouseX()
-    y = VanillaUtil.mouseY()
-    ContinuousCraftingHandler.onTick()
+  fun onTickInGame() {
+    if (GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
+      ContinuousCraftingHandler.onTickInGame()
+    }
     if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
-      AutoRefillHandler.onTick()
+      AutoRefillHandler.onTickInGame()
     }
     if (Tweaks.CONTAINER_SWIPE_MOVING_ITEMS.booleanValue) {
       MiscHandler.swipeMoving()
@@ -40,21 +40,13 @@ object ClientEventHandler {
     }
   }
 
-  fun postScreenRender() {
-    // partial tick = this.client.getLastFrameDuration()
-    ContainerScreenHandler.postRender()
-  }
-
-  fun preRenderTooltip() {
-    ContainerScreenHandler.preRenderTooltip()
-  }
-
-  fun preScreenRender() {
-    ContainerScreenHandler.preScreenRender()
-  }
+  // ============
+  // craft
+  // ============
 
   // only client should call this
   fun onCrafted() {
+    if (!VanillaUtil.isOnClientThread()) return
     ContinuousCraftingHandler.onCrafted()
   }
 }
