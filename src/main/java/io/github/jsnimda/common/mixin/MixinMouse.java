@@ -16,10 +16,13 @@ public class MixinMouse {
     VanillaUtil.INSTANCE.updateMouse();
   }
 
-  @Inject(method = "onMouseButton", at = @At(value = "HEAD"))
+  @Inject(method = "onMouseButton", at = @At(value = "HEAD"), cancellable = true)
   private void onMouseButton(long handle, int button, int action, int mods, CallbackInfo ci) {
     if (handle == Vanilla.INSTANCE.window().getHandle()) {
-      GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
+      boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
+      if (result && Vanilla.INSTANCE.screen() != null) { // screen only
+        ci.cancel();
+      }
     }
   }
 }

@@ -10,10 +10,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Keyboard.class)
 public class MixinKeyboard {
-  @Inject(method = "onKey", at = @At(value = "RETURN")) // ref: malilib key hook
+  @Inject(method = "onKey", at = @At(value = "HEAD"), cancellable = true) // ref: malilib key hook
   private void onKey(long handle, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
     if (handle == Vanilla.INSTANCE.window().getHandle()) {
-      GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers);
+      boolean result = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers);
+      if (result && Vanilla.INSTANCE.screen() != null) { // screen only
+        ci.cancel();
+      }
     }
   }
 }
