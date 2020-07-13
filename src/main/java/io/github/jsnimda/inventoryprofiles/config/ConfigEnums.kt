@@ -81,4 +81,7 @@ enum class ContinuousCraftingCheckboxValue {
 enum class SwitchType {
   TOGGLE,
   HOLD;
+
+  override fun toString(): String =
+    I18n.translate("$ENUM.switch_type.${name.toLowerCase()}")
 }
