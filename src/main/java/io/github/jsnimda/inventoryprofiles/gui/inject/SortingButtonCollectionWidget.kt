@@ -24,9 +24,9 @@ import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.SaveLoadManager
 import io.github.jsnimda.inventoryprofiles.ingame.`(containerBounds)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(isInventoryTab)`
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.*
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
 
 class SortingButtonCollectionWidget(val screen: ContainerScreen<*>) : Widget() {
   val TEXTURE = Identifier("inventoryprofiles", "textures/gui/gui_buttons.png")

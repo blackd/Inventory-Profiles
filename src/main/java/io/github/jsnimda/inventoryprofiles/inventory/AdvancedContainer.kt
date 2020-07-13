@@ -4,10 +4,12 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
+import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
+import io.github.jsnimda.inventoryprofiles.inventory.data.MutableSubTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.SubTracker
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ItemPlanner
@@ -16,55 +18,57 @@ import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.stackableWith
 
 class AdvancedContainer(
-  val vanillaContainer: Container,
+  private val vanillaContainer: Container,
   cursor: ItemStack = vCursorStack()
 ) {
-
-  val vanillaSlots
+  private val vanillaSlots: List<Slot>
     get() = vanillaContainer.`(slots)`
-  val planner = ItemPlanner(MutableItemTracker(
+  private val planner = ItemPlanner(MutableItemTracker(
     cursor.copyAsMutable(),
     vanillaSlots.map { it.`(mutableItemStack)` }
   ))
-
-  private val cachedAreaMap = mutableMapOf<AreaType, ItemArea>()
-  fun getItemArea(areaType: AreaType): ItemArea =
-    cachedAreaMap.getOrPut(areaType, { areaType.getItemArea(vanillaContainer, vanillaSlots) })
-
-  // ============
-  // ItemArea
-  // ============
-  fun ItemTracker.subTracker(itemArea: ItemArea) =
-    subTracker(itemArea.slotIndices)
-
-  fun MutableItemTracker.subTracker(itemArea: ItemArea) =
-    subTracker(itemArea.slotIndices)
-
-  fun ItemTracker.joinedSubTracker(vararg itemAreas: ItemArea) =
-    itemAreas.fold(subTracker(listOf())) { acc, itemArea -> acc + subTracker(itemArea) }
-
-  fun MutableItemTracker.joinedSubTracker(vararg itemAreas: ItemArea) =
-    itemAreas.fold(subTracker(listOf())) { acc, itemArea -> acc + subTracker(itemArea) }
-
-  // ============
-  // AreaType
-  // ============
-  fun ItemTracker.subTracker(areaType: AreaType) =
-    subTracker(getItemArea(areaType).slotIndices)
-
-  fun MutableItemTracker.subTracker(areaType: AreaType) =
-    subTracker(getItemArea(areaType).slotIndices)
-
-  fun ItemTracker.joinedSubTracker(vararg areaTypes: AreaType) =
-    areaTypes.fold(subTracker(listOf())) { acc, areaType -> acc + subTracker(areaType) }
-
-  fun MutableItemTracker.joinedSubTracker(vararg areaTypes: AreaType) =
-    areaTypes.fold(subTracker(listOf())) { acc, areaType -> acc + subTracker(areaType) }
-
   private val slotIdClicks: List<Pair<Int, Int>>
     get() = vanillaSlots.let { slots ->
       planner.clicks.map { slots[it.slotIndex].`(id)` to it.button }
     }
+
+  // ============
+  // dsl
+  // ============
+
+  fun sandbox(block: SandboxDsl.() -> Unit) {
+    planner.sandbox {
+      SandboxDsl(it).block()
+    }
+  }
+
+  fun tracker(block: TrackerDsl.() -> Unit) {
+    planner.tracker {
+      TrackerDsl(it).block()
+    }
+  }
+
+  inner class SandboxDsl(val sandbox: ContainerSandbox) : AdvancedContainerDsl() {
+    val sandboxTracker: ItemTracker
+      get() = sandbox.items
+    val ItemArea.asSubTracker: SubTracker
+      get() = sandboxTracker.subTracker(this.slotIndices)
+  }
+
+  inner class TrackerDsl(val tracker: MutableItemTracker) : AdvancedContainerDsl() {
+    val ItemArea.asSubTracker: MutableSubTracker
+      get() = tracker.subTracker(this.slotIndices)
+  }
+
+  open inner class AdvancedContainerDsl {
+    fun AreaType.get(): ItemArea {
+      return getItemArea(vanillaContainer, vanillaSlots)
+    }
+  }
+
+  // ============
+  // final
+  // ============
 
   fun arrange(instant: Boolean = false) {
     val interval: Int =
@@ -75,40 +79,43 @@ class AdvancedContainer(
     ContainerClicker.executeClicks(slotIdClicks, interval)
   }
 
+  // ============
+  // companion object
+  // ============
+
   companion object {
-    fun create(): AdvancedContainer =
-      when (val container = Vanilla.container()) {
+    fun create(): AdvancedContainer {
+      return when (val container = Vanilla.container()) {
         is CreativeContainer -> Vanilla.playerContainer()
         else -> container
       }.let { AdvancedContainer(it) }
+    }
 
-    fun arrange(
+    inline operator fun invoke(instant: Boolean = false, block: AdvancedContainer.() -> Unit) {
+      if (!VanillaUtil.inGame()) return
+      create().apply {
+        block()
+        arrange(instant)
+      }
+    }
+
+    fun tracker(
       instant: Boolean = false,
       cleanCursor: Boolean = true,
-      action: AdvancedContainer.(tracker: MutableItemTracker) -> Unit
+      block: TrackerDsl.() -> Unit
     ) {
       if (!VanillaUtil.inGame()) return
-      create().apply {
-        if (cleanCursor) this.cleanCursor()
-        planner.tracker { tracker ->
-          action(tracker)
-        }
-        arrange(instant)
+      AdvancedContainer(instant) {
+        if (cleanCursor) cleanCursor()
+        tracker(block)
       }
     }
+  }
 
-    fun arrange(instant: Boolean = false, action: AdvancedContainer.() -> Unit) {
-      if (!VanillaUtil.inGame()) return
-      create().apply {
-        action()
-        arrange(instant)
-      }
-    }
-
-    fun AdvancedContainer.cleanCursor() {
-      planner.sandbox { sandbox ->
-        val tracker = sandbox.items
-        if (tracker.cursor.isEmpty()) return@sandbox
+  fun cleanCursor() {
+    sandbox {
+      with(AreaTypes) {
+        if (sandboxTracker.cursor.isEmpty()) return@sandbox
         /*
          * refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
          * vanilla getOccupiedSlotWithRoomForStack logic:
@@ -122,37 +129,37 @@ class AdvancedContainer(
          */
         // ++ (can put to slot checking)
         // 1.
-        tracker.subTracker(AreaTypes.focusedSlot).let { sandbox.cursorPutTo(it, skipEmpty = false) }
-        if (tracker.cursor.isEmpty()) return@sandbox
+        (focusedSlot - lockedSlots).get().asSubTracker
+          .let { sandbox.cursorPutTo(it, skipEmpty = false) }
+        if (sandboxTracker.cursor.isEmpty()) return@sandbox
         // 2.
-        val skipEmpty = tracker.joinedSubTracker(AreaTypes.playerHandsAndHotbar, AreaTypes.playerStorage)
-        sandbox.cursorPutTo(skipEmpty, skipEmpty = true)
-        if (tracker.cursor.isEmpty()) return@sandbox
+        (playerHands + playerHotbar + playerStorage - lockedSlots).get().asSubTracker
+          .let { sandbox.cursorPutTo(it, skipEmpty = true) }
+        if (sandboxTracker.cursor.isEmpty()) return@sandbox
         // 3.
-        val allowEmpty =
-          tracker.joinedSubTracker(AreaTypes.playerStorage, AreaTypes.playerHotbar, AreaTypes.playerOffhand)
-        sandbox.cursorPutTo(allowEmpty, skipEmpty = false)
-        if (tracker.cursor.isEmpty()) return@sandbox
+        (playerStorage + playerHotbar + playerOffhand - lockedSlots).get().asSubTracker
+          .let { sandbox.cursorPutTo(it, skipEmpty = false) }
+        if (sandboxTracker.cursor.isEmpty()) return@sandbox
         // 4.
-        tracker.subTracker(AreaTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = true) }
-        if (tracker.cursor.isEmpty()) return@sandbox
+        itemStorage.get().asSubTracker
+          .let { sandbox.cursorPutTo(it, skipEmpty = true) }
+        if (sandboxTracker.cursor.isEmpty()) return@sandbox
         // 5.
-        tracker.subTracker(AreaTypes.itemStorage).let { sandbox.cursorPutTo(it, skipEmpty = false) }
-//        if (tracker.cursor.isEmpty()) return@sandbox
+        itemStorage.get().asSubTracker
+          .let { sandbox.cursorPutTo(it, skipEmpty = false) }
+        if (sandboxTracker.cursor.isEmpty()) return@sandbox
       }
     }
+  }
 
-  } // end companion object
-
-  fun ContainerSandbox.cursorPutTo(destination: SubTracker, skipEmpty: Boolean) {
+  private fun ContainerSandbox.cursorPutTo(destination: SubTracker, skipEmpty: Boolean) {
     val tracker = this.items
     if (tracker.cursor.isEmpty()) return
-    destination.indexedSlots.forEach { (slotIndex, slotItem) ->
-      if (skipEmpty && slotItem.isEmpty()) return@forEach
-      if (!vanillaSlots[slotIndex].`(canInsert)`(slotItem)) return@forEach
+    for ((slotIndex, slotItem) in destination.indexedSlots) {
+      if (skipEmpty && slotItem.isEmpty()) continue
+      if (!vanillaSlots[slotIndex].`(canInsert)`(slotItem)) continue
       if (tracker.cursor.stackableWith(slotItem)) this.leftClick(slotIndex)
       if (tracker.cursor.isEmpty()) return
     }
   }
-
 }

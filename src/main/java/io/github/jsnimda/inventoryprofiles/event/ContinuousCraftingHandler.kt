@@ -12,8 +12,8 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer
 import io.github.jsnimda.inventoryprofiles.inventory.AreaTypes
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.CRAFTING
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CRAFTING
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.*
 
@@ -74,7 +74,8 @@ object ContinuousCraftingHandler {
     //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
     val slotMonitors = ingredientSlots.map { ItemSlotMonitor(it) }
 
-    val playerSlotIndices = AreaTypes.playerStorageAndHotbarAndOffhand.getItemArea(container, containerSlots)
+    val playerSlotIndices = with(AreaTypes) { playerStorage + playerHotbar + playerOffhand - lockedSlots }
+      .getItemArea(container, containerSlots)
       .slotIndices // supplies
 
     fun autoRefill() {
@@ -91,7 +92,7 @@ object ContinuousCraftingHandler {
       if (typeToSlotListMap.isEmpty()) {
         return
       }
-      AdvancedContainer.arrange(instant = true) { tracker ->
+      AdvancedContainer.tracker(instant = true) {
         val playerSubTracker = tracker.subTracker(playerSlotIndices)
         val counter = playerSubTracker.slots.collect()
         val map: Map<ItemType, Pair<Int, List<MutableItemStack>>> = typeToSlotListMap.mapValues { (type, list) ->

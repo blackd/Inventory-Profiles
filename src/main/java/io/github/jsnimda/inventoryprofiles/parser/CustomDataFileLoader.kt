@@ -84,7 +84,7 @@ object LockSlotsLoader : Loader, Savable {
 
   override fun save() {
     try {
-      LockSlotsHandler.lockedSlots.joinToString("\n").writeToFile(file)
+      LockSlotsHandler.lockedInvSlotsStoredValue.sorted().joinToString("\n").writeToFile(file)
     } catch (e: Exception) {
       Log.error("Failed to write file ${file.loggingPath}")
     }
@@ -95,7 +95,7 @@ object LockSlotsLoader : Loader, Savable {
       if (!file.exists()) return
       val content = file.readToString()
       val slotIndices = content.lines().mapNotNull { it.trim().toIntOrNull() }
-      LockSlotsHandler.lockedSlots.apply {
+      LockSlotsHandler.lockedInvSlotsStoredValue.apply {
         clear()
         addAll(slotIndices)
       }

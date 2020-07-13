@@ -15,7 +15,7 @@ import io.github.jsnimda.inventoryprofiles.config.Tweaks
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 
 object MiscHandler {
@@ -34,9 +34,9 @@ object MiscHandler {
 
     val types = ContainerTypes.getTypes(Vanilla.container())
     val matchSet = setOf(
-      VanillaContainerType.NO_SORTING_STORAGE,
-      VanillaContainerType.SORTABLE_STORAGE,
-      VanillaContainerType.PURE_BACKPACK
+      ContainerType.NO_SORTING_STORAGE,
+      ContainerType.SORTABLE_STORAGE,
+      ContainerType.PURE_BACKPACK
     )
     for (slot in Vanilla.container().`(slots)`) {
       // disable for non storage (tmp solution for crafting table result slot)

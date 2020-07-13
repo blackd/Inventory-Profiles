@@ -4,7 +4,9 @@ package io.github.jsnimda.inventoryprofiles.ingame
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.alias.*
+import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
 import io.github.jsnimda.inventoryprofiles.item.*
+import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinContainerScreen
 import io.github.jsnimda.inventoryprofiles.mixin.IMixinSlot
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
@@ -65,9 +67,11 @@ val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == Item
 fun <T> DefaultedRegistry<T>.`(getIdentifier)`(value: T): Identifier {
   return getId(value)
 }
+
 fun <T> DefaultedRegistry<T>.`(getRawId)`(value: T): Int {
   return getRawId(value)
 }
+
 fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
   return get(id)
 }
@@ -75,9 +79,11 @@ fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
 fun <T> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
   return getId(value)
 }
+
 fun <T> Registry<T>.`(getRawId)`(value: T): Int {
   return getRawId(value)
 }
+
 fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
   return get(id)
 }
