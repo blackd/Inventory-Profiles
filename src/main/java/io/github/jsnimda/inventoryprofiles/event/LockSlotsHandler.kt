@@ -61,25 +61,34 @@ object LockSlotsHandler {
   }
 
   fun onForegroundRender() {
-    if (!ModSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
+    if (!enabled) return
     val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
     gPushMatrix() // see HandledScreen.render() line 98: RenderSystem.translatef()
     val topLeft = screen.`(containerBounds)`.topLeft
     gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
-    drawSprite(foregroundSprite, null, 400)
+    drawForeground()
+    drawConfig()
     gPopMatrix()
   }
 
   fun postRender() { // display config
-    if (!displayingConfig) return
-    drawSprite(configSpriteLocked, configSprite, 400)
   }
 
-  private fun drawSprite(lockedSprite: Sprite?, openSprite: Sprite?, zOffset: Int = 0) {
+  private fun drawForeground() {
+    if (!ModSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
+    drawSprite(foregroundSprite, null)
+  }
+
+  private fun drawConfig() {
+    if (!displayingConfig) return
+    drawSprite(configSpriteLocked, configSprite)
+  }
+
+  private fun drawSprite(lockedSprite: Sprite?, openSprite: Sprite?) {
     if (!enabled) return
     val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
 //    rClearDepth() // use translate or zOffset
-    gTranslatef(0f, 0f, zOffset.toFloat())
+    rDisableDepth()
     val topLeft = screen.`(containerBounds)`.topLeft + Point(8, 8) // slot center offset
     for ((invSlot, slotTopLeft) in slotLocations) {
       if (invSlot in lockedInvSlotsStoredValue)
@@ -87,7 +96,7 @@ object LockSlotsHandler {
       else
         openSprite?.let { rDrawCenteredSprite(it, topLeft + slotTopLeft) }
     }
-    gTranslatef(0f, 0f, -zOffset.toFloat())
+    rEnableDepth()
   }
 
   // ============

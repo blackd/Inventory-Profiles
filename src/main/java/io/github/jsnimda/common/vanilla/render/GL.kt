@@ -18,6 +18,10 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
   RenderSystem.depthMask(true)
 }
 
+// ============
+// depth
+// ============
+
 fun rClearDepth() {
   gEnableDepthTest()
   RenderSystem.depthMask(true)
@@ -64,6 +68,16 @@ private fun rOverwriteDepth(bounds: Rectangle) {
   gDisableAlphaTest()
   rFillRect(bounds, 0)
   gEnableAlphaTest()
+  gDepthFunc(GL11.GL_LEQUAL)
+}
+
+fun rDisableDepth() { // todo see if same with disableDepthTest (?)
+  gDepthFunc(GL11.GL_ALWAYS)
+  RenderSystem.depthMask(false)
+}
+
+fun rEnableDepth() {
+  RenderSystem.depthMask(true)
   gDepthFunc(GL11.GL_LEQUAL)
 }
 
