@@ -53,6 +53,8 @@ val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
   get() = slotUnderMouse // forge
 val ContainerScreen<*>.`(containerBounds)`: Rectangle
   get() = Rectangle(guiLeft, guiTop, xSize, ySize)
+val ContainerScreen<*>.`(container)`: Container
+  get() = container
 
 val PlayerInventory.`(selectedSlot)`: Int
   get() = currentItem // selectedSlot = currentItem
