@@ -127,7 +127,9 @@
 
     "inventoryprofiles.gui.config.GuiSettings": "Gui Settings",
     "inventoryprofiles.config.category.inventory": "Inventory",
+    "inventoryprofiles.config.category.other": "Other",
 
+    "inventoryprofiles.config.name.enable_inventory_buttons":           "Enable Inventory Buttons",
     "inventoryprofiles.config.name.show_continuous_crafting_checkbox":  "Show Continuous Crafting Checkbox",
     "inventoryprofiles.config.name.continuous_crafting_checkbox_value": "§bCheckbox Value",
     "inventoryprofiles.config.name.continuous_crafting_saved_value":    "§bSaved Value",
@@ -146,6 +148,7 @@
     "inventoryprofiles.config.name.show_move_all_button":           "Show Move All Button",
     "inventoryprofiles.config.name.show_button_tooltips":           "Show Button Tooltips",
 
+    "inventoryprofiles.config.description.enable_inventory_buttons":           "Set this to enable or disable all additional widgets for container screen",
     "inventoryprofiles.config.description.show_continuous_crafting_checkbox":  "Show continuous crafting checkbox on GUI (crafting table & survival inventory)\nContinuous Crafting: Auto refill the ingredient slots",
     "inventoryprofiles.config.description.continuous_crafting_checkbox_value": "Remember the checkbox value or set it next time of opening screen",
     "inventoryprofiles.config.description.continuous_crafting_saved_value":    "Internal saved value of checkbox",
@@ -164,6 +167,8 @@
     "inventoryprofiles.config.description.show_move_all_button":        "Show move all buttons on GUI",
     "inventoryprofiles.config.description.show_button_tooltips":        "Display tooltips when cursor hover the buttons on GUI",
 
+    "inventoryprofiles.config.name.use_old_insert_method": "Use Old Insert Method",
+    "inventoryprofiles.config.description.use_old_insert_method": "v0.4.2+ use new method to insert widgets to a screen for better mod compatibility. Set this to true to revert to old method.",
 
 
 
