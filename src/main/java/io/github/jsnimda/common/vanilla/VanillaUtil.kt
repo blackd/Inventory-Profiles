@@ -31,27 +31,33 @@ object VanillaUtil {
   fun altDown() = Screen.func_231174_t_() // line 395
 
   // Mouse.onCursorPos() / GameRenderer.render()
-  fun mouseX(): Int = (Vanilla.mouse().mouseX * rScreenWidth / Vanilla.window().width).toInt()
-  fun mouseY(): Int = (Vanilla.mouse().mouseY * rScreenHeight / Vanilla.window().height).toInt()
+  fun mouseX(): Int = mouseXDouble().toInt()
+  fun mouseY(): Int = mouseYDouble().toInt()
+  fun mouseXRaw(): Double = Vanilla.mouse().mouseX
+  fun mouseYRaw(): Double = Vanilla.mouse().mouseY
+  fun mouseXDouble(): Double = mouseScaleX(mouseXRaw())
+  fun mouseYDouble(): Double = mouseScaleY(mouseYRaw())
+  fun mouseScaleX(amount: Double): Double = amount * rScreenWidth / Vanilla.window().width
+  fun mouseScaleY(amount: Double): Double = amount * rScreenHeight / Vanilla.window().height
 
   // this.client.getLastFrameDuration()
   fun lastFrameDuration(): Float = Vanilla.mc().tickLength // for render
 
-  var lastMouseX: Int = -1
-    private set
-  var lastMouseY: Int = -1
-    private set
-  var mouseX: Int = -1
-    private set
-  var mouseY: Int = -1
-    private set
-
-  fun updateMouse() {
-    lastMouseX = mouseX
-    lastMouseY = mouseY
-    mouseX = mouseX()
-    mouseY = mouseY()
-  }
+//  var lastMouseX: Int = -1
+//    private set
+//  var lastMouseY: Int = -1
+//    private set
+//  var mouseX: Int = -1
+//    private set
+//  var mouseY: Int = -1
+//    private set
+//
+//  fun updateMouse() {
+//    lastMouseX = mouseX
+//    lastMouseY = mouseY
+//    mouseX = mouseX()
+//    mouseY = mouseY()
+//  }
 
   // ============
   // do actions

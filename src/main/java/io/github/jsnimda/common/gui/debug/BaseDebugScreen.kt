@@ -120,12 +120,12 @@ open class BaseDebugScreen : BaseOverlay() {
   init {
     val page1 = object : Page("Input") {
       override val content: List<String>
-        get() = DebugInfos.asTexts +
+        get() = DebugInfos.asTexts /*+
             """
               |
               |mouseX ${VanillaUtil.mouseX} mouseY ${VanillaUtil.mouseY}
               |lastMouseX ${VanillaUtil.lastMouseX} lastMouseY ${VanillaUtil.lastMouseY}
-            """.trimMargin().lines()
+            """.trimMargin().lines()*/
 
       override fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
         DebugInfos.mouseX = mouseX

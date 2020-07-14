@@ -1,12 +1,11 @@
 package io.github.jsnimda.common.forge;
 
 import io.github.jsnimda.common.input.GlobalInputHandler;
+import io.github.jsnimda.common.input.GlobalScreenEventListener;
 import io.github.jsnimda.common.vanilla.Vanilla;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
 
@@ -23,11 +22,29 @@ public class CommonForgeEventHandler {
   @SubscribeEvent
   public void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
     onScreenKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_PRESS, event.getModifiers(), event);
+    if (event.isCanceled()) return;
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onKeyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers(), true));
   }
 
   @SubscribeEvent
   public void onKeyRelease(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
     onScreenKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_RELEASE, event.getModifiers(), event);
+    if (event.isCanceled()) return;
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onKeyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers(), true));
+  }
+
+  @SubscribeEvent
+  public void onKeyPressedPost(GuiScreenEvent.KeyboardKeyPressedEvent.Post event) {
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onKeyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers(), false));
+  }
+
+  @SubscribeEvent
+  public void onKeyReleasePost(GuiScreenEvent.KeyboardKeyReleasedEvent.Post event) {
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onKeyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers(), false));
   }
 
   // Keyboard.onKey()
@@ -40,9 +57,7 @@ public class CommonForgeEventHandler {
     // fixme better approach
     Screen lastScreen = Vanilla.INSTANCE.screen();
     boolean result = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers);
-    if ((lastScreen != Vanilla.INSTANCE.screen() || result) && event.isCancelable()) { // detect gui change, cancel vanilla
-      event.setCanceled(true);
-    }
+    event.setCanceled(result || lastScreen != Vanilla.INSTANCE.screen()); // detect gui change, cancel vanilla
   }
 
   // ============
@@ -59,32 +74,43 @@ public class CommonForgeEventHandler {
   @SubscribeEvent
   public void onMouseClicked(GuiScreenEvent.MouseClickedEvent.Pre event) {
     onScreenMouseButton(event.getButton(), GLFW.GLFW_PRESS, lastMods, event);
+    if (event.isCanceled()) return;
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onMouseClicked(event.getMouseX(), event.getMouseY(), event.getButton(), true));
   }
 
   @SubscribeEvent
   public void onMouseReleased(GuiScreenEvent.MouseReleasedEvent.Pre event) {
     onScreenMouseButton(event.getButton(), GLFW.GLFW_RELEASE, lastMods, event);
+    if (event.isCanceled()) return;
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onMouseReleased(event.getMouseX(), event.getMouseY(), event.getButton(), true));
+  }
+
+  @SubscribeEvent
+  public void onMouseClickedPost(GuiScreenEvent.MouseClickedEvent.Post event) {
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onMouseClicked(event.getMouseX(), event.getMouseY(), event.getButton(), false));
+  }
+
+  @SubscribeEvent
+  public void onMouseReleasedPost(GuiScreenEvent.MouseReleasedEvent.Post event) {
+    event.setCanceled(GlobalScreenEventListener.INSTANCE
+        .onMouseReleased(event.getMouseX(), event.getMouseY(), event.getButton(), false));
   }
 
   private void onScreenMouseButton(int button, int action, int mods, GuiScreenEvent event) {
     Screen lastScreen = Vanilla.INSTANCE.screen();
     boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, action, mods);
-    if ((result || lastScreen != Vanilla.INSTANCE.screen()) && event.isCancelable()) { // detect gui change, cancel vanilla
-      event.setCanceled(true);
-    }
+    event.setCanceled(result || lastScreen != Vanilla.INSTANCE.screen()); // detect gui change, cancel vanilla
   }
 
   private int lastMods = 0;
+
   @SubscribeEvent
   public void onRawMouse(InputEvent.RawMouseEvent event) {
     lastMods = event.getMods();
   }
-
-
-
-
-
-
 
 
 //  @SubscribeEvent
