@@ -2,7 +2,7 @@
 const val kotlin_version = "1.4-M3"
 
 // Mod Properties
-const val mod_version = "0.4.1"
+const val mod_version = "0.4.2"
 const val maven_group = "io.github.jsnimda"
 const val mod_id = "inventoryprofiles"
 
