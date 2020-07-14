@@ -11,6 +11,7 @@ plugins {
   kotlin("jvm") version kotlin_version
   id("com.github.johnrengelman.shadow") version "5.2.0"
   id("antlr")
+  id("com.matthewprenger.cursegradle") version "1.4.0"
 
   id("fabric-loom") version loom_version
 }
@@ -211,6 +212,38 @@ tasks.generateGrammarSource {
 
 tasks.wrapper {
   distributionType = Wrapper.DistributionType.ALL
+}
+
+// ============
+// curseforge
+// ============
+
+val curseforgeApiKey = project.findProperty("curseforge_api_key") ?: ""
+curseforge {
+  apiKey = curseforgeApiKey
+  project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+    id = "347463"
+    changelogType = "markdown"
+    changelog = file("changelog.md")
+    releaseType = when (mod_loader) {
+      "forge" -> "release"
+      "fabric" -> "beta"
+      else -> "alpha"
+    }
+
+    mainArtifact(file("build/libs/$buildBaseName.jar"), closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+      displayName = "$mod_loader $minecraft_version (v$mod_version invpro)"
+    })
+
+    afterEvaluate {
+      uploadTask.dependsOn("build")
+    }
+  })
+  options(closureOf<com.matthewprenger.cursegradle.Options> {
+    debug = true
+    javaIntegration = false
+    forgeGradleIntegration = mod_loader == "forge"
+  })
 }
 
 // ============
