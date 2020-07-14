@@ -20,6 +20,7 @@ object ScreenEventHandler {
   }
 
   fun preRender() {
+    InsertWidgetHandler.preScreenRender()
     trackedScreenSize = rScreenSize
     ContainerScreenEventHandler.preRender()
   }
