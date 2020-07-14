@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.native
 
-import io.github.jsnimda.common.util.ByPropertyName
+import io.github.jsnimda.common.extensions.ByPropertyName
 import io.github.jsnimda.inventoryprofiles.item.*
 import io.github.jsnimda.inventoryprofiles.item.rule.MutableEmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter

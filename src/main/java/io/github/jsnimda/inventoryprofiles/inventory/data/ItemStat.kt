@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.inventory.data
 
-import io.github.jsnimda.common.util.divCeil
-import io.github.jsnimda.common.util.indexed
+import io.github.jsnimda.common.extensions.divCeil
+import io.github.jsnimda.common.extensions.indexed
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.isEmpty

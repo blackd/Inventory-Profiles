@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.debug
 
-import io.github.jsnimda.common.util.trySwallow
-import io.github.jsnimda.common.util.usefulName
+import io.github.jsnimda.common.extensions.trySwallow
+import io.github.jsnimda.common.extensions.usefulName
 import net.minecraft.network.NetworkSide
 import net.minecraft.network.NetworkState
 import net.minecraft.network.Packet

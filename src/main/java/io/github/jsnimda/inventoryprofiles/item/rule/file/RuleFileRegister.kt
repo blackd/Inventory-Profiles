@@ -3,15 +3,14 @@ package io.github.jsnimda.inventoryprofiles.item.rule.file
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.annotation.ThrowsCaught
 import io.github.jsnimda.common.annotation.WontThrow
-import io.github.jsnimda.common.util.ifTrue
-import io.github.jsnimda.common.util.ordinalName
-import io.github.jsnimda.common.util.usefulName
+import io.github.jsnimda.common.extensions.ifTrue
+import io.github.jsnimda.common.extensions.ordinalName
+import io.github.jsnimda.common.extensions.usefulName
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.native.NativeRules
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.NativeParameters
-import kotlin.jvm.Throws
 
 /*
   rulesFiles: [a.txt] -> [b.txt] -> [c.txt] -> ... -> [z.txt]

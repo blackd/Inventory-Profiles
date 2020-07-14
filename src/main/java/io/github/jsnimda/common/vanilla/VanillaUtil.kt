@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.vanilla
 
-import io.github.jsnimda.common.util.*
+import io.github.jsnimda.common.extensions.*
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.common.vanilla.alias.Util

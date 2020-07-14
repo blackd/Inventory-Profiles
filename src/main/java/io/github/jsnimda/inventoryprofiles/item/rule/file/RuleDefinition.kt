@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.file
 
 import io.github.jsnimda.common.annotation.MayThrow
-import io.github.jsnimda.common.util.compare
+import io.github.jsnimda.common.extensions.compare
 import io.github.jsnimda.inventoryprofiles.item.rule.BaseRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 

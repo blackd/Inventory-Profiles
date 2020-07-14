@@ -3,10 +3,10 @@ package io.github.jsnimda.common.config
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.util.JsonPrimitive
-import io.github.jsnimda.common.util.forEach
-import io.github.jsnimda.common.util.getAsType
-import io.github.jsnimda.common.util.toJsonArray
+import io.github.jsnimda.common.extensions.JsonPrimitive
+import io.github.jsnimda.common.extensions.forEach
+import io.github.jsnimda.common.extensions.getAsType
+import io.github.jsnimda.common.extensions.toJsonArray
 
 // ============
 // extensions

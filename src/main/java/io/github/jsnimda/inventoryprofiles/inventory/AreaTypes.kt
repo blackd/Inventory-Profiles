@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Size
-import io.github.jsnimda.common.util.indexed
+import io.github.jsnimda.common.extensions.indexed
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler

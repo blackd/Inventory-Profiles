@@ -1,8 +1,8 @@
 package io.github.jsnimda.common.vanilla.render
 
-import io.github.jsnimda.common.util.land
-import io.github.jsnimda.common.util.lnot
-import io.github.jsnimda.common.util.lor
+import io.github.jsnimda.common.extensions.land
+import io.github.jsnimda.common.extensions.lnot
+import io.github.jsnimda.common.extensions.lor
 
 // as kotlin regards (some) color as long
 val Long.color

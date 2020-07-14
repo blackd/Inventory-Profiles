@@ -1,6 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
-import io.github.jsnimda.common.util.ByPropertyName
+import io.github.jsnimda.common.extensions.ByPropertyName
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
 import io.github.jsnimda.inventoryprofiles.item.rule.Parameter

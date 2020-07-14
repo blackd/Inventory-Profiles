@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.gui
 import io.github.jsnimda.common.gui.debug.BaseDebugScreen
 import io.github.jsnimda.common.gui.debug.DebugInfos
 import io.github.jsnimda.common.gui.widgets.Widget
-import io.github.jsnimda.common.util.usefulName
+import io.github.jsnimda.common.extensions.usefulName
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen

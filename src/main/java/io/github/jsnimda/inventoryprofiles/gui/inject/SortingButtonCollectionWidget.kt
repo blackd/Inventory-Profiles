@@ -9,8 +9,8 @@ import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.Size
-import io.github.jsnimda.common.util.containsAny
-import io.github.jsnimda.common.util.detectable
+import io.github.jsnimda.common.extensions.containsAny
+import io.github.jsnimda.common.extensions.detectable
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.CreativeInventoryScreen

@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.util
+package io.github.jsnimda.common.extensions
 
 import com.google.gson.*
 import com.google.gson.JsonPrimitive

@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.util
+package io.github.jsnimda.common.extensions
 
 
 // ============

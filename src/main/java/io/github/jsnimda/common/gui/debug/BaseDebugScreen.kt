@@ -5,10 +5,10 @@ import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.fillParent
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Size
-import io.github.jsnimda.common.util.detectable
-import io.github.jsnimda.common.util.mod
-import io.github.jsnimda.common.util.orElse
-import io.github.jsnimda.common.util.selfIf
+import io.github.jsnimda.common.extensions.detectable
+import io.github.jsnimda.common.extensions.mod
+import io.github.jsnimda.common.extensions.orElse
+import io.github.jsnimda.common.extensions.selfIf
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.render.*
 import kotlin.math.sign

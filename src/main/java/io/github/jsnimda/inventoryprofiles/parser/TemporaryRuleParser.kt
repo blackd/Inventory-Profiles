@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.parser
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.annotation.ThrowsCaught
-import io.github.jsnimda.common.util.usefulName
+import io.github.jsnimda.common.extensions.usefulName
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.file.CustomRule

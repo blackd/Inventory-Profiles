@@ -8,8 +8,8 @@ import io.github.jsnimda.common.config.ConfigOptionNumericBase
 import io.github.jsnimda.common.config.IConfigOptionPrimitive
 import io.github.jsnimda.common.config.IConfigOptionToggleable
 import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
-import io.github.jsnimda.common.util.next
-import io.github.jsnimda.common.util.previous
+import io.github.jsnimda.common.extensions.next
+import io.github.jsnimda.common.extensions.previous
 
 class ConfigDouble(defaultValue: Double, minValue: Double, maxValue: Double) :
   ConfigOptionNumericBase<Double>(defaultValue, minValue, maxValue) {

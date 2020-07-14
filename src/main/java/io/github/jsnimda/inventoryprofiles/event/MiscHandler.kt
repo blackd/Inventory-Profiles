@@ -2,11 +2,10 @@ package io.github.jsnimda.inventoryprofiles.event
 
 import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.input.KeyCodes
-import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.math2d.intersects
-import io.github.jsnimda.common.util.containsAny
+import io.github.jsnimda.common.extensions.containsAny
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen

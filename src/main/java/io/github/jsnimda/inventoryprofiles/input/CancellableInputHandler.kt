@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.input
 
 import io.github.jsnimda.common.IInputHandler
-import io.github.jsnimda.common.util.tryCatch
+import io.github.jsnimda.common.extensions.tryCatch
 import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
 
 object CancellableInputHandler : IInputHandler {

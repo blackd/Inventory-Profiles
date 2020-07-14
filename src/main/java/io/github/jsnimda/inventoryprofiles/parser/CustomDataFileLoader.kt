@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.parser
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.Savable
+import io.github.jsnimda.common.extensions.*
 import io.github.jsnimda.common.gui.widgets.ButtonWidget
 import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.util.*

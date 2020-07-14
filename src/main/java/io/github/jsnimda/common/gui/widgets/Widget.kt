@@ -1,6 +1,10 @@
 package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.extensions.Event
+import io.github.jsnimda.common.extensions.detectable
+import io.github.jsnimda.common.extensions.ifFalse
+import io.github.jsnimda.common.extensions.ifTrue
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.Overflow
 import io.github.jsnimda.common.math2d.Point

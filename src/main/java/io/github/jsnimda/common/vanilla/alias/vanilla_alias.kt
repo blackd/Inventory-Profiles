@@ -1,6 +1,6 @@
 package io.github.jsnimda.common.vanilla.alias
 
-import io.github.jsnimda.common.util.selfIfNotEquals
+import io.github.jsnimda.common.extensions.selfIfNotEquals
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.sound.PositionedSoundInstance

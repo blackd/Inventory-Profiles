@@ -1,7 +1,7 @@
 package io.github.jsnimda.common.gui.screen
 
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.util.usefulName
+import io.github.jsnimda.common.extensions.usefulName
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Text

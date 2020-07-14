@@ -6,7 +6,7 @@ import io.github.jsnimda.common.config.options.ConfigEnum
 import io.github.jsnimda.common.input.KeybindSettings.Context.*
 import io.github.jsnimda.common.input.KeybindSettings.KeyAction.PRESS
 import io.github.jsnimda.common.input.KeybindSettings.ModifierKey.NORMAL
-import io.github.jsnimda.common.util.containsAny
+import io.github.jsnimda.common.extensions.containsAny
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Screen
 import org.lwjgl.glfw.GLFW.GLFW_PRESS

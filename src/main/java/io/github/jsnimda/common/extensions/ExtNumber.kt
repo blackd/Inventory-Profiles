@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE", "FunctionName", "SpellCheckingInspection")
 
-package io.github.jsnimda.common.util
+package io.github.jsnimda.common.extensions
 
 infix fun Int.mod(other: Int) = Math.floorMod(this, other)
 infix fun Long.mod(other: Long) = Math.floorMod(this, other)

@@ -4,7 +4,7 @@ import io.github.jsnimda.common.IInputHandler
 import io.github.jsnimda.common.gui.debug.DepthTestScreen
 import io.github.jsnimda.common.gui.debug.SpriteTestScreen
 import io.github.jsnimda.common.input.GlobalInputHandler
-import io.github.jsnimda.common.util.tryCatch
+import io.github.jsnimda.common.extensions.tryCatch
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.inventoryprofiles.config.Debugs
 import io.github.jsnimda.inventoryprofiles.config.Hotkeys

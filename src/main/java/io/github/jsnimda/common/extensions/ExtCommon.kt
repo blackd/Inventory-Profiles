@@ -1,4 +1,4 @@
-package io.github.jsnimda.common.util
+package io.github.jsnimda.common.extensions
 
 fun <T : Enum<T>> T.previous(amount: Int = 1) = next(-amount)
 fun <T : Enum<T>> T.next(amount: Int = 1): T {

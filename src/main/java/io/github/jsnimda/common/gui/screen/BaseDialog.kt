@@ -3,7 +3,7 @@ package io.github.jsnimda.common.gui.screen
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.moveToCenter
 import io.github.jsnimda.common.gui.widgets.Widget
-import io.github.jsnimda.common.util.ifTrue
+import io.github.jsnimda.common.extensions.ifTrue
 import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.rFillOutline
 import io.github.jsnimda.common.vanilla.render.rRenderBlackOverlay

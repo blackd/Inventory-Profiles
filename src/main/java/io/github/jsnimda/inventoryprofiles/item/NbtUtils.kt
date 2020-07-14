@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.item
 
 import com.mojang.brigadier.StringReader
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.util.*
+import io.github.jsnimda.common.extensions.*
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(asString)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(getByIdentifier)`

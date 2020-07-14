@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.native
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.extensions.*
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.CompoundTag

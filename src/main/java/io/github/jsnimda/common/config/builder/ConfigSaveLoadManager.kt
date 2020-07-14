@@ -4,7 +4,7 @@ import com.google.gson.JsonParseException
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.Savable
 import io.github.jsnimda.common.config.IConfigElement
-import io.github.jsnimda.common.util.*
+import io.github.jsnimda.common.extensions.*
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.loggingPath
 import java.io.IOException

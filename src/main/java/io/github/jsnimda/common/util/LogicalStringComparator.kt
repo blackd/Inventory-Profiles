@@ -1,5 +1,6 @@
 package io.github.jsnimda.common.util
 
+import io.github.jsnimda.common.extensions.compareTo
 import java.math.BigInteger
 import java.text.Collator
 

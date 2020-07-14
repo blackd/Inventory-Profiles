@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.util.trySwallow
+import io.github.jsnimda.common.extensions.trySwallow
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils

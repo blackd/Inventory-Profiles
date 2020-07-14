@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
-import io.github.jsnimda.common.util.trySwallow
-import io.github.jsnimda.common.util.usefulName
+import io.github.jsnimda.common.extensions.trySwallow
+import io.github.jsnimda.common.extensions.usefulName
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
