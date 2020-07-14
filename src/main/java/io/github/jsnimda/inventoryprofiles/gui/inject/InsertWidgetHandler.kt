@@ -59,6 +59,7 @@ object InsertWidgetHandler : ScreenEventListener {
   // implement events
 
   fun onClientInit() {
-    GlobalScreenEventListener.registerPost(this)
+    GlobalScreenEventListener.registerPre(this)
+    // fixme cannot register post, as container screen mouse clicked always return true
   }
 }
