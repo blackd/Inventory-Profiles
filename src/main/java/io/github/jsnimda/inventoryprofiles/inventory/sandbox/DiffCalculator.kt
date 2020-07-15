@@ -79,23 +79,29 @@ class SimpleDiffCalculator : DiffCalculator {
       val cursor = nowTracker.cursor
       forEachSlot(skipEquals = true, skipEmptyGoal = true, skipMatchTypeNowMoreThanGoal = true) {
         if (cursor.itemType != goal.itemType) return@forEachSlot
-        return if (now.isEmpty() || now.itemType == goal.itemType) {
+        if (now.isEmpty() || now.itemType == goal.itemType) {
           val putCount = goal.count - now.count
-          if (goal.isFull() || putCount >= cursor.count)
+          return if (goal.isFull() || putCount >= cursor.count)
             leftClick()
           else
             repeatRightClick(putCount)
-        } else {
-          leftClick()
+        }
+      } // end forEachSlot
+      forEachSlot(skipEquals = true, skipEmptyGoal = true, skipMatchTypeNowMoreThanGoal = true) {
+        if (cursor.itemType != goal.itemType) return@forEachSlot
+        if (!now.isEmpty() && now.itemType != goal.itemType) {
+          return leftClick()
         }
       } // end forEachSlot
       // not find
       // -> scanned slots either (mismatch type goal <-> cursor) or (now count > goal count)
       // -> this may at goal cursor
       // => act like grabAnything, but no match type now <-> cursor
-      if (tryGrab()) return
+      forEachSlot(reversed = true, skipEquals = true, skipEmptyNow = true, skipMatchTypeNowLessThanGoal = true) {
+        if (cursorNow.isEmpty() || cursorNow.itemType != now.itemType) return leftClick()
+      }
       // very special case: cursor count less than all now count (types other than cursor type all equals)
-      error("todo: very special case") // todo
+      error("todo: very special case") // todo (clean cursor make this very unlikely to happen)
 //      error("should not reach here")
     }
 
