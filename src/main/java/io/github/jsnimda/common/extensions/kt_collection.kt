@@ -4,6 +4,10 @@ package io.github.jsnimda.common.extensions
 // list
 // ============
 
+inline fun <T, R, V> Iterable<T>.zipIndexed(other: Iterable<R>, transform: (index: Int, a: T, b: R) -> V): List<V> {
+  return this.zip(other).mapIndexed { index, (a, b) -> transform(index, a, b) }
+}
+
 fun <T> List<T>.last(index: Int): T {
   return this[size - index]
 }
