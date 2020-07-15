@@ -1,14 +1,13 @@
 package io.github.jsnimda.common.gui.debug
 
+import io.github.jsnimda.common.extensions.detectable
+import io.github.jsnimda.common.extensions.mod
+import io.github.jsnimda.common.extensions.runIf
 import io.github.jsnimda.common.gui.screen.BaseOverlay
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.gui.widget.fillParent
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Size
-import io.github.jsnimda.common.extensions.detectable
-import io.github.jsnimda.common.extensions.mod
-import io.github.jsnimda.common.extensions.orElse
-import io.github.jsnimda.common.extensions.selfIf
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.render.*
 import kotlin.math.sign
@@ -66,7 +65,7 @@ open class BaseDebugScreen : BaseOverlay() {
     val content = rWrapText(page.content.joinToString("\n"), rScreenWidth)
     val texts = content.lines().map { HudText(it) }
     texts.forEach { hudTextContainer.addChild(it) }
-    val hudTexts = hudTextContainer.children.selfIf { isTop orElse { asReversed() } }
+    val hudTexts = hudTextContainer.children.runIf(!isTop) { asReversed() }
     var dy = 1
     for (hudText in hudTexts) {
       hudText.anchor = AnchorStyles(isTop, !isTop, isLeft, !isLeft)

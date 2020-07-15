@@ -1,8 +1,11 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.native
 
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.extensions.*
-import io.github.jsnimda.common.util.*
+import io.github.jsnimda.common.extensions.asComparable
+import io.github.jsnimda.common.extensions.compareTo
+import io.github.jsnimda.common.extensions.letIf
+import io.github.jsnimda.common.extensions.selfIfNotEquals
+import io.github.jsnimda.common.util.LogicalStringComparator
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
 import io.github.jsnimda.inventoryprofiles.item.ItemType
@@ -42,7 +45,7 @@ class StringBasedRule : TypeBasedRule<String>() {
       val strength = arguments[strength].value
       Collator.getInstance(locale).apply { this.strength = strength }
     }
-    return@lazy rawComparator.selfIf { !arguments[logical] orElse { LogicalStringComparator(rawComparator) } }
+    return@lazy rawComparator.letIf(arguments[logical]) { LogicalStringComparator(it) }
   } // interestingly if using if else, compiler cannot guess type
 
   fun compareString(str1: String, str2: String): Int {

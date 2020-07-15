@@ -25,20 +25,60 @@ val Class<*>.usefulName // as simpleName sometimes return "" which is useless
 
 // hints:
 // [null ternary] a.let { if (it == null) b else c } <==> a?.let { c } ?: b
-// [self ternary] a.run { if (cond) this else b } <==> a.selfIf { cond orElse b }
 
-inline fun <T : Any> T.selfIf(block: T.() -> T?): T = block() ?: this
-infix fun <T : Any> Boolean.orElse(elseValue: T): T? = orElse { elseValue }
-inline infix fun <T : Any> Boolean.orElse(elseValue: () -> T): T? =
-  if (this) null else elseValue()
+inline fun <T> T.runIf(condition: Boolean, block: T.() -> T): T = if (condition) run(block) else this
+inline fun <T> T.letIf(condition: Boolean, block: (T) -> T): T = if (condition) let(block) else this
+inline fun <T> T.applyIf(condition: Boolean, block: T.() -> Unit): T = if (condition) apply(block) else this
+inline fun <T> T.alsoIf(condition: Boolean, block: (T) -> Unit): T = if (condition) also(block) else this
 
-fun <T> T.selfIfEquals(value: T, elseValue: T) = selfIfEquals(value) { elseValue }
-inline fun <T> T.selfIfEquals(value: T, elseValue: T.() -> T): T =
-  if (this == value) this else elseValue()
+// [self ternary] a.run { if (cond) this else b }
+// > cond [not depends] on a, b [depends] on a
+//  *  <==> a.runIf(!cond) { b }
+//     <==> a be { b } ifIt !cond
+// > cond [depends] on a, b [not depends] on a
+//     <==> a.takeIf { it.cond } ?: b
+//  *  <==> a.ifIt { cond } ?: b
+//     <==> a be b ifIt { !cond }                 // b evaluated
+// > cond [not depends] on a, b [not depends] on a
+//  *  <==> if (cond) a else b
+//     <==> a be b ifIt !cond                     // b evaluated
+// > cond [depends] on a, b [depends] on a
+//     <==> a.run { if (cond) this else b }
+//     <==> a.selfIf { cond orElse b }            // b evaluated
+//     <==> a.selfIf { cond orElse { b } }
+//     <==> a be { b } ifIt { !cond }
+//     <==> a.runIf { !cond then b }              // b evaluated
+//     <==> a.runIf { !cond then { b } }
+//  *  <==> a.runIf({ !cond }) { b }
 
-fun <T> T.selfIfNotEquals(value: T, elseValue: T) = selfIfNotEquals(value) { elseValue }
-inline fun <T> T.selfIfNotEquals(value: T, elseValue: T.() -> T): T =
-  if (this != value) this else elseValue()
+// like takeIf but receiver predicate
+inline fun <T> T.ifIt(predicate: T.() -> Boolean): T? = if (this.predicate()) this else null
+inline fun <T> T.unlessIt(predicate: T.() -> Boolean): T? = if (!this.predicate()) this else null
+
+inline fun <T> T.runIf(condition: T.() -> Boolean, block: T.() -> T): T = if (condition()) run(block) else this
+inline fun <T> T.letIf(condition: (T) -> Boolean, block: (T) -> T): T = if (condition(this)) let(block) else this
+inline fun <T> T.applyIf(condition: T.() -> Boolean, block: T.() -> Unit): T = if (condition()) apply(block) else this
+inline fun <T> T.alsoIf(condition: (T) -> Boolean, block: (T) -> Unit): T = if (condition(this)) also(block) else this
+
+// [self ternary equals] a.run { if (this == c) this else b }
+//                       a.run { if (this != c) this else b }
+// > b [depends] on a
+//     <==> a.run { if (this == c) this else b }
+//     <==> a.let { if (it == c) it else it.b }
+//  *  <==> a.runIf({ this == c }) { b }
+//     <==> a.letIf({ it == c }) { it.b }
+//     <==> a.runIf(c::equals) { b }
+//     <==> a.runIf(c::notEquals) { b }
+// > b [not depends] on a
+//  *  <==> a.takeIf { it == c } ?: b
+//     <==> a.ifIt { this == c } ?: b
+//     <==> a.ifIt { equals(c) } ?: b
+//     <==> a.ifIt(c::equals) ?: b
+//     <==> a.ifIt(c::notEquals) ?: b
+//     <==> a.ifItEquals(c) ?: b
+//     <==> a.ifItNotEquals(c) ?: b
+
+//fun Any.notEquals(other: Any?): Boolean = this != other
 
 // ============
 // Boolean Extensions
@@ -56,7 +96,8 @@ fun <T> Iterable<T>.containsAny(collection: Iterable<T>): Boolean =
   collection.any { this.contains(it) }
 
 fun <T> List<T>.indexed(): List<IndexedValue<T>> =
-  mapIndexed { index, value -> IndexedValue(index, value) }
+//  mapIndexed { index, value -> IndexedValue(index, value) }
+  withIndex().toList()
 
 //fun <T : Any> List<T?>.indexedUnlessNull(): List<IndexedValue<T>?> =
 //  mapIndexed { index, value -> value?.let { IndexedValue(index, value) } }

@@ -1,6 +1,5 @@
 package io.github.jsnimda.common.vanilla.alias
 
-import io.github.jsnimda.common.extensions.selfIfNotEquals
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -29,7 +28,7 @@ typealias Util = Util
 object I18n {
   fun translate(string: String, vararg objects: Any?): String = I18n.translate(string, *objects)
   fun translateOrNull(string: String, vararg objects: Any?): String? =
-    translate(string, *objects).selfIfNotEquals(string, null)
+    translate(string, *objects).takeIf { it != string }
 
   fun translateOrEmpty(string: String, vararg objects: Any?): String = translateOrNull(string, *objects) ?: ""
   inline fun translateOrElse(string: String, vararg objects: Any?, elseValue: () -> String): String =
