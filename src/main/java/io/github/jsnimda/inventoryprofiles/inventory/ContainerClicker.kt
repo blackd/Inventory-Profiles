@@ -1,11 +1,21 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.math2d.Point
+import io.github.jsnimda.common.math2d.Rectangle
+import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.Container
+import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.common.vanilla.alias.SlotActionType
+import io.github.jsnimda.common.vanilla.render.alpha
+import io.github.jsnimda.common.vanilla.render.rClearDepth
+import io.github.jsnimda.common.vanilla.render.rFillRect
+import io.github.jsnimda.common.vanilla.render.rStandardGlState
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
+import io.github.jsnimda.inventoryprofiles.ingame.*
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.timer
 
 // ============
@@ -77,9 +87,12 @@ object ContainerClicker {
       val currentContainer = Vanilla.container()
       var currentScreen = Vanilla.screen()
       val iterator = clicks.iterator()
+      val highlight = Highlight(-1)
+      highlights.add(highlight)
       timer(period = interval.toLong()) {
         if (Vanilla.container() != currentContainer) {
           cancel()
+          highlights.remove(highlight)
           Log.debug("Click cancelled due to container changed")
           return@timer
         }
@@ -89,14 +102,18 @@ object ContainerClicker {
             currentScreen = Vanilla.screen()
           } else {
             cancel()
+            highlights.remove(highlight)
             Log.debug("Click cancelled due to screen closed")
             return@timer
           }
         }
         if (iterator.hasNext()) {
-          iterator.next().let { (slotId, button) -> click(slotId, button) }
+          val (slotId, button) = iterator.next()
+          highlight.id = slotId
+          click(slotId, button)
         } else {
           cancel()
+          highlights.remove(highlight)
           return@timer
         }
       }
@@ -110,6 +127,33 @@ object ContainerClicker {
     )
   }
 
+  private class Highlight(var id: Int)
+
+  private val slotLocations: Map<Int, Point> // id, location // ref: LockSlotsHandler
+    get() {
+      val screen = Vanilla.screen() as? ContainerScreen<*> ?: return mapOf()
+      return Vanilla.container().`(slots)`.map { slot ->
+        val playerSlot = vPlayerSlotOf(slot, screen)
+        return@map playerSlot.`(id)` to slot.`(topLeft)`
+      }.toMap()
+    }
+  private val highlights: MutableSet<Highlight> = ConcurrentHashMap.newKeySet()
+  private fun drawHighlight() {
+    val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
+    val topLeft = screen.`(containerBounds)`.topLeft
+    val slotLocations = slotLocations
+    highlights.mapNotNull { slotLocations[it.id] }.forEach {
+      rFillRect(Rectangle(topLeft + it, Size(16, 16)), (-1).alpha(0.5f))
+    }
+  }
+
+  fun postScreenRender() {
+    if (ModSettings.HIGHLIGHT_CLICKING_SLOT.booleanValue) {
+      rStandardGlState()
+      rClearDepth()
+      drawHighlight()
+    }
+  }
 }
 
 //fun leftClick(slotId: Int): Click? {

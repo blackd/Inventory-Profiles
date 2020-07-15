@@ -8,6 +8,7 @@ import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
   var currentWidget: SortingButtonCollectionWidget? = null
@@ -49,6 +50,7 @@ object ContainerScreenEventHandler {
 
   fun postRender() {
     LockSlotsHandler.postRender()
+    ContainerClicker.postScreenRender()
     currentWidget?.let { Tooltips.renderAll() }
   }
 }

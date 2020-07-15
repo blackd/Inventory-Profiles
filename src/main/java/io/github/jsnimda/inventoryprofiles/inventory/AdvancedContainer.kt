@@ -18,6 +18,7 @@ import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ItemPlanner
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
+import io.github.jsnimda.inventoryprofiles.item.isFull
 import io.github.jsnimda.inventoryprofiles.item.stackableWith
 
 class AdvancedContainer(
@@ -168,7 +169,7 @@ class AdvancedContainer(
     for ((slotIndex, slotItem) in destination.indexedSlots) {
       if (skipEmpty && slotItem.isEmpty()) continue
       if (!vanillaSlots[slotIndex].`(canInsert)`(slotItem)) continue
-      if (tracker.cursor.stackableWith(slotItem)) this.leftClick(slotIndex)
+      if (tracker.cursor.stackableWith(slotItem) && !slotItem.isFull()) this.leftClick(slotIndex)
       if (tracker.cursor.isEmpty()) return
     }
   }

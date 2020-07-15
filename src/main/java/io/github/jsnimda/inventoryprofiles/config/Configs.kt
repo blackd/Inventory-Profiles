@@ -57,6 +57,7 @@ object ModSettings : ConfigDeclaration {
     .CATEGORY("$category.advanced_options")
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
   val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10, 1, 500)
+  val HIGHLIGHT_CLICKING_SLOT                   /**/ by bool(true)
   val RESTOCK_HOTBAR                            /**/ by bool(false)
   val SORT_AT_CURSOR                            /**/ by bool(false)
   val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)
