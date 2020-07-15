@@ -1,5 +1,9 @@
 package io.github.jsnimda.common.extensions
 
+// ============
+// Enum Extensions
+// ============
+
 fun <T : Enum<T>> T.previous(amount: Int = 1) = next(-amount)
 fun <T : Enum<T>> T.next(amount: Int = 1): T {
   val values = declaringClass.enumConstants
@@ -88,23 +92,6 @@ inline fun <T> T.alsoIf(condition: (T) -> Boolean, block: (T) -> Unit): T = if (
 // boolean.also { if (it) block() } <==> boolean.ifTrue { block() }
 inline fun Boolean.ifTrue(block: () -> Unit) = also { if (this) block() }
 inline fun Boolean.ifFalse(block: () -> Unit) = also { if (!this) block() }
-
-// ============
-// Collections
-// ============
-
-fun <T> Iterable<T>.containsAny(collection: Iterable<T>): Boolean =
-  collection.any { this.contains(it) }
-
-fun <T> List<T>.indexed(): List<IndexedValue<T>> =
-//  mapIndexed { index, value -> IndexedValue(index, value) }
-  withIndex().toList()
-
-//fun <T : Any> List<T?>.indexedUnlessNull(): List<IndexedValue<T>?> =
-//  mapIndexed { index, value -> value?.let { IndexedValue(index, value) } }
-//
-//fun <T : Any> List<T?>.indexedNotNull(): List<IndexedValue<T>> =
-//  mapIndexedNotNull { index, value -> value?.let { IndexedValue(index, value) } }
 
 // ============
 // Bulk Comparisons
