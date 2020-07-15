@@ -131,7 +131,7 @@ object NbtUtils {
 
   private fun getNbtPath(path: String): NbtPathArgumentTypeNbtPath? {
     // NbtPathArgumentType().parse(StringReader(path))
-    return tryOrNull({ Log.warn(it.toString()) }) { NbtPathArgumentType().parse(StringReader(path)) }
+    return tryOrPrint(Log::warn) { NbtPathArgumentType().parse(StringReader(path)) }
   }
 
   private fun getTagsForPath(nbtPath: NbtPathArgumentTypeNbtPath, target: NbtTag): List<NbtTag> {
