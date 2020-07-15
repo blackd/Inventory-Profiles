@@ -1,8 +1,8 @@
 package io.github.jsnimda.common.gui.widgets
 
+import io.github.jsnimda.common.extensions.RoutedEvent
 import io.github.jsnimda.common.gui.widget.AnchorStyles
 import io.github.jsnimda.common.math2d.Size
-import io.github.jsnimda.common.extensions.RoutedEvent
 
 private fun <T> RoutedEvent<T>.orInvoke(event: T, handled: Boolean) =
   handled or this.invoke(event, handled)

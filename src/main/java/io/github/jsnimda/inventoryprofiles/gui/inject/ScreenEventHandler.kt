@@ -1,8 +1,8 @@
 package io.github.jsnimda.inventoryprofiles.gui.inject
 
+import io.github.jsnimda.common.extensions.detectable
 import io.github.jsnimda.common.input.GlobalScreenEventListener
 import io.github.jsnimda.common.math2d.Size
-import io.github.jsnimda.common.extensions.detectable
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Screen

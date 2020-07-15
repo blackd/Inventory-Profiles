@@ -1,10 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.event
 
+import io.github.jsnimda.common.extensions.detectable
 import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.math2d.intersects
-import io.github.jsnimda.common.extensions.detectable
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Identifier

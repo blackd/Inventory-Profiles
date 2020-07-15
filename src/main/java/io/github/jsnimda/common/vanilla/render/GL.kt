@@ -89,6 +89,7 @@ var rMatrixStack = MatrixStack()
 
 fun gPushMatrix() = RenderSystem.pushMatrix()
 fun gPopMatrix() = RenderSystem.popMatrix()
+
 //fun gLoadIdentity() = RenderSystem.loadIdentity()
 fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
 

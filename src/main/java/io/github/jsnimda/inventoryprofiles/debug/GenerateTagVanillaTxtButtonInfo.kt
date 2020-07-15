@@ -1,9 +1,9 @@
 package io.github.jsnimda.inventoryprofiles.debug
 
-import io.github.jsnimda.common.gui.widgets.ButtonWidget
-import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.extensions.div
 import io.github.jsnimda.common.extensions.writeToFile
+import io.github.jsnimda.common.gui.widgets.ButtonWidget
+import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.*

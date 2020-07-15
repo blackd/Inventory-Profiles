@@ -1,5 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.gui.inject
 
+import io.github.jsnimda.common.extensions.containsAny
+import io.github.jsnimda.common.extensions.detectable
 import io.github.jsnimda.common.gui.Tooltips
 import io.github.jsnimda.common.gui.widget.Overflow
 import io.github.jsnimda.common.gui.widget.setBottomRight
@@ -9,8 +11,6 @@ import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.Size
-import io.github.jsnimda.common.extensions.containsAny
-import io.github.jsnimda.common.extensions.detectable
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.CreativeInventoryScreen

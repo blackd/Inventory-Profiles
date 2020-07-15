@@ -13,7 +13,8 @@ interface IInputHandler {
 
 interface ScreenEventListener { // eavesdrop event/input
   fun resize(minecraftClient: MinecraftClient, width: Int, height: Int) {}
-//  fun mouseMoved(x: Double, y: Double) {}
+
+  //  fun mouseMoved(x: Double, y: Double) {}
   fun mouseClicked(x: Double, y: Double, button: Int) = false
   fun mouseRelease(x: Double, y: Double, button: Int) = false
   fun mouseDragged(x: Double, y: Double, button: Int, dx: Double, dy: Double) = false
