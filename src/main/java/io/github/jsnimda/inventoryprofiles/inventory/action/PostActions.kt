@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.inventory.action
 
+import io.github.jsnimda.common.extensions.unlessIt
 import io.github.jsnimda.inventoryprofiles.item.*
 
 object PostActions {
@@ -47,7 +48,7 @@ object PostActions {
 }
 
 private fun List<ItemStack>.group(): Map<ItemType, List<ItemStack>> =
-  mapNotNull { it.takeUnless { it.isEmpty() } }.groupBy { it.itemType }
+  mapNotNull { it.unlessIt { isEmpty() } }.groupBy { it.itemType }
 
 private fun transposedIndex(width: Int, height: Int, index: Int) =
   (index % width) * height + (index / width)

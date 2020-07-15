@@ -11,8 +11,8 @@ import io.github.jsnimda.inventoryprofiles.item.isEmpty
 fun List<ItemStack>.copyAsMutable(): List<MutableItemStack> =
   map { it.copyAsMutable() }
 
-fun List<ItemStack>.takeUnlessEmpty(): List<ItemStack?> =
-  map { it.takeUnless { it.isEmpty() } }
+//fun List<ItemStack>.takeUnlessEmpty(): List<ItemStack?> =
+//  map { it.takeUnless { it.isEmpty() } }
 
 fun List<ItemStack>.filterNotEmpty(): List<ItemStack> =
   filterNot { it.isEmpty() }

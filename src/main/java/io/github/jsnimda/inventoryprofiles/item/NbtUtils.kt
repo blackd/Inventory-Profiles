@@ -74,7 +74,7 @@ object NbtUtils {
   // match nbt
   // ============
   fun matchNbtNoExtra(a: CompoundTag?, b: CompoundTag?): Boolean { // handle null and empty
-    return a?.takeUnless { it.isEmpty } == b?.takeUnless { it.isEmpty }
+    return a?.unlessIt { isEmpty } == b?.unlessIt { isEmpty }
   }
 
   fun matchNbt(a: CompoundTag?, b: CompoundTag?): Boolean { // b superset of a (a <= b)

@@ -250,7 +250,7 @@ object AutoRefillHandler {
           b.value.count - a.value.count
         })
         index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
-        return index.takeUnless { it < 0 }?.plus(9)
+        return index.takeIf { it >= 0 }?.plus(9)
       }
 
       private fun getThreshold(itemType: ItemType): Int {
