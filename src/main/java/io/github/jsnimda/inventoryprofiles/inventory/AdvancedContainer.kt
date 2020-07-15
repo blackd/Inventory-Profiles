@@ -1,12 +1,13 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.annotation.ThrowsCaught
-import io.github.jsnimda.common.extensions.tryCatch
+import io.github.jsnimda.common.extensions.tryCatchAlsoPrint
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.common.vanilla.alias.Slot
+import io.github.jsnimda.inventoryprofiles.client.TellPlayer
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
@@ -32,7 +33,7 @@ class AdvancedContainer(
   private val slotIdClicks: List<Pair<Int, Int>>
     get() = vanillaSlots.let { slots ->
       @ThrowsCaught
-      tryCatch { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
+      tryCatchAlsoPrint(TellPlayer::chat) { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
     }
 
   // ============
@@ -41,7 +42,7 @@ class AdvancedContainer(
 
   @ThrowsCaught
   fun sandbox(block: SandboxDsl.() -> Unit) {
-    tryCatch {
+    tryCatchAlsoPrint(TellPlayer::chat) {
       planner.sandbox {
         SandboxDsl(it).block()
       }
@@ -50,7 +51,7 @@ class AdvancedContainer(
 
   @ThrowsCaught
   fun tracker(block: TrackerDsl.() -> Unit) {
-    tryCatch {
+    tryCatchAlsoPrint(TellPlayer::chat) {
       planner.tracker {
         TrackerDsl(it).block()
       }
