@@ -69,6 +69,7 @@ inline fun <T> T.alsoIf(condition: (T) -> Boolean, block: (T) -> Unit): T = if (
 //     <==> a.letIf({ it == c }) { it.b }
 //     <==> a.runIf(c::equals) { b }
 //     <==> a.runIf(c::notEquals) { b }
+//     <==> a.runIfEquals(c) { b }
 // > b [not depends] on a
 //  *  <==> a.takeIf { it == c } ?: b
 //     <==> a.ifIt { this == c } ?: b

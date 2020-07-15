@@ -4,7 +4,6 @@ import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.extensions.asComparable
 import io.github.jsnimda.common.extensions.compareTo
 import io.github.jsnimda.common.extensions.letIf
-import io.github.jsnimda.common.extensions.selfIfNotEquals
 import io.github.jsnimda.common.util.LogicalStringComparator
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.CompoundTag
@@ -40,7 +39,7 @@ class StringBasedRule : TypeBasedRule<String>() {
 
   private val lazyCompareString: Comparator<in String> by lazy(LazyThreadSafetyMode.NONE) {
     val rawComparator: Comparator<in String> = arguments[string_compare].comparator ?: run { // locale cmp
-      val langTag = arguments[locale].selfIfNotEquals("mc") { VanillaUtil.languageCode() }.replace('_', '-')
+      val langTag = arguments[locale].letIf({ it == "mc" }) { VanillaUtil.languageCode() }.replace('_', '-')
       val locale = if (langTag == "sys") Locale.getDefault() else Locale.forLanguageTag(langTag)
       val strength = arguments[strength].value
       Collator.getInstance(locale).apply { this.strength = strength }
