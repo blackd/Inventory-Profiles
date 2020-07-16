@@ -1,7 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item
 
 import io.github.jsnimda.common.vanilla.alias.*
-import io.github.jsnimda.common.vanilla.alias.Item
 import io.github.jsnimda.common.vanilla.alias.items.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(getRawId)`

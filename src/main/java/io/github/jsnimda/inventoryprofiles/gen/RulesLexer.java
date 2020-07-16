@@ -1,13 +1,12 @@
 // Generated from src/main/java/io/github/jsnimda/inventoryprofiles/parser/antlr/RulesLexer.g4 by ANTLR 4.8
 package io.github.jsnimda.inventoryprofiles.gen;
-import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
+
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.LexerATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class RulesLexer extends Lexer {
@@ -17,8 +16,8 @@ public class RulesLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		WS=1, AT=2, ERR=3, REVERSE=4, DOUBLE_COLON=5, HASHTAG=6, NamespacedId=7, 
-		OPEN=8, NBT=9, WS_mSubRule=10, RuleName=11, Parameter=12, EQUAL=13, CLOSE=14, 
+		WS=1, AT=2, ERR=3, REVERSE=4, DOUBLE_COLON=5, HASHTAG=6, NamespacedId=7,
+		OPEN=8, NBT=9, WS_mSubRule=10, RuleName=11, Parameter=12, EQUAL=13, CLOSE=14,
 		WS_mArgs=15, COMMA=16, WS_mArg=17, Argument=18;
 	public static final int
 		mDeclareName=1, mSubRule=2, mSubRuleName=3, mArgs=4, mArg=5;
@@ -32,12 +31,12 @@ public class RulesLexer extends Lexer {
 
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"WS", "AT", "ERR", "ID", "DeclareName", "ERR_mDeclareName", "REVERSE", 
-			"AT_mSubRule", "DOUBLE_COLON", "HASHTAG", "NamespacedId", "OPEN", "NBT", 
-			"WS_mSubRule", "ERR_mSubRule", "RuleName", "ERR_mRule", "Parameter", 
-			"EQUAL", "CLOSE", "WS_mArgs", "ERR_mArgs", "CLOSE_mArg", "COMMA", "WS_mArg", 
-			"Argument", "ERR_mArg", "COMMON", "NON_NESTED", "NESTED", "STRING", "STRING_DOUBLE", 
-			"STRING_SINGLE", "ESC_DOUBLE", "ESC_SINGLE", "UNICODE", "HEX", "SAFECODEPOINT_DOUBLE", 
+			"WS", "AT", "ERR", "ID", "DeclareName", "ERR_mDeclareName", "REVERSE",
+			"AT_mSubRule", "DOUBLE_COLON", "HASHTAG", "NamespacedId", "OPEN", "NBT",
+			"WS_mSubRule", "ERR_mSubRule", "RuleName", "ERR_mRule", "Parameter",
+			"EQUAL", "CLOSE", "WS_mArgs", "ERR_mArgs", "CLOSE_mArg", "COMMA", "WS_mArg",
+			"Argument", "ERR_mArg", "COMMON", "NON_NESTED", "NESTED", "STRING", "STRING_DOUBLE",
+			"STRING_SINGLE", "ESC_DOUBLE", "ESC_SINGLE", "UNICODE", "HEX", "SAFECODEPOINT_DOUBLE",
 			"SAFECODEPOINT_SINGLE"
 		};
 	}
@@ -45,15 +44,15 @@ public class RulesLexer extends Lexer {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, "'@'", null, "'!'", "'::'", "'#'", null, "'('", null, null, 
+			null, null, "'@'", null, "'!'", "'::'", "'#'", null, "'('", null, null,
 			null, null, "'='", "')'", null, "','"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "WS", "AT", "ERR", "REVERSE", "DOUBLE_COLON", "HASHTAG", "NamespacedId", 
-			"OPEN", "NBT", "WS_mSubRule", "RuleName", "Parameter", "EQUAL", "CLOSE", 
+			null, "WS", "AT", "ERR", "REVERSE", "DOUBLE_COLON", "HASHTAG", "NamespacedId",
+			"OPEN", "NBT", "WS_mSubRule", "RuleName", "Parameter", "EQUAL", "CLOSE",
 			"WS_mArgs", "COMMA", "WS_mArg", "Argument"
 		};
 	}

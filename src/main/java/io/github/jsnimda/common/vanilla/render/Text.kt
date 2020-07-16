@@ -2,7 +2,6 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.alias.LiteralText
 
 fun rMeasureText(string: String): Int =
   Vanilla.textRenderer().getStringWidth(string) // getStringWidth() = getWidth()

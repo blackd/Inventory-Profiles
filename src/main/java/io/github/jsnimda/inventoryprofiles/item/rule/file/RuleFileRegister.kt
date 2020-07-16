@@ -11,7 +11,6 @@ import io.github.jsnimda.inventoryprofiles.item.rule.Parameter
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 import io.github.jsnimda.inventoryprofiles.item.rule.native.NativeRules
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.NativeParameters
-import kotlin.jvm.Throws
 
 /*
   rulesFiles: [a.txt] -> [b.txt] -> [c.txt] -> ... -> [z.txt]

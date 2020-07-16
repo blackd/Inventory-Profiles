@@ -1,13 +1,16 @@
 // Generated from src/main/java/io/github/jsnimda/inventoryprofiles/parser/antlr/RulesParser.g4 by ANTLR 4.8
 package io.github.jsnimda.inventoryprofiles.gen;
-import org.antlr.v4.runtime.atn.*;
-import org.antlr.v4.runtime.dfa.DFA;
+
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class RulesParser extends Parser {
@@ -17,15 +20,15 @@ public class RulesParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		WS=1, AT=2, ERR=3, REVERSE=4, DOUBLE_COLON=5, HASHTAG=6, NamespacedId=7, 
-		OPEN=8, NBT=9, WS_mSubRule=10, RuleName=11, Parameter=12, EQUAL=13, CLOSE=14, 
+		WS=1, AT=2, ERR=3, REVERSE=4, DOUBLE_COLON=5, HASHTAG=6, NamespacedId=7,
+		OPEN=8, NBT=9, WS_mSubRule=10, RuleName=11, Parameter=12, EQUAL=13, CLOSE=14,
 		WS_mArgs=15, COMMA=16, WS_mArg=17, Argument=18;
 	public static final int
-		RULE_customRuleEOF = 0, RULE_subRuleEOF = 1, RULE_head = 2, RULE_subRule = 3, 
+		RULE_customRuleEOF = 0, RULE_subRuleEOF = 1, RULE_head = 2, RULE_subRule = 3,
 		RULE_subRuleIdentifier = 4, RULE_arguments = 5, RULE_pair = 6;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"customRuleEOF", "subRuleEOF", "head", "subRule", "subRuleIdentifier", 
+			"customRuleEOF", "subRuleEOF", "head", "subRule", "subRuleIdentifier",
 			"arguments", "pair"
 		};
 	}
@@ -33,15 +36,15 @@ public class RulesParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, "'@'", null, "'!'", "'::'", "'#'", null, "'('", null, null, 
+			null, null, "'@'", null, "'!'", "'::'", "'#'", null, "'('", null, null,
 			null, null, "'='", "')'", null, "','"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "WS", "AT", "ERR", "REVERSE", "DOUBLE_COLON", "HASHTAG", "NamespacedId", 
-			"OPEN", "NBT", "WS_mSubRule", "RuleName", "Parameter", "EQUAL", "CLOSE", 
+			null, "WS", "AT", "ERR", "REVERSE", "DOUBLE_COLON", "HASHTAG", "NamespacedId",
+			"OPEN", "NBT", "WS_mSubRule", "RuleName", "Parameter", "EQUAL", "CLOSE",
 			"WS_mArgs", "COMMA", "WS_mArg", "Argument"
 		};
 	}
@@ -169,7 +172,7 @@ public class RulesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(18); 
+			setState(18);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
@@ -179,7 +182,7 @@ public class RulesParser extends Parser {
 				subRule();
 				}
 				}
-				setState(20); 
+				setState(20);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AT) | (1L << REVERSE) | (1L << DOUBLE_COLON) | (1L << HASHTAG) | (1L << NamespacedId))) != 0) );
