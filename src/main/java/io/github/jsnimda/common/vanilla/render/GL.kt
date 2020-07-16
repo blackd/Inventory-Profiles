@@ -3,7 +3,10 @@ package io.github.jsnimda.common.vanilla.render
 import com.mojang.blaze3d.platform.GlStateManager
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersect
-import net.minecraft.client.render.DiffuseLighting
+import io.github.jsnimda.common.vanilla.alias.DiffuseLighting
+import io.github.jsnimda.common.vanilla.alias.DstFactor
+import io.github.jsnimda.common.vanilla.alias.RenderSystem
+import io.github.jsnimda.common.vanilla.alias.SrcFactor
 import org.lwjgl.opengl.GL11
 
 // ============
@@ -16,14 +19,19 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
   gDisableDiffuse()
   gEnableAlphaTest()
   gEnableDepthTest()
-  GlStateManager.depthMask(true)
+  RenderSystem.depthMask(true)
 }
+
+// ============
+// depth
+// ============
 
 fun rClearDepth() {
   gEnableDepthTest()
-  GlStateManager.depthMask(true)
-  GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false)
+  RenderSystem.depthMask(true)
+  RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, false)
   rOverwriteDepth(rScreenBounds)
+  depthBounds.clear() // added this
 }
 
 inline fun rDepthMask(bounds: Rectangle, block: () -> Unit) {
@@ -38,6 +46,7 @@ private val depthBounds = mutableListOf<Rectangle>()
 // can it be done without stencil?
 // (maybe yes, if rectangle mask only)
 fun rCreateDepthMask(bounds: Rectangle) {
+  rStandardGlState() // added this
   if (depthBounds.isEmpty()) {
     rCreateDepthMaskNoCheck(bounds)
   } else {
@@ -53,6 +62,7 @@ private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
 }
 
 fun rRemoveDepthMask() {
+//  rStandardGlState() // added this
   gPopMatrix()
   rOverwriteDepth(depthBounds.removeLast())
 }
@@ -65,30 +75,55 @@ private fun rOverwriteDepth(bounds: Rectangle) {
   gDepthFunc(GL11.GL_LEQUAL)
 }
 
+fun rDisableDepth() { // todo see if same with disableDepthTest (?)
+  gDepthFunc(GL11.GL_ALWAYS)
+  RenderSystem.depthMask(false)
+}
+
+fun rEnableDepth() {
+  RenderSystem.depthMask(true)
+  gDepthFunc(GL11.GL_LEQUAL)
+}
+
+// ============
+// matrix
+// ============
+
+//var rMatrixStack = MatrixStack()
+
+fun gPushMatrix() = RenderSystem.pushMatrix()
+fun gPopMatrix() = RenderSystem.popMatrix()
+
+//fun gLoadIdentity() = RenderSystem.loadIdentity()
+fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
+
 // ============
 // internal
 // ============
 private fun rEnableBlend() {
-  GlStateManager.enableBlend()
-  GlStateManager.blendFuncSeparate(
+  // ref: AbstractButtonWidget.renderButton()
+  RenderSystem.enableBlend()
+  defaultBlendFunc()
+  RenderSystem.blendFunc(SrcFactor.SRC_ALPHA, DstFactor.ONE_MINUS_SRC_ALPHA)
+  RenderSystem.color4f(1f, 1f, 1f, 1f)
+}
+
+private fun defaultBlendFunc() {
+  RenderSystem.blendFuncSeparate(
     GlStateManager.SourceFactor.SRC_ALPHA,
     GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
     GlStateManager.SourceFactor.ONE,
     GlStateManager.DestFactor.ZERO
-  )
-  GlStateManager.color4f(1f, 1f, 1f, 1f)
+  );
 }
 
 // ============
 // GlStateManager
-private fun gTranslatef(x: Float, y: Float, z: Float) = GlStateManager.translatef(x, y, z)
-private fun gPushMatrix() = GlStateManager.pushMatrix()
-private fun gPopMatrix() = GlStateManager.popMatrix()
 private fun gDisableDiffuse() = DiffuseLighting.disable()
-private fun gDisableAlphaTest() = GlStateManager.disableAlphaTest()
-private fun gEnableAlphaTest() = GlStateManager.enableAlphaTest()
-private fun gDisableDepthTest() = GlStateManager.disableDepthTest()
-private fun gEnableDepthTest() = GlStateManager.enableDepthTest()
+private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
+private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
+private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
+private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
 private fun gDepthFunc(value: Int) { // default = GL_LEQUAL = 515
-  GlStateManager.depthFunc(value)
+  RenderSystem.depthFunc(value)
 }

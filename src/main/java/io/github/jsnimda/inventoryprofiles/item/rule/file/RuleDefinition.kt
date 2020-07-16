@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.file
 
+import io.github.jsnimda.common.annotation.MayThrow
 import io.github.jsnimda.common.util.compare
 import io.github.jsnimda.inventoryprofiles.item.rule.BaseRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
@@ -23,7 +24,7 @@ class RuleDefinition(val ruleName: String, private val subRules: List<SubRuleDef
   var status = Status.LAZY
     private set
 
-  @get:Throws // may throws
+  @get:MayThrow // may throws
   var ruleList: List<Rule>? = null // by subRules
     get() {
       if (status == Status.INITIALIZING) {
@@ -39,7 +40,7 @@ class RuleDefinition(val ruleName: String, private val subRules: List<SubRuleDef
     }
     private set // do not call setter
 
-  @Throws // may throws
+  @MayThrow // may throws
   fun createCustomRule(): CustomRule? =
     ruleList?.let { CustomRule(it) }
 

@@ -3,7 +3,7 @@ package io.github.jsnimda.common.vanilla.render
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
 
-fun rMeasureText(string: String) =
+fun rMeasureText(string: String): Int =
   Vanilla.textRenderer().getStringWidth(string)
 
 fun rDrawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
@@ -23,13 +23,13 @@ fun rDrawCenteredText(string: String, bounds: Rectangle, color: Int, shadow: Boo
   rDrawText(string, x + (width - rMeasureText(string)) / 2, y + (height - 8) / 2, color, shadow)
 }
 
-fun rDrawText(
-  string: String, bounds: Rectangle,
-  horizontalAlign: Int, verticalAlign: Int,
-  color: Int, shadow: Boolean = true
-) {
-
-}
+//fun rDrawText(
+//  string: String, bounds: Rectangle,
+//  horizontalAlign: Int, verticalAlign: Int,
+//  color: Int, shadow: Boolean = true
+//) {
+//
+//}
 
 fun rWrapText(string: String, maxWidth: Int): String =
   Vanilla.textRenderer().wrapStringToWidth(string, maxWidth)

@@ -10,7 +10,11 @@ import io.github.jsnimda.common.vanilla.render.rScreenWidth
 // vanillamapping code depends on mappings
 // ============
 
-class InjectWidget : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, "") {
+class AsVanillaWidget() : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, "") {
+  constructor(vararg widgets: Widget) : this() {
+    widgets.forEach { addWidget(it) }
+  }
+
   // ============
   // widget
   // ============

@@ -2,7 +2,8 @@ package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
-import net.minecraft.client.font.TextRenderer
+import io.github.jsnimda.common.vanilla.alias.TextRenderer
+import io.github.jsnimda.common.vanilla.render.rStandardGlState
 import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -31,6 +32,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
     }
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
+    rStandardGlState() // added this todo (unknown reason fixing text field overflow)
     vanilla.render(mouseX, mouseY, partialTicks)
     super.render(mouseX, mouseY, partialTicks)
   }
@@ -64,7 +66,8 @@ open class VanillaWidget<T : AbstractButtonWidget>(
   }
 }
 
-private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) : VanillaSliderWidget(0, 0, 0, 20, 0.5) {
+private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Double) :
+  VanillaSliderWidget(0, 0, 0, 20, 0.5) {
 
   var valueChangedEvent: () -> Unit = { }
 
@@ -105,6 +108,10 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int,
   VanillaTextFieldWidget(textRenderer, i, j, k, l, string) {
   public override fun setFocused(bl: Boolean) {
     super.setFocused(bl)
+  }
+
+  init {
+    setMaxLength(32767)
   }
 }
 

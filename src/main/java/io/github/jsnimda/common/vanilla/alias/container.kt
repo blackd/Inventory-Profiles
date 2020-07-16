@@ -7,6 +7,7 @@ import net.minecraft.container.BeaconContainer
 import net.minecraft.container.BrewingStandContainer
 import net.minecraft.container.CartographyTableContainer
 import net.minecraft.container.Container
+import net.minecraft.container.CraftingResultSlot
 import net.minecraft.container.CraftingTableContainer
 import net.minecraft.container.EnchantingTableContainer
 import net.minecraft.container.Generic3x3Container
@@ -58,5 +59,6 @@ typealias TraderInventory = TraderInventory
 
 typealias Slot = Slot
 typealias TradeOutputSlot = TradeOutputSlot
+typealias CraftingResultSlot = CraftingResultSlot
 
 typealias SlotActionType = SlotActionType

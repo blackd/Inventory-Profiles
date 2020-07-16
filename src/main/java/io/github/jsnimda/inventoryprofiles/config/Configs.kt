@@ -23,6 +23,23 @@ object ModSettings : ConfigDeclaration {
   val SORT_ORDER                                /**/ by enum(SortingMethod.DEFAULT)
   val CUSTOM_RULE                               /**/ by string("@custom")
 
+    .CATEGORY("$category.move_matching_items")
+  val INCLUDE_HOTBAR_MODIFIER                   /**/ by hotkey("LEFT_ALT", KeybindSettings.GUI_EXTRA)
+  val MOVE_ALL_MODIFIER                         /**/ by hotkey("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
+  val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
+  val ALWAYS_MOVE_ALL                           /**/ by bool(false)
+
+    .CATEGORY("$category.lock_slots")
+  val ENABLE_LOCK_SLOTS                         /**/ by bool(true)
+  val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("LEFT_ALT", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_CONFIG_KEY                     /**/ by hotkey("BUTTON_1", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_QUICK_CONFIG_KEY               /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_QUICK_DISABLE                  /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+  val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
+  val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
+  val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
+  val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(1, 1, 6)
+
     .CATEGORY("$category.auto_refill")
   val ENABLE_AUTO_REFILL                        /**/ by bool(true)
   val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
@@ -53,6 +70,7 @@ object GuiSettings : ConfigDeclaration {
   override val builder = createBuilder()
 
     .CATEGORY("$category.inventory")
+  val ENABLE_INVENTORY_BUTTONS                  /**/ by bool(true)
   val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by bool(true)
   val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)
   val CONTINUOUS_CRAFTING_SAVED_VALUE           /**/ by bool(true)
@@ -70,6 +88,9 @@ object GuiSettings : ConfigDeclaration {
   val IN_ROWS_CUSTOM_RULE                       /**/ by string("@custom")
   val SHOW_MOVE_ALL_BUTTON                      /**/ by bool(true)
   val SHOW_BUTTON_TOOLTIPS                      /**/ by bool(true)
+
+    .CATEGORY("$category.other")
+  val USE_OLD_INSERT_METHOD                     /**/ by bool(false)
 }
 
 object EditProfiles : ConfigDeclaration {
@@ -87,6 +108,8 @@ object Hotkeys : ConfigDeclaration {
   val SORT_INVENTORY_IN_COLUMNS                 /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
   val SORT_INVENTORY_IN_ROWS                    /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
   val MOVE_ALL_ITEMS                            /**/ by hotkey("", KeybindSettings.GUI_EXTRA)
+
+    .CATEGORY("$category.misc")
   val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("", KeybindSettings.GUI_DEFAULT)
 }
 
@@ -117,7 +140,9 @@ object Debugs : ConfigDeclaration {
   val DEBUG_RENDER                              /**/ by bool(false)
   val DEBUG_SCREEN                              /**/ by hotkey("Z,1", KeybindSettings.ANY_DEFAULT)
   val SCREEN_DEPTH_TEST                         /**/ by hotkey("Z,2", KeybindSettings.ANY_DEFAULT)
+  val SCREEN_SPRITE_TEST                        /**/ by hotkey("Z,3", KeybindSettings.ANY_DEFAULT)
   val CLEAN_CURSOR                              /**/ by hotkey("X,1", KeybindSettings.GUI_DEFAULT)
+  val DUMP_PACKET_IDS                           /**/ by hotkey("X,2", KeybindSettings.ANY_DEFAULT)
   val GEN_TAG_VANILLA_TXT                       /**/ by button(GenerateTagVanillaTxtButtonInfo)
   val GEN_RULE_LIST                             /**/ by button(GenerateRuleListButtonInfo)
 }

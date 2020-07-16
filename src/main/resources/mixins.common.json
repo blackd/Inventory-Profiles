@@ -6,8 +6,7 @@
   ],
   "client": [
     "MixinKeyboard",
-    "MixinMouse",
-    "MixinMinecraftClient"
+    "MixinMouse"
   ],
   "injectors": {
     "defaultRequire": 1

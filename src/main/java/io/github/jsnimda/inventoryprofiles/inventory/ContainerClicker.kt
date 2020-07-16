@@ -46,6 +46,7 @@ object ContainerClicker {
       if (contentUpdates) sendContentUpdates()
       return
     }
+    // clickSlot() = method_2906()
     Vanilla.interactionManager().method_2906(
       container.syncId,
       slotId,
