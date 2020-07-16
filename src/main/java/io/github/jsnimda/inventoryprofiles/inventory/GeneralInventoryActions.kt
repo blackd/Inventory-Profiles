@@ -10,14 +10,13 @@ import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.BeaconContainer
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
+import io.github.jsnimda.inventoryprofiles.client.TellPlayer
 import io.github.jsnimda.inventoryprofiles.config.GuiSettings
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.PostAction
 import io.github.jsnimda.inventoryprofiles.config.SortingMethodIndividual
-import io.github.jsnimda.inventoryprofiles.event.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.*
-import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer.Companion.cleanCursor
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.*
 import io.github.jsnimda.inventoryprofiles.inventory.action.*
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
@@ -71,31 +70,37 @@ object GeneralInventoryActions {
       doMoveMatchCrafting()
       return
     }
-    val includeHotbar = VanillaUtil.altDown()
-    val moveAll = VanillaUtil.shiftDown()
-    AdvancedContainer.arrange { tracker ->
-      val player =
-        getItemArea(if (includeHotbar) AreaTypes.playerStorageAndHotbarAndOffhand else AreaTypes.playerStorage)
-      val container = getItemArea(AreaTypes.nonPlayerNonOutput)
-      val source = tracker.subTracker(if (toPlayer) container else player)
-      val destination = tracker.subTracker(if (toPlayer) player else container) // source -> destination
-      if (moveAll) {
-        source.moveAllTo(destination)
-      } else {
-        source.moveMatchTo(destination)
+    val includeHotbar = // xor
+      ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
+    val moveAll = // xor
+      ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
+    AdvancedContainer.tracker {
+      with(AreaTypes) {
+        val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
+            lockedSlots
+        val container = itemStorage
+        val source = (if (toPlayer) container else player).get().asSubTracker
+        val destination = (if (toPlayer) player else container).get().asSubTracker // source -> destination
+        if (moveAll) {
+          source.moveAllTo(destination)
+        } else {
+          source.moveMatchTo(destination)
+        }
       }
     }
   }
 
   fun doMoveMatchCrafting() {
     val includeHotbar = VanillaUtil.altDown()
-    AdvancedContainer.arrange { tracker ->
-      val player =
-        getItemArea(if (includeHotbar) AreaTypes.playerStorageAndHotbarAndOffhand else AreaTypes.playerStorage)
-      val target = getItemArea(AreaTypes.craftingIngredient)
-      val source = tracker.subTracker(player)
-      val destination = tracker.subTracker(target) // source -> destination
-      source.moveMatchCraftingTo(destination)
+    AdvancedContainer.tracker {
+      with(AreaTypes) {
+        val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
+            lockedSlots
+        val target = craftingIngredient
+        val source = player.get().asSubTracker
+        val destination = target.get().asSubTracker // source -> destination
+        source.moveMatchCraftingTo(destination)
+      }
     }
   }
 
@@ -106,7 +111,7 @@ object GeneralInventoryActions {
 
   fun cleanCursor() {
     if (vCursorStack().isEmpty()) return
-    AdvancedContainer.arrange(instant = true) { ->
+    AdvancedContainer(instant = true) {
       cleanCursor()
     }
   }
@@ -128,28 +133,26 @@ private object InnerActions {
   }
 
   fun innerDoSort(sortingRule: Rule, postAction: PostAction) {
-    AdvancedContainer.arrange { tracker ->
-      val forcePlayerSide = forcePlayerSide()
-      val target: ItemArea
-      if (forcePlayerSide || getItemArea(AreaTypes.itemStorage).isEmpty()) {
-        target = getItemArea(AreaTypes.playerStorage)
-        if (ModSettings.RESTOCK_HOTBAR.booleanValue) {
-          // priority: mainhand -> offhand -> hotbar 1-9
-          tracker.subTracker(AreaTypes.playerHandsAndHotbar).restockFrom(tracker.subTracker(target))
+    AdvancedContainer.tracker {
+      with(AreaTypes) {
+        val forcePlayerSide = forcePlayerSide()
+        val target: ItemArea
+        if (forcePlayerSide || itemStorage.get().isEmpty()) {
+          target = (playerStorage - lockedSlots).get()
+          if (ModSettings.RESTOCK_HOTBAR.booleanValue) {
+            // priority: mainhand -> offhand -> hotbar 1-9
+            (playerHands + playerHotbar).get().asSubTracker.restockFrom(target.asSubTracker)
+          }
+        } else {
+          target = itemStorage.get()
         }
-      } else {
-        target = getItemArea(AreaTypes.itemStorage)
+        target.asSubTracker.sort(sortingRule, postAction, target.isRectangular, target.width, target.height)
       }
-      tracker.subTracker(target).sort(sortingRule, postAction, target.isRectangular, target.width, target.height)
     }
   }
 
 
   fun cleanTempSlotsForClosing() {
-    // in vanilla, seems only beacon will drop the item, handle beacon only
-    //   - clicking cancel button in beacon will bypass
-    //     ClientPlayerEntity.closeContainer (by GuiCloseC2SPacket instead)
-
     // in vanilla, seems only beacon will drop the item, handle beacon only
     //   - clicking cancel button in beacon will bypass
     //     ClientPlayerEntity.closeContainer (by GuiCloseC2SPacket instead)

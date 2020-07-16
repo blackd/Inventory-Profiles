@@ -1,16 +1,15 @@
 package io.github.jsnimda.inventoryprofiles.parser
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.Savable
 import io.github.jsnimda.common.gui.widgets.ButtonWidget
 import io.github.jsnimda.common.gui.widgets.ConfigButtonInfo
-import io.github.jsnimda.common.util.LogicalStringComparator
-import io.github.jsnimda.common.util.listFiles
-import io.github.jsnimda.common.util.name
-import io.github.jsnimda.common.util.readFileToString
+import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.loggingPath
-import io.github.jsnimda.inventoryprofiles.event.TellPlayer
+import io.github.jsnimda.inventoryprofiles.client.TellPlayer
+import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFile
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFileRegister
 import java.util.*
@@ -46,9 +45,11 @@ object OpenConfigFolderButtonInfo : ConfigButtonInfo() {
   }
 }
 
-val configFolder = VanillaUtil.configDirectory("inventoryprofiles")
-fun getFiles(regex: String) =
+private val configFolder = VanillaUtil.configDirectory("inventoryprofiles")
+private fun getFiles(regex: String) =
   configFolder.listFiles(regex).sortedWith { a, b -> strCmpLogical.compare(a.name, b.name) }
+
+private val definedLoaders: List<Loader> = listOf(LockSlotsLoader, RuleLoader)
 
 // ============
 // loader
@@ -70,7 +71,47 @@ object CustomDataFileLoader {
   }
 
   init {
-    loaders.add(RuleLoader)
+    loaders.addAll(definedLoaders)
+  }
+}
+
+// ============
+// lock slots loader
+// ============
+
+object LockSlotsLoader : Loader, Savable {
+  val file = configFolder / "lockSlots.txt"
+
+  private var cachedValue = listOf<Int>()
+
+  override fun save() {
+    try {
+      val slotIndices = LockSlotsHandler.lockedInvSlotsStoredValue.sorted()
+      if (slotIndices == cachedValue) return
+      cachedValue = slotIndices
+      slotIndices.joinToString("\n").writeToFile(file)
+    } catch (e: Exception) {
+      Log.error("Failed to write file ${file.loggingPath}")
+    }
+  }
+
+  override fun load() {
+    try {
+      if (!file.exists()) return
+      val content = file.readToString()
+      val slotIndices = content.lines().mapNotNull { it.trim().toIntOrNull() }
+      LockSlotsHandler.lockedInvSlotsStoredValue.apply {
+        clear()
+        addAll(slotIndices)
+      }
+      cachedValue = slotIndices
+    } catch (e: Exception) {
+      Log.error("Failed to read file ${file.loggingPath}")
+    }
+  }
+
+  override fun reload() {
+    load()
   }
 }
 
@@ -92,7 +133,7 @@ object RuleLoader : Loader {
     for (file in files) {
       try {
         Log.trace("    Trying to read file ${file.name}")
-        val content = file.readFileToString()
+        val content = file.readToString()
         ruleFiles.add(RuleFile(file.name, content))
       } catch (e: Exception) {
         Log.error("Failed to read file ${file.loggingPath}")

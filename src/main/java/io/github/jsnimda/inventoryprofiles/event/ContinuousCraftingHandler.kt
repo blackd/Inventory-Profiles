@@ -12,24 +12,23 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
 import io.github.jsnimda.inventoryprofiles.inventory.AdvancedContainer
 import io.github.jsnimda.inventoryprofiles.inventory.AreaTypes
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.CRAFTING
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.CRAFTING
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.item.*
 
 object ContinuousCraftingHandler {
-  var targetScreen: ContainerScreen<*>? = null
-  fun onTick() {
+  private val checked
+    get() = GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
+  private var trackingScreen: ContainerScreen<*>? = null
+  fun onTickInGame() {
     val screen = Vanilla.screen()
-    if (screen == null || screen !is ContainerScreen<*>
-      || !GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue
-      || !GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
-    ) {
-      targetScreen = null
+    if (screen !is ContainerScreen<*> || !checked) {
+      trackingScreen = null
       return
     }
-    if (screen != targetScreen) {
-      targetScreen = screen
+    if (screen != trackingScreen) {
+      trackingScreen = screen
       init()
     }
     handle()
@@ -47,13 +46,9 @@ object ContinuousCraftingHandler {
   }
 
   var onCraftCount = 0 // this tick crafted item
-//  var odd = 0
   fun handle() {
     if (!isCrafting) return
-//    if (odd++ > 0) { // slow down, odd tick // todo quick craft from recipe book
-//      odd = 0
-//      return
-//    }
+    // todo quick craft from recipe book
     if (onCraftCount > 0) {
       onCraftCount--
       monitor.autoRefill()
@@ -79,7 +74,8 @@ object ContinuousCraftingHandler {
     //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
     val slotMonitors = ingredientSlots.map { ItemSlotMonitor(it) }
 
-    val playerSlotIndices = AreaTypes.playerStorageAndHotbarAndOffhand.getItemArea(container, containerSlots)
+    val playerSlotIndices = with(AreaTypes) { playerStorage + playerHotbar + playerOffhand - lockedSlots }
+      .getItemArea(container, containerSlots)
       .slotIndices // supplies
 
     fun autoRefill() {
@@ -96,7 +92,7 @@ object ContinuousCraftingHandler {
       if (typeToSlotListMap.isEmpty()) {
         return
       }
-      AdvancedContainer.arrange(instant = true) { tracker ->
+      AdvancedContainer.tracker(instant = true) {
         val playerSubTracker = tracker.subTracker(playerSlotIndices)
         val counter = playerSubTracker.slots.collect()
         val map: Map<ItemType, Pair<Int, List<MutableItemStack>>> = typeToSlotListMap.mapValues { (type, list) ->

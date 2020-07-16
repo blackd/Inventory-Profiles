@@ -1,14 +1,13 @@
 package io.github.jsnimda.common.gui.screen
 
+import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.VanillaUtil
-import io.github.jsnimda.common.vanilla.alias.LiteralText
-import io.github.jsnimda.common.vanilla.alias.MinecraftClient
-import io.github.jsnimda.common.vanilla.alias.Screen
-import io.github.jsnimda.common.vanilla.alias.Text
+import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.common.vanilla.render.rClearDepth
+import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
 
 // ============
@@ -66,6 +65,12 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     rootWidget.render(mouseX, mouseY, partialTicks)
   }
 
+//  //  override fun render(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
+//  override fun func_230430_a_(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
+//    rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
+//    render(i, j, f)
+//  }
+
   // ============
   // vanilla overrides
   // ============
@@ -102,4 +107,26 @@ abstract class BaseScreen(text: Text) : Screen(text) {
 
   override fun charTyped(charIn: Char, modifiers: Int): Boolean =
     rootWidget.charTyped(charIn, modifiers)
+
+//  // ~.~
+//  override fun func_231152_a_(minecraftClient: MinecraftClient, width: Int, height: Int) =
+//    resize(minecraftClient, width, height)
+//
+//  override fun func_231044_a_(d: Double, e: Double, i: Int): Boolean =
+//    mouseClicked(d, e, i)
+//
+//  override fun func_231048_c_(d: Double, e: Double, i: Int): Boolean =
+//    mouseReleased(d, e, i)
+//
+//  override fun func_231045_a_(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean =
+//    mouseDragged(d, e, i, f, g)
+//
+//  override fun func_231043_a_(d: Double, e: Double, f: Double): Boolean =
+//    mouseScrolled(d, e, f)
+//
+//  override fun func_231046_a_(keyCode: Int, scanCode: Int, modifiers: Int): Boolean =
+//    keyPressed(keyCode, scanCode, modifiers)
+//
+//  override fun func_231042_a_(charIn: Char, modifiers: Int): Boolean =
+//    charTyped(charIn, modifiers)
 }

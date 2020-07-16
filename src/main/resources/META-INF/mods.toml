@@ -20,7 +20,7 @@ issueTrackerURL="https://github.com/jsnimda/Inventory-Profiles/issues" #optional
     modId="inventoryprofiles" #mandatory
 
     # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-    version="${file.jarVersion}" #mandatory
+    version="${version}" #mandatory
 
     # A display name for the mod
     displayName="Inventory Profiles" #mandatory
@@ -62,6 +62,6 @@ Inventory Profiles description here_
 [[dependencies.inventoryprofiles]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.15,)"
     ordering="NONE"
     side="CLIENT"

@@ -14,6 +14,7 @@
     "inventoryprofiles.common.gui.config.context": "Context",
     "inventoryprofiles.common.gui.config.allow_extra_keys": "Allow Extra Keys",
     "inventoryprofiles.common.gui.config.order_sensitive": "Order Sensitive",
+    "inventoryprofiles.common.gui.config.modifier_key": "Ctrl/Alt/Shift",
     "inventoryprofiles.common.gui.config.keybind_settings_tips": "- Left click to configure\n- Right click to reset to defaults",
 
     "inventoryprofiles.common.enum.key_action.press": "Press",
@@ -22,6 +23,8 @@
     "inventoryprofiles.common.enum.context.ingame": "In-game",
     "inventoryprofiles.common.enum.context.gui": "Gui",
     "inventoryprofiles.common.enum.context.any": "In-game / Gui",
+    "inventoryprofiles.common.enum.modifier_key.differentiate": "Diff left/right",
+    "inventoryprofiles.common.enum.modifier_key.normal": "Normal",
 
 
 
@@ -36,6 +39,8 @@
     "inventoryprofiles.gui.config.ModSettings": "Mod Settings",
 
     "inventoryprofiles.config.category.inventory_sorting": "Sorting Options",
+    "inventoryprofiles.config.category.move_matching_items": "Move Matching Items",
+    "inventoryprofiles.config.category.lock_slots": "Lock Slots",
     "inventoryprofiles.config.category.auto_refill": "Auto Refill",
     "inventoryprofiles.config.category.advanced_options": "Advanced Options",
 
@@ -51,6 +56,34 @@
     "inventoryprofiles.config.name.custom_rule":                        "Custom Rule",
     "inventoryprofiles.config.description.sort_order":                  "The sorting method used for inventory sorting",
     "inventoryprofiles.config.description.custom_rule":                 "The rule for custom sorting method",
+
+    "inventoryprofiles.config.name.include_hotbar_modifier":            "Include Hotbar Modifier",
+    "inventoryprofiles.config.name.move_all_modifier":                  "Move All Modifier",
+    "inventoryprofiles.config.name.always_include_hotbar":              "Always Include Hotbar",
+    "inventoryprofiles.config.name.always_move_all":                    "Always Move All",
+    "inventoryprofiles.config.description.include_hotbar_modifier":     "Hold this key to include hotbar",
+    "inventoryprofiles.config.description.move_all_modifier":           "Hold this key to move all",
+    "inventoryprofiles.config.description.always_include_hotbar":       "Include hotbar without holding the modifier key (then holding the modifier key is to exclude hotbar)",
+    "inventoryprofiles.config.description.always_move_all":             "Move all without holding the modifier key (then holding the modifier key is to move matching items only)",
+
+    "inventoryprofiles.config.name.enable_lock_slots":                  "Enable Lock Slots",
+    "inventoryprofiles.config.name.lock_slots_switch_config_modifier":  "Switch Config Modifier",
+    "inventoryprofiles.config.name.lock_slots_config_key":              "Config Key",
+    "inventoryprofiles.config.name.lock_slots_quick_config_key":        "Quick Config Key",
+    "inventoryprofiles.config.name.lock_slots_quick_disable":           "Quick Disable",
+    "inventoryprofiles.config.name.lock_slots_config_switch_type":      "Config Switch Type",
+    "inventoryprofiles.config.name.show_locked_slots_background":       "Show Locked Slots Background",
+    "inventoryprofiles.config.name.show_locked_slots_foreground":       "Show Locked Slots Foreground",
+    "inventoryprofiles.config.name.locked_slots_foreground_style":      "Locked Slots Foreground Style",
+    "inventoryprofiles.config.description.enable_lock_slots":                  "Locked slots are ignored for: sort, move all, clean cursor, continuous crafting supplies storage, auto refill supplies storage (auto refill monitoring slots are not affected). Notice that groups in columns/rows only works if the shape of remaining non-locked slots is rectangular.",
+    "inventoryprofiles.config.description.lock_slots_switch_config_modifier":  "Config lock slots by \"Config Key\" while holding this key (Default Alt + Left Click to config lock slots)",
+    "inventoryprofiles.config.description.lock_slots_config_key":              "Config lock slots while holding modifier key (Default Alt + Left Click to config lock slots)",
+    "inventoryprofiles.config.description.lock_slots_quick_config_key":        "Config lock slots without holding modifier key",
+    "inventoryprofiles.config.description.lock_slots_quick_disable":           "Quick disable lock slots when this key is being held down",
+    "inventoryprofiles.config.description.lock_slots_config_switch_type":      "Set config switch type to toggle or hold",
+    "inventoryprofiles.config.description.show_locked_slots_background":       "Draw locked slots background\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofiles/textures/gui/overlay.png)",
+    "inventoryprofiles.config.description.show_locked_slots_foreground":       "Draw locked slots foreground\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofiles/textures/gui/overlay.png)",
+    "inventoryprofiles.config.description.locked_slots_foreground_style":      "Select foreground style from preset\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofiles/textures/gui/overlay.png)",
 
     "inventoryprofiles.config.name.enable_auto_refill":                 "Enable Auto Refill",
     "inventoryprofiles.config.name.disable_for_drop_item":              "Disable For Drop Item",
@@ -94,7 +127,9 @@
 
     "inventoryprofiles.gui.config.GuiSettings": "Gui Settings",
     "inventoryprofiles.config.category.inventory": "Inventory",
+    "inventoryprofiles.config.category.other": "Other",
 
+    "inventoryprofiles.config.name.enable_inventory_buttons":           "Enable Inventory Buttons",
     "inventoryprofiles.config.name.show_continuous_crafting_checkbox":  "Show Continuous Crafting Checkbox",
     "inventoryprofiles.config.name.continuous_crafting_checkbox_value": "§bCheckbox Value",
     "inventoryprofiles.config.name.continuous_crafting_saved_value":    "§bSaved Value",
@@ -113,6 +148,7 @@
     "inventoryprofiles.config.name.show_move_all_button":           "Show Move All Button",
     "inventoryprofiles.config.name.show_button_tooltips":           "Show Button Tooltips",
 
+    "inventoryprofiles.config.description.enable_inventory_buttons":           "Set this to enable or disable all additional widgets for container screen",
     "inventoryprofiles.config.description.show_continuous_crafting_checkbox":  "Show continuous crafting checkbox on GUI (crafting table & survival inventory)\nContinuous Crafting: Auto refill the ingredient slots",
     "inventoryprofiles.config.description.continuous_crafting_checkbox_value": "Remember the checkbox value or set it next time of opening screen",
     "inventoryprofiles.config.description.continuous_crafting_saved_value":    "Internal saved value of checkbox",
@@ -131,6 +167,8 @@
     "inventoryprofiles.config.description.show_move_all_button":        "Show move all buttons on GUI",
     "inventoryprofiles.config.description.show_button_tooltips":        "Display tooltips when cursor hover the buttons on GUI",
 
+    "inventoryprofiles.config.name.use_old_insert_method": "Use Old Insert Method",
+    "inventoryprofiles.config.description.use_old_insert_method": "v0.4.2+ use new method to insert widgets to a screen for better mod compatibility. Set this to true to revert to old method.",
 
 
 
@@ -154,6 +192,7 @@
 
     "inventoryprofiles.gui.config.Hotkeys": "Hotkeys",
     "inventoryprofiles.config.category.hotkeys": "Hotkeys",
+    "inventoryprofiles.config.category.misc": "Misc",
 
     "inventoryprofiles.config.name.open_config_menu":               "Open Config Menu",
     "inventoryprofiles.config.name.sort_inventory":                 "Sort Inventory",
@@ -256,10 +295,18 @@
     "inventoryprofiles.enum.continuous_crafting_checkbox_value.checked":     "Checked",
     "inventoryprofiles.enum.continuous_crafting_checkbox_value.unchecked":   "Unchecked",
 
+    "inventoryprofiles.enum.switch_type.toggle":   "Toggle",
+    "inventoryprofiles.enum.switch_type.hold":     "Hold",
+
 
     "inventoryprofiles.tooltip.sort_button": "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button": "Sort Inventory in Columns",
     "inventoryprofiles.tooltip.sort_rows_button": "Sort Inventory in Rows",
-    "inventoryprofiles.tooltip.move_all_button": "Move Matching Items\n§6Hold §oALT§r\n§6 - Include Hotbar\n§6Hold §oSHIFT§r\n§6 - Move All§r",
+    "inventoryprofiles.tooltip.move_all_button.title_move_matching": "Move Matching Items",
+    "inventoryprofiles.tooltip.move_all_button.title_move_all": "Move All Items",
+    "inventoryprofiles.tooltip.move_all_button.include_hotbar": "§6Hold §o%s§r\n§6 - Include Hotbar",
+    "inventoryprofiles.tooltip.move_all_button.exclude_hotbar": "§6Hold §o%s§r\n§6 - Exclude Hotbar",
+    "inventoryprofiles.tooltip.move_all_button.move_all": "§6Hold §o%s§r\n§6 - Move All",
+    "inventoryprofiles.tooltip.move_all_button.move_matching_only": "§6Hold §o%s§r\n§6 - Move Matching Only",
     "inventoryprofiles.tooltip.continuous_crafting_checkbox": "Continuous Crafting"
 }

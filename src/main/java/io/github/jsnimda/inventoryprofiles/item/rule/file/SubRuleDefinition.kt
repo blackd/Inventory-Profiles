@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.file
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.annotation.MayThrow
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
 
 class MissingParameterException(message: String) : RuntimeException(message)
@@ -20,7 +21,7 @@ class SubRuleDefinition(
   private val identifier: String
     get() = "$prefix$name"
 
-  @Throws // may throws (no need to cache this)
+  @MayThrow // may throws (no need to cache this)
   fun toRule(): Rule {
     val rule = when (prefix) {
       "@" -> RuleFileRegister.getCustomRule(name)

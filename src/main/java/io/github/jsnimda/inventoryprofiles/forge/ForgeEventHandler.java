@@ -3,18 +3,18 @@ package io.github.jsnimda.inventoryprofiles.forge;
 import io.github.jsnimda.common.vanilla.Vanilla;
 import io.github.jsnimda.common.vanilla.VanillaUtil;
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
-import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
-import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenHandler;
+import io.github.jsnimda.inventoryprofiles.event.ClientEventHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.ContainerScreenEventHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.ScreenEventHandler;
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions;
+import kotlin.Unit;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
-import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -31,35 +31,109 @@ import java.lang.reflect.Field;
 public class ForgeEventHandler {
 
   @SubscribeEvent
-  public void onDrawForeground(GuiContainerEvent.DrawForeground e) {
+  public void clientClick(ClientTickEvent e) {
+    if (e.phase == Phase.START) {
+      ClientEventHandler.INSTANCE.onTickPre();
+      onTickPre();
+    } else { // e.phase == Phase.END
+      ClientEventHandler.INSTANCE.onTick();
+    }
   }
 
   @SubscribeEvent
-  public void onDrawScreenPost(DrawScreenEvent.Post e) { // MixinAbstractContainerScreen.render
-//    if (!ToolTips.current.isEmpty()) {
-//      GlStateManager.pushMatrix();
-//      ToolTips.renderAll();
-//      GlStateManager.disableLighting();
-//      GlStateManager.popMatrix();
-//    }
-//    if (!Tooltips.INSTANCE.getTooltips().isEmpty()) {
-//      GlStateManager.pushMatrix();
-//      Tooltips.INSTANCE.renderAll();
-//      GlStateManager.disableLighting();
-//      GlStateManager.popMatrix();
-//    }
+  public void joinWorld(WorldEvent.Load event) {
+    if (VanillaUtil.INSTANCE.isOnClientThread()) {
+      ClientEventHandler.INSTANCE.onJoinWorld();
+    }
   }
+
+  @SubscribeEvent
+  public void onCrafted(PlayerEvent.ItemCraftedEvent event) {
+    ClientEventHandler.INSTANCE.onCrafted();
+  }
+
+  // ============
+  // screen render
+  // ============
 
   @SubscribeEvent
   public void onInitGuiPost(InitGuiEvent.Post e) { // MixinAbstractContainerScreen.init
-    if (e.getGui() instanceof ContainerScreen) {
-      // on forge this is called twice on creative screen lol
-      // fix:
-      if (Vanilla.INSTANCE.screen() != e.getGui()) return;
+    ScreenEventHandler.INSTANCE.onScreenInit(e.getGui(), x -> {
+      e.addWidget(x);
+      return Unit.INSTANCE;
+    });
+  }
 
-      e.addWidget(ContainerScreenHandler.INSTANCE.getContainerInjector((ContainerScreen) e.getGui()));
+  @SubscribeEvent
+  public void preScreenRender(GuiScreenEvent.DrawScreenEvent.Pre event) {
+    ScreenEventHandler.INSTANCE.preRender();
+  }
+
+  // fabric GameRenderer.render() = forge updateCameraAndRender()
+  // forge line 554
+  @SubscribeEvent
+  public void postScreenRender(DrawScreenEvent.Post e) {
+    ScreenEventHandler.INSTANCE.postRender();
+  }
+
+  @SubscribeEvent
+  public void onBackgroundRender(GuiContainerEvent.DrawBackground e) {
+    ContainerScreenEventHandler.INSTANCE.onBackgroundRender();
+  }
+
+  @SubscribeEvent
+  public void onForegroundRender(GuiContainerEvent.DrawForeground e) {
+    ContainerScreenEventHandler.INSTANCE.onForegroundRender();
+  }
+
+  // ============
+  // old event
+  // ============
+
+  @SubscribeEvent
+  public void onGuiKeyPressedPre(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
+    if (!VanillaUtil.INSTANCE.inGame()) return;
+    InputMappings.Input mouseKey = InputMappings.getInputByCode(e.getKeyCode(), e.getScanCode());
+    if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
+        && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory
+        .isActiveAndMatches(mouseKey))) {
+      GeneralInventoryActions.INSTANCE.handleCloseContainer();
     }
   }
+
+  PlayerController pc = null;
+
+  //blockHitDelay
+  Field blockHitDelayField = null; // field_78781_i
+
+  //rightClickDelayTimer
+  Field rightClickDelayTimerField = null; // field_71467_ac
+
+  public void onTickPre() { // Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN, Tweaks.DISABLE_ITEM_USE_COOLDOWN
+    if (!VanillaUtil.INSTANCE.inGame()) return;
+    if (Tweaks.INSTANCE.getDISABLE_BLOCK_BREAKING_COOLDOWN().getBooleanValue()) {
+      if (pc == null || pc != Vanilla.INSTANCE.interactionManager()) {
+        pc = Vanilla.INSTANCE.interactionManager();
+        blockHitDelayField = ObfuscationReflectionHelper.findField(PlayerController.class, "field_78781_i");
+      }
+      try {
+        FieldUtils.writeField(blockHitDelayField, pc, 0, true);
+      } catch (IllegalAccessException e2) {
+        e2.printStackTrace();
+      }
+    }
+    if (Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
+      if (rightClickDelayTimerField == null) {
+        rightClickDelayTimerField = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71467_ac");
+      }
+      try {
+        FieldUtils.writeField(rightClickDelayTimerField, Vanilla.INSTANCE.mc(), 0, true);
+      } catch (IllegalAccessException e2) {
+        e2.printStackTrace();
+      }
+    }
+  }
+
 
   /*
   todo tweaks:
@@ -103,95 +177,4 @@ public class ForgeEventHandler {
 //}
    */
 
-  // fabric GameRenderer.render() = forge updateCameraAndRender()
-  // forge line 554
-  @SubscribeEvent
-  public void postScreenRender(DrawScreenEvent.Post e) {
-    GameEventHandler.INSTANCE.postScreenRender();
-  }
-
-  @SubscribeEvent
-  public void clientClick(ClientTickEvent e) {
-    if (e.phase == Phase.START) {
-      onTickPre();
-    } else { // e.phase == Phase.END
-      onTickPost();
-    }
-  }
-
-  public void onTickPost() {
-    GameEventHandler.INSTANCE.onTick();
-  }
-
-  @SubscribeEvent
-  public void joinWorld(WorldEvent.Load event) {
-    if (VanillaUtil.INSTANCE.isOnClientThread()) {
-      GameEventHandler.INSTANCE.onJoinWorld();
-    }
-  }
-
-  @SubscribeEvent
-  public void onCrafted(PlayerEvent.ItemCraftedEvent event) {
-    if (VanillaUtil.INSTANCE.isOnClientThread()) {
-      GameEventHandler.INSTANCE.onCrafted();
-    }
-  }
-
-  @SubscribeEvent
-  public void preRenderTooltip(RenderTooltipEvent.Pre event) {
-    GameEventHandler.INSTANCE.preRenderTooltip();
-  }
-
-  @SubscribeEvent
-  public void preScreenRender(GuiScreenEvent.DrawScreenEvent.Pre event) {
-    GameEventHandler.INSTANCE.preScreenRender();
-  }
-
-
-  // ============
-  // old event
-  // ============
-
-  @SubscribeEvent
-  public void onGuiKeyPressedPre(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
-    if (!VanillaUtil.INSTANCE.inGame()) return;
-    InputMappings.Input mouseKey = InputMappings.getInputByCode(e.getKeyCode(), e.getScanCode());
-    if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
-        && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory.isActiveAndMatches(mouseKey))) {
-      GeneralInventoryActions.INSTANCE.handleCloseContainer();
-    }
-  }
-
-  PlayerController pc = null;
-
-  //blockHitDelay
-  Field blockHitDelayField = null; // field_78781_i
-
-  //rightClickDelayTimer
-  Field rightClickDelayTimerField = null; // field_71467_ac
-
-  public void onTickPre() { // Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN, Tweaks.DISABLE_ITEM_USE_COOLDOWN
-    if (!VanillaUtil.INSTANCE.inGame()) return;
-    if (Tweaks.INSTANCE.getDISABLE_BLOCK_BREAKING_COOLDOWN().getBooleanValue()) {
-      if (pc == null || pc != Vanilla.INSTANCE.interactionManager()) {
-        pc = Vanilla.INSTANCE.interactionManager();
-        blockHitDelayField = ObfuscationReflectionHelper.findField(PlayerController.class, "field_78781_i");
-      }
-      try {
-        FieldUtils.writeField(blockHitDelayField, pc, 0, true);
-      } catch (IllegalAccessException e2) {
-        e2.printStackTrace();
-      }
-    }
-    if (Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
-      if (rightClickDelayTimerField == null) {
-        rightClickDelayTimerField = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71467_ac");
-      }
-      try {
-        FieldUtils.writeField(rightClickDelayTimerField, Vanilla.INSTANCE.mc(), 0, true);
-      } catch (IllegalAccessException e2) {
-        e2.printStackTrace();
-      }
-    }
-  }
 }

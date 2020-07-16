@@ -2,11 +2,9 @@ package io.github.jsnimda.inventoryprofiles.item
 
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.common.vanilla.alias.Item
-import io.github.jsnimda.common.vanilla.alias.Items
+import io.github.jsnimda.common.vanilla.alias.items.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(getRawId)`
-import net.minecraft.enchantment.EnchantmentHelper
-import net.minecraft.item.*
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -68,6 +66,7 @@ val ItemType.rawId: Int
 val ItemType.damage: Int
   get() = vanillaStack.damage
 val ItemType.enchantmentsScore: Double
+//  get() = EnchantmentHelper.get(vanillaStack).toList().fold(0.0) { acc, (enchantment, level) ->
   get() = EnchantmentHelper.getEnchantments(vanillaStack).toList().fold(0.0) { acc, (enchantment, level) ->
     acc + if (enchantment.isCurse) -0.001 else level.toDouble() / enchantment.maxLevel
   } // cursed enchantments +0 scores
@@ -82,7 +81,7 @@ val ItemType.durability: Int
 val ItemType.isBucket: Boolean
   get() = item is BucketItem || item is MilkBucketItem || item is FishBucketItem
 val ItemType.isStew: Boolean
-  get() = item is SoupItem || item is SuspiciousStewItem // SoupItem = MushroomStewItem
+  get() = item is MushroomStewItem || item is SuspiciousStewItem // SoupItem = MushroomStewItem
 //endregion
 
 //region ItemType Potion Relative

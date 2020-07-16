@@ -3,9 +3,9 @@ package io.github.jsnimda.common.vanilla
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.Screen
+import io.github.jsnimda.common.vanilla.alias.Util
 import io.github.jsnimda.common.vanilla.render.rScreenHeight
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
-import net.minecraft.util.Util
 import java.io.File
 import java.nio.file.Path
 
@@ -26,29 +26,38 @@ object VanillaUtil {
   fun shiftDown() = Screen.hasShiftDown()
   fun ctrlDown() = Screen.hasControlDown()
   fun altDown() = Screen.hasAltDown()
+//  fun shiftDown() = Screen.func_231173_s_() // line 391
+//  fun ctrlDown() = Screen.func_231172_r_() // line 383
+//  fun altDown() = Screen.func_231174_t_() // line 395
 
   // Mouse.onCursorPos() / GameRenderer.render()
-  fun mouseX(): Int = (Vanilla.mouse().mouseX * rScreenWidth / Vanilla.window().width).toInt()
-  fun mouseY(): Int = (Vanilla.mouse().mouseY * rScreenHeight / Vanilla.window().height).toInt()
+  fun mouseX(): Int = mouseXDouble().toInt()
+  fun mouseY(): Int = mouseYDouble().toInt()
+  fun mouseXRaw(): Double = Vanilla.mouse().mouseX
+  fun mouseYRaw(): Double = Vanilla.mouse().mouseY
+  fun mouseXDouble(): Double = mouseScaleX(mouseXRaw())
+  fun mouseYDouble(): Double = mouseScaleY(mouseYRaw())
+  fun mouseScaleX(amount: Double): Double = amount * rScreenWidth / Vanilla.window().width
+  fun mouseScaleY(amount: Double): Double = amount * rScreenHeight / Vanilla.window().height
 
   // this.client.getLastFrameDuration()
   fun lastFrameDuration(): Float = Vanilla.mc().tickLength // for render
 
-  var lastMouseX: Int = -1
-    private set
-  var lastMouseY: Int = -1
-    private set
-  var mouseX: Int = -1
-    private set
-  var mouseY: Int = -1
-    private set
-
-  fun updateMouse() {
-    lastMouseX = mouseX
-    lastMouseY = mouseY
-    mouseX = mouseX()
-    mouseY = mouseY()
-  }
+//  var lastMouseX: Int = -1
+//    private set
+//  var lastMouseY: Int = -1
+//    private set
+//  var mouseX: Int = -1
+//    private set
+//  var mouseY: Int = -1
+//    private set
+//
+//  fun updateMouse() {
+//    lastMouseX = mouseX
+//    lastMouseY = mouseY
+//    mouseX = mouseX()
+//    mouseY = mouseY()
+//  }
 
   // ============
   // do actions

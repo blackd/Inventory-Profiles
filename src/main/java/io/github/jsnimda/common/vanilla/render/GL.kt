@@ -1,10 +1,8 @@
 package io.github.jsnimda.common.vanilla.render
 
-import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.systems.RenderSystem
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersect
-import net.minecraft.client.renderer.RenderHelper
+import io.github.jsnimda.common.vanilla.alias.*
 import org.lwjgl.opengl.GL11
 
 // ============
@@ -19,6 +17,10 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
   gEnableDepthTest()
   RenderSystem.depthMask(true)
 }
+
+// ============
+// depth
+// ============
 
 fun rClearDepth() {
   gEnableDepthTest()
@@ -69,6 +71,27 @@ private fun rOverwriteDepth(bounds: Rectangle) {
   gDepthFunc(GL11.GL_LEQUAL)
 }
 
+fun rDisableDepth() { // todo see if same with disableDepthTest (?)
+  gDepthFunc(GL11.GL_ALWAYS)
+  RenderSystem.depthMask(false)
+}
+
+fun rEnableDepth() {
+  RenderSystem.depthMask(true)
+  gDepthFunc(GL11.GL_LEQUAL)
+}
+
+// ============
+// matrix
+// ============
+
+var rMatrixStack = MatrixStack()
+
+fun gPushMatrix() = RenderSystem.pushMatrix()
+fun gPopMatrix() = RenderSystem.popMatrix()
+//fun gLoadIdentity() = RenderSystem.loadIdentity()
+fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
+
 // ============
 // internal
 // ============
@@ -76,18 +99,14 @@ private fun rEnableBlend() {
   // ref: AbstractButtonWidget.renderButton()
   RenderSystem.enableBlend()
   RenderSystem.defaultBlendFunc()
-  RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+  RenderSystem.blendFunc(SrcFactor.SRC_ALPHA, DstFactor.ONE_MINUS_SRC_ALPHA)
   RenderSystem.color4f(1f, 1f, 1f, 1f)
 }
 
 // ============
 // GlStateManager
-private fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
-private fun gPushMatrix() = RenderSystem.pushMatrix()
-private fun gPopMatrix() = RenderSystem.popMatrix()
-
 // RenderHelper.disableStandardItemLighting(); RenderHelper = DiffuseLighting
-private fun gDisableDiffuse() = RenderHelper.disableStandardItemLighting()
+private fun gDisableDiffuse() = DiffuseLighting.disableStandardItemLighting()
 private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
 private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
 private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
