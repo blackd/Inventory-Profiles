@@ -7,8 +7,6 @@ import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(asString)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(getByIdentifier)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(type)`
-import net.minecraft.tag.ItemTags
-import net.minecraft.tag.Tag as TagTag
 
 // ============
 // vanillamapping code depends on mappings
@@ -47,7 +45,7 @@ object NbtUtils {
     return pairs1.compareTo(pairs2)
   }
 
-  private fun compareStringTag(p1: Pair<String, Tag?>, p2: Pair<String, Tag?>): Int {
+  private fun compareStringTag(p1: Pair<String, NbtTag?>, p2: Pair<String, NbtTag?>): Int {
     val (key1, tag1) = p1
     val (key2, tag2) = p2
     val result = key1.compareTo(key2)
@@ -56,7 +54,7 @@ object NbtUtils {
     return tag1.compareTo(tag2)
   }
 
-  private fun Tag.compareTo(other: Tag): Int {
+  private fun NbtTag.compareTo(other: NbtTag): Int {
     val w1 = WrappedTag(this)
     val w2 = WrappedTag(other)
     return when {
@@ -98,7 +96,7 @@ object NbtUtils {
     }
   }
 
-  class WrappedTag(val value: Tag) {
+  class WrappedTag(val value: NbtTag) {
     val isString: Boolean
       get() = value.`(type)` == 8
     val isNumber: Boolean
@@ -117,9 +115,9 @@ object NbtUtils {
       get() = value as? CompoundTag ?: CompoundTag()
     val asList: List<WrappedTag>
       get() = (value as? AbstractListTag<*>)?.map { WrappedTag(it) } ?: listOf()
-    val asListUnwrapped: List<Tag>
+    val asListUnwrapped: List<NbtTag>
       get() = (value as? AbstractListTag<*>)?.toList() ?: listOf()
-    val asListComparable: List<AsComparable<Tag>>
+    val asListComparable: List<AsComparable<NbtTag>>
       get() = asListUnwrapped.map { it.asComparable { a, b -> a.compareTo(b) } }
   }
 
@@ -136,7 +134,7 @@ object NbtUtils {
     return tryOrNull({ Log.warn(it.toString()) }) { NbtPathArgumentType().parse(StringReader(path)) }
   }
 
-  private fun getTagsForPath(nbtPath: NbtPathArgumentTypeNbtPath, target: Tag): List<Tag> {
+  private fun getTagsForPath(nbtPath: NbtPathArgumentTypeNbtPath, target: NbtTag): List<NbtTag> {
     return trySwallow(listOf()) { nbtPath.get(target) }
   }
 }

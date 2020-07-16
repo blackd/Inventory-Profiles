@@ -2,6 +2,7 @@ package io.github.jsnimda.inventoryprofiles.mixin;
 
 import com.mojang.authlib.GameProfile;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,13 +20,13 @@ import net.minecraft.client.world.ClientWorld;
 @Mixin(ClientPlayerEntity.class)
 public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
 
-  @Shadow
-  protected final MinecraftClient client;
+  @Final @Shadow
+  protected MinecraftClient client;
 
   public MixinClientPlayerEntity(ClientWorld clientWorld_1, GameProfile gameProfile_1) {
     super(clientWorld_1, gameProfile_1);
     // Auto-generated constructor stub
-    client = null;
+    // client = null; // ...what?
   }
 
   @Inject(at = @At("HEAD"), method = "closeContainer()V")

@@ -1,7 +1,7 @@
 package io.github.jsnimda.common.vanilla
 
-import net.minecraft.client.sound.PositionedSoundInstance
-import net.minecraft.sound.SoundEvents
+import io.github.jsnimda.common.vanilla.alias.PositionedSoundInstance
+import io.github.jsnimda.common.vanilla.alias.SoundEvents
 
 object VanillaSound {
 

@@ -2,8 +2,8 @@ package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.TextRenderer
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
-import net.minecraft.client.font.TextRenderer
 import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -108,6 +108,10 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer?, i: Int, j: Int,
   VanillaTextFieldWidget(textRenderer, i, j, k, l, string) {
   public override fun setFocused(bl: Boolean) {
     super.setFocused(bl)
+  }
+
+  init {
+    setMaxLength(32767)
   }
 }
 

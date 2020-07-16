@@ -3,9 +3,9 @@ package io.github.jsnimda.common.vanilla
 import io.github.jsnimda.common.util.*
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.Screen
+import io.github.jsnimda.common.vanilla.alias.Util
 import io.github.jsnimda.common.vanilla.render.rScreenHeight
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
-import net.minecraft.util.Util
 import java.io.File
 import java.nio.file.Path
 
@@ -28,27 +28,33 @@ object VanillaUtil {
   fun altDown() = Screen.hasAltDown()
 
   // Mouse.onCursorPos() / GameRenderer.render()
-  fun mouseX(): Int = (Vanilla.mouse().x * rScreenWidth / Vanilla.window().width).toInt()
-  fun mouseY(): Int = (Vanilla.mouse().y * rScreenHeight / Vanilla.window().height).toInt()
+  fun mouseX(): Int = mouseXDouble().toInt()
+  fun mouseY(): Int = mouseYDouble().toInt()
+  fun mouseXRaw(): Double = Vanilla.mouse().x
+  fun mouseYRaw(): Double = Vanilla.mouse().y
+  fun mouseXDouble(): Double = mouseScaleX(mouseXRaw())
+  fun mouseYDouble(): Double = mouseScaleY(mouseYRaw())
+  fun mouseScaleX(amount: Double): Double = amount * rScreenWidth / Vanilla.window().width
+  fun mouseScaleY(amount: Double): Double = amount * rScreenHeight / Vanilla.window().height
 
   // this.client.getLastFrameDuration()
   fun lastFrameDuration(): Float = Vanilla.mc().lastFrameDuration
 
-  var lastMouseX: Int = -1
-    private set
-  var lastMouseY: Int = -1
-    private set
-  var mouseX: Int = -1
-    private set
-  var mouseY: Int = -1
-    private set
-
-  fun updateMouse() {
-    lastMouseX = mouseX
-    lastMouseY = mouseY
-    mouseX = mouseX()
-    mouseY = mouseY()
-  }
+//  var lastMouseX: Int = -1
+//    private set
+//  var lastMouseY: Int = -1
+//    private set
+//  var mouseX: Int = -1
+//    private set
+//  var mouseY: Int = -1
+//    private set
+//
+//  fun updateMouse() {
+//    lastMouseX = mouseX
+//    lastMouseY = mouseY
+//    mouseX = mouseX()
+//    mouseY = mouseY()
+//  }
 
   // ============
   // do actions

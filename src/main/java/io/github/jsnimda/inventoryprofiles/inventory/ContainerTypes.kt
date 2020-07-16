@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.vanilla.alias.*
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.*
 
 private val nonStorage = setOf(TEMP_SLOTS)
 
@@ -63,9 +63,7 @@ object ContainerTypes {
 //    getTypes(container).match(with, without)
 }
 
-interface ContainerType
-
-enum class VanillaContainerType : ContainerType {
+enum class ContainerType {
   PLAYER,
   CREATIVE,
 
@@ -83,4 +81,5 @@ enum class VanillaContainerType : ContainerType {
   WIDTH_9,
   HEIGHT_3,
 
+  CUSTOM
 }

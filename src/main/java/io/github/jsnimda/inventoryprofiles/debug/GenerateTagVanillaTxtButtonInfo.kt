@@ -6,13 +6,9 @@ import io.github.jsnimda.common.util.div
 import io.github.jsnimda.common.util.writeToFile
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
-import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.alias.Item
-import io.github.jsnimda.common.vanilla.alias.Registry
-import io.github.jsnimda.inventoryprofiles.event.TellPlayer
+import io.github.jsnimda.common.vanilla.alias.*
+import io.github.jsnimda.inventoryprofiles.client.TellPlayer
 import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
-import net.minecraft.tag.ItemTags
-import net.minecraft.tag.TagContainer
 
 // ============
 // vanillamapping code depends on mappings

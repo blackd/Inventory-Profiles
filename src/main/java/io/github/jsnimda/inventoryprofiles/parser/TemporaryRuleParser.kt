@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.parser
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.annotation.ThrowsCaught
 import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.inventoryprofiles.item.rule.EmptyRule
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
@@ -16,8 +17,10 @@ object TemporaryRuleParser {
     return cachedMap.getOrElse(content, { innerParse(content) })
   }
 
+  @ThrowsCaught
   private fun innerParse(content: String): Rule {
     val subRules = try {
+      @ThrowsCaught
       RuleParser.parseSubRule(content)
     } catch (e: SyntaxErrorException) {
       Log.warn("Syntax error in '$content'")
@@ -28,6 +31,7 @@ object TemporaryRuleParser {
       return EmptyRule
     }
     return try { // see RuleFileRegister.findUsableRule() for try catch
+      @ThrowsCaught
       val result = CustomRule(subRules.map { it.toRule() })
       cachedMap[content] = result
       result

@@ -7,11 +7,12 @@ import io.github.jsnimda.common.config.IConfigOptionToggleable
 import io.github.jsnimda.common.config.options.*
 import io.github.jsnimda.common.gui.widget.Axis
 import io.github.jsnimda.common.gui.widget.BiFlex
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.VanillaSound
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.Identifier
-import io.github.jsnimda.common.vanilla.render.rBindTexture
-import io.github.jsnimda.common.vanilla.render.rBlit
+import io.github.jsnimda.common.vanilla.render.Sprite
+import io.github.jsnimda.common.vanilla.render.rDrawSprite
 import io.github.jsnimda.common.vanilla.render.rMeasureText
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
@@ -143,12 +144,10 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
 
   val toggleButton = object : ButtonWidget({ -> useSlider = !useSlider }) {
     override fun renderButton(hovered: Boolean) {
-      rBindTexture(WIDGETS_TEXTURE)
-//      disableDepthTest()
       val textureX = if (hovered) 32 else 16
       val textureY = if (useSlider) 16 else 0
-      rBlit(screenX, screenY, textureX, textureY, 16, 16)
-//      enableDepthTest()
+      val sprite = Sprite(WIDGETS_TEXTURE, Rectangle(textureX, textureY, 16, 16))
+      rDrawSprite(sprite, screenX, screenY)
     }
   }
 

@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
-import io.github.jsnimda.inventoryprofiles.event.GameEventHandler;
+import io.github.jsnimda.inventoryprofiles.gui.inject.ScreenEventHandler;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,8 +21,20 @@ public class MixinGameRenderer {
     }
   }
 
-  @Inject(at = @At("RETURN"), method = "render")
-  public void render(float f, long l, boolean bl, CallbackInfo ci) {
-    GameEventHandler.INSTANCE.postScreenRender();
+//  @Inject(at = @At("RETURN"), method = "render")
+//  public void render(float f, long l, boolean bl, CallbackInfo ci) {
+//    ClientEventHandler.INSTANCE.postScreenRender();
+//  }
+
+  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +
+      "render(IIF)V"), method = "render")
+  public void preScreenRender(float f, long l, boolean bl, CallbackInfo ci) {
+    ScreenEventHandler.INSTANCE.preRender();
+  }
+
+  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +
+      "render(IIF)V", shift = At.Shift.AFTER), method = "render")
+  public void postScreenRender(float f, long l, boolean bl, CallbackInfo ci) {
+    ScreenEventHandler.INSTANCE.postRender();
   }
 }

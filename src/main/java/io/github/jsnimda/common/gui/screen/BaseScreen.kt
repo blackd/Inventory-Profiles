@@ -20,7 +20,7 @@ abstract class BaseScreen(text: Text) : Screen(text) {
 
   var parent: Screen? = null
   val titleString: String
-    get() = this.title.asFormattedString()
+    get() = this.title.string // todo .asFormattedString()
   open val screenInfo
     get() = ScreenInfo.default
 
@@ -65,6 +65,11 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     renderWidgetPre(mouseX, mouseY, partialTicks)
     rootWidget.render(mouseX, mouseY, partialTicks)
   }
+
+//  override fun render(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
+//    rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
+//    render(i, j, f)
+//  }
 
   // ============
   // vanilla overrides

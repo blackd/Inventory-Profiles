@@ -8,6 +8,7 @@ import io.github.jsnimda.common.gui.widgets.ButtonWidget
 import io.github.jsnimda.common.gui.widgets.ConfigHotkeyWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.gui.widgets.toWidget
+import io.github.jsnimda.common.input.GlobalInputHandler
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.rDrawText
@@ -112,6 +113,11 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
   fun addNavigationButton(buttonText: String) {
     addNavigationButtonWithWidget(buttonText) { null }
+  }
+
+  override fun closeScreen() {
+    if (GlobalInputHandler.currentAssigningKeybind != null) return
+    super.closeScreen()
   }
 
 }
