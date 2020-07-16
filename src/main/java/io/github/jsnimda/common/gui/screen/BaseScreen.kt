@@ -9,7 +9,6 @@ import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Screen
 import io.github.jsnimda.common.vanilla.alias.Text
 import io.github.jsnimda.common.vanilla.render.rClearDepth
-import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
 
 // ============
