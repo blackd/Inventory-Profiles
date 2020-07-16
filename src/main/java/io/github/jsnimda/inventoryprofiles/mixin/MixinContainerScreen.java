@@ -33,13 +33,13 @@ public abstract class MixinContainerScreen<T extends Container> extends Screen {
 //    Tooltips.INSTANCE.renderAll();
 //  }
 
-  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
+  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/ContainerScreen;" +
       "drawBackground(FII)V", shift = At.Shift.AFTER), method = "render")
   public void onBackgroundRender(int i, int j, float f, CallbackInfo ci) {
     ContainerScreenEventHandler.INSTANCE.onBackgroundRender();
   }
 
-  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
+  @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/ContainerScreen;" +
       "drawForeground(II)V", shift = At.Shift.AFTER), method = "render")
   public void onForegroundRender(int i, int j, float f, CallbackInfo ci) {
     ContainerScreenEventHandler.INSTANCE.onForegroundRender();
