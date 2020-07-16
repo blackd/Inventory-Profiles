@@ -5,7 +5,6 @@ import io.github.jsnimda.common.util.usefulName
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.MinecraftClient
 import io.github.jsnimda.common.vanilla.alias.Text
-import io.github.jsnimda.common.vanilla.render.rMatrixStack
 
 open class BaseOverlay : BaseScreen {
   constructor(text: Text) : super(text)

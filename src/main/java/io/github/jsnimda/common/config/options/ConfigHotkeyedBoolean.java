@@ -8,5 +8,5 @@ public class ConfigHotkeyedBoolean extends ConfigBoolean {
     // TODO impl this
   }
 
-  
+
 }

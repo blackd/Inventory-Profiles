@@ -2,14 +2,14 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.alias.LiteralText
 
 fun rMeasureText(string: String): Int =
   Vanilla.textRenderer().getStringWidth(string) // getStringWidth() = getWidth()
 
 fun rDrawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
   if (shadow) {
-    Vanilla.textRenderer().drawStringWithShadow(string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
+    Vanilla.textRenderer()
+      .drawStringWithShadow(string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
   } else {
     Vanilla.textRenderer().drawString(string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
   }
@@ -33,4 +33,5 @@ fun rDrawCenteredText(string: String, bounds: Rectangle, color: Int, shadow: Boo
 //}
 
 fun rWrapText(string: String, maxWidth: Int): String =
-  Vanilla.textRenderer().wrapFormattedStringToWidth(string, maxWidth) // wrapStringToWidth() = wrapFormattedStringToWidth()
+  Vanilla.textRenderer()
+    .wrapFormattedStringToWidth(string, maxWidth) // wrapStringToWidth() = wrapFormattedStringToWidth()

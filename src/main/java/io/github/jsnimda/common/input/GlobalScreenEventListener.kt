@@ -48,7 +48,7 @@ object GlobalScreenEventListener {
   }
 
   fun onCharTyped(charIn: Char, modifiers: Int, pre: Boolean): Boolean {
-    return any(pre) {it.charTyped(charIn, modifiers)}
+    return any(pre) { it.charTyped(charIn, modifiers) }
   }
 
   private inline fun any(pre: Boolean, predicate: (ScreenEventListener) -> Boolean): Boolean {

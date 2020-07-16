@@ -3,8 +3,6 @@ package io.github.jsnimda.inventoryprofiles.gui.inject
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
-import io.github.jsnimda.common.vanilla.alias.LiteralText
-import io.github.jsnimda.common.vanilla.alias.MatrixStack
 import io.github.jsnimda.common.vanilla.render.rScreenHeight
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
 
