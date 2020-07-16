@@ -1,10 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.event
 
-import io.github.jsnimda.common.util.indexed
 import io.github.jsnimda.common.util.tryCatch
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.Items
+import io.github.jsnimda.common.vanilla.alias.items.*
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.ThresholdUnit.ABSOLUTE
 import io.github.jsnimda.inventoryprofiles.config.ThresholdUnit.PERCENTAGE
@@ -12,14 +12,13 @@ import io.github.jsnimda.inventoryprofiles.ingame.`(itemStack)`
 import io.github.jsnimda.inventoryprofiles.ingame.`(slots)`
 import io.github.jsnimda.inventoryprofiles.ingame.vCursorStack
 import io.github.jsnimda.inventoryprofiles.ingame.vMainhandIndex
+import io.github.jsnimda.inventoryprofiles.inventory.AreaTypes
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerClicker
 import io.github.jsnimda.inventoryprofiles.inventory.GeneralInventoryActions
 import io.github.jsnimda.inventoryprofiles.item.*
-import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.rule.file.RuleFileRegister
 import io.github.jsnimda.inventoryprofiles.item.rule.native.compareByMatch
 import io.github.jsnimda.inventoryprofiles.item.rule.parameter.Match
-import net.minecraft.item.*
 
 object AutoRefillHandler {
   fun pressingDropKey(): Boolean {
@@ -28,7 +27,7 @@ object AutoRefillHandler {
 
   var screenOpening = false
 
-  fun onTick() {
+  fun onTickInGame() {
     if (Vanilla.screen() != null || (ModSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey())) {
       screenOpening = true
     } else if (VanillaUtil.inGame()) { //  Vanilla.screen() == null
@@ -181,8 +180,12 @@ object AutoRefillHandler {
         // vanillamapping code depends on mappings
         // ============
         // found slot id 9..35 (same inv)
-        val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
-        var filtered = items.indexed().asSequence()
+//        val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
+        var filtered = Vanilla.playerContainer().let { playerContainer ->
+          val slots = playerContainer.`(slots)`
+          with(AreaTypes) { playerStorage - lockedSlots }.getItemArea(playerContainer, slots)
+            .slotIndices.map { IndexedValue(it - 9, slots[it].`(itemStack)`) }
+        }.asSequence()
         var index = -1
         val itemType = checkingItem.itemType
         if (itemType.isDamageable) {
@@ -243,7 +246,7 @@ object AutoRefillHandler {
           val aType = a.value.itemType
           val bType = b.value.itemType
           RuleFileRegister.getCustomRuleOrEmpty("auto_refill_best").compare(aType, bType)
-        }.thenComparator{ a, b ->
+        }.thenComparator { a, b ->
           b.value.count - a.value.count
         })
         index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding

@@ -38,6 +38,6 @@ object DebugInfos {
               |onMouse: $buttons
               |Key: $keyText
               |Pressing keys: $pressingKeysText
-              """.trimMargin().split("\n")
+              """.trimMargin().lines()
 
 }

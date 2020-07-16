@@ -25,7 +25,7 @@ object Tooltips {
   const val vMargin = 2 // y minimum 2 away from screen boundary
 
   class Tooltip(val list: List<String>, val mouseX: Int, val mouseY: Int) {
-    constructor(string: String, mouseX: Int, mouseY: Int) : this(string.split("\n"), mouseX, mouseY)
+    constructor(string: String, mouseX: Int, mouseY: Int) : this(string.lines(), mouseX, mouseY)
 
     fun render() {
       renderTooltip()
@@ -34,7 +34,8 @@ object Tooltips {
     private fun renderTooltip() { // ref: Screen.renderTooltip
       if (list.isEmpty()) return
       rStandardGlState()
-      val maxTextWidth = list.map { rMeasureText(it) }.max() ?: return
+      rClearDepth()
+      val maxTextWidth = list.map { rMeasureText(it) }.maxOrNull() ?: return
       val boxW = maxTextWidth + 8
       val boxH = list.size * 10 + 6
       val boxX = run { // minimum 5 away from screen boundary

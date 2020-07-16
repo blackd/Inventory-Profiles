@@ -58,7 +58,7 @@ class IndentedDataFileParser(lines: List<String>, private val fileName: String, 
 
   companion object {
     fun parse(text: String, fileName: String = "<unknown file>", maxDepth: Int = -1): IndentedData =
-      parse(text.split(Regex("\\r?\\n")), fileName, maxDepth)
+      parse(text.lines(), fileName, maxDepth)
 
     private fun parse(lines: List<String>, fileName: String = "<unknown file>", maxDepth: Int = -1): IndentedData =
       IndentedDataFileParser(lines, fileName, maxDepth).parse()

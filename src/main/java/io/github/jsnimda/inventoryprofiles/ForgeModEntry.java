@@ -1,7 +1,7 @@
 package io.github.jsnimda.inventoryprofiles;
 
-import io.github.jsnimda.common.event.GlobalInitHandler;
 import io.github.jsnimda.common.forge.CommonForgeEventHandler;
+import io.github.jsnimda.inventoryprofiles.event.ClientInitHandler;
 import io.github.jsnimda.inventoryprofiles.forge.ForgeEventHandler;
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen;
 import kotlin.Unit;
@@ -32,7 +32,7 @@ public class ForgeModEntry {
 
     InventoryProfilesKt.init();
 
-    GlobalInitHandler.INSTANCE.register(() -> {
+    ClientInitHandler.INSTANCE.register(() -> {
       ModInfo.MOD_VERSION = ModInfo.getModVersion();
       return Unit.INSTANCE;
     });

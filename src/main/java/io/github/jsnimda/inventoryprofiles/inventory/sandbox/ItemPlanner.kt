@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox
 
+import io.github.jsnimda.common.annotation.MayThrow
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
@@ -8,6 +9,8 @@ class ItemPlanner(items: MutableItemTracker) {
   private val innerSandbox = ContainerSandbox(items)
 
   private var trackingItems: ItemTracker? = null
+
+  @MayThrow
   private fun innerSync() {
     trackingItems?.let { trackingItems ->
       DiffCalculator.INSTANCE.apply(innerSandbox, trackingItems)
@@ -23,11 +26,13 @@ class ItemPlanner(items: MutableItemTracker) {
   // ============
   // public
   // ============
+  @MayThrow
   fun sandbox(action: (ContainerSandbox) -> Unit) { // sandbox is in-place
     innerSync()
     action(innerSandbox)
   }
 
+  @MayThrow
   fun tracker(action: (MutableItemTracker) -> Unit) { // tracker is copy of original
     val syncId = innerSandbox.clickCount
     val before = itemTracker
@@ -39,6 +44,7 @@ class ItemPlanner(items: MutableItemTracker) {
     trackingItems = after
   }
 
+  @get:MayThrow
   val clicks: List<SandboxClick>
     get() {
       innerSync()

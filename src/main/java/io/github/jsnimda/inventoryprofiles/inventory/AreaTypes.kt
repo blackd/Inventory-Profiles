@@ -1,13 +1,14 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
+import io.github.jsnimda.common.math2d.Point
+import io.github.jsnimda.common.math2d.Size
+import io.github.jsnimda.common.util.indexed
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.*
-import io.github.jsnimda.inventoryprofiles.ingame.`(invSlot)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(inventory)`
-import io.github.jsnimda.inventoryprofiles.ingame.`(selectedSlot)`
-import io.github.jsnimda.inventoryprofiles.ingame.vFocusedSlot
-import io.github.jsnimda.inventoryprofiles.inventory.VanillaContainerType.*
-import net.minecraft.inventory.container.CraftingResultSlot
+import io.github.jsnimda.inventoryprofiles.event.LockSlotsHandler
+import io.github.jsnimda.inventoryprofiles.ingame.*
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.HORSE_STORAGE
+import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.SORTABLE_STORAGE
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35
@@ -15,64 +16,53 @@ private const val offhandInvSlot = 40
 private val mainhandInvSlot
   get() = Vanilla.playerInventory().`(selectedSlot)`
 
+// ============
+// AreaTypes
+// ============
+
 object AreaTypes {
-  val focusedSlot = AreaType.match { it == vFocusedSlot() }
+  val focusedSlot = AreaType.inSlots { listOfNotNull(vFocusedSlot()) }
 
-  val playerStorage = AreaType.player(storageInvSlots.toList())
-  val playerHotbar = AreaType.player(hotbarInvSlots.toList())
-  val playerHandsAndHotbar =
-    AreaType.player(
-      (listOf(mainhandInvSlot, offhandInvSlot) + hotbarInvSlots).distinct()
-    ) // priority: mainhand -> offhand -> hotbar 1-9
+  val playerStorage = AreaType.playerInvSlots { storageInvSlots }
+  val playerHotbar = AreaType.playerInvSlots { hotbarInvSlots }
+//  val playerHandsAndHotbar =
+//    AreaType.player(
+//      (listOf(mainhandInvSlot, offhandInvSlot) + hotbarInvSlots).distinct()
+//    ) // priority: mainhand -> offhand -> hotbar 1-9
 
-  val playerOffhand = AreaType.player(offhandInvSlot)
+  val playerMainhand = AreaType.playerInvSlots(orderSensitive = true) { listOf(mainhandInvSlot) }
+  val playerOffhand = AreaType.playerInvSlots(offhandInvSlot, orderSensitive = true)
+  val playerHands = playerMainhand + playerOffhand
 
   val itemStorage: AreaType = // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
     AreaType { vanillaContainer, vanillaSlots -> // only non empty for SORTABLE_STORAGE
+      val slotIndices = mutableListOf<Int>()
       val types = ContainerTypes.getTypes(vanillaContainer)
       if (types.contains(SORTABLE_STORAGE)) {
         val isHorse = types.contains(HORSE_STORAGE)
-        vanillaSlots.forEachIndexed { slotIndex, slot ->
-          if (slot.`(inventory)` is PlayerInventory) return@forEachIndexed
+        for ((slotIndex, slot) in vanillaSlots.withIndex()) {
+          if (slot.`(inventory)` is PlayerInventory) continue
           // first two slot of horse is not item storage
           if (!(isHorse && slot.`(invSlot)` in 0..1)) {
             slotIndices.add(slotIndex)
           }
         }
       }
-      // check rectangular
-      if (slotIndices.isNotEmpty() && types.contains(RECTANGULAR)) {
-        val total = slotIndices.size
-        with(types) {
-          when {
-            contains(WIDTH_9) -> {
-              if (total % 9 == 0) {
-                isRectangular = true
-                width = 9
-                height = total / 9
-              }
-            }
-            contains(HEIGHT_3) -> {
-              if (total % 3 == 0) {
-                isRectangular = true
-                width = total / 3
-                height = 3
-              }
-            }
-          }
-        }
-      }
+      return@AreaType ItemArea(vanillaSlots, slotIndices)
     }
 
-  val nonPlayer = AreaType.match { it.`(inventory)` !is PlayerInventory }
-  val nonPlayerNonOutput = AreaType.match {
-    it.`(inventory)` !is PlayerInventory
-        && it.`(inventory)` !is CraftingResultInventory
-        && it !is CraftingResultSlot
-        && it !is TradeOutputSlot
-  }
-  val playerHotbarAndOffhand = AreaType.player(hotbarInvSlots + offhandInvSlot)
-  val playerStorageAndHotbarAndOffhand = AreaType.player(storageInvSlots + hotbarInvSlots + offhandInvSlot)
+  val lockedSlots = AreaType.playerInvSlots { LockSlotsHandler.lockedInvSlots }
+
+  //  val nonPlayer = AreaType.match { it.`(inventory)` !is PlayerInventory }
+//  val nonPlayerNonOutput = AreaType.match {
+//    it.`(inventory)` !is PlayerInventory
+//        && it.`(inventory)` !is CraftingResultInventory
+//        && it !is CraftingResultSlot
+//        && it !is TradeOutputSlot
+//  }
+
+  //  val playerHotbarAndOffhand = AreaType.player(hotbarInvSlots + offhandInvSlot)
+//  val playerStorageAndHotbarAndOffhand = AreaType.player(storageInvSlots + hotbarInvSlots + offhandInvSlot)
 
   val craftingIngredient = AreaType.match {
     it.`(inventory)` is CraftingInventory
@@ -82,53 +72,152 @@ object AreaTypes {
   }
 }
 
-class AreaType() {
+// ============
+// AreaType
+// ============
+
+fun interface AreaType {
   companion object {
-
-
-    //    fun matchSlots(vararg slots: Slot?) = match { it in slots }
-    fun match(predicate: (Slot) -> Boolean) = AreaType { _, vanillaSlots ->
-      vanillaSlots.forEachIndexed { slotIndex, slot ->
-        if (predicate(slot)) slotIndices.add(slotIndex)
-      }
+    fun inSlots(orderSensitive: Boolean = false, elements: () -> Collection<Slot>) = AreaType { _, vanillaSlots ->
+      val set = elements().toSet()
+      val slotIndices = vanillaSlots.mapIndexedNotNull { index, slot -> if (slot in set) index else null }
+      return@AreaType ItemArea(vanillaSlots, slotIndices, orderSensitive)
     }
 
-    fun player(vararg invSlots: Int) = player(invSlots.toList())
-    fun player(invSlots: List<Int>) = AreaType { _, vanillaSlots ->
-      val map = mutableMapOf<Int, Int>() // invSlot, slotIndex
+    fun match(orderSensitive: Boolean = false, predicate: (Slot) -> Boolean) = AreaType { _, vanillaSlots ->
+      val slotIndices = vanillaSlots.mapIndexedNotNull { index, slot -> if (predicate(slot)) index else null }
+      return@AreaType ItemArea(vanillaSlots, slotIndices, orderSensitive)
+    }
+
+    fun playerInvSlots(vararg invSlots: Int, orderSensitive: Boolean = false) =
+      playerInvSlots(orderSensitive) { invSlots.asIterable() }
+
+    fun playerInvSlots(orderSensitive: Boolean = false, invSlots: () -> Iterable<Int>) = AreaType { _, vanillaSlots ->
+      val slotIndexOfInvSlot = mutableMapOf<Int, Int>() // invSlot, slotIndex
       vanillaSlots.forEachIndexed { slotIndex, slot ->
-        if (slot.`(inventory)` is PlayerInventory) map[slot.`(invSlot)`] = slotIndex
+        if (slot.`(inventory)` is PlayerInventory) slotIndexOfInvSlot[slot.`(invSlot)`] = slotIndex
       }
-      invSlots.mapNotNull { map[it] }.let { slotIndices.addAll(it) }
+      return@AreaType ItemArea(vanillaSlots, invSlots().mapNotNull { slotIndexOfInvSlot[it] })
     }
   }
 
-  private var add: ItemArea.(Container, List<Slot>) -> Unit = { _, _ -> }
+  fun getItemArea(vanillaContainer: Container, vanillaSlots: List<Slot>): ItemArea
 
-  constructor(add: ItemArea.(Container, List<Slot>) -> Unit) : this() {
-    this.add = add
+  operator fun plus(other: AreaType) = AreaType { vanillaContainer, vanillaSlots ->
+    this.getItemArea(vanillaContainer, vanillaSlots) + other.getItemArea(vanillaContainer, vanillaSlots)
   }
 
-  fun getItemArea(vanillaContainer: Container, vanillaSlots: List<Slot>): ItemArea =
-    ItemArea(this).apply {
-      add(vanillaContainer, vanillaSlots)
-      if (!isRectangular) {
-        val total = slotIndices.size
-        if (total % 9 == 0) {
-          isRectangular = true
-          width = 9
-          height = total / 9
-        }
-      }
-    }
+  operator fun minus(other: AreaType) = AreaType { vanillaContainer, vanillaSlots ->
+    this.getItemArea(vanillaContainer, vanillaSlots) - other.getItemArea(vanillaContainer, vanillaSlots)
+  }
 }
 
-class ItemArea(val type: AreaType) {
+// ============
+// ItemArea
+// ============
+
+private fun List<Slot>.toPointList(): List<Point> {
+  return map { it.`(topLeft)` }
+}
+
+class ItemArea(private val fromSlotLocations: List<Point>) { // vanilla things
+  constructor(
+    fromSlotLocations: List<Point>,
+    slotIndices: List<Int>,
+    orderSensitive: Boolean = false
+  ) : this(fromSlotLocations) {
+    this.orderSensitive = orderSensitive
+    this.slotIndices = slotIndices
+    checkRectangular()
+  }
+
+  var orderSensitive = false // orderSensitive mean no rectangular
   var isRectangular = false
+    private set
   var width = 0
+    private set
   var height = 0
-  val slotIndices = mutableListOf<Int>()
+    private set
+  var slotIndices = listOf<Int>()
+    private set
+
   fun isEmpty() = slotIndices.isEmpty()
+
+  operator fun plus(other: ItemArea): ItemArea {
+    return plus(this, other)
+  }
+
+  operator fun minus(other: ItemArea): ItemArea {
+    return minus(this, other)
+  }
+
+  private fun checkRectangular() {
+    isRectangular = false
+    width = 0
+    height = 0
+    if (orderSensitive) return
+    val newSlotIndices = slotIndices.toMutableList()
+    val result = isRectangular(slotIndices.map { fromSlotLocations[it] })
+    result?.also { (size, list) ->
+      isRectangular = true
+      width = size.width
+      height = size.height
+      // reorder
+      list.forEachIndexed { newIndex, (oldIndex, _) ->
+        newSlotIndices[newIndex] = slotIndices[oldIndex]
+      }
+      slotIndices = newSlotIndices
+    } ?: run {
+      val total = slotIndices.size
+      if (total % 9 == 0) {
+        isRectangular = true
+        width = 9
+        height = total / 9
+      }
+    }
+  }
+
+  companion object {
+    private fun plus(left: ItemArea, right: ItemArea) = ItemArea(
+      left.fromSlotLocations,
+      (left.slotIndices + right.slotIndices).distinct(),
+      left.orderSensitive || right.orderSensitive
+    )
+
+    private fun minus(left: ItemArea, right: ItemArea) = ItemArea(
+      left.fromSlotLocations,
+      (left.slotIndices - right.slotIndices).distinct(),
+      left.orderSensitive || right.orderSensitive
+    )
+
+    operator fun invoke(
+      fromSlots: List<Slot>,
+      slotIndices: List<Int>,
+      orderSensitive: Boolean = false
+    ): ItemArea = ItemArea(fromSlots.toPointList(), slotIndices, orderSensitive)
+  }
+}
+
+private fun isRectangular(points: List<Point>): Pair<Size, List<IndexedValue<Point>>>? { // list of point row
+  if (points.isEmpty()) return null
+  val groupByY: Map<Int, List<IndexedValue<Point>>> =
+    points.indexed().groupBy { it.value.y }
+  val total = points.size
+  val height = groupByY.keys.size
+  if (total % height != 0) return null // not a factor
+  val width = total / height
+  if (width == 1 || height == 1) return null // in case lazy container put all slots in the same spot
+  if (groupByY.values.any { it.size != width }) return null // not equal widths
+
+  val sortedList: List<List<IndexedValue<Point>>> =
+    groupByY.toList().sortedBy { (y, _) -> y }.map { (_, list) -> list.sortedBy { it.value.x } }
+
+  val first = sortedList.first()
+  for (i in first.indices) {
+    if (sortedList.any { it[i].value.x != first[i].value.x }) return null
+  }
+
+  return Size(width, height) to sortedList.flatten()
 }
 
 /*

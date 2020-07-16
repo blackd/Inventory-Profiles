@@ -2,9 +2,10 @@ package io.github.jsnimda.common.vanilla.render
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
+import io.github.jsnimda.common.vanilla.alias.LiteralText
 
-fun rMeasureText(string: String) =
-  Vanilla.textRenderer().getStringWidth(string)
+fun rMeasureText(string: String): Int =
+  Vanilla.textRenderer().getStringWidth(string) // getStringWidth() = getWidth()
 
 fun rDrawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
   if (shadow) {
@@ -23,13 +24,13 @@ fun rDrawCenteredText(string: String, bounds: Rectangle, color: Int, shadow: Boo
   rDrawText(string, x + (width - rMeasureText(string)) / 2, y + (height - 8) / 2, color, shadow)
 }
 
-fun rDrawText(
-  string: String, bounds: Rectangle,
-  horizontalAlign: Int, verticalAlign: Int,
-  color: Int, shadow: Boolean = true
-) {
-
-}
+//fun rDrawText(
+//  string: String, bounds: Rectangle,
+//  horizontalAlign: Int, verticalAlign: Int,
+//  color: Int, shadow: Boolean = true
+//) {
+//
+//}
 
 fun rWrapText(string: String, maxWidth: Int): String =
-  Vanilla.textRenderer().trimStringToWidth(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
+  Vanilla.textRenderer().wrapFormattedStringToWidth(string, maxWidth) // wrapStringToWidth() = wrapFormattedStringToWidth()

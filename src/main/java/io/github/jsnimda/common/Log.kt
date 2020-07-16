@@ -18,8 +18,8 @@ object Log {
 
   fun debug(message: String) = debug { message }
   fun debug(message: () -> String) {
-    val messageString = message()
     if (shouldDebug()) {
+      val messageString = message()
       innerLogger.info("[$id/DEBUG] $messageString").also { onLog(DEBUG, messageString) }
     }
   }
@@ -40,8 +40,8 @@ object Log {
 
   fun trace(message: String) = trace { message }
   fun trace(message: () -> String) {
-    val messageString = " ".repeat(indent * 4) + message()
     if (shouldTrace()) {
+      val messageString = " ".repeat(indent * 4) + message()
       innerLogger.info("[$id/TRACE] $messageString").also { onLog(TRACE, messageString) }
     }
   }

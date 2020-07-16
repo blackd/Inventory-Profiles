@@ -62,7 +62,9 @@ open class BaseDebugScreen : BaseOverlay() {
   fun updateHudText() {
     val page = page ?: return
     hudTextContainer.clearChildren()
-    val texts = page.content.map { HudText(it) }
+//    val texts = page.content.map { HudText(it) }
+    val content = rWrapText(page.content.joinToString("\n"), rScreenWidth)
+    val texts = content.lines().map { HudText(it) }
     texts.forEach { hudTextContainer.addChild(it) }
     val hudTexts = hudTextContainer.children.selfIf { isTop orElse { asReversed() } }
     var dy = 1
@@ -118,12 +120,12 @@ open class BaseDebugScreen : BaseOverlay() {
   init {
     val page1 = object : Page("Input") {
       override val content: List<String>
-        get() = DebugInfos.asTexts +
+        get() = DebugInfos.asTexts /*+
             """
               |
               |mouseX ${VanillaUtil.mouseX} mouseY ${VanillaUtil.mouseY}
               |lastMouseX ${VanillaUtil.lastMouseX} lastMouseY ${VanillaUtil.lastMouseY}
-            """.trimMargin().split("\n")
+            """.trimMargin().lines()*/
 
       override fun preRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
         DebugInfos.mouseX = mouseX

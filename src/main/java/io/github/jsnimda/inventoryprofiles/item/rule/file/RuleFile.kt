@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item.rule.file
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.annotation.ThrowsCaught
 import io.github.jsnimda.common.util.IndentedDataFileParser
 import io.github.jsnimda.inventoryprofiles.parser.RuleParser
 import io.github.jsnimda.inventoryprofiles.parser.SyntaxErrorException
@@ -14,12 +15,14 @@ class RuleFile(val fileName: String, val content: String) {
   // for same name definition, later overrides former
   val rulesMap = mutableMapOf<String, MutableList<RuleDefinition>>()
 
+  @ThrowsCaught
   fun parseContent() {
     Log.trace("[-] Parsing file $fileName")
     val data = IndentedDataFileParser.parse(content, fileName)
     for (subData in data.subData) {
       Log.trace("    - parsing rule: ${subData.text}")
       try {
+        @ThrowsCaught
         val definition = RuleParser.parseRuleDefinition(subData)
         // then add to rules
         rulesMap.getOrPut(definition.ruleName, { mutableListOf() }).add(definition)

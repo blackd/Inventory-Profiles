@@ -2,11 +2,11 @@
 
 package io.github.jsnimda.inventoryprofiles.ingame
 
+import io.github.jsnimda.common.math2d.Point
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.item.*
-import net.minecraft.item.ItemGroup
-import net.minecraft.util.registry.DefaultedRegistry
+import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -39,6 +39,8 @@ val Slot.`(left)`: Int
   get() = xPos
 val Slot.`(top)`: Int
   get() = yPos
+val Slot.`(topLeft)`: Point
+  get() = Point(`(left)`, `(top)`)
 
 fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
   return isItemValid(itemStack.vanillaStack)
@@ -51,6 +53,8 @@ val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
   get() = slotUnderMouse // forge
 val ContainerScreen<*>.`(containerBounds)`: Rectangle
   get() = Rectangle(guiLeft, guiTop, xSize, ySize)
+val ContainerScreen<*>.`(container)`: Container
+  get() = container
 
 val PlayerInventory.`(selectedSlot)`: Int
   get() = currentItem // selectedSlot = currentItem
@@ -64,9 +68,11 @@ val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == Item
 fun <T> DefaultedRegistry<T>.`(getIdentifier)`(value: T): Identifier {
   return getKey(value)
 }
+
 fun <T> DefaultedRegistry<T>.`(getRawId)`(value: T): Int {
   return getId(value)
 }
+
 fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
   return getOrDefault(id)
 }
@@ -74,9 +80,11 @@ fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
 fun <T> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
   return getKey(value)
 }
+
 fun <T> Registry<T>.`(getRawId)`(value: T): Int {
   return getId(value)
 }
+
 fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
   return getOrDefault(id)
 }
@@ -84,8 +92,8 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 // ============
 // nbt Tag
 // ============
-val Tag.`(type)`: Int
+val NbtTag.`(type)`: Int
   get() = id.toInt()
-val Tag.`(asString)`: String
+val NbtTag.`(asString)`: String
   get() = string
 

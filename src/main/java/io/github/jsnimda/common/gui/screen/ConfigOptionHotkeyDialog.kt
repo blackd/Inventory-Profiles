@@ -10,6 +10,7 @@ import io.github.jsnimda.common.input.ConfigKeybindSettings
 import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.alias.I18n
 import io.github.jsnimda.common.vanilla.alias.TranslatableText
+import io.github.jsnimda.common.vanilla.render.rDrawCenteredText
 import io.github.jsnimda.common.vanilla.render.rMeasureText
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
 import kotlin.math.max
@@ -27,12 +28,12 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
   private val IConfigOption.description
     get() = I18n.translate("inventoryprofiles.common.gui.config.description.$key")
 
-  private val maxTextWidth = configs.map { rMeasureText(it.displayName) }.max() ?: 0
+  private val maxTextWidth = configs.map { rMeasureText(it.displayName) }.maxOrNull() ?: 0
 
   var showTooltips = false
 
   init {
-    val dialogHeight = 5 * 20 + 2 + 10
+    val dialogHeight = (configs.size + 1) * 20 + 2 + 10
     val dialogWidth = max(maxTextWidth + 150 + 2, rMeasureText("§l$titleString")) + 20
     dialogWidget.size = Size(dialogWidth, dialogHeight)
     configs.forEachIndexed { index, configOption ->
@@ -64,8 +65,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
     super.render(mouseX, mouseY, partialTicks)
 //    Diffuse disable()
     configHotkey.mainKeybind.settings = keybindSettingElement.settings
-    drawCenteredString(
-      font,
+    rDrawCenteredText(
       "§l$titleString",
       dialogWidget.screenX + dialogWidget.width / 2,
       dialogWidget.screenY + 2 + 6,
