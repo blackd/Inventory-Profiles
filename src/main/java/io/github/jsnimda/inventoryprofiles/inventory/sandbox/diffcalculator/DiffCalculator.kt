@@ -167,6 +167,7 @@ class GenericDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: Item
   }
 
   override fun run() {
+    if (nowTracker == goalTracker) return
     val goalTracker = intermediateGoalTracker
     when (ModSettings.DIFF_CALCULATOR.value) {
       SIMPLE -> SimpleDiffCalculatorInstance(sandbox, goalTracker)
