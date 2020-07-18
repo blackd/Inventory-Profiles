@@ -3,7 +3,7 @@ package io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.annotation.MayThrow
 import io.github.jsnimda.inventoryprofiles.config.DiffCalculatorType.SIMPLE
-import io.github.jsnimda.inventoryprofiles.config.DiffCalculatorType.SMARTER
+import io.github.jsnimda.inventoryprofiles.config.DiffCalculatorType.SCORE_BASED_SINGLE
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
@@ -146,7 +146,7 @@ class GenericDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: Item
     }
   }
 
-  val slotForEnoughRoom: Int by lazy(LazyThreadSafetyMode.NONE) {
+  val slotForEnoughRoom: Int by lazy(LazyThreadSafetyMode.NONE) { // todo support free space slot && no touch equals
     // find: now match type goal empty
     filtered { now.itemType == cursorGoal.itemType && goal.isEmpty() }
       .minByOrNull { estimateClickCountValueSingleSlot(it.now.count, cursorGoal.count) }
@@ -171,7 +171,7 @@ class GenericDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: Item
     val goalTracker = intermediateGoalTracker
     when (ModSettings.DIFF_CALCULATOR.value) {
       SIMPLE -> SimpleDiffCalculatorInstance(sandbox, goalTracker)
-      SMARTER -> SmarterDiffCalculatorInstance(sandbox, goalTracker)
+      SCORE_BASED_SINGLE -> ScoreBasedSingleDiffCalculatorInstance(sandbox, goalTracker)
     }.run()
     if (sandbox.items != goalTracker)
       error("ContainerSandbox actual result by ${ModSettings.DIFF_CALCULATOR.value} Diff Calculator not same as goal")

@@ -58,7 +58,7 @@ object ModSettings : ConfigDeclaration {
   val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
   val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10, 1, 500)
   val HIGHLIGHT_CLICKING_SLOT                   /**/ by bool(true)
-  val DIFF_CALCULATOR                           /**/ by enum(DiffCalculatorType.SMARTER)
+  val DIFF_CALCULATOR                           /**/ by enum(DiffCalculatorType.SCORE_BASED_SINGLE)
   val RESTOCK_HOTBAR                            /**/ by bool(false)
   val SORT_AT_CURSOR                            /**/ by bool(false)
   val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)

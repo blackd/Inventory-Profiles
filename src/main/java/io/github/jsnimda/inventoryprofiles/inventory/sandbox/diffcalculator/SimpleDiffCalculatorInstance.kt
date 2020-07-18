@@ -13,12 +13,17 @@ open class SimpleDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: 
       error("non empty goal cursor is not supported")
   }
 
+  var untilEqualsTypeOnly = false
+  val shouldStop: Boolean
+    get() = untilEqualsTypeOnly && filtered { !equalsType && !now.isEmpty() }.isEmpty()
+
   private val toBeThrown = (goalTracker.thrownItems - nowTracker.thrownItems).copyAsMutable()
 
   val nonEquals: MutableSet<CompareSlotDsl> = filtered { !equals }.toMutableSet()
 
   override fun run() {
     while (nonEquals.isNotEmpty() || nowTracker != goalTracker) {
+      if (shouldStop) return
       increaseLoopCount()
       if (cursorNow.isEmpty())
         grabAnything()
@@ -94,6 +99,8 @@ open class SimpleDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: 
       .minByOrNull { it.now.count }
       ?.run { return leftClick() }
     // all equalsType
+    if (untilEqualsTypeOnly)
+      error("until equals type only")
     nonEquals.filtered(skipEmptyNow = true) { nowMoreThanGoal }
       .minByOrNull { clickCountSingleSlotToLess(it.now.count, it.goal.count) }
       ?.run { return if (canRight(now.count, goal.count)) rightClick() else leftClick() }
@@ -142,6 +149,12 @@ open class SimpleDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: 
     candidate.filtered { !equalsType && !now.isEmpty() } // withCursorNowCount > goal.count
       .minByOrNull { it.goal.count - it.withCursorNowCount }
       ?.run { return leftClick() }
+    if (untilEqualsTypeOnly) {
+      candidate.filtered { nowGoalRemaining > 0 }
+        .maxByOrNull { it.nowGoalRemaining }
+        ?.run { return leftClick() }
+      error("should not reach here")
+    }
     candidate.filtered { nowGoalRemaining > 0 }
       .minByOrNull { it.nowGoalRemaining }
       ?.run {

@@ -25,6 +25,10 @@ class MutableItemTracker(
     thrownItems.copyAsMutable()
   )
 
+  override fun toString(): String {
+    return "cursor: $cursor, slots: $slots, thrownItems: $thrownItems"
+  }
+
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is ItemTracker) return false
