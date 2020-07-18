@@ -85,3 +85,11 @@ enum class SwitchType {
   override fun toString(): String =
     I18n.translate("$ENUM.switch_type.${name.toLowerCase()}")
 }
+
+enum class DiffCalculatorType {
+  SIMPLE,
+  SMARTER;
+
+//  override fun toString(): String =
+//    I18n.translate("$ENUM.diff_calculator_type.${name.toLowerCase()}")
+}

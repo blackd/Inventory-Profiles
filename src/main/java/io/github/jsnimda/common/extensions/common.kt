@@ -25,18 +25,18 @@ inline fun <R> tryOrPrint(failureValue: R, printFailure: (String) -> Unit, tryTo
   }
 }
 
-inline fun <R> tryCatchAlsoPrint(printFailure: (String) -> Unit, tryToRun: () -> R): R? =
-  tryCatchAlsoPrint(null, printFailure, tryToRun)
-
-inline fun <R> tryCatchAlsoPrint(failureValue: R, printFailure: (String) -> Unit, tryToRun: () -> R): R {
-  return try {
-    tryToRun()
-  } catch (e: Throwable) {
-    e.printStackTrace()
-    printFailure(e.toString())
-    failureValue
-  }
-}
+//inline fun <R> tryCatchAlsoPrint(printFailure: (String) -> Unit, tryToRun: () -> R): R? =
+//  tryCatchAlsoPrint(null, printFailure, tryToRun)
+//
+//inline fun <R> tryCatchAlsoPrint(failureValue: R, printFailure: (String) -> Unit, tryToRun: () -> R): R {
+//  return try {
+//    tryToRun()
+//  } catch (e: Throwable) {
+//    e.printStackTrace()
+//    printFailure(e.toString())
+//    failureValue
+//  }
+//}
 
 inline fun <R> tryCatch(tryToRun: () -> R): R? = tryCatch({ null }, tryToRun)
 inline fun <R> tryCatch(failureValue: R, tryToRun: () -> R): R = tryCatch({ failureValue }, tryToRun)

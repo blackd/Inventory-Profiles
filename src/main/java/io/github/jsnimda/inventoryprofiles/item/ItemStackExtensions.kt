@@ -1,20 +1,34 @@
 package io.github.jsnimda.inventoryprofiles.item
 
+import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.extensions.ifTrue
+
 // ============
 // ItemStack
 // ============
 
+// Empty ItemStack may safely assumed its count == 0 and itemType is air
+// otherwise log warn
+
 val ItemStack.Companion.EMPTY
   get() = ItemStack(ItemType.EMPTY, 0)
 
-fun ItemStack.isEmpty() =
-  itemType.isEmpty() || count <= 0
+fun ItemStack.isEmpty(): Boolean {
+  return (itemType.isEmpty() || count <= 0).ifTrue {
+    if (itemType != ItemType.EMPTY || count != 0) Log.warn("Informal item stack $this")
+  }
+}
 
-fun ItemStack.isFull() =
-  count >= itemType.maxCount
+fun ItemStack.isFull(): Boolean {
+  return (count >= itemType.maxCount).ifTrue {
+    if (count != itemType.maxCount) Log.warn("Informal item stack $this")
+  }
+}
 
 val ItemStack.room
-  get() = itemType.maxCount - count // fixme need check empty?
+  get() = (itemType.maxCount - count).also {
+    if (it < 0) Log.warn("Informal item stack $this")
+  }
 
 fun ItemStack.stackableWith(b: ItemStack) =
   itemType == b.itemType || isEmpty() || b.isEmpty()
@@ -31,6 +45,10 @@ fun MutableItemStack.Companion.empty() =
 fun MutableItemStack.setEmpty() {
   itemType = ItemType.EMPTY
   count = 0
+}
+
+private fun MutableItemStack.normalize() { // for empty
+  if (itemType.isEmpty() || count <= 0) setEmpty()
 }
 
 fun MutableItemStack.swapWith(another: MutableItemStack) {
@@ -50,8 +68,8 @@ fun MutableItemStack.transferNTo(another: MutableItemStack, n: Int) {
   val transferableCount = n.coerceAtMost(minOf(count, another.room)).coerceAtLeast(0)
   count -= transferableCount
   another.count += transferableCount
-  if (isEmpty()) setEmpty()
-  if (another.isEmpty()) another.setEmpty()
+  normalize()
+  another.normalize()
 }
 
 fun MutableItemStack.splitHalfTo(cursor: MutableItemStack) { // for odd count, cursor more target less

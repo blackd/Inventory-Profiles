@@ -1,13 +1,14 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
 import io.github.jsnimda.common.annotation.ThrowsCaught
-import io.github.jsnimda.common.extensions.tryCatchAlsoPrint
+import io.github.jsnimda.common.extensions.tryOrElse
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.VanillaUtil
 import io.github.jsnimda.common.vanilla.alias.Container
 import io.github.jsnimda.common.vanilla.alias.CreativeContainer
 import io.github.jsnimda.common.vanilla.alias.Slot
 import io.github.jsnimda.inventoryprofiles.client.TellPlayer
+import io.github.jsnimda.inventoryprofiles.config.Debugs
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
@@ -16,6 +17,7 @@ import io.github.jsnimda.inventoryprofiles.inventory.data.MutableSubTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.SubTracker
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ItemPlanner
+import io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator.NoRoomException
 import io.github.jsnimda.inventoryprofiles.item.ItemStack
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 import io.github.jsnimda.inventoryprofiles.item.isFull
@@ -34,8 +36,18 @@ class AdvancedContainer(
   private val slotIdClicks: List<Pair<Int, Int>>
     get() = vanillaSlots.let { slots ->
       @ThrowsCaught
-      tryCatchAlsoPrint(TellPlayer::chat) { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
+      tryOrElse(::handleException) { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
     }
+
+  private fun handleException(e: Throwable): Nothing? {
+    if (e is NoRoomException) {
+      TellPlayer.chat(e.message ?: e.toString())
+    } else {
+      e.printStackTrace()
+      TellPlayer.chat(e.toString())
+    }
+    return null
+  }
 
   // ============
   // dsl
@@ -43,7 +55,7 @@ class AdvancedContainer(
 
   @ThrowsCaught
   fun sandbox(block: SandboxDsl.() -> Unit) {
-    tryCatchAlsoPrint(TellPlayer::chat) {
+    tryOrElse(::handleException) {
       planner.sandbox {
         SandboxDsl(it).block()
       }
@@ -52,7 +64,7 @@ class AdvancedContainer(
 
   @ThrowsCaught
   fun tracker(block: TrackerDsl.() -> Unit) {
-    tryCatchAlsoPrint(TellPlayer::chat) {
+    tryOrElse(::handleException) {
       planner.tracker {
         TrackerDsl(it).block()
       }
@@ -117,7 +129,7 @@ class AdvancedContainer(
     ) {
       if (!VanillaUtil.inGame()) return
       AdvancedContainer(instant) {
-        if (cleanCursor) cleanCursor()
+        if (cleanCursor && !Debugs.FORCE_NO_CLEAN_CURSOR.booleanValue) cleanCursor()
         tracker(block)
       }
     }

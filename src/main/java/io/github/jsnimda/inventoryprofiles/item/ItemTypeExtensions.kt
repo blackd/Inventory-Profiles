@@ -1,5 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.item
 
+import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.extensions.ifTrue
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.common.vanilla.alias.items.*
 import io.github.jsnimda.inventoryprofiles.ingame.`(getIdentifier)`
@@ -17,8 +19,11 @@ fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with
 val ItemType.Companion.EMPTY
   get() = ItemType(Items.AIR, null)
 
-fun ItemType.isEmpty() =
-  item == Items.AIR
+fun ItemType.isEmpty(): Boolean {
+  return (item == Items.AIR).ifTrue {
+    if (tag != null) Log.warn("Informal item type $this")
+  }
+}
 
 val ItemType.maxCount: Int
   get() = vanillaStack.maxCount

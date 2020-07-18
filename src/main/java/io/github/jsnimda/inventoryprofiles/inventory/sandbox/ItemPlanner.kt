@@ -4,6 +4,7 @@ import io.github.jsnimda.common.annotation.MayThrow
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.MutableItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
+import io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator.DiffCalculator
 
 class ItemPlanner(items: MutableItemTracker) {
   private val innerSandbox = ContainerSandbox(items)
@@ -13,7 +14,7 @@ class ItemPlanner(items: MutableItemTracker) {
   @MayThrow
   private fun innerSync() {
     trackingItems?.let { trackingItems ->
-      DiffCalculator.INSTANCE.apply(innerSandbox, trackingItems)
+      DiffCalculator.apply(innerSandbox, trackingItems)
       if (innerSandbox.items != trackingItems)
         error("ContainerSandbox actual result not same as goal")
       this.trackingItems = null
