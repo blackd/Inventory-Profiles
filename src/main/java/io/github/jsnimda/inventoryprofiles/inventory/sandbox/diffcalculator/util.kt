@@ -1,6 +1,7 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator
 
 interface DiffCalculatorUtil {
+  companion object : DiffCalculatorUtil
 
   fun calcRank(n: Int, g: Int): Int {
     if (n == g) return 0
@@ -11,11 +12,30 @@ interface DiffCalculatorUtil {
     throw AssertionError("unreachable")
   }
 
-  fun upperClickCount(n: Int, g: Int): Int {
-    if (n <= g) return g - n
-    // n > g
-    if (n / 2 <= g) return 1 + g - n / 2 // but n == 1 should do left instead of right
-    return 1 + g
+  fun clickCountLowerBound(n: Int, g: Int): Int {
+    return when(calcRank(n, g)) {
+      0 -> 0
+      1 -> 1
+      2 -> 1
+      3 -> 2
+      4 -> 2
+      else -> throw AssertionError("unreachable")
+    }
+  }
+
+  fun clickCountUpperBound(n: Int, g: Int): Int {
+    return when(calcRank(n, g)) {
+      0 -> 0
+      1 -> 1
+      2 -> g - n
+      3 -> 2
+      4 -> clickCountUpperBoundNGreaterThanG(n, g)
+      else -> throw AssertionError("unreachable")
+    }
+  }
+
+  private fun clickCountUpperBoundNGreaterThanG(n: Int, g: Int): Int { // no need to tailrec, i think
+    return 1 + minOf(clickCountUpperBound(0, g), clickCountUpperBound(n / 2, g))
   }
 
 //  /*

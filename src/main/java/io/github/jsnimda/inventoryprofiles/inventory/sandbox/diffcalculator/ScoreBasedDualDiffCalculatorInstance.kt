@@ -1,11 +1,15 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator
 
 import io.github.jsnimda.common.Log
+import io.github.jsnimda.common.extensions.ifTrue
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemStat
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.stat
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
+import io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator.SingleType.Button.LEFT
+import io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator.SingleType.Button.RIGHT
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.toList
+import io.github.jsnimda.inventoryprofiles.util.MutableBucket
 
 class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: ItemTracker) :
   SimpleDiffCalculatorInstance(sandbox, goalTracker) {
@@ -34,7 +38,7 @@ class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracke
     | (4) -> (2) -> (1) -> (0)
     |  `---- (3) ---'
 
-    drop rank priority
+    drop rank priority (unused)
       2 -> 0  \
       2 -> 1   min -> exact
       4 -> 3  /
@@ -44,13 +48,7 @@ class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracke
       2 -> 2
       4 -> 4
 
-    click counts upper bound
-      n < g -> (g - n)
-      n > g -> // ref: clickCountSingleSlotToLess
-               n / 2 <= g -> (1 + g - n / 2)
-               else -> (1 + g)
-
-    score
+    score (unused)
       rank 2 prefer closer to goal
       rank 4 prefer closer to goal (?)
    */
@@ -59,11 +57,192 @@ class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracke
 
   fun runFinal() { // stage b
     // all equals type, but cursor may not be empty
-
+    intArrayOf(1).asList()
   }
 }
 
-class SingleTypeSandbox {
+private const val MAX_LOOP = 10_000_000
 
+object SingleType : DiffCalculatorUtil {
+  val rankAfterAllowed = listOf(
+    listOf(),         // rank 0
+    listOf(0),        // rank 1
+    listOf(0, 1, 2),  // rank 2
+    listOf(1),        // rank 3
+    listOf(2, 3, 4),  // rank 4
+  )
+
+  fun solve(start: Node, maxCount: Int): List<Click> { // ref: A* algorithm
+    val closedSet = mutableSetOf<Node>()
+    val openSet = mutableMapOf(start to start)
+    var minUpper = start.upperTotal
+    var minLowerOfMinUpper = start.lowerTotal
+    var loopCounter = 0
+    while (openSet.isNotEmpty()) {
+      if (++loopCounter > MAX_LOOP)
+        error("Too many loop. $loopCounter > $MAX_LOOP")
+      val x = openSet.keys.minByOrNull { it.fScore } ?: break
+      if (x.isGoal)
+        return constructClickPath(x)
+      openSet.remove(x)
+      closedSet.add(x)
+      for (y in x.neighbor(maxCount)) {
+        if (y in closedSet)
+          continue
+        if (y !in openSet || y.gScore < openSet.getValue(y).gScore) {
+          openSet[y] = y
+          if (y.upperTotal < minUpper) {
+            minUpper = y.upperTotal
+            minLowerOfMinUpper = y.lowerTotal
+          } else if (y.upperTotal == minUpper && y.lowerBound < minLowerOfMinUpper) {
+            minLowerOfMinUpper = y.lowerBound
+          }
+        }
+      }
+      // remove all lower bound >= min upperbound
+      openSet.keys.removeAll {
+        (it.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)
+          .ifTrue { closedSet.add(it) }
+      }
+    }
+    error("solve failure")
+  }
+
+  fun constructClickPath(node: Node): List<Click> {
+    return node.clickNode.toList()
+  }
+
+  enum class Button {
+    LEFT, RIGHT
+  }
+
+  data class Slot(val n: Int, val g: Int) {
+    val isGoal
+      get() = n == g
+    val rank
+      get() = calcRank(n, g)
+
+    fun click(c: Int, button: Button, maxCount: Int): Pair<Slot, Int> { // slot after, c after
+      return when (c) {
+        0 -> when (button) { // empty cur
+          LEFT -> copy(n = 0) to n
+          RIGHT -> copy(n = n / 2) to n - n / 2
+        }
+        else -> {
+          val nAfter = when (button) { // has cur
+            LEFT -> (n + c).coerceAtMost(maxCount)
+            RIGHT -> n + 1
+          }
+          copy(n = nAfter) to c - (nAfter - n)
+        }
+      }
+    }
+  }
+
+  class Node(val identities: MutableBucket<Slot> = MutableBucket()) {
+    var c = 0 // cursor
+
+    val isGoal
+      get() = c == 0 && identities.elementSet.all { it.isGoal }
+
+    val gScore: Int
+      get() = clickCount
+    val hScore: Int
+      get() = lowerBound
+    val fScore: Int
+      get() = gScore + hScore
+
+    val lowerBound // click count
+      get() = identities.entrySet.sumBy { (slot, count) -> clickCountLowerBound(slot.n, slot.g) * count }
+    val upperBound // click count
+      get() = identities.entrySet.sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count }
+
+    fun neighbor(maxCount: Int): List<Node> {
+      val result = mutableListOf<Node>()
+      for (slot in identities.elementSet) {
+        if (slot.isGoal) continue
+        if (c == 0 && slot.n == 0) continue
+        if (c != 0 && slot.n == maxCount) continue
+        // try left
+        copyByAddClick(slot, LEFT, maxCount)?.let { result.add(it) }
+        // try right
+        if (c != 1 && !(c == 0 && slot.n == 1)) // ban right if c == 1 or no cur and n == 1
+          copyByAddClick(slot, RIGHT, maxCount)?.let { result.add(it) }
+      }
+      return result
+    }
+
+    val lowerTotal
+      get() = clickCount + lowerBound
+    val upperTotal
+      get() = clickCount + upperBound
+
+    val clickCount
+      get() = clickNode?.clickIndex?.plus(1) ?: 0
+    var clickNode: Click? = null
+      private set
+
+    private fun addClick(slot: Slot, button: Button) {
+      Click(clickCount, slot, button, clickNode).also { clickNode = it }
+    }
+
+    // ============
+    // copy
+    // ============
+    fun copy() = Node(identities.copyAsMutable()).also {
+      it.c = this.c
+      it.clickNode = this.clickNode
+    }
+
+    fun copyByAddClick(slot: Slot, button: Button, maxCount: Int): Node? {
+      val rank = slot.rank
+      val (slotAfter, cAfter) = slot.click(c, button, maxCount)
+      if (slotAfter.rank !in rankAfterAllowed[rank]) return null
+      return copy().apply {
+        addClick(slot, button)
+        c = cAfter
+        identities.remove(slot)
+        identities.add(slotAfter)
+      }
+    }
+
+    // ============
+    // equals
+    // ============
+
+    override fun equals(other: Any?): Boolean {
+      if (this === other) return true
+      if (other !is Node) return false
+
+      if (c != other.c) return false
+      if (identities != other.identities) return false
+
+      return true
+    }
+
+    override fun hashCode(): Int {
+      var result = c
+      result = 31 * result + identities.hashCode()
+      return result
+    }
+  }
+
+  // ref: SandboxClick
+  data class Click(
+    val clickIndex: Int,
+    val slot: Slot,
+    val button: Button,
+    val previousClick: Click? = null
+  )
+
+  fun Click?.toList(): List<Click> {
+    val list = mutableListOf<Click>()
+    var click: Click? = this
+    while (click != null) {
+      list.add(click)
+      click = click.previousClick
+    }
+    list.reverse()
+    return list
+  }
 }
-
