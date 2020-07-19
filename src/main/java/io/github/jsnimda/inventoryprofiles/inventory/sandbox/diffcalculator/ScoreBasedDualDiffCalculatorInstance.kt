@@ -120,20 +120,29 @@ object SingleType : DiffCalculatorUtil {
         Log.trace("loopCounter $loopCounter")
         return constructClickPath(x)
       }
-      if (x.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)
-        error("emmm (x.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)")
       openSet.remove(x)
       closedSet.add(x)
+      if (x.lowerTotal > minUpper
+        || x.lowerTotal == minUpper && (minUpper > minLowerOfMinUpper || x.upperTotal > x.lowerTotal)
+      )
+        error("emm x.lowerTotal > minUpper etc")
+//        continue
       for (y in x.neighbor(maxCount)) {
         if (y in closedSet)
           continue
         if (y !in openSet || y.gScore < openSet.getValue(y).gScore) {
+          if (y.lowerTotal > minUpper
+            || y.lowerTotal == minUpper && (minUpper > minLowerOfMinUpper || y.upperTotal > y.lowerTotal)
+          ) {
+            closedSet.add(y)
+            continue
+          }
           openSet[y] = y
           if (y.upperTotal < minUpper) {
             minUpper = y.upperTotal
             minLowerOfMinUpper = y.lowerTotal
-          } else if (y.upperTotal == minUpper && y.lowerBound < minLowerOfMinUpper) {
-            minLowerOfMinUpper = y.lowerBound
+          } else if (y.upperTotal == minUpper && y.lowerTotal < minLowerOfMinUpper) {
+            minLowerOfMinUpper = y.lowerTotal
           }
         }
       }
@@ -188,15 +197,19 @@ object SingleType : DiffCalculatorUtil {
 
     val gScore: Int
       get() = clickCount
+
+    //      get() = 0
     val hScore: Int
       get() = lowerBound
+
+    //      get() = lowerBound + upperBound
     val fScore: Int
       get() = gScore + hScore
 
-    val lowerBound by lazy(LazyThreadSafetyMode.NONE) {
+    private val lowerBound by lazy(LazyThreadSafetyMode.NONE) {
       identities.entrySet.sumBy { (slot, count) -> clickCountLowerBound(slot.n, slot.g) * count }
     }
-    val upperBound by lazy(LazyThreadSafetyMode.NONE) {
+    private val upperBound by lazy(LazyThreadSafetyMode.NONE) {
       identities.entrySet.sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count }
     }
 
