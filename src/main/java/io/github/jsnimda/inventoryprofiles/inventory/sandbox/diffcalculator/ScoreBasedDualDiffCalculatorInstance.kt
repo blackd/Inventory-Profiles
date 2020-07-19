@@ -1,7 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator
 
 import io.github.jsnimda.common.Log
-import io.github.jsnimda.common.extensions.ifTrue
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemStat
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.stat
@@ -80,7 +79,7 @@ class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracke
       val index = indices.firstOrNull { CompareSlotDsl(it).toSlot() == click.slot }
         ?: error("target slot ${click.slot} not found")
       CompareSlotDsl(index).run {
-        when(click.button) {
+        when (click.button) {
           LEFT -> leftClick()
           RIGHT -> rightClick()
         }
@@ -93,7 +92,7 @@ class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracke
   }
 }
 
-private const val MAX_LOOP = 1000
+private const val MAX_LOOP = 100_000
 
 object SingleType : DiffCalculatorUtil {
   val rankAfterAllowed = listOf(
@@ -104,20 +103,25 @@ object SingleType : DiffCalculatorUtil {
     listOf(2, 3, 4),  // rank 4
   )
 
+  val nodeComparator = compareBy<Node> { it.fScore }.thenBy { it.upperTotal }
+
   fun solve(start: Node, maxCount: Int): List<Click> { // ref: A* algorithm
     val closedSet = mutableSetOf<Node>()
-    val openSet = mutableMapOf(start to start)
+//    val openSet = mutableMapOf(start to start)
+    val openSet = sortedMapOf(start to start)
     var minUpper = start.upperTotal
     var minLowerOfMinUpper = start.lowerTotal
     var loopCounter = 0
     while (openSet.isNotEmpty()) {
       if (++loopCounter > MAX_LOOP)
         error("Too many loop. $loopCounter > $MAX_LOOP")
-      val x = openSet.keys.minWithOrNull(compareBy<Node> { it.fScore }.thenBy { it.upperTotal }) ?: break
+      val x = openSet.firstKey() ?: break
       if (x.isGoal) {
         Log.trace("loopCounter $loopCounter")
         return constructClickPath(x)
       }
+      if (x.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)
+        error("emmm (x.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)")
       openSet.remove(x)
       closedSet.add(x)
       for (y in x.neighbor(maxCount)) {
@@ -134,13 +138,13 @@ object SingleType : DiffCalculatorUtil {
         }
       }
       // remove all lower bound >= min upperbound
-      var removedCount = 0
-      openSet.keys.removeAll {
-        (it.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)
-          .ifTrue { closedSet.add(it); removedCount++ }
-      }
-      if (removedCount != 0)
-        Log.trace("removed $removedCount at $loopCounter")
+//      var removedCount = 0
+//      openSet.keys.removeAll {
+//        (it.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)
+//          .ifTrue { closedSet.add(it); removedCount++ }
+//      }
+//      if (removedCount != 0)
+//        Log.trace("removed $removedCount at $loopCounter")
     }
     error("solve failure")
   }
@@ -176,7 +180,7 @@ object SingleType : DiffCalculatorUtil {
     }
   }
 
-  class Node(val identities: MutableBucket<Slot> = MutableBucket()) {
+  class Node(val identities: MutableBucket<Slot> = MutableBucket()) : Comparable<Node> {
     var c = 0 // cursor
 
     val isGoal
@@ -189,10 +193,12 @@ object SingleType : DiffCalculatorUtil {
     val fScore: Int
       get() = gScore + hScore
 
-    val lowerBound // click count
-      get() = identities.entrySet.sumBy { (slot, count) -> clickCountLowerBound(slot.n, slot.g) * count }
-    val upperBound // click count
-      get() = identities.entrySet.sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count }
+    val lowerBound by lazy(LazyThreadSafetyMode.NONE) {
+      identities.entrySet.sumBy { (slot, count) -> clickCountLowerBound(slot.n, slot.g) * count }
+    }
+    val upperBound by lazy(LazyThreadSafetyMode.NONE) {
+      identities.entrySet.sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count }
+    }
 
     fun neighbor(maxCount: Int): List<Node> {
       val result = mutableListOf<Node>()
@@ -243,6 +249,10 @@ object SingleType : DiffCalculatorUtil {
       }
     }
 
+    override fun compareTo(other: Node): Int {
+      return nodeComparator.compare(this, other)
+    }
+
     // ============
     // equals
     // ============
@@ -257,7 +267,12 @@ object SingleType : DiffCalculatorUtil {
       return true
     }
 
+    val hashCode by lazy(LazyThreadSafetyMode.NONE, ::genHashCode)
     override fun hashCode(): Int {
+      return hashCode
+    }
+
+    private fun genHashCode(): Int {
       var result = c
       result = 31 * result + identities.hashCode()
       return result
