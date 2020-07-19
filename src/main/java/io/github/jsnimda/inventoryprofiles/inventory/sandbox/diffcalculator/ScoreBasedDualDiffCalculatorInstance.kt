@@ -68,13 +68,13 @@ class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracke
     val indices = entry.slotIndices.filter { !CompareSlotDsl(it).equals }
     if (indices.isEmpty()) return
     val maxCount = itemType.maxCount
-    val start = SingleType.Node().apply {
+    val start = SingleType.Node(maxCount).apply {
       c = cursorNow.count
       for (index in indices) {
         identities.add(CompareSlotDsl(index).toSlot())
       }
     }
-    val clicks = SingleType.solve(start, maxCount)
+    val clicks = SingleType.solve(start)
     for (click in clicks) {
       val index = indices.firstOrNull { CompareSlotDsl(it).toSlot() == click.slot }
         ?: error("target slot ${click.slot} not found")
@@ -105,7 +105,7 @@ object SingleType : DiffCalculatorUtil {
 
   val nodeComparator = compareBy<Node> { it.fScore }.thenBy { it.upperTotal }
 
-  fun solve(start: Node, maxCount: Int): List<Click> { // ref: A* algorithm
+  fun solve(start: Node): List<Click> { // ref: A* algorithm
     val closedSet = mutableSetOf<Node>()
 //    val openSet = mutableMapOf(start to start)
     val openSet = sortedMapOf(start to start)
@@ -127,7 +127,7 @@ object SingleType : DiffCalculatorUtil {
       )
         error("emm x.lowerTotal > minUpper etc")
 //        continue
-      for (y in x.neighbor(maxCount)) {
+      for (y in x.neighbor()) {
         if (y in closedSet)
           continue
         if (y !in openSet || y.gScore < openSet.getValue(y).gScore) {
@@ -189,7 +189,40 @@ object SingleType : DiffCalculatorUtil {
     }
   }
 
-  class Node(val identities: MutableBucket<Slot> = MutableBucket()) : Comparable<Node> {
+  val int2EntropyMap = mutableMapOf<Int, Entropy>()
+  fun entropy(maxCount: Int) = Entropy.of(maxCount)
+  class Entropy private constructor(val maxCount: Int) {
+    val sortedMap = sortedMapOf<Int, Int>()
+
+    init {
+      var x = maxCount
+      var i = 1
+      do {
+        sortedMap[x] = i.coerceAtMost(x)
+        i++
+        x /= 2
+      } while (x > 0)
+    }
+
+    fun get(diff: Int): Int {
+      if (diff <= 0) return diff
+      sortedMap[diff]?.let { return it }
+      val a = sortedMap.headMap(diff)
+      val aDiff = a.lastKey()
+      val entropy = get(aDiff) + get(diff - aDiff)
+      sortedMap[diff] = entropy
+      return entropy
+    }
+
+    companion object {
+      fun of(maxCount: Int): Entropy {
+        return int2EntropyMap.getOrPut(maxCount) { Entropy(maxCount) }
+      }
+    }
+  }
+
+  // notice maxCount not in hashCode/equals, only c and identities
+  class Node(val maxCount: Int, val identities: MutableBucket<Slot> = MutableBucket()) : Comparable<Node> {
     var c = 0 // cursor
 
     val isGoal
@@ -200,9 +233,9 @@ object SingleType : DiffCalculatorUtil {
 
     //      get() = 0
     val hScore: Int
-      get() = lowerBound
+      //      get() = lowerBound
+      get() = entropy
 
-    //      get() = lowerBound + upperBound
     val fScore: Int
       get() = gScore + hScore
 
@@ -213,7 +246,37 @@ object SingleType : DiffCalculatorUtil {
       identities.entrySet.sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count }
     }
 
-    fun neighbor(maxCount: Int): List<Node> {
+    // todo not only maxCount
+    fun entropy(n: Int, g: Int): Int {
+      return when (calcRank(n, g)) {
+        0 -> 0
+        1 -> 1
+        2 -> entroyRank2(g - n)
+        3 -> 2
+        4 -> 1 + minOf(entropy(0, g), entropy(n / 2, g))
+        else -> throw AssertionError("unreachable")
+      }
+    }
+
+    /*
+      if maxCount is 64
+        64    1
+        32    2
+        16    3
+        8     4
+        4     4
+        2     2
+        1     1
+     */
+    fun entroyRank2(diff: Int): Int {
+      return entropy(maxCount).get(diff)
+    }
+
+    private val entropy by lazy(LazyThreadSafetyMode.NONE) {
+      identities.entrySet.sumBy { (slot, count) -> entropy(slot.n, slot.g) * count }
+    }
+
+    fun neighbor(): List<Node> {
       val result = mutableListOf<Node>()
       for (slot in identities.elementSet) {
         if (slot.isGoal) continue
@@ -245,7 +308,7 @@ object SingleType : DiffCalculatorUtil {
     // ============
     // copy
     // ============
-    fun copy() = Node(identities.copyAsMutable()).also {
+    fun copy() = Node(maxCount, identities.copyAsMutable()).also {
       it.c = this.c
       it.clickNode = this.clickNode
     }
