@@ -240,7 +240,7 @@ object SingleType : DiffCalculatorUtil {
     fun copyByAddClick(slot: Slot, button: Button, maxCount: Int): Node? {
       val rank = slot.rank
       val (slotAfter, cAfter) = slot.click(c, button, maxCount)
-      if (slotAfter.rank !in rankAfterAllowed[rank]) return null
+//      if (slotAfter.rank !in rankAfterAllowed[rank]) return null
       return copy().apply {
         addClick(slot, button)
         c = cAfter
