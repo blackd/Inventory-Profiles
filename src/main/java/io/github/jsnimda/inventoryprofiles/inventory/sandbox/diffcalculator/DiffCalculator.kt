@@ -92,6 +92,11 @@ abstract class DiffCalculatorInstance(val sandbox: ContainerSandbox, val goalTra
     val bothNotEmpty: Boolean
       get() = !now.isEmpty() && !goal.isEmpty()
 
+    val n: Int
+      get() = now.count
+    val g: Int
+      get() = goal.count
+
     fun leftClick() = sandbox.leftClick(slotIndex)
     fun rightClick() = sandbox.rightClick(slotIndex)
     fun repeatRightClick(times: Int) = repeat(times) { rightClick() }

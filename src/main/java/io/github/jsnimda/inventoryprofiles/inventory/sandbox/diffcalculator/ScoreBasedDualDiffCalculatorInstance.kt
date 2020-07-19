@@ -9,6 +9,9 @@ import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator.SingleType.Button.LEFT
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator.SingleType.Button.RIGHT
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.toList
+import io.github.jsnimda.inventoryprofiles.item.ItemType
+import io.github.jsnimda.inventoryprofiles.item.isEmpty
+import io.github.jsnimda.inventoryprofiles.item.maxCount
 import io.github.jsnimda.inventoryprofiles.util.MutableBucket
 
 class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: ItemTracker) :
@@ -57,11 +60,40 @@ class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracke
 
   fun runFinal() { // stage b
     // all equals type, but cursor may not be empty
-    intArrayOf(1).asList()
+    if (!cursorNow.isEmpty()) doItemType(cursorNow.itemType)
+    statGoal.itemTypes.forEach { doItemType(it) }
+  }
+
+  fun doItemType(itemType: ItemType) {
+    val entry = statGoal.itemGroups.getValue(itemType)
+    val indices = entry.slotIndices.filter { !CompareSlotDsl(it).equals }
+    if (indices.isEmpty()) return
+    val maxCount = itemType.maxCount
+    val start = SingleType.Node().apply {
+      c = cursorNow.count
+      for (index in indices) {
+        identities.add(CompareSlotDsl(index).toSlot())
+      }
+    }
+    val clicks = SingleType.solve(start, maxCount)
+    for (click in clicks) {
+      val index = indices.firstOrNull { CompareSlotDsl(it).toSlot() == click.slot }
+        ?: error("target slot ${click.slot} not found")
+      CompareSlotDsl(index).run {
+        when(click.button) {
+          LEFT -> leftClick()
+          RIGHT -> rightClick()
+        }
+      }
+    }
+  }
+
+  fun CompareSlotDsl.toSlot(): SingleType.Slot {
+    return SingleType.Slot(n, g)
   }
 }
 
-private const val MAX_LOOP = 10_000_000
+private const val MAX_LOOP = 1000
 
 object SingleType : DiffCalculatorUtil {
   val rankAfterAllowed = listOf(
@@ -81,9 +113,11 @@ object SingleType : DiffCalculatorUtil {
     while (openSet.isNotEmpty()) {
       if (++loopCounter > MAX_LOOP)
         error("Too many loop. $loopCounter > $MAX_LOOP")
-      val x = openSet.keys.minByOrNull { it.fScore } ?: break
-      if (x.isGoal)
+      val x = openSet.keys.minWithOrNull(compareBy<Node> { it.fScore }.thenBy { it.upperTotal }) ?: break
+      if (x.isGoal) {
+        Log.trace("loopCounter $loopCounter")
         return constructClickPath(x)
+      }
       openSet.remove(x)
       closedSet.add(x)
       for (y in x.neighbor(maxCount)) {
@@ -100,10 +134,13 @@ object SingleType : DiffCalculatorUtil {
         }
       }
       // remove all lower bound >= min upperbound
+      var removedCount = 0
       openSet.keys.removeAll {
         (it.lowerBound >= minUpper && minUpper > minLowerOfMinUpper)
-          .ifTrue { closedSet.add(it) }
+          .ifTrue { closedSet.add(it); removedCount++ }
       }
+      if (removedCount != 0)
+        Log.trace("removed $removedCount at $loopCounter")
     }
     error("solve failure")
   }
