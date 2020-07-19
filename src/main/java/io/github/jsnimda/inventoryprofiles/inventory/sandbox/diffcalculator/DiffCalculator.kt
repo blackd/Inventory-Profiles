@@ -2,8 +2,7 @@ package io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.annotation.MayThrow
-import io.github.jsnimda.inventoryprofiles.config.DiffCalculatorType.SIMPLE
-import io.github.jsnimda.inventoryprofiles.config.DiffCalculatorType.SCORE_BASED_SINGLE
+import io.github.jsnimda.inventoryprofiles.config.DiffCalculatorType.*
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
@@ -149,7 +148,7 @@ class GenericDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: Item
   val slotForEnoughRoom: Int by lazy(LazyThreadSafetyMode.NONE) { // todo support free space slot && no touch equals
     // find: now match type goal empty
     filtered { now.itemType == cursorGoal.itemType && goal.isEmpty() }
-      .minByOrNull { estimateClickCountValueSingleSlot(it.now.count, cursorGoal.count) }
+      .minByOrNull { calcRank(it.now.count, cursorGoal.count) }
       ?.run { return@lazy slotIndex }
     // find: goal match type can put
     filtered { goal.itemType == cursorGoal.itemType && (goal.count + cursorGoal.count) <= goal.itemType.maxCount }
@@ -170,9 +169,10 @@ class GenericDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: Item
     if (nowTracker == goalTracker) return
     val goalTracker = intermediateGoalTracker
     when (ModSettings.DIFF_CALCULATOR.value) {
-      SIMPLE -> SimpleDiffCalculatorInstance(sandbox, goalTracker)
-      SCORE_BASED_SINGLE -> ScoreBasedSingleDiffCalculatorInstance(sandbox, goalTracker)
-    }.run()
+      SIMPLE             /**/ -> ::SimpleDiffCalculatorInstance
+      SCORE_BASED_SINGLE /**/ -> ::ScoreBasedSingleDiffCalculatorInstance
+      SCORE_BASED_DUAL   /**/ -> ::ScoreBasedDualDiffCalculatorInstance
+    }.invoke(sandbox, goalTracker).run()
     if (sandbox.items != goalTracker)
       error("ContainerSandbox actual result by ${ModSettings.DIFF_CALCULATOR.value} Diff Calculator not same as goal")
     if (!cursorGoal.isEmpty())

@@ -15,7 +15,7 @@ open class SimpleDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: 
 
   var untilEqualsTypeOnly = false
   val shouldStop: Boolean
-    get() = untilEqualsTypeOnly && filtered { !equalsType && !now.isEmpty() }.isEmpty()
+    get() = untilEqualsTypeOnly && filtered { !equalsType && !now.isEmpty() }.isEmpty() && toBeThrown.isEmpty()
 
   private val toBeThrown = (goalTracker.thrownItems - nowTracker.thrownItems).copyAsMutable()
 
@@ -144,6 +144,8 @@ open class SimpleDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: 
   fun handleCursorNoNeedThrow() {
     val candidate = nonEquals.filtered(skipEmptyGoal = true) { cursorNow.itemType == goal.itemType }
     candidate.filtered { withCursorNowCount <= goal.count }
+//    candidate.filtered { goal.isFull() }
+//      .runIf({ isEmpty() }) { candidate.filtered { withCursorNowCount <= goal.count } }
       .minByOrNull { it.goal.count - it.withCursorNowCount }
       ?.run { return leftClick() }
     candidate.filtered { !equalsType && !now.isEmpty() } // withCursorNowCount > goal.count

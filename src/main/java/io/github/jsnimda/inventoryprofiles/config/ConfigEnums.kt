@@ -88,7 +88,9 @@ enum class SwitchType {
 
 enum class DiffCalculatorType {
   SIMPLE,
-  SCORE_BASED_SINGLE;
+  SCORE_BASED_SINGLE,
+  SCORE_BASED_DUAL,
+  ;
 
 //  override fun toString(): String =
 //    I18n.translate("$ENUM.diff_calculator_type.${name.toLowerCase()}")

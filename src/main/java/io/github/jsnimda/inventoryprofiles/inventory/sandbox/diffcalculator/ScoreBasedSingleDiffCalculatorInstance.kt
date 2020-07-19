@@ -25,6 +25,6 @@ class ScoreBasedSingleDiffCalculatorInstance(sandbox: ContainerSandbox, goalTrac
   val statGoal: ItemStat = goalTracker.slots.stat()
 
   fun runFinal() { // equalsType, for equals // stage b
-
+    error("todo") // todo
   }
 }
