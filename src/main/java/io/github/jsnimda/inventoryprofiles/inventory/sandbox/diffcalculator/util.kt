@@ -10,6 +10,8 @@ interface DiffCalculatorUtil {
     if (n / 2 == g)     /**/ return 12 // no cur right click
     if (n < g)          /**/ return 20
     // n > g
+    // for rank 31 32 no cur left pick then have cur drop is also possible
+    //                also two clicks only, we can't eliminate this possibility
     if (g == 1)         /**/ return 30 // no cur left then +1
     if (n / 2 + 1 == g) /**/ return 31 // no cur right then +1
     if (n / 4 == g)     /**/ return 32 // no cur right then no cur right

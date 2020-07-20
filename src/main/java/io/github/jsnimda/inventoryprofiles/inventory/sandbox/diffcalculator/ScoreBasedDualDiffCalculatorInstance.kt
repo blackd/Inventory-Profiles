@@ -116,12 +116,14 @@ object SingleType : DiffCalculatorUtil {
     var minUpper = start.upperTotal
     var minLowerOfMinUpper = start.lowerTotal
     var loopCounter = 0
+    var skippedCount = 0
     while (openSet.isNotEmpty()) {
       if (++loopCounter > MAX_LOOP)
         error("Too many loop. $loopCounter > $MAX_LOOP")
       val x = openSet.firstKey() ?: break
       if (x.isGoal) {
         Log.trace("loopCounter $loopCounter")
+        Log.trace("skippedCount $skippedCount")
         return constructClickPath(x)
       }
       openSet.remove(x)
@@ -134,10 +136,13 @@ object SingleType : DiffCalculatorUtil {
       for (y in x.neighbor()) {
         if (y in closedSet)
           continue
-        if (y !in openSet || y.gScore < openSet.getValue(y).gScore) {
+        if (y !in openSet || y < openSet.getValue(y)) {
           if (y.lowerTotal > minUpper
             || y.lowerTotal == minUpper && (minUpper > minLowerOfMinUpper || y.upperTotal > y.lowerTotal)
+            || y.skipThis
           ) {
+            skippedCount++
+            openSet.remove(y)
             closedSet.add(y)
             continue
           }
@@ -159,6 +164,8 @@ object SingleType : DiffCalculatorUtil {
 //      if (removedCount != 0)
 //        Log.trace("removed $removedCount at $loopCounter")
     }
+    Log.trace("loopCounter $loopCounter")
+    Log.trace("skippedCount $skippedCount")
     error("solve failure")
   }
 
@@ -196,6 +203,7 @@ object SingleType : DiffCalculatorUtil {
   // notice maxCount not in hashCode/equals, only c and identities
   class Node(val maxCount: Int, val identities: MutableBucket<Slot> = MutableBucket()) : Comparable<Node> {
     var c = 0 // cursor
+    var skipThis = false
 
     val isGoal
       get() = c == 0 && identities.elementSet.all { it.isGoal }
@@ -214,21 +222,8 @@ object SingleType : DiffCalculatorUtil {
     }
     private val upperBound by lazy(LazyThreadSafetyMode.NONE) {
       identities.entrySet.sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count }
-    }
-
-    fun neighbor(): List<Node> {
-      val result = mutableListOf<Node>()
-      for (slot in identities.elementSet) {
-        if (slot.isGoal) continue
-        if (c == 0 && slot.n == 0) continue
-        if (c != 0 && slot.n == maxCount) continue
-        // try left
-        copyByAddClick(slot, LEFT, maxCount)?.let { result.add(it) }
-        // try right
-        if (c != 1 && !(c == 0 && slot.n == 1)) // ban right if c == 1 or no cur and n == 1
-          copyByAddClick(slot, RIGHT, maxCount)?.let { result.add(it) }
-      }
-      return result
+//          c.coerceAtMost(identities.entrySet.filter { (slot) -> slot.rank == 2 }
+//            .sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count })
     }
 
     val lowerTotal
@@ -244,6 +239,62 @@ object SingleType : DiffCalculatorUtil {
     private fun addClick(slot: Slot, button: Button) {
       Click(clickCount, slot, button, clickNode).also { clickNode = it }
     }
+
+    fun neighbor(): List<Node> {
+      val result = mutableListOf<Node>()
+      var doneRank10 = false
+      for (slot in identities.elementSet) {
+        if (slot.isGoal) continue
+        if (c == 0 && slot.n == 0) continue
+        if (c != 0 && slot.n == maxCount) continue
+        val left = copyByAddClick(slot, LEFT, maxCount)
+          ?.apply { skipThis = true }
+          ?.also { result.add(it) }
+        val right = copyByAddClick(slot, RIGHT, maxCount)
+          ?.apply { skipThis = true }
+          ?.also { result.add(it) }
+//        left?.skipThis = false
+//        if (!slot.banRight)
+//          right?.skipThis = false
+        val rank = slot.rank
+        when (rank) {
+          10 -> if (c == 0) continue
+          11, 12 -> if (c != 0) continue
+          30, 31 -> if (c != 0) continue
+//          30, 31, 32 -> if (c != 0) continue
+        }
+        // try left
+        if (rank != 12 && (rank != 10 || slot.banRight)) {
+          if (rank == 10) {
+            if (!doneRank10) {
+              doneRank10 = true
+              left?.skipThis = false
+            }
+          } else {
+            left?.skipThis = false
+          }
+        }
+        // try right
+        if (!slot.banRight && rank != 30) {
+          if (rank == 10) {
+            if (!doneRank10) {
+              doneRank10 = true
+              right?.skipThis = false
+            }
+          } else {
+            right?.skipThis = false
+          }
+        }
+      }
+      return result
+    }
+
+    // ============
+    // extensions
+    // ============
+
+    val Slot.banRight: Boolean // ban right if c == 1 or no cur and n == 1
+      get() = c == 1 || c == 0 && n == 1 || c != 0 && maxCount - n == 1
 
     // ============
     // copy
@@ -261,7 +312,7 @@ object SingleType : DiffCalculatorUtil {
     }
 
     fun copyByAddClickLeft(slot: Slot, maxCount: Int): Node? {
-      val rank = slot.rank
+//      val rank = slot.rank
       val (slotAfter, cAfter) = slot.click(c, LEFT, maxCount)
 //      if (slotAfter.rank !in rankAfterAllowed[rank]) return null
       return copy().apply {
@@ -274,7 +325,6 @@ object SingleType : DiffCalculatorUtil {
 
     fun copyByAddClickRight(slot: Slot, maxCount: Int): Node? {
       val rank = slot.rank
-//      if (c != 0 && rank == 3) return null
       val (slotAfter, cAfter) = slot.click(c, RIGHT, maxCount)
 //      if (slotAfter.rank !in rankAfterAllowed[rank]) return null
       return copy().apply {
