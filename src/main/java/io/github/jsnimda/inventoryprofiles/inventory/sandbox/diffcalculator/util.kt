@@ -4,16 +4,21 @@ interface DiffCalculatorUtil {
   companion object : DiffCalculatorUtil
 
   fun calcRank(n: Int, g: Int): Int {
-    if (n == g) return 0
-    if (n + 1 == g || n / 2 == g || g == 0) return 1
-    if (n < g) return 2
-    if (n / 2 + 1 == g || (g == 1 && n > g) || n / 4 == g) return 3
-    if (n > g) return 4
+    if (n == g)         /**/ return 0
+    if (n + 1 == g)     /**/ return 10 // have cur +1
+    if (g == 0)         /**/ return 11 // no cur left click
+    if (n / 2 == g)     /**/ return 12 // no cur right click
+    if (n < g)          /**/ return 20
+    // n > g
+    if (g == 1)         /**/ return 30 // no cur left then +1
+    if (n / 2 + 1 == g) /**/ return 31 // no cur right then +1
+    if (n / 4 == g)     /**/ return 32 // no cur right then no cur right
+    if (n > g)          /**/ return 40
     throw AssertionError("unreachable")
   }
 
   fun clickCountLowerBound(n: Int, g: Int): Int {
-    return when(calcRank(n, g)) {
+    return when(calcRank(n, g) / 10) {
       0 -> 0
       1 -> 1
       2 -> 1
@@ -24,7 +29,7 @@ interface DiffCalculatorUtil {
   }
 
   fun clickCountUpperBound(n: Int, g: Int): Int {
-    return when(calcRank(n, g)) {
+    return when(calcRank(n, g) / 10) {
       0 -> 0
       1 -> 1
       2 -> g - n

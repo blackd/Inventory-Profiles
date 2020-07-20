@@ -103,7 +103,11 @@ object SingleType : DiffCalculatorUtil {
     listOf(2, 3, 4),  // rank 4
   )
 
-  val nodeComparator = compareBy<Node> { it.fScore }.thenBy { it.upperTotal }
+  val nodeComparator
+    get() = compareBy<Node> { it.fScore }
+      .thenBy { it.upperTotal }
+//    .thenByDescending { it.clickCount }
+//    .thenBy { it.identities.entrySet.size }
 
   fun solve(start: Node): List<Click> { // ref: A* algorithm
     val closedSet = mutableSetOf<Node>()
@@ -189,38 +193,6 @@ object SingleType : DiffCalculatorUtil {
     }
   }
 
-  val int2EntropyMap = mutableMapOf<Int, Entropy>()
-  fun entropy(maxCount: Int) = Entropy.of(maxCount)
-  class Entropy private constructor(val maxCount: Int) {
-    val sortedMap = sortedMapOf<Int, Int>()
-
-    init {
-      var x = maxCount
-      var i = 1
-      do {
-        sortedMap[x] = i.coerceAtMost(x)
-        i++
-        x /= 2
-      } while (x > 0)
-    }
-
-    fun get(diff: Int): Int {
-      if (diff <= 0) return diff
-      sortedMap[diff]?.let { return it }
-      val a = sortedMap.headMap(diff)
-      val aDiff = a.lastKey()
-      val entropy = get(aDiff) + get(diff - aDiff)
-      sortedMap[diff] = entropy
-      return entropy
-    }
-
-    companion object {
-      fun of(maxCount: Int): Entropy {
-        return int2EntropyMap.getOrPut(maxCount) { Entropy(maxCount) }
-      }
-    }
-  }
-
   // notice maxCount not in hashCode/equals, only c and identities
   class Node(val maxCount: Int, val identities: MutableBucket<Slot> = MutableBucket()) : Comparable<Node> {
     var c = 0 // cursor
@@ -231,10 +203,8 @@ object SingleType : DiffCalculatorUtil {
     val gScore: Int
       get() = clickCount
 
-    //      get() = 0
     val hScore: Int
-      //      get() = lowerBound
-      get() = entropy
+      get() = lowerBound
 
     val fScore: Int
       get() = gScore + hScore
@@ -244,36 +214,6 @@ object SingleType : DiffCalculatorUtil {
     }
     private val upperBound by lazy(LazyThreadSafetyMode.NONE) {
       identities.entrySet.sumBy { (slot, count) -> clickCountUpperBound(slot.n, slot.g) * count }
-    }
-
-    // todo not only maxCount
-    fun entropy(n: Int, g: Int): Int {
-      return when (calcRank(n, g)) {
-        0 -> 0
-        1 -> 1
-        2 -> entroyRank2(g - n)
-        3 -> 2
-        4 -> 1 + minOf(entropy(0, g), entropy(n / 2, g))
-        else -> throw AssertionError("unreachable")
-      }
-    }
-
-    /*
-      if maxCount is 64
-        64    1
-        32    2
-        16    3
-        8     4
-        4     4
-        2     2
-        1     1
-     */
-    fun entroyRank2(diff: Int): Int {
-      return entropy(maxCount).get(diff)
-    }
-
-    private val entropy by lazy(LazyThreadSafetyMode.NONE) {
-      identities.entrySet.sumBy { (slot, count) -> entropy(slot.n, slot.g) * count }
     }
 
     fun neighbor(): List<Node> {
@@ -314,11 +254,31 @@ object SingleType : DiffCalculatorUtil {
     }
 
     fun copyByAddClick(slot: Slot, button: Button, maxCount: Int): Node? {
+      return when (button) {
+        LEFT -> copyByAddClickLeft(slot, maxCount)
+        RIGHT -> copyByAddClickRight(slot, maxCount)
+      }
+    }
+
+    fun copyByAddClickLeft(slot: Slot, maxCount: Int): Node? {
       val rank = slot.rank
-      val (slotAfter, cAfter) = slot.click(c, button, maxCount)
+      val (slotAfter, cAfter) = slot.click(c, LEFT, maxCount)
 //      if (slotAfter.rank !in rankAfterAllowed[rank]) return null
       return copy().apply {
-        addClick(slot, button)
+        addClick(slot, LEFT)
+        c = cAfter
+        identities.remove(slot)
+        identities.add(slotAfter)
+      }
+    }
+
+    fun copyByAddClickRight(slot: Slot, maxCount: Int): Node? {
+      val rank = slot.rank
+//      if (c != 0 && rank == 3) return null
+      val (slotAfter, cAfter) = slot.click(c, RIGHT, maxCount)
+//      if (slotAfter.rank !in rankAfterAllowed[rank]) return null
+      return copy().apply {
+        addClick(slot, RIGHT)
         c = cAfter
         identities.remove(slot)
         identities.add(slotAfter)
