@@ -109,6 +109,7 @@ object SingleType : DiffCalculatorUtil {
 //    .thenByDescending { it.clickCount }
 //    .thenBy { it.identities.entrySet.size }
 
+  // todo fix compare returns 0 makes sortedMap treats as equals
   fun solve(start: Node): List<Click> { // ref: A* algorithm
     val closedSet = mutableSetOf<Node>()
 //    val openSet = mutableMapOf(start to start)

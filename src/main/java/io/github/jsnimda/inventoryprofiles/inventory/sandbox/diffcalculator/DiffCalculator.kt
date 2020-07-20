@@ -2,8 +2,8 @@ package io.github.jsnimda.inventoryprofiles.inventory.sandbox.diffcalculator
 
 import io.github.jsnimda.common.Log
 import io.github.jsnimda.common.annotation.MayThrow
+import io.github.jsnimda.inventoryprofiles.config.Debugs
 import io.github.jsnimda.inventoryprofiles.config.DiffCalculatorType.*
-import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.inventory.data.ItemTracker
 import io.github.jsnimda.inventoryprofiles.inventory.data.collect
 import io.github.jsnimda.inventoryprofiles.inventory.sandbox.ContainerSandbox
@@ -173,13 +173,13 @@ class GenericDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: Item
   override fun run() {
     if (nowTracker == goalTracker) return
     val goalTracker = intermediateGoalTracker
-    when (ModSettings.DIFF_CALCULATOR.value) {
+    when (Debugs.DIFF_CALCULATOR.value) {
       SIMPLE             /**/ -> ::SimpleDiffCalculatorInstance
       SCORE_BASED_SINGLE /**/ -> ::ScoreBasedSingleDiffCalculatorInstance
       SCORE_BASED_DUAL   /**/ -> ::ScoreBasedDualDiffCalculatorInstance
     }.invoke(sandbox, goalTracker).run()
     if (sandbox.items != goalTracker)
-      error("ContainerSandbox actual result by ${ModSettings.DIFF_CALCULATOR.value} Diff Calculator not same as goal")
+      error("ContainerSandbox actual result by ${Debugs.DIFF_CALCULATOR.value} Diff Calculator not same as goal")
     if (!cursorGoal.isEmpty())
       postRun()
   }
