@@ -1,5 +1,5 @@
 // Kotlin
-const val kotlin_version = "1.4-M3"
+const val kotlin_version = "1.4.0-rc"
 
 // Mod Properties
 const val mod_version = "0.4.2"
