@@ -1,11 +1,16 @@
 package io.github.jsnimda.common.gui.widgets
 
+import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.TextRenderer
+import io.github.jsnimda.common.vanilla.render.rDrawDynamicSizeSprite
 import io.github.jsnimda.common.vanilla.render.rMatrixStack
 import io.github.jsnimda.common.vanilla.render.rStandardGlState
+import io.github.jsnimda.common.vanilla.render.rVanillaButtonSprite
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.MathHelper
 import io.github.jsnimda.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -83,6 +88,26 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
     set(value) {
       super.value = (value - minValue) / (maxValue - minValue)
     }
+
+  override fun renderButton(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
+    // fix slider width > 400
+    val hovered = isHovered
+    val absoluteBounds = Rectangle(x, y, width, height)
+
+//    val k = if (active) if (hovered) 2 else 1 else 0
+    val k = 0
+    val sprite = rVanillaButtonSprite.down(k)
+    rDrawDynamicSizeSprite(sprite, absoluteBounds)
+
+    // ref: AbstractButtonWidget.renderButton()
+    renderBg(matrixStack, Vanilla.mc(), i, j)
+//    val l = if (active) 16777215 else 10526880
+    val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
+    drawCenteredText(
+      matrixStack, Vanilla.textRenderer(),
+      message, x + width / 2, y + (height - 8) / 2, l or (MathHelper.ceil(alpha * 255.0f) shl 24)
+    )
+  }
 }
 
 class SliderWidget(
