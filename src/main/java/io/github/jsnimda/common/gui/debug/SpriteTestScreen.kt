@@ -18,10 +18,10 @@ class SpriteTestScreen : BaseOverlay() {
   }
 
   val s1 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20))
-  val s2 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20), 2.0)
-  val s5 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20), 0.5)
-  val s3 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20), 0.3)
-  val s7 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20), 0.7)
+  val s2 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20)) //, 2.0) // todo scale
+  val s5 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20)) //, 0.5)
+  val s3 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20)) //, 0.3)
+  val s7 = Sprite(WIDGETS_TEXTURE, Rectangle(20, 100, 20, 20)) //, 0.7)
 
   fun testDrawSprite() {
     listOf(s1, s2, s5, s3, s7).forEachIndexed { index, sprite ->
