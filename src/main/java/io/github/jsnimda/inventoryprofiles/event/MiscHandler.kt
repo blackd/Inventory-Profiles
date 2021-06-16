@@ -20,7 +20,7 @@ import io.github.jsnimda.inventoryprofiles.inventory.ContainerTypes
 import io.github.jsnimda.inventoryprofiles.item.isEmpty
 
 object MiscHandler {
-  fun swipeMoving() {
+  fun swipeMovingShiftClick() {
     if (!VanillaUtil.shiftDown()) return
     if (!GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) return
     // fixed mouse too fast skip slots
@@ -52,4 +52,34 @@ object MiscHandler {
       ContainerClicker.shiftClick(vPlayerSlotOf(slot, screen).`(id)`)
     }
   }
+
+  fun swipeMovingCtrlQ() {
+    if (!VanillaUtil.ctrlDown()) return
+    if (!GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) return
+    // fixed mouse too fast skip slots
+    // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
+    val screen = Vanilla.screen()
+    val topLeft = (screen as? ContainerScreen<*>)?.`(containerBounds)`?.topLeft ?: return
+
+    // swipe move should disabled when cursor has item
+    if (!vCursorStack().isEmpty()) return
+
+    val line = MouseTracer.asLine
+
+    val types = ContainerTypes.getTypes(Vanilla.container())
+    val matchSet = setOf(
+            ContainerType.NO_SORTING_STORAGE,
+            ContainerType.SORTABLE_STORAGE,
+            ContainerType.PURE_BACKPACK
+    )
+    for (slot in Vanilla.container().`(slots)`) {
+
+
+      val rect = Rectangle(topLeft - Size(1, 1) + slot.`(topLeft)`, Size(18, 18))
+      if (!line.intersects(rect)) continue
+      if (slot.`(itemStack)`.isEmpty()) continue
+      ContainerClicker.qClick(slot.`(id)`)
+    }
+  }
+
 }

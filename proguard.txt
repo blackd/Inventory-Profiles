@@ -1,12 +1,13 @@
--libraryjars <java.home>/lib/rt.jar
-
+#-libraryjars <java.home>/lib/rt.jar
+-libraryjars  <java.home>/jmods/java.base.jmod(!**.jar;!module-info.class)
 -keep class !io.github.jsnimda.common.embedded.** { *; }
 #-ignorewarnings
--optimizationpasses 5 # (828K -> 811K)
+-optimizationpasses 9 # (828K -> 811K)
 #-dontobfuscate
 
 -dontwarn org.jetbrains.annotations.**
 -dontwarn javax.annotation.**
+-dontwarn java.awt.**
 
 -keepattributes *Annotation*
 

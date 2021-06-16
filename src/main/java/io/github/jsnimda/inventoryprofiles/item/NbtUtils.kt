@@ -26,7 +26,7 @@ object NbtUtils {
     // Tag<Item> tag = ((ServerCommandSource)commandContext.getSource()).getMinecraftServer().getTagManager().items().get(identifier);
     // (hard coded)
     // ItemTags.getContainer()
-    return ItemTags.getContainer().get(id)
+    return ItemTags.getTagGroup().getTag(id)
   }
 
   // ============

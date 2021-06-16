@@ -6,12 +6,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 
 /**
  * MixinGuiCloseC2SPacket
  */
-@Mixin(GuiCloseC2SPacket.class)
+@Mixin(CloseHandledScreenC2SPacket.class)
 public class MixinGuiCloseC2SPacket {
 
   @Inject(method = "<init>(I)V", at = @At("RETURN"))

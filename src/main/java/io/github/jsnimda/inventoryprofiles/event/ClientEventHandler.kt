@@ -31,7 +31,8 @@ object ClientEventHandler {
       AutoRefillHandler.onTickInGame()
     }
     if (Tweaks.CONTAINER_SWIPE_MOVING_ITEMS.booleanValue) {
-      MiscHandler.swipeMoving()
+      MiscHandler.swipeMovingShiftClick()
+      MiscHandler.swipeMovingCtrlQ()
     }
     LockSlotsHandler.onTickInGame()
   }

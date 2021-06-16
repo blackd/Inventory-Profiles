@@ -10,7 +10,7 @@ import net.minecraft.screen.slot.CraftingResultSlot
 import net.minecraft.screen.slot.Slot
 import net.minecraft.screen.slot.SlotActionType
 import net.minecraft.screen.slot.TradeOutputSlot
-import net.minecraft.village.TraderInventory
+//import net.minecraft.village.TraderInventory
 
 typealias Container = ScreenHandler
 typealias CreativeContainer = CreativeInventoryScreen.CreativeScreenHandler
@@ -37,7 +37,7 @@ typealias Inventory = Inventory
 typealias PlayerInventory = PlayerInventory
 typealias CraftingInventory = CraftingInventory
 typealias CraftingResultInventory = CraftingResultInventory
-typealias TraderInventory = TraderInventory
+//typealias TraderInventory = TraderInventory
 
 typealias Slot = Slot
 typealias TradeOutputSlot = TradeOutputSlot

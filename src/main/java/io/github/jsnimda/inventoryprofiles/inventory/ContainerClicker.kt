@@ -29,6 +29,11 @@ object ContainerClicker {
     genericClick(slotId, 0, SlotActionType.QUICK_MOVE)
   }
 
+  fun qClick(slotId: Int) { // SlotActionType.QUICK_MOVE
+    genericClick(slotId, 0, SlotActionType.THROW)
+  }
+
+
   fun click(slotId: Int, button: Int) { // SlotActionType.PICKUP
     genericClick(slotId, button, SlotActionType.PICKUP)
   }

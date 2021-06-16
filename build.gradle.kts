@@ -2,33 +2,35 @@ import proguard.gradle.ProGuardTask
 
 buildscript {
   dependencies {
-    classpath("com.guardsquare:proguard-gradle:7.0.0")
+    classpath("com.guardsquare:proguard-gradle:7.1.0-beta5")
   }
 }
 
 plugins {
   `maven-publish`
   kotlin("jvm") version kotlin_version
-  id("com.github.johnrengelman.shadow") version "5.2.0"
+  id("com.github.johnrengelman.shadow") version "7.0.0"
   id("antlr")
   id("com.matthewprenger.cursegradle") version "1.4.0"
-
   id("fabric-loom") version loom_version
 }
 
 repositories {
   mavenCentral()
+  maven("https://repo1.maven.org/maven2/")
   maven("https://dl.bintray.com/kotlin/kotlin-eap")
   maven("https://kotlin.bintray.com/kotlinx")
+  maven("https://maven.terraformersmc.com/releases")
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_16
+  targetCompatibility = JavaVersion.VERSION_16
 }
 
 base {
-  archivesBaseName = "$mod_id-$mod_loader-$minecraft_version"
+  //archivesBaseName = "$mod_id-$mod_loader-$minecraft_version"
+  archivesName.set("$mod_id-$mod_loader-$minecraft_version")
 }
 
 version = mod_version
@@ -43,7 +45,7 @@ tasks.withType<JavaCompile> {
 
 tasks.compileKotlin {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "15"
     freeCompilerArgs = listOf("-Xopt-in=kotlin.ExperimentalStdlibApi")
   }
 }
@@ -53,7 +55,7 @@ tasks.compileKotlin {
 // ============
 
 dependencies {
-  implementation(kotlin("stdlib-jdk8"))
+  implementation(kotlin("stdlib"))
   implementation(kotlin("script-runtime"))
   antlr("org.antlr:antlr4:4.8")
   implementation("org.antlr:antlr4-runtime:4.8")
@@ -61,10 +63,10 @@ dependencies {
   // minecraft
   minecraft("com.mojang:minecraft:$minecraft_version")
   mappings("net.fabricmc:yarn:$yarn_mappings")
-  modCompile("net.fabricmc:fabric-loader:$loader_version")
+  modImplementation("net.fabricmc:fabric-loader:$loader_version")
   compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
-  modCompile("io.github.prospector:modmenu:$mod_menu_version")
+  modImplementation("com.terraformersmc:modmenu:$mod_menu_version")
 }
 
 // ============
@@ -75,6 +77,7 @@ dependencies {
 // ref: https://github.com/natanfudge/fabric-example-mod-kotlin
 
 minecraft {
+
 }
 
 publishing {
@@ -139,8 +142,8 @@ tasks.shadowJar {
   dependencies {
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib-common"))
-    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7"))
-    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
+    //include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7"))
+    //include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
     include(dependency("org.antlr:antlr4-runtime"))
   }
   relocate("kotlin", "io.github.jsnimda.common.embedded.kotlin")
@@ -160,9 +163,9 @@ val proguard by tasks.registering(ProGuardTask::class) {
   injars("build/libs/$buildBaseName-all.jar")
   outjars("build/libs/$buildBaseName-all-proguard.jar")
 
-  doFirst {
+  //doFirst {
     libraryjars(configurations.runtimeClasspath.get().files)
-  }
+  //}
 }
 
 tasks {
@@ -219,6 +222,7 @@ tasks.wrapper {
 // ============
 
 val curseforgeApiKey = project.findProperty("curseforge_api_key") ?: ""
+/*
 curseforge {
   apiKey = curseforgeApiKey
   project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
@@ -245,7 +249,7 @@ curseforge {
     forgeGradleIntegration = mod_loader == "forge"
   })
 }
-
+*/
 // ============
 // other
 // ============

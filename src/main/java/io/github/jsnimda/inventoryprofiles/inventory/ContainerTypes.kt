@@ -1,5 +1,6 @@
 package io.github.jsnimda.inventoryprofiles.inventory
 
+
 import io.github.jsnimda.common.vanilla.alias.*
 import io.github.jsnimda.inventoryprofiles.inventory.ContainerType.*
 
@@ -55,8 +56,15 @@ object ContainerTypes {
     return innerMap.keys.firstOrNull { it.isInstance(container) }
   }
 
-  fun getTypes(container: Container) =
-    innerMap.getOrDefault(getRepresentingClass(container), unknownContainerDefaultTypes)
+  fun getTypes(container: Container): Set<ContainerType> {
+    var z: Class<*>? = getRepresentingClass(container)
+    var v = innerMap.get(z);
+    if (v == null) {
+      v = unknownContainerDefaultTypes
+    }
+    return v
+    //return innerMap.getOrDefault(z, unknownContainerDefaultTypes)
+  }
 
 //  fun match(container: Container, vararg with: ContainerType) = match(container, with.toSet())
 //  fun match(container: Container, with: Set<ContainerType> = setOf(), without: Set<ContainerType> = setOf()) =

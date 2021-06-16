@@ -34,5 +34,5 @@ fun rDrawCenteredText(string: String, bounds: Rectangle, color: Int, shadow: Boo
 
 fun rWrapText(string: String, maxWidth: Int): String =
   // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
-  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.toString() }
 
