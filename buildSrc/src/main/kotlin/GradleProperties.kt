@@ -20,12 +20,12 @@ const val mod_loader = "fabric"
 
 // Fabric Properties
 // Check these on https://modmuss50.me/fabric.html
-const val yarn_mappings = "1.17+build.13:v2"
+const val yarn_mappings = "1.17+build.5:v2"
 const val loader_version = "0.11.6"
 
-const val loom_version = "0.8-SNAPSHOT"
+const val loom_version = "0.8.9"
 
-const val fabric_version = "0.35.0+1.17"
+const val fabric_version = "0.35.2+1.17"
 
 // Dependencies
 // currently not on the main fabric site, check on the maven: https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api

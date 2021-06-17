@@ -27,6 +27,8 @@
     "mixins.inventoryprofiles.json"
   ],
   "depends": {
+    "fabric-resource-loader-v0": "*",
+    "fabric-screen-api-v1": ">=1.0.4",
     "fabricloader": ">=0.11.6",
     "minecraft": "1.17"
   },

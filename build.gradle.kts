@@ -11,7 +11,7 @@ plugins {
   kotlin("jvm") version kotlin_version
   id("com.github.johnrengelman.shadow") version "7.0.0"
   id("antlr")
-  id("com.matthewprenger.cursegradle") version "1.4.0"
+  //id("com.matthewprenger.cursegradle") version "1.4.0"
   id("fabric-loom") version loom_version
 }
 
@@ -61,12 +61,14 @@ dependencies {
   implementation("org.antlr:antlr4-runtime:4.8")
 
   // minecraft
+
   minecraft("com.mojang:minecraft:$minecraft_version")
   mappings("net.fabricmc:yarn:$yarn_mappings")
   modImplementation("net.fabricmc:fabric-loader:$loader_version")
-  compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-
   modImplementation("com.terraformersmc:modmenu:$mod_menu_version")
+  modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
+
+  compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 }
 
 // ============
@@ -90,6 +92,13 @@ publishing {
     }
   }
 }
+
+tasks.runClient {
+
+  //mainClass.set(net.fabricmc.loom.util.Constants.Knot.KNOT_CLIENT)
+
+}
+
 
 tasks.processResources {
   inputs.property("version", project.version)
@@ -153,7 +162,7 @@ tasks.shadowJar {
   exclude("**/*.kotlin_builtins")
   exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
   exclude("**/*_ws$*.class")
-  exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+  //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
   exclude("META-INF/maven/**")
 }
 
@@ -163,9 +172,9 @@ val proguard by tasks.registering(ProGuardTask::class) {
   injars("build/libs/$buildBaseName-all.jar")
   outjars("build/libs/$buildBaseName-all-proguard.jar")
 
-  //doFirst {
+  doFirst {
     libraryjars(configurations.runtimeClasspath.get().files)
-  //}
+  }
 }
 
 tasks {
