@@ -15,6 +15,8 @@ private const val DISPLAY_NAME_PREFIX = "inventoryprofiles.config.name."
 private const val DESCRIPTION_PREFIX = "inventoryprofiles.config.description."
 
 class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.config.title", ModInfo.MOD_VERSION)) {
+
+
   companion object {
     var storedSelectedIndex = 0
   }

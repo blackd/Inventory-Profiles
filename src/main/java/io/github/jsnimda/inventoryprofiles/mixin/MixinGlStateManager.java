@@ -1,19 +1,22 @@
 package io.github.jsnimda.inventoryprofiles.mixin;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import io.github.jsnimda.inventoryprofiles.config.Tweaks;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
+//TODO rename the mixin to reflect the target
 
 /**
  * MixinGlStateManager
  */
-@Mixin(GlStateManager.class)
+@Mixin(GL11.class)
 public class MixinGlStateManager {
 
-  @ModifyVariable(method = "fogDensity(F)V", at = @At("HEAD"), argsOnly = true)
-  private static float fogDensity(float fogDensity) {
+  @ModifyVariable(method = "glFogf(IF)V", at = @At("HEAD"), argsOnly = true, remap = false)
+  private static float glFogf(float fogDensity) {
     if (fogDensity == 2.0f && Tweaks.INSTANCE.getDISABLE_LAVA_FOG().getBooleanValue()) {
       return 0.02f;
     }

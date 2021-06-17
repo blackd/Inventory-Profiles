@@ -9,12 +9,15 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.PlayerInventory
+import io.github.jsnimda.common.vanilla.alias.RenderSystem
 import io.github.jsnimda.common.vanilla.render.*
 import io.github.jsnimda.inventoryprofiles.config.ModSettings
 import io.github.jsnimda.inventoryprofiles.config.SwitchType.HOLD
 import io.github.jsnimda.inventoryprofiles.config.SwitchType.TOGGLE
 import io.github.jsnimda.inventoryprofiles.ingame.*
 import io.github.jsnimda.inventoryprofiles.parser.LockSlotsLoader
+import net.minecraft.client.util.math.MatrixStack
+
 
 /*
   slots ignored for:
@@ -48,7 +51,7 @@ object LockSlotsHandler {
   // ============
   // render
   // ============
-  private val TEXTURE = Identifier("inventoryprofiles", "textures/gui/overlay.png")
+  private val TEXTURE = Identifier("inventoryprofiles", "textures/gui/overlay_new.png")
   private val backgroundSprite = Sprite(TEXTURE, Rectangle(40, 8, 32, 32))
   private val foregroundSprite: Sprite
     get() = backgroundSprite.right().down(ModSettings.LOCKED_SLOTS_FOREGROUND_STYLE.integerValue - 1)
@@ -64,12 +67,18 @@ object LockSlotsHandler {
   fun onForegroundRender() {
     if (!enabled) return
     val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
-    gPushMatrix() // see HandledScreen.render() line 98: RenderSystem.translatef()
+    val matrixStack2: MatrixStack = RenderSystem.getModelViewStack()
+    matrixStack2.push()  // see HandledScreen.render()
+    //rMatrixStack = matrixStack2
     val topLeft = screen.`(containerBounds)`.topLeft
-    gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
+    matrixStack2.translate(-topLeft.x.toDouble(), -topLeft.y.toDouble(), 0.0)
+    RenderSystem.applyModelViewMatrix()
+
+    //gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
     drawForeground()
     drawConfig()
-    gPopMatrix()
+    matrixStack2.pop() //gPopMatrix()
+    RenderSystem.applyModelViewMatrix();
   }
 
   fun postRender() { // display config
@@ -90,6 +99,7 @@ object LockSlotsHandler {
     val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
 //    rClearDepth() // use translate or zOffset
     rDisableDepth()
+    //RenderSystem.enableBlend()
     val topLeft = screen.`(containerBounds)`.topLeft + Point(8, 8) // slot center offset
     for ((invSlot, slotTopLeft) in slotLocations) {
       if (invSlot in lockedInvSlotsStoredValue)
@@ -97,6 +107,7 @@ object LockSlotsHandler {
       else
         openSprite?.let { rDrawCenteredSprite(it, topLeft + slotTopLeft) }
     }
+    //RenderSystem.disableBlend()
     rEnableDepth()
   }
 

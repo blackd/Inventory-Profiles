@@ -2,7 +2,7 @@ package io.github.jsnimda.inventoryprofiles.item.rule.parameter
 
 import io.github.jsnimda.common.extensions.trySwallow
 import io.github.jsnimda.common.extensions.usefulName
-import io.github.jsnimda.common.vanilla.alias.CompoundTag
+import io.github.jsnimda.common.vanilla.alias.NbtCompound
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.rule.ArgumentType
 import io.github.jsnimda.inventoryprofiles.item.rule.Rule
@@ -25,8 +25,8 @@ class EnumArgumentType<T : Enum<T>>(val enumClass: Class<T>) : ArgumentType<T> {
     trySwallow { java.lang.Enum.valueOf(enumClass, argument.toUpperCase()) }
 }
 
-object NbtArgumentType : ArgumentType<CompoundTag> {
-  override fun toString(value: CompoundTag) = value.toString()
+object NbtArgumentType : ArgumentType<NbtCompound> {
+  override fun toString(value: NbtCompound) = value.toString()
   override fun parse(argument: String) = NbtUtils.parseNbt(argument)
 }
 

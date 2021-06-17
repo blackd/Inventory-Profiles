@@ -1,16 +1,28 @@
 package io.github.jsnimda.inventoryprofiles.compat
 
+import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import io.github.jsnimda.common.vanilla.alias.Screen
-import io.github.jsnimda.inventoryprofiles.ModInfo
 import io.github.jsnimda.inventoryprofiles.gui.ConfigScreen
-import io.github.prospector.modmenu.api.ModMenuApi
+import com.terraformersmc.modmenu.api.ModMenuApi
 import java.util.function.Function
 
 class ModMenuApiImpl : ModMenuApi {
-  override fun getModId(): String {
-    return ModInfo.MOD_ID
+
+  override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreen> {
+    return ConfigScreenFactory<ConfigScreen> { parent ->
+      val c = ConfigScreen()
+      c.parent = parent
+      c
+    }
   }
 
-  override fun getConfigScreenFactory(): Function<Screen, out Screen> =
-    Function { parent: Screen -> ConfigScreen().apply { this.parent = parent } }
+    /*
+
+     { parent: Screen ->
+      ConfigScreen().apply {
+        this.parent = parent
+      }
+    }
+
+     */
 }

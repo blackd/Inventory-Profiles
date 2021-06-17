@@ -7,15 +7,15 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.nbt.AbstractListTag
-import net.minecraft.nbt.AbstractNumberTag
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.AbstractNbtList
+import net.minecraft.nbt.AbstractNbtNumber
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.StringNbtReader
 import net.minecraft.potion.PotionUtil
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagGroup
-import net.minecraft.nbt.Tag as NbtTag
+import net.minecraft.nbt.NbtElement
 import net.minecraft.tag.Tag as TagTag
 
 typealias Item = Item
@@ -32,11 +32,11 @@ typealias TagGroup<T> = TagGroup<T>
 // nbt
 // ============
 
-typealias CompoundTag = CompoundTag
-typealias NbtTag = NbtTag
+typealias NbtCompound = NbtCompound
+typealias NbtElement = NbtElement
 
-typealias AbstractNumberTag = AbstractNumberTag
-typealias AbstractListTag<T> = AbstractListTag<T>
+typealias AbstractNbtNumber = AbstractNbtNumber
+typealias AbstractNbtList<T> = AbstractNbtList<T>
 
 typealias NbtPathArgumentType = NbtPathArgumentType
 typealias NbtPathArgumentTypeNbtPath = NbtPathArgumentType.NbtPath

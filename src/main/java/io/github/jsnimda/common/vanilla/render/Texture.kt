@@ -3,17 +3,18 @@ package io.github.jsnimda.common.vanilla.render
 import io.github.jsnimda.common.math2d.*
 import io.github.jsnimda.common.math2d.Corner.*
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.ClickableWidget
 import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 import io.github.jsnimda.common.vanilla.alias.Identifier
+import io.github.jsnimda.common.vanilla.alias.RenderSystem
 
 private val VANILLA_TEXTURE_WIDGETS: Identifier
-  get() = AbstractButtonWidget.WIDGETS_LOCATION
+  get() = ClickableWidget.WIDGETS_TEXTURE
 
 private fun rBindTexture(identifier: Identifier) {
   Vanilla.textureManager().bindTexture(identifier)
 //  rEnableBlend()
-  rStandardGlState()
+  //rStandardGlState()
 }
 
 // for 256 x 256 texture
@@ -43,10 +44,14 @@ private fun rBlit(drawArea: Rectangle, spriteBounds: Rectangle, textureSize: Siz
 
 fun rDrawSprite(sprite: Sprite, location: Point) = rDrawSprite(sprite, location.x, location.y)
 fun rDrawSprite(sprite: Sprite, x: Int, y: Int) {
-  rBindTexture(sprite.identifier)
+  RenderSystem.setShaderColor(1f,1f,1f,1f)
+  RenderSystem.setShaderTexture(0, sprite.identifier)
+  RenderSystem.disableDepthTest();
+  //rBindTexture(sprite.identifier)
   val (sx, sy, sw, sh) = sprite.spriteBounds
   val (tw, th) = sprite.textureSize
   rBlit(x, y, sw, sh, sx, sy, sw, sh, tw, th)
+  RenderSystem.enableDepthTest();
 }
 
 fun rDrawCenteredSprite(sprite: Sprite, location: Point) = rDrawCenteredSprite(sprite, location.x, location.y)

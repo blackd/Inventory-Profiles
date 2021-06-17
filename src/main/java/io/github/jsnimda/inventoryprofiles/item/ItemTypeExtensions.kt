@@ -82,7 +82,7 @@ val ItemType.durability: Int
   get() = maxDamage - damage
 
 val ItemType.isBucket: Boolean
-  get() = item is BucketItem || item is MilkBucketItem || item is FishBucketItem
+  get() = item is BucketItem || item is MilkBucketItem
 val ItemType.isStew: Boolean
   get() = item is MushroomStewItem || item is SuspiciousStewItem
 //endregion

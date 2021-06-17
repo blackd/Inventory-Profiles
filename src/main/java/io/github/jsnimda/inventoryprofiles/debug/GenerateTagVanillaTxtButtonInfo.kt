@@ -26,7 +26,10 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
     ItemTags.getTagGroup().toTagTxtContent().writeToFile(fileHardcoded)
     val server = Vanilla.server()
     server ?: return Unit.also { TellPlayer.chat("Not integrated server!!!") }
-    server.tagManager.items.toTagTxtContent().writeToFile(fileDatapack)
+    //todo wtf have I done
+    server.tagManager.getOrCreateTagGroup(Registry.ITEM_KEY).toTagTxtContent().writeToFile(fileDatapack)
+    //server.tagManager.items.toTagTxtContent().writeToFile(fileDatapack)
+
   } // eventually they are the same ~.~
 
   val Identifier.omittedString: String // omit minecraft

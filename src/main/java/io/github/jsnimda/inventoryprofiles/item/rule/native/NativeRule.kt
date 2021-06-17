@@ -6,7 +6,7 @@ import io.github.jsnimda.common.extensions.compareTo
 import io.github.jsnimda.common.extensions.letIf
 import io.github.jsnimda.common.util.LogicalStringComparator
 import io.github.jsnimda.common.vanilla.VanillaUtil
-import io.github.jsnimda.common.vanilla.alias.CompoundTag
+import io.github.jsnimda.common.vanilla.alias.NbtCompound
 import io.github.jsnimda.inventoryprofiles.item.ItemType
 import io.github.jsnimda.inventoryprofiles.item.NbtUtils
 import io.github.jsnimda.inventoryprofiles.item.comparablePotionEffects
@@ -91,7 +91,7 @@ open class BooleanBasedRule : TypeBasedRule<Boolean>() {
 class MatchNbtRule : BooleanBasedRule() {
   init {
     arguments.apply {
-      defineParameter(nbt, CompoundTag())
+      defineParameter(nbt, NbtCompound())
       defineParameter(allow_extra, true)
     }
     valueOf = {

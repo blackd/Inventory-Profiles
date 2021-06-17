@@ -2,17 +2,19 @@ package io.github.jsnimda.inventoryprofiles.gui.inject
 
 import io.github.jsnimda.common.gui.widgets.RootWidget
 import io.github.jsnimda.common.gui.widgets.Widget
-import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.ClickableWidget
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.MatrixStack
 import io.github.jsnimda.common.vanilla.render.rScreenHeight
 import io.github.jsnimda.common.vanilla.render.rScreenWidth
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.screen.narration.NarrationPart
 
 // ============
 // vanillamapping code depends on mappings
 // ============
 
-class AsVanillaWidget() : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight, LiteralText("")) {
+class AsVanillaWidget() : ClickableWidget(0, 0, rScreenWidth, rScreenHeight, LiteralText("")) {
   constructor(vararg widgets: Widget) : this() {
     widgets.forEach { addWidget(it) }
   }
@@ -65,4 +67,7 @@ class AsVanillaWidget() : AbstractButtonWidget(0, 0, rScreenWidth, rScreenHeight
 
   override fun charTyped(charIn: Char, modifiers: Int): Boolean =
     rootWidget.charTyped(charIn, modifiers)
+
+  override fun appendNarrations(narrationMessageBuilder: NarrationMessageBuilder?) {
+  }
 }

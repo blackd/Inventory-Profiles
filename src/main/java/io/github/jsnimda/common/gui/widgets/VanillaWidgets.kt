@@ -2,7 +2,7 @@ package io.github.jsnimda.common.gui.widgets
 
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
-import io.github.jsnimda.common.vanilla.alias.AbstractButtonWidget
+import io.github.jsnimda.common.vanilla.alias.ClickableWidget
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.TextRenderer
 import io.github.jsnimda.common.vanilla.render.rDrawDynamicSizeSprite
@@ -18,7 +18,7 @@ import io.github.jsnimda.common.vanilla.alias.TextFieldWidget as VanillaTextFiel
 // vanillamapping code depends on mappings
 // ============
 
-open class VanillaWidget<T : AbstractButtonWidget>(
+open class VanillaWidget<T : ClickableWidget>(
   val vanilla: T
 ) : Widget() {
   init {
@@ -100,7 +100,7 @@ private class CustomVanillaSliderWidget(val minValue: Double, val maxValue: Doub
     rDrawDynamicSizeSprite(sprite, absoluteBounds)
 
     // ref: AbstractButtonWidget.renderButton()
-    renderBg(matrixStack, Vanilla.mc(), i, j)
+    renderBackground(matrixStack, Vanilla.mc(), i, j)
 //    val l = if (active) 16777215 else 10526880
     val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
     drawCenteredText(

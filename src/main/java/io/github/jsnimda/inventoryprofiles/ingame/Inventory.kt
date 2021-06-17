@@ -15,7 +15,7 @@ import io.github.jsnimda.inventoryprofiles.item.ItemStack
 private val vPlayerSlots
   get() = Vanilla.playerContainer().`(slots)`
 
-fun vCursorStack() = Vanilla.playerInventory().cursorStack?.`(itemStack)` ?: ItemStack.EMPTY
+fun vCursorStack() = Vanilla.playerInventory().player.currentScreenHandler.cursorStack?.`(itemStack)` ?: ItemStack.EMPTY
 
 fun vPlayerSlotOf(slot: Slot, screen: Screen?): Slot { // creative slot to survival slot
   if (screen !is CreativeInventoryScreen) return slot

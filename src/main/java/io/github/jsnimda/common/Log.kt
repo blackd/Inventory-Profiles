@@ -8,8 +8,8 @@ object Log {
   private const val id = "inventoryprofiles"
   val innerLogger: Logger = LogManager.getLogger(id)
 
-  var shouldDebug: () -> Boolean = { false }
-  var shouldTrace: () -> Boolean = { false }
+  var shouldDebug: () -> Boolean = { true }
+  var shouldTrace: () -> Boolean = { true }
 
   fun error(message: String) = innerLogger.error("[$id] $message").also { onLog(ERROR, message) }
   fun warn(message: String) = innerLogger.warn("[$id] $message").also { onLog(WARN, message) }

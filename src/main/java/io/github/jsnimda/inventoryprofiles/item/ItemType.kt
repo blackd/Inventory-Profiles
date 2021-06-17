@@ -1,10 +1,10 @@
 package io.github.jsnimda.inventoryprofiles.item
 
-import io.github.jsnimda.common.vanilla.alias.CompoundTag
+import io.github.jsnimda.common.vanilla.alias.NbtCompound
 import io.github.jsnimda.common.vanilla.alias.Item
 
 // different nbt is treated as different type, as they can't stack together
-data class ItemType(val item: Item, val tag: CompoundTag?) {
+data class ItemType(val item: Item, val tag: NbtCompound?) {
   override fun toString() = item.toString() + "" + (tag ?: "")
 
   override fun equals(other: Any?): Boolean {

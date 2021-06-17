@@ -3,7 +3,9 @@ package io.github.jsnimda.common.vanilla.render
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.math2d.intersect
 import io.github.jsnimda.common.vanilla.alias.*
+import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.GL20
 
 // ============
 // api
@@ -52,14 +54,19 @@ fun rCreateDepthMask(bounds: Rectangle) {
 
 private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
   depthBounds.add(bounds)
-  gPushMatrix()
-  gTranslatef(0f, 0f, -400.0f)
+ // GL11.glMatrixMode(GL11.GL_PROJECTION)
+  var a = RenderSystem.getModelViewStack()
+  a.push()
+  a.translate(.0, .0, -400.0)
+  //gPushMatrix()
+  //gTranslatef(0f, 0f, -400.0f)
   rOverwriteDepth(bounds)
+  a.pop()
 }
 
 fun rRemoveDepthMask() {
 //  rStandardGlState() // added this
-  gPopMatrix()
+  //gPopMatrix() this has already been done the 1.17 way
   rOverwriteDepth(depthBounds.removeLast())
 }
 
@@ -87,12 +94,6 @@ fun rEnableDepth() {
 
 var rMatrixStack = MatrixStack()
 
-fun gPushMatrix() = RenderSystem.pushMatrix()
-fun gPopMatrix() = RenderSystem.popMatrix()
-
-//fun gLoadIdentity() = RenderSystem.loadIdentity()
-fun gTranslatef(x: Float, y: Float, z: Float) = RenderSystem.translatef(x, y, z)
-
 // ============
 // internal
 // ============
@@ -101,14 +102,23 @@ private fun rEnableBlend() {
   RenderSystem.enableBlend()
   RenderSystem.defaultBlendFunc()
   RenderSystem.blendFunc(SrcFactor.SRC_ALPHA, DstFactor.ONE_MINUS_SRC_ALPHA)
-  RenderSystem.color4f(1f, 1f, 1f, 1f)
+  RenderSystem.setShaderColor(1f,1f,1f,1f)
+  //RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+  //GL11.glColor4f(1f, 1f, 1f, 1f)
 }
 
 // ============
 // GlStateManager
-private fun gDisableDiffuse() = DiffuseLighting.disable()
-private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
-private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
+//private fun gDisableDiffuse() = DiffuseLighting.disable()
+private fun gDisableDiffuse() {
+  //GL11.glDisable(GL11.GL_LIGHTING)
+  //GL11.glDisable(GL11.GL_COLOR_MATERIAL)
+}
+private fun gDisableAlphaTest() { //= GL11.glDisable(GL11.GL_ALPHA_TEST) // RenderSystem.disableAlphaTest()
+
+}
+private fun gEnableAlphaTest() {//= GL11.glEnable(GL11.GL_ALPHA_TEST) //RenderSystem.enableAlphaTest()
+}
 private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
 private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
 private fun gDepthFunc(value: Int) { // default = GL_LEQUAL = 515
