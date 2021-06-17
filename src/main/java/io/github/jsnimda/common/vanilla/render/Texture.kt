@@ -7,15 +7,11 @@ import io.github.jsnimda.common.vanilla.alias.ClickableWidget
 import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 import io.github.jsnimda.common.vanilla.alias.Identifier
 import io.github.jsnimda.common.vanilla.alias.RenderSystem
+import net.minecraft.client.gui.widget.ButtonWidget
 
 private val VANILLA_TEXTURE_WIDGETS: Identifier
-  get() = ClickableWidget.WIDGETS_TEXTURE
+  get() = ButtonWidget.WIDGETS_TEXTURE
 
-private fun rBindTexture(identifier: Identifier) {
-  Vanilla.textureManager().bindTexture(identifier)
-//  rEnableBlend()
-  //rStandardGlState()
-}
 
 // for 256 x 256 texture
 private fun rBlit(x: Int, y: Int, sx: Int, sy: Int, sw: Int, sh: Int) { // screen xy sprite xy wh
@@ -133,8 +129,8 @@ fun rDrawDynamicSizeSprite(
 
   val textureAreas = resizeClips(sprite.clips, aw, bw, ah, bh)
   val drawAreas = bounds.split3x3(textureAreas[1].size, textureAreas[9].size)
+  RenderSystem.setShaderTexture(0, sprite.identifier)
 
-  rBindTexture(sprite.identifier)
   mode.draw(drawAreas, textureAreas, sprite.textureSize)
 }
 

@@ -6,6 +6,7 @@ import io.github.jsnimda.common.math2d.Size
 import io.github.jsnimda.common.vanilla.alias.ClickableWidget
 import io.github.jsnimda.common.vanilla.alias.ContainerScreen
 import io.github.jsnimda.common.vanilla.alias.Screen
+import io.github.jsnimda.common.vanilla.alias.Selectable
 import io.github.jsnimda.common.vanilla.render.rScreenSize
 
 object ScreenEventHandler {

@@ -3,6 +3,7 @@ package io.github.jsnimda.common.vanilla.render
 import io.github.jsnimda.common.math2d.Rectangle
 import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.LiteralText
+import net.minecraft.text.Style
 
 fun rMeasureText(string: String): Int =
   Vanilla.textRenderer().getWidth(string) // getStringWidth() = getWidth()
@@ -34,5 +35,6 @@ fun rDrawCenteredText(string: String, bounds: Rectangle, color: Int, shadow: Boo
 
 fun rWrapText(string: String, maxWidth: Int): String =
   // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
-  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.toString() }
+  Vanilla.textRenderer().textHandler.wrapLines(LiteralText(string), maxWidth, Style.EMPTY).joinToString("\n") { it.string }
+
 
