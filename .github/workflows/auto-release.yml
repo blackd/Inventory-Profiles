@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Automatic Release on version tag push
+name: "tagged-release"
 
 # Controls when the action will run. 
 on:
@@ -8,10 +8,8 @@ on:
   push:
     tags:
       - "v*"
-    branches: 
-      - "fabric-1.17"
 jobs:
-  build:
+  gh_tagged_release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
