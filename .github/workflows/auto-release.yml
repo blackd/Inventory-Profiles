@@ -7,9 +7,9 @@ on:
   # Triggers the workflow on push or pull request events but only for the fabric-1.17 branch and tag matchin v*.*.*
   push:
     tags:
-      - 'v*.*.*'
+      - "v*"
     branches: 
-      - 'fabric-1.17'
+      - "fabric-1.17"
 jobs:
   build:
     runs-on: ubuntu-latest
