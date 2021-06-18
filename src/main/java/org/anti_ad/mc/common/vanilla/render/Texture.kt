@@ -36,10 +36,11 @@ private fun rBlit(drawArea: Rectangle, spriteBounds: Rectangle, textureSize: Siz
 // sprite
 // ============
 
-fun rDrawSprite(sprite: Sprite, location: Point) = rDrawSprite(sprite, location.x, location.y)
-fun rDrawSprite(sprite: Sprite, x: Int, y: Int) {
+fun rDrawSprite(sprite: Sprite, location: Point) = rDrawSprite(sprite,0 , location.x, location.y)
+fun rDrawSprite(sprite: Sprite, x: Int, y: Int) = rDrawSprite(sprite, 0, x,y)
+fun rDrawSprite(sprite: Sprite, tIndex: Int, x: Int, y: Int) {
   RenderSystem.setShaderColor(1f,1f,1f,1f)
-  RenderSystem.setShaderTexture(0, sprite.identifier)
+  RenderSystem.setShaderTexture(tIndex, sprite.identifier)
   RenderSystem.disableDepthTest();
   //rBindTexture(sprite.identifier)
   val (sx, sy, sw, sh) = sprite.spriteBounds
@@ -51,7 +52,7 @@ fun rDrawSprite(sprite: Sprite, x: Int, y: Int) {
 fun rDrawCenteredSprite(sprite: Sprite, location: Point) = rDrawCenteredSprite(sprite, location.x, location.y)
 fun rDrawCenteredSprite(sprite: Sprite, x: Int, y: Int) {
   val (w, h) = sprite.size
-  rDrawSprite(sprite, x - w / 2, y - h / 2)
+  rDrawSprite(sprite, 0, x - w / 2, y - h / 2)
 }
 
 data class Sprite(

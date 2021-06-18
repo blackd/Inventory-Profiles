@@ -13,14 +13,4 @@ class ModMenuApiImpl : ModMenuApi {
       c
     }
   }
-
-    /*
-
-     { parent: Screen ->
-      ConfigScreen().apply {
-        this.parent = parent
-      }
-    }
-
-     */
 }

@@ -1,6 +1,7 @@
 package org.anti_ad.mc.ipnext.mixin;
 
 
+import com.google.common.collect.Lists;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import kotlin.Unit;
 import net.minecraft.client.MinecraftClient;
@@ -17,23 +18,11 @@ import java.util.List;
 
 @Mixin(Screen.class)
 public abstract class MixinScreen {
-//  @Inject(at= @At("HEAD"), method = "renderTooltip(Lnet/minecraft/client/util/math/MatrixStack;Ljava/util/List;II)V")
-//  public void renderTooltip(MatrixStack matrixStack, List<? extends StringRenderable> list, int i, int j, CallbackInfo ci) {
-//    ClientEventHandler.INSTANCE.preRenderTooltip();
-//  }
-//
-//  @Inject(at= @At("HEAD"), method = "render")
-//  public void render(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-//    ClientEventHandler.INSTANCE.preScreenRender();
-//  }
-
-//  @Shadow
-//  protected abstract <T extends Element & Selectable> T addSelectableChild(T child);
 
   @Shadow
-  private final List<Element> children = null;
+  private final List<Element> children = Lists.newArrayList();;
   @Shadow
-  private final List<Selectable> selectables = null;
+  private final List<Selectable> selectables = Lists.newArrayList();;
 
   @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")
   public void init(MinecraftClient minecraftClient, int i, int j, CallbackInfo ci) {
@@ -44,7 +33,7 @@ public abstract class MixinScreen {
     });
   }
 
-  protected <T extends Element & Selectable> T addSelectableChild(T child) {
+  public <T extends Element & Selectable> T addSelectableChild(T child) {
     this.children.add(child);
     this.selectables.add((Selectable)child);
     return child;

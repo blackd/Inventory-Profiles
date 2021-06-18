@@ -99,7 +99,7 @@ object LockSlotsHandler {
     val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
 //    rClearDepth() // use translate or zOffset
     rDisableDepth()
-    //RenderSystem.enableBlend()
+    RenderSystem.enableBlend()
     val topLeft = screen.`(containerBounds)`.topLeft + Point(8, 8) // slot center offset
     for ((invSlot, slotTopLeft) in slotLocations) {
       if (invSlot in lockedInvSlotsStoredValue)
@@ -107,8 +107,8 @@ object LockSlotsHandler {
       else
         openSprite?.let { rDrawCenteredSprite(it, topLeft + slotTopLeft) }
     }
-    //RenderSystem.disableBlend()
-    rEnableDepth()
+    RenderSystem.disableBlend()
+    //rEnableDepth()
   }
 
   // ============

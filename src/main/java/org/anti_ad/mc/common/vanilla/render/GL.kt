@@ -13,7 +13,6 @@ import org.lwjgl.opengl.GL11
 fun rStandardGlState() { // reset to standard state (for screen rendering)
   rEnableBlend()
   gDisableDiffuse()
-  gEnableAlphaTest()
   gEnableDepthTest()
   RenderSystem.depthMask(true)
 }
@@ -56,8 +55,6 @@ private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
   var a = RenderSystem.getModelViewStack()
   a.push()
   a.translate(.0, .0, -400.0)
-  //gPushMatrix()
-  //gTranslatef(0f, 0f, -400.0f)
   rOverwriteDepth(bounds)
   a.pop()
 }
@@ -70,9 +67,7 @@ fun rRemoveDepthMask() {
 
 private fun rOverwriteDepth(bounds: Rectangle) {
   gDepthFunc(GL11.GL_ALWAYS)
-  gDisableAlphaTest()
   rFillRect(bounds, 0)
-  gEnableAlphaTest()
   gDepthFunc(GL11.GL_LEQUAL)
 }
 
@@ -101,21 +96,15 @@ private fun rEnableBlend() {
   RenderSystem.defaultBlendFunc()
   RenderSystem.blendFunc(SrcFactor.SRC_ALPHA, DstFactor.ONE_MINUS_SRC_ALPHA)
   RenderSystem.setShaderColor(1f,1f,1f,1f)
-  //RenderSystem.assertThread(RenderSystem::isOnRenderThread);
-  //GL11.glColor4f(1f, 1f, 1f, 1f)
+
 }
 
 // ============
 // GlStateManager
-//private fun gDisableDiffuse() = DiffuseLighting.disable()
-private fun gDisableDiffuse() {
-  //GL11.glDisable(GL11.GL_LIGHTING)
-  //GL11.glDisable(GL11.GL_COLOR_MATERIAL)
-}
-private fun gDisableAlphaTest() { //= GL11.glDisable(GL11.GL_ALPHA_TEST) // RenderSystem.disableAlphaTest()
+// ============
 
-}
-private fun gEnableAlphaTest() {//= GL11.glEnable(GL11.GL_ALPHA_TEST) //RenderSystem.enableAlphaTest()
+private fun gDisableDiffuse() {
+  DiffuseLighting.disableGuiDepthLighting()
 }
 private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
 private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
