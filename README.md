@@ -1,19 +1,21 @@
 # Inventory Profiles Next
 **Requirement:** 1.17 fabric
 ## Mod download
-CurseForge: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next
 
-**Description**
+**Modrinth**: https://modrinth.com/mod/inventory-profiles-next
 
-Continues the development of the original Inventory Prifles mod
+**CurseForge**: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next
 
-Inventory Profiles is a client side mod that helps you organize and sort your inventory or chests. Multiplayer is supported and no any mods is required for the server.
+# Description
+
+Continues the development of the original Inventory Profiles mod
+
+Inventory Profiles is a client side mod that helps you organize and sort your inventory or chests.
   
 
-Press **R + C** to open in-game config menu. Press **R** in the inventory screen to sort yout items.
+Press **R + C** to open in-game config menu. Press **R** in the inventory screen to sort your items.
 
 
-
-**TODO**
+### TODO
  - learn Kotlin
  - learn about Minecraft modding :) 
