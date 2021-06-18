@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "inventoryprofiles",
+  "id": "inventoryprofilesnext",
   "version": "${version}",
   "name": "Inventory Profiles",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Take control over your inventory",
   "authors": [
-    "jsnimda"
+    "mirinimi/blackd"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next",
+    "sources": "https://github.com/blackd/Inventory-Profiles"
   },
   "license": "CC0-1.0",
-  "icon": "assets/inventoryprofiles/icon.png",
+  "icon": "assets/inventoryprofilesnext/icon.png",
   "environment": "client",
   "entrypoints": {
     "main": [
-      "io.github.jsnimda.inventoryprofiles.InventoryProfilesKt::init"
+      "org.anti_ad.mc.ipnext.InventoryProfilesKt::init"
     ],
     "modmenu": [
-      "io.github.jsnimda.inventoryprofiles.compat.ModMenuApiImpl"
+      "org.anti_ad.mc.ipnext.compat.ModMenuApiImpl"
     ]
   },
   "mixins": [
     "mixins.common.json",
-    "mixins.inventoryprofiles.json"
+    "mixins.ipnext.json"
   ],
   "depends": {
     "fabric-resource-loader-v0": "*",

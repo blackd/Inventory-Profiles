@@ -155,8 +155,8 @@ tasks.shadowJar {
     //include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
     include(dependency("org.antlr:antlr4-runtime"))
   }
-  relocate("kotlin", "io.github.jsnimda.common.embedded.kotlin")
-  relocate("org.antlr", "io.github.jsnimda.common.embedded.org.antlr")
+  relocate("kotlin", "org.anti_ad.mc.common.embedded.kotlin")
+  relocate("org.antlr", "org.anti_ad.mc.common.embedded.org.antlr")
   exclude("**/*.kotlin_metadata")
   exclude("**/*.kotlin_module")
   exclude("**/*.kotlin_builtins")
@@ -197,9 +197,9 @@ tasks {
 val genAntlr by tasks.registering(JavaExec::class) {
   description = "Generates Java sources from Antlr4 grammars."
 
-  val destinationDir = "src/main/java/io/github/jsnimda/inventoryprofiles/gen"
-  val antlrSource = "src/main/java/io/github/jsnimda/inventoryprofiles/parser/antlr"
-  val packageName = "io.github.jsnimda.inventoryprofiles.gen"
+  val destinationDir = "src/main/java/org/anti_ad/mc/ipnext/gen"
+  val antlrSource = "src/main/java/org/anti_ad/mc/ipnext/parser/antlr"
+  val packageName = "org.anti_ad.mc.ipnext.gen"
 
   inputs.dir(file(antlrSource))
   outputs.dir(file(destinationDir))

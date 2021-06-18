@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.anti_ad.mc.ipnext.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+  ],
+  "client": [
+    "IMixinContainerScreen",
+    "IMixinSlot",
+    "MixinClientPlayerEntity",
+    "MixinClientPlayerInteractionManager",
+    "MixinContainerScreen",
+    "MixinCraftingResultSlot",
+    "MixinGameRenderer",
+    "MixinGlStateManager",
+    "MixinGuiCloseC2SPacket",
+    "MixinMinecraftClient",
+    "MixinScreen"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

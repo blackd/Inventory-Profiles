@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "io.github.jsnimda.common.mixin",
+  "package": "org.anti_ad.mc.common.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
   ],
