@@ -9,23 +9,27 @@ import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.render.rScreenSize
 
 object ScreenEventHandler {
-  fun onScreenInit(target: Screen, addWidget: (ClickableWidget) -> Unit) {
-    if (target is ContainerScreen<*>) {
-      ContainerScreenEventHandler.onScreenInit(target, addWidget)
+    fun onScreenInit(target: Screen,
+                     addWidget: (ClickableWidget) -> Unit) {
+        if (target is ContainerScreen<*>) {
+            ContainerScreenEventHandler.onScreenInit(target,
+                                                     addWidget)
+        }
     }
-  }
 
-  private var trackedScreenSize by detectable(Size(0, 0)) { _, (width, height) ->
-    GlobalScreenEventListener.onResize(width, height)
-  }
+    private var trackedScreenSize by detectable(Size(0,
+                                                     0)) { _, (width, height) ->
+        GlobalScreenEventListener.onResize(width,
+                                           height)
+    }
 
-  fun preRender() {
-    InsertWidgetHandler.preScreenRender()
-    trackedScreenSize = rScreenSize
-    ContainerScreenEventHandler.preRender()
-  }
+    fun preRender() {
+        InsertWidgetHandler.preScreenRender()
+        trackedScreenSize = rScreenSize
+        ContainerScreenEventHandler.preRender()
+    }
 
-  fun postRender() {
-    ContainerScreenEventHandler.postRender()
-  }
+    fun postRender() {
+        ContainerScreenEventHandler.postRender()
+    }
 }

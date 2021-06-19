@@ -12,18 +12,18 @@ import org.anti_ad.mc.ipnext.parser.CustomDataFileLoader
 @Suppress("unused")
 fun init() {
 
-  ClientInitHandler.register {
+    ClientInitHandler.register {
 
-    Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
-    Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
+        Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
+        Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
 
-    // Keybind register
-    InputHandler.onClientInit()
-    InsertWidgetHandler.onClientInit()
+        // Keybind register
+        InputHandler.onClientInit()
+        InsertWidgetHandler.onClientInit()
 
-    SaveLoadManager.load()
-    CustomDataFileLoader.load()
+        SaveLoadManager.load()
+        CustomDataFileLoader.load()
 
-  }
+    }
 
 }

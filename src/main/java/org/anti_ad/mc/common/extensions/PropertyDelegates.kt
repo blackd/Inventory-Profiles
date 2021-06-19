@@ -10,15 +10,20 @@ import kotlin.reflect.KProperty
 // ============
 
 // like observable, but only invoke onChange if value really changed
-inline fun <T> detectable(initialValue: T, crossinline onChange: (oldValue: T, newValue: T) -> Unit) =
-  Delegates.observable(initialValue) { _, oldValue, newValue -> if (oldValue != newValue) onChange(oldValue, newValue) }
+inline fun <T> detectable(initialValue: T,
+                          crossinline onChange: (oldValue: T, newValue: T) -> Unit) =
+    Delegates.observable(initialValue) { _, oldValue, newValue ->
+        if (oldValue != newValue) onChange(oldValue,
+                                           newValue)
+    }
 
 // ============
 // PropertyNameChecker
 // ============
 
 class AsDelegate<out V>(val value: V) : ReadOnlyProperty<Any?, V> {
-  override fun getValue(thisRef: Any?, property: KProperty<*>): V = value
+    override fun getValue(thisRef: Any?,
+                          property: KProperty<*>): V = value
 }
 
 //interface IPropertyNameChecker<V> : PropertyDelegateProvider<Any?, AsDelegate<V>> {
@@ -33,9 +38,10 @@ class AsDelegate<out V>(val value: V) : ReadOnlyProperty<Any?, V> {
 //}
 
 open class ByPropertyName<V>(val value: ByPropertyName<V>.(String) -> V) :
-  PropertyDelegateProvider<Any?, AsDelegate<V>> {
-  override fun provideDelegate(thisRef: Any?, property: KProperty<*>) =
-    AsDelegate(value(property.name))
+    PropertyDelegateProvider<Any?, AsDelegate<V>> {
+    override fun provideDelegate(thisRef: Any?,
+                                 property: KProperty<*>) =
+        AsDelegate(value(property.name))
 }
 
 //inline fun <V> PropertyNameChecker(value: V, crossinline handleName: (String) -> Unit) =

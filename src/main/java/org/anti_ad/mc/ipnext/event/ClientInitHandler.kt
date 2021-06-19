@@ -2,27 +2,27 @@ package org.anti_ad.mc.ipnext.event
 
 object ClientInitHandler {
 
-  private fun onInit() {
-    registered.forEach { it() }
-    registered.clear()
-  }
-
-  private var onInit = false
-  fun onTickPre() {
-    if (!onInit) {
-      onInit = true
-      onInit()
+    private fun onInit() {
+        registered.forEach { it() }
+        registered.clear()
     }
-  }
 
-  // ============
-  // api
-  // ============
-  private val registered = mutableSetOf<() -> Unit>()
+    private var onInit = false
+    fun onTickPre() {
+        if (!onInit) {
+            onInit = true
+            onInit()
+        }
+    }
 
-  fun register(initHandler: () -> Unit): Boolean =
-    registered.add(initHandler)
+    // ============
+    // api
+    // ============
+    private val registered = mutableSetOf<() -> Unit>()
 
-  fun unregister(initHandler: () -> Unit): Boolean =
-    registered.remove(initHandler)
+    fun register(initHandler: () -> Unit): Boolean =
+        registered.add(initHandler)
+
+    fun unregister(initHandler: () -> Unit): Boolean =
+        registered.remove(initHandler)
 }

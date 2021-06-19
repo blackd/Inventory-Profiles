@@ -8,32 +8,41 @@ import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 
 val rScreenWidth
-  get() = Vanilla.window().scaledWidth
+    get() = Vanilla.window().scaledWidth
 val rScreenHeight
-  get() = Vanilla.window().scaledHeight
+    get() = Vanilla.window().scaledHeight
 val rScreenSize
-  get() = Size(rScreenWidth, rScreenHeight)
+    get() = Size(rScreenWidth,
+                 rScreenHeight)
 val rScreenBounds
-  get() = Rectangle(0, 0, rScreenWidth, rScreenHeight)
+    get() = Rectangle(0,
+                      0,
+                      rScreenWidth,
+                      rScreenHeight)
 
 fun rRenderDirtBackground() { // Screen.renderDirtBackground
-  (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)
+    (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)
 }
 
 fun rRenderBlackOverlay() { // Screen.renderBackground
-  rFillGradient(0, 0, rScreenWidth, rScreenHeight, -1072689136, -804253680)
+    rFillGradient(0,
+                  0,
+                  rScreenWidth,
+                  rScreenHeight,
+                  -1072689136,
+                  -804253680)
 }
 
 fun rRenderVanillaScreenBackground() { // Screen.renderBackground
-  if (VanillaUtil.inGame()) {
-    rRenderBlackOverlay()
-  } else {
-    rRenderDirtBackground()
-  }
+    if (VanillaUtil.inGame()) {
+        rRenderBlackOverlay()
+    } else {
+        rRenderDirtBackground()
+    }
 }
 
 private val dummyScreen = object : Screen(
-  LiteralText(
-    ""
-  )
+    LiteralText(
+        ""
+    )
 ) {}

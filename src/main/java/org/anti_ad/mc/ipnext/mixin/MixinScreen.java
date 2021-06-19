@@ -19,23 +19,25 @@ import java.util.List;
 @Mixin(Screen.class)
 public abstract class MixinScreen {
 
-  @Shadow
-  private final List<Element> children = Lists.newArrayList();;
-  @Shadow
-  private final List<Selectable> selectables = Lists.newArrayList();;
+    @Shadow
+    private final List<Element> children = Lists.newArrayList();
+    ;
+    @Shadow
+    private final List<Selectable> selectables = Lists.newArrayList();
+    ;
 
-  @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")
-  public void init(MinecraftClient minecraftClient, int i, int j, CallbackInfo ci) {
-    Screen self = (Screen) (Object) this;
-    ScreenEventHandler.INSTANCE.onScreenInit(self, x -> {
-      addSelectableChild(x);
-      return Unit.INSTANCE;
-    });
-  }
+    @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")
+    public void init(MinecraftClient minecraftClient, int i, int j, CallbackInfo ci) {
+        Screen self = (Screen) (Object) this;
+        ScreenEventHandler.INSTANCE.onScreenInit(self, x -> {
+            addSelectableChild(x);
+            return Unit.INSTANCE;
+        });
+    }
 
-  public <T extends Element & Selectable> T addSelectableChild(T child) {
-    this.children.add(child);
-    this.selectables.add((Selectable)child);
-    return child;
-  }
+    public <T extends Element & Selectable> T addSelectableChild(T child) {
+        this.children.add(child);
+        this.selectables.add((Selectable) child);
+        return child;
+    }
 }

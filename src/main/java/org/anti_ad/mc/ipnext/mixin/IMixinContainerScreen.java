@@ -8,19 +8,19 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(HandledScreen.class)
 public interface IMixinContainerScreen {
 
-  @Accessor("focusedSlot")
-  Slot getFocusedSlot();
+    @Accessor("focusedSlot")
+    Slot getFocusedSlot();
 
-  @Accessor("x")
-  int getContainerX();
+    @Accessor("x")
+    int getContainerX();
 
-  @Accessor("y")
-  int getContainerY();
+    @Accessor("y")
+    int getContainerY();
 
-  @Accessor("backgroundWidth")
-  int getContainerWidth();
+    @Accessor("backgroundWidth")
+    int getContainerWidth();
 
-  @Accessor("backgroundHeight")
-  int getContainerHeight();
+    @Accessor("backgroundHeight")
+    int getContainerHeight();
 
 }

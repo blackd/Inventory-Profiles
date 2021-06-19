@@ -11,20 +11,32 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 // also close the input stream
-fun InputStream.readToString(): String = use { IOUtils.toString(this, StandardCharsets.UTF_8) }
+fun InputStream.readToString(): String = use {
+    IOUtils.toString(this,
+                     StandardCharsets.UTF_8)
+}
 
-fun Path.readToString(): String = FileUtils.readFileToString(this.toFile(), StandardCharsets.UTF_8)
-fun String.writeToFile(path: Path) = FileUtils.writeStringToFile(path.toFile(), this, StandardCharsets.UTF_8)
+fun Path.readToString(): String = FileUtils.readFileToString(this.toFile(),
+                                                             StandardCharsets.UTF_8)
+
+fun String.writeToFile(path: Path) = FileUtils.writeStringToFile(path.toFile(),
+                                                                 this,
+                                                                 StandardCharsets.UTF_8)
 
 fun Path.createDirectories(): Path = Files.createDirectories(this)
 fun Path.exists(): Boolean = Files.exists(this)
 fun Path.listFiles(regex: String): List<Path> =
-  FileUtils.listFiles(this.toFile(), RegexFileFilter(regex, IOCase.INSENSITIVE), null).map { it.toPath() }
+    FileUtils.listFiles(this.toFile(),
+                        RegexFileFilter(regex,
+                                        IOCase.INSENSITIVE),
+                        null).map { it.toPath() }
 
 val Path.name
-  get() = this.fileName.toString()
+    get() = this.fileName.toString()
 
-fun pathOf(first: String, vararg more: String): Path = Paths.get(first, *more)
+fun pathOf(first: String,
+           vararg more: String): Path = Paths.get(first,
+                                                  *more)
 
 // ============
 // operators
@@ -38,9 +50,9 @@ operator fun Path.div(other: String): Path = resolve(other).normalize()
 // [/a/b/c/d] pathFrom [/a/b] = [c/d]
 infix fun Path.pathFrom(other: String): Path = this pathFrom pathOf(other)
 infix fun Path.pathFrom(other: Path): Path {
-  try {
-    return other.relativize(this).normalize()
-  } catch (e: IllegalArgumentException) {
-    return this
-  }
+    try {
+        return other.relativize(this).normalize()
+    } catch (e: IllegalArgumentException) {
+        return this
+    }
 }

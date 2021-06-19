@@ -16,39 +16,42 @@ import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
 object InputHandler : IInputHandler {
 
-  // public static Keybind debugKey = new Keybind("RIGHT_CONTROL,BACKSPACE", KeybindSettings.ANY_DEFAULT);
+    // public static Keybind debugKey = new Keybind("RIGHT_CONTROL,BACKSPACE", KeybindSettings.ANY_DEFAULT);
 
-  override fun onInput(lastKey: Int, lastAction: Int): Boolean {
-    return tryCatch(false) {
-      if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
-        VanillaUtil.openScreen(ConfigScreen())
-      }
+    override fun onInput(lastKey: Int,
+                         lastAction: Int): Boolean {
+        return tryCatch(false) {
+            if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
+                VanillaUtil.openScreen(ConfigScreen())
+            }
 
-      // todo fix hotkey while typing text field
-      if (InventoryInputHandler.onInput(lastKey, lastAction)) {
-        return true
-      }
+            // todo fix hotkey while typing text field
+            if (InventoryInputHandler.onInput(lastKey,
+                                              lastAction)
+            ) {
+                return true
+            }
 
-      if (ModSettings.DEBUG.booleanValue) {
-        when {
-          Debugs.DEBUG_SCREEN.isActivated() -> DebugScreen()
-          Debugs.SCREEN_DEPTH_TEST.isActivated() -> DepthTestScreen()
-          Debugs.SCREEN_SPRITE_TEST.isActivated() -> SpriteTestScreen()
-          else -> null
-        }?.let { VanillaUtil.openDistinctScreenQuiet(it); return true }
+            if (ModSettings.DEBUG.booleanValue) {
+                when {
+                    Debugs.DEBUG_SCREEN.isActivated() -> DebugScreen()
+                    Debugs.SCREEN_DEPTH_TEST.isActivated() -> DepthTestScreen()
+                    Debugs.SCREEN_SPRITE_TEST.isActivated() -> SpriteTestScreen()
+                    else -> null
+                }?.let { VanillaUtil.openDistinctScreenQuiet(it); return true }
 
-        if (Debugs.CLEAN_CURSOR.isActivated()) {
-          GeneralInventoryActions.cleanCursor()
+                if (Debugs.CLEAN_CURSOR.isActivated()) {
+                    GeneralInventoryActions.cleanCursor()
+                }
+                if (Debugs.DUMP_PACKET_IDS.isActivated()) DebugFunc.dumpPacketId()
+            }
+
+            return false
         }
-        if (Debugs.DUMP_PACKET_IDS.isActivated()) DebugFunc.dumpPacketId()
-      }
-
-      return false
     }
-  }
 
-  fun onClientInit() {
-    GlobalInputHandler.register(this)
-    GlobalInputHandler.registerCancellable(CancellableInputHandler)
-  }
+    fun onClientInit() {
+        GlobalInputHandler.register(this)
+        GlobalInputHandler.registerCancellable(CancellableInputHandler)
+    }
 }

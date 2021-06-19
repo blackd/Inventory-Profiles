@@ -26,11 +26,22 @@ typealias SoundEvents = SoundEvents
 typealias Util = Util
 
 object I18n {
-  fun translate(string: String, vararg objects: Any?): String = I18n.translate(string, *objects)
-  fun translateOrNull(string: String, vararg objects: Any?): String? =
-    translate(string, *objects).takeIf { it != string }
+    fun translate(string: String,
+                  vararg objects: Any?): String = I18n.translate(string,
+                                                                 *objects)
 
-  fun translateOrEmpty(string: String, vararg objects: Any?): String = translateOrNull(string, *objects) ?: ""
-  inline fun translateOrElse(string: String, vararg objects: Any?, elseValue: () -> String): String =
-    translateOrNull(string, *objects) ?: elseValue()
+    fun translateOrNull(string: String,
+                        vararg objects: Any?): String? =
+        translate(string,
+                  *objects).takeIf { it != string }
+
+    fun translateOrEmpty(string: String,
+                         vararg objects: Any?): String = translateOrNull(string,
+                                                                         *objects) ?: ""
+
+    inline fun translateOrElse(string: String,
+                               vararg objects: Any?,
+                               elseValue: () -> String): String =
+        translateOrNull(string,
+                        *objects) ?: elseValue()
 }

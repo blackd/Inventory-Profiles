@@ -12,33 +12,42 @@ private const val COLOR_BORDER = -0x666667
 private const val COLOR_BG = -0x1000000
 
 open class BaseDialog : BaseOverlay {
-  constructor(text: Text) : super(text)
-  constructor() : super()
+    constructor(text: Text) : super(text)
+    constructor() : super()
 
-  var renderBlackOverlay = true
-  var closeWhenClickOutside = true
+    var renderBlackOverlay = true
+    var closeWhenClickOutside = true
 
-  val dialogWidget =
-    object : Widget() {
-      override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        rFillOutline(absoluteBounds, COLOR_BG, COLOR_BORDER)
-        super.render(mouseX, mouseY, partialTicks)
-      }
-    }.apply {
-      anchor = AnchorStyles.none
-      addWidget(this)
-      moveToCenter()
-      sizeChanged += {
-        moveToCenter()
-      }
-      rootWidget.mouseClicked += { (x, y, button), handled ->
-        handled || (button == 0 && closeWhenClickOutside && !contains(x, y)).ifTrue { closeScreen() }
-      }
+    val dialogWidget =
+        object : Widget() {
+            override fun render(mouseX: Int,
+                                mouseY: Int,
+                                partialTicks: Float) {
+                rFillOutline(absoluteBounds,
+                             COLOR_BG,
+                             COLOR_BORDER)
+                super.render(mouseX,
+                             mouseY,
+                             partialTicks)
+            }
+        }.apply {
+            anchor = AnchorStyles.none
+            addWidget(this)
+            moveToCenter()
+            sizeChanged += {
+                moveToCenter()
+            }
+            rootWidget.mouseClicked += { (x, y, button), handled ->
+                handled || (button == 0 && closeWhenClickOutside && !contains(x,
+                                                                              y)).ifTrue { closeScreen() }
+            }
+        }
+
+    override fun renderParentPost(mouseX: Int,
+                                  mouseY: Int,
+                                  partialTicks: Float) {
+        if (renderBlackOverlay) {
+            rRenderBlackOverlay()
+        }
     }
-
-  override fun renderParentPost(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    if (renderBlackOverlay) {
-      rRenderBlackOverlay()
-    }
-  }
 }

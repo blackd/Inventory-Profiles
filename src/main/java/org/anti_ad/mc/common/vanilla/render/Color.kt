@@ -6,22 +6,22 @@ import org.anti_ad.mc.common.extensions.lor
 
 // as kotlin regards (some) color as long
 val Long.color
-  get() = this.toInt()
+    get() = this.toInt()
 
 // get color channel
 val Int.alpha
-  get() = (this shr 24) land 0xff
+    get() = (this shr 24) land 0xff
 val Int.red
-  get() = (this shr 16) land 0xff
+    get() = (this shr 16) land 0xff
 val Int.green
-  get() = (this shr 8) land 0xff
+    get() = (this shr 8) land 0xff
 val Int.blue
-  get() = (this shr 0) land 0xff
+    get() = (this shr 0) land 0xff
 
 val Int.opaque
-  get() = (0xff shl 24) lor this
+    get() = (0xff shl 24) lor this
 val Int.transparent
-  get() = 0xffffff land this
+    get() = 0xffffff land this
 
 // as component of argb int
 fun Int.asAlpha() = (this land 0xff) shl 24
@@ -47,9 +47,17 @@ infix fun Int.r(r: Int) = 0.alpha(this).red(r)
 infix fun Int.g(g: Int) = this.green(g)
 infix fun Int.b(b: Int) = this.blue(b)
 
-fun color(r: Int, g: Int, b: Int) = 255.r(r).g(g).b(b)
-fun color(a: Int, r: Int, g: Int, b: Int) = a.r(r).g(g).b(b) // funny syntax a r r g g b b
-fun color(a: Int, rgb: Int) = a.rgb(rgb)
+fun color(r: Int,
+          g: Int,
+          b: Int) = 255.r(r).g(g).b(b)
+
+fun color(a: Int,
+          r: Int,
+          g: Int,
+          b: Int) = a.r(r).g(g).b(b) // funny syntax a r r g g b b
+
+fun color(a: Int,
+          rgb: Int) = a.rgb(rgb)
 
 // ============
 // float

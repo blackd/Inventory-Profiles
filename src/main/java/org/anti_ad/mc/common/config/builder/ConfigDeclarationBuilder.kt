@@ -17,42 +17,48 @@ import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 
 // bool, int, hotkey, hotkeyedBool, enum
 fun ConfigDeclaration.bool(defaultValue: Boolean) =
-  ConfigBoolean(defaultValue).addTo(this)
+    ConfigBoolean(defaultValue).addTo(this)
 
-fun ConfigDeclaration.int(defaultValue: Int, minValue: Int, maxValue: Int) =
-  ConfigInteger(defaultValue, minValue, maxValue).addTo(this)
+fun ConfigDeclaration.int(defaultValue: Int,
+                          minValue: Int,
+                          maxValue: Int) =
+    ConfigInteger(defaultValue,
+                  minValue,
+                  maxValue).addTo(this)
 
-fun ConfigDeclaration.hotkey(defaultValue: String, defaultSettings: KeybindSettings = INGAME_DEFAULT) =
-  ConfigHotkey(defaultValue, defaultSettings).addTo(this)
+fun ConfigDeclaration.hotkey(defaultValue: String,
+                             defaultSettings: KeybindSettings = INGAME_DEFAULT) =
+    ConfigHotkey(defaultValue,
+                 defaultSettings).addTo(this)
 
 fun ConfigDeclaration.hotkeyedBool(defaultValue: Boolean) =
-  ConfigHotkeyedBoolean(defaultValue).addTo(this)
+    ConfigHotkeyedBoolean(defaultValue).addTo(this)
 
 fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) =
-  ConfigEnum(defaultValue).addTo(this)
+    ConfigEnum(defaultValue).addTo(this)
 
 fun ConfigDeclaration.string(defaultValue: String) =
-  ConfigString(defaultValue).addTo(this)
+    ConfigString(defaultValue).addTo(this)
 
 fun ConfigDeclaration.button(info: ConfigButtonInfo) =
-  ConfigButton(info).addTo(this)
+    ConfigButton(info).addTo(this)
 
 // createBuilder()
 fun ConfigDeclaration.createBuilder() = ConfigDeclarationBuilder().apply {
-  innerConfig.key = this@createBuilder.javaClass.simpleName
+    innerConfig.key = this@createBuilder.javaClass.simpleName
 }
 
 interface ConfigDeclaration {
-  val builder: ConfigDeclarationBuilder
+    val builder: ConfigDeclarationBuilder
 }
 
 // .CATEGORY()
 @Suppress("FunctionName")
 fun ConfigDeclarationBuilder.CATEGORY(name: String) =
-  this.also { innerConfig.addCategory(name) }
+    this.also { innerConfig.addCategory(name) }
 
 class ConfigDeclarationBuilder {
-  val innerConfig = CategorizedMultiConfig()
+    val innerConfig = CategorizedMultiConfig()
 }
 
 // ============
@@ -60,20 +66,21 @@ class ConfigDeclarationBuilder {
 // ============
 
 fun <T : IConfigOption> T.addTo(declaration: ConfigDeclaration): ConfigOptionDelegateProvider<T> {
-  declaration.builder.innerConfig.addConfigOption(this)
-  return ConfigOptionDelegateProvider(this, declaration)
+    declaration.builder.innerConfig.addConfigOption(this)
+    return ConfigOptionDelegateProvider(this,
+                                        declaration)
 }
 
 class ConfigOptionDelegateProvider<T : IConfigOption>(
-  value: T,
-  val declaration: ConfigDeclaration
+    value: T,
+    val declaration: ConfigDeclaration
 ) : ByPropertyName<T>({ name ->
-  value.apply { key = name.toLowerCase() }
-})
+                          value.apply { key = name.toLowerCase() }
+                      })
 
 @Suppress("FunctionName")
 fun <T : IConfigOption> ConfigOptionDelegateProvider<T>.CATEGORY(name: String) =
-  this.also { declaration.builder.CATEGORY(name) }
+    this.also { declaration.builder.CATEGORY(name) }
 
 // ============
 // extensions
@@ -81,4 +88,4 @@ fun <T : IConfigOption> ConfigOptionDelegateProvider<T>.CATEGORY(name: String) =
 
 fun List<ConfigDeclaration>.toMultiConfig() = toMultiConfigList().toMultiConfig()
 fun List<ConfigDeclaration>.toMultiConfigList(): List<CategorizedMultiConfig> =
-  this.map { it.builder.innerConfig }
+    this.map { it.builder.innerConfig }

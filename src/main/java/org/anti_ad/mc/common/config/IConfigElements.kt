@@ -3,18 +3,19 @@ package org.anti_ad.mc.common.config
 import com.google.gson.JsonElement
 
 abstract class ConfigOptionBase : IConfigOption {
-  override var key: String = ""
+    override var key: String = ""
 }
 
 abstract class ConfigOptionNumericBase<T>(
-  final override val defaultValue: T,
-  override val minValue: T,
-  override val maxValue: T
+    final override val defaultValue: T,
+    override val minValue: T,
+    override val maxValue: T
 ) : ConfigOptionBase(), IConfigOptionNumeric<T> where T : Number, T : Comparable<T> {
-  override var value = defaultValue
-    set(value) { // no coerceIn for Number :(
-      field = value.coerceIn(minValue, maxValue)
-    }
+    override var value = defaultValue
+        set(value) { // no coerceIn for Number :(
+            field = value.coerceIn(minValue,
+                                   maxValue)
+        }
 }
 
 // ============
@@ -22,13 +23,13 @@ abstract class ConfigOptionNumericBase<T>(
 // ============
 
 interface IConfigElement {
-  fun toJsonElement(): JsonElement
-  fun fromJsonElement(element: JsonElement)
+    fun toJsonElement(): JsonElement
+    fun fromJsonElement(element: JsonElement)
 }
 
 interface IConfigElementResettable : IConfigElement {
-  val isModified: Boolean
-  fun resetToDefault()
+    val isModified: Boolean
+    fun resetToDefault()
 }
 
 // ============
@@ -36,16 +37,16 @@ interface IConfigElementResettable : IConfigElement {
 // ============
 
 interface IConfigOption : IConfigElementResettable {
-  var key: String
+    var key: String
 }
 
 interface IConfigOptionNumeric<T : Number> : IConfigOptionPrimitive<T> {
-  fun setNumericValue(value: Number)
-  val minValue: T
-  val maxValue: T
+    fun setNumericValue(value: Number)
+    val minValue: T
+    val maxValue: T
 }
 
 interface IConfigOptionToggleable : IConfigOption {
-  fun toggleNext()
-  fun togglePrevious()
+    fun toggleNext()
+    fun togglePrevious()
 }

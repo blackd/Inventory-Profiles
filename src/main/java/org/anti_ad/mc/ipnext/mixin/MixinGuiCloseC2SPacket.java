@@ -14,11 +14,11 @@ import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 @Mixin(CloseHandledScreenC2SPacket.class)
 public class MixinGuiCloseC2SPacket {
 
-  @Inject(method = "<init>(I)V", at = @At("RETURN"))
-  private void onConstructed(CallbackInfo ci) {
-    if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()) {
-      GeneralInventoryActions.INSTANCE.handleCloseContainer();
+    @Inject(method = "<init>(I)V", at = @At("RETURN"))
+    private void onConstructed(CallbackInfo ci) {
+        if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()) {
+            GeneralInventoryActions.INSTANCE.handleCloseContainer();
+        }
     }
-  }
 
 }

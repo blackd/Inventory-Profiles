@@ -5,13 +5,14 @@ import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 
 object CancellableInputHandler : IInputHandler {
-  override fun onInput(lastKey: Int, lastAction: Int): Boolean {
-    return tryCatch(false) {
-      if (LockSlotsHandler.onCancellableInput()) {
-        return true
-      }
+    override fun onInput(lastKey: Int,
+                         lastAction: Int): Boolean {
+        return tryCatch(false) {
+            if (LockSlotsHandler.onCancellableInput()) {
+                return true
+            }
 
-      return false
+            return false
+        }
     }
-  }
 }

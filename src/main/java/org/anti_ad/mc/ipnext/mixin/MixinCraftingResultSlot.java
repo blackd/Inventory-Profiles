@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CraftingResultSlot.class)
 public class MixinCraftingResultSlot {
-  @Inject(at = @At("HEAD"), method = "onCrafted(Lnet/minecraft/item/ItemStack;)V")
-  public void onCrafted(ItemStack itemStack, CallbackInfo ci) {
-    ClientEventHandler.INSTANCE.onCrafted();
-  }
+    @Inject(at = @At("HEAD"), method = "onCrafted(Lnet/minecraft/item/ItemStack;)V")
+    public void onCrafted(ItemStack itemStack, CallbackInfo ci) {
+        ClientEventHandler.INSTANCE.onCrafted();
+    }
 }

@@ -18,85 +18,97 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 // use `()` to avoid potential mapping name collision
 
 val VanillaItemStack.`(itemType)`: ItemType
-  get() = ItemType(item, tag)
+    get() = ItemType(item,
+                     tag)
 val VanillaItemStack.`(itemStack)`: ItemStack
-  get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`, count)
+    get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`,
+                                                        count)
 val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
-  get() = if (isEmpty) MutableItemStack.empty() else MutableItemStack(`(itemType)`, count)
+    get() = if (isEmpty) MutableItemStack.empty() else MutableItemStack(`(itemType)`,
+                                                                        count)
 
 val Container.`(slots)`: List<Slot>
-  get() = slots
+    get() = slots
 
 val Slot.`(id)`
-  get() = id
+    get() = id
 val Slot.`(invSlot)`
-  get() = (this as IMixinSlot).invSlot
+    get() = (this as IMixinSlot).invSlot
 val Slot.`(itemStack)`: ItemStack
-  get() = stack.`(itemStack)`
+    get() = stack.`(itemStack)`
 val Slot.`(mutableItemStack)`: MutableItemStack
-  get() = stack.`(mutableItemStack)`
+    get() = stack.`(mutableItemStack)`
 val Slot.`(inventory)`: Inventory
-  get() = inventory
+    get() = inventory
 val Slot.`(left)`: Int
-  get() = x
+    get() = x
 val Slot.`(top)`: Int
-  get() = y
+    get() = y
 val Slot.`(topLeft)`: Point
-  get() = Point(`(left)`, `(top)`)
+    get() = Point(`(left)`,
+                  `(top)`)
 
 fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
-  return canInsert(itemStack.vanillaStack)
+    return canInsert(itemStack.vanillaStack)
 }
 
 val Screen.`(focusedSlot)`: Slot?
-  get() = (this as? ContainerScreen<*>)?.`(rawFocusedSlot)`?.let { vPlayerSlotOf(it, this) }
+    get() = (this as? ContainerScreen<*>)?.`(rawFocusedSlot)`?.let {
+        vPlayerSlotOf(it,
+                      this)
+    }
 
 val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
-  get() = (this as IMixinContainerScreen).focusedSlot
+    get() = (this as IMixinContainerScreen).focusedSlot
 val ContainerScreen<*>.`(containerBounds)`: Rectangle
-  get() = (this as IMixinContainerScreen).run { Rectangle(containerX, containerY, containerWidth, containerHeight) }
+    get() = (this as IMixinContainerScreen).run {
+        Rectangle(containerX,
+                  containerY,
+                  containerWidth,
+                  containerHeight)
+    }
 val ContainerScreen<*>.`(container)`: Container
-  get() = screenHandler
+    get() = screenHandler
 
 val PlayerInventory.`(selectedSlot)`: Int
-  get() = selectedSlot
+    get() = selectedSlot
 
 // getSelectedTab() = method_2469()
 val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
-  get() = selectedTab == ItemGroup.INVENTORY.index
+    get() = selectedTab == ItemGroup.INVENTORY.index
 
 // ============
 // Registry
 // ============
 fun <T> DefaultedRegistry<T>.`(getIdentifier)`(value: T): Identifier {
-  return getId(value)
+    return getId(value)
 }
 
 fun <T> DefaultedRegistry<T>.`(getRawId)`(value: T): Int {
-  return getRawId(value)
+    return getRawId(value)
 }
 
 fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
-  return get(id)
+    return get(id)
 }
 
 fun <T> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
-  return getId(value)
+    return getId(value)
 }
 
 fun <T> Registry<T>.`(getRawId)`(value: T): Int {
-  return getRawId(value)
+    return getRawId(value)
 }
 
 fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
-  return get(id)
+    return get(id)
 }
 
 // ============
 // nbt Tag
 // ============
 val NbtElement.`(type)`: Int
-  get() = type.toInt()
+    get() = type.toInt()
 val NbtElement.`(asString)`: String
-  get() = asString()
+    get() = asString()
 

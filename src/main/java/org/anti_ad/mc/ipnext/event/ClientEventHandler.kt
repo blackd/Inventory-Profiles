@@ -7,51 +7,51 @@ import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
 
 object ClientEventHandler {
-  private val inGame
-    get() = VanillaUtil.inGame()
+    private val inGame
+        get() = VanillaUtil.inGame()
 
-  fun onTickPre() {
-    ClientInitHandler.onTickPre()
-  }
-
-  fun onTick() {
-    MouseTracer.onTick()
-    if (inGame) {
-      onTickInGame()
+    fun onTickPre() {
+        ClientInitHandler.onTickPre()
     }
-  }
 
-  private fun onTickInGame() {
-    if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue
-      && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue
-    ) {
-      ContinuousCraftingHandler.onTickInGame()
+    fun onTick() {
+        MouseTracer.onTick()
+        if (inGame) {
+            onTickInGame()
+        }
     }
-    if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
-      AutoRefillHandler.onTickInGame()
-    }
-    if (Tweaks.CONTAINER_SWIPE_MOVING_ITEMS.booleanValue) {
-      MiscHandler.swipeMoving()
-      //MiscHandler.swipeMovingShiftClick()
-      //MiscHandler.swipeMovingCtrlQ()
-    }
-    LockSlotsHandler.onTickInGame()
-  }
 
-  fun onJoinWorld() {
-    GlobalInputHandler.pressedKeys.clear() // sometimes left up not captured
-    if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
-      AutoRefillHandler.onJoinWorld()
+    private fun onTickInGame() {
+        if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue
+            && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
+
+            ContinuousCraftingHandler.onTickInGame()
+        }
+        if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
+            AutoRefillHandler.onTickInGame()
+        }
+        if (Tweaks.CONTAINER_SWIPE_MOVING_ITEMS.booleanValue) {
+            MiscHandler.swipeMoving()
+            //MiscHandler.swipeMovingShiftClick()
+            //MiscHandler.swipeMovingCtrlQ()
+        }
+        LockSlotsHandler.onTickInGame()
     }
-  }
 
-  // ============
-  // craft
-  // ============
+    fun onJoinWorld() {
+        GlobalInputHandler.pressedKeys.clear() // sometimes left up not captured
+        if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
+            AutoRefillHandler.onJoinWorld()
+        }
+    }
 
-  // only client should call this
-  fun onCrafted() {
-    if (!VanillaUtil.isOnClientThread()) return
-    ContinuousCraftingHandler.onCrafted()
-  }
+    // ============
+    // craft
+    // ============
+
+    // only client should call this
+    fun onCrafted() {
+        if (!VanillaUtil.isOnClientThread()) return
+        ContinuousCraftingHandler.onCrafted()
+    }
 }

@@ -5,85 +5,109 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
 object Log {
-  private const val id = "inventoryprofilesnext"
-  val innerLogger: Logger = LogManager.getLogger(id)
+    private const val id = "inventoryprofilesnext"
+    val innerLogger: Logger = LogManager.getLogger(id)
 
-  var shouldDebug: () -> Boolean = { true }
-  var shouldTrace: () -> Boolean = { true }
+    var shouldDebug: () -> Boolean = { true }
+    var shouldTrace: () -> Boolean = { true }
 
-  fun error(message: String) = innerLogger.error("[$id] $message").also { onLog(ERROR, message) }
-  fun warn(message: String) = innerLogger.warn("[$id] $message").also { onLog(WARN, message) }
-  fun info(message: String) = innerLogger.info("[$id] $message").also { onLog(INFO, message) }
+    fun error(message: String) = innerLogger.error("[$id] $message").also {
+        onLog(ERROR,
+              message)
+    }
+
+    fun warn(message: String) = innerLogger.warn("[$id] $message").also {
+        onLog(WARN,
+              message)
+    }
+
+    fun info(message: String) = innerLogger.info("[$id] $message").also {
+        onLog(INFO,
+              message)
+    }
 //  fun printDebug(message: String) = innerLogger.debug("[$id] $message")
 
-  fun debug(message: String) = debug { message }
-  fun debug(message: () -> String) {
-    if (shouldDebug()) {
-      val messageString = message()
-      innerLogger.info("[$id/DEBUG] $messageString").also { onLog(DEBUG, messageString) }
+    fun debug(message: String) = debug { message }
+    fun debug(message: () -> String) {
+        if (shouldDebug()) {
+            val messageString = message()
+            innerLogger.info("[$id/DEBUG] $messageString").also {
+                onLog(DEBUG,
+                      messageString)
+            }
+        }
     }
-  }
 
-  // for trace
-  private var indent = 0
-  fun indent() {
-    indent++
-  }
-
-  fun unindent() {
-    indent--
-  }
-
-  fun clearIndent() {
-    indent = 0
-  }
-
-  fun trace(message: String) = trace { message }
-  fun trace(message: () -> String) {
-    if (shouldTrace()) {
-      val messageString = " ".repeat(indent * 4) + message()
-      innerLogger.info("[$id/TRACE] $messageString").also { onLog(TRACE, messageString) }
+    // for trace
+    private var indent = 0
+    fun indent() {
+        indent++
     }
-  }
 
-  data class LogMessage(val level: LogLevel, val message: String)
+    fun unindent() {
+        indent--
+    }
 
-  enum class LogLevel : Comparable<LogLevel> {
-    TRACE,
-    DEBUG,
-    INFO,
-    WARN,
-    ERROR,
-    ;
-  }
+    fun clearIndent() {
+        indent = 0
+    }
 
-  private val logListener = mutableSetOf<(LogMessage) -> Unit>()
+    fun trace(message: String) = trace { message }
+    fun trace(message: () -> String) {
+        if (shouldTrace()) {
+            val messageString = " ".repeat(indent * 4) + message()
+            innerLogger.info("[$id/TRACE] $messageString").also {
+                onLog(TRACE,
+                      messageString)
+            }
+        }
+    }
 
-  private fun onLog(level: LogLevel, message: String) {
-    val logMessage = LogMessage(level, message)
-    logListener.forEach { it(logMessage) }
-  }
+    data class LogMessage(val level: LogLevel,
+                          val message: String)
 
-  fun addLogListener(listener: (LogMessage) -> Unit) {
-    logListener.add(listener)
-  }
+    enum class LogLevel : Comparable<LogLevel> {
+        TRACE,
+        DEBUG,
+        INFO,
+        WARN,
+        ERROR,
+        ;
+    }
 
-  fun removeLogListener(listener: (LogMessage) -> Unit) {
-    logListener.remove(listener)
-  }
+    private val logListener = mutableSetOf<(LogMessage) -> Unit>()
 
-  inline fun withLogListener(noinline listener: (LogMessage) -> Unit, block: () -> Unit) {
-    addLogListener(listener)
-    block()
-    removeLogListener(listener)
-  }
+    private fun onLog(level: LogLevel,
+                      message: String) {
+        val logMessage = LogMessage(level,
+                                    message)
+        logListener.forEach { it(logMessage) }
+    }
 
-  inline fun withLogListener(level: LogLevel, noinline listener: (LogMessage) -> Unit, block: () -> Unit) {
-    withLogListener({ logMessage ->
-      if (logMessage.level >= level) {
-        listener(logMessage)
-      }
-    }, block)
-  }
+    fun addLogListener(listener: (LogMessage) -> Unit) {
+        logListener.add(listener)
+    }
+
+    fun removeLogListener(listener: (LogMessage) -> Unit) {
+        logListener.remove(listener)
+    }
+
+    inline fun withLogListener(noinline listener: (LogMessage) -> Unit,
+                               block: () -> Unit) {
+        addLogListener(listener)
+        block()
+        removeLogListener(listener)
+    }
+
+    inline fun withLogListener(level: LogLevel,
+                               noinline listener: (LogMessage) -> Unit,
+                               block: () -> Unit) {
+        withLogListener({ logMessage ->
+                            if (logMessage.level >= level) {
+                                listener(logMessage)
+                            }
+                        },
+                        block)
+    }
 
 }

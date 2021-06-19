@@ -13,20 +13,21 @@ import org.anti_ad.mc.ipnext.item.ItemStack
 // ============
 
 private val vPlayerSlots
-  get() = Vanilla.playerContainer().`(slots)`
+    get() = Vanilla.playerContainer().`(slots)`
 
 fun vCursorStack() = Vanilla.playerInventory().player.currentScreenHandler.cursorStack?.`(itemStack)` ?: ItemStack.EMPTY
 
-fun vPlayerSlotOf(slot: Slot, screen: Screen?): Slot { // creative slot to survival slot
-  if (screen !is CreativeInventoryScreen) return slot
-  if (slot.`(inventory)` !is PlayerInventory) return slot
-  val id = slot.`(id)`
-  val invSlot = slot.`(invSlot)`
-  return when {
-    invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar in other tab
-    invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // slot in backpack tab
-    else -> slot
-  }
+fun vPlayerSlotOf(slot: Slot,
+                  screen: Screen?): Slot { // creative slot to survival slot
+    if (screen !is CreativeInventoryScreen) return slot
+    if (slot.`(inventory)` !is PlayerInventory) return slot
+    val id = slot.`(id)`
+    val invSlot = slot.`(invSlot)`
+    return when {
+        invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar in other tab
+        invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // slot in backpack tab
+        else -> slot
+    }
 }
 
 // interpreted for creative inventory
@@ -35,7 +36,7 @@ fun vFocusedSlot(): Slot? = Vanilla.screen()?.`(focusedSlot)`
 
 
 fun vMainhandIndex() =
-  Vanilla.playerInventory().`(selectedSlot)`
+    Vanilla.playerInventory().`(selectedSlot)`
 
 //fun vMainHandItem(): ItemStack =
 //  // clientPlayerEntity.getMainHandStack()

@@ -20,21 +20,22 @@ import net.minecraft.client.world.ClientWorld;
 @Mixin(ClientPlayerEntity.class)
 public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
 
-  @Final @Shadow
-  protected MinecraftClient client;
+    @Final
+    @Shadow
+    protected MinecraftClient client;
 
-  public MixinClientPlayerEntity(ClientWorld clientWorld_1, GameProfile gameProfile_1) {
-    super(clientWorld_1, gameProfile_1);
-    // Auto-generated constructor stub
-    // client = null; // ...what?
-  }
+    public MixinClientPlayerEntity(ClientWorld clientWorld_1, GameProfile gameProfile_1) {
+        super(clientWorld_1, gameProfile_1);
+        // Auto-generated constructor stub
+        // client = null; // ...what?
+    }
 
-  @Inject(at = @At("HEAD"), method = "closeHandledScreen()V")
-  public void closeContainer(CallbackInfo info) {
-    // if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()) {
-    //   SorterEventPort.handleCloseContainer(this.client);
-    // }
-    // TODO remove this class, code moved to MixinGuiCloseC2SPacket
-  }
+    @Inject(at = @At("HEAD"), method = "closeHandledScreen()V")
+    public void closeContainer(CallbackInfo info) {
+        // if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()) {
+        //   SorterEventPort.handleCloseContainer(this.client);
+        // }
+        // TODO remove this class, code moved to MixinGuiCloseC2SPacket
+    }
 
 }

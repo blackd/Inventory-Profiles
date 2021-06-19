@@ -11,13 +11,14 @@ import java.text.Collator
 // ============
 
 private fun <T : Any> param(argumentType: ArgumentType<T>) = ByPropertyName<Parameter<T>> { name ->
-  Parameter(name, argumentType).also { PARAMETER_MAP[name] = it } // don't use NativeParameters.map
+    Parameter(name,
+              argumentType).also { PARAMETER_MAP[name] = it } // don't use NativeParameters.map
 }
 
 private inline fun <reified T : Enum<T>> enum() = param(
-  EnumArgumentType(
-    T::class.java
-  )
+    EnumArgumentType(
+        T::class.java
+    )
 )
 
 private val any_string     /**/ = param(StringArgumentType)
@@ -31,7 +32,7 @@ private val any_nbt_path   /**/ = param(NbtPathArgumentType)
 // for .* imports
 
 object NativeParameters {
-  val map = PARAMETER_MAP // force load class
+    val map = PARAMETER_MAP // force load class
 }
 
 private val PARAMETER_MAP = mutableMapOf<String, Parameter<*>>()
@@ -61,42 +62,44 @@ val nbt_path                 /**/ by any_nbt_path
 val not_found                /**/ by param(match.argumentType)
 
 enum class StringCompare(val comparator: Comparator<in String>?) {
-  UNICODE(naturalOrder()),
-  IGNORE_CASE(String.CASE_INSENSITIVE_ORDER),
-  LOCALE(null)
+    UNICODE(naturalOrder()),
+    IGNORE_CASE(String.CASE_INSENSITIVE_ORDER),
+    LOCALE(null)
 }
 
 enum class Strength(val value: Int) {
-  PRIMARY(Collator.PRIMARY),
-  SECONDARY(Collator.SECONDARY),
-  TERTIARY(Collator.TERTIARY),
-  IDENTICAL(Collator.IDENTICAL)
+    PRIMARY(Collator.PRIMARY),
+    SECONDARY(Collator.SECONDARY),
+    TERTIARY(Collator.TERTIARY),
+    IDENTICAL(Collator.IDENTICAL)
 }
 
 enum class NumberOrder(private val comparator: Comparator<in Double>) : Comparator<Number> {
-  ASCENDING(naturalOrder()),
-  DESCENDING(reverseOrder());
+    ASCENDING(naturalOrder()),
+    DESCENDING(reverseOrder());
 
-  override fun compare(num1: Number, num2: Number): Int =
-    comparator.compare(num1.toDouble(), num2.toDouble())
+    override fun compare(num1: Number,
+                         num2: Number): Int =
+        comparator.compare(num1.toDouble(),
+                           num2.toDouble())
 }
 
 enum class Match(val multiplier: Int) {
-  FIRST(1),
-  LAST(-1)
+    FIRST(1),
+    LAST(-1)
 }
 
 enum class RequireNbt {
-  REQUIRED,
-  NO_NBT,
-  NOT_REQUIRED;
+    REQUIRED,
+    NO_NBT,
+    NOT_REQUIRED;
 
-  fun match(itemType: ItemType): Boolean {
-    return when (this) {
-      REQUIRED -> itemType.tag != null
-      NO_NBT -> itemType.tag == null
-      NOT_REQUIRED -> true
+    fun match(itemType: ItemType): Boolean {
+        return when (this) {
+            REQUIRED -> itemType.tag != null
+            NO_NBT -> itemType.tag == null
+            NOT_REQUIRED -> true
+        }
     }
-  }
 }
 

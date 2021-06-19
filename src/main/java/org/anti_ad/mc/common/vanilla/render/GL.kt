@@ -12,10 +12,10 @@ import org.lwjgl.opengl.GL11
 // at Screen.render()
 // do: rStandardGlState(); rClearDepth()
 fun rStandardGlState() { // reset to standard state (for screen rendering)
-  rEnableBlend()
-  gDisableDiffuse()
-  gEnableDepthTest()
-  RenderSystem.depthMask(true)
+    rEnableBlend()
+    gDisableDiffuse()
+    gEnableDepthTest()
+    RenderSystem.depthMask(true)
 }
 
 // ============
@@ -23,18 +23,20 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
 // ============
 
 fun rClearDepth() {
-  gEnableDepthTest()
-  RenderSystem.depthMask(true)
-  RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, false)
-  rOverwriteDepth(rScreenBounds)
-  depthBounds.clear() // added this
+    gEnableDepthTest()
+    RenderSystem.depthMask(true)
+    RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT,
+                       false)
+    rOverwriteDepth(rScreenBounds)
+    depthBounds.clear() // added this
 }
 
-inline fun rDepthMask(bounds: Rectangle, block: () -> Unit) {
-  //rDrawOutline(bounds, -6710887)
-  rCreateDepthMask(bounds)
-  block()
-  rRemoveDepthMask()
+inline fun rDepthMask(bounds: Rectangle,
+                      block: () -> Unit) {
+    //rDrawOutline(bounds, -6710887)
+    rCreateDepthMask(bounds)
+    block()
+    rRemoveDepthMask()
 }
 
 private val depthBounds = mutableListOf<Rectangle>()
@@ -43,49 +45,52 @@ private val depthBounds = mutableListOf<Rectangle>()
 // can it be done without stencil?
 // (maybe yes, if rectangle mask only)
 fun rCreateDepthMask(bounds: Rectangle) {
-  rStandardGlState() // added this
-  if (depthBounds.isEmpty()) {
-    rCreateDepthMaskNoCheck(bounds)
-  } else {
-    //rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
-    rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
-  }
+    rStandardGlState() // added this
+    if (depthBounds.isEmpty()) {
+        rCreateDepthMaskNoCheck(bounds)
+    } else {
+        //rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
+        rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
+    }
 }
 
 private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
-  depthBounds.add(bounds)
- // GL11.glMatrixMode(GL11.GL_PROJECTION)
-  val a = RenderSystem.getModelViewStack()
-  a.push()
-  a.translate(.0, .0, -400.0)
-  rOverwriteDepth(bounds)
-  //a.pop()
+    depthBounds.add(bounds)
+    // GL11.glMatrixMode(GL11.GL_PROJECTION)
+    val a = RenderSystem.getModelViewStack()
+    a.push()
+    a.translate(.0,
+                .0,
+                -400.0)
+    rOverwriteDepth(bounds)
+    //a.pop()
 }
 
 fun rRemoveDepthMask() {
-  //rStandardGlState() // added this
-  //gPopMatrix() this has already been done the 1.17 way
-  val a = RenderSystem.getModelViewStack()
-  a.pop()
-  rOverwriteDepth(depthBounds.removeLast())
+    //rStandardGlState() // added this
+    //gPopMatrix() this has already been done the 1.17 way
+    val a = RenderSystem.getModelViewStack()
+    a.pop()
+    rOverwriteDepth(depthBounds.removeLast())
 }
 
 private fun rOverwriteDepth(bounds: Rectangle) {
 //  rEnableDepth()
-  gDepthFunc(GL11.GL_ALWAYS)
+    gDepthFunc(GL11.GL_ALWAYS)
 
-  rFillRect(bounds, 0)
-  gDepthFunc(GL11.GL_LEQUAL)
+    rFillRect(bounds,
+              0)
+    gDepthFunc(GL11.GL_LEQUAL)
 }
 
 fun rDisableDepth() { // todo see if same with disableDepthTest (?)
-  gDepthFunc(GL11.GL_ALWAYS)
-  RenderSystem.depthMask(false)
+    gDepthFunc(GL11.GL_ALWAYS)
+    RenderSystem.depthMask(false)
 }
 
 fun rEnableDepth() {
-  RenderSystem.depthMask(true)
-  gDepthFunc(GL11.GL_LEQUAL)
+    RenderSystem.depthMask(true)
+    gDepthFunc(GL11.GL_LEQUAL)
 }
 
 // ============
@@ -99,11 +104,15 @@ var rMatrixStack = MatrixStack()
 // internal
 // ============
 private fun rEnableBlend() {
-  // ref: AbstractButtonWidget.renderButton()
-  RenderSystem.enableBlend()
-  RenderSystem.defaultBlendFunc()
-  RenderSystem.blendFunc(SrcFactor.SRC_ALPHA, DstFactor.ONE_MINUS_SRC_ALPHA)
-  RenderSystem.setShaderColor(1f,1f,1f,1f)
+    // ref: AbstractButtonWidget.renderButton()
+    RenderSystem.enableBlend()
+    RenderSystem.defaultBlendFunc()
+    RenderSystem.blendFunc(SrcFactor.SRC_ALPHA,
+                           DstFactor.ONE_MINUS_SRC_ALPHA)
+    RenderSystem.setShaderColor(1f,
+                                1f,
+                                1f,
+                                1f)
 
 }
 
@@ -112,10 +121,11 @@ private fun rEnableBlend() {
 // ============
 
 private fun gDisableDiffuse() {
-  DiffuseLighting.disableGuiDepthLighting()
+    DiffuseLighting.disableGuiDepthLighting()
 }
+
 private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
 private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
 private fun gDepthFunc(value: Int) { // default = GL_LEQUAL = 515
-  RenderSystem.depthFunc(value)
+    RenderSystem.depthFunc(value)
 }

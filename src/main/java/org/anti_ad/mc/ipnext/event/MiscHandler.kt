@@ -18,47 +18,51 @@ import org.anti_ad.mc.ipnext.item.isEmpty
 
 object MiscHandler {
 
-  fun swipeMoving() {
-    if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
-      slotAction { s: Slot, screen: Screen ->
-        ContainerClicker.shiftClick(vPlayerSlotOf(s, screen).`(id)`)
-      }
-    } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
-      slotAction { s: Slot, _: Screen ->
-        ContainerClicker.qClick(s.`(id)`)
-      }
+    fun swipeMoving() {
+        if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
+            slotAction { s: Slot, screen: Screen ->
+                ContainerClicker.shiftClick(vPlayerSlotOf(s,
+                                                          screen).`(id)`)
+            }
+        } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
+            slotAction { s: Slot, _: Screen ->
+                ContainerClicker.qClick(s.`(id)`)
+            }
+        }
+
     }
 
-  }
+    private fun slotAction(block: (s: Slot, screen: Screen) -> Unit) {
+        // fixed mouse too fast skip slots
+        // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
+        val screen = Vanilla.screen()
+        val topLeft = (screen as? ContainerScreen<*>)?.`(containerBounds)`?.topLeft ?: return
 
-  private fun slotAction( block: (s: Slot, screen: Screen) -> Unit) {
-    // fixed mouse too fast skip slots
-    // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
-    val screen = Vanilla.screen()
-    val topLeft = (screen as? ContainerScreen<*>)?.`(containerBounds)`?.topLeft ?: return
+        // swipe move should disabled when cursor has item
+        if (!vCursorStack().isEmpty()) return
 
-    // swipe move should disabled when cursor has item
-    if (!vCursorStack().isEmpty()) return
+        val line = MouseTracer.asLine
 
-    val line = MouseTracer.asLine
+        val types = ContainerTypes.getTypes(Vanilla.container())
 
-    val types = ContainerTypes.getTypes(Vanilla.container())
-    val matchSet = setOf(
-      ContainerType.NO_SORTING_STORAGE,
-      ContainerType.SORTABLE_STORAGE,
-      ContainerType.PURE_BACKPACK
-    )
-    for (slot in Vanilla.container().`(slots)`) {
-      // disable for non storage (tmp solution for crafting table result slot)
-      if (!Tweaks.SWIPE_MOVE_CRAFTING_RESULT_SLOT.booleanValue) {
-        if (!types.containsAny(matchSet) && slot.`(inventory)` !is PlayerInventory) continue
-        if (slot.`(inventory)` is CraftingInventory || slot.`(inventory)` is CraftingResultInventory) continue
-      }
+        val matchSet = setOf(ContainerType.NO_SORTING_STORAGE,
+                             ContainerType.SORTABLE_STORAGE,
+                             ContainerType.PURE_BACKPACK)
+        for (slot in Vanilla.container().`(slots)`) {
+            // disable for non storage (tmp solution for crafting table result slot)
+            if (!Tweaks.SWIPE_MOVE_CRAFTING_RESULT_SLOT.booleanValue) {
+                if (!types.containsAny(matchSet) && slot.`(inventory)` !is PlayerInventory) continue
+                if (slot.`(inventory)` is CraftingInventory || slot.`(inventory)` is CraftingResultInventory) continue
+            }
 
-      val rect = Rectangle(topLeft - Size(1, 1) + slot.`(topLeft)`, Size(18, 18))
-      if (!line.intersects(rect)) continue
-      if (slot.`(itemStack)`.isEmpty()) continue
-      block(slot, screen)
+            val rect = Rectangle(topLeft - Size(1,
+                                                1) + slot.`(topLeft)`,
+                                 Size(18,
+                                      18))
+            if (!line.intersects(rect)) continue
+            if (slot.`(itemStack)`.isEmpty()) continue
+            block(slot,
+                  screen)
+        }
     }
-  }
 }
