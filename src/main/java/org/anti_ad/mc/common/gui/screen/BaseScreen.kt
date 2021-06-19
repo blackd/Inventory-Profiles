@@ -48,6 +48,10 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     rootWidget.addChild(widget)
   }
 
+  fun dumpWidgetTree() {
+    rootWidget.dumpWidgetTree()
+  }
+
   fun clearWidgets() {
     rootWidget.clearChildren()
   }

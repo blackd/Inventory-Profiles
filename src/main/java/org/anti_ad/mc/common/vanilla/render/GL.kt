@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.vanilla.render
 
+import net.minecraft.util.math.Matrix4f
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.intersect
 import org.anti_ad.mc.common.vanilla.alias.*
@@ -30,6 +31,7 @@ fun rClearDepth() {
 }
 
 inline fun rDepthMask(bounds: Rectangle, block: () -> Unit) {
+  //rDrawOutline(bounds, -6710887)
   rCreateDepthMask(bounds)
   block()
   rRemoveDepthMask()
@@ -45,6 +47,7 @@ fun rCreateDepthMask(bounds: Rectangle) {
   if (depthBounds.isEmpty()) {
     rCreateDepthMaskNoCheck(bounds)
   } else {
+    //rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
     rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
   }
 }
@@ -52,21 +55,25 @@ fun rCreateDepthMask(bounds: Rectangle) {
 private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
   depthBounds.add(bounds)
  // GL11.glMatrixMode(GL11.GL_PROJECTION)
-  var a = RenderSystem.getModelViewStack()
+  val a = RenderSystem.getModelViewStack()
   a.push()
   a.translate(.0, .0, -400.0)
   rOverwriteDepth(bounds)
-  a.pop()
+  //a.pop()
 }
 
 fun rRemoveDepthMask() {
-//  rStandardGlState() // added this
+  //rStandardGlState() // added this
   //gPopMatrix() this has already been done the 1.17 way
+  val a = RenderSystem.getModelViewStack()
+  a.pop()
   rOverwriteDepth(depthBounds.removeLast())
 }
 
 private fun rOverwriteDepth(bounds: Rectangle) {
+//  rEnableDepth()
   gDepthFunc(GL11.GL_ALWAYS)
+
   rFillRect(bounds, 0)
   gDepthFunc(GL11.GL_LEQUAL)
 }
@@ -86,6 +93,7 @@ fun rEnableDepth() {
 // ============
 
 var rMatrixStack = MatrixStack()
+
 
 // ============
 // internal

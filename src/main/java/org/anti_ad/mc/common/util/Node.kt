@@ -41,4 +41,15 @@ class Node<T>(val value: T) {
       child.mParent = null
     }
   }
+
+  fun dumpWidgetTree() {
+    Log.trace{
+      value.toString()
+    }
+    mChildren.forEach{
+      Log.indent()
+      it.dumpWidgetTree()
+      Log.unindent()
+    }
+  }
 }

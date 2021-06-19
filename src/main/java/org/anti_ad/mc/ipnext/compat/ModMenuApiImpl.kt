@@ -10,6 +10,7 @@ class ModMenuApiImpl : ModMenuApi {
     return ConfigScreenFactory<ConfigScreen> { parent ->
       val c = ConfigScreen()
       c.parent = parent
+      c.dumpWidgetTree()
       c
     }
   }

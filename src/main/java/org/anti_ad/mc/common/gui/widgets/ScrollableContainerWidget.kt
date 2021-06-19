@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.gui.widget.Overflow.HIDDEN
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -38,12 +39,19 @@ class ScrollableContainerWidget : Widget() {
     fun superRender(mouseX: Int, mouseY: Int, partialTicks: Float) {
       super.render(mouseX, mouseY, partialTicks)
     }
+    override var absoluteBounds: Rectangle
+      get() = parent?.absoluteBounds!!
+      set(value) {
+        parent?.absoluteBounds = value
+      }
+
   }.apply {
     anchor = AnchorStyles.noBottom
     viewport.addChild(this)
     top = 0
     left = 0
     right = 0
+    parent = this@ScrollableContainerWidget
     sizeChanged += {
       scrollY = scrollY // update scrollY
     }
@@ -70,7 +78,7 @@ class ScrollableContainerWidget : Widget() {
   val scrollYMax: Int
     get() = (contentHeight - viewport.height).coerceAtLeast(0)
 
-  var renderBorder = true
+  var renderBorder = false
   var borderColor = COLOR_BORDER
 
   //region Scrollbar
@@ -121,7 +129,7 @@ class ScrollableContainerWidget : Widget() {
         copy(width = width - 1, height = height - 1)
       }, if (hover) COLOR_SCROLLBAR_HOVER else COLOR_SCROLLBAR)
     }
-
+    this.overflow = HIDDEN
     super.render(mouseX, mouseY, partialTicks)
   }
 

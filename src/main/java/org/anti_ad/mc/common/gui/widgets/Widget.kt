@@ -29,7 +29,19 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
   val screenLocationChanged = Event<Unit>()
   override var anchor = AnchorStyles.default
 
-  override var visible = true
+  var _visible = true
+  override var visible: Boolean
+  get() {
+    return _visible && this.absoluteBounds.insideOf(parent!!.absoluteBounds)
+  }
+  set(value) {
+    _visible = value
+/*
+    children.forEach {
+      it.visible = value
+    }
+ */
+  }
   final override var overflow = Overflow.UNSET
   override var isDragging = false
   override var zIndex = 0
@@ -80,13 +92,17 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     while (node.children.isNotEmpty()) node.remove(node.children.first())
   }
 
+  fun dumpWidgetTree() {
+    node.dumpWidgetTree()
+  }
+
   override fun iterator() = children.iterator()
   //endregion
 
   // event
 
   override fun contains(mouseX: Int, mouseY: Int): Boolean {
-    return absoluteBounds.contains(mouseX, mouseY)
+    return visible && absoluteBounds.contains(mouseX, mouseY)
   }
 
   // focus
@@ -285,7 +301,12 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
 
   // usually called from parent to check if this should capture mouse event
   fun captures(x: Int, y: Int): Boolean =
-    visible && (contains(x, y) || (overflow == Overflow.VISIBLE && children.any { it.captures(x, y) }))
+    visible
+            && (contains(x, y)
+            || (overflow == Overflow.VISIBLE
+                && children.any {
+                                   it.visible && it.captures(x, y)
+               }))
 
   fun mouseClicked(x: Int, y: Int, button: Int): Boolean =
     childrenZIndexed().asReversed().any {
@@ -320,7 +341,7 @@ private interface IWidgetEventTarget<T : IWidgetEventTarget<T>> {
 // ============
 
 private interface IWidgetRenderer {
-  val visible: Boolean
+  var visible: Boolean
   val overflow: Overflow
   val absoluteBounds: Rectangle
   fun childrenZIndexed(): List<IWidgetRenderer>
@@ -335,8 +356,16 @@ private interface IWidgetRenderer {
   }
 
   private fun renderChildren(mouseX: Int, mouseY: Int, partialTicks: Float) {
-    childrenZIndexed().forEach { if (it.visible) it.render(mouseX, mouseY, partialTicks) }
+    childrenZIndexed().forEach {
+      if (it.visible) {
+        it.render(mouseX, mouseY, partialTicks)
+      }
+    }
   }
+}
+
+private fun Rectangle.asCorrectedBy(i: Int): Rectangle {
+  return  Rectangle(this.x - i, this.y - i, this.width- i, this.height - i)
 }
 
 // line 254

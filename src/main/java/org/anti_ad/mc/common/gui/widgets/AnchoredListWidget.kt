@@ -91,6 +91,17 @@ open class AnchoredListWidget : Widget() {
       }
     }
 
+    var _visble = true
+
+    override var visible: Boolean
+      get() {
+        return _visible
+      }
+      set(value) {
+        this._visble = value
+        super.visible = value
+      }
+
     fun addAnchor(displayText: String, toScrollY: Int = container.contentHeight) {
       anchorsManager.addAnchor(displayText, toScrollY)
     }
