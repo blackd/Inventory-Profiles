@@ -30,7 +30,7 @@ object ContainerClicker {
   }
 
   fun qClick(slotId: Int) { // SlotActionType.QUICK_MOVE
-    genericClick(slotId, 0, SlotActionType.THROW)
+    genericClick(slotId, 1, SlotActionType.THROW)
   }
 
 
