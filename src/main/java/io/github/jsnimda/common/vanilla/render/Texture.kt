@@ -9,25 +9,28 @@ import io.github.jsnimda.common.vanilla.alias.DrawableHelper
 import io.github.jsnimda.common.vanilla.alias.Identifier
 
 private val VANILLA_TEXTURE_WIDGETS: Identifier
-//  get() = AbstractButtonWidget.WIDGETS_LOCATION
-  get() = AbstractButtonWidget.field_230687_i_
+  get() = AbstractButtonWidget.WIDGETS_LOCATION
+//  get() = AbstractButtonWidget.field_230687_i_
 
 private fun rBindTexture(identifier: Identifier) {
-  Vanilla.textureManager().bindTexture(identifier)
+  Vanilla.textureManager().bind(identifier)
 //  rEnableBlend()
   rStandardGlState()
 }
 
 // for 256 x 256 texture
 private fun rBlit(x: Int, y: Int, sx: Int, sy: Int, sw: Int, sh: Int) { // screen xy sprite xy wh
-//  DrawableHelper.drawTexture(rMatrixStack, screenX, screenY, 0, textureX.toFloat(), textureY.toFloat(), width, height, 256, 256)
-  DrawableHelper.func_238464_a_(rMatrixStack, x, y, 0, sx.toFloat(), sy.toFloat(), sw, sh, 256, 256)
+//  DrawableHelper.blit() drawTexture(rMatrixStack, screenX, screenY, 0, textureX.toFloat(), textureY.toFloat(), width, height, 256, 256)
+
+//  DrawableHelper.func_238464_a_(rMatrixStack, x, y, 0, sx.toFloat(), sy.toFloat(), sw, sh, 256, 256)
+  DrawableHelper.blit(rMatrixStack, x, y, 0, sx.toFloat(), sy.toFloat(), sw, sh, 256, 256)
 }
 
 // screen xy wh sprite xy wh texture wh
 private fun rBlit(x: Int, y: Int, w: Int, h: Int, sx: Int, sy: Int, sw: Int, sh: Int, tw: Int, th: Int) {
 //  DrawableHelper.drawTexture(rMatrixStack, x, y, w, h, sx.toFloat(), sy.toFloat(), sw, sh, tw, th)
-  DrawableHelper.func_238466_a_(rMatrixStack, x, y, w, h, sx.toFloat(), sy.toFloat(), sw, sh, tw, th)
+ // DrawableHelper.func_238466_a_(rMatrixStack, x, y, w, h, sx.toFloat(), sy.toFloat(), sw, sh, tw, th)
+  DrawableHelper.blit(rMatrixStack, x, y, w, h, sx.toFloat(), sy.toFloat(), sw, sh, tw, th)
 }
 
 //private fun rBlit(screenLocation: Point, textureLocation: Point, size: Size) {

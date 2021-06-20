@@ -8,9 +8,9 @@ import io.github.jsnimda.common.vanilla.alias.LiteralText
 import io.github.jsnimda.common.vanilla.alias.Screen
 
 val rScreenWidth
-  get() = Vanilla.window().scaledWidth
+  get() = Vanilla.window().guiScaledWidth
 val rScreenHeight
-  get() = Vanilla.window().scaledHeight
+  get() = Vanilla.window().guiScaledHeight
 val rScreenSize
   get() = Size(rScreenWidth, rScreenHeight)
 val rScreenBounds
@@ -18,7 +18,8 @@ val rScreenBounds
 
 fun rRenderDirtBackground() { // Screen.renderDirtBackground
 //  (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)
-  (Vanilla.screen() ?: dummyScreen).func_231165_f_(0)
+  (Vanilla.screen() ?: dummyScreen).renderDirtBackground(0)
+//  (Vanilla.screen() ?: dummyScreen).func_231165_f_(0)
 }
 
 fun rRenderBlackOverlay() { // Screen.renderBackground

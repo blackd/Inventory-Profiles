@@ -5,15 +5,15 @@ import io.github.jsnimda.common.vanilla.Vanilla
 import io.github.jsnimda.common.vanilla.alias.LiteralText
 
 fun rMeasureText(string: String): Int =
-  Vanilla.textRenderer().getStringWidth(string) // getStringWidth() = getWidth()
+  Vanilla.textRenderer().width(string) // getStringWidth() = getWidth()
 
 fun rDrawText(string: String, x: Int, y: Int, color: Int, shadow: Boolean = true) {
   if (shadow) {
-//    Vanilla.textRenderer().drawStringWithShadow(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
-    Vanilla.textRenderer().func_238405_a_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
+    Vanilla.textRenderer().drawShadow(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
+//    Vanilla.textRenderer().func_238405_a_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
   } else {
-//    Vanilla.textRenderer().drawString(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
-    Vanilla.textRenderer().func_238421_b_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
+    Vanilla.textRenderer().draw(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
+//    Vanilla.textRenderer().func_238421_b_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
   }
 }
 
@@ -36,7 +36,9 @@ fun rDrawCenteredText(string: String, bounds: Rectangle, color: Int, shadow: Boo
 
 fun rWrapText(string: String, maxWidth: Int): String =
 //  Vanilla.textRenderer().trimStringToWidth(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
-//  Vanilla.textRenderer().func_238412_a_(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
-  // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
+  // Vanilla.textRenderer().func_238412_a_(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
+  //wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
 //  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.string }
-  Vanilla.textRenderer().func_238425_b_(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+  //Vanilla.textRenderer().drawWordWrap(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+  //Vanilla.textRenderer().func_238425_b_(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+  Vanilla.textRenderer().split(LiteralText(string), maxWidth).joinToString("\n") { it.toString() }

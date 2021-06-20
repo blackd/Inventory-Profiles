@@ -19,8 +19,8 @@ open class BaseOverlay : BaseScreen {
 
   override fun render(mouseX: Int, mouseY: Int, partialTicks: Float) {
     try {
-//      parent?.render(rMatrixStack, mouseX, mouseY, partialTicks)
-      parent?.func_230430_a_(rMatrixStack, mouseX, mouseY, partialTicks)
+      parent?.render(rMatrixStack, mouseX, mouseY, partialTicks)
+//      parent?.func_230430_a_(rMatrixStack, mouseX, mouseY, partialTicks)
     } catch (e: Throwable) {
       Log.error("rendering parent exception: ${e.javaClass.usefulName}")
     }
@@ -29,8 +29,8 @@ open class BaseOverlay : BaseScreen {
   }
 
   override fun resize(minecraftClient: MinecraftClient, width: Int, height: Int) {
-//    parent?.resize(minecraftClient, width, height)
-    parent?.func_231152_a_(minecraftClient, width, height)
+    parent?.resize(minecraftClient, width, height)
+//    parent?.func_231152_a_(minecraftClient, width, height)
     super.resize(minecraftClient, width, height)
   }
 }

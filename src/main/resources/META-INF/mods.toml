@@ -13,6 +13,8 @@ loaderVersion="[28,)" #mandatory (28 is current forge version)
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/jsnimda/Inventory-Profiles/issues" #optional
 
+license="MIT"
+
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 

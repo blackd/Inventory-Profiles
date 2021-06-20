@@ -93,9 +93,9 @@ public class ForgeEventHandler {
   @SubscribeEvent
   public void onGuiKeyPressedPre(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
     if (!VanillaUtil.INSTANCE.inGame()) return;
-    InputMappings.Input mouseKey = InputMappings.getInputByCode(e.getKeyCode(), e.getScanCode());
+    InputMappings.Input mouseKey = InputMappings.getKey(e.getKeyCode(), e.getScanCode());
     if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
-        && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory
+        && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().options.keyInventory
         .isActiveAndMatches(mouseKey))) {
       GeneralInventoryActions.INSTANCE.handleCloseContainer();
     }

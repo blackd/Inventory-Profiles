@@ -39,7 +39,7 @@ val ItemType.namespace: String
 //region ItemType String Relative
 
 val ItemType.hasCustomName: Boolean
-  get() = vanillaStack.hasDisplayName()
+  get() = vanillaStack.hasCustomHoverName()
 val ItemType.customName: String
   get() = if (hasCustomName) displayName else ""
 val ItemType.displayName: String
@@ -49,22 +49,22 @@ val ItemType.translatedName: String
 val ItemType.itemId: String
   get() = identifier.toString()
 val ItemType.translationKey: String
-  get() = vanillaStack.translationKey
+  get() = vanillaStack.descriptionId
 
 //endregion
 
 //region ItemType Number Relative
 
 val ItemType.groupIndex: Int
-  get() = item.group?.index ?: when {
-    item === Items.ENCHANTED_BOOK -> ItemGroup.TOOLS.index
-    namespace == "minecraft" -> ItemGroup.MISC.index
-    else -> ItemGroup.GROUPS.size
+  get() = item.itemCategory?.id ?: when {
+    item === Items.ENCHANTED_BOOK -> ItemGroup.TAB_TOOLS.id
+    namespace == "minecraft" -> ItemGroup.TAB_MISC.id
+    else -> ItemGroup.TABS.size
   }
 val ItemType.rawId: Int
   get() = Registry.ITEM.`(getRawId)`(item)
 val ItemType.damage: Int
-  get() = vanillaStack.damage
+  get() = vanillaStack.damageValue
 val ItemType.enchantmentsScore: Double
 //  get() = EnchantmentHelper.get(vanillaStack).toList().fold(0.0) { acc, (enchantment, level) ->
   get() = EnchantmentHelper.getEnchantments(vanillaStack).toList().fold(0.0) { acc, (enchantment, level) ->
@@ -72,7 +72,7 @@ val ItemType.enchantmentsScore: Double
   } // cursed enchantments +0 scores
 
 val ItemType.isDamageable: Boolean
-  get() = vanillaStack.isDamageable
+  get() = vanillaStack.isDamageableItem
 val ItemType.maxDamage: Int
   get() = vanillaStack.maxDamage
 val ItemType.durability: Int
@@ -90,19 +90,19 @@ val ItemType.hasPotionName: Boolean
   get() = tag?.contains("Potion", 8) ?: false
 val ItemType.potionName: String
   // getPotionTypeFromNBT().getNamePrefixed() = getPotion().finishTranslationKey()
-  get() = if (hasPotionName) PotionUtil.getPotionTypeFromNBT(tag).getNamePrefixed("") else ""
+  get() = if (hasPotionName) PotionUtil.getPotion(tag).getName("") else ""
 val ItemType.hasPotionEffects: Boolean
-  get() = PotionUtil.getEffectsFromTag(tag).isNotEmpty() // forge getEffectsFromTag() = getPotionEffects()
+  get() = PotionUtil.getCustomEffects(tag).isNotEmpty() // forge getEffectsFromTag() = getPotionEffects()
 val ItemType.hasCustomPotionEffects: Boolean
-  get() = PotionUtil.getFullEffectsFromTag(tag).isNotEmpty() // getCustomPotionEffects() = getFullEffectsFromTag
+  get() = PotionUtil.getAllEffects(tag).isNotEmpty() // getCustomPotionEffects() = getFullEffectsFromTag
 val ItemType.potionEffects: List<StatusEffectInstance>
-  get() = PotionUtil.getEffectsFromTag(tag)
+  get() = PotionUtil.getCustomEffects(tag)
 val ItemType.comparablePotionEffects: List<PotionEffect>
   get() = potionEffects.map { it.`(asComparable)` }
 
 val StatusEffectInstance.`(asComparable)`: PotionEffect
   get() = PotionEffect(
-    Registry.EFFECTS.`(getIdentifier)`(this.potion).toString(), // forge EFFECTS = STATUS_EFFECT | effectType = potion
+    Registry.MOB_EFFECT.getId(this.effect).toString(), // forge EFFECTS = STATUS_EFFECT | effectType = potion
     this.amplifier,
     this.duration
   )

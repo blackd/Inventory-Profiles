@@ -1,15 +1,20 @@
 import proguard.gradle.ProGuardTask
 
 buildscript {
+  repositories {
+    maven("https://files.minecraftforge.net/maven")
+    mavenCentral()
+  }
   dependencies {
     classpath("com.guardsquare:proguard-gradle:7.0.0")
   }
+
 }
 
 plugins {
   `maven-publish`
   kotlin("jvm") version kotlin_version
-  id("com.github.johnrengelman.shadow") version "5.2.0"
+  id("com.github.johnrengelman.shadow") version "6.1.0"
   id("antlr")
 
   id("net.minecraftforge.gradle")

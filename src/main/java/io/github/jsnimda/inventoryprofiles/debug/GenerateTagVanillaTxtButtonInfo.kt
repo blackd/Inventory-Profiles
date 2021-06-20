@@ -23,10 +23,10 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
 
   override fun onClick(widget: ButtonWidget) {
     TellPlayer.chat("Generate tags.vanilla.txt")
-    ItemTags.getCollection().toTagTxtContent().writeToFile(fileHardcoded)
+    ItemTags.getAllTags().toTagTxtContent().writeToFile(fileHardcoded)
     val server = Vanilla.server()
     server ?: return Unit.also { TellPlayer.chat("Not integrated server!!!") }
-    server.networkTagManager.items.toTagTxtContent().writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
+    server.tags.items.toTagTxtContent().writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
   } // eventually they are the same ~.~
 
   val Identifier.omittedString: String // omit minecraft
@@ -37,9 +37,9 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
 
   fun TagContainer<Item>.toTagTxtContent(): String { // lets sort it
     val list = mutableListOf<Pair<String, MutableList<String>>>()
-    for ((identifier, tag) in tagMap) { // forge tagMap = entries
+    for ((identifier, tag) in allTags) { // forge tagMap = entries
 //      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
-      list += identifier.toString() to tag.func_230236_b_().map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
+      list += identifier.toString() to tag.values.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
     }
     list.sortBy { it.first }
     list.forEach { it.second.sort() }

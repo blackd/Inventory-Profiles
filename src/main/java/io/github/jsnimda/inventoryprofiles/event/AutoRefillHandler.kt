@@ -22,7 +22,7 @@ import io.github.jsnimda.inventoryprofiles.item.rule.parameter.Match
 
 object AutoRefillHandler {
   fun pressingDropKey(): Boolean {
-    return Vanilla.mc().gameSettings.keyBindDrop.isPressed // options.keyDrop = forge gameSettings.keyBindDrop
+    return Vanilla.mc().options.keyDrop.isDown // options.keyDrop = forge gameSettings.keyBindDrop
   }
 
   var screenOpening = false
@@ -196,7 +196,7 @@ object AutoRefillHandler {
               filtered = filtered.filter {
                 val otherType = it.value.itemType
                 otherType.item is ArmorItem
-                    && otherType.item.equipmentSlot == itemType.item.equipmentSlot // slotType = forge equipmentSlot
+                    && otherType.item.slot == itemType.item.slot // slotType = forge equipmentSlot
               }
             }
             is SwordItem -> {
