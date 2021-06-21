@@ -25,7 +25,7 @@ jobs:
         env:
           CURSEFORGE_DEPOY_TOKEN: ${{ secrets.CURSEFORGE_DEPOY_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew build publishModrinth curseforge
+        run: ./gradlew build
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

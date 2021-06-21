@@ -239,7 +239,9 @@ curseforge {
     changelog = file("changelog.md")
     releaseType = "release"
     supported_minecraft_versions.forEach {
-      this.addGameVersion(it)
+      if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+        this.addGameVersion(it)
+      }
     }
 
     mainArtifact(file("build/libs/$buildBaseName.jar"), closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
@@ -252,7 +254,7 @@ curseforge {
 
   })
   options(closureOf<com.matthewprenger.cursegradle.Options> {
-    debug = true
+    debug = false
     javaIntegration = false
     forgeGradleIntegration = mod_loader == "forge"
   })
