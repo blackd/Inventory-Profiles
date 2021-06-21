@@ -279,7 +279,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
   supported_minecraft_versions.forEach { ver ->
     addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
   }
-  changelog = File(project.absoluteProjectPath("changelog.md")).readText()
+  changelog = project.rootDir.resolve("changelog.md").readText()
   addLoader(mod_loader)
 
 }
