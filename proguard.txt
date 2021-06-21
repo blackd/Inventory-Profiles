@@ -1,6 +1,6 @@
 -libraryjars <java.home>/lib/rt.jar
 
--keep class !io.github.jsnimda.common.embedded.** { *; }
+-keep class !org.anti_ad.mc.common.embedded.** { *; }
 #-ignorewarnings
 -optimizationpasses 5 # (828K -> 811K)
 #-dontobfuscate
@@ -20,14 +20,14 @@
 #}
 
 # min build
-#-keep class io.github.jsnimda.common.mixin.** { *; }
-#-keep class io.github.jsnimda.inventoryprofiles.mixin.** { *; }
-#-keep class io.github.jsnimda.inventoryprofiles.InventoryProfilesKt { *; }
-#-keep class io.github.jsnimda.inventoryprofiles.compat.** { *; }
-#-keep class io.github.jsnimda.inventoryprofiles.config.** { *; }
+#-keep class org.anti_ad.mc.common.mixin.** { *; }
+#-keep class org.anti_ad.mc.ipnext.mixin.** { *; }
+#-keep class org.anti_ad.mc.ipnext.InventoryProfilesKt { *; }
+#-keep class org.anti_ad.mc.ipnext.compat.** { *; }
+#-keep class org.anti_ad.mc.ipnext.config.** { *; }
 
 # https://proandroiddev.com/is-your-kotlin-code-really-obfuscated-a36abf033dde
--assumenosideeffects class io.github.jsnimda.common.embedded.kotlin.jvm.internal.Intrinsics {
+-assumenosideeffects class org.anti_ad.mc.common.embedded.kotlin.jvm.internal.Intrinsics {
   public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
   public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
   public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
@@ -40,4 +40,4 @@
   public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
   public static void throwUninitializedPropertyAccessException(java.lang.String);
 }
-#-assumenosideeffects class io.github.jsnimda.common.embedded.kotlin.jvm.internal.Intrinsics { *; }
+#-assumenosideeffects class org.anti_ad.mc.common.embedded.kotlin.jvm.internal.Intrinsics { *; }

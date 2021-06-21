@@ -1,4 +1,6 @@
 import proguard.gradle.ProGuardTask
+import com.modrinth.minotaur.TaskModrinthUpload;
+
 
 buildscript {
   repositories {
@@ -6,7 +8,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath("com.guardsquare:proguard-gradle:7.0.0")
+    classpath("com.guardsquare:proguard-gradle:7.0.1")
   }
 
 }
@@ -14,10 +16,12 @@ buildscript {
 plugins {
   `maven-publish`
   kotlin("jvm") version kotlin_version
-  id("com.github.johnrengelman.shadow") version "6.1.0"
+  id("net.minecraftforge.gradle")
+  id("com.github.johnrengelman.shadow") version "5.2.0"
   id("antlr")
 
-  id("net.minecraftforge.gradle")
+  id("com.matthewprenger.cursegradle") version "1.4.0"
+  id ("com.modrinth.minotaur") version "1.2.1"
 }
 
 repositories {
@@ -163,8 +167,8 @@ tasks.shadowJar {
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
     include(dependency("org.antlr:antlr4-runtime"))
   }
-  relocate("kotlin", "io.github.jsnimda.common.embedded.kotlin")
-  relocate("org.antlr", "io.github.jsnimda.common.embedded.org.antlr")
+  relocate("kotlin", "org.anti_ad.mc.common.embedded.kotlin")
+  relocate("org.antlr", "org.anti_ad.mc.common.embedded.org.antlr")
   exclude("**/*.kotlin_metadata")
   exclude("**/*.kotlin_module")
   exclude("**/*.kotlin_builtins")
@@ -181,7 +185,9 @@ val proguard by tasks.registering(ProGuardTask::class) {
   outjars("build/libs/$buildBaseName-all-proguard.jar")
 
   doFirst {
-    libraryjars(configurations.runtimeClasspath.get().files)
+    libraryjars(configurations.runtimeClasspath.get().files.filter {
+      !it.endsWith("nashorn-core-compat-15.1.1.1.jar")
+    })
   }
 }
 
@@ -205,9 +211,9 @@ tasks {
 val genAntlr by tasks.registering(JavaExec::class) {
   description = "Generates Java sources from Antlr4 grammars."
 
-  val destinationDir = "src/main/java/io/github/jsnimda/inventoryprofiles/gen"
-  val antlrSource = "src/main/java/io/github/jsnimda/inventoryprofiles/parser/antlr"
-  val packageName = "io.github.jsnimda.inventoryprofiles.gen"
+  val destinationDir = "src/main/java/org/anti_ad/mc/ipnext/gen"
+  val antlrSource = "src/main/java/org/anti_ad/mc/ipnext/parser/antlr"
+  val packageName = "org.anti_ad.mc.ipnext.gen"
 
   inputs.dir(file(antlrSource))
   outputs.dir(file(destinationDir))
@@ -232,6 +238,70 @@ tasks.generateGrammarSource {
 
 tasks.wrapper {
   distributionType = Wrapper.DistributionType.ALL
+}
+
+
+// ============
+// curseforge
+// ============
+
+
+curseforge {
+  if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null) {
+    apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+  }
+
+  project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+    id = "495267"
+    changelogType = "markdown"
+    changelog = file("changelog.md")
+    releaseType = "release"
+    supported_minecraft_versions.forEach {
+      if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+        this.addGameVersion(it)
+      }
+    }
+
+    mainArtifact(file("build/libs/$buildBaseName.jar"), closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+      displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
+    })
+
+    afterEvaluate {
+      uploadTask.dependsOn("build")
+    }
+
+  })
+  options(closureOf<com.matthewprenger.cursegradle.Options> {
+    debug = true
+    javaIntegration = false
+    forgeGradleIntegration = mod_loader == "forge"
+  })
+}
+
+// ============
+// modrith
+// ============
+
+
+val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
+
+  onlyIf {
+    System.getenv("MODRINTH_TOKEN") != null
+  }
+
+  token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
+
+  projectId = "O7RBXm3n"
+  versionNumber = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
+  // On fabric, use 'remapJar' instead of 'jar'
+  this.changelog
+  uploadFile = file("build/libs/$buildBaseName.jar") // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+  supported_minecraft_versions.forEach { ver ->
+    addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
+  }
+  changelog = project.rootDir.resolve("changelog.md").readText()
+  addLoader(mod_loader)
+
 }
 
 // ============
