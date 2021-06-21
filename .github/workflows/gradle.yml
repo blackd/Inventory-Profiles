@@ -25,4 +25,9 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-
+    - name: 'Upload Artifact'
+    uses: actions/upload-artifact@v2
+      with:
+        name: devbuild
+        path: build/libs/inventoryprofilesnext-fabric-1.17-?.?.?.jar
+        retention-days: 3
