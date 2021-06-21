@@ -5,9 +5,9 @@ name: CI
 
 on:
   push:
-    branches: [ forge-1.16 ]
+    branches: [ forge_1.16 ]
   pull_request:
-    branches: [ forge-1.16 ]
+    branches: [ forge_1.16 ]
 
 jobs:
   build:
