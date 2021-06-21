@@ -22,10 +22,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew build
+        env:
+          CURSEFORGE_DEPOY_TOKEN: ${{ secrets.CURSEFORGE_DEPOY_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew build publishModrinth curseforge
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: build/libs/inventoryprofilesnext-fabric-1.17-?.?.?.jar
+          body_path: changelog.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
