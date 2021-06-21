@@ -12,10 +12,13 @@ import org.lwjgl.opengl.GL11
 // at Screen.render()
 // do: rStandardGlState(); rClearDepth()
 fun rStandardGlState() { // reset to standard state (for screen rendering)
+
     rEnableBlend()
-    gDisableDiffuse()
+    //gDisableDiffuse()
     gEnableDepthTest()
     RenderSystem.depthMask(true)
+
+
 }
 
 // ============
