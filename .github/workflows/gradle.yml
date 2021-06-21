@@ -31,3 +31,5 @@ jobs:
         name: dev-build
         path: build/libs/inventoryprofilesnext-fabric-1.17-?.?.?.jar
         retention-days: 3
+    - name: Finish
+      run: echo="${{ github.event.commits[0].message }}"
