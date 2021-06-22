@@ -22,7 +22,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.*
 
 object AutoRefillHandler {
     fun pressingDropKey(): Boolean {
-        return Vanilla.mc().options.keyDrop.isDown // options.keyDrop = forge gameSettings.keyBindDrop
+        return Vanilla.mc().gameSettings.keyBindDrop.isKeyDown // options.keyDrop.isDown = forge gameSettings.keyBindDrop.isKeyDown
     }
 
     var screenOpening = false
@@ -202,7 +202,7 @@ object AutoRefillHandler {
                             filtered = filtered.filter {
                                 val otherType = it.value.itemType
                                 otherType.item is ArmorItem
-                                        && otherType.item.slot == itemType.item.slot // slotType = forge equipmentSlot
+                                        && otherType.item.equipmentSlot  == itemType.item.equipmentSlot // slotT = forge equipmentSlot
                             }
                         }
                         is SwordItem -> {

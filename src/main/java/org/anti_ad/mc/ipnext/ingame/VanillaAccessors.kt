@@ -26,28 +26,28 @@ val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
                                                                         count)
 
 val Container.`(slots)`: List<Slot>
-    get() = slots
+    get() = inventorySlots
 
 val Slot.`(id)`: Int
-    get() = index
+    get() = slotNumber
 val Slot.`(invSlot)`: Int
     get() = slotIndex // forge
 val Slot.`(itemStack)`: ItemStack
-    get() = item.`(itemStack)`
+    get() = stack.`(itemStack)`
 val Slot.`(mutableItemStack)`: MutableItemStack
-    get() = item.`(mutableItemStack)`
+    get() = stack.`(mutableItemStack)`
 val Slot.`(inventory)`: Inventory
-    get() = container
+    get() = inventory
 val Slot.`(left)`: Int
-    get() = x
+    get() = xPos
 val Slot.`(top)`: Int
-    get() = y
+    get() = yPos
 val Slot.`(topLeft)`: Point
     get() = Point(`(left)`,
                   `(top)`)
 
 fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
-    return mayPlace(itemStack.vanillaStack) // isItemValid(itemStack.vanillaStack)
+    return isItemValid(itemStack.vanillaStack) // isItemValid(itemStack.vanillaStack)
 }
 
 val Screen.`(focusedSlot)`: Slot?
@@ -64,13 +64,13 @@ val ContainerScreen<*>.`(containerBounds)`: Rectangle
                       xSize,
                       ySize)
 val ContainerScreen<*>.`(container)`: Container
-    get() = menu
+    get() = this.container //in official mappings this is "menu"
 
 val PlayerInventory.`(selectedSlot)`: Int
-    get() = selected //currentItem // selectedSlot = currentItem
+    get() = currentItem //currentItem // selectedSlot = currentItem
 
 val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
-    get() = selectedTab == ItemGroup.TAB_INVENTORY.id  // index
+    get() = selectedTabIndex == ItemGroup.INVENTORY.index  // in official mappings this is .TAB_INVENTORY.id  // index
 
 // ============
 // Registry
@@ -84,7 +84,7 @@ fun <T> DefaultedRegistry<T>.`(getRawId)`(value: T): Int {
 }
 
 fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
-    return get(id) //getOrDefault(id)
+    return this.getOrDefault(id) //get(id) //getOrDefault(id)
 }
 
 fun <T> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
@@ -96,7 +96,7 @@ fun <T> Registry<T>.`(getRawId)`(value: T): Int {
 }
 
 fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
-    return get(id)
+    return getOrDefault(id) //get(id)
 }
 
 // ============
@@ -105,5 +105,5 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 val NbtTag.`(type)`: Int
     get() = id.toInt()
 val NbtTag.`(asString)`: String
-    get() = asString
+    get() =  string //asString
 

@@ -8,9 +8,9 @@ import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 
 val rScreenWidth
-    get() = Vanilla.window().guiScaledWidth
+    get() = Vanilla.window().scaledWidth
 val rScreenHeight
-    get() = Vanilla.window().guiScaledHeight
+    get() = Vanilla.window().scaledHeight
 val rScreenSize
     get() = Size(rScreenWidth,
                  rScreenHeight)

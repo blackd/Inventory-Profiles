@@ -21,8 +21,8 @@ const val mod_loader = "forge"
 // ============
 
 // http://files.minecraftforge.net/
-val forge_version = "36.1.0"
+val forge_version = "36.1.32"
 // http://export.mcpbot.bspk.rs/
 // see mdk
-val mappings_channel = "official"
-val mappings_version = "1.16.5"
+val mappings_channel = "snapshot"
+val mappings_version = "20210309-1.16.5"

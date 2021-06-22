@@ -6,6 +6,8 @@ import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.alias.items.*
 import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
+import org.anti_ad.mc.common.vanilla.alias.ItemGroup
+
 // ============
 // vanillamapping code depends on mappings
 // ============
@@ -40,7 +42,7 @@ val ItemType.namespace: String
 //region ItemType String Relative
 
 val ItemType.hasCustomName: Boolean
-    get() = vanillaStack.hasCustomHoverName()
+    get() = vanillaStack.hasDisplayName() //hasCustomHoverName() //hasCustomName()
 val ItemType.customName: String
     get() = if (hasCustomName) displayName else ""
 val ItemType.displayName: String
@@ -50,31 +52,31 @@ val ItemType.translatedName: String
 val ItemType.itemId: String
     get() = identifier.toString()
 val ItemType.translationKey: String
-    get() = vanillaStack.descriptionId
+    get() = vanillaStack.translationKey //descriptionId
 
 //endregion
 
 //region ItemType Number Relative
 
 val ItemType.groupIndex: Int
-    get() = item.itemCategory?.id ?: when {
-        item === org.anti_ad.mc.common.vanilla.alias.Items.ENCHANTED_BOOK -> org.anti_ad.mc.common.vanilla.alias.ItemGroup.TAB_TOOLS.id
-        namespace == "minecraft" -> org.anti_ad.mc.common.vanilla.alias.ItemGroup.TAB_MISC.id
-        else -> org.anti_ad.mc.common.vanilla.alias.ItemGroup.TABS.size
+    get() = item.group?.index ?: when { //itemCategory?.id
+        item === Items.ENCHANTED_BOOK -> ItemGroup.TOOLS.index // TAB_TOOLS.id
+        namespace == "minecraft" -> ItemGroup.MISC.index // TAB_MISC.id
+        else -> ItemGroup.GROUPS.size // TABS.size
     }
 val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
 val ItemType.damage: Int
-    get() = vanillaStack.damageValue
+    get() = vanillaStack.damage // .damageValue
 val ItemType.enchantmentsScore: Double
     //  get() = EnchantmentHelper.get(vanillaStack).toList().fold(0.0) { acc, (enchantment, level) ->
-    get() = org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper.getEnchantments(vanillaStack).toList()
+    get() = EnchantmentHelper.getEnchantments(vanillaStack).toList()
         .fold(0.0) { acc, (enchantment, level) ->
             acc + if (enchantment.isCurse) -0.001 else level.toDouble() / enchantment.maxLevel
         } // cursed enchantments +0 scores
 
 val ItemType.isDamageable: Boolean
-    get() = vanillaStack.isDamageableItem
+    get() = vanillaStack.isDamageable  // .isDamageableItem
 val ItemType.maxDamage: Int
     get() = vanillaStack.maxDamage
 val ItemType.durability: Int
@@ -93,21 +95,21 @@ val ItemType.hasPotionName: Boolean
                           8) ?: false
 val ItemType.potionName: String
     // getPotionTypeFromNBT().getNamePrefixed() = getPotion().finishTranslationKey()
-    get() = if (hasPotionName) org.anti_ad.mc.common.vanilla.alias.PotionUtil.getPotion(tag).getName("") else ""
+    get() = if (hasPotionName) PotionUtil.getPotionTypeFromNBT(tag).getNamePrefixed("") else "" // getPotion(tag).getName("") else ""
 val ItemType.hasPotionEffects: Boolean
-    get() = org.anti_ad.mc.common.vanilla.alias.PotionUtil.getCustomEffects(tag)
+    get() = PotionUtil.getEffectsFromTag(tag) // getCustomEffects(tag)
         .isNotEmpty() // forge getEffectsFromTag() = getPotionEffects()
 val ItemType.hasCustomPotionEffects: Boolean
-    get() = org.anti_ad.mc.common.vanilla.alias.PotionUtil.getAllEffects(tag)
+    get() = PotionUtil.getFullEffectsFromTag(tag)// getAllEffects(tag)
         .isNotEmpty() // getCustomPotionEffects() = getFullEffectsFromTag
 val ItemType.potionEffects: List<org.anti_ad.mc.common.vanilla.alias.StatusEffectInstance>
-    get() = org.anti_ad.mc.common.vanilla.alias.PotionUtil.getCustomEffects(tag)
+    get() = PotionUtil.getFullEffectsFromTag(tag) // getCustomEffects(tag)
 val ItemType.comparablePotionEffects: List<PotionEffect>
     get() = potionEffects.map { it.`(asComparable)` }
 
-val org.anti_ad.mc.common.vanilla.alias.StatusEffectInstance.`(asComparable)`: PotionEffect
+val StatusEffectInstance.`(asComparable)`: PotionEffect
     get() = PotionEffect(
-        Registry.MOB_EFFECT.getId(this.effect).toString(), // forge EFFECTS = STATUS_EFFECT | effectType = potion
+        Registry.EFFECTS.getId(this.potion).toString(), // forge EFFECTS = STATUS_EFFECT  == MOB_EFFECT | effectType = potion
         this.amplifier,
         this.duration
     )

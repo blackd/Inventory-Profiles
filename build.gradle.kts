@@ -9,9 +9,12 @@ buildscript {
   }
   dependencies {
     classpath("com.guardsquare:proguard-gradle:7.0.1")
+    classpath("net.minecraftforge.gradle:ForgeGradle:4.1.7")
   }
 
 }
+
+//apply("net.minecraftforge.gradle")
 
 plugins {
   `maven-publish`

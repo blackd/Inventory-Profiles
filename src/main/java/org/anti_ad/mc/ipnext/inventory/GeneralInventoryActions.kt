@@ -142,7 +142,7 @@ object GeneralInventoryActions {
 private object InnerActions {
 
     private fun forcePlayerSide(): Boolean = // default container side
-        ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.container is PlayerInventory
+        ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.inventory /*container*/ is PlayerInventory
 
     fun doSort(sortingRule: Rule,
                postAction: PostAction) = tryCatch {

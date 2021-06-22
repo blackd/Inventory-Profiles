@@ -15,7 +15,7 @@ import org.anti_ad.mc.ipnext.item.ItemStack
 private val vPlayerSlots
     get() = Vanilla.playerContainer().`(slots)`
 
-fun vCursorStack() = Vanilla.playerInventory().carried.`(itemStack)`
+fun vCursorStack() = Vanilla.playerInventory().itemStack.`(itemStack)`
 
 fun vPlayerSlotOf(slot: Slot,
                   screen: Screen?): Slot { // creative slot to survival slot

@@ -142,19 +142,19 @@ private class CustomVanillaSliderWidget(val minValue: Double,
 
     var valueChangedEvent: () -> Unit = { }
 
-    override fun updateMessage() {}
+    //override fun updateMessage() {}
 
-    //  override fun func_230979_b_() {}
-    override fun applyValue() {
-//  override fun func_230972_a_() {
+    override fun func_230979_b_() {}
+//    override fun applyValue() {
+    override fun func_230972_a_() {
         valueChangedEvent()
     }
 
     var translatedValue: Double
-        get() = (maxValue - minValue) * super.value + minValue
+        get() = (maxValue - minValue) * super.sliderValue + minValue
         //    get() = (maxValue - minValue) * super.field_230683_b_ + minValue
         set(value) {
-            super.value = (value - minValue) / (maxValue - minValue)
+            super.sliderValue = (value - minValue) / (maxValue - minValue)
 //      super.field_230683_b_ = (value - minValue) / (maxValue - minValue)
         }
 }
@@ -181,12 +181,12 @@ class SliderWidget(
         }
 }
 
-private class CustomTextFieldWidget(textRenderer: TextRenderer?,
+private class CustomTextFieldWidget(textRenderer: TextRenderer,
                                     i: Int,
                                     j: Int,
                                     k: Int,
                                     l: Int,
-                                    string: String?) :
+                                    string: String) :
     VanillaTextFieldWidget(textRenderer,
                            i,
                            j,
@@ -201,8 +201,8 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer?,
 //  fun setFocused(bl: Boolean) = func_230996_d_(bl)
 
     init {
-        setMaxLength(32767)
-//    setMaxStringLength(32767) // setMaxLength() = forge setMaxStringLength()
+//        setMaxLength(32767)
+        setMaxStringLength(32767) // setMaxLength() = forge setMaxStringLength()
     }
 }
 
@@ -217,8 +217,8 @@ class TextFieldWidget(height: Int) :
     var textPredicate: (string: String) -> Boolean = { true }
         set(value) {
             field = value
-//      vanilla.setValidator(value)
-            vanilla.setFilter(value)
+            vanilla.setValidator(value)
+            //vanilla.setFilter(value)
         }
     var changedEvent: (string: String) -> Unit = { }
         set(value) {
@@ -229,10 +229,10 @@ class TextFieldWidget(height: Int) :
         }
 
     var vanillaText: String
-        get() = vanilla.value //text
+        get() = vanilla.text //value //text
         set(value) {
-            if (vanilla.value != value) {
-                vanilla.value = value
+            if (vanilla.text != value) {
+                vanilla.text = value
             }
         }
 

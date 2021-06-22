@@ -23,10 +23,10 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
 
     override fun onClick(widget: ButtonWidget) {
         TellPlayer.chat("Generate tags.vanilla.txt")
-        ItemTags.getAllTags().toTagTxtContent().writeToFile(fileHardcoded)
+        ItemTags.getCollection().toTagTxtContent().writeToFile(fileHardcoded)
         val server = Vanilla.server()
         server ?: return Unit.also { TellPlayer.chat("Not integrated server!!!") }
-        server.tags.items.toTagTxtContent()
+        server.func_244266_aF().itemTags.toTagTxtContent()
             .writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
     } // eventually they are the same ~.~
 
@@ -38,9 +38,9 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
 
     fun TagContainer<Item>.toTagTxtContent(): String { // lets sort it
         val list = mutableListOf<Pair<String, MutableList<String>>>()
-        for ((identifier, tag) in allTags) { // forge tagMap = entries
+        for ((identifier, tag) in idTagMap) { // forge tagMap = entries
 //      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
-            list += identifier.toString() to tag.values.map { Registry.ITEM.`(getIdentifier)`(it).toString() }
+            list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }
                 .toMutableList() // allElements = values
         }
         list.sortBy { it.first }

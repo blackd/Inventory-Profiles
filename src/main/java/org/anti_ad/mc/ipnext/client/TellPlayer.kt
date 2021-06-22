@@ -8,7 +8,7 @@ import org.anti_ad.mc.common.vanilla.alias.LiteralText
 object TellPlayer {
     fun chat(message: String) {
         if (!VanillaUtil.inGame()) return
-        Vanilla.chatHud().addMessage(LiteralText(message)) // forge printChatMessage() = addMessage()
+        Vanilla.chatHud().printChatMessage(LiteralText(message)) // forge printChatMessage() = addMessage()
     }
 
     inline fun listenLog(level: Log.LogLevel,

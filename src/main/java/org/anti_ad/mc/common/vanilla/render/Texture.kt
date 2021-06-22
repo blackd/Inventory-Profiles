@@ -13,7 +13,7 @@ private val VANILLA_TEXTURE_WIDGETS: Identifier
 //  get() = AbstractButtonWidget.field_230687_i_
 
 private fun rBindTexture(identifier: Identifier) {
-    Vanilla.textureManager().bind(identifier)
+    Vanilla.textureManager().bindTexture(identifier)
 //  rEnableBlend()
     rStandardGlState()
 }

@@ -26,8 +26,8 @@ object NbtUtils {
         // Tag<Item> tag = ((ServerCommandSource)commandContext.getSource()).getMinecraftServer().getTagManager().items().get(identifier);
         // (hard coded)
         // ItemTags.getContainer()
-        //return ItemTags.getCollection().get(id)
-        return ItemTags.getAllTags().getTag(id)
+        return ItemTags.getCollection().get(id)
+        //return ItemTags.getAllTags().getTag(id)
     }
 
     // ============
@@ -40,8 +40,8 @@ object NbtUtils {
         if (b1 != b2)
             return if (b1) -1 else 1 // no nbt = first
         if (a == null || b == null) return 0
-        val keys1: List<String> = a.allKeys.sorted() // forge keySet() = keys
-        val keys2: List<String> = b.allKeys.sorted()
+        val keys1: List<String> = a.keySet().sorted() // forge keySet() = allKeys
+        val keys2: List<String> = b.keySet().sorted()
         val pairs1 = keys1.map { (it to a.get(it)).asComparable(::compareStringTag) }
         val pairs2 = keys2.map { (it to b.get(it)).asComparable(::compareStringTag) }
         return pairs1.compareTo(pairs2)
@@ -71,7 +71,7 @@ object NbtUtils {
 
     fun parseNbt(nbt: String): CompoundTag? {
         // StringNbtReader
-        return tryCatch { StringNbtReader.parseTag(nbt) } // .parse()
+        return tryCatch { StringNbtReader.getTagFromJson(nbt) }  //parseTag // .parse()
     }
 
     // ============
@@ -119,9 +119,9 @@ object NbtUtils {
         val asString: String
             get() = value.`(asString)`
         val asNumber: Number // todo what if number is long > double precision range
-            get() = (value as? AbstractNumberTag)?.asDouble ?: 0
+            get() = (value as? AbstractNumberTag)?.double  ?: 0 //asDouble
         val asDouble: Double
-            get() = (value as? AbstractNumberTag)?.asDouble ?: 0.0
+            get() = (value as? AbstractNumberTag)?.double ?: 0.0 //asDouble
         val asCompound: CompoundTag
             get() = value as? CompoundTag ?: CompoundTag()
         val asList: List<WrappedTag>
@@ -137,10 +137,10 @@ object NbtUtils {
     // ============
     private fun innerMatchNbt(a: CompoundTag?,
                               b: CompoundTag?): Boolean { // b superset of a (a <= b)
-        // NbtHelper.matches()
-        return NbtHelper.compareNbt(a,
-                                    b,
-                                    true) // criteria, testTarget, allowExtra (for list)
+        // NbtHelper.matches() //.compareNbt()
+        return NbtHelper.areNBTEquals(a,
+                                      b,
+                                      true) // criteria, testTarget, allowExtra (for list)
     }
 
     private fun getNbtPath(path: String): NbtPathArgumentTypeNbtPath? {
@@ -150,6 +150,6 @@ object NbtUtils {
 
     private fun getTagsForPath(nbtPath: NbtPathArgumentTypeNbtPath,
                                target: NbtTag): List<NbtTag> {
-        return trySwallow(listOf()) { nbtPath.get(target) } // func_218071_a() = get()
+        return trySwallow(listOf()) { nbtPath.func_218071_a(target) } // func_218071_a() = get()
     }
 }

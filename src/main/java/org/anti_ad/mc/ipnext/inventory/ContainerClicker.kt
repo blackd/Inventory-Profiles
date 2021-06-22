@@ -66,15 +66,15 @@ object ContainerClicker {
             // creative menu dont use method_2906
             // simulate the action in CreativeInventoryScreen line 135
             Vanilla.playerContainer()
-                .clicked(slotId,
+                .slotClick(slotId,
                          button,
                          actionType,
                          Vanilla.player()) // forge slotClick() = onSlotClick()
             if (contentUpdates) sendContentUpdates()
             return
         }
-        Vanilla.interactionManager().handleInventoryMouseClick(// windowClick( // forge windowClick() = method_2906()
-            container.containerId,// windowId, // forge windowId = syncId
+        Vanilla.interactionManager().windowClick(// windowClick( // forge windowClick() = method_2906()
+            container.windowId,// containerId, // forge windowId = syncId
             slotId,
             button,
             actionType,
@@ -84,7 +84,7 @@ object ContainerClicker {
 
     fun sendContentUpdates() {
         Vanilla.playerContainer()
-            .broadcastChanges() //detectAndSendChanges() // see creative forge detectAndSendChanges() = sendContentUpdates()
+            .detectAndSendChanges() // broadcastChanges() //detectAndSendChanges() // see creative forge detectAndSendChanges() = sendContentUpdates()
     }
 
     fun executeClicks(clicks: List<Pair<Int, Int>>,

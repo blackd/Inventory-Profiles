@@ -6,7 +6,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 
 fun rMeasureText(string: String): Int =
-    Vanilla.textRenderer().width(string) // getStringWidth() = getWidth()
+    Vanilla.textRenderer().getStringWidth(string) // getStringWidth() = getWidth()
 
 fun rDrawText(string: String,
               x: Int,
@@ -14,14 +14,14 @@ fun rDrawText(string: String,
               color: Int,
               shadow: Boolean = true) {
     if (shadow) {
-        Vanilla.textRenderer().drawShadow(rMatrixStack,
+        Vanilla.textRenderer().drawStringWithShadow(rMatrixStack,
                                           string,
                                           x.toFloat(),
                                           y.toFloat(),
                                           color) // drawWithShadow() = drawStringWithShadow()
 //    Vanilla.textRenderer().func_238405_a_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
     } else {
-        Vanilla.textRenderer().draw(rMatrixStack,
+        Vanilla.textRenderer().drawString(rMatrixStack,
                                     string,
                                     x.toFloat(),
                                     y.toFloat(),
@@ -72,7 +72,7 @@ fun rDrawCenteredText(string: String,
 //Vanilla.textRenderer().split(LiteralText(string), maxWidth).joinToString("\n") { it.toString() }
 fun rWrapText(string: String,
               maxWidth: Int): String =
-    Vanilla.textRenderer().splitter.splitLines(LiteralText(string),
+    Vanilla.textRenderer().characterManager.func_238362_b_(LiteralText(string),
                                                maxWidth,
                                                Style.EMPTY).joinToString("\n") {
         it.string

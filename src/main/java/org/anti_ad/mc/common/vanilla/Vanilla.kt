@@ -16,43 +16,43 @@ object Vanilla {
     // ============
 
     fun mc() = MinecraftClient.getInstance()
-    fun window(): Window = mc().window
-    fun screen(): Screen? = mc().screen
+    fun window(): Window = mc().mainWindow
+    fun screen(): Screen? = mc().currentScreen
 
-    fun textRenderer() = mc().font ?: error("mc.textRenderer is not initialized!")
+    fun textRenderer() = mc().fontRenderer ?: error("mc.textRenderer is not initialized!")
     fun textureManager() = mc().textureManager ?: error("mc.textureManager is not initialized!")
-    fun soundManager() = mc().soundManager
+    fun soundManager() = mc().soundHandler
     fun languageManager() = mc().languageManager
     fun resourceManager() = mc().resourceManager
 
-    fun inGameHud() = mc().gui ?: error("mc.inGameHud is not initialized!")
-    fun chatHud() = inGameHud().chat
+    fun inGameHud() = mc().ingameGUI ?: error("mc.inGameHud is not initialized!")
+    fun chatHud() = inGameHud().chatGUI
 
-    fun mouse() = mc().mouseHandler ?: error("mc.mouse is not initialized!")
+    fun mouse() = mc().mouseHelper ?: error("mc.mouse is not initialized!")
 
-    fun server(): IntegratedServer? = mc().singleplayerServer
+    fun server(): IntegratedServer? = mc().integratedServer
 
     // ============
     // java objects
     // ============
 
-    fun runDirectoryFile() = mc().gameDirectory ?: error("mc.runDirectory is not initialized!")
+    fun runDirectoryFile() = mc().gameDir ?: error("mc.runDirectory is not initialized!")
 
     // ============
     // in-game objects
     // ============
 
-    fun worldNullable() = mc().level ?: null
+    fun worldNullable() = mc().world ?: null
     fun playerNullable() = mc().player ?: null
 
     fun world() = worldNullable() ?: error("mc.world is not initialized! Probably not in game")
     fun player() = playerNullable() ?: error("mc.player is not initialized! Probably not in game")
     fun playerInventory() = player().inventory ?: throw AssertionError("unreachable")
-    fun playerContainer() = player().inventoryMenu ?: throw AssertionError("unreachable") // container / openContainer
-    fun container() = player().containerMenu ?: playerContainer()
+    fun playerContainer() = player().container  ?: throw AssertionError("unreachable") // container / openContainer
+    fun container() = player().openContainer  ?: playerContainer()
 
     fun interactionManager() =
-        mc().gameMode ?: error("mc.interactionManager is not initialized! Probably not in game")
+        mc().playerController ?: error("mc.interactionManager is not initialized! Probably not in game")
 
     fun recipeBook() = player().recipeBook
 
