@@ -1,4 +1,4 @@
-# Inventory Profiles Next v0.6.0
+# Inventory Profiles Next v0.7.4
 
 ## What's new
 
@@ -18,4 +18,4 @@
 
 ## Requirements
 
-Forge 36.1.x
+Miecraft 1.16.5, Forge 36.1.x
