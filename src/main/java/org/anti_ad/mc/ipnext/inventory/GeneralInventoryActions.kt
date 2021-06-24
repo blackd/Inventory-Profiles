@@ -3,8 +3,8 @@ package org.anti_ad.mc.ipnext.inventory
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigString
-import org.anti_ad.mc.common.util.containsAny
-import org.anti_ad.mc.common.util.tryCatch
+import org.anti_ad.mc.common.extensions.containsAny
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer

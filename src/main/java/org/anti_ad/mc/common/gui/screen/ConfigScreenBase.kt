@@ -131,7 +131,6 @@ open class ConfigScreenBase(text: Text) : BaseScreen(text) {
 
     override fun closeScreen() {
         if (GlobalInputHandler.currentAssigningKeybind != null) return
-        isClosing = true
         super.closeScreen()
     }
 

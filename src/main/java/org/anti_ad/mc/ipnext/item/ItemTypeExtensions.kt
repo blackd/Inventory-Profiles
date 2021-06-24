@@ -1,12 +1,16 @@
 package org.anti_ad.mc.ipnext.item
 
+import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.vanilla.alias.items.BucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.FishBucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
+import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
-import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.common.vanilla.alias.items.*
 import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
-
-import org.anti_ad.mc.common.vanilla.alias.ItemGroup
 
 // ============
 // vanillamapping code depends on mappings
@@ -17,11 +21,14 @@ fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with
 }
 
 val ItemType.Companion.EMPTY
-    get() = ItemType(org.anti_ad.mc.common.vanilla.alias.Items.AIR,
+    get() = ItemType(Items.AIR,
                      null)
 
-fun ItemType.isEmpty() =
-    item == org.anti_ad.mc.common.vanilla.alias.Items.AIR
+fun ItemType.isEmpty() : Boolean {
+    return (item == Items.AIR).ifTrue {
+        if (this.tag?.equals(null) == false) Log.warn("Informal item type $this")
+    }
+}
 
 val ItemType.maxCount: Int
     get() = vanillaStack.maxStackSize
@@ -95,7 +102,8 @@ val ItemType.hasPotionName: Boolean
                           8) ?: false
 val ItemType.potionName: String
     // getPotionTypeFromNBT().getNamePrefixed() = getPotion().finishTranslationKey()
-    get() = if (hasPotionName) PotionUtil.getPotionTypeFromNBT(tag).getNamePrefixed("") else "" // getPotion(tag).getName("") else ""
+    get() = if (hasPotionName) PotionUtil.getPotionTypeFromNBT(tag)
+        .getNamePrefixed("") else "" // getPotion(tag).getName("") else ""
 val ItemType.hasPotionEffects: Boolean
     get() = PotionUtil.getEffectsFromTag(tag) // getCustomEffects(tag)
         .isNotEmpty() // forge getEffectsFromTag() = getPotionEffects()
@@ -109,7 +117,8 @@ val ItemType.comparablePotionEffects: List<PotionEffect>
 
 val StatusEffectInstance.`(asComparable)`: PotionEffect
     get() = PotionEffect(
-        Registry.EFFECTS.getId(this.potion).toString(), // forge EFFECTS = STATUS_EFFECT  == MOB_EFFECT | effectType = potion
+        Registry.EFFECTS.getId(this.potion)
+            .toString(), // forge EFFECTS = STATUS_EFFECT  == MOB_EFFECT | effectType = potion
         this.amplifier,
         this.duration
     )

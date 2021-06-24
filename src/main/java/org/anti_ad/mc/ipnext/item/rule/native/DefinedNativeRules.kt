@@ -1,6 +1,6 @@
 package org.anti_ad.mc.ipnext.item.rule.native
 
-import org.anti_ad.mc.common.util.ByPropertyName
+import org.anti_ad.mc.common.extensions.ByPropertyName
 import org.anti_ad.mc.ipnext.item.*
 import org.anti_ad.mc.ipnext.item.rule.MutableEmptyRule
 import org.anti_ad.mc.ipnext.item.rule.Parameter

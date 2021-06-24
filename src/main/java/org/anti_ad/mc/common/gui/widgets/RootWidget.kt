@@ -1,8 +1,8 @@
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.extensions.RoutedEvent
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.util.RoutedEvent
 
 private fun <T> RoutedEvent<T>.orInvoke(event: T,
                                         handled: Boolean) =

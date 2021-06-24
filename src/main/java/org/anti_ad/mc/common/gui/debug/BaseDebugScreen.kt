@@ -1,14 +1,13 @@
 package org.anti_ad.mc.common.gui.debug
 
+import org.anti_ad.mc.common.extensions.detectable
+import org.anti_ad.mc.common.extensions.mod
+import org.anti_ad.mc.common.extensions.runIf
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.gui.widget.fillParent
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.util.detectable
-import org.anti_ad.mc.common.util.mod
-import org.anti_ad.mc.common.util.orElse
-import org.anti_ad.mc.common.util.selfIf
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.render.*
 import kotlin.math.sign
@@ -82,7 +81,7 @@ open class BaseDebugScreen : BaseOverlay() {
                                 rScreenWidth)
         val texts = content.lines().map { HudText(it) }
         texts.forEach { hudTextContainer.addChild(it) }
-        val hudTexts = hudTextContainer.children.selfIf { isTop orElse { asReversed() } }
+        val hudTexts = hudTextContainer.children.runIf(!isTop) { asReversed() }
         var dy = 1
         for (hudText in hudTexts) {
             hudText.anchor = AnchorStyles(isTop,

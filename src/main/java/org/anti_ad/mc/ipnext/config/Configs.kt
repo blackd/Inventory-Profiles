@@ -3,12 +3,12 @@
 package org.anti_ad.mc.ipnext.config
 
 import org.anti_ad.mc.common.Savable
+import org.anti_ad.mc.common.config.builder.*
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfo
 import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfo
 import org.anti_ad.mc.ipnext.parser.OpenConfigFolderButtonInfo
 import org.anti_ad.mc.ipnext.parser.ReloadRuleFileButtonInfo
-import org.anti_ad.mc.common.config.builder.*
 
 private const val category = "inventoryprofiles.config.category"
 
@@ -71,6 +71,7 @@ object ModSettings : ConfigDeclaration {
     val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10,
                                                               1,
                                                               500)
+    val HIGHLIGHT_CLICKING_SLOT                   /**/ by bool(true)
     val RESTOCK_HOTBAR                            /**/ by bool(false)
     val SORT_AT_CURSOR                            /**/ by bool(false)
     val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)
@@ -162,8 +163,11 @@ object Debugs : ConfigDeclaration {
         .CATEGORY("$category.debugs")
     val TRACE_LOGS                                /**/ by bool(false)
     val DEBUG_RENDER                              /**/ by bool(false)
+    val FORCE_NO_CLEAN_CURSOR                     /**/ by bool(false)
+    val DIFF_CALCULATOR                           /**/ by enum(DiffCalculatorType.SIMPLE)
     val DEBUG_SCREEN                              /**/ by hotkey("Z,1",
                                                                  KeybindSettings.ANY_DEFAULT)
+
     val SCREEN_DEPTH_TEST                         /**/ by hotkey("Z,2",
                                                                  KeybindSettings.ANY_DEFAULT)
     val SCREEN_SPRITE_TEST                        /**/ by hotkey("Z,3",

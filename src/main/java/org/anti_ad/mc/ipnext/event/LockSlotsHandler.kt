@@ -1,20 +1,20 @@
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
-import org.anti_ad.mc.common.util.detectable
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
+import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
 import org.anti_ad.mc.ipnext.ingame.*
 import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
-import org.anti_ad.mc.common.vanilla.render.*
 
 /*
   slots ignored for:

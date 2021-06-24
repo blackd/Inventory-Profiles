@@ -1,12 +1,14 @@
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.common.annotation.ThrowsCaught
-import org.anti_ad.mc.common.util.tryCatch
+import org.anti_ad.mc.common.extensions.tryOrElse
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
 import org.anti_ad.mc.common.vanilla.alias.Slot
+import org.anti_ad.mc.ipnext.client.TellPlayer
+import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.*
 import org.anti_ad.mc.ipnext.inventory.data.ItemTracker
@@ -15,8 +17,10 @@ import org.anti_ad.mc.ipnext.inventory.data.MutableSubTracker
 import org.anti_ad.mc.ipnext.inventory.data.SubTracker
 import org.anti_ad.mc.ipnext.inventory.sandbox.ContainerSandbox
 import org.anti_ad.mc.ipnext.inventory.sandbox.ItemPlanner
+import org.anti_ad.mc.ipnext.inventory.sandbox.diffcalculator.NoRoomException
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.stackableWith
 
 class AdvancedContainer(
@@ -32,8 +36,18 @@ class AdvancedContainer(
     private val slotIdClicks: List<Pair<Int, Int>>
         get() = vanillaSlots.let { slots ->
             @ThrowsCaught
-            tryCatch { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
+            tryOrElse(::handleException) { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
         }
+
+    private fun handleException(e: Throwable): Nothing? {
+        if (e is NoRoomException) {
+            TellPlayer.chat(e.message ?: e.toString())
+        } else {
+            e.printStackTrace()
+            TellPlayer.chat(e.toString())
+        }
+        return null
+    }
 
     // ============
     // dsl
@@ -41,7 +55,7 @@ class AdvancedContainer(
 
     @ThrowsCaught
     fun sandbox(block: SandboxDsl.() -> Unit) {
-        tryCatch {
+        tryOrElse(::handleException) {
             planner.sandbox {
                 SandboxDsl(it).block()
             }
@@ -50,7 +64,7 @@ class AdvancedContainer(
 
     @ThrowsCaught
     fun tracker(block: TrackerDsl.() -> Unit) {
-        tryCatch {
+        tryOrElse(::handleException) {
             planner.tracker {
                 TrackerDsl(it).block()
             }
@@ -118,7 +132,7 @@ class AdvancedContainer(
         ) {
             if (!VanillaUtil.inGame()) return
             AdvancedContainer(instant) {
-                if (cleanCursor) cleanCursor()
+                if (cleanCursor && !Debugs.FORCE_NO_CLEAN_CURSOR.booleanValue) cleanCursor()
                 tracker(block)
             }
         }
@@ -186,7 +200,7 @@ class AdvancedContainer(
         for ((slotIndex, slotItem) in destination.indexedSlots) {
             if (skipEmpty && slotItem.isEmpty()) continue
             if (!vanillaSlots[slotIndex].`(canInsert)`(slotItem)) continue
-            if (tracker.cursor.stackableWith(slotItem)) this.leftClick(slotIndex)
+            if (tracker.cursor.stackableWith(slotItem) && !slotItem.isFull()) this.leftClick(slotIndex)
             if (tracker.cursor.isEmpty()) return
         }
     }

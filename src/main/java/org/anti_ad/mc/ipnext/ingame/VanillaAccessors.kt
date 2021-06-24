@@ -4,9 +4,9 @@ package org.anti_ad.mc.ipnext.ingame
 
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.ipnext.item.*
 import org.anti_ad.mc.ipnext.item.ItemStack
-import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -105,5 +105,5 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 val NbtTag.`(type)`: Int
     get() = id.toInt()
 val NbtTag.`(asString)`: String
-    get() =  string //asString
+    get() = string //asString
 

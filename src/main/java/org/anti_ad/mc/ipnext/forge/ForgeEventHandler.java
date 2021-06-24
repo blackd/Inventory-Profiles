@@ -1,12 +1,5 @@
 package org.anti_ad.mc.ipnext.forge;
 
-import org.anti_ad.mc.common.vanilla.Vanilla;
-import org.anti_ad.mc.common.vanilla.VanillaUtil;
-import org.anti_ad.mc.ipnext.config.Tweaks;
-import org.anti_ad.mc.ipnext.event.ClientEventHandler;
-import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
-import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
-import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
 import kotlin.Unit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerController;
@@ -21,6 +14,13 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import org.anti_ad.mc.common.vanilla.Vanilla;
+import org.anti_ad.mc.common.vanilla.VanillaUtil;
+import org.anti_ad.mc.ipnext.config.Tweaks;
+import org.anti_ad.mc.ipnext.event.ClientEventHandler;
+import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
+import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
+import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;

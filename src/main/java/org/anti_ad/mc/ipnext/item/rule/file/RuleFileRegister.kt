@@ -3,9 +3,9 @@ package org.anti_ad.mc.ipnext.item.rule.file
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.annotation.ThrowsCaught
 import org.anti_ad.mc.common.annotation.WontThrow
-import org.anti_ad.mc.common.util.ifTrue
-import org.anti_ad.mc.common.util.ordinalName
-import org.anti_ad.mc.common.util.usefulName
+import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.extensions.ordinalName
+import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.ipnext.item.rule.EmptyRule
 import org.anti_ad.mc.ipnext.item.rule.Parameter
 import org.anti_ad.mc.ipnext.item.rule.Rule

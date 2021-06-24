@@ -1,11 +1,21 @@
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.math2d.Point
+import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
+import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
 import org.anti_ad.mc.common.vanilla.alias.SlotActionType
+import org.anti_ad.mc.common.vanilla.render.alpha
+import org.anti_ad.mc.common.vanilla.render.rClearDepth
+import org.anti_ad.mc.common.vanilla.render.rFillRect
+import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.ingame.*
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.timer
 
 // ============
@@ -67,9 +77,9 @@ object ContainerClicker {
             // simulate the action in CreativeInventoryScreen line 135
             Vanilla.playerContainer()
                 .slotClick(slotId,
-                         button,
-                         actionType,
-                         Vanilla.player()) // forge slotClick() = onSlotClick()
+                           button,
+                           actionType,
+                           Vanilla.player()) // forge slotClick() = onSlotClick()
             if (contentUpdates) sendContentUpdates()
             return
         }
@@ -140,6 +150,37 @@ object ContainerClicker {
                     return@timer
                 }
             }
+        }
+    }
+
+    private class Highlight(var id: Int)
+
+    private val slotLocations: Map<Int, Point> // id, location // ref: LockSlotsHandler
+        get() {
+            val screen = Vanilla.screen() as? ContainerScreen<*> ?: return mapOf()
+            return Vanilla.container().`(slots)`.map { slot ->
+                val playerSlot = vPlayerSlotOf(slot,
+                                               screen)
+                return@map playerSlot.`(id)` to slot.`(topLeft)`
+            }.toMap()
+        }
+    private val highlights: MutableSet<Highlight> = ConcurrentHashMap.newKeySet()
+    private fun drawHighlight() {
+        val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
+        val topLeft = screen.`(containerBounds)`.topLeft
+        val slotLocations = slotLocations
+        highlights.mapNotNull { slotLocations[it.id] }.forEach {
+            rFillRect(Rectangle(topLeft + it,
+                                Size(16,
+                                     16)),
+                      (-1).alpha(0.5f))
+        }
+    }
+    fun postScreenRender() {
+        if (ModSettings.HIGHLIGHT_CLICKING_SLOT.booleanValue) {
+            rStandardGlState()
+            rClearDepth()
+            drawHighlight()
         }
     }
 

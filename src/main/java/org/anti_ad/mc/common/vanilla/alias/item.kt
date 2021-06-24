@@ -9,10 +9,10 @@ import net.minecraft.item.Items
 import net.minecraft.nbt.*
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.PotionUtils
-import net.minecraft.tags.ItemTags
 import net.minecraft.tags.ITagCollection
+import net.minecraft.tags.ItemTags
 import net.minecraft.nbt.INBT as NbtTag
-import net.minecraft.tags.ITag as TagTag // ~.~ Tag is SetTag!!!!!!
+import net.minecraft.tags.ITag as TagTag
 
 typealias Item = Item
 typealias Items = Items
@@ -28,7 +28,7 @@ typealias TagContainer<T> = ITagCollection<T>
 // nbt
 // ============
 
-typealias CompoundTag = CompoundNBT
+typealias NbtCompound = CompoundNBT
 typealias NbtTag = NbtTag
 
 typealias AbstractNumberTag = NumberNBT

@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.item.rule.parameter
 
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.util.trySwallow
+import org.anti_ad.mc.common.extensions.trySwallow
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.NbtUtils

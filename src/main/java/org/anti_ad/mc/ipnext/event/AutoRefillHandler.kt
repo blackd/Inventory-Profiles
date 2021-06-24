@@ -1,9 +1,10 @@
 package org.anti_ad.mc.ipnext.event
 
-import org.anti_ad.mc.common.util.tryCatch
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.Items
+import org.anti_ad.mc.common.vanilla.alias.items.*
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
@@ -18,7 +19,6 @@ import org.anti_ad.mc.ipnext.item.*
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.item.rule.native.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
-import org.anti_ad.mc.common.vanilla.alias.items.*
 
 object AutoRefillHandler {
     fun pressingDropKey(): Boolean {
@@ -202,7 +202,7 @@ object AutoRefillHandler {
                             filtered = filtered.filter {
                                 val otherType = it.value.itemType
                                 otherType.item is ArmorItem
-                                        && otherType.item.equipmentSlot  == itemType.item.equipmentSlot // slotT = forge equipmentSlot
+                                        && otherType.item.equipmentSlot == itemType.item.equipmentSlot // slotT = forge equipmentSlot
                             }
                         }
                         is SwordItem -> {
@@ -260,7 +260,7 @@ object AutoRefillHandler {
                     b.value.count - a.value.count
                 })
                 index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
-                return index.takeUnless { it < 0 }?.plus(9)
+                return index.takeIf { it >= 0 }?.plus(9)
             }
 
             private fun getThreshold(itemType: ItemType): Int {

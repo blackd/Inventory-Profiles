@@ -21,7 +21,7 @@ abstract class BaseScreen(text: Text) : Screen(text) {
 
     var parent: Screen? = null
     val titleString: String
-        //    get() = this.title.formattedText // todo .asFormattedString()
+        // get() = this.title.formattedText // todo .asFormattedString()
         // get() = this.title.field_230704_d_.string
         get() = this.title.string
     open val screenInfo
@@ -54,6 +54,10 @@ abstract class BaseScreen(text: Text) : Screen(text) {
         rootWidget.addChild(widget)
     }
 
+    fun dumpWidgetTree() {
+        rootWidget.dumpWidgetTree()
+    }
+
     fun clearWidgets() {
         rootWidget.clearChildren()
     }
@@ -79,13 +83,12 @@ abstract class BaseScreen(text: Text) : Screen(text) {
                           partialTicks)
     }
 
-
+    //override fun func_230430_a_(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
     override fun render(matrixStack: MatrixStack,
                         i: Int,
                         j: Int,
                         f: Float) {
-        //override fun func_230430_a_(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
-        rMatrixStack = matrixStack
+        rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
         render(i,
                j,
                f)
@@ -94,8 +97,10 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     // ============
     // vanilla overrides
     // ============
+
+    //final override fun func_231177_au__(): Boolean = screenInfo.isPauseScreen
     final override fun isPauseScreen(): Boolean = screenInfo.isPauseScreen
-//  final override fun func_231177_au__(): Boolean = screenInfo.isPauseScreen
+
 
     final override fun onClose() {
         if (!isClosing) {
@@ -114,15 +119,16 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     override fun resize(minecraftClient: MinecraftClient,
                         width: Int,
                         height: Int) {
+        //super.func_231152_a_(minecraftClient, width, height)
         super.resize(minecraftClient,
                      width,
                      height)
-//    super.func_231152_a_(minecraftClient, width, height)
+
         rootWidget.size = Size(width,
                                height)
     }
 
-    //  open fun mouseClicked(d: Double, e: Double, i: Int): Boolean =
+    //open fun mouseClicked(d: Double, e: Double, i: Int): Boolean =
     override fun mouseClicked(d: Double,
                               e: Double,
                               i: Int): Boolean =
@@ -138,7 +144,7 @@ abstract class BaseScreen(text: Text) : Screen(text) {
                                  e.toInt(),
                                  i)
 
-    //  open fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean =
+    //open fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean =
     override fun mouseDragged(d: Double,
                               e: Double,
                               i: Int,
@@ -160,12 +166,12 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     override fun keyPressed(keyCode: Int,
                             scanCode: Int,
                             modifiers: Int): Boolean =
+        //super.func_231046_a_(keyCode, scanCode, modifiers) || rootWidget.keyPressed(keyCode, scanCode, modifiers)
         super.keyPressed(keyCode,
                          scanCode,
                          modifiers) || rootWidget.keyPressed(keyCode,
                                                              scanCode,
                                                              modifiers)
-//    super.func_231046_a_(keyCode, scanCode, modifiers) || rootWidget.keyPressed(keyCode, scanCode, modifiers)
 
     override fun keyReleased(keyCode: Int,
                              scanCode: Int,

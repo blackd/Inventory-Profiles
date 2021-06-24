@@ -1,4 +1,4 @@
-package org.anti_ad.mc.common.util
+package org.anti_ad.mc.common.extensions
 
 import com.google.gson.*
 import com.google.gson.JsonPrimitive

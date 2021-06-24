@@ -2,13 +2,13 @@
 const val kotlin_version = "1.4.32"
 
 // Mod Properties
-const val mod_version = "0.6.0"
+const val mod_version = "0.7.4"
 const val maven_group = "org.anti_ad.mc"
 const val mod_id = "inventoryprofilesnext"
 
 const val minecraft_version = "1.16.5"
 
-val supported_minecraft_versions = arrayOf("1.16.4", "1.16.5")
+val supported_minecraft_versions = arrayOf("1.16.5")
 
 // ============
 // mod loader

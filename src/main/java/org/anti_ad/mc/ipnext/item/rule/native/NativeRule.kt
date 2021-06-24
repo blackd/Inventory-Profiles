@@ -1,8 +1,12 @@
 package org.anti_ad.mc.ipnext.item.rule.native
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.extensions.asComparable
+import org.anti_ad.mc.common.extensions.compareTo
+import org.anti_ad.mc.common.extensions.letIf
+import org.anti_ad.mc.common.util.LogicalStringComparator
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.common.vanilla.alias.CompoundTag
+import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.NbtUtils
 import org.anti_ad.mc.ipnext.item.comparablePotionEffects
@@ -10,7 +14,6 @@ import org.anti_ad.mc.ipnext.item.rule.BaseRule
 import org.anti_ad.mc.ipnext.item.rule.EmptyRule
 import org.anti_ad.mc.ipnext.item.rule.Rule
 import org.anti_ad.mc.ipnext.item.rule.parameter.*
-import org.anti_ad.mc.common.util.*
 import java.text.Collator
 import java.util.*
 
@@ -44,13 +47,13 @@ class StringBasedRule : TypeBasedRule<String>() {
 
     private val lazyCompareString: Comparator<in String> by lazy(LazyThreadSafetyMode.NONE) {
         val rawComparator: Comparator<in String> = arguments[string_compare].comparator ?: run { // locale cmp
-            val langTag = arguments[locale].selfIfNotEquals("mc") { VanillaUtil.languageCode() }.replace('_',
+            val langTag = arguments[locale].letIf({ it == "mc" }) { VanillaUtil.languageCode() }.replace('_',
                                                                                                          '-')
             val locale = if (langTag == "sys") Locale.getDefault() else Locale.forLanguageTag(langTag)
             val strength = arguments[strength].value
             Collator.getInstance(locale).apply { this.strength = strength }
         }
-        return@lazy rawComparator.selfIf { !arguments[logical] orElse { LogicalStringComparator(rawComparator) } }
+        return@lazy rawComparator.letIf(arguments[logical]) { LogicalStringComparator(it) }
     } // interestingly if using if else, compiler cannot guess type
 
     fun compareString(str1: String,
@@ -115,7 +118,7 @@ class MatchNbtRule : BooleanBasedRule() {
     init {
         arguments.apply {
             defineParameter(nbt,
-                            CompoundTag())
+                            NbtCompound())
             defineParameter(allow_extra,
                             true)
         }

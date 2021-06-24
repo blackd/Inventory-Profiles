@@ -1,8 +1,8 @@
 package org.anti_ad.mc.ipnext.item.rule.parameter
 
-import org.anti_ad.mc.common.util.trySwallow
-import org.anti_ad.mc.common.util.usefulName
-import org.anti_ad.mc.common.vanilla.alias.CompoundTag
+import org.anti_ad.mc.common.extensions.trySwallow
+import org.anti_ad.mc.common.extensions.usefulName
+import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.ipnext.item.NbtUtils
 import org.anti_ad.mc.ipnext.item.rule.ArgumentType
 import org.anti_ad.mc.ipnext.item.rule.Rule
@@ -28,8 +28,8 @@ class EnumArgumentType<T : Enum<T>>(val enumClass: Class<T>) : ArgumentType<T> {
         }
 }
 
-object NbtArgumentType : ArgumentType<CompoundTag> {
-    override fun toString(value: CompoundTag) = value.toString()
+object NbtArgumentType : ArgumentType<NbtCompound> {
+    override fun toString(value: NbtCompound) = value.toString()
     override fun parse(argument: String) = NbtUtils.parseNbt(argument)
 }
 

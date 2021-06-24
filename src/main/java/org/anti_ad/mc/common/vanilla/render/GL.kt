@@ -120,7 +120,9 @@ private fun rEnableBlend() {
 // ============
 // GlStateManager
 // RenderHelper.disableStandardItemLighting(); RenderHelper = DiffuseLighting
-private fun gDisableDiffuse() = DiffuseLighting.disableStandardItemLighting() // turnOff()// disableStandardItemLighting()
+private fun gDisableDiffuse() =
+    DiffuseLighting.disableStandardItemLighting() // turnOff()// disableStandardItemLighting()
+
 private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
 private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
 private fun gDisableDepthTest() = RenderSystem.disableDepthTest()

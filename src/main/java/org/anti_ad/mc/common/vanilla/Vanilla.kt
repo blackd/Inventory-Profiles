@@ -15,8 +15,8 @@ object Vanilla {
     // minecraft objects
     // ============
 
-    fun mc() = MinecraftClient.getInstance()
-    fun window(): Window = mc().mainWindow
+    fun mc() = MinecraftClient.getInstance() ?: error("MinecraftClient is not initialized!")
+    fun window(): Window = mc().mainWindow ?: error("mc.window is not initialized!")
     fun screen(): Screen? = mc().currentScreen
 
     fun textRenderer() = mc().fontRenderer ?: error("mc.textRenderer is not initialized!")
@@ -48,8 +48,8 @@ object Vanilla {
     fun world() = worldNullable() ?: error("mc.world is not initialized! Probably not in game")
     fun player() = playerNullable() ?: error("mc.player is not initialized! Probably not in game")
     fun playerInventory() = player().inventory ?: throw AssertionError("unreachable")
-    fun playerContainer() = player().container  ?: throw AssertionError("unreachable") // container / openContainer
-    fun container() = player().openContainer  ?: playerContainer()
+    fun playerContainer() = player().container ?: throw AssertionError("unreachable") // container / openContainer
+    fun container() = player().openContainer ?: playerContainer()
 
     fun interactionManager() =
         mc().playerController ?: error("mc.interactionManager is not initialized! Probably not in game")

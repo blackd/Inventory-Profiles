@@ -1,7 +1,8 @@
 package org.anti_ad.mc.ipnext.inventory
 
-import org.anti_ad.mc.ipnext.inventory.ContainerType.*
+
 import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
 private val nonStorage = setOf(TEMP_SLOTS)
 
@@ -75,9 +76,15 @@ object ContainerTypes {
         return innerMap.keys.firstOrNull { it.isInstance(container) }
     }
 
-    fun getTypes(container: Container) =
-        innerMap.getOrDefault(getRepresentingClass(container),
-                              unknownContainerDefaultTypes)
+    fun getTypes(container: Container): Set<ContainerType> {
+        var z: Class<*>? = getRepresentingClass(container)
+        var v = innerMap.get(z)
+        if (v == null) {
+            v = unknownContainerDefaultTypes
+        }
+        return v
+        //return innerMap.getOrDefault(z, unknownContainerDefaultTypes)
+    }
 
 //  fun match(container: Container, vararg with: ContainerType) = match(container, with.toSet())
 //  fun match(container: Container, with: Set<ContainerType> = setOf(), without: Set<ContainerType> = setOf()) =

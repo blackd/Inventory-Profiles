@@ -1,10 +1,10 @@
 package org.anti_ad.mc.ipnext.debug
 
+import org.anti_ad.mc.common.extensions.div
+import org.anti_ad.mc.common.extensions.usefulName
+import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
-import org.anti_ad.mc.common.util.div
-import org.anti_ad.mc.common.util.usefulName
-import org.anti_ad.mc.common.util.writeToFile
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.item.rule.native.NativeRules
 import org.anti_ad.mc.ipnext.item.rule.parameter.BooleanArgumentType

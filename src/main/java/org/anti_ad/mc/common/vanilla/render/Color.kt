@@ -1,8 +1,8 @@
 package org.anti_ad.mc.common.vanilla.render
 
-import org.anti_ad.mc.common.util.land
-import org.anti_ad.mc.common.util.lnot
-import org.anti_ad.mc.common.util.lor
+import org.anti_ad.mc.common.extensions.land
+import org.anti_ad.mc.common.extensions.lnot
+import org.anti_ad.mc.common.extensions.lor
 
 // as kotlin regards (some) color as long
 val Long.color

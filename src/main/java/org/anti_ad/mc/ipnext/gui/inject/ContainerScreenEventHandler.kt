@@ -8,6 +8,7 @@ import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
+import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
     var currentWidget: SortingButtonCollectionWidget? = null
@@ -52,6 +53,7 @@ object ContainerScreenEventHandler {
 
     fun postRender() {
         LockSlotsHandler.postRender()
+        ContainerClicker.postScreenRender()
         currentWidget?.let { Tooltips.renderAll() }
     }
 }

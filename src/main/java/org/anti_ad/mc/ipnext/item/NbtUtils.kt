@@ -2,11 +2,12 @@ package org.anti_ad.mc.ipnext.item
 
 import com.mojang.brigadier.StringReader
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.extensions.*
+import org.anti_ad.mc.common.util.*
+import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(getByIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(type)`
-import org.anti_ad.mc.common.util.*
-import org.anti_ad.mc.common.vanilla.alias.*
 
 // ============
 // vanillamapping code depends on mappings
@@ -33,8 +34,8 @@ object NbtUtils {
     // ============
     // nbt
     // ============
-    fun compareNbt(a: CompoundTag?,
-                   b: CompoundTag?): Int {
+    fun compareNbt(a: NbtCompound?,
+                   b: NbtCompound?): Int {
         val b1 = a == null
         val b2 = b == null
         if (b1 != b2)
@@ -69,7 +70,7 @@ object NbtUtils {
         } ?: w1.asString.compareTo(w2.asString)
     }
 
-    fun parseNbt(nbt: String): CompoundTag? {
+    fun parseNbt(nbt: String): NbtCompound? {
         // StringNbtReader
         return tryCatch { StringNbtReader.getTagFromJson(nbt) }  //parseTag // .parse()
     }
@@ -77,13 +78,14 @@ object NbtUtils {
     // ============
     // match nbt
     // ============
-    fun matchNbtNoExtra(a: CompoundTag?,
-                        b: CompoundTag?): Boolean { // handle null and empty
-        return a?.takeUnless { it.isEmpty } == b?.takeUnless { it.isEmpty }
+    fun matchNbtNoExtra(a: NbtCompound?,
+                        b: NbtCompound?): Boolean { // handle null and empty
+        return a?.unlessIt { isEmpty } == b?.unlessIt { isEmpty }
+        //return a?.takeUnless { it.isEmpty } == b?.takeUnless { it.isEmpty }
     }
 
-    fun matchNbt(a: CompoundTag?,
-                 b: CompoundTag?): Boolean { // b superset of a (a <= b)
+    fun matchNbt(a: NbtCompound?,
+                 b: NbtCompound?): Boolean { // b superset of a (a <= b)
         if (a == null || a.isEmpty) return true // treats {} as null
         return innerMatchNbt(a,
                              b)
@@ -119,11 +121,11 @@ object NbtUtils {
         val asString: String
             get() = value.`(asString)`
         val asNumber: Number // todo what if number is long > double precision range
-            get() = (value as? AbstractNumberTag)?.double  ?: 0 //asDouble
+            get() = (value as? AbstractNumberTag)?.double ?: 0 //asDouble
         val asDouble: Double
             get() = (value as? AbstractNumberTag)?.double ?: 0.0 //asDouble
-        val asCompound: CompoundTag
-            get() = value as? CompoundTag ?: CompoundTag()
+        val asCompound: NbtCompound
+            get() = value as? NbtCompound ?: NbtCompound()
         val asList: List<WrappedTag>
             get() = (value as? AbstractListTag<*>)?.map { WrappedTag(it) } ?: listOf()
         val asListUnwrapped: List<NbtTag>
@@ -135,8 +137,8 @@ object NbtUtils {
     // ============
     // private
     // ============
-    private fun innerMatchNbt(a: CompoundTag?,
-                              b: CompoundTag?): Boolean { // b superset of a (a <= b)
+    private fun innerMatchNbt(a: NbtCompound?,
+                              b: NbtCompound?): Boolean { // b superset of a (a <= b)
         // NbtHelper.matches() //.compareNbt()
         return NbtHelper.areNBTEquals(a,
                                       b,
@@ -145,7 +147,7 @@ object NbtUtils {
 
     private fun getNbtPath(path: String): NbtPathArgumentTypeNbtPath? {
         // NbtPathArgumentType().parse(StringReader(path))
-        return tryOrNull({ Log.warn(it.toString()) }) { NbtPathArgumentType().parse(StringReader(path)) }
+        return tryOrPrint(Log::warn) { NbtPathArgumentType().parse(StringReader(path)) }
     }
 
     private fun getTagsForPath(nbtPath: NbtPathArgumentTypeNbtPath,

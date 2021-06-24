@@ -1,6 +1,6 @@
 package org.anti_ad.mc.common.vanilla
 
-import org.anti_ad.mc.common.util.*
+import org.anti_ad.mc.common.extensions.*
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Util

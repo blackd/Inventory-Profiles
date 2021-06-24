@@ -105,6 +105,10 @@ open class MutableBucket<T> protected constructor(innerMap: Map<T, Int>) : Bucke
         innerMap.clear()
     }
 
+    open fun copyAsMutable(): MutableBucket<T> {
+        return MutableBucket(innerMap)
+    }
+
     // ============
     // equals
     // ============

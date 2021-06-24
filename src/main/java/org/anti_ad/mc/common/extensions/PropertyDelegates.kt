@@ -1,4 +1,4 @@
-package org.anti_ad.mc.common.util
+package org.anti_ad.mc.common.extensions
 
 import kotlin.properties.Delegates
 import kotlin.properties.PropertyDelegateProvider

@@ -1,10 +1,10 @@
 package org.anti_ad.mc.ipnext.input
 
 import org.anti_ad.mc.common.IInputHandler
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.debug.DepthTestScreen
 import org.anti_ad.mc.common.gui.debug.SpriteTestScreen
 import org.anti_ad.mc.common.input.GlobalInputHandler
-import org.anti_ad.mc.common.util.tryCatch
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys

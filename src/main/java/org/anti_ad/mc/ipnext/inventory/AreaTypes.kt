@@ -1,14 +1,14 @@
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.common.extensions.indexed
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.util.indexed
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.ingame.*
 import org.anti_ad.mc.ipnext.inventory.ContainerType.HORSE_STORAGE
 import org.anti_ad.mc.ipnext.inventory.ContainerType.SORTABLE_STORAGE
-import org.anti_ad.mc.common.vanilla.alias.*
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35

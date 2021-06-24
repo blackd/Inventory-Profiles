@@ -1,11 +1,13 @@
 package org.anti_ad.mc.ipnext.item
 
-import org.anti_ad.mc.common.vanilla.alias.CompoundTag
+import net.minecraft.nbt.CompoundNBT
 import org.anti_ad.mc.common.vanilla.alias.Item
+import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,
-                    val tag: CompoundTag?) {
+                    val tag: NbtCompound?) {
     override fun toString() = item.toString() + "" + (tag ?: "")
 
     override fun equals(other: Any?): Boolean {
@@ -16,7 +18,7 @@ data class ItemType(val item: Item,
 
         if (isEmpty() && other.isEmpty()) return true
         if (item != other.item) return false
-        if (tag != other.tag) return false
+        if (tag?.equals(other.tag) == true) return false
 
         return true
     }

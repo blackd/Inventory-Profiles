@@ -1,15 +1,14 @@
 package org.anti_ad.mc.ipnext;
 
-import org.anti_ad.mc.common.forge.CommonForgeEventHandler;
-import org.anti_ad.mc.ipnext.InventoryProfilesKt;
-import org.anti_ad.mc.ipnext.event.ClientInitHandler;
-import org.anti_ad.mc.ipnext.forge.ForgeEventHandler;
-import org.anti_ad.mc.ipnext.gui.ConfigScreen;
 import kotlin.Unit;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import org.anti_ad.mc.common.forge.CommonForgeEventHandler;
+import org.anti_ad.mc.ipnext.event.ClientInitHandler;
+import org.anti_ad.mc.ipnext.forge.ForgeEventHandler;
+import org.anti_ad.mc.ipnext.gui.ConfigScreen;
 
 /**
  * InventoryProfilesNext

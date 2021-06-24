@@ -7,7 +7,7 @@ object VanillaSound {
 
     fun playClick() {
         Vanilla.soundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK,
-                                                                  1.0f))
+                                                                   1.0f))
     }
 
 }

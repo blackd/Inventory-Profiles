@@ -1,11 +1,11 @@
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
-import org.anti_ad.mc.common.util.containsAny
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.*
@@ -20,19 +20,26 @@ object MiscHandler {
 
     fun swipeMoving() {
         if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
-            slotAction { s: Slot, screen: Screen ->
+            slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 ContainerClicker.shiftClick(vPlayerSlotOf(s,
                                                           screen).`(id)`)
             }
         } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
-            slotAction { s: Slot, _: Screen ->
-                ContainerClicker.qClick(s.`(id)`)
+            slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
+                val matchSet = setOf(ContainerType.NO_SORTING_STORAGE,
+                                     ContainerType.SORTABLE_STORAGE)
+                if (types.containsAny(matchSet) && !types.contains(ContainerType.CREATIVE)) {
+                    ContainerClicker.qClick(vPlayerSlotOf(
+                        s,
+                        screen,
+                    ).`(id)`)
+                }
             }
         }
 
     }
 
-    private fun slotAction(block: (s: Slot, screen: Screen) -> Unit) {
+    private fun slotAction(block: (s: Slot, screen: Screen, types: Set<ContainerType>) -> Unit) {
         // fixed mouse too fast skip slots
         // use ContainerScreen.isPointOverSlot()/.getSlotAt() / Slot.x/yPosition
         val screen = Vanilla.screen()
@@ -62,7 +69,9 @@ object MiscHandler {
             if (!line.intersects(rect)) continue
             if (slot.`(itemStack)`.isEmpty()) continue
             block(slot,
-                  screen)
+                  screen,
+                  types)
         }
     }
+
 }

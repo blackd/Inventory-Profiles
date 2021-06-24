@@ -2,7 +2,7 @@ package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.render.rDrawCenteredText
-import org.anti_ad.mc.common.vanilla.render.rDrawDynamicWidthSprite
+import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSprite
 
 open class ButtonWidget : Widget {
@@ -55,10 +55,8 @@ open class ButtonWidget : Widget {
     open fun renderButton(hovered: Boolean) {
         val k = if (active) if (hovered) 2 else 1 else 0
         val sprite = rVanillaButtonSprite.down(k)
-        rDrawDynamicWidthSprite(sprite,
-                                screenX,
-                                screenY,
-                                width)
+        rDrawDynamicSizeSprite(sprite,
+                               absoluteBounds)
         val textColor = if (active) if (hovered) 16777120 else 14737632 else 10526880
         rDrawCenteredText(text,
                           screenX + width / 2,

@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.inventory.data
 
-import org.anti_ad.mc.common.util.divCeil
-import org.anti_ad.mc.common.util.indexed
+import org.anti_ad.mc.common.extensions.divCeil
+import org.anti_ad.mc.common.extensions.indexed
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.isEmpty

@@ -7,9 +7,9 @@ import org.anti_ad.mc.common.config.ConfigOptionBase
 import org.anti_ad.mc.common.config.ConfigOptionNumericBase
 import org.anti_ad.mc.common.config.IConfigOptionPrimitive
 import org.anti_ad.mc.common.config.IConfigOptionToggleable
+import org.anti_ad.mc.common.extensions.next
+import org.anti_ad.mc.common.extensions.previous
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
-import org.anti_ad.mc.common.util.next
-import org.anti_ad.mc.common.util.previous
 
 class ConfigDouble(defaultValue: Double,
                    minValue: Double,

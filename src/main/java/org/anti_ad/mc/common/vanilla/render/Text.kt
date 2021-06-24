@@ -15,17 +15,17 @@ fun rDrawText(string: String,
               shadow: Boolean = true) {
     if (shadow) {
         Vanilla.textRenderer().drawStringWithShadow(rMatrixStack,
-                                          string,
-                                          x.toFloat(),
-                                          y.toFloat(),
-                                          color) // drawWithShadow() = drawStringWithShadow()
+                                                    string,
+                                                    x.toFloat(),
+                                                    y.toFloat(),
+                                                    color) // drawWithShadow() = drawStringWithShadow()
 //    Vanilla.textRenderer().func_238405_a_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
     } else {
         Vanilla.textRenderer().drawString(rMatrixStack,
-                                    string,
-                                    x.toFloat(),
-                                    y.toFloat(),
-                                    color) // draw() = drawString()
+                                          string,
+                                          x.toFloat(),
+                                          y.toFloat(),
+                                          color) // draw() = drawString()
 //    Vanilla.textRenderer().func_238421_b_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // draw() = drawString()
     }
 }
@@ -73,7 +73,7 @@ fun rDrawCenteredText(string: String,
 fun rWrapText(string: String,
               maxWidth: Int): String =
     Vanilla.textRenderer().characterManager.func_238362_b_(LiteralText(string),
-                                               maxWidth,
-                                               Style.EMPTY).joinToString("\n") {
+                                                           maxWidth,
+                                                           Style.EMPTY).joinToString("\n") {
         it.string
     }

@@ -4,6 +4,7 @@ import org.anti_ad.mc.common.annotation.MayThrow
 import org.anti_ad.mc.ipnext.inventory.data.ItemTracker
 import org.anti_ad.mc.ipnext.inventory.data.MutableItemTracker
 import org.anti_ad.mc.ipnext.inventory.data.collect
+import org.anti_ad.mc.ipnext.inventory.sandbox.diffcalculator.DiffCalculator
 
 class ItemPlanner(items: MutableItemTracker) {
     private val innerSandbox = ContainerSandbox(items)
@@ -13,7 +14,7 @@ class ItemPlanner(items: MutableItemTracker) {
     @MayThrow
     private fun innerSync() {
         trackingItems?.let { trackingItems ->
-            DiffCalculator.INSTANCE.apply(innerSandbox,
+            DiffCalculator.apply(innerSandbox,
                                           trackingItems)
             if (innerSandbox.items != trackingItems)
                 error("ContainerSandbox actual result not same as goal")

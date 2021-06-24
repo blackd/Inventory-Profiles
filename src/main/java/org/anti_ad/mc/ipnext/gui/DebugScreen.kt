@@ -1,9 +1,9 @@
 package org.anti_ad.mc.ipnext.gui
 
+import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.gui.debug.BaseDebugScreen
 import org.anti_ad.mc.common.gui.debug.DebugInfos
 import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.util.usefulName
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen

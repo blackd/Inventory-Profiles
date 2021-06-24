@@ -1,8 +1,10 @@
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.IConfigOptionNumeric
 import org.anti_ad.mc.common.config.IConfigOptionToggleable
+import org.anti_ad.mc.common.config.options.*
 import org.anti_ad.mc.common.gui.widget.Axis
 import org.anti_ad.mc.common.gui.widget.BiFlex
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -12,7 +14,6 @@ import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.render.Sprite
 import org.anti_ad.mc.common.vanilla.render.rDrawSprite
 import org.anti_ad.mc.common.vanilla.render.rMeasureText
-import org.anti_ad.mc.common.config.options.*
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
@@ -38,7 +39,7 @@ fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this
     is ConfigString -> this.toWidget()
     is ConfigButton -> this.toWidget()
     else -> object : ConfigWidgetBase<IConfigOption>(this) {}
-        .also { org.anti_ad.mc.common.Log.error("unknown config option $this") }
+        .also { Log.error("unknown config option $this") }
 }
 
 //endregion

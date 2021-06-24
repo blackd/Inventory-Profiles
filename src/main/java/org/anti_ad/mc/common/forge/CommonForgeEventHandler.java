@@ -1,12 +1,12 @@
 package org.anti_ad.mc.common.forge;
 
-import org.anti_ad.mc.common.input.GlobalInputHandler;
-import org.anti_ad.mc.common.input.GlobalScreenEventListener;
-import org.anti_ad.mc.common.vanilla.Vanilla;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.anti_ad.mc.common.input.GlobalInputHandler;
+import org.anti_ad.mc.common.input.GlobalScreenEventListener;
+import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.lwjgl.glfw.GLFW;
 
 public class CommonForgeEventHandler {

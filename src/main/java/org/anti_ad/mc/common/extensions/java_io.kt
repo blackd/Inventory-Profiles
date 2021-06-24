@@ -1,4 +1,4 @@
-package org.anti_ad.mc.common.util
+package org.anti_ad.mc.common.extensions
 
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOCase

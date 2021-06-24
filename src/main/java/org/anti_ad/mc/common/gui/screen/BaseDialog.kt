@@ -1,9 +1,9 @@
 package org.anti_ad.mc.common.gui.screen
 
+import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.gui.widget.moveToCenter
 import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.util.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.render.rFillOutline
 import org.anti_ad.mc.common.vanilla.render.rRenderBlackOverlay

@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.util
 
+import org.anti_ad.mc.common.extensions.compareTo
 import java.math.BigInteger
 import java.text.Collator
 

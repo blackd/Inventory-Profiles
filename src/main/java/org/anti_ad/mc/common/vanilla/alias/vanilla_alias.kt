@@ -1,6 +1,5 @@
 package org.anti_ad.mc.common.vanilla.alias
 
-import org.anti_ad.mc.common.util.selfIfNotEquals
 import net.minecraft.client.MainWindow
 import net.minecraft.client.Minecraft
 import net.minecraft.client.audio.SimpleSound
@@ -29,13 +28,12 @@ typealias Util = Util
 object I18n {
     fun translate(string: String,
                   vararg objects: Any?): String = I18n.format(string,
-                                                           *objects)
+                                                              *objects)
 
     fun translateOrNull(string: String,
                         vararg objects: Any?): String? =
         translate(string,
-                  *objects).selfIfNotEquals(string,
-                                            null)
+                  *objects).takeIf { it != string }
 
     fun translateOrEmpty(string: String,
                          vararg objects: Any?): String = translateOrNull(string,

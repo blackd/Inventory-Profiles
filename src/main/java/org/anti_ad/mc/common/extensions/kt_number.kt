@@ -2,7 +2,7 @@
                "FunctionName",
                "SpellCheckingInspection")
 
-package org.anti_ad.mc.common.util
+package org.anti_ad.mc.common.extensions
 
 infix fun Int.mod(other: Int) = Math.floorMod(this,
                                               other)

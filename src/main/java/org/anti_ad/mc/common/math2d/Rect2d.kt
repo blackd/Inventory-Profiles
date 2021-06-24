@@ -158,4 +158,12 @@ data class Rectangle(
                  y: Int): Boolean {
         return x in left until right && y in top until bottom
     }
+
+    fun insideOf(parent: Rectangle): Boolean {
+        if (x < parent.x) return false
+        if (y < parent.y) return false
+        if (x + width > parent.x + parent.width) return false
+        if (y + height > parent.y + parent.height) return false
+        return true
+    }
 }

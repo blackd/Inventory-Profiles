@@ -2,7 +2,7 @@ package org.anti_ad.mc.ipnext.parser
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.annotation.ThrowsCaught
-import org.anti_ad.mc.common.util.usefulName
+import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.ipnext.item.rule.EmptyRule
 import org.anti_ad.mc.ipnext.item.rule.Rule
 import org.anti_ad.mc.ipnext.item.rule.file.CustomRule

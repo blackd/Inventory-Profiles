@@ -5,8 +5,6 @@ import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
-import org.anti_ad.mc.ipnext.item.EMPTY
-import org.anti_ad.mc.ipnext.item.ItemStack
 
 // ============
 // vanillamapping code depends on mappings

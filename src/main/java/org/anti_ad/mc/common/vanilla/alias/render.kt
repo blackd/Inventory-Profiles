@@ -14,7 +14,7 @@ typealias Text = ITextComponent // TextComponent is BaseText!!!!!!!
 typealias LiteralText = StringTextComponent
 typealias TranslatableText = TranslationTextComponent
 
-typealias TextRenderer =  FontRenderer
+typealias TextRenderer = FontRenderer
 
 typealias DrawableHelper = AbstractGui
 

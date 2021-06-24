@@ -58,4 +58,11 @@ class MutableItemBucket : MutableBucket<ItemType>, ItemBucket {
     override fun copyAsMutable(): MutableItemBucket {
         return MutableItemBucket(asMap)
     }
+
+    override fun toString(): String {
+        return asMap.map {
+            ItemStack(it.key,
+                      it.value)
+        }.toString()
+    }
 }

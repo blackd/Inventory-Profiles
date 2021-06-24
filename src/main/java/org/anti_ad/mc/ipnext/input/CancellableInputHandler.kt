@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.input
 
 import org.anti_ad.mc.common.IInputHandler
-import org.anti_ad.mc.common.util.tryCatch
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 
 object CancellableInputHandler : IInputHandler {

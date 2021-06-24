@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.item.rule.file
 
 import org.anti_ad.mc.common.annotation.MayThrow
-import org.anti_ad.mc.common.util.compare
+import org.anti_ad.mc.common.extensions.compare
 import org.anti_ad.mc.ipnext.item.rule.BaseRule
 import org.anti_ad.mc.ipnext.item.rule.Rule
 

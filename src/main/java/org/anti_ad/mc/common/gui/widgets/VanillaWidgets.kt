@@ -1,11 +1,18 @@
 package org.anti_ad.mc.common.gui.widgets
 
+//import net.minecraft.client.util.math.MatrixStack
+import com.mojang.blaze3d.matrix.MatrixStack
+import net.minecraft.util.math.MathHelper
+import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
+import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.TextRenderer
+import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
+import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSprite
 import org.anti_ad.mc.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -19,14 +26,14 @@ open class VanillaWidget<T : AbstractButtonWidget>(
     init {
         sizeChanged += {
             vanilla.width = width
-//      vanilla.func_230991_b_(width)
+
             // TODO set height
         }
         screenLocationChanged += {
             vanilla.x = screenX
-//      vanilla.field_230690_l_ = screenX
+
             vanilla.y = screenY
-//      vanilla.field_230691_m_ = screenY
+
         }
     }
 
@@ -35,7 +42,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
         //    get() = vanilla.func_230458_i_().unformattedComponentText
         set(value) {
             vanilla.message = LiteralText(value)
-//      vanilla.func_238482_a_(LiteralText(value))
+
         }
 
     override fun render(mouseX: Int,
@@ -46,7 +53,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
                        mouseX,
                        mouseY,
                        partialTicks)
-//    vanilla.func_230430_a_(rMatrixStack, mouseX, mouseY, partialTicks)
+
         super.render(mouseX,
                      mouseY,
                      partialTicks)
@@ -60,7 +67,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
                                   button) || vanilla.mouseClicked(x.toDouble(),
                                                                   y.toDouble(),
                                                                   button)
-//    return super.mouseClicked(x, y, button) || vanilla.func_231044_a_(x.toDouble(), y.toDouble(), button)
+
     }
 
     override fun mouseReleased(x: Int,
@@ -71,7 +78,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
                                    button) || vanilla.mouseReleased(x.toDouble(),
                                                                     y.toDouble(),
                                                                     button)
-//    return super.mouseReleased(x, y, button) || vanilla.func_231048_c_(x.toDouble(), y.toDouble(), button)
+
     }
 
     override fun mouseScrolled(x: Int,
@@ -82,7 +89,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
                                    amount) || vanilla.mouseScrolled(x.toDouble(),
                                                                     y.toDouble(),
                                                                     amount)
-//    return super.mouseScrolled(x, y, amount) || vanilla.func_231043_a_(x.toDouble(), y.toDouble(), amount)
+
     }
 
     override fun mouseDragged(x: Double,
@@ -99,7 +106,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
                                                               button,
                                                               dx,
                                                               dy)
-//    return super.mouseDragged(x, y, button, dx, dy) || vanilla.func_231045_a_(x, y, button, dx, dy)
+
     }
 
     override fun keyPressed(keyCode: Int,
@@ -110,7 +117,7 @@ open class VanillaWidget<T : AbstractButtonWidget>(
                                 modifiers) || vanilla.keyPressed(keyCode,
                                                                  scanCode,
                                                                  modifiers)
-//    return super.keyPressed(keyCode, scanCode, modifiers) || vanilla.func_231046_a_(keyCode, scanCode, modifiers)
+
     }
 
     override fun keyReleased(keyCode: Int,
@@ -128,24 +135,26 @@ open class VanillaWidget<T : AbstractButtonWidget>(
         return super.charTyped(charIn,
                                modifiers) || vanilla.charTyped(charIn,
                                                                modifiers)
-//    return super.charTyped(charIn, modifiers) || vanilla.func_231042_a_(charIn, modifiers)
+
     }
 }
 
 private class CustomVanillaSliderWidget(val minValue: Double,
-                                        val maxValue: Double) : VanillaSliderWidget(0,
-                                                                                    0,
-                                                                                    0,
-                                                                                    20,
-                                                                                    LiteralText(""),
-                                                                                    0.5) {
+                                        val maxValue: Double) :
+    VanillaSliderWidget(0,
+                        0,
+                        0,
+                        20,
+                        LiteralText(""),
+                        0.5) {
 
     var valueChangedEvent: () -> Unit = { }
 
     //override fun updateMessage() {}
 
     override fun func_230979_b_() {}
-//    override fun applyValue() {
+
+    //    override fun applyValue() {
     override fun func_230972_a_() {
         valueChangedEvent()
     }
@@ -155,8 +164,42 @@ private class CustomVanillaSliderWidget(val minValue: Double,
         //    get() = (maxValue - minValue) * super.field_230683_b_ + minValue
         set(value) {
             super.sliderValue = (value - minValue) / (maxValue - minValue)
-//      super.field_230683_b_ = (value - minValue) / (maxValue - minValue)
         }
+
+    override fun renderWidget(matrixStack: MatrixStack,
+                              i: Int,
+                              j: Int,
+                              f: Float) {
+        // fix slider width > 400
+        val hovered = isHovered
+        val absoluteBounds = Rectangle(x,
+                                       y,
+                                       width,
+                                       height)
+
+//    val k = if (active) if (hovered) 2 else 1 else 0
+        val k = 0
+        val sprite = rVanillaButtonSprite.down(k)
+        rDrawDynamicSizeSprite(sprite,
+                               absoluteBounds)
+
+        // ref: AbstractButtonWidget.renderButton()
+        //renderBackground(
+        renderBg(matrixStack,
+                 Vanilla.mc(),
+                 i,
+                 j)
+//    val l = if (active) 16777215 else 10526880
+        val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
+        DrawableHelper.drawCenteredString(
+            matrixStack,
+            Vanilla.textRenderer(),
+            message,
+            x + width / 2,
+            y + (height - 8) / 2,
+            l or (MathHelper.ceil(alpha * 255.0f) shl 24)
+        )
+    }
 }
 
 class SliderWidget(
@@ -194,11 +237,11 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer,
                            l,
                            LiteralText(string)) {
     public override fun setFocused(bl: Boolean) {
-//  public override fun func_230996_d_(bl: Boolean) {
+
         super.setFocused(bl)
-//    super.func_230996_d_(bl)
+
     }
-//  fun setFocused(bl: Boolean) = func_230996_d_(bl)
+
 
     init {
 //        setMaxLength(32767)
@@ -229,7 +272,7 @@ class TextFieldWidget(height: Int) :
         }
 
     var vanillaText: String
-        get() = vanilla.text //value //text
+        get() = vanilla.text
         set(value) {
             if (vanilla.text != value) {
                 vanilla.text = value
@@ -238,10 +281,10 @@ class TextFieldWidget(height: Int) :
 
     var vanillaFocused: Boolean
         get() = vanilla.isFocused
-        //    get() = vanilla.func_230999_j_()
+
         set(value) {
             (vanilla as CustomTextFieldWidget).isFocused = value
-//      (vanilla as CustomTextFieldWidget).func_230996_d_(value)
+
         }
 
     override fun lostFocus() {

@@ -1,7 +1,7 @@
 package org.anti_ad.mc.common.gui.screen
 
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.util.usefulName
+import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Text

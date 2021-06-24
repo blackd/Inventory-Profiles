@@ -3,10 +3,10 @@ package org.anti_ad.mc.common.config
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.util.JsonPrimitive
-import org.anti_ad.mc.common.util.forEach
-import org.anti_ad.mc.common.util.getAsType
-import org.anti_ad.mc.common.util.toJsonArray
+import org.anti_ad.mc.common.extensions.JsonPrimitive
+import org.anti_ad.mc.common.extensions.forEach
+import org.anti_ad.mc.common.extensions.getAsType
+import org.anti_ad.mc.common.extensions.toJsonArray
 
 // ============
 // extensions
