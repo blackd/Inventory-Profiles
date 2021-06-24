@@ -275,7 +275,7 @@ curseforge {
 
   })
   options(closureOf<com.matthewprenger.cursegradle.Options> {
-    debug = true
+    debug = false
     javaIntegration = false
     forgeGradleIntegration = mod_loader == "forge"
   })

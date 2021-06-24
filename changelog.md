@@ -1,9 +1,8 @@
 # Inventory Profiles Next v0.7.4
 
 ## What's new
-
+- Forge is back on the menu :)
 - on par with the 1.17 fabric version
-- Ctrl+Q swipe works in containers
 
 ## Known issues
 - All settings from tweaks are probably broken
