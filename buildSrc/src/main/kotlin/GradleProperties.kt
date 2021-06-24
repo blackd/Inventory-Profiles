@@ -2,7 +2,7 @@
 const val kotlin_version = "1.4.32"
 
 // Mod Properties
-const val mod_version = "0.7.3"
+const val mod_version = "0.7.4"
 const val maven_group = "org.anti_ad.mc"
 const val mod_id = "inventoryprofilesnext"
 
