@@ -1,9 +1,9 @@
 package org.anti_ad.mc.common.vanilla.render
 
+import net.minecraft.text.Style
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
-import net.minecraft.text.Style
 
 fun rMeasureText(string: String): Int =
     Vanilla.textRenderer().getWidth(string) // getStringWidth() = getWidth()

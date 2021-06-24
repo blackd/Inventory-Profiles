@@ -29,8 +29,8 @@ repositories {
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_16
-  targetCompatibility = JavaVersion.VERSION_16
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 base {
@@ -50,7 +50,7 @@ tasks.withType<JavaCompile> {
 
 tasks.compileKotlin {
   kotlinOptions {
-    jvmTarget = "15"
+    jvmTarget = "1.8"
     freeCompilerArgs = listOf("-Xopt-in=kotlin.ExperimentalStdlibApi")
   }
 }
@@ -158,8 +158,8 @@ tasks.shadowJar {
   dependencies {
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
     include(dependency("org.jetbrains.kotlin:kotlin-stdlib-common"))
-    //include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7"))
-    //include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7"))
+    include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
     include(dependency("org.antlr:antlr4-runtime"))
   }
   relocate("kotlin", "org.anti_ad.mc.common.embedded.kotlin")
@@ -175,6 +175,7 @@ tasks.shadowJar {
 
 val proguard by tasks.registering(ProGuardTask::class) {
   configuration("proguard.txt")
+  verbose()
 
   injars("build/libs/$buildBaseName-all.jar")
   outjars("build/libs/$buildBaseName-all-proguard.jar")

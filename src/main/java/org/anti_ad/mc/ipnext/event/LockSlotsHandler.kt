@@ -1,6 +1,5 @@
 package org.anti_ad.mc.ipnext.event
 
-import net.minecraft.client.util.math.MatrixStack
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -11,10 +10,7 @@ import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
-import org.anti_ad.mc.common.vanilla.render.Sprite
-import org.anti_ad.mc.common.vanilla.render.rDisableDepth
-import org.anti_ad.mc.common.vanilla.render.rDrawCenteredSprite
-import org.anti_ad.mc.common.vanilla.render.rEnableDepth
+import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
@@ -77,20 +73,16 @@ object LockSlotsHandler {
     fun onForegroundRender() {
         if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
-        val matrixStack2: MatrixStack = RenderSystem.getModelViewStack()
-        matrixStack2.push()  // see HandledScreen.render()
-        //rMatrixStack = matrixStack2
+        gPushMatrix() // see HandledScreen.render() line 98: RenderSystem.translatef()
         val topLeft = screen.`(containerBounds)`.topLeft
-        matrixStack2.translate(-topLeft.x.toDouble(),
-                               -topLeft.y.toDouble(),
-                               0.0)
-        RenderSystem.applyModelViewMatrix()
+        gTranslatef(-topLeft.x.toFloat(),
+                    -topLeft.y.toFloat(),
+                    0f)
 
         //gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
         drawForeground()
         drawConfig()
-        matrixStack2.pop() //gPopMatrix()
-        RenderSystem.applyModelViewMatrix()
+        gPopMatrix()
     }
 
     fun postRender() { // display config

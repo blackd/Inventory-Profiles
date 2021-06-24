@@ -23,7 +23,8 @@ object ClientEventHandler {
 
     private fun onTickInGame() {
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue
-            && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
+            && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue
+        ) {
 
             ContinuousCraftingHandler.onTickInGame()
         }

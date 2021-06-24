@@ -5,9 +5,9 @@ name: CI
 
 on:
   push:
-    branches: [ fabric-1.17 ]
+    branches: [ fabric_1.16 ]
   pull_request:
-    branches: [ fabric-1.17 ]
+    branches: [ fabric_1.16 ]
 
 jobs:
   build:

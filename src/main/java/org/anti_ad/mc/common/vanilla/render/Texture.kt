@@ -1,15 +1,21 @@
 package org.anti_ad.mc.common.vanilla.render
 
+import net.minecraft.client.gui.widget.ButtonWidget
 import org.anti_ad.mc.common.math2d.*
 import org.anti_ad.mc.common.math2d.Corner.*
+import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
-import net.minecraft.client.gui.widget.ButtonWidget
 
 private val VANILLA_TEXTURE_WIDGETS: Identifier
-    get() = ButtonWidget.WIDGETS_TEXTURE
+    get() = ButtonWidget.WIDGETS_LOCATION // WIDGETS_TEXTURE
 
+private fun rBindTexture(identifier: Identifier) {
+    Vanilla.textureManager().bindTexture(identifier)
+//  rEnableBlend()
+    rStandardGlState()
+}
 
 // for 256 x 256 texture
 private fun rBlit(x: Int,
@@ -97,14 +103,7 @@ fun rDrawSprite(sprite: Sprite,
                 tIndex: Int,
                 x: Int,
                 y: Int) {
-    RenderSystem.setShaderColor(1f,
-                                1f,
-                                1f,
-                                1f)
-    RenderSystem.setShaderTexture(tIndex,
-                                  sprite.identifier)
-    RenderSystem.disableDepthTest();
-    //rBindTexture(sprite.identifier)
+    rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
     rBlit(x,
@@ -117,7 +116,7 @@ fun rDrawSprite(sprite: Sprite,
           sh,
           tw,
           th)
-    RenderSystem.enableDepthTest();
+    RenderSystem.enableDepthTest()
 }
 
 fun rDrawCenteredSprite(sprite: Sprite,
@@ -232,8 +231,7 @@ fun rDrawDynamicSizeSprite(
                                    bh)
     val drawAreas = bounds.split3x3(textureAreas[1].size,
                                     textureAreas[9].size)
-    RenderSystem.setShaderTexture(0,
-                                  sprite.identifier)
+    rBindTexture(sprite.identifier)
 
     mode.draw(drawAreas,
               textureAreas,

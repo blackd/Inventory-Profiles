@@ -78,7 +78,7 @@ object ContainerTypes {
 
     fun getTypes(container: Container): Set<ContainerType> {
         var z: Class<*>? = getRepresentingClass(container)
-        var v = innerMap.get(z);
+        var v = innerMap.get(z)
         if (v == null) {
             v = unknownContainerDefaultTypes
         }

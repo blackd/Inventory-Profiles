@@ -10,6 +10,8 @@ import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
+import net.minecraft.client.gui.widget.ButtonWidget
+
 typealias Text = Text
 typealias LiteralText = LiteralText
 typealias TranslatableText = TranslatableText

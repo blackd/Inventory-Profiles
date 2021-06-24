@@ -1,6 +1,5 @@
 package org.anti_ad.mc.common.vanilla.render
 
-import net.minecraft.util.math.Matrix4f
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.intersect
 import org.anti_ad.mc.common.vanilla.alias.*
@@ -12,13 +11,11 @@ import org.lwjgl.opengl.GL11
 // at Screen.render()
 // do: rStandardGlState(); rClearDepth()
 fun rStandardGlState() { // reset to standard state (for screen rendering)
-
     rEnableBlend()
-    //gDisableDiffuse()
+    gDisableDiffuse()
+    gEnableAlphaTest()
     gEnableDepthTest()
     RenderSystem.depthMask(true)
-
-
 }
 
 // ============
@@ -59,30 +56,26 @@ fun rCreateDepthMask(bounds: Rectangle) {
 
 private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
     depthBounds.add(bounds)
-    // GL11.glMatrixMode(GL11.GL_PROJECTION)
-    val a = RenderSystem.getModelViewStack()
-    a.push()
-    a.translate(.0,
-                .0,
-                -400.0)
+    gPushMatrix()
+    gTranslatef(0f,
+                0f,
+                -400.0f)
     rOverwriteDepth(bounds)
-    //a.pop()
 }
 
 fun rRemoveDepthMask() {
     //rStandardGlState() // added this
-    //gPopMatrix() this has already been done the 1.17 way
-    val a = RenderSystem.getModelViewStack()
-    a.pop()
+    gPopMatrix()
     rOverwriteDepth(depthBounds.removeLast())
 }
 
 private fun rOverwriteDepth(bounds: Rectangle) {
 //  rEnableDepth()
     gDepthFunc(GL11.GL_ALWAYS)
-
+    gDisableAlphaTest()
     rFillRect(bounds,
               0)
+    gEnableAlphaTest()
     gDepthFunc(GL11.GL_LEQUAL)
 }
 
@@ -102,6 +95,15 @@ fun rEnableDepth() {
 
 var rMatrixStack = MatrixStack()
 
+fun gPushMatrix() = RenderSystem.pushMatrix()
+fun gPopMatrix() = RenderSystem.popMatrix()
+
+//fun gLoadIdentity() = RenderSystem.loadIdentity()
+fun gTranslatef(x: Float,
+                y: Float,
+                z: Float) = RenderSystem.translatef(x,
+                                                    y,
+                                                    z)
 
 // ============
 // internal
@@ -112,10 +114,10 @@ private fun rEnableBlend() {
     RenderSystem.defaultBlendFunc()
     RenderSystem.blendFunc(SrcFactor.SRC_ALPHA,
                            DstFactor.ONE_MINUS_SRC_ALPHA)
-    RenderSystem.setShaderColor(1f,
-                                1f,
-                                1f,
-                                1f)
+    RenderSystem.color4f(1f,
+                         1f,
+                         1f,
+                         1f)
 
 }
 
@@ -123,10 +125,9 @@ private fun rEnableBlend() {
 // GlStateManager
 // ============
 
-private fun gDisableDiffuse() {
-    DiffuseLighting.disableGuiDepthLighting()
-}
-
+private fun gDisableDiffuse() = DiffuseLighting.disable()
+private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
+private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
 private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
 private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
 private fun gDepthFunc(value: Int) { // default = GL_LEQUAL = 515

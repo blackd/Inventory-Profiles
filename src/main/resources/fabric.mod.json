@@ -11,7 +11,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next",
     "sources": "https://github.com/blackd/Inventory-Profiles"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/inventoryprofilesnext/icon.png",
   "environment": "client",
   "entrypoints": {
@@ -27,8 +27,9 @@
     "mixins.ipnext.json"
   ],
   "depends": {
+    "fabric-resource-loader-v0": "*",
     "fabricloader": ">=0.11.6",
-    "minecraft": ">=1.17"
+    "minecraft": ">=1.16"
   },
   "suggests": {
     "flamingo": "*"

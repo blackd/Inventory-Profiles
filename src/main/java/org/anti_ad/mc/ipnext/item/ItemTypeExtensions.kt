@@ -3,7 +3,10 @@ package org.anti_ad.mc.ipnext.item
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.common.vanilla.alias.items.*
+import org.anti_ad.mc.common.vanilla.alias.items.BucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
+import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
 import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack

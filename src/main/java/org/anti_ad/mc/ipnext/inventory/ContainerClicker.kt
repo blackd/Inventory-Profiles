@@ -39,6 +39,7 @@ object ContainerClicker {
         genericClick(slotId,
                      1,
                      SlotActionType.THROW)
+
     }
 
 

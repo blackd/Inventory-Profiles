@@ -52,4 +52,5 @@ class Node<T>(val value: T) {
             Log.unindent()
         }
     }
+
 }

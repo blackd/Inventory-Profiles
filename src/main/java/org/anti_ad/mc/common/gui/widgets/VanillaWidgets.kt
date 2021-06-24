@@ -1,5 +1,7 @@
 package org.anti_ad.mc.common.gui.widgets
 
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.MathHelper
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
@@ -9,8 +11,6 @@ import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSprite
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.MathHelper
 import org.anti_ad.mc.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -165,10 +165,11 @@ private class CustomVanillaSliderWidget(val minValue: Double,
                                absoluteBounds)
 
         // ref: AbstractButtonWidget.renderButton()
-        renderBackground(matrixStack,
-                         Vanilla.mc(),
-                         i,
-                         j)
+        //renderBackground(
+        renderBg(matrixStack,
+                 Vanilla.mc(),
+                 i,
+                 j)
 //    val l = if (active) 16777215 else 10526880
         val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
         drawCenteredText(

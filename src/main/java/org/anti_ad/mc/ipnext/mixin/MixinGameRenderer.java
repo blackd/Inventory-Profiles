@@ -1,9 +1,9 @@
 package org.anti_ad.mc.ipnext.mixin;
 
-import org.anti_ad.mc.ipnext.config.Tweaks;
-import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import org.anti_ad.mc.ipnext.config.Tweaks;
+import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

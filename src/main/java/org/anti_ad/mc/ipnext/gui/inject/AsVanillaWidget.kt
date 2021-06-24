@@ -7,7 +7,7 @@ import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.render.rScreenHeight
 import org.anti_ad.mc.common.vanilla.render.rScreenWidth
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+
 
 // ============
 // vanillamapping code depends on mappings
@@ -106,6 +106,4 @@ class AsVanillaWidget() : ClickableWidget(0,
         rootWidget.charTyped(charIn,
                              modifiers)
 
-    override fun appendNarrations(narrationMessageBuilder: NarrationMessageBuilder?) {
-    }
 }

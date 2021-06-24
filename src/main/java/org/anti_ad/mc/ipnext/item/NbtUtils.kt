@@ -118,9 +118,9 @@ object NbtUtils {
         val asString: String
             get() = value.`(asString)`
         val asNumber: Number // todo what if number is long > double precision range
-            get() = (value as? AbstractNbtNumber)?.doubleValue() ?: 0
+            get() = (value as? AbstractNbtNumber)?.double ?: 0
         val asDouble: Double
-            get() = (value as? AbstractNbtNumber)?.doubleValue() ?: 0.0
+            get() = (value as? AbstractNbtNumber)?.double ?: 0.0
         val asCompound: NbtCompound
             get() = value as? NbtCompound ?: NbtCompound()
         val asList: List<WrappedTag>

@@ -27,8 +27,8 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
         val server = Vanilla.server()
         server ?: return Unit.also { TellPlayer.chat("Not integrated server!!!") }
         //todo wtf have I done
-        server.tagManager.getOrCreateTagGroup(Registry.ITEM_KEY).toTagTxtContent().writeToFile(fileDatapack)
-        //server.tagManager.items.toTagTxtContent().writeToFile(fileDatapack)
+        //server.tagManager.getOrCreateTagGroup(Registry.ITEM_KEY).toTagTxtContent().writeToFile(fileDatapack)
+        server.tagManager.items.toTagTxtContent().writeToFile(fileDatapack)
 
     } // eventually they are the same ~.~
 

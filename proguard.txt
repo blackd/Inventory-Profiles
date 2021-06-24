@@ -1,5 +1,5 @@
-#-libraryjars <java.home>/lib/rt.jar
--libraryjars  <java.home>/jmods/java.base.jmod(!**.jar;!module-info.class)
+-libraryjars <java.home>/lib/rt.jar
+#-libraryjars  <java.home>/jmods/java.base.jmod(!**.jar;!module-info.class)
 -keep class !org.anti_ad.mc.common.embedded.** { *; }
 #-ignorewarnings
 -optimizationpasses 9 # (828K -> 811K)
