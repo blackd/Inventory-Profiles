@@ -17,6 +17,8 @@ import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 abstract class BaseScreen(text: Text) : Screen(text) {
     constructor() : this(LiteralText(""))
 
+    var isClosing: Boolean = false
+
     var parent: Screen? = null
     val titleString: String
         get() = this.title.string // todo .asFormattedString()
@@ -24,7 +26,9 @@ abstract class BaseScreen(text: Text) : Screen(text) {
         get() = ScreenInfo.default
 
     open fun closeScreen() {
+        this.isClosing = true
         VanillaUtil.openScreenNullable(parent)
+        this.isClosing = false
     }
 
     fun hasParent(screen: Screen): Boolean {
@@ -93,7 +97,10 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     // ============
     final override fun isPauseScreen(): Boolean = screenInfo.isPauseScreen
     final override fun onClose() {
-        closeScreen()
+        if (!isClosing) {
+            closeScreen()
+        }
+        isClosing = false
     }
 
     // ============
