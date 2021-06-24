@@ -5,6 +5,7 @@ import net.minecraft.item.AxeItem
 import net.minecraft.item.BucketItem
 import net.minecraft.item.HoeItem
 import net.minecraft.item.MilkBucketItem
+import net.minecraft.item.FishBucketItem
 import net.minecraft.item.MushroomStewItem
 import net.minecraft.item.PickaxeItem
 import net.minecraft.item.ShovelItem
@@ -14,6 +15,7 @@ import net.minecraft.item.ToolItem
 
 typealias BucketItem = BucketItem
 typealias MilkBucketItem = MilkBucketItem
+typealias FishBucketItem = FishBucketItem
 
 typealias MushroomStewItem = MushroomStewItem
 typealias SuspiciousStewItem = SuspiciousStewItem

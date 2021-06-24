@@ -1,8 +1,8 @@
 package org.anti_ad.mc.common.vanilla.render
 
 import net.minecraft.client.gui.widget.ButtonWidget
-import org.anti_ad.mc.common.math2d.*
-import org.anti_ad.mc.common.math2d.Corner.*
+    import org.anti_ad.mc.common.math2d.*
+    import org.anti_ad.mc.common.math2d.Corner.*
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.Identifier
