@@ -8,7 +8,7 @@ const val mod_id = "inventoryprofilesnext"
 
 const val minecraft_version = "1.16.5"
 
-val supported_minecraft_versions = arrayOf("1.15.4", "1.16.5")
+val supported_minecraft_versions = arrayOf("1.16.5")
 
 // ============
 // mod loader

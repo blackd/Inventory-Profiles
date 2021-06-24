@@ -1,10 +1,11 @@
-# Inventory Profiles Next v0.7.3
+# Inventory Profiles Next v0.7.4
 
 ## What's new
 
-- fixed even more UI glitches.
-  Inventory will now display properly. Previously some textures we reordered
-  And strange glow effect was applied on some blocks.
+- 1.16.5 version.
+- Same features and fixes like 1.17 version
+- Fabric API is now again hard requirement.
+  Before the mod didn't work if Mod Menu was not installed.
 
 ## Known issues
 - When UI scaling is more than 2 or in case of tiny game windows the config screen might not show the anchor header correctly.
