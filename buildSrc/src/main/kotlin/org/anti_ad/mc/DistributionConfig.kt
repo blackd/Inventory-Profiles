@@ -4,11 +4,10 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.plugins.BasePluginConvention
-import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.javadoc.Javadoc
+
 import org.gradle.kotlin.dsl.*
 
-fun Project.configureDistribution() {
+fun Project.configureDistribution(is18: Boolean) {
     apply(plugin = "java-library")
     apply(plugin = "com.github.johnrengelman.shadow")
 
@@ -19,8 +18,9 @@ fun Project.configureDistribution() {
 
         archiveClassifier.set("shaded")
         setVersion(project.version)
+
         relocate("org.antlr", "org.anti_ad.mc.common.embedded.org.antlr")
-        relocate("org.apache.commons", "org.anti_ad.mc.common.embedded.commons")
+        relocate("org.apache.commons", "org.anti_ad.mc.common.embedded.org.apache.commons")
         relocate("kotlin", "org.anti_ad.mc.common.embedded.kotlin")
 
         exclude("**/*.kotlin_metadata")

@@ -30,7 +30,7 @@ fun Project.configureCompilation() {
 
     tasks.withType<ProcessResources> {
         include("**/*")
-        filesMatching(listOf("*.json", "*.txt")) {
+        filesMatching(listOf("**/*.json", "**/*.txt", "**/*.toml", "**/*.xml")) {
             filter<org.apache.tools.ant.filters.ReplaceTokens>(
                 "tokens" to mapOf(
                     "VERSION" to project.version.toString(),

@@ -50,26 +50,56 @@ tasks.register<Copy>("copyPlatformJars") {
     val fabric117Jar = project(":platforms:fabric-1.17").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
     val fabric116Jar = project(":platforms:fabric-1.16").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
 
+    val forge116Jar = project(":platforms:forge-1.16").tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
+
     val fabric117JarPath = project(":platforms:fabric-1.17").layout.buildDirectory.file("libs/" + fabric117Jar.archiveFileName.get())
     val fabric116JarPath = project(":platforms:fabric-1.16").layout.buildDirectory.file("libs/" + fabric116Jar.archiveFileName.get())
-
+    val forge116JarPath  = project(":platforms:forge-1.16").layout.buildDirectory.file("libs/" + forge116Jar.archiveFileName.get())
+    logger.info("""
+    *******************************
+    forge116JarPath = ${forge116JarPath.get().asFile.absoluteFile}
+    fabric116JarPath = ${fabric116JarPath.get().asFile.absoluteFile}
+    fabric117JarPath = ${fabric117JarPath.get().asFile.absoluteFile}
+    *******************************
+     """.trimIndent())
     from(
-        fabric116JarPath, fabric117JarPath
+        fabric116JarPath, fabric117JarPath, forge116JarPath
     )
     into(layout.buildDirectory.dir("libs"))
-    from(fabric117Jar.archiveFileName)
+    //from(fabric117Jar.archiveFileName)
 
+    listOf(":platforms:fabric-1.17:remapShadedJar", ":platforms:fabric-1.17:remapShadedJar", ":platforms:forge-1.16:reobfJar").forEach {
+        dependsOn("$it")
+    }
+    subprojects.forEach {
+        it.getTasksByName("build", false).forEach { t ->
+            dependsOn(t)
+        }
+    }
 }
 
 tasks.named<DefaultTask>("build") {
 
-    listOf(":common", ":platforms:fabric-1.17", ":platforms:fabric-1.17").forEach {
+    listOf(":common", ":platforms:fabric-1.17", ":platforms:fabric-1.17", ":platforms:forge-1.16").forEach {
         dependsOn(project(it).tasks["build"])
     }
-
-    finalizedBy(tasks["copyPlatformJars"])
+    dependsOn(tasks["copyPlatformJars"])
+    //finalizedBy(tasks["copyPlatformJars"])
 }
 
+afterEvaluate {
+    tasks.named<DefaultTask>("build") {
+        listOf(":common", ":platforms:fabric-1.17", ":platforms:fabric-1.17", ":platforms:forge-1.16").forEach {
+            dependsOn(project(it).tasks["build"])
+        }
+        subprojects.forEach {
+            it.getTasksByName("build", false).forEach { t ->
+                dependsOn(t)
+            }
+        }
+        dependsOn(tasks["copyPlatformJars"])
+    }
+}
 
 
 /**

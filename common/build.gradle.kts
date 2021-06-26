@@ -32,6 +32,15 @@ tasks.named<AntlrTask>("generateGrammarSource").configure {
     )
 }
 
+tasks.named("compileKotlin") {
+    dependsOn("generateGrammarSource")
+}
+
+tasks.named("compileJava") {
+    dependsOn("generateGrammarSource")
+}
+
+
 tasks.withType<JavaCompile>().configureEach {
     dependsOn("generateGrammarSource")
 }
