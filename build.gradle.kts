@@ -1,6 +1,7 @@
 import org.anti_ad.mc.getGitHash
 import proguard.gradle.ProGuardTask
 
+
 val versionObj = Version("0", "8", "0", true)
 
 buildscript {
@@ -25,9 +26,10 @@ plugins {
     kotlin("jvm") version "1.4.32"
 }
 
+// This is here but it looks like it's not inherited by the child projets
 tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
     kotlinOptions {
-        jvmTarget = "15"
+        jvmTarget = "1.8"
         freeCompilerArgs = listOf("-Xopt-in=kotlin.ExperimentalStdlibApi")
     }
 }
@@ -43,28 +45,29 @@ allprojects {
 
 }
 
-//val proguard by tasks.registering(ProGuardTask::class) {
-//
-//    configuration("proguard.txt")
-//
-//    // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
-//    val fabricRemapJar = project(":platforms:fabric-1.17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get()
-//    val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath
-//
-//    injars(inName)
-//    outjars("build/libs/${fabricRemapJar.archiveBaseName.get()}-all-proguard.jar")
-//
-//    doFirst {
-//        libraryjars( project(":platforms:fabric-1.17").configurations.runtimeClasspath.get().files)
-//    }
-//}
+
+tasks.register<Copy>("copyPlatformJars") {
+    val fabric117Jar = project(":platforms:fabric-1.17").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
+    val fabric116Jar = project(":platforms:fabric-1.16").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
+
+    val fabric117JarPath = project(":platforms:fabric-1.17").layout.buildDirectory.file("libs/" + fabric117Jar.archiveFileName.get())
+    val fabric116JarPath = project(":platforms:fabric-1.16").layout.buildDirectory.file("libs/" + fabric116Jar.archiveFileName.get())
+
+    from(
+        fabric116JarPath, fabric117JarPath
+    )
+    into(layout.buildDirectory.dir("libs"))
+    from(fabric117Jar.archiveFileName)
+
+}
 
 tasks.named<DefaultTask>("build") {
 
-    listOf(":platforms:fabric-1.17", ":common").forEach {
+    listOf(":common", ":platforms:fabric-1.17", ":platforms:fabric-1.17").forEach {
         dependsOn(project(it).tasks["build"])
     }
-//    finalizedBy(tasks["proguard"])
+
+    finalizedBy(tasks["copyPlatformJars"])
 }
 
 
