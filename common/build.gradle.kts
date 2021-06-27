@@ -18,6 +18,7 @@ dependencies {
     //"shadedApi"("commons-io:commons-io:2.4")
     "shadedApi"("commons-io:commons-io:2.6")
 
+
     val antlrVersion = "4.9.1"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")

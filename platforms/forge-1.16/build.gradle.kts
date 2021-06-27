@@ -103,7 +103,9 @@ val proguard by tasks.registering(ProGuardTask::class) {
     outjars("build/libs/${outName}")
 
     doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files)
+        libraryjars( configurations.runtimeClasspath.get().files.filter {
+            !it.name.contains("InventoryProfilesNext-common")
+        })
     }
 
 }

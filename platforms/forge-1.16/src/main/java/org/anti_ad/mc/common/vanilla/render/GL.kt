@@ -92,7 +92,9 @@ fun rEnableDepth() {
 
 var rMatrixStack = MatrixStack()
 
+@SuppressWarnings("[deprecation]")
 fun gPushMatrix() = RenderSystem.pushMatrix()
+@SuppressWarnings("[deprecation]")
 fun gPopMatrix() = RenderSystem.popMatrix()
 
 //fun gLoadIdentity() = RenderSystem.loadIdentity()

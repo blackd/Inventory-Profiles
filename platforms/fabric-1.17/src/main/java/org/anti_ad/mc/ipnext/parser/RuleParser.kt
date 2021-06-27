@@ -2,10 +2,10 @@ package org.anti_ad.mc.ipnext.parser
 
 import org.anti_ad.mc.common.annotation.MayThrow
 import org.anti_ad.mc.common.util.IndentedData
-import org.anti_ad.mc.ipnext.gen.RulesLexer
-import org.anti_ad.mc.ipnext.gen.RulesParser
-import org.anti_ad.mc.ipnext.gen.RulesParser.CustomRuleEOFContext
-import org.anti_ad.mc.ipnext.gen.RulesParser.SubRuleContext
+import org.anti_ad.mc.common.gen.RulesLexer
+import org.anti_ad.mc.common.gen.RulesParser
+import org.anti_ad.mc.common.gen.RulesParser.CustomRuleEOFContext
+import org.anti_ad.mc.common.gen.RulesParser.SubRuleContext
 import org.anti_ad.mc.ipnext.item.rule.file.RuleDefinition
 import org.anti_ad.mc.ipnext.item.rule.file.SubRuleDefinition
 

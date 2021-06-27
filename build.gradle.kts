@@ -24,9 +24,10 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.4.32"
+    idea
 }
 
-// This is here but it looks like it's not inherited by the child projets
+// This is here but it looks like it's not inherited by the child projects
 tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"

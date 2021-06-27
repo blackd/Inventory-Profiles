@@ -140,6 +140,7 @@ public class ForgeEventHandler {
         int ACCESS_TEST = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
         return (modifiers & ACCESS_TEST) == 0;
     }
+    @SuppressWarnings("[deprecation]")
     static boolean setAccessibleWorkaround(final AccessibleObject o) {
         if (o == null || o.isAccessible()) {
             return false;
@@ -155,7 +156,7 @@ public class ForgeEventHandler {
         }
         return false;
     }
-
+    @SuppressWarnings("[deprecation]")
     public static void writeField(final Field field, final Object target, final Object value, final boolean forceAccess)
             throws IllegalAccessException {
         if (forceAccess && !field.isAccessible()) {
