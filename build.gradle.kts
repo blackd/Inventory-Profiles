@@ -46,6 +46,9 @@ allprojects {
 }
 
 
+tasks.named<Jar>("jar") {
+    enabled = false
+}
 tasks.register<Copy>("copyPlatformJars") {
     val fabric117Jar = project(":platforms:fabric-1.17").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
     val fabric116Jar = project(":platforms:fabric-1.16").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
