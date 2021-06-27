@@ -19,10 +19,13 @@ dependencies {
     "shadedApi"("commons-io:commons-io:2.6")
 
 
+
     val antlrVersion = "4.9.1"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
     "compileOnly"("com.google.code.gson:gson:2.8.7")
+    "compileOnlyApi"(group = "org.apache.logging.log4j", name = "log4j-api", version = "2.14.1")
+
 }
 
 tasks.named<AntlrTask>("generateGrammarSource").configure {
