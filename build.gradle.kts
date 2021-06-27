@@ -1,8 +1,8 @@
 import org.anti_ad.mc.getGitHash
-import proguard.gradle.ProGuardTask
+import java.io.ByteArrayOutputStream
 
-
-val versionObj = Version("0", "8", "0", true)
+val versionObj = Version("0", "8", "0",
+                         preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 buildscript {
     dependencies {
@@ -49,36 +49,56 @@ allprojects {
 tasks.named<Jar>("jar") {
     enabled = false
 }
-tasks.register<Copy>("copyPlatformJars") {
-    val fabric117Jar = project(":platforms:fabric-1.17").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
-    val fabric116Jar = project(":platforms:fabric-1.16").tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
 
-    val forge116Jar = project(":platforms:forge-1.16").tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
-
-    val fabric117JarPath = project(":platforms:fabric-1.17").layout.buildDirectory.file("libs/" + fabric117Jar.archiveFileName.get())
-    val fabric116JarPath = project(":platforms:fabric-1.16").layout.buildDirectory.file("libs/" + fabric116Jar.archiveFileName.get())
-    val forge116JarPath  = project(":platforms:forge-1.16").layout.buildDirectory.file("libs/" + forge116Jar.archiveFileName.get())
-    logger.info("""
-    *******************************
-    forge116JarPath = ${forge116JarPath.get().asFile.absoluteFile}
-    fabric116JarPath = ${fabric116JarPath.get().asFile.absoluteFile}
-    fabric117JarPath = ${fabric117JarPath.get().asFile.absoluteFile}
-    *******************************
-     """.trimIndent())
-    from(
-        fabric116JarPath, fabric117JarPath, forge116JarPath
-    )
-    into(layout.buildDirectory.dir("libs"))
-    //from(fabric117Jar.archiveFileName)
-
-    listOf(":platforms:fabric-1.17:remapShadedJar", ":platforms:fabric-1.17:remapShadedJar", ":platforms:forge-1.16:reobfJar").forEach {
-        dependsOn("$it")
+tasks.register("owner-testing-env") {
+    onlyIf {
+        System.getenv("IPNEXT_ITS_ME") != null
     }
+    doLast {
+        val bos = ByteArrayOutputStream()
+        exec {
+            workingDir = layout.projectDirectory.asFile.absoluteFile
+            commandLine("${System.getenv("HOME")}/.local/bin/update-ipnext-test-env.sh",
+                        project.layout.buildDirectory.dir("libs").get().asFile.absolutePath,
+                        "-$versionObj")
+            standardOutput = bos
+        }
+        logger.lifecycle(bos.toString())
+    }
+}
+
+tasks.register<Copy>("copyPlatformJars") {
+    subprojects.filter {
+        val isFabric = it.name.startsWith("fabric")
+        val isForge = it.name.startsWith("forge")
+        isFabric || isForge
+    }.forEach {
+        val isForge = !it.name.startsWith("fabric")
+        val taskName = if (isForge) { "shadowJar" } else { "remapShadedJar" }
+        val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+        dependsOn(jarTask)
+        if (isForge) {
+            val endTask = it.tasks.named("reobfJar")
+            dependsOn(endTask)
+        }
+        val jarFile = jarTask.get()
+        val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
+        logger.lifecycle("""
+            *************************
+              ${it.path} finalized mod jar is ${jarPath.get().asFile.absoluteFile}
+            *************************
+        """.trimIndent())
+        from(jarPath)
+    }
+
+    into(layout.buildDirectory.dir("libs"))
+
     subprojects.forEach {
         it.getTasksByName("build", false).forEach { t ->
             dependsOn(t)
         }
     }
+    finalizedBy("owner-testing-env")
 }
 
 tasks.named<DefaultTask>("build") {
