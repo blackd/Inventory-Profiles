@@ -4,6 +4,7 @@ import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.render.*
+import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 
 private val WIDGETS_TEXTURE =
     Identifier("inventoryprofilesnext",

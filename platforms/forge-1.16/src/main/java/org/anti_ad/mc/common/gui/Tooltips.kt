@@ -2,6 +2,9 @@ package org.anti_ad.mc.common.gui
 
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.*
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutlineGradient
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutlineNoCorner
+import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 
 /*
   COLOR_BG = -0xfeffff0

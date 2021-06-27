@@ -17,6 +17,8 @@ fun init() {
         Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
         Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
 
+        org.anti_ad.mc.common.vanilla.render.renderInitTheGlue()
+
         // Keybind register
         InputHandler.onClientInit()
         InsertWidgetHandler.onClientInit()

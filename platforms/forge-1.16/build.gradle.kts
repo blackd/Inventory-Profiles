@@ -165,6 +165,8 @@ configure<UserDevExtension> {
             ))
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets["main"])
+            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
         }
         create("client", runConfig)
         //create("server", runConfig)

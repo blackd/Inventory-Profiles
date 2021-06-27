@@ -1,13 +1,10 @@
 package org.anti_ad.mc.common.gui.widget
 
-import org.anti_ad.mc.common.gui.widget.Axis.HORIZONTAL
-import org.anti_ad.mc.common.gui.widget.Axis.VERTICAL
-import org.anti_ad.mc.common.gui.widget.FlexDirection.LEFT_TO_RIGHT
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Rectangle
 
 class BiFlex(val owner: Widget,
-             val axis: Axis = HORIZONTAL) {
+             val axis: Axis = Axis.HORIZONTAL) {
 
     val normal: Flex = Flex(owner,
                             FlexDirection.of(axis,
@@ -37,22 +34,22 @@ enum class FlexDirection(val anchor: AnchorStyles,
                          val axis: Axis,
                          val isReverse: Boolean) {
     LEFT_TO_RIGHT/**/(AnchorStyles.noRight /**/,
-                      HORIZONTAL/**/,
+                      Axis.HORIZONTAL/**/,
                       false),
     TOP_DOWN     /**/(AnchorStyles.noBottom/**/,
-                      VERTICAL  /**/,
+                      Axis.VERTICAL  /**/,
                       false),
     RIGHT_TO_LEFT/**/(AnchorStyles.noLeft  /**/,
-                      HORIZONTAL/**/,
+                      Axis.HORIZONTAL/**/,
                       true),
     BOTTOM_UP    /**/(AnchorStyles.noTop   /**/,
-                      VERTICAL  /**/,
+                      Axis.VERTICAL  /**/,
                       true);
 
     val isHorizontal
-        get() = axis == HORIZONTAL
+        get() = axis == Axis.HORIZONTAL
     val isVertical
-        get() = axis == VERTICAL
+        get() = axis == Axis.VERTICAL
 
     companion object {
         fun of(axis: Axis,
@@ -63,7 +60,7 @@ enum class FlexDirection(val anchor: AnchorStyles,
 
 // flow layout with stretch
 class Flex(val owner: Widget,
-           val direction: FlexDirection = LEFT_TO_RIGHT) {
+           val direction: FlexDirection = FlexDirection.LEFT_TO_RIGHT) {
     var offset = 0
 
     val ownerExtent

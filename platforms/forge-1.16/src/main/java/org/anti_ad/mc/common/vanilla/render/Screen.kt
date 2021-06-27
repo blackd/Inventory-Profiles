@@ -6,6 +6,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
+import org.anti_ad.mc.common.vanilla.render.glue.*
 
 val rScreenWidth
     get() = Vanilla.window().scaledWidth
@@ -48,3 +49,11 @@ private val dummyScreen = object : Screen(
         ""
     )
 ) {}
+
+
+fun initScreenGlue() {
+    __glue_rScreenHeight = { rScreenHeight }
+    __glue_rScreenSize = { rScreenSize }
+    __glue_rScreenWidth = { rScreenWidth }
+    __glue_rDepthMask = { rectangle: Rectangle, block: () -> Unit -> rDepthMask(rectangle, block) }
+}

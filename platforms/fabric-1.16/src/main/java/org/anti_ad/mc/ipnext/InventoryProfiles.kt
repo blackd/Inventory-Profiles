@@ -1,6 +1,7 @@
 package org.anti_ad.mc.ipnext
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
@@ -16,7 +17,7 @@ fun init() {
 
         Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
         Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
-
+        renderInitTheGlue()
         // Keybind register
         InputHandler.onClientInit()
         InsertWidgetHandler.onClientInit()

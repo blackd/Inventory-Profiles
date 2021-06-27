@@ -5,7 +5,7 @@ import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.gui.widget.moveToCenter
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.vanilla.alias.Text
-import org.anti_ad.mc.common.vanilla.render.rFillOutline
+import org.anti_ad.mc.common.vanilla.render.glue.rFillOutline
 import org.anti_ad.mc.common.vanilla.render.rRenderBlackOverlay
 
 private const val COLOR_BORDER = -0x666667
