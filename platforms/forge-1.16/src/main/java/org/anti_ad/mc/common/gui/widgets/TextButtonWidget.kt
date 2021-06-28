@@ -1,7 +1,7 @@
 package org.anti_ad.mc.common.gui.widgets
 
-import org.anti_ad.mc.common.vanilla.render.rDrawText
-import org.anti_ad.mc.common.vanilla.render.rMeasureText
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
+import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 
 open class TextButtonWidget : ButtonWidget {
 

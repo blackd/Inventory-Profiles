@@ -7,6 +7,7 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rFillGradient
 import org.anti_ad.mc.common.vanilla.render.glue.rFillOutline
 

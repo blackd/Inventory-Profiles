@@ -11,8 +11,8 @@ import org.anti_ad.mc.common.gui.widgets.toWidget
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.Text
-import org.anti_ad.mc.common.vanilla.render.rDrawText
-import org.anti_ad.mc.common.vanilla.render.rMeasureText
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
+import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.anti_ad.mc.common.vanilla.render.rRenderVanillaScreenBackground
 import kotlin.math.max
 

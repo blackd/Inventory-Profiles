@@ -7,7 +7,7 @@ import proguard.gradle.ProGuardTask
 
 buildscript {
     repositories {
-        maven { url = uri("https://files.minecraftforge.net/maven") }
+        maven { url = uri("https://maven.minecraftforge.net/maven") }
         jcenter()
         mavenCentral()
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
@@ -28,8 +28,7 @@ configureCommon()
 group = "org.anti_ad.mc.forge-1.16"
 
 repositories {
-    maven { url = uri("https://files.minecraftforge.net/maven") }
-    jcenter()
+    maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
 }

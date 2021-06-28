@@ -2,14 +2,14 @@ package org.anti_ad.mc.common.gui.debug
 
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeyCodes
-import org.anti_ad.mc.common.vanilla.render.rScreenHeight
-import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 
 object DebugInfos {
     val width
-        get() = rScreenWidth
+        get() = glue_rScreenWidth
     val height
-        get() = rScreenHeight
+        get() = glue_rScreenHeight
     var mouseX = 0
     var mouseY = 0
     var keys = listOf<Int>()

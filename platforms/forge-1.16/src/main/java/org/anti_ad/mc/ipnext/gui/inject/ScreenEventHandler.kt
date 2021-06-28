@@ -6,7 +6,7 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.Screen
-import org.anti_ad.mc.common.vanilla.render.rScreenSize
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenSize
 
 object ScreenEventHandler {
     fun onScreenInit(target: Screen,
@@ -25,7 +25,7 @@ object ScreenEventHandler {
 
     fun preRender() {
         InsertWidgetHandler.preScreenRender()
-        trackedScreenSize = rScreenSize
+        trackedScreenSize = glue_rScreenSize
         ContainerScreenEventHandler.preRender()
     }
 

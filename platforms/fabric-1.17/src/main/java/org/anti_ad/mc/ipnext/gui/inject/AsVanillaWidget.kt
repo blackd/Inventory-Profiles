@@ -5,8 +5,8 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
-import org.anti_ad.mc.common.vanilla.render.rScreenHeight
-import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 
 // ============
@@ -15,8 +15,8 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 
 class AsVanillaWidget() : ClickableWidget(0,
                                           0,
-                                          rScreenWidth,
-                                          rScreenHeight,
+                                          glue_rScreenWidth,
+                                          glue_rScreenHeight,
                                           LiteralText("")) {
     constructor(vararg widgets: Widget) : this() {
         widgets.forEach { addWidget(it) }

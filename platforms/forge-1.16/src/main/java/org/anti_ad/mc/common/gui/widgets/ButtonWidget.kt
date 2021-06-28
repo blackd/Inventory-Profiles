@@ -1,7 +1,7 @@
 package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.vanilla.VanillaSound
-import org.anti_ad.mc.common.vanilla.render.rDrawCenteredText
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSprite
 

@@ -4,8 +4,8 @@ import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.vanilla.render.rDrawCenteredText
-import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 
 private const val COLOR_WHITE = -0x1
 private const val textY = 6
@@ -98,7 +98,7 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
                 Tooltips.addTooltip(description,
                                     mouseX,
                                     mouseY,
-                                    rScreenWidth * 2 / 3)
+                                    glue_rScreenWidth * 2 / 3)
             }
         }
 

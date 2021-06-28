@@ -1,25 +1,36 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package org.anti_ad.mc.common.vanilla.render
 
-import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import net.minecraft.text.Style
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_draw
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_drawWithShadow
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_getWidth
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_textHandler_wrapLines
 
-fun rMeasureText(string: String): Int =
-    Vanilla.textRenderer().getWidth(string) // getStringWidth() = getWidth()
 
-fun rDrawText(string: String,
-              x: Int,
-              y: Int,
-              color: Int,
-              shadow: Boolean = true) {
-    if (shadow) {
+fun initTextGlue() {
+    __glue_Vanilla_textRenderer_textHandler_wrapLines = { s: String, i: Int ->
+        // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
+        Vanilla.textRenderer().textHandler.wrapLines(LiteralText(s),
+                                                     i,
+                                                     Style.EMPTY).joinToString("\n") { it.string }
+    }
+    __glue_Vanilla_textRenderer_getWidth = {s: String ->
+        Vanilla.textRenderer().getWidth(s) // getStringWidth() = getWidth()
+    }
+
+    __glue_Vanilla_textRenderer_drawWithShadow = {string: String, x: Double, y: Double, color: Int ->
         Vanilla.textRenderer().drawWithShadow(rMatrixStack,
                                               string,
                                               x.toFloat(),
                                               y.toFloat(),
                                               color)
-    } else {
+    }
+
+    __glue_Vanilla_textRenderer_draw = {string: String, x: Double, y: Double, color: Int ->
         Vanilla.textRenderer().draw(rMatrixStack,
                                     string,
                                     x.toFloat(),
@@ -27,44 +38,3 @@ fun rDrawText(string: String,
                                     color)
     }
 }
-
-fun rDrawCenteredText(string: String,
-                      x: Int,
-                      y: Int,
-                      color: Int,
-                      shadow: Boolean = true) {
-    rDrawText(string,
-              x - rMeasureText(string) / 2,
-              y,
-              color,
-              shadow)
-}
-
-fun rDrawCenteredText(string: String,
-                      bounds: Rectangle,
-                      color: Int,
-                      shadow: Boolean = true) { // text height = 8
-    val (x, y, width, height) = bounds
-    rDrawText(string,
-              x + (width - rMeasureText(string)) / 2,
-              y + (height - 8) / 2,
-              color,
-              shadow)
-}
-
-//fun rDrawText(
-//  string: String, bounds: Rectangle,
-//  horizontalAlign: Int, verticalAlign: Int,
-//  color: Int, shadow: Boolean = true
-//) {
-//
-//}
-
-fun rWrapText(string: String,
-              maxWidth: Int): String =
-    // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
-    Vanilla.textRenderer().textHandler.wrapLines(LiteralText(string),
-                                                 maxWidth,
-                                                 Style.EMPTY).joinToString("\n") { it.string }
-
-

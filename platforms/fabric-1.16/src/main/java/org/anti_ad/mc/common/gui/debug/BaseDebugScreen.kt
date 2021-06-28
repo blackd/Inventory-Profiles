@@ -10,9 +10,7 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.render.*
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawHorizontalLine
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawVerticalLine
-import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
+import org.anti_ad.mc.common.vanilla.render.glue.*
 import kotlin.math.sign
 
 /*
@@ -81,7 +79,7 @@ open class BaseDebugScreen : BaseOverlay() {
         hudTextContainer.clearChildren()
 //    val texts = page.content.map { HudText(it) }
         val content = rWrapText(page.content.joinToString("\n"),
-                                rScreenWidth)
+                                glue_rScreenWidth)
         val texts = content.lines().map { HudText(it) }
         texts.forEach { hudTextContainer.addChild(it) }
         val hudTexts = hudTextContainer.children.runIf(!isTop) { asReversed() }

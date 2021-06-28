@@ -4,8 +4,8 @@ import org.anti_ad.mc.common.extensions.*
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Util
-import org.anti_ad.mc.common.vanilla.render.rScreenHeight
-import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import java.io.File
 import java.nio.file.Path
 
@@ -34,8 +34,8 @@ object VanillaUtil {
     fun mouseYRaw(): Double = Vanilla.mouse().y
     fun mouseXDouble(): Double = mouseScaleX(mouseXRaw())
     fun mouseYDouble(): Double = mouseScaleY(mouseYRaw())
-    fun mouseScaleX(amount: Double): Double = amount * rScreenWidth / Vanilla.window().width
-    fun mouseScaleY(amount: Double): Double = amount * rScreenHeight / Vanilla.window().height
+    fun mouseScaleX(amount: Double): Double = amount * glue_rScreenWidth / Vanilla.window().width
+    fun mouseScaleY(amount: Double): Double = amount * glue_rScreenHeight / Vanilla.window().height
 
     // this.client.getLastFrameDuration()
     fun lastFrameDuration(): Float = Vanilla.mc().lastFrameDuration

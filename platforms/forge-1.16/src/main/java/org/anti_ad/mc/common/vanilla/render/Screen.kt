@@ -8,11 +8,11 @@ import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.render.glue.*
 
-val rScreenWidth
+private val rScreenWidth
     get() = Vanilla.window().scaledWidth
-val rScreenHeight
+private val rScreenHeight
     get() = Vanilla.window().scaledHeight
-val rScreenSize
+private val rScreenSize
     get() = Size(rScreenWidth,
                  rScreenHeight)
 val rScreenBounds

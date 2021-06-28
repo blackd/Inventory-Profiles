@@ -4,23 +4,43 @@ import net.minecraft.util.text.Style
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_draw
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_drawWithShadow
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_getWidth
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_textHandler_wrapLines
 
-fun rMeasureText(string: String): Int =
-    Vanilla.textRenderer().getStringWidth(string) // getStringWidth() = getWidth()
+fun initTextGlue() {
+    __glue_Vanilla_textRenderer_textHandler_wrapLines = { s: String, maxWidth: Int ->
+        //fun rWrapText(string: String, maxWidth: Int): String =
+        //  Vanilla.textRenderer().trimStringToWidth(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
+        // Vanilla.textRenderer().func_238412_a_(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
+        //wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
+        //  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+        //Vanilla.textRenderer().drawWordWrap(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+        //Vanilla.textRenderer().func_238425_b_(LiteralText(string), maxWidth).joinToString("\n") { it.string }
+        //Vanilla.textRenderer().split(LiteralText(string), maxWidth).joinToString("\n") { it.toString() }
+        Vanilla.textRenderer().characterManager.func_238362_b_(LiteralText(s),
+                                                               maxWidth,
+                                                               Style.EMPTY).joinToString("\n") {
+            it.string
+        }
+    }
 
-fun rDrawText(string: String,
-              x: Int,
-              y: Int,
-              color: Int,
-              shadow: Boolean = true) {
-    if (shadow) {
+    __glue_Vanilla_textRenderer_getWidth = {s: String ->
+        Vanilla.textRenderer().getStringWidth(s) // getStringWidth() = getWidth()
+    }
+
+    __glue_Vanilla_textRenderer_drawWithShadow = {string: String, x: Double, y: Double, color: Int ->
+
         Vanilla.textRenderer().drawStringWithShadow(rMatrixStack,
                                                     string,
                                                     x.toFloat(),
                                                     y.toFloat(),
                                                     color) // drawWithShadow() = drawStringWithShadow()
 //    Vanilla.textRenderer().func_238405_a_(rMatrixStack, string, x.toFloat(), y.toFloat(), color) // drawWithShadow() = drawStringWithShadow()
-    } else {
+    }
+
+    __glue_Vanilla_textRenderer_draw = {string: String, x: Double, y: Double, color: Int ->
         Vanilla.textRenderer().drawString(rMatrixStack,
                                           string,
                                           x.toFloat(),
@@ -30,50 +50,5 @@ fun rDrawText(string: String,
     }
 }
 
-fun rDrawCenteredText(string: String,
-                      x: Int,
-                      y: Int,
-                      color: Int,
-                      shadow: Boolean = true) {
-    rDrawText(string,
-              x - rMeasureText(string) / 2,
-              y,
-              color,
-              shadow)
-}
 
-fun rDrawCenteredText(string: String,
-                      bounds: Rectangle,
-                      color: Int,
-                      shadow: Boolean = true) { // text height = 8
-    val (x, y, width, height) = bounds
-    rDrawText(string,
-              x + (width - rMeasureText(string)) / 2,
-              y + (height - 8) / 2,
-              color,
-              shadow)
-}
 
-//fun rDrawText(
-//  string: String, bounds: Rectangle,
-//  horizontalAlign: Int, verticalAlign: Int,
-//  color: Int, shadow: Boolean = true
-//) {
-//
-//}
-
-//fun rWrapText(string: String, maxWidth: Int): String =
-//  Vanilla.textRenderer().trimStringToWidth(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
-// Vanilla.textRenderer().func_238412_a_(string, maxWidth) // wrapStringToWidth() = trimStringToWidth()
-//wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
-//  Vanilla.textRenderer().wrapLines(LiteralText(string), maxWidth).joinToString("\n") { it.string }
-//Vanilla.textRenderer().drawWordWrap(LiteralText(string), maxWidth).joinToString("\n") { it.string }
-//Vanilla.textRenderer().func_238425_b_(LiteralText(string), maxWidth).joinToString("\n") { it.string }
-//Vanilla.textRenderer().split(LiteralText(string), maxWidth).joinToString("\n") { it.toString() }
-fun rWrapText(string: String,
-              maxWidth: Int): String =
-    Vanilla.textRenderer().characterManager.func_238362_b_(LiteralText(string),
-                                                           maxWidth,
-                                                           Style.EMPTY).joinToString("\n") {
-        it.string
-    }

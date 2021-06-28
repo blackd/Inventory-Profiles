@@ -13,7 +13,7 @@ import org.anti_ad.mc.common.vanilla.alias.I18n
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.render.Sprite
 import org.anti_ad.mc.common.vanilla.render.rDrawSprite
-import org.anti_ad.mc.common.vanilla.render.rMeasureText
+import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 

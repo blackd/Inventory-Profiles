@@ -10,9 +10,10 @@ import org.anti_ad.mc.common.input.ConfigKeybindSettings
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.I18n
 import org.anti_ad.mc.common.vanilla.alias.TranslatableText
-import org.anti_ad.mc.common.vanilla.render.rDrawCenteredText
-import org.anti_ad.mc.common.vanilla.render.rMeasureText
-import org.anti_ad.mc.common.vanilla.render.rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
+import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
+
 import kotlin.math.max
 
 private const val COLOR_WHITE = -0x1
@@ -63,7 +64,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
                         Tooltips.addTooltip(configOption.description,
                                             mouseX,
                                             mouseY,
-                                            rScreenWidth * 2 / 3)
+                                            glue_rScreenWidth * 2 / 3)
                     }
                 }
             }.apply {
