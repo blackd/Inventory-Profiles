@@ -82,14 +82,14 @@ abstract class BaseScreen(text: Text) : Screen(text) {
     }
 
     override fun render(matrixStack: MatrixStack?,
-                        i: Int,
-                        j: Int,
-                        f: Float) {
+                        mouseX: Int,
+                        mouseY: Int,
+                        delta: Float) {
         //rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
         rMatrixStack = matrixStack ?: RenderSystem.getModelViewStack().also { Log.debug("null matrixStack") }
-        render(i,
-               j,
-               f)
+        render(mouseX,
+               mouseY,
+               delta)
     }
 
     // ============

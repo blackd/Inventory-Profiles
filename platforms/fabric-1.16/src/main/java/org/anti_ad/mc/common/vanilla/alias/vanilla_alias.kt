@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Util
 import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
+import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
 typealias MinecraftClient = MinecraftClient
 typealias IntegratedServer = IntegratedServer
@@ -25,23 +26,11 @@ typealias PositionedSoundInstance = PositionedSoundInstance
 typealias SoundEvents = SoundEvents
 typealias Util = Util
 
-object I18n {
-    fun translate(string: String,
-                  vararg objects: Any?): String = I18n.translate(string,
-                                                                 *objects)
 
-    fun translateOrNull(string: String,
-                        vararg objects: Any?): String? =
-        translate(string,
-                  *objects).takeIf { it != string }
+private fun translate(string: String,
+                      vararg objects: Any?): String = I18n.translate(string,
+                                                                     *objects)
 
-    fun translateOrEmpty(string: String,
-                         vararg objects: Any?): String = translateOrNull(string,
-                                                                         *objects) ?: ""
-
-    inline fun translateOrElse(string: String,
-                               vararg objects: Any?,
-                               elseValue: () -> String): String =
-        translateOrNull(string,
-                        *objects) ?: elseValue()
+fun initI18nGlue() {
+    __glue_I18n_translate = ::translate
 }

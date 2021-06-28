@@ -7,7 +7,7 @@ import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.input.KeybindSettings.Context.*
 import org.anti_ad.mc.common.input.KeybindSettings.KeyAction.PRESS
 import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.NORMAL
-import org.anti_ad.mc.common.vanilla.alias.I18n
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE

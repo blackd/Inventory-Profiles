@@ -60,16 +60,7 @@ private fun rBlit(drawArea: Rectangle,
     val (x, y, w, h) = drawArea
     val (sx, sy, sw, sh) = spriteBounds
     val (tw, th) = textureSize
-    rBlit(x,
-          y,
-          w,
-          h,
-          sx,
-          sy,
-          sw,
-          sh,
-          tw,
-          th)
+    rBlit(x, y, w, h, sx, sy, sw, sh, tw, th)
 }
 
 //private fun rBlit(screenLocation: Point, textureLocation: Point, size: Size) {
@@ -94,9 +85,9 @@ fun rDrawSprite(sprite: Sprite,
                                       y)
 
 private fun rDrawSprite(sprite: Sprite,
-                tIndex: Int,
-                x: Int,
-                y: Int) {
+                        tIndex: Int,
+                        x: Int,
+                        y: Int) {
     RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.setShaderTexture(tIndex,
                                   sprite.identifier)

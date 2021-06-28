@@ -22,7 +22,7 @@ object GlobalScreenEventListener {
     fun onResize(width: Int,
                  height: Int) { // only call post
         registeredPost.forEach {
-            it.resize(Vanilla.mc(),
+            it.resize( // Vanilla.mc(),
                       width,
                       height)
         }

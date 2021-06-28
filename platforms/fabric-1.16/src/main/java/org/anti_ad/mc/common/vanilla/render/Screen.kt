@@ -29,6 +29,7 @@ fun initScreenGlue() {
     __glue_rScreenWidth = { rScreenWidth }
     __glue_rDepthMask = { rectangle: Rectangle, block: () -> Unit -> rDepthMask(rectangle, block) }
 
+    __glue_VanillaUtil_inGame = { VanillaUtil.inGame() }
     __glue_rRenderDirtBackground = {
         // Screen.renderDirtBackground
         (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)

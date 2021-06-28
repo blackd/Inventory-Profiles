@@ -59,7 +59,7 @@ fun rRenderBlackOverlay() { // Screen.renderBackground
 }
 
 var __glue_VanillaUtil_inGame: () -> Boolean = {
-    Log.error("____glue_rRenderDirtBackground is not initialized!")
+    Log.error("__glue_VanillaUtil_inGame is not initialized!")
     false
 }
 

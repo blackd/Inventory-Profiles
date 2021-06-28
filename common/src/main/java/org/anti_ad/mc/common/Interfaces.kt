@@ -1,7 +1,5 @@
 package org.anti_ad.mc.common
 
-import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
-
 interface Savable {
     fun save()
     fun load()
@@ -13,7 +11,7 @@ interface IInputHandler {
 }
 
 interface ScreenEventListener { // eavesdrop event/input
-    fun resize(minecraftClient: MinecraftClient,
+    fun resize( /* minecraftClient: Any, */
                width: Int,
                height: Int) {
     }

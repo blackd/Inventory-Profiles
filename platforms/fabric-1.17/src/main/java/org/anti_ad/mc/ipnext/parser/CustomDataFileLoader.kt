@@ -7,7 +7,7 @@ import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.util.LogicalStringComparator
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.common.vanilla.alias.I18n
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.loggingPath
 import org.anti_ad.mc.ipnext.client.TellPlayer
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler

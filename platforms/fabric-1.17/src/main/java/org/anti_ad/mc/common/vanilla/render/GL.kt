@@ -1,6 +1,5 @@
 package org.anti_ad.mc.common.vanilla.render
 
-import net.minecraft.util.math.Matrix4f
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.intersect
 import org.anti_ad.mc.common.vanilla.alias.*

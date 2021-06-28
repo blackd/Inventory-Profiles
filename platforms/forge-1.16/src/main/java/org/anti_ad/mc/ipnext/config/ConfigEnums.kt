@@ -1,6 +1,6 @@
 package org.anti_ad.mc.ipnext.config
 
-import org.anti_ad.mc.common.vanilla.alias.I18n
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.ipnext.item.rule.Rule
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.parser.TemporaryRuleParser

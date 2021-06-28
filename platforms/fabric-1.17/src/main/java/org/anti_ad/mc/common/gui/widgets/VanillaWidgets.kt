@@ -18,9 +18,7 @@ import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWi
 // vanillamapping code depends on mappings
 // ============
 
-open class VanillaWidget<T : ClickableWidget>(
-    val vanilla: T
-) : Widget() {
+open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
     init {
         sizeChanged += {
             vanilla.width = width

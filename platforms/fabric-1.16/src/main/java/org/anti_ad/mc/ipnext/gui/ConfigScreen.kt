@@ -4,7 +4,7 @@ import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.builder.toMultiConfigList
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
-import org.anti_ad.mc.common.vanilla.alias.I18n
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.TranslatableText
 import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.config.*

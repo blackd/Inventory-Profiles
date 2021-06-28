@@ -9,7 +9,7 @@ import org.anti_ad.mc.common.gui.widget.Axis
 import org.anti_ad.mc.common.gui.widget.BiFlex
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.VanillaSound
-import org.anti_ad.mc.common.vanilla.alias.I18n
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.render.Sprite
 import org.anti_ad.mc.common.vanilla.render.rDrawSprite

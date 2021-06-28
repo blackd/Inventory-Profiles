@@ -17,7 +17,7 @@ object InsertWidgetHandler : ScreenEventListener {
         currentScreen = Vanilla.screen()
     }
 
-    override fun resize(minecraftClient: MinecraftClient,
+    override fun resize(/* minecraftClient: Any, */
                         width: Int,
                         height: Int) {
         currentWidget?.size = Size(width,
