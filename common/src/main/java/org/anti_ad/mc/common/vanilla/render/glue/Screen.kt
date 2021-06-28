@@ -41,21 +41,43 @@ var __glue_rDepthMask: (bounds: Rectangle,
     block()
 }
 
+var __glue_rRenderDirtBackground: () -> Unit = {
+    Log.error("____glue_rRenderDirtBackground is not initialized!")
+}
 
-/// Rect.kt
+fun rRenderDirtBackground() {
+    __glue_rRenderDirtBackground()
+}
 
-var __glue_rFillRect: (x1: Int, y1: Int, x2: Int, y2: Int,
-                       color: Int) -> Unit = { x1: Int,
-                                               y1: Int,
-                                               x2: Int,
-                                               y2: Int,
-                                               color: Int ->
-    Log.error("__glue_rDepthMask is not initialized!")
+fun rRenderBlackOverlay() { // Screen.renderBackground
+    rFillGradient(0,
+                  0,
+                  glue_rScreenWidth,
+                  glue_rScreenHeight,
+                  -1072689136,
+                  -804253680)
+}
+
+var __glue_VanillaUtil_inGame: () -> Boolean = {
+    Log.error("____glue_rRenderDirtBackground is not initialized!")
+    false
 }
 
 
-var __glue_dummyDrawableHelper_fillGradient: (i: Int, j: Int, k: Int,
-                                              l: Int, m: Int, n: Int) -> Unit = { i: Int, j: Int, k: Int,
-                                                                                  l: Int, m: Int, n: Int ->
-    Log.error("__glue_dummyDrawableHelper_fillGradient is not initialized!")
+fun rRenderVanillaScreenBackground() { // Screen.renderBackground
+    if (__glue_VanillaUtil_inGame()) {
+        rRenderBlackOverlay()
+    } else {
+        rRenderDirtBackground()
+    }
 }
+
+val rScreenBounds
+    get() = Rectangle(0,
+                      0,
+                      glue_rScreenWidth,
+                      glue_rScreenHeight)
+
+
+
+

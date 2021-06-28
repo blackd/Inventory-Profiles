@@ -1,10 +1,27 @@
 package org.anti_ad.mc.common.vanilla.render.glue
 
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 
+
+var __glue_rFillRect: (x1: Int, y1: Int, x2: Int, y2: Int,
+                       color: Int) -> Unit = { x1: Int,
+                                               y1: Int,
+                                               x2: Int,
+                                               y2: Int,
+                                               color: Int ->
+    Log.error("__glue_rDepthMask is not initialized!")
+}
+
+
+var __glue_dummyDrawableHelper_fillGradient: (i: Int, j: Int, k: Int,
+                                              l: Int, m: Int, n: Int) -> Unit = { i: Int, j: Int, k: Int,
+                                                                                  l: Int, m: Int, n: Int ->
+    Log.error("__glue_dummyDrawableHelper_fillGradient is not initialized!")
+}
 
 // top to bottom
 fun rFillGradient(x1: Int,

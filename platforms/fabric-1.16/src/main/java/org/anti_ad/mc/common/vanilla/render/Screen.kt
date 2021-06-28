@@ -15,32 +15,6 @@ private val rScreenHeight
 private val rScreenSize
     get() = Size(rScreenWidth,
                  rScreenHeight)
-val rScreenBounds
-    get() = Rectangle(0,
-                      0,
-                      rScreenWidth,
-                      rScreenHeight)
-
-fun rRenderDirtBackground() { // Screen.renderDirtBackground
-    (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)
-}
-
-fun rRenderBlackOverlay() { // Screen.renderBackground
-    rFillGradient(0,
-                  0,
-                  rScreenWidth,
-                  rScreenHeight,
-                  -1072689136,
-                  -804253680)
-}
-
-fun rRenderVanillaScreenBackground() { // Screen.renderBackground
-    if (VanillaUtil.inGame()) {
-        rRenderBlackOverlay()
-    } else {
-        rRenderDirtBackground()
-    }
-}
 
 private val dummyScreen = object : Screen(
     LiteralText(
@@ -54,4 +28,9 @@ fun initScreenGlue() {
     __glue_rScreenSize = { rScreenSize }
     __glue_rScreenWidth = { rScreenWidth }
     __glue_rDepthMask = { rectangle: Rectangle, block: () -> Unit -> rDepthMask(rectangle, block) }
+
+    __glue_rRenderDirtBackground = {
+        // Screen.renderDirtBackground
+        (Vanilla.screen() ?: dummyScreen).renderBackgroundTexture(0)
+    }
 }

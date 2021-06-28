@@ -13,7 +13,7 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
-import org.anti_ad.mc.common.vanilla.render.rRenderVanillaScreenBackground
+import org.anti_ad.mc.common.vanilla.render.glue.rRenderVanillaScreenBackground
 import kotlin.math.max
 
 private const val COLOR_WHITE = 0xFFFFFFFF.toInt()

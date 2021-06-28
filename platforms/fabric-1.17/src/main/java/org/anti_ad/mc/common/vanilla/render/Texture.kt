@@ -93,30 +93,19 @@ fun rDrawSprite(sprite: Sprite,
                                       x,
                                       y)
 
-fun rDrawSprite(sprite: Sprite,
+private fun rDrawSprite(sprite: Sprite,
                 tIndex: Int,
                 x: Int,
                 y: Int) {
-    RenderSystem.setShaderColor(1f,
-                                1f,
-                                1f,
-                                1f)
+    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
     RenderSystem.setShaderTexture(tIndex,
                                   sprite.identifier)
     RenderSystem.disableDepthTest();
     //rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
-    rBlit(x,
-          y,
-          sw,
-          sh,
-          sx,
-          sy,
-          sw,
-          sh,
-          tw,
-          th)
+    rBlit(x, y, sw, sh, sx,
+          sy, sw, sh, tw, th)
     RenderSystem.enableDepthTest();
 }
 
