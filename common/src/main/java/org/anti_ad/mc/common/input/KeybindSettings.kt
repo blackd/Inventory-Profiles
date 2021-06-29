@@ -11,13 +11,11 @@ import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 
-data class KeybindSettings(
-    val context: Context,
-    val activateOn: KeyAction,
-    val allowExtraKeys: Boolean,
-    val orderSensitive: Boolean,
-    val modifierKey: ModifierKey = NORMAL,
-) {
+data class KeybindSettings(val context: Context,
+                           val activateOn: KeyAction,
+                           val allowExtraKeys: Boolean,
+                           val orderSensitive: Boolean,
+                           val modifierKey: ModifierKey = NORMAL) {
     companion object {
         val INGAME_DEFAULT = KeybindSettings(INGAME,
                                              PRESS,
