@@ -6,9 +6,9 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.common.vanilla.render.rClearDepth
+import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
-import org.anti_ad.mc.common.vanilla.render.rStandardGlState
+import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 
 // ============
 // vanillamapping code depends on mappings (package org.anti_ad.mc.common.gui.screen)

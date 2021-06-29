@@ -1,7 +1,6 @@
 package org.anti_ad.mc.common.gui
 
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.common.vanilla.render.glue.*
 
 /*

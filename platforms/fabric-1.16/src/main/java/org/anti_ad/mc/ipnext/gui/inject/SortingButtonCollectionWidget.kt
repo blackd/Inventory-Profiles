@@ -16,10 +16,7 @@ import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.*
-import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
-import org.anti_ad.mc.common.vanilla.render.glue.Sprite
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
+import org.anti_ad.mc.common.vanilla.render.glue.*
 import org.anti_ad.mc.ipnext.config.ContinuousCraftingCheckboxValue.*
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings

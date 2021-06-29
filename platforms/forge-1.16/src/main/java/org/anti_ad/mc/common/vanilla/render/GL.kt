@@ -3,16 +3,23 @@ package org.anti_ad.mc.common.vanilla.render
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.intersect
 import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rClearDepth
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rScreenBounds
 import org.lwjgl.opengl.GL11
 
+
+fun initGLGlue() {
+    __glue_rStandardGlState = ::rStandardGlState
+    __glue_rClearDepth = ::rClearDepth
+}
 // ============
 // api
 // ============
 // at Screen.render()
 // do: rStandardGlState(); rClearDepth()
-fun rStandardGlState() { // reset to standard state (for screen rendering)
+private fun rStandardGlState() { // reset to standard state (for screen rendering)
     rEnableBlend()
     gDisableDiffuse()
     gEnableAlphaTest()
@@ -24,7 +31,7 @@ fun rStandardGlState() { // reset to standard state (for screen rendering)
 // depth
 // ============
 
-fun rClearDepth() {
+private fun rClearDepth() {
     gEnableDepthTest()
     RenderSystem.depthMask(true)
     RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT,

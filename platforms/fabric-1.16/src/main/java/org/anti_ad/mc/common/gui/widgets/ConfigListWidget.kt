@@ -10,13 +10,12 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 private const val COLOR_WHITE = -0x1
 private const val textY = 6
 
-fun CategorizedMultiConfig.toListWidget(
-    displayNameOf: (String) -> String,
-    descriptionOf: (String) -> String,
-    categoryNameOf: (String) -> String
-): ConfigListWidget =
+fun CategorizedMultiConfig.toListWidget(displayNameOf: (String) -> String,
+                                        descriptionOf: (String) -> String,
+                                        categoryNameOf: (String) -> String): ConfigListWidget =
     ConfigListWidget(displayNameOf,
                      descriptionOf).apply {
+
         for ((categoryName, configOptions) in categories) {
             val name = categoryNameOf(categoryName)
             when {

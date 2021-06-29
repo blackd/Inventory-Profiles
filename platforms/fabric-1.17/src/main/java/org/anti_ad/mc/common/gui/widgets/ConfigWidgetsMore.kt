@@ -38,8 +38,7 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
                                                        }
                                                    }) {
         override fun renderButton(hovered: Boolean) {
-            val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty())
-                modifiedSprite else baseSprite
+            val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty()) modifiedSprite else baseSprite
             val spriteY = spriteX.down(targetKeybind.settings.activateOn.ordinal)
             rDrawSprite(spriteY,
                         screenX,
