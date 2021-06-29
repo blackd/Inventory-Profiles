@@ -2,8 +2,8 @@ package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
-import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
-import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSprite
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
 
 open class ButtonWidget : Widget {
     var clickEvent: (Int) -> Unit = { }

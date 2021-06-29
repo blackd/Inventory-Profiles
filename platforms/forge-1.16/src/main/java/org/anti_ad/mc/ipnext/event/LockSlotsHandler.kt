@@ -7,9 +7,11 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.render.*
+import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
+import org.anti_ad.mc.common.vanilla.render.glue.Sprite
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
@@ -49,8 +51,8 @@ object LockSlotsHandler {
     // ============
     // render
     // ============
-    private val TEXTURE = Identifier("inventoryprofilesnext",
-                                     "textures/gui/overlay.png")
+    private val TEXTURE = IdentifierHolder("inventoryprofilesnext",
+                                           "textures/gui/overlay.png")
     private val backgroundSprite = Sprite(TEXTURE,
                                           Rectangle(40,
                                                     8,

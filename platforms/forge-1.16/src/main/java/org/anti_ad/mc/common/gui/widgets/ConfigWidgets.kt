@@ -10,9 +10,9 @@ import org.anti_ad.mc.common.gui.widget.BiFlex
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.alias.Identifier
-import org.anti_ad.mc.common.vanilla.render.Sprite
-import org.anti_ad.mc.common.vanilla.render.rDrawSprite
+import org.anti_ad.mc.common.vanilla.render.glue.Sprite
+import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
@@ -119,8 +119,8 @@ class ConfigToggleableWidget<T : IConfigOptionToggleable>(configOption: T,
 }
 
 private val WIDGETS_TEXTURE =
-    Identifier("inventoryprofilesnext",
-               "textures/gui/widgets.png")
+    IdentifierHolder("inventoryprofilesnext",
+                     "textures/gui/widgets.png")
 private val PATTERN_INTEGER = Regex("-?[0-9]*")
 private val PATTERN_DOUBLE = Regex("^-?([0-9]+(\\.[0-9]*)?)?")
 

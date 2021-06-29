@@ -9,10 +9,10 @@ import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.TextRenderer
-import org.anti_ad.mc.common.vanilla.render.rDrawDynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
-import org.anti_ad.mc.common.vanilla.render.rVanillaButtonSprite
+import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
 import org.anti_ad.mc.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 

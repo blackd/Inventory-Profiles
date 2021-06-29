@@ -2,15 +2,13 @@ package org.anti_ad.mc.common.gui.debug
 
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.alias.Identifier
-import org.anti_ad.mc.common.vanilla.render.*
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
-import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.glue.rScreenBounds
+import org.anti_ad.mc.common.vanilla.render.glue.*
+
+import org.anti_ad.mc.common.vanilla.render.opaque
 
 private val WIDGETS_TEXTURE =
-    Identifier("inventoryprofilesnext",
-               "textures/gui/widgets.png")
+    IdentifierHolder("inventoryprofilesnext",
+                     "textures/gui/widgets.png")
 
 class SpriteTestScreen : BaseOverlay() {
 
@@ -39,26 +37,22 @@ class SpriteTestScreen : BaseOverlay() {
                     Rectangle(20,
                               100,
                               20,
-                              20),
-                    2.0)
+                              20))
     val s5 = Sprite(WIDGETS_TEXTURE,
                     Rectangle(20,
                               100,
                               20,
-                              20),
-                    0.5)
+                              20))
     val s3 = Sprite(WIDGETS_TEXTURE,
                     Rectangle(20,
                               100,
                               20,
-                              20),
-                    0.3)
+                              20))
     val s7 = Sprite(WIDGETS_TEXTURE,
                     Rectangle(20,
                               100,
                               20,
-                              20),
-                    0.7)
+                              20))
 
     fun testDrawSprite() {
         listOf(s1,

@@ -8,14 +8,14 @@ import org.anti_ad.mc.common.input.IKeybind
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.alias.Identifier
-import org.anti_ad.mc.common.vanilla.render.Sprite
-import org.anti_ad.mc.common.vanilla.render.rDrawSprite
+import org.anti_ad.mc.common.vanilla.render.glue.Sprite
+import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
 import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
-private val WIDGETS_TEXTURE = Identifier("inventoryprofilesnext",
-                                         "textures/gui/widgets.png")
+private val WIDGETS_TEXTURE = IdentifierHolder("inventoryprofilesnext",
+                                                    "textures/gui/widgets.png")
 private val baseSprite = Sprite(WIDGETS_TEXTURE,
                                 Rectangle(20,
                                           160,

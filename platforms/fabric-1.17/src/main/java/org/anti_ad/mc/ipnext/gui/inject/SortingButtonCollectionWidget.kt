@@ -15,9 +15,11 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.render.*
+import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
+import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.anti_ad.mc.ipnext.config.ContinuousCraftingCheckboxValue.*
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -30,8 +32,8 @@ import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
 class SortingButtonCollectionWidget(val screen: ContainerScreen<*>) : Widget() {
-    val TEXTURE = Identifier("inventoryprofilesnext",
-                             "textures/gui/gui_buttons.png")
+    val TEXTURE = IdentifierHolder("inventoryprofilesnext",
+                                   "textures/gui/gui_buttons.png")
 
     override fun render(mouseX: Int,
                         mouseY: Int,
@@ -240,7 +242,7 @@ class SortingButtonCollectionWidget(val screen: ContainerScreen<*>) : Widget() {
         var tx = 0
         var ty = 0
         var tooltipText: String = ""
-        override val texture: Identifier
+        override val texture: IdentifierHolder
             get() = TEXTURE
         override val texturePt: Point
             get() = Point(tx,
@@ -275,7 +277,7 @@ class SortingButtonCollectionWidget(val screen: ContainerScreen<*>) : Widget() {
         constructor(clickEvent: () -> Unit) : super(clickEvent)
         constructor() : super()
 
-        abstract val texture: Identifier
+        abstract val texture: IdentifierHolder
         abstract val texturePt: Point
         abstract val hoveringTexturePt: Point
 

@@ -4,4 +4,5 @@ fun renderInitTheGlue() {
     initScreenGlue()
     initRectGlue()
     initTextGlue()
+    initTextureGlue()
 }
