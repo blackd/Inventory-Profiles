@@ -3,6 +3,7 @@ package org.anti_ad.mc.ipnext
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
 import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
+import org.anti_ad.mc.common.vanilla.vanillaInitGlue
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
@@ -21,6 +22,7 @@ fun init() {
 
         renderInitTheGlue()
         aliasInitGlue()
+        vanillaInitGlue()
 
         // Keybind register
         InputHandler.onClientInit()

@@ -15,7 +15,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.anti_ad.mc.common.vanilla.Vanilla;
-import org.anti_ad.mc.common.vanilla.VanillaUtil;
+import org.anti_ad.mc.common.vanilla.glue.IVanillaUtilKt;
 import org.anti_ad.mc.ipnext.config.Tweaks;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
@@ -45,7 +45,7 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void joinWorld(WorldEvent.Load event) {
-        if (VanillaUtil.INSTANCE.isOnClientThread()) {
+        if (IVanillaUtilKt.getVanillaUtil().isOnClientThread()) {
             ClientEventHandler.INSTANCE.onJoinWorld();
         }
     }
@@ -95,7 +95,7 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void onGuiKeyPressedPre(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
-        if (!VanillaUtil.INSTANCE.inGame()) return;
+        if (!IVanillaUtilKt.getVanillaUtil().inGame()) return;
         InputMappings.Input mouseKey = InputMappings.getInputByCode(e.getKeyCode(), e.getScanCode()); // getKey(e.getKeyCode(), e.getScanCode());
         if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
                 && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory // options.keyInventory
@@ -113,7 +113,7 @@ public class ForgeEventHandler {
     Field rightClickDelayTimerField = null; // field_71467_ac
 
     public void onTickPre() { // Tweaks.DISABLE_BLOCK_BREAKING_COOLDOWN, Tweaks.DISABLE_ITEM_USE_COOLDOWN
-        if (!VanillaUtil.INSTANCE.inGame()) return;
+        if (!IVanillaUtilKt.getVanillaUtil().inGame()) return;
         if (Tweaks.INSTANCE.getDISABLE_BLOCK_BREAKING_COOLDOWN().getBooleanValue()) {
             if (pc == null || pc != Vanilla.INSTANCE.interactionManager()) {
                 pc = Vanilla.INSTANCE.interactionManager();

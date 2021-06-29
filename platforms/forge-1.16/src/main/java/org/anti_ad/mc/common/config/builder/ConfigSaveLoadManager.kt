@@ -5,8 +5,8 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.config.IConfigElement
 import org.anti_ad.mc.common.extensions.*
-import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.common.vanilla.loggingPath
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.glue.loggingPath
 import java.io.IOException
 import java.nio.file.Path
 

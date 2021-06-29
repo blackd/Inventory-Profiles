@@ -2,7 +2,7 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.math2d.Line
 import org.anti_ad.mc.common.math2d.Point
-import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 
 object MouseTracer {
     var x = -1

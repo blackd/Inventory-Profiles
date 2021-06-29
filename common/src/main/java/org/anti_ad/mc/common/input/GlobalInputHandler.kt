@@ -2,8 +2,11 @@ package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.gui.debug.DebugInfos
-import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+
 import org.lwjgl.glfw.GLFW.*
+
+
 
 object GlobalInputHandler {
 
@@ -19,7 +22,8 @@ object GlobalInputHandler {
                     settings: KeybindSettings): Boolean {
         if (keyCodes.isEmpty()) return false
         if (!settings.activateOn.isValid(lastAction)) return false
-        if (!settings.context.isValid(Vanilla.screen())) return false
+        if (!VanillaUtil.isValidScreen(settings.context)) return false
+        //if (!settings.context.isValid(Vanilla.screen())) return false
         // checked: context, activateOn
         // ref: malilib KeybindMulti.updateIsPressed()
         val validateKeys = if (lastAction == GLFW_PRESS) pressedKeys else previousPressedKeys
@@ -30,7 +34,8 @@ object GlobalInputHandler {
     fun isPressing(keyCodes: List<Int>,
                    settings: KeybindSettings): Boolean {
         if (keyCodes.isEmpty()) return false
-        if (!settings.context.isValid(Vanilla.screen())) return false
+        if (!VanillaUtil.isValidScreen(settings.context)) return false
+        //if (!settings.context.isValid(Vanilla.screen())) return false
         return settings.validates(pressedKeys,
                                   keyCodes,
                                   justPressed = false)

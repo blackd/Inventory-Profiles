@@ -2,10 +2,16 @@ package org.anti_ad.mc.common.vanilla
 
 import org.anti_ad.mc.common.vanilla.alias.PositionedSoundInstance
 import org.anti_ad.mc.common.vanilla.alias.SoundEvents
+import org.anti_ad.mc.common.vanilla.glue.IVanillaSound
+import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaSound
 
-object VanillaSound {
+fun initVanillaSound() {
+    __glue_vanillaSound = VanillaSound
+}
 
-    fun playClick() {
+object VanillaSound: IVanillaSound {
+
+    override fun playClick() {
         Vanilla.soundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK,
                                                                    1.0f))
     }

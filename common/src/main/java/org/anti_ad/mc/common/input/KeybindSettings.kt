@@ -8,7 +8,6 @@ import org.anti_ad.mc.common.input.KeybindSettings.Context.*
 import org.anti_ad.mc.common.input.KeybindSettings.KeyAction.PRESS
 import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.NORMAL
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 
@@ -52,12 +51,6 @@ data class KeybindSettings(
 
     enum class Context {
         INGAME, GUI, ANY;
-
-        fun isValid(currentScreen: Screen?) = when (this) {
-            INGAME -> currentScreen == null
-            GUI -> currentScreen != null
-            ANY -> true
-        }
 
         override fun toString(): String {
             return I18n.translate("inventoryprofiles.common.enum.context." + name.toLowerCase())

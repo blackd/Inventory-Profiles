@@ -1,8 +1,7 @@
 package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.ScreenEventListener
-import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 
 object GlobalScreenEventListener {
     private val registeredPre = mutableSetOf<ScreenEventListener>()
@@ -22,7 +21,7 @@ object GlobalScreenEventListener {
     fun onResize(width: Int,
                  height: Int) { // only call post
         registeredPost.forEach {
-            it.resize( /* Vanilla.mc(), */
+            it.resize( //Vanilla.mc(),
                       width,
                       height)
         }

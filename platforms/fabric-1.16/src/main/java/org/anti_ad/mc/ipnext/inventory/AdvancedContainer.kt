@@ -3,7 +3,7 @@ package org.anti_ad.mc.ipnext.inventory
 import org.anti_ad.mc.common.annotation.ThrowsCaught
 import org.anti_ad.mc.common.extensions.tryOrElse
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
 import org.anti_ad.mc.common.vanilla.alias.Slot

@@ -4,7 +4,8 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.widgets.RootWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
@@ -27,7 +28,7 @@ abstract class BaseScreen(text: Text) : Screen(text) {
 
     open fun closeScreen() {
         this.isClosing = true
-        VanillaUtil.openScreenNullable(parent)
+        VanillaScreenUtil.openScreenNullable(parent)
         this.isClosing = false
     }
 

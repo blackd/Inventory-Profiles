@@ -5,7 +5,7 @@ import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.debug.DepthTestScreen
 import org.anti_ad.mc.common.gui.debug.SpriteTestScreen
 import org.anti_ad.mc.common.input.GlobalInputHandler
-import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -22,7 +22,7 @@ object InputHandler : IInputHandler {
                          lastAction: Int): Boolean {
         return tryCatch(false) {
             if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
-                VanillaUtil.openScreen(ConfigScreen())
+                VanillaScreenUtil.openScreen(ConfigScreen())
             }
 
             // todo fix hotkey while typing text field
@@ -38,7 +38,7 @@ object InputHandler : IInputHandler {
                     Debugs.SCREEN_DEPTH_TEST.isActivated() -> DepthTestScreen()
                     Debugs.SCREEN_SPRITE_TEST.isActivated() -> SpriteTestScreen()
                     else -> null
-                }?.let { VanillaUtil.openDistinctScreenQuiet(it); return true }
+                }?.let { VanillaScreenUtil.openDistinctScreenQuiet(it); return true }
 
                 if (Debugs.CLEAN_CURSOR.isActivated()) {
                     GeneralInventoryActions.cleanCursor()

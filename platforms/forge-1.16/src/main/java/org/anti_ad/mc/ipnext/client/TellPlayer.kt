@@ -2,7 +2,7 @@ package org.anti_ad.mc.ipnext.client
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 
 object TellPlayer {

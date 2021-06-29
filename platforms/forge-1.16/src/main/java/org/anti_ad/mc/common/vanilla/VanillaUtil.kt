@@ -1,47 +1,52 @@
 package org.anti_ad.mc.common.vanilla
 
 import org.anti_ad.mc.common.extensions.*
+import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Util
+import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
+import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import java.io.File
 import java.nio.file.Path
 
-val Path.loggingPath
-    get() = VanillaUtil.loggingString(this)
+fun initVanillaUtil() {
+    __glue_vanillaUtil = VanillaUtil
+}
 
-object VanillaUtil {
-    fun isOnClientThread(): Boolean = // Thread.currentThread() == this.getThread()
+
+private object VanillaUtil: IVanillaUtil {
+    override fun isOnClientThread(): Boolean = // Thread.currentThread() == this.getThread()
         Vanilla.mc().isOnExecutionThread // isOnExecutionThread // isOnThread()
 
     // ============
     // info
     // ============
-    fun inGame() = Vanilla.worldNullable() != null && Vanilla.playerNullable() != null
+    override fun inGame() = Vanilla.worldNullable() != null && Vanilla.playerNullable() != null
 
-    fun languageCode(): String = Vanilla.languageManager().currentLanguage.code
+    override fun languageCode(): String = Vanilla.languageManager().currentLanguage.code
 
-    fun shiftDown() = Screen.hasShiftDown()
-    fun ctrlDown() = Screen.hasControlDown()
-    fun altDown() = Screen.hasAltDown()
+    override fun shiftDown() = Screen.hasShiftDown()
+    override fun ctrlDown() = Screen.hasControlDown()
+    override fun altDown() = Screen.hasAltDown()
 //  fun shiftDown() = Screen.func_231173_s_() // line 391
 //  fun ctrlDown() = Screen.func_231172_r_() // line 383
 //  fun altDown() = Screen.func_231174_t_() // line 395
 
     // Mouse.onCursorPos() / GameRenderer.render()
-    fun mouseX(): Int = mouseXDouble().toInt()
-    fun mouseY(): Int = mouseYDouble().toInt()
-    fun mouseXRaw(): Double = Vanilla.mouse().mouseX
-    fun mouseYRaw(): Double = Vanilla.mouse().mouseY
-    fun mouseXDouble(): Double = mouseScaleX(mouseXRaw())
-    fun mouseYDouble(): Double = mouseScaleY(mouseYRaw())
-    fun mouseScaleX(amount: Double): Double = amount * glue_rScreenWidth / Vanilla.window().width
-    fun mouseScaleY(amount: Double): Double = amount * glue_rScreenHeight / Vanilla.window().height
+    override fun mouseX(): Int = mouseXDouble().toInt()
+    override fun mouseY(): Int = mouseYDouble().toInt()
+    override fun mouseXRaw(): Double = Vanilla.mouse().mouseX
+    override fun mouseYRaw(): Double = Vanilla.mouse().mouseY
+    override fun mouseXDouble(): Double = mouseScaleX(mouseXRaw())
+    override fun mouseYDouble(): Double = mouseScaleY(mouseYRaw())
+    override fun mouseScaleX(amount: Double): Double = amount * glue_rScreenWidth / Vanilla.window().width
+    override fun mouseScaleY(amount: Double): Double = amount * glue_rScreenHeight / Vanilla.window().height
 
     // this.client.getLastFrameDuration()
-    fun lastFrameDuration(): Float = Vanilla.mc().tickLength //frameTime // for render
+    override fun lastFrameDuration(): Float = Vanilla.mc().tickLength //frameTime // for render
 
 //  var lastMouseX: Int = -1
 //    private set
@@ -62,33 +67,27 @@ object VanillaUtil {
     // ============
     // do actions
     // ============
-    fun closeScreen() = Vanilla.mc().displayGuiScreen(null)
-    fun openScreen(screen: Screen) = Vanilla.mc().displayGuiScreen(screen)
-    fun openScreenNullable(screen: Screen?) = Vanilla.mc().displayGuiScreen(screen)
-    fun openDistinctScreen(screen: Screen) { // do nothing if screen is same type as current
-        if (Vanilla.screen()?.javaClass != screen.javaClass) openScreen(screen)
-    }
-
-    fun openDistinctScreenQuiet(screen: Screen) { // don't trigger Screen.remove()
-        if (Vanilla.screen()?.javaClass != screen.javaClass) {
-            Vanilla.mc().currentScreen = null
-            openScreen(screen)
-        }
-    }
 
     private fun runDirectory(): Path = Vanilla.runDirectoryFile().toPath().normalize()
-    fun configDirectory(): Path = runDirectory() / "config"
-    fun configDirectory(modName: String): Path = (configDirectory() / modName).apply { createDirectories() }
+    override fun configDirectory(): Path = runDirectory() / "config"
+    override fun configDirectory(modName: String): Path = (configDirectory() / modName).apply { createDirectories() }
 
-    fun getResourceAsString(identifier: String): String? = tryCatch {
+    override fun getResourceAsString(identifier: String): String? = tryCatch {
         Vanilla.resourceManager().getResource(Identifier(identifier)).inputStream.readToString()
     }
 
-    fun loggingString(path: Path): String = // return ".minecraft/config/file.txt" etc
+    override fun loggingString(path: Path): String = // return ".minecraft/config/file.txt" etc
         (if (path.isAbsolute) path pathFrom (runDirectory() / "..") else path).toString()
 
-    fun open(file: File) {
+    override fun open(file: File) {
         // ResourcePackOptionsScreen.init()
         Util.getOSType().openFile(file)
     }
+    override fun isValidScreen(ctx: KeybindSettings.Context) = ctx.isValid(Vanilla.screen())
+}
+
+private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
+    KeybindSettings.Context.INGAME -> s == null
+    KeybindSettings.Context.GUI -> s != null
+    KeybindSettings.Context.ANY -> true
 }

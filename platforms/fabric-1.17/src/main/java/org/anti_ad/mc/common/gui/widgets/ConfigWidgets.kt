@@ -8,7 +8,7 @@ import org.anti_ad.mc.common.config.options.*
 import org.anti_ad.mc.common.gui.widget.Axis
 import org.anti_ad.mc.common.gui.widget.BiFlex
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.VanillaSound
+import org.anti_ad.mc.common.vanilla.glue.VanillaSound
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
@@ -79,13 +79,11 @@ abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Wi
 
 }
 
-class ConfigOptionToggleableButtonWidget(
-    val configOptionToggleable: IConfigOptionToggleable,
-    val textProvider: () -> String = { "" }
-) : ButtonWidget({ button ->
-                     if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
-                     if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
-                 }) {
+class ConfigOptionToggleableButtonWidget(val configOptionToggleable: IConfigOptionToggleable,
+                                         val textProvider: () -> String = { "" }) : ButtonWidget({ button ->
+                                                                                                      if (button == GLFW_MOUSE_BUTTON_LEFT) configOptionToggleable.toggleNext()
+                                                                                                      if (button == GLFW_MOUSE_BUTTON_RIGHT) configOptionToggleable.togglePrevious()
+                                                                                                  }) {
     override fun render(mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
@@ -230,10 +228,7 @@ class ConfigStringWidget(configOption: ConfigString) : ConfigWidgetBase<ConfigSt
     }
 }
 
-open class ConfigButtonInfo {
-    open val buttonText: String = ""
-    open fun onClick(widget: ButtonWidget) {}
-}
+
 
 class ConfigButtonWidget(configOption: ConfigButton) : ConfigWidgetBase<ConfigButton>(configOption) {
     val button = ButtonWidget().apply {
