@@ -11,8 +11,9 @@ buildscript {
     repositories {
         maven { url = uri("https://maven.minecraftforge.net/maven") }
         mavenCentral()
+
         maven { url = uri("file:///home/plamen/my_develop/MixinGradle/repo") }
-        maven { url = uri("file:///home/plamen/my_develop/MixinG/repo") }
+
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
@@ -44,7 +45,6 @@ configure<MixinExtension> {
 
 plugins {
     java
-    id("com.modrinth.minotaur").version("1.1.0")
 }
 
 configureCommon()

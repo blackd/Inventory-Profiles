@@ -1,6 +1,5 @@
 import org.anti_ad.mc.configureCommon
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.modrinth.minotaur.TaskModrinthUpload
 import net.fabricmc.loom.LoomGradleExtension
 import net.fabricmc.loom.task.RemapJarTask
 import proguard.gradle.ProGuardTask
@@ -11,8 +10,6 @@ plugins {
    // kotlin("jvm") version "1.4.32"
     `maven-publish`
     antlr
-
-    id("com.modrinth.minotaur").version("1.1.0")
 }
 
 configureCommon()

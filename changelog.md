@@ -1,4 +1,4 @@
-# Inventory Profiles Next v0.7.4
+# Inventory Profiles Next v0.8.0
 
 ## What's new
 

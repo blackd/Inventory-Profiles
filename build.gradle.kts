@@ -1,8 +1,7 @@
 import org.anti_ad.mc.getGitHash
 import java.io.ByteArrayOutputStream
+import com.modrinth.minotaur.TaskModrinthUpload;
 
-val versionObj = Version("0", "8", "0",
-                         preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 buildscript {
     dependencies {
@@ -10,21 +9,32 @@ buildscript {
     }
 }
 
+val versionObj = Version("0", "8", "0",
+                             preRelease = (System.getenv("IPNEXT_RELEASE") == null))
+
+
 repositories {
+    google()
+    gradlePluginPortal()
+    mavenCentral()
     maven(url = "https://maven.fabricmc.net") {
         name = "Fabric"
     }
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
     maven("https://kotlin.bintray.com/kotlinx")
+    maven("https://maven.terraformersmc.com/releases")
+    maven ("https://plugins.gradle.org/m2/")
 
-    google()
-    gradlePluginPortal()
-    mavenCentral()
+
 }
 
 plugins {
+    `maven-publish`
     kotlin("jvm") version "1.4.32"
     idea
+    id ("com.modrinth.minotaur") version "1.2.1"
+    id("com.matthewprenger.cursegradle") version "1.4.0"
+
 }
 
 // This is here but it looks like it's not inherited by the child projects
@@ -133,6 +143,45 @@ afterEvaluate {
     }
 }
 
+
+/*
+curseforge {
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null) {
+        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+    }
+
+    val curseProjectId = "495267"
+
+
+    subprojects.filter {
+        val isFabric = it.name.startsWith("fabric")
+        val isForge = it.name.startsWith("forge")
+        isFabric || isForge
+    }.forEach {
+        val isForge = !it.name.startsWith("fabric")
+        val minecraftVersion = it.name.replace(if (isForge) "forge-" else "fabric-", "")
+        val loader = if (isForge) "forge" else "fabric"
+        project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+            id = curseProjectId
+            changelogType = "markdown"
+            changelog = file("changelog.md")
+            releaseType = "release"
+            this.addGameVersion(minecraftVersion)
+            mainArtifact(file("build/libs/InventoryProfilesNext-$loader-$minecraftVersion-$versionObj.jar"), closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+                displayName = "Inventory Profiles Next-$loader-$minecraftVersion-$versionObj"
+            })
+        })
+    }
+
+
+    options(closureOf<com.matthewprenger.cursegradle.Options> {
+        debug = false
+        javaIntegration = false
+        forgeGradleIntegration = false
+    })
+}
+
+ */
 
 /**
  * Version class that does version stuff.
