@@ -47,6 +47,8 @@ object ModSettings : ConfigDeclaration {
     val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(1,
                                                               1,
                                                               6)
+    val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW     /**/ by bool(false)
+    val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY      /**/ by bool(false)
 
         .CATEGORY("$category.auto_refill")
     val ENABLE_AUTO_REFILL                        /**/ by bool(true)

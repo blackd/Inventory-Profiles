@@ -9,6 +9,7 @@ import org.anti_ad.mc.common.forge.CommonForgeEventHandler;
 import org.anti_ad.mc.ipnext.event.ClientInitHandler;
 import org.anti_ad.mc.ipnext.forge.ForgeEventHandler;
 import org.anti_ad.mc.ipnext.gui.ConfigScreen;
+import org.spongepowered.asm.launch.MixinBootstrap;
 
 /**
  * InventoryProfilesNext
@@ -17,7 +18,7 @@ import org.anti_ad.mc.ipnext.gui.ConfigScreen;
 public class ForgeModEntry {
 
     public ForgeModEntry() {
-
+        MixinBootstrap.init();
         MinecraftForge.EVENT_BUS.register(new CommonForgeEventHandler());
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());

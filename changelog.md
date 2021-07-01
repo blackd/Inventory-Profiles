@@ -2,8 +2,10 @@
 
 ## What's new
 
-- Fabric API is now again hard requirement.
-  Before the mod didn't work if Mod Menu was not installed.
+- Shift+Click Ctrl+Q can now be disabled and enabled (default) for locked slots. This also applies for swipe variant of the actions.
+- Items will not be picked into empty locked slots
+
+Both of above can be changed in the configuration screen.
 
 ## Known issues
 - When UI scaling is more than 2 or in case of tiny game windows the config screen might not show the anchor header correctly.

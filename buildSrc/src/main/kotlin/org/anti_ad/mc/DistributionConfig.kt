@@ -23,6 +23,8 @@ fun Project.configureDistribution(is18: Boolean) {
         relocate("org.apache.commons", "org.anti_ad.mc.common.embedded.org.apache.commons")
         relocate("kotlin", "org.anti_ad.mc.common.embedded.kotlin")
 
+        //include("assets/**")
+
         exclude("**/*.kotlin_metadata")
         exclude("**/*.kotlin_module")
         exclude("**/*.kotlin_builtins")
@@ -33,6 +35,13 @@ fun Project.configureDistribution(is18: Boolean) {
         exclude("org/glassfish/**")
         exclude("org/intellij/**")
         exclude("org/jetbrains/**")
+        exclude("org/jline/**")
+        exclude("net/minecraftforge/**")
+        exclude("io/netty/**")
+        //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+        exclude("META-INF/maven/**")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/README")
         minimize()
     }
     convention.getPlugin<BasePluginConvention>().archivesBaseName = project.name

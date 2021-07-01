@@ -3,20 +3,44 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
+import org.spongepowered.asm.gradle.plugins.MixinExtension
+
 import proguard.gradle.ProGuardTask
 
 buildscript {
     repositories {
         maven { url = uri("https://maven.minecraftforge.net/maven") }
-        jcenter()
         mavenCentral()
+        maven { url = uri("file:///home/plamen/my_develop/MixinGradle/repo") }
+        maven { url = uri("file:///home/plamen/my_develop/MixinG/repo") }
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
-        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.0.+")
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
+        classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT")
     }
 }
+
+
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
+}
+
+
 apply(plugin = "net.minecraftforge.gradle")
+apply(plugin = "org.spongepowered.mixin")
+
+/*
+configure<MixinExtension> {
+    add(sourceSets.main.get(), "inventoryprofilexnext-refmap.json")
+    //this.defaultObfuscationEnv = "notch"
+    //this.disableOverwriteChecker()
+    this.disableEclipseAddon()
+    //this. defaultObfuscationEnv = "notch"
+}
+
+ */
 
 plugins {
     java
@@ -42,11 +66,12 @@ dependencies {
     "implementation"("org.apache.commons:commons-lang3:3.8.1")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common")
-    if (false) {
+    if (true) {
         "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
         "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     }
     "minecraft"("net.minecraftforge:forge:$mcVersion-$forgeVersion")
+    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 if ("true" == System.getProperty("idea.sync.active")) {
@@ -57,6 +82,25 @@ if ("true" == System.getProperty("idea.sync.active")) {
     }
 }
 
+
+
+
+tasks.register<Copy>("copyMixinMappings") {
+    val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
+    val outName = layout.buildDirectory.file("resources/main/")
+    from (inName)
+    into (outName)
+}
+
+
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "MixinConfigs" to "mixins.ipnext.json"
+        ))
+    }
+    dependsOn("copyMixinMappings")
+}
 
 tasks.register<Copy>("copyProGuardJar") {
     var shadow = tasks.getByName<ShadowJar>("shadowJar");
@@ -134,7 +178,7 @@ fun dummyJar(thisJarNam: String, fromJarNam: String) = tasks.creating(Jar::class
 tasks.named<ShadowJar>("shadowJar") {
     archiveBaseName.set(tasks.getByName<Jar>("jar").archiveBaseName.orNull) // Pain. Agony, even.
     archiveClassifier.set("") // Suffering, if you will.
-    finalizedBy(tasks["customJar"])
+    //finalizedBy(tasks["customJar"])
 }
 
 
@@ -156,20 +200,74 @@ configure<UserDevExtension> {
             "channel" to "snapshot",
             "version" to "20210309-1.16.5"
     ))
+    var rcltName = ""
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(
                     //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
-                    "forge.logging.console.level" to "debug"
+                    "forge.logging.console.level" to "debug",
+                    "mixin.env.remapRefMap" to "true",
+                    "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
+                    "mixin.debug.verbose" to "true",
+                    "mixin.debug.export" to "true",
+                    "mixin.debug.dumpTargetOnFailure" to "true"
             ))
+            arg("-mixin.config=mixins.ipnext.json")
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets["main"])
+
+            if (sourceSets.findByName("assetsFixtemp") == null) {
+                sourceSets.create("assetsFixtemp") {
+                    project(":common").layout.buildDirectory.dir("resources/main")
+                }
+            }
+            this.sources.add(sourceSets["assetsFixtemp"])
+
             jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
             jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            //taskName = "plamenRunClient"
+            this.forceExit = false
         }
-        create("client", runConfig)
+        val action = create("client", runConfig)
+        rcltName = action.taskName
         //create("server", runConfig)
+        //create("data", runConfig)
     }
+    //tasks[rcltName].dependsOn("injectCommonResources")
+    //tasks[rcltName].finalizedBy("injectCommonResources")
+}
+
+
+tasks.register<Copy>("injectCommonResources") {
+    tasks["prepareRuns"].dependsOn("injectCommonResources")
+    from(project(":common").layout.buildDirectory.dir("resources/main"))
+    include("assets/**")
+    into(project.layout.buildDirectory.dir("resources/main"))
+}
+
+tasks.register<Delete>("removeCommonResources") {
+    tasks["prepareRuns"].finalizedBy("removeCommonResources")
+    doLast {
+        delete(project.layout.buildDirectory.dir("resources/main/assets"))
+    }
+    mustRunAfter("runClient")
+}
+
+gradle.buildFinished {
+}
+
+afterEvaluate {
+
+
+
+
+
+
+    tasks.forEach {
+        logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
+    }
+
+
 }
 
 tasks.register<Jar>("deobfJar") {

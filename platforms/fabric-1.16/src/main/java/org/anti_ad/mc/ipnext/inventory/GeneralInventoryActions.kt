@@ -68,8 +68,7 @@ object GeneralInventoryActions {
         if (types.contains(CREATIVE)) return // no do creative menu
         if (!types.containsAny(setOf(SORTABLE_STORAGE,
                                      NO_SORTING_STORAGE,
-                                     CRAFTING))
-        ) return
+                                     CRAFTING))) return
         val forceToPlayer = ModSettings.MOVE_ALL_AT_CURSOR.booleanValue &&
                 vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
         if (forceToPlayer) {

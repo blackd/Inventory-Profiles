@@ -45,6 +45,25 @@ minecraft{
 
 }
 
+afterEvaluate {
+
+    tasks.register<Copy>("injectCommonResources") {
+        dependsOn(":common:processResources")
+        from(project(":common").layout.buildDirectory.dir("resources/main"))
+        include("assets/**")
+        into(project.layout.buildDirectory.dir("resources/main"))
+    }
+
+    tasks.register<Delete>("removeCommonResources") {
+        this.delete(project.layout.buildDirectory.dir("resources/main/assets"))
+    }
+
+    tasks.getByName("runClient") {
+        dependsOn("injectCommonResources")
+        finalizedBy("removeCommonResources")
+    }
+}
+
 tasks.named<AntlrTask>("generateGrammarSource") {
     enabled = false
 }

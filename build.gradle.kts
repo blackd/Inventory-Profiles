@@ -104,8 +104,12 @@ tasks.register<Copy>("copyPlatformJars") {
 
 tasks.named<DefaultTask>("build") {
 
-    listOf(":common", ":platforms:fabric-1.17", ":platforms:fabric-1.17", ":platforms:forge-1.16").forEach {
-        dependsOn(project(it).tasks["build"])
+    subprojects.filter {
+        val isFabric = it.name.startsWith("fabric")
+        val isForge = it.name.startsWith("forge")
+        isFabric || isForge
+    }.forEach {
+        dependsOn(it.tasks["build"])
     }
     dependsOn(tasks["copyPlatformJars"])
     //finalizedBy(tasks["copyPlatformJars"])
@@ -113,8 +117,12 @@ tasks.named<DefaultTask>("build") {
 
 afterEvaluate {
     tasks.named<DefaultTask>("build") {
-        listOf(":common", ":platforms:fabric-1.17", ":platforms:fabric-1.17", ":platforms:forge-1.16").forEach {
-            dependsOn(project(it).tasks["build"])
+        subprojects.filter {
+            val isFabric = it.name.startsWith("fabric")
+            val isForge = it.name.startsWith("forge")
+            isFabric || isForge
+        }.forEach {
+            dependsOn(it.tasks["build"])
         }
         subprojects.forEach {
             it.getTasksByName("build", false).forEach { t ->

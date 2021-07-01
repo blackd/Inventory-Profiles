@@ -50,6 +50,8 @@ object LockSlotsHandler {
         if (!newValue) LockSlotsLoader.save() // save on close
     }
 
+    fun isSlotLocked(i: Int) = lockedInvSlots.contains(i)
+
     // ============
     // render
     // ============
@@ -191,4 +193,58 @@ object LockSlotsHandler {
         }
         return false
     }
+
+    private var qMoveSlotId: Int = -1
+    private var qMoveButton: Int = -1
+    private val qMoveSlotMapping = mapOf(36 to 0,
+                                         37 to 1,
+                                         38 to 2,
+                                         39 to 3,
+                                         40 to 4,
+                                         41 to 5,
+                                         42 to 6,
+                                         43 to 7,
+                                         44 to 8,
+                                         27 to 27,
+                                         28 to 28,
+                                         29 to 29,
+                                         30 to 30,
+                                         31 to 31,
+                                         32 to 32,
+                                         33 to 33,
+                                         34 to 34,
+                                         35 to 35,
+                                         18 to 18,
+                                         19 to 19,
+                                         20 to 20,
+                                         21 to 21,
+                                         22 to 22,
+                                         23 to 23,
+                                         24 to 24,
+                                         25 to 25,
+                                         26 to 26,
+                                         9 to 9,
+                                         10 to 10,
+                                         10 to 10,
+                                         11 to 11,
+                                         12 to 12,
+                                         13 to 13,
+                                         14 to 14,
+                                         15 to 15,
+                                         16 to 16,
+                                         17 to 17,
+                                         8 to 36,
+                                         45 to 40,
+                                         7 to 37,
+                                         6 to 38,
+                                         5 to 39)
+
+    fun setCurrentQuickMoveAction(slot: Int,
+                                  button: Int) {
+        qMoveButton = button
+        qMoveSlotId = slot
+
+    }
+
+    fun isQMoveActionAllowed() = qMoveSlotId == -1 || !lockedInvSlots.contains(qMoveSlotMapping[qMoveSlotId])
 }
