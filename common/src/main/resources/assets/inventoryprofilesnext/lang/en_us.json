@@ -210,7 +210,8 @@
     "inventoryprofiles.config.description.sort_inventory":              "The key to sort the inventory",
     "inventoryprofiles.config.description.sort_inventory_in_columns":   "The key to sort the inventory in columns",
     "inventoryprofiles.config.description.sort_inventory_in_rows":      "The key to sort the inventory in rows",
-    "inventoryprofiles.config.description.move_all_items":              "The key to move all the itmes that already existed in the container",
+    "inventoryprofiles.config.description.move_all_items":              "The key to move all the items that already existed in the container",
+    "inventoryprofiles.config.description.throw_all_items":             "The key to throw all items for either player inventory or the opened container.Generally useful for mass crafting.\nAll modifier keys for Move All Items apply here too." ,
     "inventoryprofiles.config.description.dump_item_nbt_to_chat":       "Prints the item string with nbt to the chat",
 
 
