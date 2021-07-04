@@ -86,7 +86,7 @@
     "inventoryprofiles.config.description.show_locked_slots_background":       "Draw locked slots background\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png)",
     "inventoryprofiles.config.description.show_locked_slots_foreground":       "Draw locked slots foreground\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png)",
     "inventoryprofiles.config.description.locked_slots_foreground_style":      "Select foreground style from preset\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png)",
-    "inventoryprofiles.config.description.locked_slots_disable_quick_move_throw":     "Locked slots will be immune to:\n - Shift+click\n - Ctrl+Q\n - Swipe Shift+click\nSwipe Ctrl+Q",
+    "inventoryprofiles.config.description.locked_slots_disable_quick_move_throw":     "Locked slots will be immune to:\n - Shift+click\n - Ctrl+Q\n - Swipe Shift+click\nSwipe Ctrl+Q\n\nDOES NOT WORK ON SERVERS. AND PROBABLY NEVER WILL",
     "inventoryprofiles.config.description.locked_slots_allow_pickup_into_empty":      "Should it be possible to pick items from the ground into EMPTY locked slots.\nStackable items will still be picked into locked sots of the same item that have room.",
 
     "inventoryprofiles.config.name.enable_auto_refill":                 "Enable Auto Refill",
@@ -203,6 +203,7 @@
     "inventoryprofiles.config.name.sort_inventory_in_columns":      "Sort Inventory In Columns",
     "inventoryprofiles.config.name.sort_inventory_in_rows":         "Sort Inventory In Rows",
     "inventoryprofiles.config.name.move_all_items":                 "Move All Items",
+    "inventoryprofiles.config.name.throw_all_items":                 "Throw All Items",
     "inventoryprofiles.config.name.dump_item_nbt_to_chat":          "Dump Item Nbt To Chat",
 
     "inventoryprofiles.config.description.open_config_menu":            "The key open the in-game config GUI",

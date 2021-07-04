@@ -188,8 +188,6 @@ object LockSlotsHandler {
         return false
     }
 
-    private var qMoveSlotId: Int = -1
-    private var qMoveButton: Int = -1
     private val qMoveSlotMapping = mapOf(36 to 0,
                                          37 to 1,
                                          38 to 2,
@@ -233,12 +231,7 @@ object LockSlotsHandler {
                                          6 to 38,
                                          5 to 39)
 
-    fun setCurrentQuickMoveAction(slot: Int,
-                                  button: Int) {
-        qMoveButton = button
-        qMoveSlotId = slot
-
+    fun isQMoveActionAllowed(slot: Int, button: Int): Boolean {
+        return slot == -1 || !lockedInvSlots.contains(qMoveSlotMapping[slot])
     }
-
-    fun isQMoveActionAllowed() = qMoveSlotId == -1 || !lockedInvSlots.contains(qMoveSlotMapping[qMoveSlotId])
 }

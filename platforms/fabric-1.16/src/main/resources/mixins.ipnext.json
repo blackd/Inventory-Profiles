@@ -4,8 +4,7 @@
   "package": "org.anti_ad.mc.ipnext.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinScreenHandler",
-    "MixinSlot"
+
   ],
   "client": [
     "IMixinContainerScreen",
@@ -19,7 +18,8 @@
     "MixinGuiCloseC2SPacket",
     "MixinMinecraftClient",
     "MixinPlayerInventory",
-    "MixinScreen"
+    "MixinScreen",
+    "MixinPlayerInteractionManagerForLockedSlotsMovePrevention"
   ],
   "injectors": {
     "defaultRequire": 1

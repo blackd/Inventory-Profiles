@@ -48,11 +48,10 @@ object GeneralInventoryActions {
         }
     }
 
-    fun doSort(
-        sortOrder: ConfigEnum<SortingMethodIndividual>,
-        customRule: ConfigString,
-        postAction: ConfigEnum<PostAction>
-    ) {
+    fun doSort(sortOrder: ConfigEnum<SortingMethodIndividual>,
+               customRule: ConfigString,
+               postAction: ConfigEnum<PostAction>) {
+
         val screen = Vanilla.screen()
         if (screen != null && screen !is ContainerScreen<*>) return
         TellPlayer.listenLog(Log.LogLevel.WARN) {
@@ -76,6 +75,45 @@ object GeneralInventoryActions {
             doMoveMatch(true) // container to player // non player and player by PlayerInventory
         } else {
             doMoveMatch(false) // player to container
+        }
+    }
+
+    // THROWS_ALL_AT_CURSOR off
+    fun doThrowMatch() {
+        val vanillaContainer = Vanilla.container()
+        val types = ContainerTypes.getTypes(vanillaContainer)
+        if (types.contains(CREATIVE)) {
+            return
+        } // no do creative menu
+        if (!types.containsAny(setOf(SORTABLE_STORAGE,
+                                     NO_SORTING_STORAGE,
+                                     CRAFTING))) {
+            return
+        }
+        val isContainer = ModSettings.MOVE_ALL_AT_CURSOR.booleanValue &&
+                vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
+
+        val includeHotbar = // xor
+            ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
+        val moveAll = // xor
+            ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
+        with(AreaTypes) {
+            val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
+                    lockedSlots
+            val container = itemStorage
+            val slots = vanillaContainer.`(slots)`
+            val source = (if (isContainer) container else player).getItemArea(vanillaContainer, slots)
+            val actUponSlots = source.slotIndices.filter {
+                !slots[it].stack.isEmpty
+            }.toList()
+            if (actUponSlots.isNotEmpty()) {
+                val interval: Int =
+                    if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue)
+                        ModSettings.INTERVAL_BETWEEN_CLICKS_MS.integerValue
+                    else 0
+                ContainerClicker.executeQClicks(actUponSlots, interval)
+            }
+
         }
     }
 
@@ -186,5 +224,4 @@ private object InnerActions {
     }
 
 }
-
 

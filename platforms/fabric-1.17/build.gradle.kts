@@ -34,8 +34,8 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:2.0.2")
 }
 
-minecraft{
-
+minecraft {
+    runConfigs["client"].programArg("--username=wxfabric_dev")
 }
 
 

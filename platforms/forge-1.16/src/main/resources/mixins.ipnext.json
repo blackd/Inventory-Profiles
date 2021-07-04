@@ -4,10 +4,10 @@
   "package": "org.anti_ad.mc.ipnext.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinScreenHandler",
-    "MixinSlot"
+
   ],
   "client": [
+    "MixinScreenHandler",
     "MixinPlayerInventory"
   ],
   "injectors": {

@@ -93,8 +93,58 @@ object ContainerClicker {
     }
 
     fun sendContentUpdates() {
-        Vanilla.playerContainer()
-            .detectAndSendChanges() // broadcastChanges() //detectAndSendChanges() // see creative forge detectAndSendChanges() = sendContentUpdates()
+        Vanilla.playerContainer().detectAndSendChanges() // broadcastChanges() //detectAndSendChanges() // see creative forge detectAndSendChanges() = sendContentUpdates()
+    }
+
+    fun executeQClicks(clicks: List<Int>,
+                       interval: Int) {
+        if (interval == 0) {
+            if (Vanilla.container() is CreativeContainer) { // bulk content updates
+                doSendContentUpdates = false
+                clicks.forEach {
+                    qClick(it)
+                }
+                sendContentUpdates()
+                doSendContentUpdates = true
+            } else {
+                clicks.forEach {
+                    qClick(it)
+                }
+            }
+        } else {
+            val currentContainer = Vanilla.container()
+            var currentScreen = Vanilla.screen()
+            val iterator = clicks.iterator()
+            val highlight = Highlight(-1)
+            highlights.add(highlight)
+            timer(period = interval.toLong()) {
+                if (Vanilla.container() != currentContainer) {
+                    cancel()
+                    highlights.remove(highlight)
+                    Log.debug("Click cancelled due to container changed")
+                    return@timer
+                }
+                if (ModSettings.STOP_AT_SCREEN_CLOSE.booleanValue && Vanilla.screen() != currentScreen) {
+                    if (currentScreen == null) { // open screen wont affect, only close screen affect
+                        currentScreen = Vanilla.screen()
+                    } else {
+                        cancel()
+                        highlights.remove(highlight)
+                        Log.debug("Click cancelled due to screen closed")
+                        return@timer
+                    }
+                }
+                if (iterator.hasNext()) {
+                    val slotId = iterator.next()
+                    highlight.id = slotId
+                    qClick(slotId)
+                } else {
+                    cancel()
+                    highlights.remove(highlight)
+                    return@timer
+                }
+            }
+        }
     }
 
     fun executeClicks(clicks: List<Pair<Int, Int>>,

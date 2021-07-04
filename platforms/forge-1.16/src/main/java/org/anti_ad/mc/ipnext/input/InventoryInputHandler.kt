@@ -20,6 +20,7 @@ object InventoryInputHandler : IInputHandler {
                     || Hotkeys.SORT_INVENTORY_IN_COLUMNS /**/ run ::doSortInColumns
                     || Hotkeys.SORT_INVENTORY_IN_ROWS    /**/ run ::doSortInRows
                     || Hotkeys.MOVE_ALL_ITEMS            /**/ run ::doMoveMatch
+                    || Hotkeys.THROW_ALL_ITEMS           /**/ run ::doThrowMatch
                     || Hotkeys.DUMP_ITEM_NBT_TO_CHAT     /**/ run ::dumpItemNbt
         }
     }

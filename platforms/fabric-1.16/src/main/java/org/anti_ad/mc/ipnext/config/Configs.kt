@@ -130,6 +130,8 @@ object Hotkeys : ConfigDeclaration {
                                                                  KeybindSettings.GUI_DEFAULT)
     val MOVE_ALL_ITEMS                            /**/ by hotkey("",
                                                                  KeybindSettings.GUI_EXTRA)
+    val THROW_ALL_ITEMS                           /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_EXTRA)
 
         .CATEGORY("$category.misc")
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",

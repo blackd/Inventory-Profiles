@@ -138,11 +138,9 @@ private fun List<Slot>.toPointList(): List<Point> {
 }
 
 class ItemArea(private val fromSlotLocations: List<Point>) { // vanilla things
-    constructor(
-        fromSlotLocations: List<Point>,
-        slotIndices: List<Int>,
-        orderSensitive: Boolean = false
-    ) : this(fromSlotLocations) {
+    constructor(fromSlotLocations: List<Point>,
+                slotIndices: List<Int>,
+                orderSensitive: Boolean = false) : this(fromSlotLocations) {
         this.orderSensitive = orderSensitive
         this.slotIndices = slotIndices
         checkRectangular()
