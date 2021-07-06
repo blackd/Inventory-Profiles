@@ -329,10 +329,10 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
+        val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
         val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
+            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
         })
 
         afterEvaluate {
@@ -365,7 +365,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     // On fabric, use 'remapJar' instead of 'jar'
     this.changelog
 
-    val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
+    val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
     val remappedJarFile = forgeReobfJar.archiveFile
     uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     supported_minecraft_versions.forEach { ver ->

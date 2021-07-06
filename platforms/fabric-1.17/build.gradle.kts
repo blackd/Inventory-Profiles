@@ -143,7 +143,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+        val fabricRemapJar = tasks.named<Jar>("remapShadedJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
@@ -178,7 +178,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     versionNumber = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
     // On fabric, use 'remapJar' instead of 'jar'
     this.changelog
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+    val fabricRemapJar = tasks.named<Jar>("remapShadedJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     supported_minecraft_versions.forEach { ver ->

@@ -108,7 +108,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
     configuration("../../proguard.txt")
 
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+    val fabricRemapJar = tasks.named<Jar>("remapShadedJar").get()
     val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath
 
     injars(inName)
@@ -140,7 +140,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+        val fabricRemapJar = tasks.named<Jar>("remapShadedJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
