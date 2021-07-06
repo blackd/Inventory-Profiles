@@ -25,7 +25,6 @@ fun Project.configureDependencies() {
         maven { url = uri("https://repo.codemc.org/repository/maven-public") }
         maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
         maven { url = uri("https://maven.fabricmc.net/") }
-        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
         maven { url = uri("https://maven.terraformersmc.com/releases") }
         gradlePluginPortal()
       //  jcenter()
