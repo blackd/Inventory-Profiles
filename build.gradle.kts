@@ -1,6 +1,6 @@
 import org.anti_ad.mc.getGitHash
 import java.io.ByteArrayOutputStream
-import com.modrinth.minotaur.TaskModrinthUpload;
+
 
 
 buildscript {
@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-val versionObj = Version("0", "8", "1",
+val versionObj = Version("0", "8", "2",
                              preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -32,9 +32,6 @@ plugins {
     `maven-publish`
     kotlin("jvm") version "1.4.32"
     idea
-    id ("com.modrinth.minotaur") version "1.2.1"
-    id("com.matthewprenger.cursegradle") version "1.4.0"
-
 }
 
 // This is here but it looks like it's not inherited by the child projects
@@ -142,46 +139,6 @@ afterEvaluate {
         dependsOn(tasks["copyPlatformJars"])
     }
 }
-
-
-/*
-curseforge {
-    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null) {
-        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
-    }
-
-    val curseProjectId = "495267"
-
-
-    subprojects.filter {
-        val isFabric = it.name.startsWith("fabric")
-        val isForge = it.name.startsWith("forge")
-        isFabric || isForge
-    }.forEach {
-        val isForge = !it.name.startsWith("fabric")
-        val minecraftVersion = it.name.replace(if (isForge) "forge-" else "fabric-", "")
-        val loader = if (isForge) "forge" else "fabric"
-        project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
-            id = curseProjectId
-            changelogType = "markdown"
-            changelog = file("changelog.md")
-            releaseType = "release"
-            this.addGameVersion(minecraftVersion)
-            mainArtifact(file("build/libs/InventoryProfilesNext-$loader-$minecraftVersion-$versionObj.jar"), closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-                displayName = "Inventory Profiles Next-$loader-$minecraftVersion-$versionObj"
-            })
-        })
-    }
-
-
-    options(closureOf<com.matthewprenger.cursegradle.Options> {
-        debug = false
-        javaIntegration = false
-        forgeGradleIntegration = false
-    })
-}
-
- */
 
 /**
  * Version class that does version stuff.

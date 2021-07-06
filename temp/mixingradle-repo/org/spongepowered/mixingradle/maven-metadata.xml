@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.spongepowered</groupId>
+  <artifactId>mixingradle</artifactId>
+  <versioning>
+    <versions>
+      <version>0.7-SNAPSHOT</version>
+      <version>0.8-SNAPSHOT</version>
+      <version>0.8.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20210630062845</lastUpdated>
+  </versioning>
+</metadata>

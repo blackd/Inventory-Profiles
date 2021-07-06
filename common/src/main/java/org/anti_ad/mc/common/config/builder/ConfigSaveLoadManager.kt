@@ -26,7 +26,7 @@ class ConfigSaveLoadManager(private val config: IConfigElement,
         }
     }
 
-    override fun load() {
+    override fun load(clientWorld: Any?) {
         try {
             if (!configFile.exists()) return
             configFile.readToString().parseAsJson()

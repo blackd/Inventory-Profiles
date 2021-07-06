@@ -4,15 +4,36 @@ import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
 import org.spongepowered.asm.gradle.plugins.MixinExtension
-
 import proguard.gradle.ProGuardTask
+
+
+import com.modrinth.minotaur.TaskModrinthUpload;
+
+val supported_minecraft_versions = listOf("1.16.5")
+val mod_loader = "forge"
+val mod_version = project.version
+val minecraft_version = "1.16.5"
+
+logger.lifecycle("""
+    ***************************************************
+    Processing "${project.path}"
+    supported versions: $supported_minecraft_versions
+    loader: $mod_loader
+    mod version: $mod_version
+    building agains MC: $minecraft_version
+    ***************************************************
+    """.trimIndent())
 
 buildscript {
     repositories {
         maven { url = uri("https://maven.minecraftforge.net/maven") }
         mavenCentral()
 
-        maven { url = uri("file:///home/plamen/my_develop/MixinGradle/repo") }
+        //this is where out custom version of org.spongepowered.mixingradle is
+        //I hope I'll be able to remove it soon
+        maven {
+            setUrl("../../temp/mixingradle-repo")
+        }
 
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
@@ -32,19 +53,12 @@ configurations.all {
 apply(plugin = "net.minecraftforge.gradle")
 apply(plugin = "org.spongepowered.mixin")
 
-/*
-configure<MixinExtension> {
-    add(sourceSets.main.get(), "inventoryprofilexnext-refmap.json")
-    //this.defaultObfuscationEnv = "notch"
-    //this.disableOverwriteChecker()
-    this.disableEclipseAddon()
-    //this. defaultObfuscationEnv = "notch"
-}
 
- */
 
 plugins {
     java
+    id("com.matthewprenger.cursegradle") version "1.4.0"
+    id("com.modrinth.minotaur") version "1.2.1"
 }
 
 configureCommon()
@@ -297,3 +311,68 @@ javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
 }
 
 
+
+
+configure<com.matthewprenger.cursegradle.CurseExtension> {
+
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null) {
+        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+    }
+
+    project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+        id = "495267"
+        changelogType = "markdown"
+        changelog = file("changelog.md")
+        releaseType = "beta"
+        supported_minecraft_versions.forEach {
+            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+                this.addGameVersion(it)
+            }
+        }
+        val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
+        val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
+        mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+            displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
+        })
+
+        afterEvaluate {
+            uploadTask.dependsOn("build")
+        }
+
+    })
+    options(closureOf<com.matthewprenger.cursegradle.Options> {
+        debug = false
+        javaIntegration = false
+        forgeGradleIntegration = mod_loader == "forge"
+    })
+}
+
+// ============
+// modrith
+// ============
+
+
+val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
+
+    onlyIf {
+        System.getenv("MODRINTH_TOKEN") != null
+    }
+
+    token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
+
+    projectId = "O7RBXm3n"
+    versionNumber = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
+    // On fabric, use 'remapJar' instead of 'jar'
+    this.changelog
+
+    val forgeReobfJar = tasks.named<Jar>("deobfJar").get()
+    val remappedJarFile = forgeReobfJar.archiveFile
+    uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    supported_minecraft_versions.forEach { ver ->
+        addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
+    }
+    versionName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
+    changelog = project.rootDir.resolve("changelog.md").readText()
+    addLoader(mod_loader)
+
+}

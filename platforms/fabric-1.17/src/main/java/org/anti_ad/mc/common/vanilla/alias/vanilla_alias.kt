@@ -12,6 +12,8 @@ import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
+import net.minecraft.client.world.ClientWorld
+
 typealias MinecraftClient = MinecraftClient
 typealias IntegratedServer = IntegratedServer
 
@@ -25,6 +27,8 @@ typealias DefaultedRegistry<T> = DefaultedRegistry<T>
 typealias PositionedSoundInstance = PositionedSoundInstance
 typealias SoundEvents = SoundEvents
 typealias Util = Util
+typealias ClientWorld = ClientWorld
+
 
 private fun translate(string: String,
               vararg objects: Any?): String = I18n.translate(string,

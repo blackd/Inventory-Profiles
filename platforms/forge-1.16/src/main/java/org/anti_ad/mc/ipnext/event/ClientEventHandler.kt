@@ -1,10 +1,12 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.input.GlobalInputHandler
+import org.anti_ad.mc.common.vanilla.alias.ClientWorld
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
+import org.anti_ad.mc.ipnext.parser.CustomDataFileLoader
 
 object ClientEventHandler {
     private val inGame
@@ -23,8 +25,8 @@ object ClientEventHandler {
 
     private fun onTickInGame() {
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue
-            && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue
-        ) {
+            && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
+
             ContinuousCraftingHandler.onTickInGame()
         }
         if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
@@ -41,6 +43,7 @@ object ClientEventHandler {
         if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
             AutoRefillHandler.onJoinWorld()
         }
+        CustomDataFileLoader.reload()
     }
 
     // ============

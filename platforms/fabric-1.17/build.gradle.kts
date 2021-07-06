@@ -4,12 +4,30 @@ import net.fabricmc.loom.LoomGradleExtension
 import net.fabricmc.loom.task.RemapJarTask
 import proguard.gradle.ProGuardTask
 
+import com.modrinth.minotaur.TaskModrinthUpload;
+
+val supported_minecraft_versions = listOf("1.17")
+val mod_loader = "fabric"
+val mod_version = project.version
+val minecraft_version = "1.17"
+
+logger.lifecycle("""
+    ***************************************************
+    Processing "${project.path}"
+    supported versions: $supported_minecraft_versions
+    loader: $mod_loader
+    mod version: $mod_version
+    building agains MC: $minecraft_version
+    ***************************************************
+    """.trimIndent())
+
 plugins {
     `java-library`
     id("fabric-loom").version("0.8.9")
-   // kotlin("jvm") version "1.4.32"
     `maven-publish`
     antlr
+    id("com.matthewprenger.cursegradle") version "1.4.0"
+    id("com.modrinth.minotaur") version "1.2.1"
 }
 
 configureCommon()
@@ -101,3 +119,73 @@ val proguard by tasks.registering(ProGuardTask::class) {
     dependsOn(tasks["shadowJar"])
 }
 
+
+
+// ============
+// curseforge
+// ============
+
+
+
+configure<com.matthewprenger.cursegradle.CurseExtension> {
+
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
+        apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
+    }
+
+    project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+        id = "495267"
+        changelogType = "markdown"
+        changelog = file("changelog.md")
+        releaseType = "release"
+        supported_minecraft_versions.forEach {
+            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+                this.addGameVersion(it)
+            }
+        }
+        val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+        val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
+        mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
+            displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
+        })
+
+        afterEvaluate {
+            uploadTask.dependsOn("build")
+        }
+
+    })
+    options(closureOf<com.matthewprenger.cursegradle.Options> {
+        debug = false
+        javaIntegration = false
+        forgeGradleIntegration = mod_loader == "forge"
+    })
+}
+
+// ============
+// modrith
+// ============
+
+
+val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
+
+    onlyIf {
+        System.getenv("MODRINTH_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null
+    }
+
+    token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
+
+    projectId = "O7RBXm3n"
+    versionNumber = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
+    // On fabric, use 'remapJar' instead of 'jar'
+    this.changelog
+    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+    val remappedJarFile = fabricRemapJar.archiveFile
+    uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    supported_minecraft_versions.forEach { ver ->
+        addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
+    }
+    versionName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
+    changelog = project.rootDir.resolve("changelog.md").readText()
+    addLoader(mod_loader)
+
+}

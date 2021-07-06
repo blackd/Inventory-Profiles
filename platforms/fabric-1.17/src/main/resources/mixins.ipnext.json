@@ -17,9 +17,10 @@
     "MixinGlStateManager",
     "MixinGuiCloseC2SPacket",
     "MixinMinecraftClient",
+    "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
     "MixinPlayerInventory",
     "MixinScreen",
-    "MixinPlayerInteractionManagerForLockedSlotsMovePrevention"
+    "MixinClientPlayNetworkHandler"
   ],
   "injectors": {
     "defaultRequire": 1

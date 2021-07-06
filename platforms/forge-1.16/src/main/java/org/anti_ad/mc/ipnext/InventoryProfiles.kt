@@ -29,7 +29,7 @@ fun init() {
         InsertWidgetHandler.onClientInit()
 
         SaveLoadManager.load()
-        CustomDataFileLoader.load()
+        //CustomDataFileLoader.load()
 
     }
 
