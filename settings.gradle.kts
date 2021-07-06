@@ -22,8 +22,7 @@ pluginManagement {
         maven(url = "https://maven.fabricmc.net") {
             name = "Fabric"
         }
-        maven("https://dl.bintray.com/kotlin/kotlin-eap")
-
+        mavenCentral()
         google()
         gradlePluginPortal()
     }

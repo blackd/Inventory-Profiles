@@ -20,8 +20,6 @@ repositories {
     maven(url = "https://maven.fabricmc.net") {
         name = "Fabric"
     }
-    maven("https://dl.bintray.com/kotlin/kotlin-eap")
-    maven("https://kotlin.bintray.com/kotlinx")
     maven("https://maven.terraformersmc.com/releases")
     maven ("https://plugins.gradle.org/m2/")
 
