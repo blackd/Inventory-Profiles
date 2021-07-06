@@ -136,7 +136,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
     project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
         id = "495267"
         changelogType = "markdown"
-        changelog = file("changelog.md")
+        changelog = file("../../changelog.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
@@ -186,6 +186,11 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     }
     versionName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
     changelog = project.rootDir.resolve("changelog.md").readText()
+    logger.lifecycle("""
+        ***********************************************************
+        $changelog
+        ***********************************************************
+    """.trimIndent())
     addLoader(mod_loader)
 
 }

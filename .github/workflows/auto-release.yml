@@ -4,7 +4,6 @@ name: "tagged-release"
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the fabric-1.17 branch and tag matchin v*.*.*
   push:
     tags:
       - "v*"
@@ -19,17 +18,35 @@ jobs:
         with:
           java-version: '16'
           distribution: 'adopt'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
         env:
           CURSEFORGE_DEPOY_TOKEN: ${{ secrets.CURSEFORGE_DEPOY_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew build
+          IPNEXT_RELEASE: "yes"
+        run: ./gradlew build curseforge publishModrinth
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/libs/inventoryprofilesnext-fabric-1.17-?.?.?.jar
+          files: build/libs/*.jar
           body_path: changelog.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cleanup Gradle Cache
+        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
