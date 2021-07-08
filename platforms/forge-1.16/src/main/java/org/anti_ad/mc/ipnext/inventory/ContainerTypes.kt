@@ -2,6 +2,7 @@ package org.anti_ad.mc.ipnext.inventory
 
 
 import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
 private val nonStorage = setOf(TEMP_SLOTS)
@@ -50,9 +51,13 @@ object ContainerTypes {
         )
     }
 
-    private val unknownContainerDefaultTypes = setOf(SORTABLE_STORAGE,
-                                                     RECTANGULAR,
-                                                     WIDTH_9)
+    private val unknownContainerDefaultTypes : Set<ContainerType>
+        get() {
+            if (GuiSettings.TREAT_UNKNOWN_SCREENS_AS_CONTAINERS.booleanValue) {
+                return setOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9)
+            }
+            return nonStorage
+        }
 
     fun register(containerClass: Class<*>,
                  types: Set<ContainerType>) {

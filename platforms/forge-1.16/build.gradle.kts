@@ -3,7 +3,6 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
-import org.spongepowered.asm.gradle.plugins.MixinExtension
 import proguard.gradle.ProGuardTask
 
 
@@ -13,6 +12,8 @@ val supported_minecraft_versions = listOf("1.16.5")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.16.5"
+val forge_version = "36.1.32"
+
 
 logger.lifecycle("""
     ***************************************************
@@ -20,7 +21,7 @@ logger.lifecycle("""
     supported versions: $supported_minecraft_versions
     loader: $mod_loader
     mod version: $mod_version
-    building agains MC: $minecraft_version
+    building against MC: $minecraft_version
     ***************************************************
     """.trimIndent())
 
@@ -49,7 +50,7 @@ configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
 }
 
-
+//I have no idea why but these MUST be here and not in plugins {}...
 apply(plugin = "net.minecraftforge.gradle")
 apply(plugin = "org.spongepowered.mixin")
 
@@ -71,8 +72,7 @@ repositories {
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
 }
 
-val forgeVersion = "36.1.32"
-val mcVersion = "1.16.5"
+
 dependencies {
     "shadedApi"(project(":common"))
     "implementation"("org.apache.commons:commons-rng-core:1.3")
@@ -84,7 +84,7 @@ dependencies {
         "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
         "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     }
-    "minecraft"("net.minecraftforge:forge:$mcVersion-$forgeVersion")
+    "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
@@ -315,7 +315,7 @@ javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
 
 configure<com.matthewprenger.cursegradle.CurseExtension> {
 
-    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null) {
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
@@ -355,7 +355,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
 
     onlyIf {
-        System.getenv("MODRINTH_TOKEN") != null
+        System.getenv("MODRINTH_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null
     }
 
     token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
@@ -373,11 +373,6 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     }
     versionName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
     changelog = project.rootDir.resolve("changelog.md").readText()
-    logger.lifecycle("""
-        ***********************************************************
-        $changelog
-        ***********************************************************
-    """.trimIndent())
     addLoader(mod_loader)
 
 }

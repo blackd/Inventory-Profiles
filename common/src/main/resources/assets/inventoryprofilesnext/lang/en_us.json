@@ -135,7 +135,9 @@
     "inventoryprofiles.config.category.inventory": "Inventory",
     "inventoryprofiles.config.category.other": "Other",
 
+
     "inventoryprofiles.config.name.enable_inventory_buttons":           "Enable Inventory Buttons",
+    "inventoryprofiles.config.name.treat_unknown_screens_as_containers":"Add inventory buttons to all in game screens",
     "inventoryprofiles.config.name.show_continuous_crafting_checkbox":  "Show Continuous Crafting Checkbox",
     "inventoryprofiles.config.name.continuous_crafting_checkbox_value": "§bCheckbox Value",
     "inventoryprofiles.config.name.continuous_crafting_saved_value":    "§bSaved Value",
@@ -155,6 +157,7 @@
     "inventoryprofiles.config.name.show_button_tooltips":           "Show Button Tooltips",
 
     "inventoryprofiles.config.description.enable_inventory_buttons":           "Set this to enable or disable all additional widgets for container screen",
+    "inventoryprofiles.config.description.treat_unknown_screens_as_containers":"This is mostly for compatibility with other mods that have introduce screens which are not real inventory.\nSetting this to false will disable the inserting of widgets for all but vanilla screens.",
     "inventoryprofiles.config.description.show_continuous_crafting_checkbox":  "Show continuous crafting checkbox on GUI (crafting table & survival inventory)\nContinuous Crafting: Auto refill the ingredient slots",
     "inventoryprofiles.config.description.continuous_crafting_checkbox_value": "Remember the checkbox value or set it next time of opening screen",
     "inventoryprofiles.config.description.continuous_crafting_saved_value":    "Internal saved value of checkbox",

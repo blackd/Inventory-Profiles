@@ -17,7 +17,7 @@ public abstract class MixinPlayerInventory {
 
     @Shadow @Final public NonNullList<ItemStack> mainInventory;
 
-    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;getEmptySlot()I"),
+    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;getFirstEmptyStack()I"),
             method = "getFirstEmptyStack",
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {

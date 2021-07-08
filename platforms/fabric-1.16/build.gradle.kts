@@ -10,19 +10,21 @@ val mod_loader = "fabric"
 val mod_version = project.version
 val minecraft_version = "1.16.5"
 
+
 logger.lifecycle("""
     ***************************************************
     Processing "${project.path}"
     supported versions: $supported_minecraft_versions
     loader: $mod_loader
     mod version: $mod_version
-    building agains MC: $minecraft_version
+    building against MC: $minecraft_version
+    loom version:     $loom_version_116
     ***************************************************
     """.trimIndent())
 
 plugins {
     `java-library`
-    id("fabric-loom").version("0.7.4")
+    id("fabric-loom").version(loom_version_116)
     `maven-publish`
     antlr
     id("com.matthewprenger.cursegradle") version "1.4.0"
@@ -33,7 +35,6 @@ configureCommon()
 
 group = "org.anti_ad.mc.fabric_1_16"
 
-
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -43,17 +44,12 @@ dependencies {
     "shadedApi"(project(":common"))
     "implementation"("org.apache.commons:commons-rng-core:1.3")
     "implementation"("commons-io:commons-io:2.4")
-    val antlrVersion = "4.9.1"
-    "antlr"("org.antlr:antlr4:$antlrVersion")
-    "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
-
-    implementation("com.guardsquare:proguard-gradle:7.1.0-beta5")
-    minecraft("com.mojang:minecraft:1.16.5")
-    mappings("net.fabricmc:yarn:1.16.5+build.9:v2")
-    modImplementation("net.fabricmc:fabric-loader:0.11.6")
-
-
-    modImplementation("com.terraformersmc:modmenu:1.16.9")
+    "implementation"("com.guardsquare:proguard-gradle:7.1.0-beta5")
+    "minecraft"("com.mojang:minecraft:1.16.5")
+    "mappings"("net.fabricmc:yarn:1.16.5+build.9:v2")
+    "modImplementation"("net.fabricmc:fabric-loader:0.11.6")
+    "modImplementation"("net.fabricmc.fabric-api:fabric-api:0.36.0+1.16")
+    "modImplementation"("com.terraformersmc:modmenu:1.16.9")
 }
 
 minecraft{
@@ -77,10 +73,6 @@ afterEvaluate {
         dependsOn("injectCommonResources")
         finalizedBy("removeCommonResources")
     }
-}
-
-tasks.named<AntlrTask>("generateGrammarSource") {
-    enabled = false
 }
 
 tasks.named<DefaultTask>("build") {
@@ -108,7 +100,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
     configuration("../../proguard.txt")
 
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
-    val fabricRemapJar = tasks.named<Jar>("remapShadedJar").get()
+    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
     val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath
 
     injars(inName)
@@ -140,8 +132,13 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val fabricRemapJar = tasks.named<Jar>("remapShadedJar").get()
+        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
+        logger.lifecycle("""
+            +*************************************************+
+            Will release ${remappedJarFile.path}
+            +*************************************************+
+        """.trimIndent())
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
         })
@@ -175,19 +172,18 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     versionNumber = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
     // On fabric, use 'remapJar' instead of 'jar'
     this.changelog
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     supported_minecraft_versions.forEach { ver ->
         addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
     }
+    logger.lifecycle("""
+        +*************************************************+
+        Will release ${remappedJarFile.get().asFile.path}
+        +*************************************************+
+    """.trimIndent())
     versionName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
     changelog = project.rootDir.resolve("changelog.md").readText()
-    logger.lifecycle("""
-        ***********************************************************
-        $changelog
-        ***********************************************************
-    """.trimIndent())
     addLoader(mod_loader)
-
 }

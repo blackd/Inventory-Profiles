@@ -42,7 +42,7 @@ class AsVanillaWidget() : ClickableWidget(0,
 //    rClearDepth()
 //  }
 
-    override fun render(matrixStack: MatrixStack?,
+    override fun render(matrixStack: MatrixStack,
                         mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {

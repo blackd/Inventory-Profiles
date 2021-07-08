@@ -21,14 +21,17 @@ fun Project.configureDependencies() {
     }
 
     repositories {
+        gradlePluginPortal()
+        mavenCentral()
         maven { url = uri("https://maven.enginehub.org/repo/") }
         maven { url = uri("https://repo.codemc.org/repository/maven-public") }
         maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+        maven("https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases")
+        //maven { url = uri("https://maven.terraformersmc.com/releases") }
+        maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
+        maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/releases/") }
         maven { url = uri("https://maven.fabricmc.net/") }
-        maven { url = uri("https://maven.terraformersmc.com/releases") }
-        gradlePluginPortal()
-      //  jcenter()
-        mavenCentral()
+
     }
 
     dependencies {
