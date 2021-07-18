@@ -45,9 +45,8 @@ object AutoRefillHandler {
 
     fun init() {
         monitors.clear()
-        val list = listOf(
-            ItemSlotMonitor { 36 + vMainhandIndex() }, // main hand inv 0-8
-            ItemSlotMonitor(45) // offhand inv 40
+        val list = listOf(ItemSlotMonitor { 36 + vMainhandIndex() }, // main hand inv 0-8
+                          ItemSlotMonitor(45) // offhand inv 40
         ) + if (!ModSettings.REFILL_ARMOR.booleanValue) listOf() else
             listOf(
                 ItemSlotMonitor(5), // head inv 39

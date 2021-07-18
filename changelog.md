@@ -2,9 +2,11 @@
 
 ## What's new
 
+### 0.8.3
+- Now on servers also items will not be picked into empty locked slots. NOTE! Doesn't work while inventory is open. It's not possible to distinguish between player moving items and server initiated changes.
+- Added configuration to disable mod buttons on non-vanilla screens. For better compatibility with othe mods
 ### 0.8.2
 - Added per server locked slots. Enabled by default. Can be disabled in the configuration.
-
 ### 0.8.1
 - Added support for single click/press inventory throw. Hotkey can be configured in Hotkeys. Disabled by default. This obeys the same rules for hotbar as "move all". 
 - Fixed Shift+Click Ctrl+Q skipping locked slots to work on servers. 

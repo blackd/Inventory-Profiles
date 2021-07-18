@@ -159,8 +159,7 @@ object LockSlotsHandler {
                 if ((mode == 0) == (invSlot !in lockedInvSlotsStoredValue)
                     && line.intersects(Rectangle(topLeft + slotTopLeft,
                                                  Size(18,
-                                                      18)))
-                ) {
+                                                      18)))) {
                     if (mode == 0)
                         lockedInvSlotsStoredValue.add(invSlot)
                     else

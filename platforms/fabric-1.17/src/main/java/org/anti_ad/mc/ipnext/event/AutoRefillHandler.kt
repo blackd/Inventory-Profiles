@@ -45,15 +45,13 @@ object AutoRefillHandler {
 
     fun init() {
         monitors.clear()
-        val list = listOf(
-            ItemSlotMonitor { 36 + vMainhandIndex() }, // main hand inv 0-8
-            ItemSlotMonitor(45) // offhand inv 40
+        val list = listOf(ItemSlotMonitor { 36 + vMainhandIndex() }, // main hand inv 0-8
+                          ItemSlotMonitor(45) // offhand inv 40
         ) + if (!ModSettings.REFILL_ARMOR.booleanValue) listOf() else
-            listOf(
-                ItemSlotMonitor(5), // head inv 39
-                ItemSlotMonitor(6), // chest inv 38
-                ItemSlotMonitor(7), // legs inv 37
-                ItemSlotMonitor(8), // feet inv 36
+            listOf(ItemSlotMonitor(5), // head inv 39
+                   ItemSlotMonitor(6), // chest inv 38
+                   ItemSlotMonitor(7), // legs inv 37
+                   ItemSlotMonitor(8), // feet inv 36
             )
         list[0].anothers += list[1]
         list[0].anothers += list.drop(2) // + armor to main hand
@@ -139,9 +137,11 @@ object AutoRefillHandler {
             val foundSlotId = findCorrespondingSlot(checkingItem)
             foundSlotId ?: return
             if ((storedSlotId - 36) in 0..8) { // use swap
+                //handles hotbar
                 ContainerClicker.swap(foundSlotId,
                                       storedSlotId - 36)
             } else {
+                //handles offhand and armor slots
                 ContainerClicker.leftClick(foundSlotId)
                 ContainerClicker.leftClick(storedSlotId)
                 if (!vCursorStack().isEmpty()) {
@@ -184,12 +184,12 @@ object AutoRefillHandler {
 //        val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
                 var filtered = Vanilla.playerContainer().let { playerContainer ->
                     val slots = playerContainer.`(slots)`
-                    with(AreaTypes) { playerStorage - lockedSlots }.getItemArea(playerContainer,
-                                                                                slots)
-                        .slotIndices.map {
+                    with(AreaTypes) {
+                        playerStorage - lockedSlots
+                    }.getItemArea(playerContainer, slots).slotIndices.map {
                             IndexedValue(it - 9,
                                          slots[it].`(itemStack)`)
-                        }
+                    }
                 }.asSequence()
                 var index = -1
                 val itemType = checkingItem.itemType

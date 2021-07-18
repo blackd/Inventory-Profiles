@@ -66,13 +66,12 @@ object ContainerClicker {
                      actionType,
                      doSendContentUpdates)
 
-    fun genericClick(
-        container: Container,
-        slotId: Int,
-        button: Int,
-        actionType: SlotActionType,
-        contentUpdates: Boolean = true
-    ) {
+    fun genericClick(container: Container,
+                     slotId: Int,
+                     button: Int,
+                     actionType: SlotActionType,
+                     contentUpdates: Boolean = true) {
+
         if (container is CreativeContainer) {
             // creative menu dont use method_2906
             // simulate the action in CreativeInventoryScreen line 135
@@ -85,13 +84,11 @@ object ContainerClicker {
             return
         }
         // clickSlot() = method_2906()
-        Vanilla.interactionManager().clickSlot(
-            container.syncId,
-            slotId,
-            button,
-            actionType,
-            Vanilla.player()
-        )
+        Vanilla.interactionManager().clickSlot(container.syncId,
+                                               slotId,
+                                               button,
+                                               actionType,
+                                               Vanilla.player())
     }
 
     fun sendContentUpdates() {

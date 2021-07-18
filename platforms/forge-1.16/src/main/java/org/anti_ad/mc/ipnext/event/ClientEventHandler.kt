@@ -24,6 +24,7 @@ object ClientEventHandler {
     }
 
     private fun onTickInGame() {
+        LockedSlotKeeper.onTickInGame()
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue
             && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
 
@@ -42,6 +43,9 @@ object ClientEventHandler {
         GlobalInputHandler.pressedKeys.clear() // sometimes left up not captured
         if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
             AutoRefillHandler.onJoinWorld()
+        }
+        if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !ModSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
+            LockedSlotKeeper.onJoinWorld()
         }
         CustomDataFileLoader.reload()
     }

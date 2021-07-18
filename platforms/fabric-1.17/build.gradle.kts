@@ -6,6 +6,7 @@ import net.fabricmc.loom.task.RemapJarTask
 import proguard.gradle.ProGuardTask
 
 import com.modrinth.minotaur.TaskModrinthUpload;
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 val supported_minecraft_versions = listOf("1.17", "1.17.1")
@@ -57,7 +58,11 @@ dependencies {
 }
 
 minecraft {
-    runConfigs["client"].programArg("--username=wxfabric_dev")
+
+    runConfigs["client"].runDir = "run/1.17.x"
+    //runConfigs["client"].programArg("--username=DEV")
+    runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
+    //--width=1280, --height=720
 }
 
 
@@ -194,4 +199,8 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
 
     addLoader(mod_loader)
 
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.4"
 }

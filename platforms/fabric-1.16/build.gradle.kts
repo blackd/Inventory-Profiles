@@ -53,7 +53,8 @@ dependencies {
 }
 
 minecraft{
-
+    runConfigs["client"].runDir = "run/1.16.5"
+    runConfigs["client"].programArgs += listOf("--width=1280", "--height=720", "--username=DEV")
 }
 
 afterEvaluate {
