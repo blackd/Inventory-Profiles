@@ -170,7 +170,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH_TOKEN that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
 
     projectId = "O7RBXm3n"
-    versionNumber = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
+    versionNumber = "$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
     // On fabric, use 'remapJar' instead of 'jar'
     this.changelog
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
@@ -184,7 +184,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-    versionName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
+    versionName = "IPN $mod_version for $mod_loader $minecraft_version"
     changelog = project.rootDir.resolve("changelog.md").readText()
     addLoader(mod_loader)
 }
