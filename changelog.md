@@ -1,7 +1,8 @@
 # Inventory Profiles Next 
 
 ## What's new
-
+### 0.8.4
+- Fixes locked slots behaviour when changing dimensions/worlds. There is new config that allows the user to control how many client ticks need to pass before the locked slot keeper is reinitialised on dimension/world change. This wait is necessary because the inventory might be empty when the player is spawned in the new dimension/world and we need to wait to receive the inventory content from the server.   
 ### 0.8.3
 - Now on servers also items will not be picked into empty locked slots. NOTE! Doesn't work while inventory is open. It's not possible to distinguish between player moving items and server initiated changes.
 - Added configuration to disable mod buttons on non-vanilla screens. For better compatibility with othe mods
