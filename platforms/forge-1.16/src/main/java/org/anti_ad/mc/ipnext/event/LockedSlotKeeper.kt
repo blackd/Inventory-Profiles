@@ -11,25 +11,27 @@ object LockedSlotKeeper {
 
     private var screenOpening = false
     private var worldJoined = false
+    private var ticksAfterJoin = 0
 
     private val emptyLockedSlots = mutableListOf<Int>()
     private val emptyNonLockedSlots = mutableListOf<Int>()
 
     var processingLockedPickups: Boolean = false
-    get() {
-        return field
-    }
-    private set
-
-
+        get() {
+            return field
+        }
+        private set
 
 
     fun onTickInGame() {
         if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !ModSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
-            if (worldJoined) {
+
+            if (worldJoined && ticksAfterJoin > ModSettings.LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS.integerValue) {
                 init()
                 worldJoined = false
                 return
+            } else {
+                ticksAfterJoin++
             }
             //only do stuff if we are in game and there is no open screen
             // this will allow for item pickup into locked slots while the inventory is open
@@ -41,7 +43,7 @@ object LockedSlotKeeper {
                 if (screenOpening) {
                     screenOpening = false
                     init()
-                } else  {
+                } else {
                     checkNewItems()
                 }
             }
@@ -61,7 +63,7 @@ object LockedSlotKeeper {
                     val targetSlot = emptyNonLockedSlots[0]
                     if ((it - 36) in 0..8) { // use swap
                         //handles hotbar
-                        val hotBarSlot =  it - 36
+                        val hotBarSlot = it - 36
                         Log.trace("Swapping $it to $targetSlot")
                         ContainerClicker.swap(targetSlot,
                                               hotBarSlot)
@@ -110,6 +112,7 @@ object LockedSlotKeeper {
     }
 
     fun onJoinWorld() {
+        ticksAfterJoin = 0
         worldJoined = true
     }
 }

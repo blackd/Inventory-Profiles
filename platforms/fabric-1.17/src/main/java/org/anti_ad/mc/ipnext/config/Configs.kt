@@ -50,6 +50,9 @@ object ModSettings : ConfigDeclaration {
                                                               6)
     val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW     /**/ by bool(false)
     val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY      /**/ by bool(false)
+    val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS    /**/ by int(5,
+                                                              0,
+                                                              100)
 
         .CATEGORY("$category.auto_refill")
     val ENABLE_AUTO_REFILL                        /**/ by bool(true)
@@ -133,7 +136,7 @@ object Hotkeys : ConfigDeclaration {
     val MOVE_ALL_ITEMS                            /**/ by hotkey("",
                                                                  KeybindSettings.GUI_EXTRA)
     val THROW_ALL_ITEMS                            /**/ by hotkey("",
-                                                                 KeybindSettings.GUI_EXTRA)
+                                                                  KeybindSettings.GUI_EXTRA)
 
         .CATEGORY("$category.misc")
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",

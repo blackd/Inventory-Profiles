@@ -78,6 +78,7 @@
     "inventoryprofiles.config.name.locked_slots_foreground_style":      "Locked Slots Foreground Style",
     "inventoryprofiles.config.name.locked_slots_disable_quick_move_throw": "Disable SHIFT click/Ctrl+Q/Q for locked slots",
     "inventoryprofiles.config.name.locked_slots_allow_pickup_into_empty": "Enable picking items into empty locked slots",
+    "inventoryprofiles.config.name.locked_slots_delay_keeper_reinit_ticks": "Ticks to wait on dimension change",
     "inventoryprofiles.config.description.enable_lock_slots":                  "Locked slots are ignored for: sort, move all, clean cursor, continuous crafting supplies storage, auto refill supplies storage (auto refill monitoring slots are not affected). Notice that groups in columns/rows only works if the shape of remaining non-locked slots is rectangular.",
     "inventoryprofiles.config.description.enable_lock_slots_per_server":        "If enabled every server and uniquely named world will have their own locked slots\nNotice:\n1. If you tend to name all your worlds \"New World\" they will all share the same locked slots.\n2. Servers behind bungeecord/velocity proxies will share locked slots.",
     "inventoryprofiles.config.description.lock_slots_switch_config_modifier":  "Config lock slots by \"Config Key\" while holding this key (Default Alt + Left Click to config lock slots)",
@@ -89,7 +90,8 @@
     "inventoryprofiles.config.description.show_locked_slots_foreground":       "Draw locked slots foreground\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png)",
     "inventoryprofiles.config.description.locked_slots_foreground_style":      "Select foreground style from preset\n(You can create your own texture from\n\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png)",
     "inventoryprofiles.config.description.locked_slots_disable_quick_move_throw":     "Locked slots will be immune to:\n - Shift+click\n - Ctrl+Q\n - Swipe Shift+click\nSwipe Ctrl+Q",
-    "inventoryprofiles.config.description.locked_slots_allow_pickup_into_empty":      "Should it be possible to pick items from the ground into EMPTY locked slots.\nStackable items will still be picked into locked sots of the same item that have room.",
+    "inventoryprofiles.config.description.locked_slots_allow_pickup_into_empty":      "Should it be possible to pick items from the ground into EMPTY locked slots.\nStackable items will still be picked into locked sots of the same item that have room.\nNOTE: See next setting description for more information!",
+    "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks":    "The number of client ticks to wait before reinitialising the Locked Slot Keeper on word/dimension change.\nIf locked slots get items moved out/thrown away on dimension change you need to increase this value.\nThis often happens on servers under heavy load.\nNOTE: 20 ticks are equivalent onf 1 second.\n§l§cWARNING§r: Setting this too high MAY lead to locked slot management not working properly until this timeout expires.",
 
     "inventoryprofiles.config.name.enable_auto_refill":                 "Enable Auto Refill",
     "inventoryprofiles.config.name.disable_for_drop_item":              "Disable For Drop Item",
