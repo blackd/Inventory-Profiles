@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.dependencies
 
 fun Project.configureDependencies() {
     apply(plugin = "kotlin")
-    apply(plugin = "antlr")
+//    apply(plugin = "antlr")
     apply(plugin = "java")
     apply(plugin = "java-library")
 

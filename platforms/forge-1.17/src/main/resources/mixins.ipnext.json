@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.anti_ad.mc.ipnext.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+
+  ],
+  "client": [
+    "MixinScreenHandler",
+    "MixinPlayerInventory"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

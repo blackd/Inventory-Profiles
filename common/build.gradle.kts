@@ -5,6 +5,7 @@ plugins {
     `java-library`
     `maven-publish`
     idea
+    antlr
 }
 
 configureCompilation()
