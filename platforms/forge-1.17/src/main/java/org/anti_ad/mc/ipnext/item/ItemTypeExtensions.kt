@@ -6,7 +6,6 @@ import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.items.BucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
-import org.anti_ad.mc.common.vanilla.alias.items.FishBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
@@ -91,7 +90,7 @@ val ItemType.durability: Int
     get() = maxDamage - damage
 
 val ItemType.isBucket: Boolean
-    get() = item is BucketItem || item is MilkBucketItem || item is FishBucketItem
+    get() = item is BucketItem || item is MilkBucketItem
 val ItemType.isStew: Boolean
     get() = item is MushroomStewItem || item is SuspiciousStewItem // SoupItem = MushroomStewItem
 //endregion

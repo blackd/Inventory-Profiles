@@ -1,11 +1,8 @@
 package org.anti_ad.mc.common.vanilla.render
 
 import org.anti_ad.mc.common.math2d.*
-import org.anti_ad.mc.common.math2d.Corner.*
-import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
-import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
-import org.anti_ad.mc.common.vanilla.alias.Identifier
+import org.anti_ad.mc.common.vanilla.alias.*
+
 import org.anti_ad.mc.common.vanilla.render.glue.*
 
 
@@ -13,8 +10,16 @@ inline operator fun IdentifierHolder.invoke(): Identifier {
     return this.id as Identifier
 }
 
+
 private val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
-    get() = IdentifierHolder( AbstractButtonWidget.WIDGETS_LOCATION )
+    get() = IdentifierHolder( AbstractWidget.WIDGETS_LOCATION )
+
+private val  interna_rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
+                                                    Rectangle(0,
+                                                              46,
+                                                              200,
+                                                              20))
+
 
 private fun makeIdentifier(ns: String, path: String): Any {
     return Identifier(ns, path)
@@ -33,11 +38,6 @@ fun initTextureGlue() {
     __glue_VANILLA_TEXTURE_WIDGETS = VANILLA_TEXTURE_WIDGETS
 }
 
-private fun rBindTexture(identifier: Identifier) {
-    Vanilla.textureManager().bind(identifier) //bindTexture(identifier)
-//  rEnableBlend()
-    rStandardGlState()
-}
 
 // for 256 x 256 texture
 private fun rBlit(x: Int,
@@ -47,15 +47,15 @@ private fun rBlit(x: Int,
                   sw: Int,
                   sh: Int) { // screen xy sprite xy wh
     DrawableHelper.blit(rMatrixStack,
-                        x,
-                        y,
-                        0,
-                        sx.toFloat(),
-                        sy.toFloat(),
-                        sw,
-                        sh,
-                        256,
-                        256)
+                               x,
+                               y,
+                               0,
+                               sx.toFloat(),
+                               sy.toFloat(),
+                               sw,
+                               sh,
+                               256,
+                               256)
 }
 
 // screen xy wh sprite xy wh texture wh
@@ -70,70 +70,54 @@ private fun rBlit(x: Int,
                   tw: Int,
                   th: Int) {
     DrawableHelper.blit(rMatrixStack,
-                        x,
-                        y,
-                        w,
-                        h,
-                        sx.toFloat(),
-                        sy.toFloat(),
-                        sw,
-                        sh,
-                        tw,
-                        th)
+                               x,
+                               y,
+                               w,
+                               h,
+                               sx.toFloat(),
+                               sy.toFloat(),
+                               sw,
+                               sh,
+                               tw,
+                               th)
 }
+
 
 
 //private fun rBlit(screenLocation: Point, textureLocation: Point, size: Size) {
 //  rBlit(screenLocation.x, screenLocation.y, textureLocation.x, textureLocation.y, size.width, size.height)
 //}
 
-// ============
-// sprite
-// ============
 
 
-fun internal_rDrawSprite(sprite: Sprite,
-                tIndex: Int,
-                x: Int,
-                y: Int) {
-    rBindTexture(sprite.identifier())
+private fun internal_rDrawSprite(sprite: Sprite,
+                                 tIndex: Int,
+                                 x: Int,
+                                 y: Int) {
+    RenderSystem.setShaderColor(1f, 1f, 1f, 1f)
+    RenderSystem.setShaderTexture(tIndex,
+                                  sprite.identifier())
+    RenderSystem.disableDepthTest();
+    //rBindTexture(sprite.identifier)
     val (sx, sy, sw, sh) = sprite.spriteBounds
     val (tw, th) = sprite.textureSize
-    rBlit(x,
-          y,
-          sw,
-          sh,
-          sx,
-          sy,
-          sw,
-          sh,
-          tw,
-          th)
+    rBlit(x, y, sw, sh, sx,
+          sy, sw, sh, tw, th)
+    RenderSystem.enableDepthTest();
 }
+
 
 
 // ============
 // dynamic
 // ============
 
-private val interna_rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
-                                           Rectangle(0,
-                                                     46,
-                                                     200,
-                                                     20))
 
 
 private fun Int.split(a: Int = this / 2): Pair<Int, Int> {
     return a to this - a
 }
 
-private fun relativeBounds(fromBounds: Rectangle,
-                           fromLocation: Point,
-                           toLocation: Point): Rectangle {
-    val location = toLocation + fromBounds.location - fromLocation
-    return Rectangle(location,
-                     fromBounds.size)
-}
 
 private fun resizeClips(clips: List<Rectangle>,
                         xLeft: Int,
@@ -158,9 +142,10 @@ private fun resizeClips(clips: List<Rectangle>,
     )
 }
 
-fun internal_rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
-                           bounds: Rectangle,
-                           mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
+private fun internal_rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
+                                            bounds: Rectangle,
+                                            mode: DynamicSizeMode = DynamicSizeMode.REPEAT_BOTH) {
+
     val (x, y, width, height) = bounds
     // draw corners
     val (cornerWidth, cornerHeight) = sprite.cornerSize
@@ -176,10 +161,13 @@ fun internal_rDrawDynamicSizeSprite(sprite: DynamicSizeSprite,
                                    bh)
     val drawAreas = bounds.split3x3(textureAreas[1].size,
                                     textureAreas[9].size)
-    rBindTexture(sprite.identifier())
+    RenderSystem.setShaderTexture(0,
+                                  sprite.identifier())
 
     mode.draw(drawAreas,
               textureAreas,
               sprite.textureSize)
 }
+
+
 

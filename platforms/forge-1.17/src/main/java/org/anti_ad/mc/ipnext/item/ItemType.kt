@@ -1,6 +1,5 @@
 package org.anti_ad.mc.ipnext.item
 
-import net.minecraft.nbt.CompoundNBT
 import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 

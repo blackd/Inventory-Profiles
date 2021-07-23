@@ -1,6 +1,7 @@
 package org.anti_ad.mc.common.forge;
 
-import net.minecraft.client.gui.screen.Screen;
+//import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

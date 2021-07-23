@@ -1,14 +1,11 @@
 package org.anti_ad.mc.common.gui.widgets
 
 //import net.minecraft.client.util.math.MatrixStack
-import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.util.math.MathHelper
+//import com.mojang.blaze3d.vertex.PoseStack //com.mojang.blaze3d.matrix.MatrixStack
+import net.minecraft.util.Mth //net.minecraft.util.math.MathHelper
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
-import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
-import org.anti_ad.mc.common.vanilla.alias.TextRenderer
+import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
@@ -20,9 +17,7 @@ import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWi
 // vanillamapping code depends on mappings
 // ============
 
-open class VanillaWidget<T : AbstractButtonWidget>(
-    val vanilla: T
-) : Widget() {
+open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
     init {
         sizeChanged += {
             vanilla.width = width
@@ -205,11 +200,8 @@ private class CustomVanillaSliderWidget(val minValue: Double,
     }
 }
 
-class SliderWidget(
-    val minValue: Double = 0.0,
-    val maxValue: Double = 1.0
-) : VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue,
-                                                                 maxValue)) {
+class SliderWidget(val minValue: Double = 0.0, val maxValue: Double = 1.0) : VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue,
+                                                                                                                                          maxValue)) {
 
     private val silder
         get() = vanilla as CustomVanillaSliderWidget

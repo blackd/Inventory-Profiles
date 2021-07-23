@@ -14,17 +14,20 @@ fun initGLGlue() {
     __glue_rStandardGlState = ::rStandardGlState
     __glue_rClearDepth = ::rClearDepth
 }
+
 // ============
 // api
 // ============
 // at Screen.render()
 // do: rStandardGlState(); rClearDepth()
 private fun rStandardGlState() { // reset to standard state (for screen rendering)
+
     rEnableBlend()
-    gDisableDiffuse()
-    gEnableAlphaTest()
+    //gDisableDiffuse()
     gEnableDepthTest()
     RenderSystem.depthMask(true)
+
+
 }
 
 // ============
@@ -42,6 +45,7 @@ private fun rClearDepth() {
 
 inline fun rDepthMask(bounds: Rectangle,
                       block: () -> Unit) {
+    //rDrawOutline(bounds, -6710887)
     rCreateDepthMask(bounds)
     block()
     rRemoveDepthMask()
@@ -57,31 +61,37 @@ fun rCreateDepthMask(bounds: Rectangle) {
     if (depthBounds.isEmpty()) {
         rCreateDepthMaskNoCheck(bounds)
     } else {
+        //rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
         rCreateDepthMaskNoCheck(depthBounds.last().intersect(bounds))
     }
 }
 
 private fun rCreateDepthMaskNoCheck(bounds: Rectangle) {
     depthBounds.add(bounds)
-    gPushMatrix()
-    gTranslatef(0f,
-                0f,
-                -400.0f)
+    // GL11.glMatrixMode(GL11.GL_PROJECTION)
+    val a = RenderSystem.getModelViewStack()
+    a.pushPose()
+    a.translate(.0,
+                .0,
+                -400.0)
     rOverwriteDepth(bounds)
+    //a.pop()
 }
 
 fun rRemoveDepthMask() {
-//  rStandardGlState() // added this
-    gPopMatrix()
+    //rStandardGlState() // added this
+    //gPopMatrix() this has already been done the 1.17 way
+    val a = RenderSystem.getModelViewStack()
+    a.popPose()
     rOverwriteDepth(depthBounds.removeLast())
 }
 
 private fun rOverwriteDepth(bounds: Rectangle) {
+//  rEnableDepth()
     gDepthFunc(GL11.GL_ALWAYS)
-    gDisableAlphaTest()
+
     rFillRect(bounds,
               0)
-    gEnableAlphaTest()
     gDepthFunc(GL11.GL_LEQUAL)
 }
 
@@ -101,17 +111,6 @@ fun rEnableDepth() {
 
 var rMatrixStack = MatrixStack()
 
-@SuppressWarnings("[deprecation]")
-fun gPushMatrix() = RenderSystem.pushMatrix()
-@SuppressWarnings("[deprecation]")
-fun gPopMatrix() = RenderSystem.popMatrix()
-
-//fun gLoadIdentity() = RenderSystem.loadIdentity()
-fun gTranslatef(x: Float,
-                y: Float,
-                z: Float) = RenderSystem.translatef(x,
-                                                    y,
-                                                    z)
 
 // ============
 // internal
@@ -122,20 +121,18 @@ private fun rEnableBlend() {
     RenderSystem.defaultBlendFunc()
     RenderSystem.blendFunc(SrcFactor.SRC_ALPHA,
                            DstFactor.ONE_MINUS_SRC_ALPHA)
-    RenderSystem.color4f(1f,
-                         1f,
-                         1f,
-                         1f)
+    RenderSystem.setShaderColor(1f,
+                                1f,
+                                1f,
+                                1f)
+
 }
 
 // ============
 // GlStateManager
-// RenderHelper.disableStandardItemLighting(); RenderHelper = DiffuseLighting
-private fun gDisableDiffuse() = DiffuseLighting.turnOff() // turnOff()// disableStandardItemLighting()
+// ============
 
-private fun gDisableAlphaTest() = RenderSystem.disableAlphaTest()
-private fun gEnableAlphaTest() = RenderSystem.enableAlphaTest()
-private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
+
 private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
 private fun gDepthFunc(value: Int) { // default = GL_LEQUAL = 515
     RenderSystem.depthFunc(value)

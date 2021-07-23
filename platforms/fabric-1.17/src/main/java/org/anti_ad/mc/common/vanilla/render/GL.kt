@@ -132,11 +132,6 @@ private fun rEnableBlend() {
 // GlStateManager
 // ============
 
-private fun gDisableDiffuse() {
-    DiffuseLighting.disableGuiDepthLighting()
-}
-
-private fun gDisableDepthTest() = RenderSystem.disableDepthTest()
 private fun gEnableDepthTest() = RenderSystem.enableDepthTest()
 private fun gDepthFunc(value: Int) { // default = GL_LEQUAL = 515
     RenderSystem.depthFunc(value)

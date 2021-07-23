@@ -110,9 +110,6 @@ object GuiSettings : ConfigDeclaration {
     val IN_ROWS_CUSTOM_RULE                       /**/ by string("@custom")
     val SHOW_MOVE_ALL_BUTTON                      /**/ by bool(true)
     val SHOW_BUTTON_TOOLTIPS                      /**/ by bool(true)
-
-        .CATEGORY("$category.other")
-    val USE_OLD_INSERT_METHOD                     /**/ by bool(false)
 }
 
 object EditProfiles : ConfigDeclaration {

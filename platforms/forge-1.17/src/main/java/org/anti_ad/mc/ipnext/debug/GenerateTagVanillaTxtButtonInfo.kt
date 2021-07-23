@@ -26,8 +26,9 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
         ItemTags.getAllTags().toTagTxtContent().writeToFile(fileHardcoded) //getCollection()
         val server = Vanilla.server()
         server ?: return Unit.also { TellPlayer.chat("Not integrated server!!!") }
-        server.tags.items.toTagTxtContent() // func_244266_aF().itemTags.toTagTxtContent()
-            .writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
+        server.tags.getOrEmpty(Registry.ITEM_REGISTRY).toTagTxtContent().writeToFile(fileDatapack)
+        //server.tags.items.toTagTxtContent() // func_244266_aF().itemTags.toTagTxtContent()
+        //    .writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
     } // eventually they are the same ~.~
 
     val Identifier.omittedString: String // omit minecraft

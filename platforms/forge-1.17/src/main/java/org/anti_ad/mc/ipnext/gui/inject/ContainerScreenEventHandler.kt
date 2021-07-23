@@ -13,18 +13,13 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 object ContainerScreenEventHandler {
     var currentWidget: SortingButtonCollectionWidget? = null
 
-    // todo do not directly add the widget (for other mod compatibility) (USE_OLD_INSERT_METHOD)
     fun onScreenInit(target: ContainerScreen<*>,
                      addWidget: (AbstractButtonWidget) -> Unit) {
         if (!GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue) return
         if (target != Vanilla.screen()) return
         val widget = SortingButtonCollectionWidget(target)
         currentWidget = widget
-        if (GuiSettings.USE_OLD_INSERT_METHOD.booleanValue) {
-            addWidget(AsVanillaWidget(widget))
-        } else {
-            InsertWidgetHandler.insertWidget(widget)
-        }
+        InsertWidgetHandler.insertWidget(widget)
     }
 
     private fun checkValid() {

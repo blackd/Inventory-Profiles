@@ -7,7 +7,9 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
+import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
@@ -75,14 +77,17 @@ object LockSlotsHandler {
     fun onForegroundRender() {
         if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
-        gPushMatrix() // see HandledScreen.render() line 98: RenderSystem.translatef()
+        val matrixStack2: MatrixStack = RenderSystem.getModelViewStack()
+        matrixStack2.pushPose()  // see HandledScreen.render()
         val topLeft = screen.`(containerBounds)`.topLeft
-        gTranslatef(-topLeft.x.toFloat(),
-                    -topLeft.y.toFloat(),
-                    0f)
+        matrixStack2.translate(-topLeft.x.toDouble(),
+                               -topLeft.y.toDouble(),
+                               0.0)
+        RenderSystem.applyModelViewMatrix()
         drawForeground()
         drawConfig()
-        gPopMatrix()
+        matrixStack2.popPose() //gPopMatrix()
+        RenderSystem.applyModelViewMatrix()
     }
 
     fun postRender() { // display config

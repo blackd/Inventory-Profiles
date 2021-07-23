@@ -8,11 +8,11 @@ import proguard.gradle.ProGuardTask
 
 import com.modrinth.minotaur.TaskModrinthUpload;
 
-val supported_minecraft_versions = listOf("1.16.5")
+val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.16.5"
-val forge_version = "36.1.32"
+val minecraft_version = "1.17.1"
+val forge_version = "37.0.0"
 
 
 logger.lifecycle("""
@@ -65,6 +65,12 @@ plugins {
 }
 
 configureCommon()
+
+configure<JavaPluginExtension> {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
+
 
 group = "org.anti_ad.mc.forge-1.17"
 
@@ -214,7 +220,7 @@ afterEvaluate {
 configure<UserDevExtension> {
     mappings(mapOf(
             "channel" to "official",
-            "version" to "1.16.5"
+            "version" to "1.17.1"
     ))
     var rcltName = ""
     runs {

@@ -1,6 +1,6 @@
 package org.anti_ad.mc.common.vanilla.render
 
-import net.minecraft.util.text.Style
+import net.minecraft.network.chat.Style //net.minecraft.util.text.Style
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText

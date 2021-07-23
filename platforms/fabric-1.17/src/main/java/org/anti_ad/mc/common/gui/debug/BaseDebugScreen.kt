@@ -100,7 +100,7 @@ open class BaseDebugScreen : BaseOverlay() {
     }
 
     fun updateWidgets() {
-        clearWidgets()
+        internalClearWidgets()
         pageNameWidget = HudText(if (isLeft) "${page?.name} [$pageIndex]" else "[$pageIndex] ${page?.name}")
         addWidget(pageNameWidget)
         pageNameWidget.anchor = AnchorStyles.topOnly.copy(left = !isLeft,
