@@ -12,7 +12,7 @@ val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.0"
+val forge_version = "37.0.2"
 
 
 logger.lifecycle("""
@@ -60,6 +60,7 @@ apply(plugin = "org.spongepowered.mixin")
 
 plugins {
     java
+    idea
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.modrinth.minotaur") version "1.2.1"
 }
@@ -77,23 +78,27 @@ group = "org.anti_ad.mc.forge-1.17"
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
-    maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+    //maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
 }
 
 
 dependencies {
     "shadedApi"(project(":common"))
+
+    "implementation"("cpw.mods:securejarhandler") {
+        version {
+            strictly("0.9.45")
+        }
+    }
+
     "implementation"("org.apache.commons:commons-rng-core:1.3")
     "implementation"("commons-io:commons-io:2.4")
     "implementation"("org.apache.commons:commons-lang3:3.8.1")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common")
-    if (true) {
-        "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
-        "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    }
+
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+    //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 if ("true" == System.getProperty("idea.sync.active")) {
@@ -262,6 +267,7 @@ configure<UserDevExtension> {
 
 tasks.register<Copy>("injectCommonResources") {
     tasks["prepareRuns"].dependsOn("injectCommonResources")
+    dependsOn(":common:processResources")
     from(project(":common").layout.buildDirectory.dir("resources/main"))
     include("assets/**")
     into(project.layout.buildDirectory.dir("resources/main"))

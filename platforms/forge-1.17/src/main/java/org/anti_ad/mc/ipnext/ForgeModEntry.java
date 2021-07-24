@@ -1,15 +1,23 @@
 package org.anti_ad.mc.ipnext;
 
 import kotlin.Unit;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.IConfigSpec;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fmlclient.ConfigGuiHandler;
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler;
 import org.anti_ad.mc.ipnext.event.ClientInitHandler;
 import org.anti_ad.mc.ipnext.forge.ForgeEventHandler;
 import org.anti_ad.mc.ipnext.gui.ConfigScreen;
-import org.spongepowered.asm.launch.MixinBootstrap;
+
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
 
 /**
  * InventoryProfilesNext
@@ -18,14 +26,13 @@ import org.spongepowered.asm.launch.MixinBootstrap;
 public class ForgeModEntry {
 
     public ForgeModEntry() {
-        MixinBootstrap.init();
+
         MinecraftForge.EVENT_BUS.register(new CommonForgeEventHandler());
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
-
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> {
-            return (x, y) -> new ConfigScreen();
-        });
+        
+        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->
+                new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> new ConfigScreen()));
 
 //    GlobalInputHandler.getInstance().registerInputHandler(new InputHandler());
 //

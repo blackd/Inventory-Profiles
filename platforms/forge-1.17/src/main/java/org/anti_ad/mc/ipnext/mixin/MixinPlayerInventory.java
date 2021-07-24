@@ -1,8 +1,9 @@
+/*
 package org.anti_ad.mc.ipnext.mixin;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.entity.player.Inventory; //net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.world.item.Item; //net.minecraft.world.item.ItemStack //net.minecraft.item.ItemStack;
+import net.minecraft.core.NonNullList; //net.minecraft.util.NonNullList;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +18,7 @@ public abstract class MixinPlayerInventory {
 
     @Shadow @Final public NonNullList<ItemStack> items;
 
-    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;getFreeSlot()I"),
+    @Inject(at = @At(value = "HEAD", target = "Lnet.minecraft.world.entity.player.Inventory //net.minecraft.entity.player.PlayerInventory;getFreeSlot()I"),
             method = "getFreeSlot",
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
@@ -32,3 +33,4 @@ public abstract class MixinPlayerInventory {
         info.setReturnValue(-1);
     }
 }
+*/
