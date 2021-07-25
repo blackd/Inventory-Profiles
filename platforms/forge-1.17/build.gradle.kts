@@ -368,7 +368,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../changelog.md")
-        releaseType = "beta"
+        releaseType = "alpha"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
                 this.addGameVersion(it)
@@ -377,7 +377,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
         val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
+            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version-ALPHA"
         })
 
         afterEvaluate {
@@ -402,11 +402,11 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     onlyIf {
         System.getenv("MODRINTH_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null
     }
-
+    versionType = com.modrinth.minotaur.request.VersionType.ALPHA
     token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
 
     projectId = "O7RBXm3n"
-    versionNumber = "$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
+    versionNumber = "$mod_loader-$minecraft_version-$mod_version-ALPHA" // Will fail if Modrinth has this version already
     // On fabric, use 'remapJar' instead of 'jar'
     this.changelog
 
@@ -416,7 +416,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     supported_minecraft_versions.forEach { ver ->
         addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
     }
-    versionName = "IPN $mod_version for $mod_loader $minecraft_version"
+    versionName = "IPN $mod_version-ALPHA for $mod_loader $minecraft_version"
     changelog = project.rootDir.resolve("changelog.md").readText()
     addLoader(mod_loader)
 
