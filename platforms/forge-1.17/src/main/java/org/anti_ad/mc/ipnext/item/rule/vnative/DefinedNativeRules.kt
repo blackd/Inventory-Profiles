@@ -1,4 +1,4 @@
-package org.anti_ad.mc.ipnext.item.rule.native
+package org.anti_ad.mc.ipnext.item.rule.vnative
 
 import org.anti_ad.mc.common.extensions.ByPropertyName
 import org.anti_ad.mc.ipnext.item.*
