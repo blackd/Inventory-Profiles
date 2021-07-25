@@ -148,6 +148,6 @@ class Version(val major: String, val minor: String, val revision: String, val pr
         return if (!preRelease)
             "$major.$minor.$revision"
         else //Only use git hash if it's a prerelease.
-            "$major.$minor.$revision-BETA+${getGitHash()}"
+            "$major.$minor.$revision-BETA+C${getGitHash()}"
     }
 }

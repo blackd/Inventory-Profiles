@@ -9,7 +9,7 @@ import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.ipnext.item.rule.EmptyRule
 import org.anti_ad.mc.ipnext.item.rule.Parameter
 import org.anti_ad.mc.ipnext.item.rule.Rule
-import org.anti_ad.mc.ipnext.item.rule.native.NativeRules
+import org.anti_ad.mc.ipnext.item.rule.vnative.NativeRules
 import org.anti_ad.mc.ipnext.item.rule.parameter.NativeParameters
 
 /*

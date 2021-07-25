@@ -12,7 +12,7 @@ val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.2"
+val forge_version = "37.0.5"
 
 
 logger.lifecycle("""
@@ -84,13 +84,6 @@ repositories {
 
 dependencies {
     "shadedApi"(project(":common"))
-
-    "implementation"("cpw.mods:securejarhandler") {
-        version {
-            strictly("0.9.45")
-        }
-    }
-
     "implementation"("org.apache.commons:commons-rng-core:1.3")
     "implementation"("commons-io:commons-io:2.4")
     "implementation"("org.apache.commons:commons-lang3:3.8.1")
@@ -222,12 +215,13 @@ afterEvaluate {
     }
 }
 
+var rcltName = ""
+
 configure<UserDevExtension> {
     mappings(mapOf(
             "channel" to "official",
             "version" to "1.17.1"
     ))
-    var rcltName = ""
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(
@@ -239,16 +233,10 @@ configure<UserDevExtension> {
                     "mixin.debug.export" to "true",
                     "mixin.debug.dumpTargetOnFailure" to "true"
             ))
-            arg("-mixin.config=mixins.ipnext.json")
+            arg("--mixin.config=mixins.ipnext.json")
             workingDirectory = project.file("run").canonicalPath
-            source(sourceSets["main"])
+            source(org.anti_ad.mc.FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
 
-            if (sourceSets.findByName("assetsFixtemp") == null) {
-                sourceSets.create("assetsFixtemp") {
-                    project(":common").layout.buildDirectory.dir("resources/main")
-                }
-            }
-            this.sources.add(sourceSets["assetsFixtemp"])
 
             jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
             jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
@@ -256,12 +244,14 @@ configure<UserDevExtension> {
             this.forceExit = false
         }
         val action = create("client", runConfig)
+
         rcltName = action.taskName
+
         //create("server", runConfig)
         //create("data", runConfig)
     }
-    //tasks[rcltName].dependsOn("injectCommonResources")
-    //tasks[rcltName].finalizedBy("injectCommonResources")
+    afterEvaluate {
+    }
 }
 
 
@@ -273,11 +263,59 @@ tasks.register<Copy>("injectCommonResources") {
     into(project.layout.buildDirectory.dir("resources/main"))
 }
 
+tasks.register<DefaultTask>("fixRunJvmArgs") {
+    tasks["prepareRuns"].finalizedBy("fixRunJvmArgs")
+
+
+    mustRunAfter("prepareRunClient")
+
+    doLast {
+        val ts = tasks.named(rcltName, JavaExec::class)
+
+        val newArgs = mutableListOf<String>()
+
+        val commonPath = project(":common").buildDir.absolutePath + "/classes/"
+        val javaCommon = commonPath + "java/main"
+        val kotlinCommon = commonPath + "kotlin/main"
+        ts.get().environment["MOD_CLASSES"] = "${ts.get().environment["MOD_CLASSES"]}:$javaCommon"
+        ts.get().environment["MOD_CLASSES"] = "${ts.get().environment["MOD_CLASSES"]}:$kotlinCommon"
+        val newClassPath = project.files()
+        newClassPath.from(File(javaCommon))
+        newClassPath.from(File(kotlinCommon))
+        newClassPath.from(ts.get().classpath)
+        ts.get().classpath = newClassPath
+        //ts.get().classpath(File(commonPath + "java/main"))
+        //ts.get().classpath(File(commonPath + "kotlin/main"))
+
+        ts.get().allJvmArgs.forEach {
+            if (it.contains("InventoryProfilesNext-common")) {
+                val split = it.split(":")
+                var newValue: String = ""
+                split.forEach{ cp ->
+                    if (!cp.contains("InventoryProfilesNext-common")) {
+                        if (newValue != "") {
+                            newValue = "$newValue:$cp"
+                        } else {
+                            newValue = cp
+                        }
+                    }
+                }
+                newArgs.add(newValue)
+            } else {
+                newArgs.add(it)
+            }
+
+        }
+        ts.get().allJvmArgs = newArgs
+    }
+}
+
 tasks.register<Delete>("removeCommonResources") {
     tasks["prepareRuns"].finalizedBy("removeCommonResources")
     doLast {
         delete(project.layout.buildDirectory.dir("resources/main/assets"))
     }
+
     mustRunAfter("runClient")
 }
 
@@ -285,16 +323,9 @@ gradle.buildFinished {
 }
 
 afterEvaluate {
-
-
-
-
-
-
     tasks.forEach {
         logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
     }
-
 
 }
 

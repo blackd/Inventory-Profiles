@@ -17,7 +17,7 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 import org.anti_ad.mc.ipnext.item.*
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
-import org.anti_ad.mc.ipnext.item.rule.native.compareByMatch
+import org.anti_ad.mc.ipnext.item.rule.vnative.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
 
 object AutoRefillHandler {
