@@ -142,6 +142,9 @@ object Hotkeys : ConfigDeclaration {
         .CATEGORY("$category.misc")
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",
                                                                  KeybindSettings.GUI_DEFAULT)
+        .CATEGORY("$category.advanced")
+    val RELOAD_CUSTOM_CONFIGS                     /**/ by hotkey("",
+                                                                 KeybindSettings.INGAME_DEFAULT)
 }
 
 object Tweaks : ConfigDeclaration {
