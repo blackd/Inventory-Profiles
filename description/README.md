@@ -1,4 +1,4 @@
-# Iventory Profiles Next's description
+# Inventory Profiles Next's description
 
 This is the description meant to appear on CurseForge.
 
