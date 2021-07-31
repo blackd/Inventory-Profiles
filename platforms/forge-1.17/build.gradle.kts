@@ -90,7 +90,8 @@ dependencies {
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+    //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
+    //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 if ("true" == System.getProperty("idea.sync.active")) {
@@ -233,7 +234,8 @@ configure<UserDevExtension> {
                 "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
                 "mixin.debug.verbose" to "true",
                 "mixin.debug.export" to "true",
-                "mixin.debug.dumpTargetOnFailure" to "true"
+                "mixin.debug.dumpTargetOnFailure" to "true",
+                "bsl.debug" to "true"
                             ))
             arg("--mixin.config=mixins.ipnext.json")
             workingDirectory = project.file("run").canonicalPath
@@ -289,7 +291,45 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
         //ts.get().classpath(File(commonPath + "java/main"))
         //ts.get().classpath(File(commonPath + "kotlin/main"))
 
+        logger.lifecycle("Detected JVM Arguments:")
         ts.get().allJvmArgs.forEach {
+            logger.lifecycle("\t$it")
+        }
+
+        ts.get().allJvmArgs.forEach {
+            var processed = false
+            if (it.startsWith("-DlegacyClassPath.file")) {
+                val cpFile: String? = it.split("=").elementAtOrNull(1)
+                if (cpFile != null) {
+
+                    val f = File(cpFile)
+
+                    val fcpPath = "${f.parentFile.path}/runtimeClasspath.txt"
+                    logger.lifecycle("Checking if $fcpPath exists")
+                    val fullCpFile = File(fcpPath)
+                    val kotlinJars = mutableListOf<String>()
+                    if (fullCpFile.exists()) {
+                        kotlinJars.addAll(fullCpFile.readLines().filter {
+                            it.contains("kotlin")
+                        })
+                    }
+                    val clean = f.readLines().filter {
+                        !it.contains("InventoryProfilesNext-common")
+                    }
+                    f.printWriter().use { pw ->
+                        logger.lifecycle("Building new legacy classpath file")
+                        kotlinJars.forEach { jar ->
+                            logger.lifecycle("\tadding kotlin jar: $jar")
+                            pw.println(jar)
+                        }
+                        clean.forEach { s ->
+                            logger.lifecycle("\tadding other jar: $s")
+                            pw.println(s)
+                        }
+                    }
+                }
+            }
+
             if (it.contains("InventoryProfilesNext-common")) {
                 val split = it.split(":")
                 var newValue: String = ""
@@ -303,7 +343,10 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
                     }
                 }
                 newArgs.add(newValue)
-            } else {
+                processed = true
+            }
+
+            if (!processed) {
                 newArgs.add(it)
             }
 
