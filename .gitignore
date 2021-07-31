@@ -30,3 +30,6 @@ run
 
 *.javaX
 *.ktX
+
+# description
+description/output.html
