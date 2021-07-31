@@ -21,4 +21,4 @@ If you want to modify the content, you only need to modify `description.md`.
 
 If you need to add a class, for example for changing the text color or other CSS things, you can do so in `style.css`.
 
-You'll probably not have to modify `build_html.py`
+You'll probably not have to modify `build_html.py`.
