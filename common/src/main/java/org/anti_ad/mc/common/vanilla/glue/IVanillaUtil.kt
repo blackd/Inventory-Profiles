@@ -99,6 +99,10 @@ object DummyVanillaUtil : IVanillaUtil {
     override fun open(file: File) {
         TODO("Not yet implemented")
     }
+
+    override fun chat(message: String) {
+        TODO("Not yet implemented")
+    }
 }
 
 
@@ -136,4 +140,5 @@ interface IVanillaUtil {
     fun loggingString(path: Path): String
     fun open(file: File)
     fun isValidScreen(ctx: KeybindSettings.Context): Boolean
+    fun chat(message: String)
 }

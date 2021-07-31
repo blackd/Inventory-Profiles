@@ -24,6 +24,7 @@ logger.lifecycle("""
 
 plugins {
     `java-library`
+    //kotlin("jvm") version "1.5.21"
     id("fabric-loom").version(loom_version_116)
     `maven-publish`
     antlr

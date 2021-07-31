@@ -1,6 +1,7 @@
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.extensions.containsAny
@@ -10,7 +11,6 @@ import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
-import org.anti_ad.mc.ipnext.client.TellPlayer
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.PostAction

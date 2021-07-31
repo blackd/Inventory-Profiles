@@ -18,7 +18,8 @@ data class ItemType(val item: Item,
 
         if (isEmpty() && other.isEmpty()) return true
         if (item != other.item) return false
-        if (tag?.equals(other.tag) == true) return false
+        if (tag != other.tag) return false
+        //if (tag?.equals(other.tag) == true) return false
 
         return true
     }

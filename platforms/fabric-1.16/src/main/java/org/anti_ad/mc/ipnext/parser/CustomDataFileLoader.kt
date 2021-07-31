@@ -2,6 +2,7 @@ package org.anti_ad.mc.ipnext.parser
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.Savable
+import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.*
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
@@ -11,7 +12,6 @@ import org.anti_ad.mc.common.vanilla.alias.ClientWorld
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.glue.loggingPath
-import org.anti_ad.mc.ipnext.client.TellPlayer
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFile

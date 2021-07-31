@@ -1,8 +1,13 @@
 package org.anti_ad.mc.common.vanilla
 
-import org.anti_ad.mc.common.extensions.*
+import org.anti_ad.mc.common.extensions.createDirectories
+import org.anti_ad.mc.common.extensions.div
+import org.anti_ad.mc.common.extensions.pathFrom
+import org.anti_ad.mc.common.extensions.readToString
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
+import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Util
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
@@ -16,10 +21,10 @@ fun initVanillaUtil() {
     __glue_vanillaUtil = VanillaUtil
 }
 
-
 private object VanillaUtil: IVanillaUtil {
+
     override fun isOnClientThread(): Boolean = // Thread.currentThread() == this.getThread()
-        Vanilla.mc().isSameThread  // isOnExecutionThread // isOnExecutionThread // isOnThread()
+            Vanilla.mc().isSameThread  // isOnExecutionThread // isOnExecutionThread // isOnThread()
 
     // ============
     // info
@@ -31,9 +36,9 @@ private object VanillaUtil: IVanillaUtil {
     override fun shiftDown() = Screen.hasShiftDown()
     override fun ctrlDown() = Screen.hasControlDown()
     override fun altDown() = Screen.hasAltDown()
-//  fun shiftDown() = Screen.func_231173_s_() // line 391
-//  fun ctrlDown() = Screen.func_231172_r_() // line 383
-//  fun altDown() = Screen.func_231174_t_() // line 395
+    //  fun shiftDown() = Screen.func_231173_s_() // line 391
+    //  fun ctrlDown() = Screen.func_231172_r_() // line 383
+    //  fun altDown() = Screen.func_231174_t_() // line 395
 
     // Mouse.onCursorPos() / GameRenderer.render()
     override fun mouseX(): Int = mouseXDouble().toInt()
@@ -48,21 +53,21 @@ private object VanillaUtil: IVanillaUtil {
     // this.client.getLastFrameDuration()
     override fun lastFrameDuration(): Float = Vanilla.mc().frameTime //tickLength //frameTime // for render
 
-//  var lastMouseX: Int = -1
-//    private set
-//  var lastMouseY: Int = -1
-//    private set
-//  var mouseX: Int = -1
-//    private set
-//  var mouseY: Int = -1
-//    private set
-//
-//  fun updateMouse() {
-//    lastMouseX = mouseX
-//    lastMouseY = mouseY
-//    mouseX = mouseX()
-//    mouseY = mouseY()
-//  }
+    //  var lastMouseX: Int = -1
+    //    private set
+    //  var lastMouseY: Int = -1
+    //    private set
+    //  var mouseX: Int = -1
+    //    private set
+    //  var mouseY: Int = -1
+    //    private set
+    //
+    //  fun updateMouse() {
+    //    lastMouseX = mouseX
+    //    lastMouseY = mouseY
+    //    mouseX = mouseX()
+    //    mouseY = mouseY()
+    //  }
 
     // ============
     // do actions
@@ -77,17 +82,20 @@ private object VanillaUtil: IVanillaUtil {
     }
 
     override fun loggingString(path: Path): String = // return ".minecraft/config/file.txt" etc
-        (if (path.isAbsolute) path pathFrom (runDirectory() / "..") else path).toString()
+            (if (path.isAbsolute) path pathFrom (runDirectory() / "..") else path).toString()
 
     override fun open(file: File) {
         // ResourcePackOptionsScreen.init()
         Util.getPlatform().openFile(file) // getOSType()
     }
+
     override fun isValidScreen(ctx: KeybindSettings.Context) = ctx.isValid(Vanilla.screen())
+
+    override fun chat(message: String) = Vanilla.chatHud().addMessage(LiteralText(message))
 }
 
 private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
     KeybindSettings.Context.INGAME -> s == null
-    KeybindSettings.Context.GUI -> s != null
-    KeybindSettings.Context.ANY -> true
+    KeybindSettings.Context.GUI    -> s != null
+    KeybindSettings.Context.ANY    -> true
 }

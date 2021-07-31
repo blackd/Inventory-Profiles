@@ -1,6 +1,7 @@
 package org.anti_ad.mc.common
 
 import org.anti_ad.mc.common.Log.LogLevel.*
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -52,10 +53,48 @@ object Log {
         indent = 0
     }
 
+    val kept = mutableListOf<String>()
+    var keeping: Boolean = false
+
+    fun keep(reason: String,  unit: () -> Unit) {
+        kept.clear()
+        keeping = true
+        val shouldTraceOld = shouldTrace
+        val shouldDebugOld = shouldDebug
+        tryCatch({
+                     keeping = false
+                     shouldDebug = { true }
+                     shouldTrace = { true }
+                     indent = 0
+                     trace("Kept logs for $reason")
+                     kept.forEach {
+                         trace(it)
+                     }
+                     trace("Operation terminated by:")
+                     it.stackTrace.forEach { element ->
+                         trace(element.toString())
+                     }
+                 },
+                 unit)
+        indent = 0;
+        shouldDebug = shouldDebugOld
+        shouldTrace = shouldTraceOld
+    }
+
+    private inline fun getMessageString(message: () -> String): String = " ".repeat(indent * 4) + message()
+
+    fun trace(vararg messages: String) {
+        messages.forEach {
+            trace { it }
+        }
+    }
     fun trace(message: String) = trace { message }
     fun trace(message: () -> String) {
+        if (keeping) {
+            kept.add(getMessageString(message))
+        }
         if (shouldTrace()) {
-            val messageString = " ".repeat(indent * 4) + message()
+            val messageString = getMessageString(message)
             innerLogger.info("[$id/TRACE] $messageString").also {
                 onLog(TRACE,
                       messageString)

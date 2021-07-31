@@ -3,6 +3,7 @@ package org.anti_ad.mc.common.vanilla
 import org.anti_ad.mc.common.extensions.*
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
+import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Util
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
@@ -84,6 +85,8 @@ private object VanillaUtil: IVanillaUtil {
         Util.getOSType().openFile(file)
     }
     override fun isValidScreen(ctx: KeybindSettings.Context) = ctx.isValid(Vanilla.screen())
+
+    override fun chat(message: String) = Vanilla.chatHud().printChatMessage(LiteralText(message)) // forge printChatMessage() = addMessage()
 }
 
 private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {

@@ -1,6 +1,7 @@
 package org.anti_ad.mc.ipnext.input
 
 import org.anti_ad.mc.common.IInputHandler
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil

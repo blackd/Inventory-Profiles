@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-val versionObj = Version("0", "8", "4",
+val versionObj = Version("0", "8", "5",
                              preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -28,8 +28,9 @@ repositories {
 
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.4.32"
+    kotlin("jvm") version "1.5.21"
     idea
+    
 }
 
 // This is here but it looks like it's not inherited by the child projects

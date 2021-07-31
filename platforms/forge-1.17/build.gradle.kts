@@ -1,18 +1,17 @@
-import org.anti_ad.mc.configureCommon
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.modrinth.minotaur.TaskModrinthUpload
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
+import org.anti_ad.mc.configureCommon
 import proguard.gradle.ProGuardTask
-
-
-import com.modrinth.minotaur.TaskModrinthUpload;
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.5"
+val forge_version = "37.0.17"
 
 
 logger.lifecycle("""
@@ -78,7 +77,7 @@ group = "org.anti_ad.mc.forge-1.17"
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
-    //maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+    maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
 }
 
 
@@ -91,7 +90,7 @@ dependencies {
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 if ("true" == System.getProperty("idea.sync.active")) {
@@ -102,14 +101,17 @@ if ("true" == System.getProperty("idea.sync.active")) {
     }
 }
 
-
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+}
 
 
 tasks.register<Copy>("copyMixinMappings") {
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
-    from (inName)
-    into (outName)
+    from(inName)
+    into(outName)
 }
 
 
@@ -117,7 +119,7 @@ tasks.jar {
     manifest {
         attributes(mapOf(
             "MixinConfigs" to "mixins.ipnext.json"
-        ))
+                        ))
     }
     dependsOn("copyMixinMappings")
 }
@@ -138,7 +140,7 @@ tasks.register<Copy>("copyProGuardJar") {
     """.trimIndent())
     from(
         inName
-    )
+        )
     rename {
         outName
     }
@@ -166,7 +168,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
     outjars("build/libs/${outName}")
 
     doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files.filter {
+        libraryjars(configurations.runtimeClasspath.get().files.filter {
             !it.name.contains("InventoryProfilesNext-common")
         })
     }
@@ -176,7 +178,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
 val customJar by dummyJar( // dummy jar
     thisJarNam = "",
     fromJarNam = ""
-)
+                         )
 
 fun dummyJar(thisJarNam: String, fromJarNam: String) = tasks.creating(Jar::class) { // dummy jar for reobf
     var shadow = tasks.getByName<ShadowJar>("shadowJar");
@@ -219,20 +221,20 @@ var rcltName = ""
 
 configure<UserDevExtension> {
     mappings(mapOf(
-            "channel" to "official",
-            "version" to "1.17.1"
-    ))
+        "channel" to "official",
+        "version" to "1.17.1"
+                  ))
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(
-                    //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
-                    "forge.logging.console.level" to "debug",
-                    "mixin.env.remapRefMap" to "true",
-                    "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
-                    "mixin.debug.verbose" to "true",
-                    "mixin.debug.export" to "true",
-                    "mixin.debug.dumpTargetOnFailure" to "true"
-            ))
+                //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
+                "forge.logging.console.level" to "debug",
+                "mixin.env.remapRefMap" to "true",
+                "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
+                "mixin.debug.verbose" to "true",
+                "mixin.debug.export" to "true",
+                "mixin.debug.dumpTargetOnFailure" to "true"
+                            ))
             arg("--mixin.config=mixins.ipnext.json")
             workingDirectory = project.file("run").canonicalPath
             source(org.anti_ad.mc.FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
@@ -291,7 +293,7 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
             if (it.contains("InventoryProfilesNext-common")) {
                 val split = it.split(":")
                 var newValue: String = ""
-                split.forEach{ cp ->
+                split.forEach { cp ->
                     if (!cp.contains("InventoryProfilesNext-common")) {
                         if (newValue != "") {
                             newValue = "$newValue:$cp"

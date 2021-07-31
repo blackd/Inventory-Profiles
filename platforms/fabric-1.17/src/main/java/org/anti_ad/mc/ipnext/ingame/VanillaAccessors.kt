@@ -19,7 +19,7 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
-                     tag)
+                     nbt) //tag)
 val VanillaItemStack.`(itemStack)`: ItemStack
     get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`,
                                                         count)

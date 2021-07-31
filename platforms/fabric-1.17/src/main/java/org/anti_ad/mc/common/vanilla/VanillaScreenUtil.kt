@@ -3,9 +3,9 @@ package org.anti_ad.mc.common.vanilla
 import org.anti_ad.mc.common.vanilla.alias.Screen
 
 object VanillaScreenUtil {
-    fun closeScreen() = Vanilla.mc().openScreen(null)
-    fun openScreen(screen: Screen) = Vanilla.mc().openScreen(screen)
-    fun openScreenNullable(screen: Screen?) = Vanilla.mc().openScreen(screen)
+    fun closeScreen() = Vanilla.mc().setScreen(null) // openScreen(null)
+    fun openScreen(screen: Screen) = Vanilla.mc().setScreen(screen) //openScreen(screen)
+    fun openScreenNullable(screen: Screen?) = Vanilla.mc().setScreen(screen) //openScreen(screen)
     fun openDistinctScreen(screen: Screen) { // do nothing if screen is same type as current
         if (Vanilla.screen()?.javaClass != screen.javaClass) openScreen(screen)
     }

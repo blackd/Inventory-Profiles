@@ -1,9 +1,11 @@
 import org.anti_ad.mc.configureCompilation
 import org.anti_ad.mc.configureDependencies
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-library`
     `maven-publish`
+    //kotlin("jvm") version "1.5.21"
     idea
     antlr
 }
@@ -35,6 +37,11 @@ dependencies {
                      name = "lwjgl-glfw",
                      version = "3.2.2")
 
+}
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
 }
 
 tasks.named<AntlrTask>("generateGrammarSource").configure {

@@ -1,5 +1,6 @@
 package org.anti_ad.mc.ipnext.debug
 
+import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
@@ -7,7 +8,6 @@ import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.ipnext.client.TellPlayer
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 
 // ============

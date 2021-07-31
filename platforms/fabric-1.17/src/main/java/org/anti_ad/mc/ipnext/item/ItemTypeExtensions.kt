@@ -31,11 +31,11 @@ val ItemType.maxCount: Int
     get() = vanillaStack.maxCount
 
 val ItemType.vanillaStack: VanillaItemStack
-    get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }
+    get() = VanillaItemStack(this.item).apply { nbt = this@vanillaStack.tag } // nbt was tag
 
 fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
     VanillaItemStack(this.item,
-                     count).apply { tag = this@vanillaStackWithCount.tag }
+                     count).apply { nbt = this@vanillaStackWithCount.tag } // nbt was tag
 
 val ItemType.identifier: Identifier
     get() = Registry.ITEM.`(getIdentifier)`(item)

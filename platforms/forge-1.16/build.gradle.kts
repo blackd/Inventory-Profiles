@@ -4,6 +4,7 @@ import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
 import proguard.gradle.ProGuardTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 import com.modrinth.minotaur.TaskModrinthUpload;
@@ -58,6 +59,7 @@ apply(plugin = "org.spongepowered.mixin")
 
 plugins {
     java
+    //kotlin("jvm") version "1.5.21"
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.modrinth.minotaur") version "1.2.1"
 }
@@ -80,7 +82,7 @@ dependencies {
     "implementation"("org.apache.commons:commons-lang3:3.8.1")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common")
-    if (true) {
+    if (false) {
         "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
         "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     }
@@ -96,7 +98,10 @@ if ("true" == System.getProperty("idea.sync.active")) {
     }
 }
 
-
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+}
 
 
 tasks.register<Copy>("copyMixinMappings") {

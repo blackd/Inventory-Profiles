@@ -12,8 +12,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val supported_minecraft_versions = listOf("1.17", "1.17.1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.17"
-val mappings_version = "1.17+build.5"
+val minecraft_version = "1.17.1"
+val mappings_version = "1.17.1+build.14"
 val loader_version = "0.11.6"
 val modmenu_version = "2.0.2"
 
@@ -63,6 +63,11 @@ minecraft {
     //runConfigs["client"].programArg("--username=DEV")
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     //--width=1280, --height=720
+}
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
 }
 
 
@@ -199,8 +204,4 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
 
     addLoader(mod_loader)
 
-}
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.4"
 }
