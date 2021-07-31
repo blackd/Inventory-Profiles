@@ -13,7 +13,7 @@ An inventory sorter, with linear, horizontal and vertical sorting, and profiles 
 ## What's new
 
 - Support for Minecraft 1.17.x
-- Ctrl+q for fast item discard from players inventory, like shift swipe
+- Ctrl+Q for fast item discard from players inventory, like shift swipe
 
 ## Requirements
 
