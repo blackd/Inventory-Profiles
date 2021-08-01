@@ -5,30 +5,23 @@
 <tr>
 <td>
 
-This mod will help you keep your inventory just sorted or sorted in rows or columns.
+This mod will:
 
-It will replenish your hot bar so you can just continue building.
-
-It will replace your almost broken tools with fresh one from your inventory.
-
-Just wanna dump everything in that chest? We got you covered, it's a single click.
-
-Organizing stuff is hard! With one click we can move only items you already have in that chest.
-
-Wanna keep you inventory neat and organized. We can lock items in place and sorting won't affect them.
-
-Tired of picking up junk! We'll keep your locked slots empty for you!
-
-**Press R+C** set your shortcuts, and you are good to go.
-
-**Pure client side! Works on any server!** Even if they try to prevent us! Checkout the advanced options.
+- Help you keep your inventory sorted
+- Replace your quasi-broken tool
+- Dump everything in that chest with one click
+- Move the items you have that are also already in the chest
+- Lock item slots in place so that sorting ignores them
+- Keep locked slots empty
+- Allow you to press R+C to set your shortcuts
+- Be pure client-side, so that it works everywhere
 
 [Join us on Discord](https://discord.gg/23YCxmveUM)
 
 </td>
 <td>
 
-<img src="https://github.com/victorbnl/Inventory-Profiles/raw/all-in-one/description/output.webp" width="300px">
+<img src="https://raw.githubusercontent.com/blackd/Inventory-Profiles/all-in-one/description/output.webp" width="300px">
 
 </td>
 </tr>
