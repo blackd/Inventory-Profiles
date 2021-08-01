@@ -2,27 +2,58 @@
 
 # Inventory Profiles Next
 
-An inventory sorter, with linear, horizontal and vertical sorting, and profiles support
+</div>
 
-![](https://i.imgur.com/e4CagVq.jpeg)
+<div style="width: 100%; min-height: 460px; display: inline-flex;">
+
+<div style="float: left; width: calc(100% - 390px); margin-right: 25px; display: grid;">
+
+This mod will help you keep your inventory just sorted or sorted in rows or columns.
+
+It will replenish your hot bar so you can just continue building.
+
+It will replace your almost broken tools with fresh one from your inventory.
+
+Just wanna dump everything in that chest? We got you covered, it's a single click.
+
+Organizing stuff is hard! With one click we can move only items you already have in that chest.
+
+Wanna keep you inventory neat and organized. We can lock items in place and sorting won't affect them.
+
+Tired of picking up junk! We'll keep your locked slots empty for you!
+
+**Press R+C** set your shortcuts, and you are good to go.
+
+**Pure client side! Works on any server!** Even if they try to prevent us! Checkout the advanced options.
+
+</div>
+
+
+<div style="float: left; max-width: 351px; min-width: 351px; align-content: center; flex: 1;">
+
+![](output.webp)
+</div>
+
+</div>
+
+<span></span>
 
 [Join us on Discord](https://discord.gg/23YCxmveUM)
 
-</div>
+
+<div style="min-width: 100%">
 
 ## What's new
-### 0.8.5
-- Fixed problem in Forge mods that made sorting impossible if the inventory/container has more than 1 enchanted item with same enchants, same item type, and same name and items were arranged in specific way.
-- Added hotkey for reloading the mod configurations. It's recommended that it's only used while defining new custom rules and kept unset in other situations.
-### Known Issues in Forge 1.17.1 due to missing MixIn support
-- Preventing swipe moving of locked slots doesn't work.
-- Preventing item pickups in empty locked slots falls back to the server method i.e. items are picked into the inventory and then thrown out.
 
-### Full change log
-<div class="spoiler">
+<span></span>
 
-</div>
+!include`snippetStart="<!-- latest begin -->", snippetEnd="<!-- latest end -->"` ../changelog.md
+
+<span></span>
+
 ## Requirements
+
+<span></span>
 
 - Forge 1.16.5 >= 36.1.32
 - Forge 1.17.x >= 37.0.17
@@ -30,9 +61,13 @@ An inventory sorter, with linear, horizontal and vertical sorting, and profiles 
 <span></span>
 
 - Fabric Loader >= 0.11.6 (see [Updating Fabric](#updating-fabric))
-- Mod Menu >= 2.0.2
+- Mod Menu >= 2.0.2 - _optional_
+
+<span></span>
 
 ## Migrate from Inventory Profiles
+
+<span></span>
 
 1. Move <span class="red"><strong>MINECRAFTHOME/config/inventoryprofiles</strong></span> somewhere
 2. Remove the old mod
@@ -47,10 +82,6 @@ Note: If you're a Windows user, your **MINECRAFTHOME** is probably **%appdata%/.
 For the official launcher make sure you don't have the game or the launcher running and follow [this guide](https://fabricmc.net/wiki/player:tutorials:install_mcl:windows)
 
 For the other launchers... really you should know how to do it :)
-
-## Known issues
-
-- Anchor header may not be shown correctly if the UI scaling is more than 2 or if the game windows is too small
 
 ## Contributing
 
@@ -67,3 +98,17 @@ Thanks to **jsminda**, the original author of [Inventory Profile](https://github
 ## License
 
 This mod is distributed under [MIT license](https://github.com/blackd/Inventory-Profiles/blob/all-in-one/LICENSE)
+
+### Full change log
+
+<span></span>
+
+<div class="spoiler">
+
+!include`snippetStart="<!-- rest begin -->", snippetEnd="<!-- rest end -->"` ../changelog.md
+
+<span></span>
+
+</div>
+
+</div>

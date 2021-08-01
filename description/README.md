@@ -10,6 +10,7 @@ To build the HTML, you'll need the following:
 - [pandoc](https://pandoc.org/installing.html)
 - [pypandoc](https://pypi.org/project/pypandoc/)
 - [premailer](https://pypi.org/project/premailer/)
+- [pandoc-include](https://github.com/DCsunset/pandoc-include) - we need v 1.0.0 from git
 
 ## Building
 
