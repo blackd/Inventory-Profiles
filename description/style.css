@@ -1,3 +1,11 @@
+h1, h2, h3 {
+    font-weight: bold;
+}
+
+p, li {
+    font-size: 14px;
+}
+
 .center {
     text-align: center;
 }
@@ -8,20 +16,4 @@
 
 .green {
     color: green;
-}
-
-img {
-    max-width: 100%;
-}
-
-p {
-    font-size: 14px;
-}
-
-li {
-    font-size: 14px;
-}
-
-span {
-    font-size: 14px;
 }
