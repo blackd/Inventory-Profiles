@@ -1,0 +1,27 @@
+.center {
+    text-align: center;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+img {
+    max-width: 100%;
+}
+
+p {
+    font-size: 14px;
+}
+
+li {
+    font-size: 14px;
+}
+
+span {
+    font-size: 14px;
+}
