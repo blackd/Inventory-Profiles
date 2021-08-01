@@ -11,13 +11,21 @@ An inventory sorter, with linear, horizontal and vertical sorting, and profiles 
 </div>
 
 ## What's new
+### 0.8.5
+- Fixed problem in Forge mods that made sorting impossible if the inventory/container has more than 1 enchanted item with same enchants, same item type, and same name and items were arranged in specific way.
+- Added hotkey for reloading the mod configurations. It's recommended that it's only used while defining new custom rules and kept unset in other situations.
+### Known Issues in Forge 1.17.1 due to missing MixIn support
+- Preventing swipe moving of locked slots doesn't work.
+- Preventing item pickups in empty locked slots falls back to the server method i.e. items are picked into the inventory and then thrown out.
 
-- Support for Minecraft 1.17.x
-- Ctrl+Q for fast item discard from players inventory, like shift swipe
+### Full change log
+<div class="spoiler">
 
+</div>
 ## Requirements
 
-- Forge >= 36.1.32
+- Forge 1.16.5 >= 36.1.32
+- Forge 1.17.x >= 37.0.17
 
 <span></span>
 
@@ -42,15 +50,15 @@ For the other launchers... really you should know how to do it :)
 
 ## Known issues
 
-- Anchor hearer may not be shown correctly if the UI scaling is more than 2 or if the game windows is too small
+- Anchor header may not be shown correctly if the UI scaling is more than 2 or if the game windows is too small
 
 ## Contributing
 
 If something doesn't work, please file an issue [here](https://github.com/blackd/Inventory-Profiles/issues)
 
-If you speak another language and would like to help translating it, you can do so [here](https://github.com/blackd/Inventory-Profiles/tree/all-in-one/common/src/main/resources/assets/inventoryprofilesnext/lang)
+If you speak another language and would like to help to translate it, you can do so [here](https://github.com/blackd/Inventory-Profiles/tree/all-in-one/common/src/main/resources/assets/inventoryprofilesnext/lang)
 
-If you're a Java developer and want to contribute, please see [the source](https://github.com/blackd/Inventory-Profiles)
+If you're a Kotlin developer and want to contribute, please see [the source](https://github.com/blackd/Inventory-Profiles)
 
 ## Thanks
 

@@ -1,5 +1,3 @@
-# Inventory Profiles Next 
-
 ## What's new
 ### 0.8.5
 - Fixed problem in Forge mods that made sorting impossible if the inventory/container has more than 1 enchanted item with same enchants, same item type, and same name and items were arranged in specific way.
@@ -26,27 +24,6 @@
 - When UI scaling is more than 2 or in case of tiny game windows the config screen might not show the anchor header correctly.
 - If you make the game window 0x0 pixels while the configuration screen is open, sometimes the game crashes. 
 
-## Get in touch **[![2][2]][1]**
-
-
-## Migration from old Inventory Profiles
-
-    move MINECRAFTHOME/config/inventoryprofiles somewhere.
-    remove the old mod.
-    install the this mod.
-    move back inventoryprofiles folder from above.
-    rename the folder to inventoryprofilesnext.
-
-## Requirements
-
-- Fabric loader >=0.11.6
-
-- [fabric api](https://modrinth.com/mod/fabric-api) 
-  
-- [ModMenu](https://modrinth.com/mod/modmenu)
-
-- Forge 36.1.32 for 1.16.5
-- Forge 37.0.17 for 1.17.1
 
 [1]: https://discord.gg/23YCxmveUM
 [2]: https://img.shields.io/discord/861171785897738240?label=Discord&logo=discord&style=plastic
