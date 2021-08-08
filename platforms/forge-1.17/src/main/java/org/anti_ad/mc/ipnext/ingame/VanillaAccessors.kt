@@ -66,8 +66,11 @@ val ContainerScreen<*>.`(containerBounds)`: Rectangle
 val ContainerScreen<*>.`(container)`: Container
     get() = this.menu //container //in official mappings this is "menu"
 
-val PlayerInventory.`(selectedSlot)`: Int
+var PlayerInventory.`(selectedSlot)`: Int
     get() = selected //currentItem // selectedSlot = currentItem
+    set(value) {
+        selected = value
+    }
 
 val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
     get() = this.selectedTab == ItemGroup.TAB_INVENTORY.id  // in official mappings this is .TAB_INVENTORY.id  // index

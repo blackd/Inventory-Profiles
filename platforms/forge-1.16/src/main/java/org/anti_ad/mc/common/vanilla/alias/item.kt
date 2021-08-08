@@ -30,9 +30,10 @@ typealias TagContainer<T> = ITagCollection<T>
 
 typealias NbtCompound = CompoundNBT
 typealias NbtTag = NbtTag
+typealias NbtList = ListNBT
 
-typealias AbstractNumberTag = NumberNBT
-typealias AbstractListTag<T> = CollectionNBT<T>
+typealias AbstractNbtNumber = NumberNBT
+typealias AbstractNbtList<T> = CollectionNBT<T>
 
 typealias NbtPathArgumentType = NBTPathArgument
 typealias NbtPathArgumentTypeNbtPath = NBTPathArgument.NBTPath

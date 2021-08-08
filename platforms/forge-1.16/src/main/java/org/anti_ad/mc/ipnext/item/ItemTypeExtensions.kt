@@ -17,6 +17,14 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 // vanillamapping code depends on mappings
 // ============
 
+fun ItemType.fullItemInfoAsJson(): String {
+    var res = "{" + "\n\t\"id\" : \"" + this.itemId+ "\",\n"
+    tag?.keySet()?.forEach {
+        res += "\t{\n\t\t\"$it\" : ${tag.get(it)}\n},"
+    }
+    return "$res\n}"
+}
+
 fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with namespace
     return itemId + (tag ?: "")
 }
@@ -61,6 +69,8 @@ val ItemType.itemId: String
     get() = identifier.toString()
 val ItemType.translationKey: String
     get() = vanillaStack.translationKey //descriptionId
+val ItemType.isStackable: Boolean
+    get() = vanillaStack.isStackable
 
 //endregion
 

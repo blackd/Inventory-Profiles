@@ -1,4 +1,5 @@
-PROFILES/0.1.0
+#PROFILES/0.1.0
+//PROFILES/0.1.0
 
 Profile I
   armor.chest     diamond_chestplate

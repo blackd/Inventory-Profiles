@@ -3,9 +3,12 @@ package org.anti_ad.mc.ipnext.parser
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.TellPlayer
+import org.anti_ad.mc.common.annotation.MayThrow
 import org.anti_ad.mc.common.extensions.*
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
+import org.anti_ad.mc.common.profiles.conifg.ProfileData
+import org.anti_ad.mc.common.profiles.conifg.ProfilesConfig
 import org.anti_ad.mc.common.util.LogicalStringComparator
 import org.anti_ad.mc.common.vanilla.Vanilla.mc
 import org.anti_ad.mc.common.vanilla.alias.ClientWorld
@@ -19,6 +22,8 @@ import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import java.nio.file.Path
 import java.util.*
 import kotlin.concurrent.schedule
+import kotlin.io.path.readText
+import kotlin.io.path.writeText
 
 private val strCmpLogical = LogicalStringComparator.file()
 
@@ -58,7 +63,36 @@ private fun getFiles(regex: String) =
     }
 
 private val definedLoaders: List<Loader> = listOf(LockSlotsLoader,
+                                                  ProfilesLoader,
                                                   RuleLoader)
+
+object ProfilesLoader: Loader, Savable {
+
+    val file: Path
+        get() {
+            return configFolder / "profiles${serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue)}.txt"
+        }
+
+    val profiles = mutableListOf<ProfileData>()
+
+    @MayThrow
+    override fun save() {
+        file.writeText(ProfilesConfig.asString(profiles))
+    }
+
+    override fun load(clientWorld: Any?) {
+        reload(clientWorld as ClientWorld?)
+    }
+
+    override fun reload(clientWorld: ClientWorld?) {
+        if (clientWorld != null) {
+            profiles.clear()
+            if (file.exists()) {
+                profiles.addAll(ProfilesConfig.getProfiles(file.readText()))
+            }
+        }
+    }
+}
 
 // ============
 // loader
@@ -92,24 +126,7 @@ object LockSlotsLoader : Loader, Savable {
 
     val file: Path
     get() {
-        val id: String = when {
-            !ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue -> {
-                return configFolder / "lockSlots.txt"
-            }
-            mc().isSingleplayer -> {
-                mc().integratedServer?.serverConfiguration?.worldName ?: ""
-            }
-            mc().isConnectedToRealms -> {
-                mc().connection?.networkManager?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: ""
-            }
-            mc().currentServerData != null -> {
-                mc().currentServerData?.serverIP?.replace("/","")?.replace(":","&") ?: ""
-            }
-            else -> {
-                return configFolder / "lockSlots.txt"
-            }
-        }
-        return configFolder / "lockSlots-$id.txt"
+        return configFolder / "lockSlots${serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue)}.txt"
     }
 
 
@@ -187,5 +204,31 @@ object RuleLoader : Loader {
         Log.trace("Rule reload end")
 
         TemporaryRuleParser.onReload()
+    }
+}
+
+private fun serverIdentifier(perServer: Boolean): String = when {
+    !perServer -> {
+        ""
+    }
+    mc().isSingleplayer -> {
+        (mc().integratedServer?.serverConfiguration?.worldName ?: "").sanitized()
+    }
+    mc().isConnectedToRealms -> {
+        (mc().connection?.networkManager?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()
+    }
+    mc().currentServerData != null -> {
+        (mc().currentServerData?.serverIP?.replace("/","")?.replace(":","&") ?: "").sanitized()
+    }
+    else -> {
+        ""
+    }
+}
+
+private fun String.sanitized(): String {
+    return if (this.isNotEmpty()) {
+        "-$this"
+    } else {
+        this
     }
 }

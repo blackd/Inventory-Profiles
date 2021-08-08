@@ -23,16 +23,13 @@ import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.stackableWith
 
-class AdvancedContainer(
-    private val vanillaContainer: Container,
-    cursor: ItemStack = vCursorStack()
-) {
+class AdvancedContainer(private val vanillaContainer: Container,
+                        cursor: ItemStack = vCursorStack()) {
     private val vanillaSlots: List<Slot>
         get() = vanillaContainer.`(slots)`
-    private val planner = ItemPlanner(MutableItemTracker(
-        cursor.copyAsMutable(),
-        vanillaSlots.map { it.`(mutableItemStack)` }
-    ))
+
+    private val planner = ItemPlanner(MutableItemTracker(cursor.copyAsMutable(),
+                                                         vanillaSlots.map { it.`(mutableItemStack)` }))
     private val slotIdClicks: List<Pair<Int, Int>>
         get() = vanillaSlots.let { slots ->
             @ThrowsCaught
@@ -125,11 +122,10 @@ class AdvancedContainer(
             }
         }
 
-        fun tracker(
-            instant: Boolean = false,
-            cleanCursor: Boolean = true,
-            block: TrackerDsl.() -> Unit
-        ) {
+        fun tracker(instant: Boolean = false,
+                    cleanCursor: Boolean = true,
+                    block: TrackerDsl.() -> Unit) {
+
             if (!VanillaUtil.inGame()) return
             AdvancedContainer(instant) {
                 if (cleanCursor && !Debugs.FORCE_NO_CLEAN_CURSOR.booleanValue) cleanCursor()
@@ -195,6 +191,7 @@ class AdvancedContainer(
 
     private fun ContainerSandbox.cursorPutTo(destination: SubTracker,
                                              skipEmpty: Boolean) {
+
         val tracker = this.items
         if (tracker.cursor.isEmpty()) return
         for ((slotIndex, slotItem) in destination.indexedSlots) {

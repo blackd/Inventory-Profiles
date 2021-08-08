@@ -14,11 +14,10 @@ interface ItemTracker {
 }
 
 // mutable item tracker
-class MutableItemTracker(
-    override val cursor: MutableItemStack,
-    override val slots: List<MutableItemStack>,
-    override val thrownItems: MutableItemBucket = MutableItemBucket()
-) : ItemTracker {
+class MutableItemTracker(override val cursor: MutableItemStack,
+                         override val slots: List<MutableItemStack>,
+                         override val thrownItems: MutableItemBucket = MutableItemBucket()) : ItemTracker {
+
     override fun copyAsMutable() = MutableItemTracker(
         cursor.copyAsMutable(),
         slots.copyAsMutable(),

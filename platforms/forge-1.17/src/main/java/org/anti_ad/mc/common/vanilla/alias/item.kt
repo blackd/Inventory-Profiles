@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items //net.minecraft.item.Items
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NumericTag
 import net.minecraft.nbt.CollectionTag
+import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.nbt.TagParser
 import net.minecraft.world.effect.MobEffectInstance //net.minecraft.world.effect.MobEffect //net.minecraft.potion.EffectInstance
@@ -34,9 +35,10 @@ typealias TagContainer<T> = TagCollection<T>
 
 typealias NbtCompound = CompoundTag
 typealias NbtTag = NbtTag
+typealias NbtList = ListTag
 
-typealias AbstractNumberTag = NumericTag
-typealias AbstractListTag<T> = CollectionTag<T>
+typealias AbstractNbtNumber = NumericTag
+typealias AbstractNbtList<T> = CollectionTag<T>
 
 typealias NbtPathArgumentType = NbtPathArgument
 typealias NbtPathArgumentTypeNbtPath = NbtPathArgument.NbtPath

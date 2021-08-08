@@ -31,6 +31,10 @@ object ModSettings : ConfigDeclaration {
     val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
     val ALWAYS_MOVE_ALL                           /**/ by bool(false)
 
+        .CATEGORY("$category.profiles")
+    val ENABLE_PROFILES                          /**/ by bool(true)
+    val PROFILES_PER_SERVER                      /**/ by bool(true)
+
         .CATEGORY("$category.lock_slots")
     val ENABLE_LOCK_SLOTS                         /**/ by bool(true)
     val ENABLE_LOCK_SLOTS_PER_SERVER              /**/ by bool(true)
@@ -117,7 +121,6 @@ object GuiSettings : ConfigDeclaration {
 
 object EditProfiles : ConfigDeclaration {
     override val builder = createBuilder()
-
         .CATEGORY("$category.coming_soon")
 }
 
@@ -136,8 +139,11 @@ object Hotkeys : ConfigDeclaration {
     val MOVE_ALL_ITEMS                            /**/ by hotkey("",
                                                                  KeybindSettings.GUI_EXTRA)
     val THROW_ALL_ITEMS                           /**/ by hotkey("",
-                                                                 KeybindSettings.GUI_EXTRA)
-
+                                                                  KeybindSettings.GUI_EXTRA)
+    val NEXT_PROFILE                              /**/ by hotkey("",
+                                                                  KeybindSettings.ANY_DEFAULT)
+    val SAVE_AS_PROFILE                            /**/ by hotkey("",
+                                                                  KeybindSettings.GUI_DEFAULT)
 
         .CATEGORY("$category.misc")
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",
@@ -180,7 +186,6 @@ object Debugs : ConfigDeclaration {
     val DIFF_CALCULATOR                           /**/ by enum(DiffCalculatorType.SIMPLE)
     val DEBUG_SCREEN                              /**/ by hotkey("Z,1",
                                                                  KeybindSettings.ANY_DEFAULT)
-
     val SCREEN_DEPTH_TEST                         /**/ by hotkey("Z,2",
                                                                  KeybindSettings.ANY_DEFAULT)
     val SCREEN_SPRITE_TEST                        /**/ by hotkey("Z,3",

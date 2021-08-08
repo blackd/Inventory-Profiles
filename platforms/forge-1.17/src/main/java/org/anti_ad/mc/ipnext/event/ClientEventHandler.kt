@@ -25,17 +25,20 @@ object ClientEventHandler {
 
     private fun onTickInGame() {
         LockedSlotKeeper.onTickInGame()
-        if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue
-            && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
+        ProfileSwitchHandler.onTickInGame()
 
+        if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
             ContinuousCraftingHandler.onTickInGame()
         }
+
         if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
             AutoRefillHandler.onTickInGame()
         }
+
         if (Tweaks.CONTAINER_SWIPE_MOVING_ITEMS.booleanValue) {
             MiscHandler.swipeMoving()
         }
+
         LockSlotsHandler.onTickInGame()
     }
 

@@ -9,14 +9,15 @@ class IndentedDataFileParser(lines: List<String>,
     private val filteredLines = lines.mapIndexed { index, s ->
         Line(index + 1,
              s)
-    }.filter { !it.text.isCommentOrBlank }
-        .dropWhile { line -> line.text.hasIndent.also { if (it) errors += line.copy(text = "unexpected indent") } }
+    }.filter {
+        !it.text.isCommentOrBlank
+    }.dropWhile {
+            line -> line.text.hasIndent.also { if (it) errors += line.copy(text = "unexpected indent") }
+    }
 
-    private inner class IndentedDataImpl(
-        override val lineNumber: Int,
-        override val rawText: String,
-        override var text: String = rawText
-    ) : IndentedData {
+    private inner class IndentedDataImpl(override val lineNumber: Int,
+                                         override val rawText: String,
+                                         override var text: String = rawText) : IndentedData {
         var maxDepth = -1
         override val subData = mutableListOf<IndentedDataImpl>()
         override fun toString(): String = paragraph
@@ -69,17 +70,15 @@ class IndentedDataFileParser(lines: List<String>,
     companion object {
         fun parse(text: String,
                   fileName: String = "<unknown file>",
-                  maxDepth: Int = -1): IndentedData =
-            parse(text.lines(),
-                  fileName,
-                  maxDepth)
+                  maxDepth: Int = -1): IndentedData = parse(text.lines(),
+                                                            fileName,
+                                                            maxDepth)
 
         private fun parse(lines: List<String>,
                           fileName: String = "<unknown file>",
-                          maxDepth: Int = -1): IndentedData =
-            IndentedDataFileParser(lines,
-                                   fileName,
-                                   maxDepth).parse()
+                          maxDepth: Int = -1): IndentedData = IndentedDataFileParser(lines,
+                                                                                     fileName,
+                                                                                     maxDepth).parse()
     }
 }
 

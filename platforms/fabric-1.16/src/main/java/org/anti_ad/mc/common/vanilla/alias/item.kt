@@ -32,6 +32,7 @@ typealias TagGroup<T> = TagGroup<T>
 
 typealias NbtCompound = CompoundTag
 typealias NbtElement = NbtTag
+typealias NbtList = ListTag
 
 typealias AbstractNbtNumber = AbstractNumberTag
 typealias AbstractNbtList<T> = AbstractListTag<T>

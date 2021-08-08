@@ -13,6 +13,7 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.debug.DebugFunc
+import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.gui.DebugScreen
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
@@ -28,6 +29,10 @@ object InputHandler : IInputHandler {
             if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
                 VanillaScreenUtil.openScreen(ConfigScreen())
             }
+
+            if (ProfileSwitchHandler.onInput(lastKey, lastAction)) {
+                return true
+            }
             if (Hotkeys.RELOAD_CUSTOM_CONFIGS.isActivated() && VanillaUtil.inGame()) {
                 val cw: ClientWorld? = worldNullable()
                 if (cw != null) {
@@ -36,8 +41,7 @@ object InputHandler : IInputHandler {
             }
             // todo fix hotkey while typing text field
             if (InventoryInputHandler.onInput(lastKey,
-                                              lastAction)
-            ) {
+                                              lastAction)) {
                 return true
             }
 

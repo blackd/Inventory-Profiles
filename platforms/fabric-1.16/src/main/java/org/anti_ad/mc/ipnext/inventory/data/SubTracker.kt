@@ -12,12 +12,12 @@ interface SubTracker {
     operator fun plus(another: SubTracker): SubTracker
 }
 
-class MutableSubTracker(
-    override val mainTracker: MutableItemTracker,
-    override val slotIndices: List<Int>
-) : SubTracker {
+class MutableSubTracker(override val mainTracker: MutableItemTracker,
+                        override val slotIndices: List<Int>) : SubTracker {
+
     override val slots: List<MutableItemStack>
             by lazy(LazyThreadSafetyMode.NONE) { slotIndices.map { mainTracker.slots[it] } }
+
     override val indexedSlots: List<IndexedValue<MutableItemStack>>
             by lazy(LazyThreadSafetyMode.NONE) {
                 slotIndices.map {

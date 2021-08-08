@@ -49,13 +49,11 @@ fun MutableSubTracker.moveMatchCraftingTo(crafting: MutableSubTracker) {
 // Complex SubTracker operations
 // ============
 
-fun MutableSubTracker.sort(
-    sortingRule: Rule,
-    postAction: PostAction,
-    isRectangular: Boolean = false,
-    width: Int = 0,
-    height: Int = 0
-) {
+fun MutableSubTracker.sort(sortingRule: Rule,
+                           postAction: PostAction,
+                           isRectangular: Boolean = false,
+                           width: Int = 0,
+                           height: Int = 0) {
     val slots = this.slots
     slots.sortItems(sortingRule).postAction(postAction,
                                             isRectangular,
@@ -73,24 +71,19 @@ private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
         .flatten(this.size)
 }
 
-private fun List<ItemStack>.postAction(
-    postAction: PostAction,
-    isRectangular: Boolean = false,
-    width: Int = 0,
-    height: Int = 0
-): List<ItemStack> {
+private fun List<ItemStack>.postAction(postAction: PostAction,
+                                       isRectangular: Boolean = false,
+                                       width: Int = 0,
+                                       height: Int = 0): List<ItemStack> {
     return when (postAction) {
         NONE -> this
-        GROUP_IN_ROWS -> if (isRectangular) PostActions.groupInRows(
-            this,
-            width,
-            height
-        ) else this
-        GROUP_IN_COLUMNS -> if (isRectangular) PostActions.groupInColumns(
-            this,
-            width,
-            height
-        ) else this
+        GROUP_IN_ROWS -> if (isRectangular) PostActions.groupInRows(this,
+                                                                    width,
+                                                                    height) else this
+
+        GROUP_IN_COLUMNS -> if (isRectangular) PostActions.groupInColumns(this,
+                                                                          width,
+                                                                          height) else this
         DISTRIBUTE_EVENLY -> this.spreadSlot()
         SHUFFLE -> this.spreadSlot().spreadItemCount().shuffled()
         FILL_ONE -> this.spreadSlot().fillOne()

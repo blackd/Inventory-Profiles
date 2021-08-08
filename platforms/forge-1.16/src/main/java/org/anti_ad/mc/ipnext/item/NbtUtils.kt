@@ -3,7 +3,6 @@ package org.anti_ad.mc.ipnext.item
 import com.mojang.brigadier.StringReader
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.*
-import org.anti_ad.mc.common.util.*
 import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(getByIdentifier)`
@@ -121,15 +120,15 @@ object NbtUtils {
         val asString: String
             get() = value.`(asString)`
         val asNumber: Number // todo what if number is long > double precision range
-            get() = (value as? AbstractNumberTag)?.double ?: 0 //asDouble
+            get() = (value as? AbstractNbtNumber)?.double ?: 0 //asDouble
         val asDouble: Double
-            get() = (value as? AbstractNumberTag)?.double ?: 0.0 //asDouble
+            get() = (value as? AbstractNbtNumber)?.double ?: 0.0 //asDouble
         val asCompound: NbtCompound
             get() = value as? NbtCompound ?: NbtCompound()
         val asList: List<WrappedTag>
-            get() = (value as? AbstractListTag<*>)?.map { WrappedTag(it) } ?: listOf()
+            get() = (value as? AbstractNbtList<*>)?.map { WrappedTag(it) } ?: listOf()
         val asListUnwrapped: List<NbtTag>
-            get() = (value as? AbstractListTag<*>)?.toList() ?: listOf()
+            get() = (value as? AbstractNbtList<*>)?.toList() ?: listOf()
         val asListComparable: List<AsComparable<NbtTag>>
             get() = asListUnwrapped.map { it.asComparable { a, b -> a.compareTo(b) } }
     }

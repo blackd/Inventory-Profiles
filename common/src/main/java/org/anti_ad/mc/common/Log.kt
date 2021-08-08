@@ -41,6 +41,12 @@ object Log {
 
     // for trace
     private var indent = 0
+
+    inline fun indent(unit: () -> Unit) {
+        indent()
+        unit()
+        unindent()
+    }
     fun indent() {
         indent++
     }

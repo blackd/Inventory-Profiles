@@ -70,8 +70,11 @@ val ContainerScreen<*>.`(containerBounds)`: Rectangle
 val ContainerScreen<*>.`(container)`: Container
     get() = screenHandler
 
-val PlayerInventory.`(selectedSlot)`: Int
+var PlayerInventory.`(selectedSlot)`: Int
     get() = selectedSlot
+    set(value) {
+        selectedSlot = value
+    }
 
 // getSelectedTab() = method_2469()
 val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()

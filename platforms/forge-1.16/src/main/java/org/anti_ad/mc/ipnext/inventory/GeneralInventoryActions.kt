@@ -7,20 +7,30 @@ import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.PostAction
 import org.anti_ad.mc.ipnext.config.SortingMethodIndividual
-import org.anti_ad.mc.ipnext.ingame.*
+import org.anti_ad.mc.ipnext.ingame.`(id)`
+import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
+import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
+import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.ingame.vCursorStack
+import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
-import org.anti_ad.mc.ipnext.inventory.action.*
+import org.anti_ad.mc.ipnext.inventory.action.moveAllTo
+import org.anti_ad.mc.ipnext.inventory.action.moveMatchCraftingTo
+import org.anti_ad.mc.ipnext.inventory.action.moveMatchTo
+import org.anti_ad.mc.ipnext.inventory.action.restockFrom
+import org.anti_ad.mc.ipnext.inventory.action.sort
+import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.rule.Rule
-import org.anti_ad.mc.ipnext.item.toNamespacedString
 
 object GeneralInventoryActions {
 
@@ -67,8 +77,7 @@ object GeneralInventoryActions {
         if (types.contains(CREATIVE)) return // no do creative menu
         if (!types.containsAny(setOf(SORTABLE_STORAGE,
                                      NO_SORTING_STORAGE,
-                                     CRAFTING))
-        ) return
+                                     CRAFTING))) return
         val forceToPlayer = ModSettings.MOVE_ALL_AT_CURSOR.booleanValue &&
                 vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
         if (forceToPlayer) {
@@ -94,9 +103,9 @@ object GeneralInventoryActions {
                 vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
 
         val includeHotbar = // xor
-            ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
+                ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
         val moveAll = // xor
-            ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
+                ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
         with(AreaTypes) {
             val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
                     lockedSlots
@@ -108,9 +117,9 @@ object GeneralInventoryActions {
             }.toList()
             if (actUponSlots.isNotEmpty()) {
                 val interval: Int =
-                    if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue)
-                        ModSettings.INTERVAL_BETWEEN_CLICKS_MS.integerValue
-                    else 0
+                        if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue)
+                            ModSettings.INTERVAL_BETWEEN_CLICKS_MS.integerValue
+                        else 0
                 ContainerClicker.executeQClicks(actUponSlots, interval)
             }
 
@@ -125,9 +134,9 @@ object GeneralInventoryActions {
             return
         }
         val includeHotbar = // xor
-            ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
+                ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
         val moveAll = // xor
-            ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
+                ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
         AdvancedContainer.tracker {
             with(AreaTypes) {
                 val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
@@ -160,7 +169,10 @@ object GeneralInventoryActions {
 
     fun dumpItemNbt() {
         val stack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
-        TellPlayer.chat(stack.itemType.toNamespacedString())
+        //TellPlayer.chat(stack.itemType.toNamespacedString())
+        val item = stack.itemType.fullItemInfoAsJson()
+        Log.info(item)
+        TellPlayer.chat("Slot: ${vFocusedSlot()?.`(invSlot)`}, ${vFocusedSlot()?.`(id)`} $item")
     }
 
     fun cleanCursor() {
@@ -180,7 +192,7 @@ object GeneralInventoryActions {
 private object InnerActions {
 
     private fun forcePlayerSide(): Boolean = // default container side
-        ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.inventory /*container*/ is PlayerInventory
+            ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.inventory /*container*/ is PlayerInventory
 
     fun doSort(sortingRule: Rule,
                postAction: PostAction) = tryCatch {
@@ -212,7 +224,6 @@ private object InnerActions {
         }
     }
 
-
     fun cleanTempSlotsForClosing() {
         // in vanilla, seems only beacon will drop the item, handle beacon only
         //   - clicking cancel button in beacon will bypass
@@ -224,4 +235,5 @@ private object InnerActions {
     }
 
 }
+
 

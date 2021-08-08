@@ -86,8 +86,8 @@ dependencies {
     "implementation"("org.apache.commons:commons-rng-core:1.3")
     "implementation"("commons-io:commons-io:2.4")
     "implementation"("org.apache.commons:commons-lang3:3.8.1")
-    "implementation"("org.jetbrains.kotlin:kotlin-stdlib")
-    "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common")
+    "implementation"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+    "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT")

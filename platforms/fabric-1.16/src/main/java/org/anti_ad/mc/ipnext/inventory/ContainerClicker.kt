@@ -15,6 +15,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.*
+import org.anti_ad.mc.ipnext.item.isEmpty
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.timer
 
@@ -39,9 +40,23 @@ object ContainerClicker {
         genericClick(slotId,
                      1,
                      SlotActionType.THROW)
-
     }
 
+    private fun swapClick(to: Int, foundSlotId: Int) {
+        GeneralInventoryActions.cleanCursor()
+        if ((to - 36) in 0..8) { // use swap
+            //handles hotbar
+            swap(foundSlotId,
+                 to - 36)
+        } else {
+            //handles offhand and armor slots
+            leftClick(foundSlotId)
+            leftClick(to)
+            if (!vCursorStack().isEmpty()) {
+                leftClick(foundSlotId) // put back
+            }
+        }
+    }
 
     fun click(slotId: Int,
               button: Int) { // SlotActionType.PICKUP
@@ -67,13 +82,12 @@ object ContainerClicker {
                      actionType,
                      doSendContentUpdates)
 
-    fun genericClick(
-        container: Container,
-        slotId: Int,
-        button: Int,
-        actionType: SlotActionType,
-        contentUpdates: Boolean = true
-    ) {
+    fun genericClick(container: Container,
+                     slotId: Int,
+                     button: Int,
+                     actionType: SlotActionType,
+                     contentUpdates: Boolean = true) {
+
         if (container is CreativeContainer) {
             // creative menu dont use method_2906
             // simulate the action in CreativeInventoryScreen line 135
@@ -86,13 +100,11 @@ object ContainerClicker {
             return
         }
         // clickSlot() = method_2906()
-        Vanilla.interactionManager().clickSlot(
-            container.syncId,
-            slotId,
-            button,
-            actionType,
-            Vanilla.player()
-        )
+        Vanilla.interactionManager().clickSlot(container.syncId,
+                                               slotId,
+                                               button,
+                                               actionType,
+                                               Vanilla.player())
     }
 
     fun sendContentUpdates() {
@@ -149,6 +161,64 @@ object ContainerClicker {
             }
         }
     }
+
+    fun executeSwapClicks(clicks: List<Pair<Int, Int>>,
+                          interval: Int) {
+        if (interval == 0) {
+            if (Vanilla.container() is CreativeContainer) { // bulk content updates
+                doSendContentUpdates = false
+                clicks.forEach {
+                    swapClick(it.first, it.second)
+                }
+                sendContentUpdates()
+                doSendContentUpdates = true
+            } else {
+                clicks.forEach {
+                    swapClick(it.first, it.second)
+                }
+            }
+        } else {
+            val currentContainer = Vanilla.container()
+            var currentScreen = Vanilla.screen()
+            val iterator = clicks.iterator()
+            val firstHighlight = Highlight(-1)
+            val secondHighlight = Highlight(-1)
+            highlights.add(firstHighlight)
+            highlights.add(secondHighlight)
+            timer(period = interval.toLong()) {
+                if (Vanilla.container() != currentContainer) {
+                    cancel()
+                    highlights.remove(firstHighlight)
+                    highlights.remove(secondHighlight)
+                    Log.debug("Click cancelled due to container changed")
+                    return@timer
+                }
+                if (ModSettings.STOP_AT_SCREEN_CLOSE.booleanValue && Vanilla.screen() != currentScreen) {
+                    if (currentScreen == null) { // open screen wont affect, only close screen affect
+                        currentScreen = Vanilla.screen()
+                    } else {
+                        cancel()
+                        highlights.remove(firstHighlight)
+                        highlights.remove(secondHighlight)
+                        Log.debug("Click cancelled due to screen closed")
+                        return@timer
+                    }
+                }
+                if (iterator.hasNext()) {
+                    val slotId = iterator.next()
+                    firstHighlight.id = slotId.first
+                    secondHighlight.id = slotId.second
+                    swapClick(slotId.first, slotId.second)
+                } else {
+                    cancel()
+                    highlights.remove(firstHighlight)
+                    highlights.remove(secondHighlight)
+                    return@timer
+                }
+            }
+        }
+    }
+
 
     fun executeClicks(clicks: List<Pair<Int, Int>>,
                       interval: Int) { // slotId, button
