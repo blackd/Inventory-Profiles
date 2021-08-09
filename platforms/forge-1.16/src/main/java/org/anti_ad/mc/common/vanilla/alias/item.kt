@@ -6,7 +6,12 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.nbt.*
+import net.minecraft.nbt.CollectionNBT
+import net.minecraft.nbt.CompoundNBT
+import net.minecraft.nbt.JsonToNBT
+import net.minecraft.nbt.ListNBT
+import net.minecraft.nbt.NBTUtil
+import net.minecraft.nbt.NumberNBT
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.PotionUtils
 import net.minecraft.tags.ITagCollection
@@ -22,14 +27,14 @@ typealias ItemGroup = ItemGroup
 
 typealias ItemTags = ItemTags
 typealias TagTag<T> = TagTag<T>
-typealias TagContainer<T> = ITagCollection<T>
+typealias TagGroup<T> = ITagCollection<T>
 
 // ============
 // nbt
 // ============
 
 typealias NbtCompound = CompoundNBT
-typealias NbtTag = NbtTag
+typealias NbtElement = NbtTag
 typealias NbtList = ListNBT
 
 typealias AbstractNbtNumber = NumberNBT

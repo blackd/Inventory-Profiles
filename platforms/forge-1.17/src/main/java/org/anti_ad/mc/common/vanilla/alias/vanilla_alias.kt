@@ -1,18 +1,17 @@
 package org.anti_ad.mc.common.vanilla.alias
 
-import com.mojang.blaze3d.platform.Window //net.minecraft.client.MainWindow
+import com.mojang.blaze3d.platform.Window
+import net.minecraft.Util
 import net.minecraft.client.Minecraft
-import net.minecraft.client.resources.sounds.SimpleSoundInstance //net.minecraft.client.audio.SimpleSound
-import net.minecraft.client.resources.language.I18n //net.minecraft.client.resources.I18n
-import net.minecraft.client.server.IntegratedServer //net.minecraft.server.integrated.IntegratedServer
-import net.minecraft.resources.ResourceLocation //net.minecraft.util.ResourceLocation
-import net.minecraft.sounds.SoundEvents //net.minecraft.util.SoundEvents
-import net.minecraft.Util //net.minecraft.util.Util
-import net.minecraft.core.DefaultedRegistry //net.minecraft.util.registry.DefaultedRegistry
-import net.minecraft.core.Registry //net.minecraft.util.registry.Registry
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.resources.language.I18n
+import net.minecraft.client.resources.sounds.SimpleSoundInstance
+import net.minecraft.client.server.IntegratedServer
+import net.minecraft.core.DefaultedRegistry
+import net.minecraft.core.Registry
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvents
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
-
-import net.minecraft.client.multiplayer.ClientLevel //net.minecraft.client.world.ClientWorld
 
 typealias MinecraftClient = Minecraft
 typealias IntegratedServer = IntegratedServer

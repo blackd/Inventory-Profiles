@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.item
 
-import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.common.vanilla.alias.Item
+import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,

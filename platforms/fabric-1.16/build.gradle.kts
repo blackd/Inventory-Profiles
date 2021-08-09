@@ -1,9 +1,9 @@
-import org.anti_ad.mc.configureCommon
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.modrinth.minotaur.TaskModrinthUpload
 import net.fabricmc.loom.LoomGradleExtension
 import net.fabricmc.loom.task.RemapJarTask
+import org.anti_ad.mc.configureCommon
 import proguard.gradle.ProGuardTask
-import com.modrinth.minotaur.TaskModrinthUpload;
 
 val supported_minecraft_versions = listOf("1.16.5")
 val mod_loader = "fabric"

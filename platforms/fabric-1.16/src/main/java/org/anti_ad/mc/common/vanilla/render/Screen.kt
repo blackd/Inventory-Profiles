@@ -3,10 +3,15 @@ package org.anti_ad.mc.common.vanilla.render
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
-import org.anti_ad.mc.common.vanilla.render.glue.*
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_VanillaUtil_inGame
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDepthMask
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rRenderDirtBackground
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rScreenHeight
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rScreenSize
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rScreenWidth
 
 private val rScreenWidth
     get() = Vanilla.window().scaledWidth

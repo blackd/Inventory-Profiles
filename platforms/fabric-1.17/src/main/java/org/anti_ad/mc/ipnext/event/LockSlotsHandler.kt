@@ -1,7 +1,5 @@
 package org.anti_ad.mc.ipnext.event
 
-import net.minecraft.client.util.math.MatrixStack
-import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -9,6 +7,7 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
@@ -19,9 +18,13 @@ import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
-import org.anti_ad.mc.ipnext.ingame.*
+import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
+import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
+import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
+import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
-
 
 /*
   slots ignored for:

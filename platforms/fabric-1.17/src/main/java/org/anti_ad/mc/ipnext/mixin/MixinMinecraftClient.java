@@ -1,9 +1,9 @@
 package org.anti_ad.mc.ipnext.mixin;
 
-import org.anti_ad.mc.ipnext.config.Tweaks;
-import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
+import org.anti_ad.mc.ipnext.config.Tweaks;
+import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

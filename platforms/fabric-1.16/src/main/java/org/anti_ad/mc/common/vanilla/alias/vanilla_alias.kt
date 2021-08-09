@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.Window
+import net.minecraft.client.world.ClientWorld
 import net.minecraft.server.integrated.IntegratedServer
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
@@ -11,8 +12,6 @@ import net.minecraft.util.Util
 import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
-
-import net.minecraft.client.world.ClientWorld
 
 typealias MinecraftClient = MinecraftClient
 typealias IntegratedServer = IntegratedServer

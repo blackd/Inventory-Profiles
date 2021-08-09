@@ -7,8 +7,8 @@
 
   ],
   "client": [
-    "MixinScreenHandler",
-    "MixinPlayerInventory"
+    "MixinPlayerInventory",
+    "MixinScreenHandler"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -5,7 +5,6 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.input.GlobalScreenEventListener
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Screen
 
 object InsertWidgetHandler : ScreenEventListener {

@@ -30,8 +30,7 @@ fun CategorizedMultiConfig.toListWidget(displayNameOf: (String) -> String,
     }
 
 class ConfigListWidget(private val displayNameOf: (String) -> String,
-                       private val descriptionOf: (String) -> String) :
-    AnchoredListWidget() {
+                       private val descriptionOf: (String) -> String) : AnchoredListWidget() {
 
     override fun render(mouseX: Int,
                         mouseY: Int,

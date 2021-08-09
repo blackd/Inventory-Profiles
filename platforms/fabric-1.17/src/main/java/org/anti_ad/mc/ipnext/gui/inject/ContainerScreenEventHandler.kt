@@ -3,9 +3,9 @@ package org.anti_ad.mc.ipnext.gui.inject
 import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.screen.BaseScreen
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
@@ -20,11 +20,7 @@ object ContainerScreenEventHandler {
         if (target != Vanilla.screen()) return
         val widget = SortingButtonCollectionWidget(target)
         currentWidget = widget
-        if (GuiSettings.USE_OLD_INSERT_METHOD.booleanValue) {
-            addWidget(AsVanillaWidget(widget))
-        } else {
-            InsertWidgetHandler.insertWidget(widget)
-        }
+        InsertWidgetHandler.insertWidget(widget)
     }
 
     private fun checkValid() {

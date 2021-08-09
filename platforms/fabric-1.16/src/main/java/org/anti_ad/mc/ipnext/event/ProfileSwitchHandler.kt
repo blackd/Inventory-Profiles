@@ -2,26 +2,29 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
-import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
-import org.anti_ad.mc.ipnext.ingame.`(slots)`
-import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
-import org.anti_ad.mc.ipnext.ingame.vCursorStack
-import org.anti_ad.mc.ipnext.inventory.ContainerClicker
-import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
-import org.anti_ad.mc.ipnext.item.*
-
-import org.anti_ad.mc.common.profiles.conifg.ProfileItemData;
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfileEnchantmentData
+import org.anti_ad.mc.common.profiles.conifg.ProfileItemData
 import org.anti_ad.mc.common.profiles.conifg.ProfileSlot
 import org.anti_ad.mc.common.profiles.conifg.ProfileSlotId
 import org.anti_ad.mc.common.profiles.conifg.fromEnchantmentLevel
+import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.AbstractNbtList
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
+import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
+import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
+import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.ingame.vCursorStack
+import org.anti_ad.mc.ipnext.inventory.ContainerClicker
+import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
+import org.anti_ad.mc.ipnext.item.ItemStack
+import org.anti_ad.mc.ipnext.item.NbtUtils
+import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.isStackable
+import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.parser.ProfilesLoader
 
 object ProfileSwitchHandler: IInputHandler {

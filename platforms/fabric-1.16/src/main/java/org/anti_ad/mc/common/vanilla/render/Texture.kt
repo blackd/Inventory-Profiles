@@ -1,14 +1,32 @@
 package org.anti_ad.mc.common.vanilla.render
 
 import net.minecraft.client.gui.widget.ButtonWidget
-import org.anti_ad.mc.common.math2d.*
-import org.anti_ad.mc.common.math2d.Corner.*
+import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.math2d.Size
+import org.anti_ad.mc.common.math2d.resizeBottom
+import org.anti_ad.mc.common.math2d.resizeBottomLeft
+import org.anti_ad.mc.common.math2d.resizeBottomRight
+import org.anti_ad.mc.common.math2d.resizeLeft
+import org.anti_ad.mc.common.math2d.resizeRight
+import org.anti_ad.mc.common.math2d.resizeTop
+import org.anti_ad.mc.common.math2d.resizeTopLeft
+import org.anti_ad.mc.common.math2d.resizeTopRight
+import org.anti_ad.mc.common.math2d.split3x3
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
-import org.anti_ad.mc.common.vanilla.render.glue.*
-
+import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeMode
+import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
+import org.anti_ad.mc.common.vanilla.render.glue.Sprite
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_VANILLA_TEXTURE_WIDGETS
+import org.anti_ad.mc.common.vanilla.render.glue.__glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_make_Identifier
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rBlit
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDrawDynamicSizeSprite
+import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDrawSprite
+import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 
 inline operator fun IdentifierHolder.invoke(): Identifier {
     return this.id as Identifier
@@ -17,8 +35,8 @@ inline operator fun IdentifierHolder.invoke(): Identifier {
 private val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
     get() = IdentifierHolder( ButtonWidget.WIDGETS_LOCATION) // WIDGETS_TEXTURE
 
-private val  interna_rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
-                                                    Rectangle(0,
+private val  internal_rVanillaButtonSpriteF = Sprite(VANILLA_TEXTURE_WIDGETS,
+                                                     Rectangle(0,
                                                               46,
                                                               200,
                                                               20))
@@ -35,7 +53,7 @@ fun initTextureGlue() {
     __glue_rDrawDynamicSizeSprite = ::internal_rDrawDynamicSizeSprite
 
     __glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite = {
-        interna_rVanillaButtonSpriteF
+        internal_rVanillaButtonSpriteF
     }
     __glue_VANILLA_TEXTURE_WIDGETS = VANILLA_TEXTURE_WIDGETS
 }

@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.forge;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
-import com.mojang.blaze3d.platform.InputConstants; //net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
@@ -18,12 +18,6 @@ import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
-
-
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Modifier;
 
 /**
  * ForgeEventHandler

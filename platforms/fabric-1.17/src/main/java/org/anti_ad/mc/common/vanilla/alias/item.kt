@@ -10,13 +10,13 @@ import net.minecraft.item.Items
 import net.minecraft.nbt.AbstractNbtList
 import net.minecraft.nbt.AbstractNbtNumber
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.StringNbtReader
 import net.minecraft.potion.PotionUtil
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagGroup
-import net.minecraft.nbt.NbtElement
-import net.minecraft.nbt.NbtList
 import net.minecraft.tag.Tag as TagTag
 
 typealias Item = Item

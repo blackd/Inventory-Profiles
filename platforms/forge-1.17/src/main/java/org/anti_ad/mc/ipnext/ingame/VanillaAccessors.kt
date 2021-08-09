@@ -4,9 +4,24 @@ package org.anti_ad.mc.ipnext.ingame
 
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.ipnext.item.*
+import org.anti_ad.mc.common.vanilla.alias.Container
+import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
+import org.anti_ad.mc.common.vanilla.alias.DefaultedRegistry
+import org.anti_ad.mc.common.vanilla.alias.Identifier
+import org.anti_ad.mc.common.vanilla.alias.Inventory
+import org.anti_ad.mc.common.vanilla.alias.ItemGroup
+import org.anti_ad.mc.common.vanilla.alias.NbtElement
+import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
+import org.anti_ad.mc.common.vanilla.alias.Registry
+import org.anti_ad.mc.common.vanilla.alias.Screen
+import org.anti_ad.mc.common.vanilla.alias.Slot
+import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
+import org.anti_ad.mc.ipnext.item.ItemType
+import org.anti_ad.mc.ipnext.item.MutableItemStack
+import org.anti_ad.mc.ipnext.item.empty
+import org.anti_ad.mc.ipnext.item.vanillaStack
 import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -105,8 +120,8 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 // ============
 // nbt Tag
 // ============
-val NbtTag.`(type)`: Int
+val NbtElement.`(type)`: Int
     get() = id.toInt()
-val NbtTag.`(asString)`: String
+val NbtElement.`(asString)`: String
     get() = asString //asString //string
 

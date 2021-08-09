@@ -2,13 +2,15 @@ package org.anti_ad.mc.common.vanilla.render
 
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.intersect
-import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.vanilla.alias.DstFactor
+import org.anti_ad.mc.common.vanilla.alias.MatrixStack
+import org.anti_ad.mc.common.vanilla.alias.RenderSystem
+import org.anti_ad.mc.common.vanilla.alias.SrcFactor
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rScreenBounds
 import org.lwjgl.opengl.GL11
-
 
 fun initGLGlue() {
     __glue_rStandardGlState = ::rStandardGlState

@@ -6,8 +6,12 @@ import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.Identifier
+import org.anti_ad.mc.common.vanilla.alias.Item
+import org.anti_ad.mc.common.vanilla.alias.ItemTags
+import org.anti_ad.mc.common.vanilla.alias.Registry
+import org.anti_ad.mc.common.vanilla.alias.TagGroup
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
-import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 
 // ============
@@ -36,7 +40,7 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
     val String.omittedString: String // omit minecraft
         get() = removePrefix("minecraft:")
 
-    fun TagContainer<Item>.toTagTxtContent(): String { // lets sort it
+    fun TagGroup<Item>.toTagTxtContent(): String { // lets sort it
         val list = mutableListOf<Pair<String, MutableList<String>>>()
         for ((identifier, tag) in idTagMap) { // forge tagMap = entries
 //      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values

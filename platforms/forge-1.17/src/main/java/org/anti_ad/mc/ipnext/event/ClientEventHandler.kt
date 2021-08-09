@@ -1,7 +1,6 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.input.GlobalInputHandler
-import org.anti_ad.mc.common.vanilla.alias.ClientWorld
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings

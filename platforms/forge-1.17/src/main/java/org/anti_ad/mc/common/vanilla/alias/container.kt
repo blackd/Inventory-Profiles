@@ -1,27 +1,34 @@
 package org.anti_ad.mc.common.vanilla.alias
 
-import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen //net.minecraft.client.gui.screen.inventory.CreativeScreen
-import net.minecraft.world.entity.player.Inventory //net.minecraft.entity.player.PlayerInventory
-import net.minecraft.world.inventory.ResultContainer //net.minecraft.inventory.CraftResultInventory
-import net.minecraft.world.inventory.CraftingContainer //net.minecraft.inventory.CraftingInventory
-import net.minecraft.world.Container //net.minecraft.inventory.IInventory
-import net.minecraft.world.inventory.MerchantContainer //net.minecraft.inventory.MerchantInventory
-import net.minecraft.world.inventory.*
-import net.minecraft.world.inventory.AbstractFurnaceMenu //net.minecraft.inventory.container.AbstractFurnaceContainer
-import net.minecraft.world.inventory.BeaconMenu //net.minecraft.inventory.container.BeaconContainer
-import net.minecraft.world.inventory.BrewingStandMenu //net.minecraft.inventory.container.BrewingStandContainer
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen
+import net.minecraft.world.Container
+import net.minecraft.world.entity.player.Inventory
+import net.minecraft.world.inventory.AbstractContainerMenu
+import net.minecraft.world.inventory.AbstractFurnaceMenu
+import net.minecraft.world.inventory.AnvilMenu
+import net.minecraft.world.inventory.BeaconMenu
+import net.minecraft.world.inventory.BrewingStandMenu
 import net.minecraft.world.inventory.CartographyTableMenu
-import net.minecraft.world.inventory.AbstractContainerMenu //net.minecraft.inventory.container.Container
-import net.minecraft.world.inventory.ResultSlot //net.minecraft.inventory.container.CraftingResultSlot
-import net.minecraft.world.inventory.GrindstoneMenu //net.minecraft.inventory.container.GrindstoneContainer
-import net.minecraft.world.inventory.HopperMenu //net.minecraft.inventory.container.HopperContainer
-import net.minecraft.world.inventory.LecternMenu //net.minecraft.inventory.container.LecternContainer
-import net.minecraft.world.inventory.LoomMenu //net.minecraft.inventory.container.LoomContainer
-import net.minecraft.world.inventory.MerchantMenu //net.minecraft.inventory.container.MerchantContainer
-import net.minecraft.world.inventory.InventoryMenu //net.minecraft.inventory.container.PlayerContainer
-import net.minecraft.world.inventory.ShulkerBoxMenu //net.minecraft.inventory.container.ShulkerBoxContainer
-import net.minecraft.world.inventory.Slot //net.minecraft.inventory.container.Slot
-import net.minecraft.world.inventory.StonecutterMenu //net.minecraft.inventory.container.StonecutterContainer
+import net.minecraft.world.inventory.ChestMenu
+import net.minecraft.world.inventory.ClickType
+import net.minecraft.world.inventory.CraftingContainer
+import net.minecraft.world.inventory.CraftingMenu
+import net.minecraft.world.inventory.DispenserMenu
+import net.minecraft.world.inventory.EnchantmentMenu
+import net.minecraft.world.inventory.GrindstoneMenu
+import net.minecraft.world.inventory.HopperMenu
+import net.minecraft.world.inventory.HorseInventoryMenu
+import net.minecraft.world.inventory.InventoryMenu
+import net.minecraft.world.inventory.LecternMenu
+import net.minecraft.world.inventory.LoomMenu
+import net.minecraft.world.inventory.MerchantContainer
+import net.minecraft.world.inventory.MerchantMenu
+import net.minecraft.world.inventory.MerchantResultSlot
+import net.minecraft.world.inventory.ResultContainer
+import net.minecraft.world.inventory.ResultSlot
+import net.minecraft.world.inventory.ShulkerBoxMenu
+import net.minecraft.world.inventory.Slot
+import net.minecraft.world.inventory.StonecutterMenu
 
 typealias Container = AbstractContainerMenu
 typealias CreativeContainer = CreativeModeInventoryScreen.ItemPickerMenu

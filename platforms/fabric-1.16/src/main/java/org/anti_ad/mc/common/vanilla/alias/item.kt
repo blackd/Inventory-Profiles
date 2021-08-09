@@ -7,7 +7,10 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.nbt.*
+import net.minecraft.nbt.AbstractListTag
+import net.minecraft.nbt.AbstractNumberTag
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.StringNbtReader
 import net.minecraft.potion.PotionUtil

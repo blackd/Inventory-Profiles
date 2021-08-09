@@ -8,11 +8,11 @@ import org.anti_ad.mc.common.gui.widgets.TextButtonWidget
 import org.anti_ad.mc.common.gui.widgets.toConfigWidget
 import org.anti_ad.mc.common.input.ConfigKeybindSettings
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.TranslatableText
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import kotlin.math.max
 
 private const val COLOR_WHITE = -0x1

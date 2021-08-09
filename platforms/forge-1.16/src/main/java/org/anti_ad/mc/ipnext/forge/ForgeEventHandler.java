@@ -22,7 +22,6 @@ import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
 
-
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;

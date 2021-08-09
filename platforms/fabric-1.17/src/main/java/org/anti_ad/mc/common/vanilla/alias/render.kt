@@ -9,6 +9,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
+import net.minecraft.util.math.MathHelper
 
 typealias Text = Text
 typealias LiteralText = LiteralText
@@ -19,9 +20,11 @@ typealias TextRenderer = TextRenderer
 typealias DrawableHelper = DrawableHelper
 
 typealias RenderSystem = RenderSystem
-typealias MatrixStack = MatrixStack
+
 typealias DiffuseLighting = DiffuseLighting
 typealias GlStateManager = GlStateManager
 typealias SrcFactor = GlStateManager.SrcFactor
 typealias DstFactor = GlStateManager.DstFactor
 
+typealias MatrixStack = MatrixStack
+typealias MathHelper = MathHelper

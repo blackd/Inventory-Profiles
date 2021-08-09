@@ -3,19 +3,15 @@ package org.anti_ad.mc.common.gui.widgets
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.IConfigOptionNumeric
-import org.anti_ad.mc.common.config.IConfigOptionToggleable
-import org.anti_ad.mc.common.config.options.*
-import org.anti_ad.mc.common.gui.widget.Axis
-import org.anti_ad.mc.common.gui.widget.BiFlex
+import org.anti_ad.mc.common.config.options.ConfigBoolean
+import org.anti_ad.mc.common.config.options.ConfigButton
+import org.anti_ad.mc.common.config.options.ConfigEnum
+import org.anti_ad.mc.common.config.options.ConfigHotkey
+import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.VanillaSound
-import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
-import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
+import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
-import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT
-import org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT
 
 //region Widget Providers for Config Options
 

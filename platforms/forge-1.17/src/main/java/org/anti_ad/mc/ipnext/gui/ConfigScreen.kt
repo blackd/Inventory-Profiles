@@ -4,10 +4,14 @@ import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.builder.toMultiConfigList
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
-import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.TranslatableText
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.ipnext.ModInfo
-import org.anti_ad.mc.ipnext.config.*
+import org.anti_ad.mc.ipnext.config.Configs
+import org.anti_ad.mc.ipnext.config.Debugs
+import org.anti_ad.mc.ipnext.config.Hotkeys
+import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 
 private const val BUTTON_PREFIX = "inventoryprofiles.gui.config."

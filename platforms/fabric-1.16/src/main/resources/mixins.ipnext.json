@@ -11,16 +11,16 @@
     "IMixinSlot",
     "MixinClientPlayerEntity",
     "MixinClientPlayerInteractionManager",
+    "MixinClientPlayNetworkHandler",
     "MixinContainerScreen",
     "MixinCraftingResultSlot",
     "MixinGameRenderer",
     "MixinGlStateManager",
     "MixinGuiCloseC2SPacket",
     "MixinMinecraftClient",
-    "MixinPlayerInventory",
-    "MixinScreen",
     "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
-    "MixinClientPlayNetworkHandler"
+    "MixinPlayerInventory",
+    "MixinScreen"
   ],
   "injectors": {
     "defaultRequire": 1

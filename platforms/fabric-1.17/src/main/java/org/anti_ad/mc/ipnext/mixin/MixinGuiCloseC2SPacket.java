@@ -1,12 +1,12 @@
 package org.anti_ad.mc.ipnext.mixin;
 
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import org.anti_ad.mc.ipnext.config.Tweaks;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 
 /**
  * MixinGuiCloseC2SPacket

@@ -11,6 +11,7 @@
     "IMixinSlot",
     "MixinClientPlayerEntity",
     "MixinClientPlayerInteractionManager",
+    "MixinClientPlayNetworkHandler",
     "MixinContainerScreen",
     "MixinCraftingResultSlot",
     "MixinGameRenderer",
@@ -19,8 +20,7 @@
     "MixinMinecraftClient",
     "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
     "MixinPlayerInventory",
-    "MixinScreen",
-    "MixinClientPlayNetworkHandler"
+    "MixinScreen"
   ],
   "injectors": {
     "defaultRequire": 1

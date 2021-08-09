@@ -5,8 +5,14 @@ import org.anti_ad.mc.ipnext.config.PostAction.*
 import org.anti_ad.mc.ipnext.inventory.data.MutableSubTracker
 import org.anti_ad.mc.ipnext.inventory.data.collect
 import org.anti_ad.mc.ipnext.inventory.data.itemTypes
-import org.anti_ad.mc.ipnext.item.*
+import org.anti_ad.mc.ipnext.item.EMPTY
+import org.anti_ad.mc.ipnext.item.ItemStack
+import org.anti_ad.mc.ipnext.item.MutableItemStack
+import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.isFull
+import org.anti_ad.mc.ipnext.item.maxCount
 import org.anti_ad.mc.ipnext.item.rule.Rule
+import org.anti_ad.mc.ipnext.item.transferTo
 
 // ============
 // SubTracker operations

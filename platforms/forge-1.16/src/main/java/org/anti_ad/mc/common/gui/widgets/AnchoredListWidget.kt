@@ -6,8 +6,8 @@ import org.anti_ad.mc.common.gui.widget.FlexDirection.TOP_DOWN
 import org.anti_ad.mc.common.gui.widget.Overflow.VISIBLE
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
-import org.anti_ad.mc.common.vanilla.render.glue.rFillOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
+import org.anti_ad.mc.common.vanilla.render.glue.rFillOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 
 private const val COLOR_ANCHOR_BORDER = -0x7f666667

@@ -1,6 +1,10 @@
 package org.anti_ad.mc.common.vanilla
 
-import org.anti_ad.mc.common.extensions.*
+import org.anti_ad.mc.common.extensions.createDirectories
+import org.anti_ad.mc.common.extensions.div
+import org.anti_ad.mc.common.extensions.pathFrom
+import org.anti_ad.mc.common.extensions.readToString
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.LiteralText

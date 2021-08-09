@@ -3,7 +3,18 @@
 package org.anti_ad.mc.ipnext.config
 
 import org.anti_ad.mc.common.Savable
-import org.anti_ad.mc.common.config.builder.*
+import org.anti_ad.mc.common.config.builder.CATEGORY
+import org.anti_ad.mc.common.config.builder.ConfigDeclaration
+import org.anti_ad.mc.common.config.builder.ConfigSaveLoadManager
+import org.anti_ad.mc.common.config.builder.bool
+import org.anti_ad.mc.common.config.builder.button
+import org.anti_ad.mc.common.config.builder.createBuilder
+import org.anti_ad.mc.common.config.builder.enum
+import org.anti_ad.mc.common.config.builder.hotkey
+import org.anti_ad.mc.common.config.builder.hotkeyedBool
+import org.anti_ad.mc.common.config.builder.int
+import org.anti_ad.mc.common.config.builder.string
+import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfo
 import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfo
@@ -115,8 +126,6 @@ object GuiSettings : ConfigDeclaration {
     val SHOW_MOVE_ALL_BUTTON                      /**/ by bool(true)
     val SHOW_BUTTON_TOOLTIPS                      /**/ by bool(true)
 
-        .CATEGORY("$category.other")
-    val USE_OLD_INSERT_METHOD                     /**/ by bool(false)
 }
 
 object EditProfiles : ConfigDeclaration {

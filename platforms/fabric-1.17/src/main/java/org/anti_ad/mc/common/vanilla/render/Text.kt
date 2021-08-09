@@ -2,14 +2,13 @@
 
 package org.anti_ad.mc.common.vanilla.render
 
+import net.minecraft.text.Style
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
-import net.minecraft.text.Style
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_draw
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_drawWithShadow
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_getWidth
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_textHandler_wrapLines
-
 
 fun initTextGlue() {
     __glue_Vanilla_textRenderer_textHandler_wrapLines = { s: String, i: Int ->

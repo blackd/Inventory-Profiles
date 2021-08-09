@@ -5,7 +5,11 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
-import org.anti_ad.mc.ipnext.inventory.*
+import org.anti_ad.mc.ipnext.inventory.AreaTypes
+import org.anti_ad.mc.ipnext.inventory.ContainerClicker
+import org.anti_ad.mc.ipnext.inventory.ContainerType
+import org.anti_ad.mc.ipnext.inventory.ContainerTypes
+import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
 object LockedSlotKeeper {
 

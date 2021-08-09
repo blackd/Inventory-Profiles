@@ -10,13 +10,18 @@ import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
 import org.anti_ad.mc.common.vanilla.alias.SlotActionType
 import org.anti_ad.mc.common.vanilla.render.alpha
-import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
+import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.ipnext.config.ModSettings
-import org.anti_ad.mc.ipnext.ingame.*
+import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
+import org.anti_ad.mc.ipnext.ingame.`(id)`
+import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
+import org.anti_ad.mc.ipnext.ingame.vCursorStack
+import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 import org.anti_ad.mc.ipnext.item.isEmpty
-import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.*
 import kotlin.concurrent.timer
 
 // ============

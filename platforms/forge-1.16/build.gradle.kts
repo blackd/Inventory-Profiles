@@ -1,13 +1,11 @@
-import org.anti_ad.mc.configureCommon
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.modrinth.minotaur.TaskModrinthUpload
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
-import proguard.gradle.ProGuardTask
+import org.anti_ad.mc.configureCommon
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-
-import com.modrinth.minotaur.TaskModrinthUpload;
+import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.16.5")
 val mod_loader = "forge"

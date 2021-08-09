@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.RenderHelper
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TranslationTextComponent
@@ -25,3 +26,4 @@ typealias GlStateManager = GlStateManager
 typealias SrcFactor = GlStateManager.SourceFactor
 typealias DstFactor = GlStateManager.DestFactor
 
+typealias MathHelper = MathHelper

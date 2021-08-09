@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext;
 
-import net.minecraftforge.fmllegacy.MavenVersionStringHelper;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fmllegacy.MavenVersionStringHelper;
 
 import java.util.concurrent.atomic.AtomicReference;
 

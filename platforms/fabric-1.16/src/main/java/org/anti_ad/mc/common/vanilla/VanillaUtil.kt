@@ -1,6 +1,10 @@
 package org.anti_ad.mc.common.vanilla
 
-import org.anti_ad.mc.common.extensions.*
+import org.anti_ad.mc.common.extensions.createDirectories
+import org.anti_ad.mc.common.extensions.div
+import org.anti_ad.mc.common.extensions.pathFrom
+import org.anti_ad.mc.common.extensions.readToString
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
@@ -10,10 +14,8 @@ import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
-
 import java.io.File
 import java.nio.file.Path
-
 
 fun initVanillaUtil() {
     __glue_vanillaUtil = VanillaUtil

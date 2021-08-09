@@ -2,11 +2,17 @@ package org.anti_ad.mc.ipnext.item
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.ifTrue
-import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
+import org.anti_ad.mc.common.vanilla.alias.Identifier
+import org.anti_ad.mc.common.vanilla.alias.ItemGroup
+import org.anti_ad.mc.common.vanilla.alias.Items
+import org.anti_ad.mc.common.vanilla.alias.PotionUtil
+import org.anti_ad.mc.common.vanilla.alias.Registry
+import org.anti_ad.mc.common.vanilla.alias.StatusEffectInstance
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.items.BucketItem
-import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.FishBucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`

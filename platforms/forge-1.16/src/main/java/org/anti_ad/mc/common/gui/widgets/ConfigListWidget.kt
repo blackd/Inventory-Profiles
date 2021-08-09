@@ -4,8 +4,8 @@ import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 
 private const val COLOR_WHITE = -0x1
 private const val textY = 6

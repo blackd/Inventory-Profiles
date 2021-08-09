@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.gui.debug
 
+//import org.anti_ad.mc.common.vanilla.render.*
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.mod
 import org.anti_ad.mc.common.extensions.runIf
@@ -13,8 +14,13 @@ import org.anti_ad.mc.common.vanilla.render.COLOR_BLACK
 import org.anti_ad.mc.common.vanilla.render.COLOR_HUD_TEXT
 import org.anti_ad.mc.common.vanilla.render.COLOR_HUD_TEXT_BG
 import org.anti_ad.mc.common.vanilla.render.COLOR_WHITE
-//import org.anti_ad.mc.common.vanilla.render.*
-import org.anti_ad.mc.common.vanilla.render.glue.*
+import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawHorizontalLine
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawVerticalLine
+import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
+import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
+import org.anti_ad.mc.common.vanilla.render.glue.rWrapText
 import kotlin.math.sign
 
 /*

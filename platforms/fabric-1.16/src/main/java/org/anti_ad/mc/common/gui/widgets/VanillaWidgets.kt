@@ -1,16 +1,17 @@
 package org.anti_ad.mc.common.gui.widgets
 
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.MathHelper
+
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
+import org.anti_ad.mc.common.vanilla.alias.MathHelper
+import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.TextRenderer
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
-import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
+import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.common.vanilla.alias.SliderWidget as VanillaSliderWidget
 import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWidget
 
@@ -18,9 +19,8 @@ import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWi
 // vanillamapping code depends on mappings
 // ============
 
-open class VanillaWidget<T : ClickableWidget>(
-    val vanilla: T
-) : Widget() {
+open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
+
     init {
         sizeChanged += {
             vanilla.width = width
@@ -100,6 +100,7 @@ open class VanillaWidget<T : ClickableWidget>(
     override fun keyPressed(keyCode: Int,
                             scanCode: Int,
                             modifiers: Int): Boolean {
+
         return super.keyPressed(keyCode,
                                 scanCode,
                                 modifiers) || vanilla.keyPressed(keyCode,
@@ -110,6 +111,7 @@ open class VanillaWidget<T : ClickableWidget>(
     override fun keyReleased(keyCode: Int,
                              scanCode: Int,
                              modifiers: Int): Boolean {
+
         return super.keyReleased(keyCode,
                                  scanCode,
                                  modifiers) || vanilla.keyReleased(keyCode,
@@ -119,6 +121,7 @@ open class VanillaWidget<T : ClickableWidget>(
 
     override fun charTyped(charIn: Char,
                            modifiers: Int): Boolean {
+
         return super.charTyped(charIn,
                                modifiers) || vanilla.charTyped(charIn,
                                                                modifiers)
@@ -137,6 +140,7 @@ private class CustomVanillaSliderWidget(val minValue: Double,
     var valueChangedEvent: () -> Unit = { }
 
     override fun updateMessage() {}
+
     override fun applyValue() {
         valueChangedEvent()
     }
@@ -172,22 +176,18 @@ private class CustomVanillaSliderWidget(val minValue: Double,
                  j)
 //    val l = if (active) 16777215 else 10526880
         val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
-        drawCenteredText(
-            matrixStack,
-            Vanilla.textRenderer(),
-            message,
-            x + width / 2,
-            y + (height - 8) / 2,
-            l or (MathHelper.ceil(alpha * 255.0f) shl 24)
-        )
+        drawCenteredText(matrixStack,
+                         Vanilla.textRenderer(),
+                         message,
+                         x + width / 2,
+                         y + (height - 8) / 2,
+                         l or (MathHelper.ceil(alpha * 255.0f) shl 24))
     }
 }
 
-class SliderWidget(
-    val minValue: Double = 0.0,
-    val maxValue: Double = 1.0
-) : VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue,
-                                                                 maxValue)) {
+class SliderWidget(val minValue: Double = 0.0,
+                   val maxValue: Double = 1.0): VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue,
+                                                                                                             maxValue)) {
 
     private val silder
         get() = vanilla as CustomVanillaSliderWidget

@@ -2,8 +2,26 @@ package org.anti_ad.mc.ipnext.item
 
 import com.mojang.brigadier.StringReader
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.extensions.*
-import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.extensions.AsComparable
+import org.anti_ad.mc.common.extensions.asComparable
+import org.anti_ad.mc.common.extensions.compareTo
+import org.anti_ad.mc.common.extensions.tryCatch
+import org.anti_ad.mc.common.extensions.tryOrPrint
+import org.anti_ad.mc.common.extensions.trySwallow
+import org.anti_ad.mc.common.extensions.unlessIt
+import org.anti_ad.mc.common.vanilla.alias.AbstractNbtList
+import org.anti_ad.mc.common.vanilla.alias.AbstractNbtNumber
+import org.anti_ad.mc.common.vanilla.alias.Identifier
+import org.anti_ad.mc.common.vanilla.alias.Item
+import org.anti_ad.mc.common.vanilla.alias.ItemTags
+import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+import org.anti_ad.mc.common.vanilla.alias.NbtElement
+import org.anti_ad.mc.common.vanilla.alias.NbtHelper
+import org.anti_ad.mc.common.vanilla.alias.NbtPathArgumentType
+import org.anti_ad.mc.common.vanilla.alias.NbtPathArgumentTypeNbtPath
+import org.anti_ad.mc.common.vanilla.alias.Registry
+import org.anti_ad.mc.common.vanilla.alias.StringNbtReader
+import org.anti_ad.mc.common.vanilla.alias.TagTag
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(getByIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(type)`
@@ -48,8 +66,8 @@ object NbtUtils {
         return pairs1.compareTo(pairs2)
     }
 
-    private fun compareStringTag(p1: Pair<String, NbtTag?>,
-                                 p2: Pair<String, NbtTag?>): Int {
+    private fun compareStringTag(p1: Pair<String, NbtElement?>,
+                                 p2: Pair<String, NbtElement?>): Int {
         val (key1, tag1) = p1
         val (key2, tag2) = p2
         val result = key1.compareTo(key2)
@@ -58,7 +76,7 @@ object NbtUtils {
         return tag1.compareTo(tag2)
     }
 
-    private fun NbtTag.compareTo(other: NbtTag): Int {
+    private fun NbtElement.compareTo(other: NbtElement): Int {
         val w1 = WrappedTag(this)
         val w2 = WrappedTag(other)
         return when {
@@ -106,7 +124,7 @@ object NbtUtils {
         }
     }
 
-    class WrappedTag(val value: NbtTag) {
+    class WrappedTag(val value: NbtElement) {
         val isString: Boolean
             get() = value.`(type)` == 8
         val isNumber: Boolean
@@ -128,9 +146,9 @@ object NbtUtils {
             get() = value as? NbtCompound ?: NbtCompound()
         val asList: List<WrappedTag>
             get() = (value as? AbstractNbtList<*>)?.map { WrappedTag(it) } ?: listOf()
-        val asListUnwrapped: List<NbtTag>
+        val asListUnwrapped: List<NbtElement>
             get() = (value as? AbstractNbtList<*>)?.toList() ?: listOf()
-        val asListComparable: List<AsComparable<NbtTag>>
+        val asListComparable: List<AsComparable<NbtElement>>
             get() = asListUnwrapped.map { it.asComparable { a, b -> a.compareTo(b) } }
     }
 
@@ -151,7 +169,7 @@ object NbtUtils {
     }
 
     private fun getTagsForPath(nbtPath: NbtPathArgumentTypeNbtPath,
-                               target: NbtTag): List<NbtTag> {
+                               target: NbtElement): List<NbtElement> {
         return trySwallow(listOf()) { nbtPath.get(target) } // func_218071_a() = get()
     }
 }

@@ -1,7 +1,26 @@
 package org.anti_ad.mc.ipnext.inventory
 
 
-import org.anti_ad.mc.common.vanilla.alias.*
+import org.anti_ad.mc.common.vanilla.alias.AbstractFurnaceContainer
+import org.anti_ad.mc.common.vanilla.alias.AnvilContainer
+import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
+import org.anti_ad.mc.common.vanilla.alias.BrewingStandContainer
+import org.anti_ad.mc.common.vanilla.alias.CartographyTableContainer
+import org.anti_ad.mc.common.vanilla.alias.Container
+import org.anti_ad.mc.common.vanilla.alias.CraftingTableContainer
+import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
+import org.anti_ad.mc.common.vanilla.alias.EnchantingTableContainer
+import org.anti_ad.mc.common.vanilla.alias.Generic3x3Container
+import org.anti_ad.mc.common.vanilla.alias.GenericContainer
+import org.anti_ad.mc.common.vanilla.alias.GrindstoneContainer
+import org.anti_ad.mc.common.vanilla.alias.HopperContainer
+import org.anti_ad.mc.common.vanilla.alias.HorseContainer
+import org.anti_ad.mc.common.vanilla.alias.LecternContainer
+import org.anti_ad.mc.common.vanilla.alias.LoomContainer
+import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
+import org.anti_ad.mc.common.vanilla.alias.PlayerContainer
+import org.anti_ad.mc.common.vanilla.alias.ShulkerBoxContainer
+import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 

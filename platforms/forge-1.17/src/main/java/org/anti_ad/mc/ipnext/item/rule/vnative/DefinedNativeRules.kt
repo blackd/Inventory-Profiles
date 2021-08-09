@@ -1,14 +1,32 @@
 package org.anti_ad.mc.ipnext.item.rule.vnative
 
 import org.anti_ad.mc.common.extensions.ByPropertyName
-import org.anti_ad.mc.ipnext.item.*
+import org.anti_ad.mc.ipnext.item.ItemType
+import org.anti_ad.mc.ipnext.item.customName
+import org.anti_ad.mc.ipnext.item.damage
+import org.anti_ad.mc.ipnext.item.displayName
+import org.anti_ad.mc.ipnext.item.durability
+import org.anti_ad.mc.ipnext.item.enchantmentsScore
+import org.anti_ad.mc.ipnext.item.groupIndex
+import org.anti_ad.mc.ipnext.item.hasCustomName
+import org.anti_ad.mc.ipnext.item.isDamageable
+import org.anti_ad.mc.ipnext.item.itemId
+import org.anti_ad.mc.ipnext.item.maxDamage
+import org.anti_ad.mc.ipnext.item.potionName
+import org.anti_ad.mc.ipnext.item.rawId
 import org.anti_ad.mc.ipnext.item.rule.MutableEmptyRule
 import org.anti_ad.mc.ipnext.item.rule.Parameter
 import org.anti_ad.mc.ipnext.item.rule.Rule
-import org.anti_ad.mc.ipnext.item.rule.parameter.*
 import org.anti_ad.mc.ipnext.item.rule.parameter.NumberOrder.DESCENDING
 import org.anti_ad.mc.ipnext.item.rule.parameter.RequireNbt.NOT_REQUIRED
 import org.anti_ad.mc.ipnext.item.rule.parameter.StringCompare.UNICODE
+import org.anti_ad.mc.ipnext.item.rule.parameter.item_name
+import org.anti_ad.mc.ipnext.item.rule.parameter.number_order
+import org.anti_ad.mc.ipnext.item.rule.parameter.require_nbt
+import org.anti_ad.mc.ipnext.item.rule.parameter.string_compare
+import org.anti_ad.mc.ipnext.item.rule.parameter.tag_name
+import org.anti_ad.mc.ipnext.item.translatedName
+import org.anti_ad.mc.ipnext.item.translationKey
 
 // ============
 // Some helper functions for creating rules

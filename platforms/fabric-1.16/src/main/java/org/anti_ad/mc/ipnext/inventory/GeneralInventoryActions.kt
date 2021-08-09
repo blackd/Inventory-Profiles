@@ -31,7 +31,6 @@ import org.anti_ad.mc.ipnext.inventory.action.sort
 import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.rule.Rule
-import org.anti_ad.mc.ipnext.item.toNamespacedString
 
 object GeneralInventoryActions {
 

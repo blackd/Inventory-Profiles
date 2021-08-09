@@ -1,7 +1,11 @@
 package org.anti_ad.mc.ipnext.inventory.action
 
 import org.anti_ad.mc.common.extensions.unlessIt
-import org.anti_ad.mc.ipnext.item.*
+import org.anti_ad.mc.ipnext.item.ItemStack
+import org.anti_ad.mc.ipnext.item.ItemType
+import org.anti_ad.mc.ipnext.item.MutableItemStack
+import org.anti_ad.mc.ipnext.item.empty
+import org.anti_ad.mc.ipnext.item.isEmpty
 
 object PostActions {
 

@@ -7,7 +7,6 @@ import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.IKeybind
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite

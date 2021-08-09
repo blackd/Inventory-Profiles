@@ -15,7 +15,13 @@ import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.inventory.ContainerType.CRAFTING
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.data.collect
-import org.anti_ad.mc.ipnext.item.*
+import org.anti_ad.mc.ipnext.item.EMPTY
+import org.anti_ad.mc.ipnext.item.ItemStack
+import org.anti_ad.mc.ipnext.item.ItemType
+import org.anti_ad.mc.ipnext.item.MutableItemStack
+import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.maxCount
+import org.anti_ad.mc.ipnext.item.transferNTo
 
 object ContinuousCraftingHandler {
     private val checked

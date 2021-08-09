@@ -8,8 +8,39 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.Slot
-import org.anti_ad.mc.ipnext.ingame.*
-import org.anti_ad.mc.ipnext.item.*
+import org.anti_ad.mc.ipnext.ingame.`(container)`
+import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
+import org.anti_ad.mc.ipnext.ingame.`(focusedSlot)`
+import org.anti_ad.mc.ipnext.ingame.`(id)`
+import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
+import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
+import org.anti_ad.mc.ipnext.ingame.`(left)`
+import org.anti_ad.mc.ipnext.ingame.`(rawFocusedSlot)`
+import org.anti_ad.mc.ipnext.ingame.`(top)`
+import org.anti_ad.mc.ipnext.item.EMPTY
+import org.anti_ad.mc.ipnext.item.ItemType
+import org.anti_ad.mc.ipnext.item.comparablePotionEffects
+import org.anti_ad.mc.ipnext.item.customName
+import org.anti_ad.mc.ipnext.item.damage
+import org.anti_ad.mc.ipnext.item.displayName
+import org.anti_ad.mc.ipnext.item.durability
+import org.anti_ad.mc.ipnext.item.enchantmentsScore
+import org.anti_ad.mc.ipnext.item.groupIndex
+import org.anti_ad.mc.ipnext.item.hasCustomName
+import org.anti_ad.mc.ipnext.item.hasCustomPotionEffects
+import org.anti_ad.mc.ipnext.item.hasPotionEffects
+import org.anti_ad.mc.ipnext.item.hasPotionName
+import org.anti_ad.mc.ipnext.item.identifier
+import org.anti_ad.mc.ipnext.item.isDamageable
+import org.anti_ad.mc.ipnext.item.itemId
+import org.anti_ad.mc.ipnext.item.maxDamage
+import org.anti_ad.mc.ipnext.item.namespace
+import org.anti_ad.mc.ipnext.item.potionEffects
+import org.anti_ad.mc.ipnext.item.potionName
+import org.anti_ad.mc.ipnext.item.rawId
+import org.anti_ad.mc.ipnext.item.translatedName
+import org.anti_ad.mc.ipnext.item.translationKey
 
 class DebugScreen : BaseDebugScreen() {
     inner class PageContainer : Page("Container") {

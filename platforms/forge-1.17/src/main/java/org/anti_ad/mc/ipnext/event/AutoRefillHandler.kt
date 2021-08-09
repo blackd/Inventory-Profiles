@@ -2,9 +2,15 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.Items
-import org.anti_ad.mc.common.vanilla.alias.items.*
+import org.anti_ad.mc.common.vanilla.alias.items.ArmorItem
+import org.anti_ad.mc.common.vanilla.alias.items.AxeItem
+import org.anti_ad.mc.common.vanilla.alias.items.HoeItem
+import org.anti_ad.mc.common.vanilla.alias.items.PickaxeItem
+import org.anti_ad.mc.common.vanilla.alias.items.ShovelItem
+import org.anti_ad.mc.common.vanilla.alias.items.SwordItem
+import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
@@ -15,10 +21,20 @@ import org.anti_ad.mc.ipnext.ingame.vMainhandIndex
 import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
-import org.anti_ad.mc.ipnext.item.*
+import org.anti_ad.mc.ipnext.item.EMPTY
+import org.anti_ad.mc.ipnext.item.ItemStack
+import org.anti_ad.mc.ipnext.item.ItemType
+import org.anti_ad.mc.ipnext.item.comparablePotionEffects
+import org.anti_ad.mc.ipnext.item.durability
+import org.anti_ad.mc.ipnext.item.hasPotionEffects
+import org.anti_ad.mc.ipnext.item.isBucket
+import org.anti_ad.mc.ipnext.item.isDamageable
+import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.isStew
+import org.anti_ad.mc.ipnext.item.maxDamage
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
-import org.anti_ad.mc.ipnext.item.rule.vnative.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
+import org.anti_ad.mc.ipnext.item.rule.vnative.compareByMatch
 
 object AutoRefillHandler {
     fun pressingDropKey(): Boolean {
