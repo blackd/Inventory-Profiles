@@ -11,7 +11,7 @@ val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.17"
+val forge_version = "37.0.29"
 
 
 logger.lifecycle("""
@@ -39,7 +39,8 @@ buildscript {
     }
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.1.+")
-        classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT")
+        classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
+        classpath("org.spongepowered:mixin:0.8.3-SNAPSHOT")
     }
 }
 
@@ -83,6 +84,10 @@ repositories {
 
 dependencies {
     "shadedApi"(project(":common"))
+
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
+
     "implementation"("org.apache.commons:commons-rng-core:1.3")
     "implementation"("commons-io:commons-io:2.4")
     "implementation"("org.apache.commons:commons-lang3:3.8.1")
@@ -91,7 +96,7 @@ dependencies {
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
-    //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 if ("true" == System.getProperty("idea.sync.active")) {
@@ -220,6 +225,10 @@ afterEvaluate {
 
 var rcltName = ""
 
+configurations {
+    implementation.get().extendsFrom(this.findByName("shadedApi"))
+}
+
 configure<UserDevExtension> {
     mappings(mapOf(
         "channel" to "official",
@@ -253,8 +262,18 @@ configure<UserDevExtension> {
 
         //create("server", runConfig)
         //create("data", runConfig)
+        all {
+            lazyToken("minecraft_classpath") {
+                configurations["shadedApi"].copyRecursive().resolve().filter {
+                    it.absolutePath.contains("kotlin")
+                }.joinToString(File.pathSeparator) {
+                    it.absolutePath
+                }
+            }
+        }
     }
     afterEvaluate {
+
     }
 }
 
@@ -266,6 +285,9 @@ tasks.register<Copy>("injectCommonResources") {
     include("assets/**")
     into(project.layout.buildDirectory.dir("resources/main"))
 }
+
+
+
 
 tasks.register<DefaultTask>("fixRunJvmArgs") {
     tasks["prepareRuns"].finalizedBy("fixRunJvmArgs")
@@ -298,6 +320,7 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
 
         ts.get().allJvmArgs.forEach {
             var processed = false
+
             if (it.startsWith("-DlegacyClassPath.file")) {
                 val cpFile: String? = it.split("=").elementAtOrNull(1)
                 if (cpFile != null) {
@@ -309,12 +332,12 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
                     val fullCpFile = File(fcpPath)
                     val kotlinJars = mutableListOf<String>()
                     if (fullCpFile.exists()) {
-                        kotlinJars.addAll(fullCpFile.readLines().filter {
-                            it.contains("kotlin")
+                        kotlinJars.addAll(fullCpFile.readLines().filter { line ->
+                            line.contains("kotlin")
                         })
                     }
-                    val clean = f.readLines().filter {
-                        !it.contains("InventoryProfilesNext-common")
+                    val clean = f.readLines().filter { line ->
+                        !line.contains("InventoryProfilesNext-common")
                     }
                     f.printWriter().use { pw ->
                         logger.lifecycle("Building new legacy classpath file")
