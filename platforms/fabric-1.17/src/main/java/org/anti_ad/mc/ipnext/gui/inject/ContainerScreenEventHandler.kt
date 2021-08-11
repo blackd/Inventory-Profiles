@@ -11,24 +11,28 @@ import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
-    var currentWidget: SortingButtonCollectionWidget? = null
+
+    var currentWidgets: List<InsertableWidget>? = null
 
     // todo do not directly add the widget (for other mod compatibility) (USE_OLD_INSERT_METHOD)
     fun onScreenInit(target: ContainerScreen<*>,
                      addWidget: (ClickableWidget) -> Unit) {
         if (!GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue) return
         if (target != Vanilla.screen()) return
-        val widget = SortingButtonCollectionWidget(target)
-        currentWidget = widget
-        InsertWidgetHandler.insertWidget(widget)
+
+        currentWidgets = listOf(PlayerUICollectionWidget(target), SortingButtonCollectionWidget(target))
+
+        InsertWidgetHandler.insertWidget(currentWidgets)
     }
 
     private fun checkValid() {
-        currentWidget?.run {
-            val currentScreen = Vanilla.screen()
-            val matchScreen = (currentScreen as? BaseScreen)?.hasParent(screen) ?: (currentScreen == screen)
-            if (!matchScreen)
-                currentWidget = null
+        currentWidgets?.forEach {
+            it.run {
+                val currentScreen = Vanilla.screen()
+                val matchScreen = (currentScreen as? BaseScreen)?.hasParent(screen) ?: (currentScreen == screen)
+                if (!matchScreen)
+                    currentWidgets = null
+            }
         }
     }
 
@@ -37,9 +41,11 @@ object ContainerScreenEventHandler {
     }
 
     fun onBackgroundRender() {
-        currentWidget?.postBackgroundRender(VanillaUtil.mouseX(),
-                                            VanillaUtil.mouseY(),
-                                            VanillaUtil.lastFrameDuration())
+        currentWidgets?.forEach {
+            it.postBackgroundRender(VanillaUtil.mouseX(),
+                                    VanillaUtil.mouseY(),
+                                    VanillaUtil.lastFrameDuration())
+        }
         LockSlotsHandler.onBackgroundRender()
     }
 
@@ -50,6 +56,6 @@ object ContainerScreenEventHandler {
     fun postRender() {
         LockSlotsHandler.postRender()
         ContainerClicker.postScreenRender()
-        currentWidget?.let { Tooltips.renderAll() }
+        currentWidgets?.forEach {  it.let { Tooltips.renderAll() }}
     }
 }

@@ -19,14 +19,18 @@ fun ConfigEnum<*>.toWidget() = ConfigToggleableWidget(this) { it.value.toString(
 fun ConfigButton.toWidget() = ConfigButtonWidget(this)
 
 
-abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Widget() {
+abstract  class FlexWidgetBase: Widget() {
+    open val flex = BiFlex(this,
+                      Axis.HORIZONTAL)
+
+}
+
+abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : FlexWidgetBase() {
 
     val resetButton = ButtonWidget { -> reset() }.apply {
         text = I18n.translate("inventoryprofiles.common.gui.config.reset")
     }
 
-    val flex = BiFlex(this,
-                      Axis.HORIZONTAL)
 
     override fun render(mouseX: Int,
                         mouseY: Int,

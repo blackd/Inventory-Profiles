@@ -35,7 +35,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     var _visible = true
     override var visible: Boolean
         get() {
-            return _visible && this.absoluteBounds.insideOf(parent!!.absoluteBounds)
+            return _visible && (this.absoluteBounds.insideOf(parent!!.absoluteBounds) || overflow == Overflow.VISIBLE)
         }
         set(value) {
             _visible = value
