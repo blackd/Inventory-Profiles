@@ -109,6 +109,9 @@ tasks.register<Copy>("copyMixinMappings") {
     val outName = layout.buildDirectory.file("resources/main/")
     from (inName)
     into (outName)
+    rename {
+        "ipnext.refmap.json"
+    }
 }
 
 

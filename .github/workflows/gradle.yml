@@ -5,9 +5,9 @@ name: CI
 
 on:
   push:
-    branches: [ all-in-one ]
+    branches: [ v0.8.fixes ]
   pull_request:
-    branches: [ all-in-one ]
+    branches: [ v0.8.fixes ]
 
 jobs:
   build:
