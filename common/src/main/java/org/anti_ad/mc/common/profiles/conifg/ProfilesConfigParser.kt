@@ -3,6 +3,7 @@ package org.anti_ad.mc.common.profiles.conifg
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.annotation.MayThrow
+import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.gen.ProfilesLexer
 import org.anti_ad.mc.common.gen.ProfilesParser
 import org.anti_ad.mc.ipnext.parser.parseBy
@@ -11,8 +12,8 @@ object ProfilesConfig {
 
     @MayThrow // throw SyntaxErrorException
     fun parseRuleDefinition(text: String) {
-        val profiles = getProfiles(text)
-        if (Log.shouldTrace()) {
+        tryOrPrint(Log::warn) {
+            val profiles = getProfiles(text)
             profiles.dump()
         }
     }
@@ -30,11 +31,6 @@ object ProfilesConfig {
         }
         return s
     }
-
-    fun addProfile(p: ProfileData) {
-
-    }
-
 }
 
 fun List<ProfileData>.dump() {
@@ -75,7 +71,8 @@ private fun ProfilesParser.ScriptContext.toProfileList(): List<ProfileData> {
                 profile.slotsDef().slotDef().forEach { slotDef ->
                     add(ProfileSlot(ProfileSlotId.valueOf(slotDef.slotname().text), mutableListOf<ProfileItemData>().apply {
                         slotDef.itemDef().forEach { itemDef ->
-                            add(ProfileItemData(itemDef.itemName().text.removeSurrounding("\""), mutableListOf<ProfileEnchantmentData>().apply {
+                            val potion: String = itemDef.potion()?.enchantment()?.name()?.NamespacedId()?.text?.removeSurrounding("\"") ?: ""
+                            add(ProfileItemData(itemDef.itemName().text.removeSurrounding("\""), potion, mutableListOf<ProfileEnchantmentData>().apply {
                                 itemDef.enchantments()?.enchantment()?.forEach { ench ->
                                     add(ProfileEnchantmentData(ench.name().NamespacedId().text.removeSurrounding("\""), ench.level().toNumber()))
                                 }
@@ -142,13 +139,20 @@ data class ProfileSlot(val id: ProfileSlotId,
 }
 
 data class ProfileItemData(val itemId: String,
+                           val potion: String,
                            val enchantments: List<ProfileEnchantmentData>) {
 
     override fun toString(): String {
-        return if(enchantments.isEmpty()) {
-            "\"$itemId\""
-        } else {
-            "\"$itemId\"" +  " -> [" + enchantments.joinToString(separator = ",") { it.toString() } + "]"
+        return when {
+            (!enchantments.isEmpty()) -> {
+                "\"$itemId\"" +  " -> \"Enchantments\" : [" + enchantments.joinToString(separator = ",") { it.toString() } + "]"
+            }
+            (potion != "") -> {
+                "\"$itemId\" -> \"Potion\" : {id:\"$potion\"}"
+            }
+            else -> {
+                "\"$itemId\""
+            }
         }
     }
 }

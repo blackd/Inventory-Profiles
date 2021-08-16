@@ -68,13 +68,12 @@ class Flex(val owner: Widget,
     val maxCross // max size perpendicular to direction
         get() = if (direction.isHorizontal) owner.height else owner.width
 
-    fun add(
-        child: Widget,
-        extent: Int, // size along direction
-        anchorSides: Boolean = true,
-        cross: Int = maxCross, // size perpendicular to direction
-        isLast: Boolean = false // set anchor fit
-    ) {
+    fun add(child: Widget,
+            extent: Int, // size along direction
+            anchorSides: Boolean = true,
+            cross: Int = maxCross, // size perpendicular to direction
+            isLast: Boolean = false // set anchor fit
+           ) {
         // (direction.isHorizontal)
         var x = if (direction.isReverse) ownerExtent - offset - extent else offset
         var y = (maxCross - cross) / 2

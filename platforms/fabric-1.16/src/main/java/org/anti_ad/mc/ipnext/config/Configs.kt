@@ -18,6 +18,8 @@ import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfo
 import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfo
+import org.anti_ad.mc.ipnext.parser.OpenProfilesHelpButtonInfo
+import org.anti_ad.mc.ipnext.parser.OpenProfilesConfigButtonInfo
 import org.anti_ad.mc.ipnext.parser.OpenConfigFolderButtonInfo
 import org.anti_ad.mc.ipnext.parser.ReloadRuleFileButtonInfo
 
@@ -44,6 +46,7 @@ object ModSettings : ConfigDeclaration {
 
         .CATEGORY("$category.profiles")
     val ENABLE_PROFILES                          /**/ by bool(true)
+        .CATEGORY("§§hide")
     val PROFILES_PER_SERVER                      /**/ by bool(true)
 
         .CATEGORY("$category.lock_slots")
@@ -105,6 +108,9 @@ object ModSettings : ConfigDeclaration {
 object GuiSettings : ConfigDeclaration {
     override val builder = createBuilder()
 
+        .CATEGORY("$category.profiles")
+    val ENABLE_PROFILES_UI                        /**/ by bool(true)
+    val ENABLE_PROFILES_ANNOUNCEMENT              /**/ by bool(true)
         .CATEGORY("$category.inventory")
     val ENABLE_INVENTORY_BUTTONS                  /**/ by bool(true)
     val TREAT_UNKNOWN_SCREENS_AS_CONTAINERS       /**/ by bool(true)
@@ -130,7 +136,15 @@ object GuiSettings : ConfigDeclaration {
 
 object EditProfiles : ConfigDeclaration {
     override val builder = createBuilder()
-        .CATEGORY("$category.coming_soon")
+        .CATEGORY("$category.still_under_construction")
+    val OPEN_CONFIG_PROFILES_HELP                 /**/ by button(OpenProfilesHelpButtonInfo)
+    val OPEN_SERVER_PROFILES                      /**/ by button(OpenProfilesConfigButtonInfo)
+
+        .CATEGORY("$category.quick_slots")
+    val QUICK_SLOT_1_PROFILE                      /**/ by string("")
+    val QUICK_SLOT_2_PROFILE                      /**/ by string("")
+    val QUICK_SLOT_3_PROFILE                      /**/ by string("")
+
 }
 
 object Hotkeys : ConfigDeclaration {
@@ -139,6 +153,9 @@ object Hotkeys : ConfigDeclaration {
         .CATEGORY("$category.hotkeys")
     val OPEN_CONFIG_MENU                          /**/ by hotkey("R,C",
                                                                  KeybindSettings.INGAME_DEFAULT)
+    val RELOAD_CUSTOM_CONFIGS                     /**/ by hotkey("",
+                                                                 KeybindSettings.INGAME_DEFAULT)
+        .CATEGORY("$category.inventory")
     val SORT_INVENTORY                            /**/ by hotkey("R",
                                                                  KeybindSettings.GUI_DEFAULT)
     val SORT_INVENTORY_IN_COLUMNS                 /**/ by hotkey("",
@@ -148,18 +165,24 @@ object Hotkeys : ConfigDeclaration {
     val MOVE_ALL_ITEMS                            /**/ by hotkey("",
                                                                  KeybindSettings.GUI_EXTRA)
     val THROW_ALL_ITEMS                           /**/ by hotkey("",
-                                                                  KeybindSettings.GUI_EXTRA)
+                                                                 KeybindSettings.GUI_EXTRA)
+        .CATEGORY("$category.profiles")
     val NEXT_PROFILE                              /**/ by hotkey("",
-                                                                  KeybindSettings.ANY_DEFAULT)
-    val SAVE_AS_PROFILE                            /**/ by hotkey("",
-                                                                  KeybindSettings.GUI_DEFAULT)
+                                                                 KeybindSettings.ANY_DEFAULT)
+    val PREV_PROFILE                              /**/ by hotkey("",
+                                                                 KeybindSettings.ANY_DEFAULT)
+    val PROFILE_1                                 /**/ by hotkey("",
+                                                                 KeybindSettings.ANY_DEFAULT)
+    val PROFILE_2                                 /**/ by hotkey("",
+                                                                 KeybindSettings.ANY_DEFAULT)
+    val PROFILE_3                                 /**/ by hotkey("",
+                                                                 KeybindSettings.ANY_DEFAULT)
+    val SAVE_AS_PROFILE                           /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
 
         .CATEGORY("$category.misc")
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",
                                                                  KeybindSettings.GUI_DEFAULT)
-        .CATEGORY("$category.advanced")
-    val RELOAD_CUSTOM_CONFIGS                     /**/ by hotkey("",
-                                                                 KeybindSettings.INGAME_DEFAULT)
 }
 
 object Tweaks : ConfigDeclaration {

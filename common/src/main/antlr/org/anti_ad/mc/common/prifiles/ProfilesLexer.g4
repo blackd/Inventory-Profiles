@@ -39,7 +39,8 @@ COLON : ':';
 SEMICOLON : ';';
 
 //fragment ENCHANTMENTS    : 'Enchantments';
-ENCHANTMENTS   : ('"Enchantments" :') -> channel(HIDDEN) ;
+ENCHANTMENTS   : '"Enchantments" :';
+POTION         : '"Potion" :';
 
 ARROW : '->';
 

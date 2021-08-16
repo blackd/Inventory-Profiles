@@ -9,6 +9,7 @@ import org.anti_ad.mc.common.extensions.exists
 import org.anti_ad.mc.common.extensions.listFiles
 import org.anti_ad.mc.common.extensions.name
 import org.anti_ad.mc.common.extensions.readToString
+import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
@@ -24,6 +25,7 @@ import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
+import java.net.URL
 import java.nio.file.Path
 import java.util.*
 import kotlin.concurrent.schedule
@@ -60,7 +62,28 @@ object OpenConfigFolderButtonInfo : ConfigButtonInfo() {
     }
 }
 
+object OpenProfilesHelpButtonInfo : ConfigButtonInfo() {
+    override val buttonText: String
+        get() = I18n.translate("inventoryprofiles.gui.config.profiles_help_button")
+
+    override fun onClick(widget: ButtonWidget) {
+        VanillaUtil.open(URL("https://github.com/blackd/Inventory-Profiles/wiki/Profiles-How-To"))
+    }
+}
+
+object OpenProfilesConfigButtonInfo : ConfigButtonInfo() {
+    override val buttonText: String
+        get() = I18n.translate("inventoryprofiles.gui.config.profiles_config_button")
+
+    override fun onClick(widget: ButtonWidget) {
+        if (VanillaUtil.inGame()) {
+            VanillaUtil.open((ProfilesLoader.file).toFile())
+        }
+    }
+}
+
 private val configFolder = VanillaUtil.configDirectory("inventoryprofilesnext")
+
 private fun getFiles(regex: String) =
     configFolder.listFiles(regex).sortedWith { a, b ->
         strCmpLogical.compare(a.name,
@@ -79,10 +102,11 @@ object ProfilesLoader: Loader, Savable {
         }
 
     val profiles = mutableListOf<ProfileData>()
+    val savedProfiles = mutableListOf<ProfileData>()
 
     @MayThrow
     override fun save() {
-        file.writeText(ProfilesConfig.asString(profiles))
+        file.writeText(ProfilesConfig.asString(profiles) + "\n\n\n\n" + ProfilesConfig.asString(savedProfiles))
     }
 
     override fun load(clientWorld: Any?) {
@@ -92,9 +116,17 @@ object ProfilesLoader: Loader, Savable {
     override fun reload(clientWorld: ClientWorld?) {
         if (clientWorld != null) {
             profiles.clear()
+            savedProfiles.clear()
+            val temp = mutableListOf<ProfileData>()
             if (file.exists()) {
-                profiles.addAll(ProfilesConfig.getProfiles(file.readText()))
+                tryOrPrint({msg->
+                               Log.warn(msg)
+                               TellPlayer.chat("Loading Profile settings failed: $msg")}) {
+                    temp.addAll(ProfilesConfig.getProfiles(file.readText()))
+                }
             }
+            savedProfiles.addAll(temp.filter { it.name.uppercase() == "SAVED" })
+            profiles.addAll(temp.filter { it.name.uppercase() != "SAVED" })
         }
     }
 }

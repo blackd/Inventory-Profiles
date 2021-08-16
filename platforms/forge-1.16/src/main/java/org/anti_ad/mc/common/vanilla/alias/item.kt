@@ -12,6 +12,7 @@ import net.minecraft.nbt.JsonToNBT
 import net.minecraft.nbt.ListNBT
 import net.minecraft.nbt.NBTUtil
 import net.minecraft.nbt.NumberNBT
+import net.minecraft.nbt.StringNBT
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.PotionUtils
 import net.minecraft.tags.ITagCollection
@@ -36,6 +37,7 @@ typealias TagGroup<T> = ITagCollection<T>
 typealias NbtCompound = CompoundNBT
 typealias NbtElement = NbtTag
 typealias NbtList = ListNBT
+typealias NbtString = StringNBT
 
 typealias AbstractNbtNumber = NumberNBT
 typealias AbstractNbtList<T> = CollectionNBT<T>

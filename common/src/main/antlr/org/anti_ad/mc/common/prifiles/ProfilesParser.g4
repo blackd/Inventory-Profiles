@@ -11,10 +11,11 @@ script
 profile : 'profile' Id ('activate' activeSlotName)? slotsDef;
 slotsDef : (slotDef)* ;
 slotDef : slotname  (itemDef)*? ;
-itemDef : itemName ('->' enchantments)?;
+itemDef : itemName ('->' (enchantments | potion))?;
 itemName : NamespacedId;
-enchantments : '[' enchantment (',' enchantment)* ']';
-enchantment : '{' name (',' level) '}';
+enchantments : ENCHANTMENTS '[' enchantment (',' enchantment)* ']';
+potion : POTION enchantment;
+enchantment : '{' name (',' level)? '}';
 level: 'lvl' ':' Level ;
 name: 'id' ':' NamespacedId;
 

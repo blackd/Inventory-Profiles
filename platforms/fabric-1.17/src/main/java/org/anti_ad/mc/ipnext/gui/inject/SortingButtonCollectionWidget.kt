@@ -1,9 +1,10 @@
 package org.anti_ad.mc.ipnext.gui.inject
 
-import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.gui.Tooltips
+import org.anti_ad.mc.common.gui.widget.Axis
+import org.anti_ad.mc.common.gui.widget.BiFlex
 import org.anti_ad.mc.common.gui.widget.Overflow
 import org.anti_ad.mc.common.gui.widget.setBottomLeft
 import org.anti_ad.mc.common.gui.widget.setBottomRight
@@ -29,6 +30,7 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
+import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
@@ -40,17 +42,18 @@ private val TEXTURE = IdentifierHolder("inventoryprofilesnext",
                                "textures/gui/gui_buttons.png")
 
 
-abstract class InsertableWidget(val screen: ContainerScreen<*>): Widget() {
+abstract class InsertableWidget: Widget() {
 
     abstract fun postBackgroundRender(mouseX: Int,
                              mouseY: Int,
                              partialTicks: Float);
 
+    abstract val screen: ContainerScreen<*>
+
 }
 
-class PlayerUICollectionWidget(screen: ContainerScreen<*>): InsertableWidget(screen) {
+class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): InsertableWidget() {
 
-    val sortButtonsWidget: SortingButtonCollectionWidget = SortingButtonCollectionWidget(screen)
 
 
     override fun postBackgroundRender(mouseX: Int,
@@ -60,7 +63,7 @@ class PlayerUICollectionWidget(screen: ContainerScreen<*>): InsertableWidget(scr
         rClearDepth()
         overflow = Overflow.VISIBLE
         val parentBounds = screen.`(containerBounds)`
-        absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 5, height = 15)
+        absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3, height = 20)
         init()
         super.render(mouseX,
                      mouseY,
@@ -69,9 +72,6 @@ class PlayerUICollectionWidget(screen: ContainerScreen<*>): InsertableWidget(scr
             rDrawOutline(absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
-        sortButtonsWidget.postBackgroundRender(mouseX,
-                                               mouseY,
-                                               partialTicks)
         //    Tooltips.renderAll()
     }
 
@@ -86,39 +86,89 @@ class PlayerUICollectionWidget(screen: ContainerScreen<*>): InsertableWidget(scr
         val container = Vanilla.container()
         val types = ContainerTypes.getTypes(container)
 
-        private val nextProfileButton = ProfileButtonWidget { -> GeneralInventoryActions.doSortInRows() }.apply {
+        private val nextProfileButton = ProfileButtonWidget(ProfileSwitchHandler::nextProfile).apply {
             tx = 50
             ty = 20
             this@PlayerUICollectionWidget.addChild(this)
             visible = types.contains(PLAYER)
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.next_profile_button")
         }
 
-        private val prevProfileButton = ProfileButtonWidget { -> GeneralInventoryActions.doSortInRows() }.apply {
+        private val prevProfileButton = ProfileButtonWidget(ProfileSwitchHandler::prevProfile).apply {
             tx = 60
             ty = 20
             this@PlayerUICollectionWidget.addChild(this)
             visible = types.contains(PLAYER)
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.prev_profile_button")
         }
 
-        private val profileButton = ButtonWidget { -> GeneralInventoryActions.doSortInRows() }.apply {
-            this.width = 50
-            this@PlayerUICollectionWidget.addChild(this)
+        private val profileButton = ActiveProfileButtonWidget(ProfileSwitchHandler::applyCurrent).apply {
+            //"show something!"
+            //this.width = 10
+            //this@PlayerUICollectionWidget.addChild(this)
+            parent = this@PlayerUICollectionWidget
+            val profile = getCurrentProfileName()
             visible = types.contains(PLAYER)
-
+            this.text = profile
+            height = 15
+            top = 1
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.apply_profile_button")
 
         }
+
+        private val flex = InnerFlex().apply {
+            parent = this@PlayerUICollectionWidget
+            visible = types.contains(PLAYER)
+            absoluteBounds = this@PlayerUICollectionWidget.absoluteBounds.copy(width = this@PlayerUICollectionWidget.absoluteBounds.width - 30,
+                                                                               x = this@PlayerUICollectionWidget.absoluteBounds.x + 15,
+                                                                               height = 17)
+        };
 
         init {
-            prevProfileButton.setBottomLeft(0, 0)
-            nextProfileButton.setBottomRight(0, 0)
-            profileButton.setBottomRight(0, 60)
+            //flex.addAndFit(prevProfileButton)
+            //flex.flex.normal.addSpace(10)
+            flex.flex.addAndFit(profileButton)
+            //flex.addAndFit(nextProfileButton)
+            prevProfileButton.setBottomLeft(7, 0)
+            nextProfileButton.setBottomRight(7, 0)
+            //profileButton.setBottomLeft(0, 20)
+        }
+    }
+
+    private fun getCurrentProfileName(): String {
+        return ProfileSwitchHandler.activeProfileName ?: "§cNONE§r"
+    }
+
+    inner class InnerFlex(): Widget() {
+        val flex = BiFlex(this,
+                          Axis.HORIZONTAL)
+
+    }
+
+    inner class ActiveProfileButtonWidget(onClick: () -> Unit): ButtonWidget(onClick) {
+        override var text: String
+            get() {
+                return getCurrentProfileName()
+            }
+            set(_) {}
+        var tooltipText: String = ""
+        override fun render(mouseX: Int,
+                            mouseY: Int,
+                            partialTicks: Float) {
+            super.render(mouseX,
+                         mouseY,
+                         partialTicks)
+            if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
+                                                                          mouseY) && tooltipText.isNotEmpty()) {
+                Tooltips.addTooltip(tooltipText,
+                                    mouseX,
+                                    mouseY)
+            }
         }
     }
 }
 
-class SortingButtonCollectionWidget(screen: ContainerScreen<*>) : InsertableWidget(screen) {
+class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : InsertableWidget() {
 
     override fun render(mouseX: Int,
                         mouseY: Int,

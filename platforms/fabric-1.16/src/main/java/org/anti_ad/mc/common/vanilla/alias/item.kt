@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.StringNbtReader
+import net.minecraft.nbt.StringTag
 import net.minecraft.potion.PotionUtil
 import net.minecraft.tag.ItemTags
 import net.minecraft.tag.TagGroup
@@ -36,6 +37,7 @@ typealias TagGroup<T> = TagGroup<T>
 typealias NbtCompound = CompoundTag
 typealias NbtElement = NbtTag
 typealias NbtList = ListTag
+typealias NbtString = StringTag
 
 typealias AbstractNbtNumber = AbstractNumberTag
 typealias AbstractNbtList<T> = AbstractListTag<T>

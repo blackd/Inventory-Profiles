@@ -2,6 +2,7 @@ package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.screen.BaseScreen
+import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -12,22 +13,29 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
 
-    var currentWidgets: List<InsertableWidget>? = null
+    var currentWidgets: MutableList<Widget>? = null
 
     // todo do not directly add the widget (for other mod compatibility) (USE_OLD_INSERT_METHOD)
     fun onScreenInit(target: ContainerScreen<*>,
                      addWidget: (ClickableWidget) -> Unit) {
-        if (!GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue) return
         if (target != Vanilla.screen()) return
+        val widgetsToInset = mutableListOf<Widget>()
 
-        currentWidgets = listOf(PlayerUICollectionWidget(target), SortingButtonCollectionWidget(target))
-
-        InsertWidgetHandler.insertWidget(currentWidgets)
+        if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue) {
+            widgetsToInset.add(SortingButtonCollectionWidget(target))
+        }
+        if (GuiSettings.ENABLE_PROFILES_UI.booleanValue) {
+            widgetsToInset.add(PlayerUICollectionWidget(target))
+        }
+        if (widgetsToInset.size > 0) {
+            currentWidgets = widgetsToInset
+            InsertWidgetHandler.insertWidget(currentWidgets)
+        }
     }
 
     private fun checkValid() {
         currentWidgets?.forEach {
-            it.run {
+            (it as InsertableWidget).run {
                 val currentScreen = Vanilla.screen()
                 val matchScreen = (currentScreen as? BaseScreen)?.hasParent(screen) ?: (currentScreen == screen)
                 if (!matchScreen)
@@ -42,7 +50,7 @@ object ContainerScreenEventHandler {
 
     fun onBackgroundRender() {
         currentWidgets?.forEach {
-            it.postBackgroundRender(VanillaUtil.mouseX(),
+            (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
                                     VanillaUtil.mouseY(),
                                     VanillaUtil.lastFrameDuration())
         }

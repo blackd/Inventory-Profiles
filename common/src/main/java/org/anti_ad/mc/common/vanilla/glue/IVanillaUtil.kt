@@ -2,6 +2,7 @@ package org.anti_ad.mc.common.vanilla.glue
 
 import org.anti_ad.mc.common.input.KeybindSettings
 import java.io.File
+import java.net.URL
 import java.nio.file.Path
 
 var __glue_vanillaUtil: IVanillaUtil? = null
@@ -100,6 +101,10 @@ object DummyVanillaUtil : IVanillaUtil {
         TODO("Not yet implemented")
     }
 
+    override fun open(file: URL) {
+        TODO("Not yet implemented")
+    }
+
     override fun chat(message: String) {
         TODO("Not yet implemented")
     }
@@ -139,6 +144,7 @@ interface IVanillaUtil {
     fun getResourceAsString(identifier: String): String?
     fun loggingString(path: Path): String
     fun open(file: File)
+    fun open(url: URL)
     fun isValidScreen(ctx: KeybindSettings.Context): Boolean
     fun chat(message: String)
 }

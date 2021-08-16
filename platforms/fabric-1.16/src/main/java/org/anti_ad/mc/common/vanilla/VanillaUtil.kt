@@ -15,6 +15,7 @@ import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import java.io.File
+import java.net.URL
 import java.nio.file.Path
 
 fun initVanillaUtil() {
@@ -81,8 +82,19 @@ private object VanillaUtil: IVanillaUtil {
 
     override fun open(file: File) {
         // ResourcePackOptionsScreen.init()
-        Util.getOperatingSystem().open(file)
+        Thread() { ->
+            Util.getOperatingSystem().open(file)
+        }.start()
     }
+
+    override fun open(file: URL) {
+        // ResourcePackOptionsScreen.init()
+        Thread() { ->
+            Util.getOperatingSystem().open(file)
+        }.start()
+    }
+
+
     override fun isValidScreen(ctx: KeybindSettings.Context) = ctx.isValid(Vanilla.screen())
 
     override fun chat(message: String) = Vanilla.chatHud().addMessage(LiteralText(message))

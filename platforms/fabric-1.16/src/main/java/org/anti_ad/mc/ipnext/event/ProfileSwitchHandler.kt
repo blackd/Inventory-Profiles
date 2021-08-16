@@ -10,8 +10,13 @@ import org.anti_ad.mc.common.profiles.conifg.ProfileSlotId
 import org.anti_ad.mc.common.profiles.conifg.fromEnchantmentLevel
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.AbstractNbtList
+import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+import org.anti_ad.mc.common.vanilla.alias.NbtString
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipnext.config.EditProfiles
+import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
@@ -22,12 +27,23 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.NbtUtils
+import org.anti_ad.mc.ipnext.item.hasPotionName
 import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.isStackable
 import org.anti_ad.mc.ipnext.item.itemId
+import org.anti_ad.mc.ipnext.item.potionEffects
 import org.anti_ad.mc.ipnext.parser.ProfilesLoader
+import java.net.URL
 
 object ProfileSwitchHandler: IInputHandler {
+
+    val activeProfileName: String?
+        get() {
+            return if (targetProfile.valid) targetProfile.name else null
+        }
+
+    var activeProfileId = 0
 
     private var doApplyProfile: Boolean = false
 
@@ -48,7 +64,21 @@ object ProfileSwitchHandler: IInputHandler {
                     val stack = Vanilla.playerContainer().`(slots)`[slot].`(itemStack)`
                     if (!stack.isEmpty()) {
                         add(ProfileSlot(ProfileSlotId.valueOf(slot), mutableListOf<ProfileItemData>().apply {
-                            add(ProfileItemData(stack.itemType.itemId, mutableListOf<ProfileEnchantmentData>().apply {
+                            val potion: String = when {
+                                (stack.itemType.potionEffects.isNotEmpty()) -> {
+                                    var p = ""
+                                    stack.itemType.tag?.get("Potion")?.let { potion ->
+                                        if (potion is NbtString) {
+                                            p = potion.`(asString)`.removeSurrounding("\"")
+                                        }
+                                    }
+                                    p
+                                }
+                                else -> {
+                                    ""
+                                }
+                            }
+                            add(ProfileItemData(stack.itemType.itemId, potion, mutableListOf<ProfileEnchantmentData>().apply {
                                 stack.itemType.tag?.get("Enchantments")?.let { element ->
                                     if (element is AbstractNbtList<*>) {
                                         element.forEach {
@@ -71,6 +101,10 @@ object ProfileSwitchHandler: IInputHandler {
     }
 
     private fun applyProfile() {
+        //Vanilla.inGameHud().setSubtitle(LiteralText(targetProfile.name))
+        if (GuiSettings.ENABLE_PROFILES_ANNOUNCEMENT.booleanValue) {
+            Vanilla.inGameHud().setOverlayMessage(LiteralText(targetProfile.name), false)
+        }
         var sourceSlots = allSlots
         val clicks = mutableListOf<Pair<Int, Int>>()
         monitors.forEach {
@@ -95,6 +129,10 @@ object ProfileSwitchHandler: IInputHandler {
     private var targetProfile: ProfileData = ProfileData("", ProfileSlotId.NONE, emptyList(), false)
 
     val monitors: MutableList<ProfileMonitor> = mutableListOf()
+
+    fun applyCurrent() {
+        doApplyProfile = targetProfile.valid
+    }
 
     fun init(newProfile: ProfileData) {
         if (targetProfile == newProfile) {
@@ -121,19 +159,64 @@ object ProfileSwitchHandler: IInputHandler {
         if (!VanillaUtil.inGame()) return false
 
         if (Hotkeys.NEXT_PROFILE.isActivated()) {
-            if (ProfilesLoader.profiles.isNotEmpty()) {
-                init(ProfilesLoader.profiles[0])
+            nextProfile()
+            return true
+        }
+        if (Hotkeys.PREV_PROFILE.isActivated()) {
+            prevProfile()
+            return true
+        }
+        if (Hotkeys.PROFILE_1.isActivated()) {
+            val name = EditProfiles.QUICK_SLOT_1_PROFILE.value
+            if (name != EditProfiles.QUICK_SLOT_1_PROFILE.defaultValue) {
+                switchToProfileName(name)
             }
             return true
         }
+        if (Hotkeys.PROFILE_2.isActivated()) {
+            val name = EditProfiles.QUICK_SLOT_2_PROFILE.value
+            if (name != EditProfiles.QUICK_SLOT_2_PROFILE.defaultValue) {
+                switchToProfileName(name)
+            }
+            return true
+        }
+        if (Hotkeys.PROFILE_3.isActivated()) {
+            val name = EditProfiles.QUICK_SLOT_3_PROFILE.value
+            if (name != EditProfiles.QUICK_SLOT_3_PROFILE.defaultValue) {
+                switchToProfileName(name)
+            }
+            return true
+        }
+
+
         if (Hotkeys.SAVE_AS_PROFILE.isActivated()) {
             val p = createProfileFromCurrentState()
-            ProfilesLoader.profiles.add(p)
+            ProfilesLoader.savedProfiles.add(p)
             ProfilesLoader.save()
             Log.trace("\n$p")
             return true
         }
         return false
+    }
+
+    fun switchToProfileName(name: String) {
+        val index = byName(name)
+        if (index != -1) {
+            activeProfileId = index
+            init(ProfilesLoader.profiles[index])
+        }
+    }
+
+    fun prevProfile() {
+        if (ProfilesLoader.profiles.isNotEmpty()) {
+            init(ProfilesLoader.profiles[nextOrFirst()])
+        }
+    }
+
+    fun nextProfile() {
+        if (ProfilesLoader.profiles.isNotEmpty()) {
+            init(ProfilesLoader.profiles[prevOrLast()])
+        }
     }
 
     class ProfileMonitor(val slot: Int, private val targetValues: List<ProfileItemData>) {
@@ -173,7 +256,14 @@ object ProfileSwitchHandler: IInputHandler {
         private fun bestMatch(to: ProfileItemData, from: List<Int>): Int? {
             return from.filter {
                 val ist = Vanilla.playerContainer().`(slots)`[it].`(itemStack)`
-                ist.itemType.itemId == to.itemId && to.match(ist) > 0
+                var res = false
+                if (!ist.isEmpty()) {
+                    val isPotion = ist.itemType.hasPotionName
+                    val enchMatching = !isPotion && to.matchEnchantments(ist)
+                    val potionMaching = to.potion != "" && isPotion && to.matchPotion(ist)
+                    res = ist.itemType.itemId == to.itemId && (enchMatching || potionMaching)
+                }
+                res
             }.sortedWith { i, j ->
                 val jStack = Vanilla.playerContainer().`(slots)`[j].`(itemStack)`
                 val iStack = Vanilla.playerContainer().`(slots)`[i].`(itemStack)`
@@ -187,13 +277,55 @@ object ProfileSwitchHandler: IInputHandler {
         }
     }
 
+    private fun byName(name: String): Int {
+        ProfilesLoader.profiles.forEachIndexed { index, profileData ->
+            if (profileData.name == name) {
+                return index
+            }
+        }
+        return  -1
+    }
+
+
+    private fun nextOrFirst(): Int {
+        val next  = activeProfileId + 1
+
+        activeProfileId = if (next < ProfilesLoader.profiles.size) {
+            next
+        } else {
+            0
+        }
+        return  activeProfileId
+
+    }
+
+    private fun prevOrLast(): Int {
+        val next  = activeProfileId - 1
+        activeProfileId = if (next >= 0) {
+            next
+        } else {
+            ProfilesLoader.profiles.size - 1
+        }
+        return activeProfileId
+    }
+
+
 }
 
+private fun ProfileItemData.matchPotion(stack: ItemStack): Boolean {
+    if (this.potion == "") return false
+    if (stack.itemType.potionEffects.isEmpty()) return false
+    val toPotion = stack.itemType.tag?.get("Potion") ?: return this.potion == ""
+    val toPotionName = toPotion.`(asString)`
+    return toPotionName == this.potion
 
+}
 
-private fun ProfileItemData.match(stack: ItemStack): Int {
-    if (this.enchantments.isEmpty()) return 1
-    val tags: AbstractNbtList<*> = (stack.itemType.tag?.get("Enchantments") ?: return 0) as AbstractNbtList<*>
+private fun ProfileItemData.matchEnchantments(stack: ItemStack): Boolean {
+    //if (this.enchantments.isEmpty()) return 1
+    val enchs = stack.itemType.tag?.get("Enchantments") ?: return this.enchantments.isEmpty()
+
+    val tags: AbstractNbtList<*> = enchs as AbstractNbtList<*>
     val v: MutableMap<String, ProfileEnchantmentData> = mutableMapOf()
     v.putAll(enchantments.map { it.id to it })
     tags.forEach {
@@ -205,7 +337,7 @@ private fun ProfileItemData.match(stack: ItemStack): Int {
         }
     }
     Log.trace(v.toString())
-    return if (v.isEmpty()) 1 else 0
+    return v.isEmpty()
 }
 
 
@@ -216,3 +348,6 @@ private fun Iterable<ProfileItemData>.findIn(from: List<Int>, action: (ProfileIt
     }
     return null
 }
+
+
+

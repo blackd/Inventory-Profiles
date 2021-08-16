@@ -25,7 +25,7 @@ data class SizeChangedEvent(val oldValue: Size,
 // break Widget class into several components
 open class Widget : IWidget<Widget>, Iterable<Widget> {
     var active = true // not used in this class
-    var text = ""     // not used in this class
+    open var text = ""     // not used in this class
 
     val sizeChanged = Event<SizeChangedEvent>()
     val locationChanged = Event<LocationChangedEvent>()
@@ -35,7 +35,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     var _visible = true
     override var visible: Boolean
         get() {
-            return _visible && (this.absoluteBounds.insideOf(parent!!.absoluteBounds) || overflow == Overflow.VISIBLE)
+            return _visible && (this.absoluteBounds.insideOf(parent?.absoluteBounds) || overflow == Overflow.VISIBLE)
         }
         set(value) {
             _visible = value
@@ -430,7 +430,8 @@ private interface IWidgetRenderer {
     private fun renderChildren(mouseX: Int,
                                mouseY: Int,
                                partialTicks: Float) {
-        childrenZIndexed().forEach {
+        val zIndexed = childrenZIndexed()
+        zIndexed.forEach {
             if (it.visible) {
                 it.render(mouseX,
                           mouseY,

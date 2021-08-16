@@ -19,7 +19,7 @@ enum class SortingMethod(private val ruleName: String?) {
             ?: TemporaryRuleParser.parse(ModSettings.CUSTOM_RULE.value)
 
     override fun toString(): String =
-        I18n.translate("$ENUM.sorting_method.${name.toLowerCase()}")
+        I18n.translate("$ENUM.sorting_method.${name.lowercase()}")
 }
 
 enum class SortingMethodIndividual {
@@ -45,7 +45,7 @@ enum class SortingMethodIndividual {
                 ModSettings.SORT_ORDER.value.toString().substringBefore('(').trim()
             )
         else
-            I18n.translate("$ENUM.sorting_method.${name.toLowerCase()}")
+            I18n.translate("$ENUM.sorting_method.${name.lowercase()}")
 }
 
 enum class PostAction {
@@ -58,7 +58,7 @@ enum class PostAction {
     REVERSE;
 
     override fun toString(): String =
-        I18n.translate("$ENUM.post_action.${name.toLowerCase()}")
+        I18n.translate("$ENUM.post_action.${name.lowercase()}")
 }
 
 enum class ThresholdUnit {
@@ -66,7 +66,7 @@ enum class ThresholdUnit {
     PERCENTAGE;
 
     override fun toString(): String =
-        I18n.translate("$ENUM.threshold_unit.${name.toLowerCase()}")
+        I18n.translate("$ENUM.threshold_unit.${name.lowercase()}")
 }
 
 enum class ContinuousCraftingCheckboxValue {
@@ -75,7 +75,7 @@ enum class ContinuousCraftingCheckboxValue {
     UNCHECKED;
 
     override fun toString(): String =
-        I18n.translate("$ENUM.continuous_crafting_checkbox_value.${name.toLowerCase()}")
+        I18n.translate("$ENUM.continuous_crafting_checkbox_value.${name.lowercase()}")
 }
 
 enum class SwitchType {
@@ -83,7 +83,7 @@ enum class SwitchType {
     HOLD;
 
     override fun toString(): String =
-        I18n.translate("$ENUM.switch_type.${name.toLowerCase()}")
+        I18n.translate("$ENUM.switch_type.${name.lowercase()}")
 }
 
 enum class DiffCalculatorType {

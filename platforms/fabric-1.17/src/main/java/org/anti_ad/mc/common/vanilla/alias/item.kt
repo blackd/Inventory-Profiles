@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 import net.minecraft.nbt.StringNbtReader
 import net.minecraft.potion.PotionUtil
 import net.minecraft.tag.ItemTags
@@ -36,6 +37,7 @@ typealias TagGroup<T> = TagGroup<T>
 typealias NbtCompound = NbtCompound
 typealias NbtElement = NbtElement
 typealias NbtList = NbtList
+typealias NbtString = NbtString
 
 typealias AbstractNbtNumber = AbstractNbtNumber
 typealias AbstractNbtList<T> = AbstractNbtList<T>
@@ -44,6 +46,7 @@ typealias NbtPathArgumentType = NbtPathArgumentType
 typealias NbtPathArgumentTypeNbtPath = NbtPathArgumentType.NbtPath
 typealias NbtHelper = NbtHelper
 typealias StringNbtReader = StringNbtReader // JsonToNBT.getTagFromJson = StringNbtReader.parse
+
 
 // ============
 // enchantment

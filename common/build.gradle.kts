@@ -16,14 +16,7 @@ configureDependencies()
 group = "org.anti_ad.mc.common"
 
 dependencies {
-
-    //"shadedApi"("org.apache.commons:commons-rng-core:1.3")
-    //"shadedApi"("commons-io:commons-io:2.4")
-
     "shadedApi"("commons-io:commons-io:2.6")
-
-
-
     val antlrVersion = "4.9.2"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
@@ -77,7 +70,7 @@ plugins.withId("idea") {
         afterEvaluate {
             module.sourceDirs.add(file("src/main/antlr"))
             module.sourceDirs.add(file("build/generated-src/antlr/main"))
-            module.generatedSourceDirs.add(file("build/generated-src/antlr/main"))
+            //module.generatedSourceDirs.add(file("build/generated-src/antlr/main"))
         }
     }
 }
