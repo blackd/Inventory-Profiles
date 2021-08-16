@@ -21,18 +21,6 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
         super(text);
     }
 
-//  @Inject(at = @At("RETURN"), method = "init()V")
-//  protected void init(CallbackInfo info) {
-//    List<InjectWidget> list = ContainerScreenHandler.INSTANCE.getContainerInjector((HandledScreen) (Object) this);
-//    for (InjectWidget iw : list) {
-//      addButton(iw);
-//    }
-//  }
-
-//  @Inject(at = @At("RETURN"), method = "render(IIF)V")
-//  public void render(int int_1, int int_2, float float_1, CallbackInfo info) {
-//    Tooltips.INSTANCE.renderAll();
-//  }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
             "drawBackground(Lnet/minecraft/client/util/math/MatrixStack;FII)V", shift = At.Shift.AFTER), method = "render")

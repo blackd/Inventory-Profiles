@@ -85,20 +85,18 @@ object ProfilesLoader: Loader, Savable {
     }
 
     override fun reload(clientWorld: ClientWorld?) {
-        if (clientWorld != null) {
-            profiles.clear()
-            savedProfiles.clear()
-            val temp = mutableListOf<ProfileData>()
-            if (file.exists()) {
-                tryOrPrint({msg->
-                               Log.warn(msg)
-                               TellPlayer.chat("Loading Profile settings failed: $msg")}) {
-                    temp.addAll(ProfilesConfig.getProfiles(file.readText()))
-                }
+        profiles.clear()
+        savedProfiles.clear()
+        val temp = mutableListOf<ProfileData>()
+        if (file.exists()) {
+            tryOrPrint({msg->
+                           Log.warn(msg)
+                           TellPlayer.chat("Loading Profile settings failed: $msg")}) {
+                temp.addAll(ProfilesConfig.getProfiles(file.readText()))
             }
-            savedProfiles.addAll(temp.filter { it.name.uppercase() == "SAVED" })
-            profiles.addAll(temp.filter { it.name.uppercase() != "SAVED" })
         }
+        savedProfiles.addAll(temp.filter { it.name.uppercase() == "SAVED" })
+        profiles.addAll(temp.filter { it.name.uppercase() != "SAVED" })
     }
 }
 

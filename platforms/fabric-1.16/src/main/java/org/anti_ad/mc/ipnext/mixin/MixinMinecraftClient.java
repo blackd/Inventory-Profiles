@@ -22,9 +22,6 @@ public abstract class MixinMinecraftClient {
     @Inject(at = @At("HEAD"), method = "tick()V")
     public void tick(CallbackInfo info) {
         ClientEventHandler.INSTANCE.onTickPre();
-        if (this.itemUseCooldown > 0 && Tweaks.INSTANCE.getDISABLE_ITEM_USE_COOLDOWN().getBooleanValue()) {
-            this.itemUseCooldown = 0;
-        }
     }
 
     @Inject(at = @At("RETURN"), method = "tick()V")
