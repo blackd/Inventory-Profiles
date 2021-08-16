@@ -10,6 +10,7 @@ import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.ClientInitHandler
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
+import org.anti_ad.mc.ipnext.parser.parserInitGlue
 
 @Suppress("unused")
 fun init() {
@@ -22,6 +23,7 @@ fun init() {
         renderInitTheGlue()
         aliasInitGlue()
         vanillaInitGlue()
+        parserInitGlue()
 
         // Keybind register
         InputHandler.onClientInit()

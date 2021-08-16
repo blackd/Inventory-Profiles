@@ -19,6 +19,7 @@ import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
+import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.ingame.vCursorStack
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
@@ -30,6 +31,7 @@ import org.anti_ad.mc.ipnext.inventory.action.restockFrom
 import org.anti_ad.mc.ipnext.inventory.action.sort
 import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.rule.Rule
 
 object GeneralInventoryActions {
@@ -104,17 +106,27 @@ object GeneralInventoryActions {
 
         val includeHotbar = // xor
                 ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
-        val moveAll = // xor
-                ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
+        val throwAll = // xor
+                ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_THROW_ALL.booleanValue
         with(AreaTypes) {
             val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
                     lockedSlots
             val container = itemStorage
             val slots = vanillaContainer.`(slots)`
             val source = (if (isContainer) container else player).getItemArea(vanillaContainer, slots)
-            val actUponSlots = source.slotIndices.filter {
-                !slots[it].stack.isEmpty
-            }.toList()
+
+
+            val actUponSlots = if (throwAll) {
+                source.slotIndices.filter {
+                    !slots[it].`(itemStack)`.isEmpty()
+                }.toList()
+            } else {
+                val focusedStack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
+                source.slotIndices.filter {
+                    val checkStack = slots[it].`(itemStack)`
+                    !checkStack.isEmpty() && checkStack.itemType == focusedStack.itemType
+                }.toList()
+            }
             if (actUponSlots.isNotEmpty()) {
                 val interval: Int =
                         if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue)

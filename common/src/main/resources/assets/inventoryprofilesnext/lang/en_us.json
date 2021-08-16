@@ -62,10 +62,12 @@
     "inventoryprofiles.config.name.move_all_modifier":                  "Move All Modifier",
     "inventoryprofiles.config.name.always_include_hotbar":              "Always Include Hotbar",
     "inventoryprofiles.config.name.always_move_all":                    "Always Move All",
+    "inventoryprofiles.config.name.always_throw_all":                   "Always Throw All",
     "inventoryprofiles.config.description.include_hotbar_modifier":     "Hold this key to include hotbar",
-    "inventoryprofiles.config.description.move_all_modifier":           "Hold this key to move all",
+    "inventoryprofiles.config.description.move_all_modifier":           "Hold this key to move/throw all",
     "inventoryprofiles.config.description.always_include_hotbar":       "Include hotbar without holding the modifier key (then holding the modifier key is to exclude hotbar)",
     "inventoryprofiles.config.description.always_move_all":             "Move all without holding the modifier key (then holding the modifier key is to move matching items only)",
+    "inventoryprofiles.config.description.always_throw_all":            "Throw all without holding the modifier key (then holding the modifier key is to throw matching items only)",
 
     "inventoryprofiles.config.name.enable_profiles":                    "Enable Equipment Profiles Support",
     "inventoryprofiles.config.name.profiles_per_server":                "Enable Different Profile set per server/world",
@@ -206,15 +208,15 @@
     "inventoryprofiles.config.name.open_server_profiles":                      "§aOpen Profiles For Current Server",
 
     "inventoryprofiles.config.category.still_under_construction":              "Not Finished Yet!",
-    "inventoryprofiles.config.category.quick_slots":                           "Quick Slot Settings",
+    "inventoryprofiles.config.category.quick_slots":                           "Quick Profile Settings",
 
     "inventoryprofiles.config.category.profiles_help_message":                 "For more information",
     "inventoryprofiles.config.name.quick_slot_1_profile":                      "Quick Profile 1 Name",
     "inventoryprofiles.config.name.quick_slot_2_profile":                      "Quick Profile 2 Name",
-    "inventoryprofiles.config.name.quick_slot_3_profile": "Quick Profile 3 Name",
-    "inventoryprofiles.config.description.quick_slot_1_profile": "The name of the Profile that will be accessible with Quick Profile 1 hot key.",
-    "inventoryprofiles.config.description.quick_slot_2_profile": "The name of the Profile that will be accessible with Quick Profile 2 hot key.",
-    "inventoryprofiles.config.description.quick_slot_3_profile": "The name of the Profile that will be accessible with Quick Profile 3 hot key.",
+    "inventoryprofiles.config.name.quick_slot_3_profile":                      "Quick Profile 3 Name",
+    "inventoryprofiles.config.description.quick_slot_1_profile":               "The name of the Profile that will be accessible with Quick Profile 1 hot key.",
+    "inventoryprofiles.config.description.quick_slot_2_profile":               "The name of the Profile that will be accessible with Quick Profile 2 hot key.",
+    "inventoryprofiles.config.description.quick_slot_3_profile":               "The name of the Profile that will be accessible with Quick Profile 3 hot key.",
 
 
 
@@ -236,9 +238,10 @@
     "inventoryprofiles.config.name.sort_inventory_in_columns":      "Sort Inventory In Columns",
     "inventoryprofiles.config.name.sort_inventory_in_rows":         "Sort Inventory In Rows",
     "inventoryprofiles.config.name.move_all_items":                 "Move All Items",
-    "inventoryprofiles.config.name.throw_all_items":                 "Throw All Items",
+    "inventoryprofiles.config.name.throw_all_items":                "Throw All Items",
     "inventoryprofiles.config.name.dump_item_nbt_to_chat":          "Dump Item Nbt To Chat",
 
+    "inventoryprofiles.config.name.apply_profile":                 "Reapply the Currently Selected Profile",
     "inventoryprofiles.config.name.next_profile":                  "Select and Apply Next Profile",
     "inventoryprofiles.config.name.prev_profile":                  "Select and Apply Previous Profile",
     "inventoryprofiles.config.name.profile_1":                     "Select and Apply Quick Profile 1",

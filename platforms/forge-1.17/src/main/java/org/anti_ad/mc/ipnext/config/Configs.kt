@@ -18,9 +18,6 @@ import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfo
 import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfo
-import org.anti_ad.mc.ipnext.parser.OpenProfilesHelpButtonInfo
-import org.anti_ad.mc.ipnext.parser.OpenProfilesConfigButtonInfo
-import org.anti_ad.mc.ipnext.parser.OpenConfigFolderButtonInfo
 import org.anti_ad.mc.ipnext.parser.ReloadRuleFileButtonInfo
 
 private const val category = "inventoryprofiles.config.category"
@@ -43,6 +40,7 @@ object ModSettings : ConfigDeclaration {
                                                                  KeybindSettings.GUI_EXTRA)
     val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
     val ALWAYS_MOVE_ALL                           /**/ by bool(false)
+    val ALWAYS_THROW_ALL                          /**/ by bool(false)
 
         .CATEGORY("$category.profiles")
     val ENABLE_PROFILES                          /**/ by bool(true)
@@ -167,6 +165,8 @@ object Hotkeys : ConfigDeclaration {
     val THROW_ALL_ITEMS                           /**/ by hotkey("",
                                                                  KeybindSettings.GUI_EXTRA)
         .CATEGORY("$category.profiles")
+    val APPLY_PROFILE                             /**/ by hotkey("",
+                                                                 KeybindSettings.ANY_DEFAULT)
     val NEXT_PROFILE                              /**/ by hotkey("",
                                                                  KeybindSettings.ANY_DEFAULT)
     val PREV_PROFILE                              /**/ by hotkey("",

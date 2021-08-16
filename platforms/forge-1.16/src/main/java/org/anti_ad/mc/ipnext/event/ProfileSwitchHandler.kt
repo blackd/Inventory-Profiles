@@ -2,8 +2,6 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfileEnchantmentData
 import org.anti_ad.mc.common.profiles.conifg.ProfileItemData
@@ -15,7 +13,6 @@ import org.anti_ad.mc.common.vanilla.alias.AbstractNbtList
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.common.vanilla.alias.NbtString
-import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -31,12 +28,10 @@ import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.NbtUtils
 import org.anti_ad.mc.ipnext.item.hasPotionName
 import org.anti_ad.mc.ipnext.item.isEmpty
-import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.isStackable
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.potionEffects
 import org.anti_ad.mc.ipnext.parser.ProfilesLoader
-import java.net.URL
 
 object ProfileSwitchHandler: IInputHandler {
 
@@ -160,6 +155,10 @@ object ProfileSwitchHandler: IInputHandler {
 
         if (!VanillaUtil.inGame()) return false
 
+        if (Hotkeys.APPLY_PROFILE.isActivated()) {
+            applyCurrent()
+            return true
+        }
         if (Hotkeys.NEXT_PROFILE.isActivated()) {
             nextProfile()
             return true
