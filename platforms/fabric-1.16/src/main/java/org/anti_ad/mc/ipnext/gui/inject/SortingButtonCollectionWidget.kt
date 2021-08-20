@@ -429,6 +429,13 @@ abstract class TexturedButtonWidget : ButtonWidget {
                     screenX,
                     screenY)
     }
+
+    override fun mouseClicked(x: Int,
+                              y: Int,
+                              button: Int): Boolean {
+        return super.mouseClicked(x,y,button) && visible
+    }
+
 }
 
 private open  class ProfileButtonWidget: SortButtonWidget {
@@ -436,4 +443,9 @@ private open  class ProfileButtonWidget: SortButtonWidget {
     constructor(clickEvent: () -> Unit) : super(clickEvent)
     constructor() : super()
 
+    override fun mouseClicked(x: Int,
+                              y: Int,
+                              button: Int): Boolean {
+        return super.mouseClicked(x,y,button) && visible
+    }
 }
