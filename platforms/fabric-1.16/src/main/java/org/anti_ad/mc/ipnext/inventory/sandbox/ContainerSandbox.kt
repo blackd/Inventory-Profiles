@@ -14,10 +14,9 @@ import org.anti_ad.mc.ipnext.item.transferTo
 
 //import org.anti_ad.mc.common.vanilla.alias.Slot as VanillaSlot
 
-class ContainerSandbox(
-    items: MutableItemTracker,
-    clickNode: SandboxClick? = null
-) {
+class ContainerSandbox(items: MutableItemTracker,
+                       clickNode: SandboxClick? = null) {
+
     private val mutableItems = items
     val items: ItemTracker
         get() = mutableItems

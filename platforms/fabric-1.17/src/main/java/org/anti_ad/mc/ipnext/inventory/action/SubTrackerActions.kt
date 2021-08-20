@@ -1,5 +1,6 @@
 package org.anti_ad.mc.ipnext.inventory.action
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.ipnext.config.PostAction
 import org.anti_ad.mc.ipnext.config.PostAction.*
 import org.anti_ad.mc.ipnext.inventory.data.MutableSubTracker
@@ -20,7 +21,9 @@ import org.anti_ad.mc.ipnext.item.transferTo
 
 fun MutableSubTracker.restockFrom(another: MutableSubTracker) {
     val anotherSlots = another.slots
-    slots.forEach { it.restockFrom(anotherSlots) }
+    slots.forEach {
+        it.restockFrom(anotherSlots)
+    }
 }
 
 fun MutableSubTracker.moveAllTo(another: MutableSubTracker,
@@ -68,13 +71,34 @@ fun MutableSubTracker.sort(sortingRule: Rule,
 }
 
 private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
-    val bucket = this.collect()
-    return bucket.elementSet.toList().sortedWith(sortingRule)
+    val overStacked = this.filter {
+        it.itemType.maxCount < it.count
+    }
+    val bucket = (this - overStacked).collect()
+    val sorted =  bucket.elementSet.toList().sortedWith(sortingRule)
         .map { itemType ->
             itemType to pack(bucket.count(itemType),
                              itemType.maxCount)
         }
-        .flatten(this.size)
+        .flatten(this.size).toMutableList()
+    var index = 0
+    overStacked.forEach {
+        val i = sorted.findEmptySlot(index)
+        index = i
+        if (i >= 0) {
+            sorted[i] = ItemStack(it.itemType, it.count)
+        } else {
+            Log.warn("Unable to handle over stacked item $it")
+        }
+    }
+    return sorted
+}
+
+private fun MutableList<ItemStack>.findEmptySlot(index: Int): Int {
+    for (i in index until this.size)  {
+        if (this[i].isEmpty()) return i
+    }
+    return  -1
 }
 
 private fun List<ItemStack>.postAction(postAction: PostAction,
@@ -117,6 +141,7 @@ private fun MutableItemStack.restockFrom(source: List<MutableItemStack>) {
         if (isFull()) return
     }
 }
+
 
 private fun MutableItemStack.moveTo(destination: List<MutableItemStack>,
                                     skipEmpty: Boolean) {

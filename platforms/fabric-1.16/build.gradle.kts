@@ -51,6 +51,7 @@ dependencies {
     "modImplementation"("net.fabricmc:fabric-loader:0.11.6")
     "modImplementation"("net.fabricmc.fabric-api:fabric-api:0.36.0+1.16")
     "modImplementation"("com.terraformersmc:modmenu:1.16.9")
+    "modImplementation"("com.terraformersmc:modmenu:1.16.9")
 }
 
 minecraft{

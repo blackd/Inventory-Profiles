@@ -151,8 +151,8 @@ object Hotkeys : ConfigDeclaration {
         .CATEGORY("$category.hotkeys")
     val OPEN_CONFIG_MENU                          /**/ by hotkey("R,C",
                                                                  KeybindSettings.INGAME_DEFAULT)
-    val RELOAD_CUSTOM_CONFIGS                     /**/ by hotkey("",
-                                                                 KeybindSettings.INGAME_DEFAULT)
+    val RELOAD_CUSTOM_CONFIGS                     /**/ by hotkey("R,Y",
+                                                                 KeybindSettings.ANY_DEFAULT)
         .CATEGORY("$category.inventory")
     val SORT_INVENTORY                            /**/ by hotkey("R",
                                                                  KeybindSettings.GUI_DEFAULT)

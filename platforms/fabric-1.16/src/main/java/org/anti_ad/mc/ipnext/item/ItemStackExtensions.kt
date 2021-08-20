@@ -31,8 +31,7 @@ val ItemStack.room
         if (it < 0) Log.warn("Informal item stack $this")
     }
 
-fun ItemStack.stackableWith(b: ItemStack) =
-    itemType == b.itemType || isEmpty() || b.isEmpty()
+fun ItemStack.stackableWith(b: ItemStack) = itemType.maxCount > 1 && itemType == b.itemType || isEmpty() || b.isEmpty()
 
 val ItemStack.vanillaStack
     get() = itemType.vanillaStackWithCount(count)
@@ -67,13 +66,18 @@ fun MutableItemStack.transferOneTo(another: MutableItemStack) = transferNTo(anot
 fun MutableItemStack.transferNTo(another: MutableItemStack,
                                  n: Int) {
     if (!stackableWith(another)) return
+    if (overstacked && !another.isEmpty()) return
     if (isEmpty()) return
     if (another.isEmpty()) {
         another.itemType = itemType
         another.count = 0
     }
-    val transferableCount = n.coerceAtMost(minOf(count,
-                                                 another.room)).coerceAtLeast(0)
+    val transferableCount = if (overstacked) {
+        count
+    } else {
+        n.coerceAtMost(minOf(count,
+                             another.room)).coerceAtLeast(0)
+    }
     count -= transferableCount
     another.count += transferableCount
     normalize()

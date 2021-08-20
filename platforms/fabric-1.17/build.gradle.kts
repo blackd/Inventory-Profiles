@@ -10,7 +10,7 @@ val supported_minecraft_versions = listOf("1.17", "1.17.1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.17.1"
-val mappings_version = "1.17.1+build.14"
+val mappings_version = "1.17.1+build.39"
 val loader_version = "0.11.6"
 val modmenu_version = "2.0.2"
 
@@ -94,6 +94,7 @@ tasks.named<DefaultTask>("build") {
 configure<LoomGradleExtension> {
     refmapName = "inventoryprofilesnext-refmap.json"
 }
+
 
 val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
     group = "fabric"

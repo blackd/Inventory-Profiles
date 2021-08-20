@@ -7,6 +7,9 @@ sealed class ItemStack {
     operator fun component1() = itemType
     operator fun component2() = count
 
+    val overstacked: Boolean
+        get() { return count > itemType.item.maxStackSize }
+
     final override fun toString() = "${count}x $itemType"
 
     final override fun equals(other: Any?): Boolean {

@@ -1,17 +1,20 @@
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.ipnext.config.GuiSettings
+import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.inventory.AdvancedContainer
 import org.anti_ad.mc.ipnext.inventory.AreaTypes
+import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.ContainerType.CRAFTING
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.data.collect
@@ -24,6 +27,10 @@ import org.anti_ad.mc.ipnext.item.maxCount
 import org.anti_ad.mc.ipnext.item.transferNTo
 
 object ContinuousCraftingHandler {
+
+    private var afterRefill: Boolean  = false
+    var processingClick: Boolean = false
+
     private val checked
         get() = GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
     private var trackingScreen: ContainerScreen<*>? = null
@@ -49,30 +56,52 @@ object ContinuousCraftingHandler {
         if (!isCrafting) return
         monitor = Monitor(container)
         onCraftCount = 0
+        crafted = false
+        processingClick = false
     }
 
     var onCraftCount = 0 // this tick crafted item
+
+    var crafted = false
     fun handle() {
         if (!isCrafting) return
         // todo quick craft from recipe book
-        if (onCraftCount > 0) {
+        if (!processingClick && onCraftCount > 0) {
             onCraftCount--
-            monitor.autoRefill()
         }
-        monitor.save()
+        if (false && afterRefill) {
+            if (ModSettings.MOVE_ALL_MODIFIER.isPressing()) {
+                Vanilla.mc().tell() {
+                    ContainerClicker.shiftClick(0)
+                }
+            }
+            afterRefill = false
+        }
+        if (crafted) {
+            if (!processingClick && onCraftCount <= 0) {
+                if (monitor.autoRefill()) {
+                    crafted = false
+                    onCraftCount = 0
+                    afterRefill = true
+                }
+            } else {
+                Log.trace("Not refilling yet")
+            }
+        }
+        if (!crafted) {
+            monitor.save()
+        }
     }
 
     fun onCrafted() {
         if (!isCrafting) return
         onCraftCount = (onCraftCount + 2).coerceAtMost(2)
+        crafted = true
+        Log.trace("crafted!!!!!!")
         // ^^ i think this is the right approach can really fix the stability
     }
 
-    private fun shouldHandle(storedItem: ItemStack,
-                             currentItem: ItemStack): Boolean {
-        if (storedItem.isEmpty()) return false
-        return currentItem.isEmpty() // storedItem not empty -> became empty
-    }
+
 
     class Monitor(container: Container) {
         val containerSlots = container.`(slots)`
@@ -83,26 +112,35 @@ object ContinuousCraftingHandler {
 
         val playerSlotIndices = with(AreaTypes) { playerStorage + playerHotbar + playerOffhand - lockedSlots }
             .getItemArea(container,
-                         containerSlots)
-            .slotIndices // supplies
+                         containerSlots).slotIndices // supplies
 
-        fun autoRefill() {
+        private fun shouldHandle(storedItem: ItemStack,
+                                 currentItem: ItemStack): Boolean {
+            Log.trace("Checking if wee should load more items into crafting slot")
+            if (storedItem.isEmpty()) return false
+            Log.trace("Should handle: ${currentItem.isEmpty()}")
+            return currentItem.isEmpty() // storedItem not empty -> became empty
+        }
+
+        fun autoRefill(): Boolean {
             // do statistic
+            var handledSomething = false
             val typeToSlotListMap = mutableMapOf<ItemType, MutableList<Int>>() // slotIndex
             for (slotMonitor in slotMonitors) {
                 with(slotMonitor) {
                     if (shouldHandle(storedItem,
-                                     slot.`(itemStack)`)
-                    ) {
+                                     slot.`(itemStack)`)) {
                         // record this
                         typeToSlotListMap.getOrPut(storedItem.itemType,
                                                    { mutableListOf() }).add(slot.`(id)`)
+                        handledSomething = true
                     }
                 }
             }
             if (typeToSlotListMap.isEmpty()) {
-                return
+                return handledSomething
             }
+            handledSomething = true
             AdvancedContainer.tracker(instant = true) {
                 val playerSubTracker = tracker.subTracker(playerSlotIndices)
                 val counter = playerSubTracker.slots.collect()
@@ -122,6 +160,7 @@ object ContinuousCraftingHandler {
                     }
                 }
             }
+            return true
         }
 
         fun save() {

@@ -232,7 +232,7 @@
     "inventoryprofiles.config.category.misc": "Misc",
 
     "inventoryprofiles.config.name.open_config_menu":               "Open Config Menu",
-    "inventoryprofiles.config.name.reload_custom_configs":          "Reload mod configurations",
+    "inventoryprofiles.config.name.reload_custom_configs":          "Reload MOD Configurations",
 
     "inventoryprofiles.config.name.sort_inventory":                 "Sort Inventory",
     "inventoryprofiles.config.name.sort_inventory_in_columns":      "Sort Inventory In Columns",
