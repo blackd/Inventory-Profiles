@@ -1,5 +1,5 @@
 <!-- latest begin -->
-### 1.0.0
+### 0.9.0
 - Added equipment Profiles! You can now define sets of equipment and easily switch between them with a press of a button. Read more on how to set it up at [Profiles Documentation](https://inventory-profiles-next.github.io/profiles/)
 - Added support for over stacked items like [Carpet's](https://github.com/gnembon/fabric-carpet) stacking of empty shulkers
 - Fixed problem on Windows if the world name contains special characters.

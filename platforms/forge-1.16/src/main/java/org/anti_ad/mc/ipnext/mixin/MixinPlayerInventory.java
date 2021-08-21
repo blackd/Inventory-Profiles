@@ -3,6 +3,7 @@ package org.anti_ad.mc.ipnext.mixin;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,14 +22,16 @@ public abstract class MixinPlayerInventory {
             method = "getFirstEmptyStack",
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
-        for(int i = 0; i < this.mainInventory.size(); ++i) {
-            if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
-                if (((ItemStack) this.mainInventory.get(i)).isEmpty()) {
-                    info.setReturnValue(i);
-                    return;
+        if (!ModSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()) {
+            for (int i = 0; i < this.mainInventory.size(); ++i) {
+                if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
+                    if (((ItemStack) this.mainInventory.get(i)).isEmpty()) {
+                        info.setReturnValue(i);
+                        return;
+                    }
                 }
             }
+            info.setReturnValue(-1);
         }
-        info.setReturnValue(-1);
     }
 }
