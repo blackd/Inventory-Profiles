@@ -13,12 +13,11 @@ object InsertWidgetHandler : ScreenEventListener {
 
 
     fun insertWidget(widgets: List<Widget>?) {
+        currentWidgets.clear()
+        currentScreen = null
         if (widgets != null) {
             currentWidgets.addAll(widgets)
             currentScreen = Vanilla.screen()
-        } else {
-            currentWidgets.clear()
-            currentScreen = null
         }
     }
     /*

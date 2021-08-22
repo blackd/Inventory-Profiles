@@ -61,7 +61,7 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
                                       partialTicks: Float) {
         rStandardGlState()
         rClearDepth()
-        overflow = Overflow.VISIBLE
+        //overflow = Overflow.VISIBLE
         val parentBounds = screen.`(containerBounds)`
         absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3, height = 20)
         init()
@@ -164,6 +164,11 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
                                     mouseX,
                                     mouseY)
             }
+        }
+        override fun mouseClicked(x: Int,
+                                  y: Int,
+                                  button: Int): Boolean {
+            return super.mouseClicked(x,y,button) && visible
         }
     }
 }

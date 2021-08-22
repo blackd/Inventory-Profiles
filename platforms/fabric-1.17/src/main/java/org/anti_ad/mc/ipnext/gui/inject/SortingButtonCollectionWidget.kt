@@ -143,6 +143,12 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
         val flex = BiFlex(this,
                           Axis.HORIZONTAL)
 
+        override var visible: Boolean
+            get() = super.visible
+            set(value) {
+                super.visible = value
+            }
+
     }
 
     inner class ActiveProfileButtonWidget(onClick: () -> Unit): ButtonWidget(onClick) {
@@ -164,6 +170,11 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
                                     mouseX,
                                     mouseY)
             }
+        }
+        override fun mouseClicked(x: Int,
+                                  y: Int,
+                                  button: Int): Boolean {
+            return super.mouseClicked(x,y,button) && visible
         }
     }
 }
