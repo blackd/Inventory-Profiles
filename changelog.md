@@ -1,4 +1,7 @@
 <!-- latest begin -->
+### 1.0.2
+- fixes forge 1.17.1 mixin support
+
 ### 1.0.1
 - fixes situations where the hot bar becomes inaccessible when opening double chest.
 - fixed enable picking up items in empty locked slots in single player on some platforms.
