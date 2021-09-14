@@ -1,9 +1,10 @@
-/*
+
 package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.world.entity.player.Inventory; //net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.world.item.ItemStack; //net.minecraft.item.ItemStack;
 import net.minecraft.core.NonNullList; //net.minecraft.util.NonNullList;
+import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,4 +36,3 @@ public abstract class MixinPlayerInventory {
         }
     }
 }
-*/

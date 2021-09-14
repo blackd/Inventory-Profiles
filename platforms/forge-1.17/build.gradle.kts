@@ -11,7 +11,7 @@ val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.42"
+val forge_version = "37.0.59"
 
 
 logger.lifecycle("""
@@ -40,7 +40,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.1.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
-        classpath("org.spongepowered:mixin:0.8.3-SNAPSHOT")
+        //classpath("org.spongepowered:mixin:0.8.3-SNAPSHOT")
     }
 }
 
@@ -95,8 +95,9 @@ dependencies {
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    //"annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
+    "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+    "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 if ("true" == System.getProperty("idea.sync.active")) {
