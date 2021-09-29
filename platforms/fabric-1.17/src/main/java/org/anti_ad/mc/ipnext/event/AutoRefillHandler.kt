@@ -119,6 +119,7 @@ object AutoRefillHandler {
                     handle()
                     updateCurrent()
                     unhandled() // update storedItem
+                    LockedSlotKeeper.init()
                 } else {
                     // wait and return
                     tickCount++

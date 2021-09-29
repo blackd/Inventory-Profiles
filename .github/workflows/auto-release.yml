@@ -36,7 +36,7 @@ jobs:
           CURSEFORGE_DEPOY_TOKEN: ${{ secrets.CURSEFORGE_DEPOY_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           IPNEXT_RELEASE: "yes"
-        run: ./gradlew build curseforge publishModrinth
+        run: ./gradlew clean build curseforge publishModrinth
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

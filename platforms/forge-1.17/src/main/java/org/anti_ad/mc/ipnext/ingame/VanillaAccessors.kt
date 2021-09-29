@@ -49,6 +49,9 @@ val Slot.`(invSlot)`: Int
     get() = slotIndex // forge
 val Slot.`(itemStack)`: ItemStack
     get() = this.item.`(itemStack)` // stack
+val Slot.`(vanillaStack)`: VanillaItemStack
+    get() = this.item // stack
+
 val Slot.`(mutableItemStack)`: MutableItemStack
     get() = item.`(mutableItemStack)` //stack
 val Slot.`(inventory)`: Inventory

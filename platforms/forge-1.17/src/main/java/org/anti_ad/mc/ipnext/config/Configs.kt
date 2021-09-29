@@ -66,9 +66,9 @@ object ModSettings : ConfigDeclaration {
                                                               6)
     val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW     /**/ by bool(false)
     val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY      /**/ by bool(false)
-    val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS    /**/ by int(5,
-                                                              0,
-                                                              100)
+    val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS    /**/ by int(50,
+                                                              20,
+                                                              400)
 
         .CATEGORY("$category.auto_refill")
     val ENABLE_AUTO_REFILL                        /**/ by bool(true)

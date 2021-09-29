@@ -11,7 +11,7 @@ val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.59"
+val forge_version = "37.0.70"
 
 
 logger.lifecycle("""

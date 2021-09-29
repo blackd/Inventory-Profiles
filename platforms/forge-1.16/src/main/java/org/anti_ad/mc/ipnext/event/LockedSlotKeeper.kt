@@ -4,12 +4,15 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.ingame.`(vanillaStack)`
 import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
+import org.anti_ad.mc.ipnext.item.isEmpty
 
 object LockedSlotKeeper {
 
@@ -26,15 +29,44 @@ object LockedSlotKeeper {
         }
         private set
 
+    val isWholeInventoryEmpty: Boolean
+        get() {
+            val vanillaContainer = Vanilla.container()
+            val types = ContainerTypes.getTypes(vanillaContainer)
+            if (types.contains(ContainerType.CREATIVE)) {
+                return true
+            }
+            val slots = vanillaContainer.`(slots)`
+            slots.forEach {
+                if (!it.`(itemStack)`.isEmpty()) {
+                    return false
+                }
+            }
+            return true
+        }
 
     fun onTickInGame() {
         if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !ModSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
 
-            if (worldJoined && ticksAfterJoin > ModSettings.LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS.integerValue) {
-                init()
-                worldJoined = false
-                return
-            } else {
+            if (worldJoined) {
+                if (ticksAfterJoin > ModSettings.LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS.integerValue) {
+                    Log.trace("Initialising because of timeout!")
+                    init()
+                    worldJoined = false
+                    ticksAfterJoin = 0
+                    return
+                } else {
+                    if (!isWholeInventoryEmpty) {
+                        Log.trace("Inventory is NOT empty initialising")
+                        init()
+                        worldJoined = false
+                        ticksAfterJoin = 0
+                        return
+                    } else {
+                        Log.trace("Inventory is empty skipping initialization")
+                    }
+
+                }
                 ticksAfterJoin++
             }
             //only do stuff if we are in game and there is no open screen
@@ -45,7 +77,8 @@ object LockedSlotKeeper {
                 screenOpening = true
             } else {
                 if (screenOpening) {
-                    screenOpening = false
+                     screenOpening = false
+                    Log.trace("Inventory is NOT empty initialising - 2")
                     init()
                 } else {
                     checkNewItems()
@@ -56,7 +89,7 @@ object LockedSlotKeeper {
 
     private fun checkNewItems() {
         this.emptyLockedSlots.forEach {
-            val stack = Vanilla.container().`(slots)`[it].stack
+            val stack = Vanilla.container().`(slots)`[it].`(vanillaStack)`
             if (!stack.isEmpty) {
                 processingLockedPickups = true
                 //items changed so do stuff to keep the slot empty!
@@ -100,14 +133,14 @@ object LockedSlotKeeper {
             val nonLockedSource = nonLocked.getItemArea(vanillaContainer, slots)
             val lockedSource = lockedSlots.getItemArea(vanillaContainer, slots)
             lockedSource.slotIndices.forEach {
-                val stack = slots[it].stack
+                val stack = slots[it].`(vanillaStack)`
                 if (stack.isEmpty) {
                     emptyLockedSlots.add(it)
                 }
             }
             Log.trace("empty locked slots $emptyLockedSlots")
             nonLockedSource.slotIndices.forEach {
-                if (slots[it].stack.isEmpty) {
+                if (slots[it].`(vanillaStack)`.isEmpty) {
                     emptyNonLockedSlots.add(it)
                 }
             }

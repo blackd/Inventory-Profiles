@@ -51,6 +51,8 @@ val Slot.`(invSlot)`
     get() = (this as IMixinSlot).invSlot
 val Slot.`(itemStack)`: ItemStack
     get() = stack.`(itemStack)`
+val Slot.`(vanillaStack)`: VanillaItemStack
+    get() = this.stack
 val Slot.`(mutableItemStack)`: MutableItemStack
     get() = stack.`(mutableItemStack)`
 val Slot.`(inventory)`: Inventory
