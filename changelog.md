@@ -1,4 +1,9 @@
 <!-- latest begin -->
+### 1.0.3
+- fixes a problem where, on some servers, items were moved out of the locked slots on dimension change.
+<!-- latest end -->
+
+<!-- rest begin -->
 ### 1.0.2
 - fixes forge 1.17.1 mixin support
 
@@ -19,9 +24,9 @@
 - Preventing swipe moving of locked slots doesn't work.
 - Preventing item pickups in empty locked slots falls back to the server method i.e. items are picked into the inventory and then thrown out.
 
-<!-- latest end -->
 
-<!-- rest begin -->
+
+
 
 ### 0.8.6
 - Fixed issue with Forge mixin handling that causes incompatibility with [Timeless and Classics](https://www.curseforge.com/minecraft/mc-mods/timeless-and-classic) and [I18nUpdateMod](https://www.curseforge.com/minecraft/mc-mods/i18nupdatemod), and possibly others
