@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-val versionObj = Version("1", "0", "3",
+val versionObj = Version("1", "1", "0",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -27,11 +27,26 @@ repositories {
 }
 
 plugins {
-    `maven-publish`
     kotlin("jvm") version "1.5.21"
+    kotlin("plugin.serialization") version "1.5.21"
     idea
-    
+    `java-library`
+    `maven-publish`
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}
+
+
+
+
 
 // This is here but it looks like it's not inherited by the child projects
 tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
@@ -44,6 +59,7 @@ tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
 allprojects {
     version = versionObj
     group = "org.anti_ad.mc"
+    ext.set("mod_artefact_version", versionObj.toCleanString())
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -149,6 +165,13 @@ class Version(val major: String, val minor: String, val revision: String, val pr
         return if (!preRelease)
             "$major.$minor.$revision"
         else //Only use git hash if it's a prerelease.
-            "$major.$minor.$revision-BETA+C${getGitHash()}"
+            "$major.$minor.$revision-BETA+C${getGitHash()}-SNAPSHOT"
+    }
+
+    fun toCleanString(): String {
+        return if (!preRelease)
+            "$major.$minor.$revision"
+        else //Only use git hash if it's a prerelease.
+            "$major.$minor.$revision-SNAPSHOT"
     }
 }

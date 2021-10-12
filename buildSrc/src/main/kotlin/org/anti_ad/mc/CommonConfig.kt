@@ -1,6 +1,7 @@
 package org.anti_ad.mc
 
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.get
 
 import java.io.ByteArrayOutputStream
 
@@ -15,6 +16,10 @@ fun Project.configureCommon(is18: Boolean) {
     configureDistribution(is18)
 
     version = rootProject.version
+}
+
+fun Project.platformsCommonConfig() {
+    tasks["javadoc"].enabled = false
 }
 
 fun Project.getGitHash(): String {

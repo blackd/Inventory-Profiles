@@ -9,13 +9,15 @@
 
 rootProject.name = "InventoryProfilesNext"
 include("common")
+
 if (JavaVersion.current() == org.gradle.api.JavaVersion.VERSION_16) {
     include("platforms:fabric-1.17")
     include("platforms:fabric-1.16")
+    include("platforms:forge-1.17")
 }
 
 include("platforms:forge-1.16")
-include("platforms:forge-1.17")
+
 //include("platforms:forge")
 
 pluginManagement {

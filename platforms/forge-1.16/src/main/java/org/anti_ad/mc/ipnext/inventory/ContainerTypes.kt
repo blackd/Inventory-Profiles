@@ -1,6 +1,8 @@
 package org.anti_ad.mc.ipnext.inventory
 
-
+import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.extensions.orDefault
+import org.anti_ad.mc.common.integration.IgnoredManager
 import org.anti_ad.mc.common.vanilla.alias.AbstractFurnaceContainer
 import org.anti_ad.mc.common.vanilla.alias.AnvilContainer
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
@@ -22,12 +24,15 @@ import org.anti_ad.mc.common.vanilla.alias.PlayerContainer
 import org.anti_ad.mc.common.vanilla.alias.ShulkerBoxContainer
 import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
 import org.anti_ad.mc.ipnext.config.GuiSettings
+import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
 private val nonStorage = setOf(TEMP_SLOTS)
 
 object ContainerTypes {
+
     private val innerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
+    private val outerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
 
     init {
         register(
@@ -79,12 +84,18 @@ object ContainerTypes {
         }
 
     fun register(containerClass: Class<*>,
-                 types: Set<ContainerType>) {
-        innerMap[containerClass] = innerMap.getOrDefault(containerClass,
-                                                         setOf()) + types
+                 types: Set<ContainerType>,
+                 external: Boolean = false) {
+        if (external) {
+            outerMap[containerClass] = outerMap.getOrDefault(containerClass,
+                                                             setOf()) + types
+        } else {
+            innerMap[containerClass] = innerMap.getOrDefault(containerClass,
+                                                             setOf()) + types
+        }
     }
 
-    fun register(vararg entries: Pair<Class<*>, Set<ContainerType>>) {
+    private fun register(vararg entries: Pair<Class<*>, Set<ContainerType>>) {
         entries.forEach {
             register(it.first,
                      it.second)
@@ -96,18 +107,50 @@ object ContainerTypes {
         this.containsAll(with) && without.all { it !in this }
 
     private fun getRepresentingClass(container: Container): Class<*>? {
-        if (innerMap.containsKey(container.javaClass)) return container.javaClass
-        return innerMap.keys.firstOrNull { it.isInstance(container) }
+        if (outerMap.containsKey(container.javaClass)) {
+            return container.javaClass
+        }
+        outerMap.keys.forEach {
+            if (it.isInstance(container)) {
+                return it
+            }
+        }
+        if (innerMap.containsKey(container.javaClass)) {
+            Log.trace("Class: ${container.javaClass.name} is in as top level")
+            return container.javaClass
+        }
+        return innerMap.keys.firstOrNull {
+            Log.trace("Checking inherited class: ${it.name}")
+            it.isInstance(container)
+        }
     }
 
     fun getTypes(container: Container): Set<ContainerType> {
-        var z: Class<*>? = getRepresentingClass(container)
-        var v = innerMap.get(z)
-        if (v == null) {
-            v = unknownContainerDefaultTypes
+
+        val v: Set<ContainerType>
+        if (container.`(slots)`.isEmpty()) {
+            v = nonStorage
+        } else {
+            Log.trace("container.slots.size: ${container.`(slots)`.size}")
+            val z: Class<*>? = getRepresentingClass(container)
+            val ignoredClass = IgnoredManager.getIgnoredClass(container.javaClass)
+            Log.trace("Representing class: ${z?.name}")
+            if (z == null) {
+                if (ignoredClass == null) {
+                    v = unknownContainerDefaultTypes
+                    register(container.javaClass, v, true)
+                } else {
+                    v = nonStorage
+                    register(ignoredClass, v, true)
+                }
+            } else if (ignoredClass != null && z !== ignoredClass) {
+                v = nonStorage
+                register(ignoredClass, v, true)
+            } else {
+                v = innerMap[z].orDefault { unknownContainerDefaultTypes }
+            }
         }
         return v
-        //return innerMap.getOrDefault(z, unknownContainerDefaultTypes)
     }
 
 //  fun match(container: Container, vararg with: ContainerType) = match(container, with.toSet())

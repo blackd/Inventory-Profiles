@@ -20,6 +20,8 @@
 #    public static ** valueOf(java.lang.String);
 #}
 
+-keep class org.anti_ad.mc.api.** { *; }
+
 # min build
 #-keep class org.anti_ad.mc.common.mixin.** { *; }
 #-keep class org.anti_ad.mc.ipnext.mixin.** { *; }

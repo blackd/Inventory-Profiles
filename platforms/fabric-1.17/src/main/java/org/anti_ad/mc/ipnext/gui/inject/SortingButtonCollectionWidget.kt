@@ -11,6 +11,7 @@ import org.anti_ad.mc.common.gui.widget.setBottomRight
 import org.anti_ad.mc.common.gui.widget.setTopRight
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.integration.HintsManager
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
@@ -25,6 +26,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.opaque
+import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.ContinuousCraftingCheckboxValue.*
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -36,7 +38,7 @@ import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
-
+import java.util.*
 
 private val TEXTURE = IdentifierHolder("inventoryprofilesnext",
                                "textures/gui/gui_buttons.png")
@@ -59,6 +61,7 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
     override fun postBackgroundRender(mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
+
         rStandardGlState()
         rClearDepth()
         //overflow = Overflow.VISIBLE
@@ -75,7 +78,7 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
         //    Tooltips.renderAll()
     }
 
-    var initialized = false
+    private var initialized = false
     fun init() {
         if (initialized) return
         initialized = true
@@ -122,7 +125,7 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
             absoluteBounds = this@PlayerUICollectionWidget.absoluteBounds.copy(width = this@PlayerUICollectionWidget.absoluteBounds.width - 30,
                                                                                x = this@PlayerUICollectionWidget.absoluteBounds.x + 15,
                                                                                height = 17)
-        };
+        }
 
         init {
             //flex.addAndFit(prevProfileButton)
@@ -142,12 +145,6 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
     inner class InnerFlex(): Widget() {
         val flex = BiFlex(this,
                           Axis.HORIZONTAL)
-
-        override var visible: Boolean
-            get() = super.visible
-            set(value) {
-                super.visible = value
-            }
 
     }
 
@@ -246,18 +243,21 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         val addNonChestSide = types.contains(PURE_BACKPACK)
         val shouldAdd = addChestSide || addNonChestSide
         private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort() }.apply {
+            hints = HintsManager.hintFor(IPNButton.SORT, screen.javaClass)
             tx = 10
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_button")
         }
         private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns() }.apply {
+            hints = HintsManager.hintFor(IPNButton.SORT_COLUMNS, screen.javaClass)
             tx = 20
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
         }
         private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows() }.apply {
+            hints = HintsManager.hintFor(IPNButton.SORT_ROWS, screen.javaClass)
             tx = 30
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.booleanValue && shouldAdd
@@ -280,21 +280,24 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             return@with listOf(line1 to null,
                                line2 to key2,
                                line3 to key3)
-                .filter { (_, keybind) -> keybind?.keyCodes?.isEmpty() != true }
-                .joinToString("\n")
-                { (suffix, keybind) ->
+                .filter {
+                        (_, keybind) -> keybind?.keyCodes?.isEmpty() != true
+                }.joinToString("\n") { (suffix, keybind) ->
                     I18n.translate("$prefix.$suffix",
-                                   keybind?.displayText?.toUpperCase())
+                                   keybind?.displayText?.uppercase(Locale.getDefault()))
                 }
             // extra I18n.translate null is ok
         }
         private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(false) }.apply {
+            hints = HintsManager.hintFor(IPNButton.MOVE_TO_CONTAINER, screen.javaClass)
             tx = 50
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible
             tooltipText = moveAllToolTip
         }
+
         private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(true) }.apply {
+            hints = HintsManager.hintFor(IPNButton.MOVE_TO_PLAYER, screen.javaClass)
             tx = 60
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible && !types.contains(CRAFTING)
@@ -346,11 +349,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             // move all location
             if (moveAllVisible) {
                 val isPlayer = types.contains(PLAYER)
-                moveAllToContainer.setBottomRight(bottom + if (isPlayer) 12 else 0,
-                                                  right)
+                moveAllToContainer.setBottomRight(bottom + (if (isPlayer) 12 else 0) + moveAllToContainer.hints.bottom() ,
+                                                  right + moveAllToContainer.hints.right())
                 if (moveAllToPlayer.visible) {
-                    moveAllToPlayer.setTopRight(top,
-                                                right)
+                    moveAllToPlayer.setTopRight(top + moveAllToPlayer.hints.top(),
+                                                right + moveAllToPlayer.hints.right())
                 }
                 if (!isPlayer) { // player _| shape
                     right += 12
@@ -363,11 +366,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 with(button) {
                     if (visible) {
                         if (addChestSide) {
-                            this.setTopRight(top,
-                                             right)
+                            this.setTopRight(top + hints.top(),
+                                             right + hints.right())
                         } else {
-                            this.setBottomRight(bottom,
-                                                right)
+                            this.setBottomRight(bottom + hints.bottom(),
+                                                right + hints.right())
                         }
                         right += 12
                     }
@@ -376,11 +379,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
             // checkbox location
             if (types.contains(PLAYER)) {
-                continuousCraftingCheckbox.setBottomRight(113,
-                                                          31)
+                continuousCraftingCheckbox.setBottomRight(113 + continuousCraftingCheckbox.hints.bottom(),
+                                                          31 + continuousCraftingCheckbox.hints.right())
             } else {
-                continuousCraftingCheckbox.setBottomRight(96,
-                                                          81)
+                continuousCraftingCheckbox.setBottomRight(96 + continuousCraftingCheckbox.hints.bottom(),
+                                                          81 + continuousCraftingCheckbox.hints.right())
             }
         }
     }
@@ -393,6 +396,7 @@ open class SortButtonWidget : TexturedButtonWidget {
 
     var tx = 0
     var ty = 0
+    var hints = HintsManager.zeroZero
     var tooltipText: String = ""
     override val texture: IdentifierHolder
         get() = TEXTURE
@@ -460,3 +464,7 @@ private open  class ProfileButtonWidget: SortButtonWidget {
         return super.mouseClicked(x,y,button) && visible
     }
 }
+
+internal fun Triple<Int, Int, Int>.right(): Int = this.first
+internal fun Triple<Int, Int, Int>.top(): Int = this.second
+internal fun Triple<Int, Int, Int>.bottom(): Int = this.third

@@ -24,6 +24,7 @@ fun Project.configureDistribution(is18: Boolean) {
         relocate("kotlin", "org.anti_ad.mc.common.embedded.kotlin")
 
         //include("assets/**")
+        //include("org/anti_ad/mc/**")
 
         exclude("**/*.kotlin_metadata")
         exclude("**/*.kotlin_module")

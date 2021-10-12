@@ -87,10 +87,10 @@ private object VanillaUtil: IVanillaUtil {
         }.start()
     }
 
-    override fun open(file: URL) {
+    override fun open(url: URL) {
         // ResourcePackOptionsScreen.init()
         Thread() { ->
-            Util.getOperatingSystem().open(file)
+            Util.getOperatingSystem().open(url)
         }.start()
     }
 

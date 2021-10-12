@@ -5,6 +5,7 @@ import org.apache.commons.io.IOCase
 import org.apache.commons.io.IOUtils
 import org.apache.commons.io.filefilter.RegexFileFilter
 import java.io.InputStream
+import java.io.OutputStream
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
@@ -56,3 +57,8 @@ infix fun Path.pathFrom(other: Path): Path {
         return this
     }
 }
+
+fun OutputStream.copyFrom(res: InputStream) {
+    IOUtils.copy(res, this);
+}
+

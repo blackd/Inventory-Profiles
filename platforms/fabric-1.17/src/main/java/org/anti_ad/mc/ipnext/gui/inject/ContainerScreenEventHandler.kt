@@ -1,8 +1,10 @@
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.screen.BaseScreen
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.integration.IgnoredManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -19,12 +21,13 @@ object ContainerScreenEventHandler {
     fun onScreenInit(target: ContainerScreen<*>,
                      addWidget: (ClickableWidget) -> Unit) {
         if (target != Vanilla.screen()) return
+        Log.trace("Showing screen of type ${target.javaClass.name}")
         val widgetsToInset = mutableListOf<Widget>()
-
-        if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue) {
+        val ignore = IgnoredManager.getIgnoredClass(target.javaClass) != null
+        if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && !ignore) {
             widgetsToInset.add(SortingButtonCollectionWidget(target))
         }
-        if (GuiSettings.ENABLE_PROFILES_UI.booleanValue) {
+        if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore) {
             widgetsToInset.add(PlayerUICollectionWidget(target))
         }
         if (widgetsToInset.size > 0) {

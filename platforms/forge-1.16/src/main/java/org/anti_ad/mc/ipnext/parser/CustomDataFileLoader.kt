@@ -13,6 +13,7 @@ import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
+import org.anti_ad.mc.common.integration.registerFromConfig
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfilesConfig
 import org.anti_ad.mc.common.util.LogicalStringComparator
@@ -25,7 +26,6 @@ import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
-import java.net.URL
 import java.nio.file.Path
 import java.util.*
 import kotlin.concurrent.schedule
@@ -63,7 +63,8 @@ private fun getFiles(regex: String) =
 
 private val definedLoaders: List<Loader> = listOf(LockSlotsLoader,
                                                   ProfilesLoader,
-                                                  RuleLoader)
+                                                  RuleLoader,
+                                                  HintsLoader)
 
 object ProfilesLoader: Loader, Savable {
 
@@ -211,6 +212,17 @@ object RuleLoader : Loader {
 
         TemporaryRuleParser.onReload()
     }
+}
+
+object HintsLoader: Loader {
+    var loaded = false
+    override fun reload(clientWorld: ClientWorld?) {
+        if (!loaded) {
+            loaded = true
+            registerFromConfig(configFolder / "ModIntegrationHints.json")
+        }
+    }
+
 }
 
 private fun serverIdentifier(perServer: Boolean): String = when {

@@ -12,6 +12,7 @@ val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.16.5"
 val forge_version = "36.1.32"
+val mod_artefact_version = project.ext["mod_artefact_version"]
 
 
 logger.lifecycle("""
@@ -57,6 +58,8 @@ apply(plugin = "org.spongepowered.mixin")
 
 plugins {
     java
+    `maven-publish`
+    signing
     //kotlin("jvm") version "1.5.21"
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.modrinth.minotaur") version "1.2.1"
@@ -105,8 +108,8 @@ compileKotlin.kotlinOptions {
 tasks.register<Copy>("copyMixinMappings") {
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
-    from (inName)
-    into (outName)
+    from(inName)
+    into(outName)
     rename {
         "ipnext.refmap.json"
     }
@@ -166,7 +169,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
     outjars("build/libs/${outName}")
 
     doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files.filter {
+        libraryjars(configurations.runtimeClasspath.get().files.filter {
             !it.name.contains("InventoryProfilesNext-common")
         })
     }
@@ -213,6 +216,26 @@ afterEvaluate {
         var shadow = tasks.getByName<ShadowJar>("shadowJar");
         dependsOn(shadow)
     }
+
+    tasks.register<Copy>("copyJarForPublish") {
+        dependsOn("shadowJar")
+        dependsOn("reobfJar")
+
+        val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
+        from(forgeRemapJar.archiveFile.get().asFile)
+        into(layout.buildDirectory.dir("publish"))
+        rename {
+            "$mod_loader-$minecraft_version-$mod_artefact_version.jar"
+        }
+
+        logger.lifecycle("will rename ${forgeRemapJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar")
+    }
+    tasks.named<DefaultTask>("build") {
+        dependsOn("copyJavadoc")
+        dependsOn("packageSources")
+        dependsOn("copyJarForPublish")
+    }
+
 }
 
 configure<UserDevExtension> {
@@ -277,16 +300,9 @@ gradle.buildFinished {
 }
 
 afterEvaluate {
-
-
-
-
-
-
     tasks.forEach {
         logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
     }
-
 
 }
 
@@ -381,4 +397,137 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     changelog = project.rootDir.resolve("changelog.md").readText()
     addLoader(mod_loader)
 
+}
+
+
+
+
+tasks.register<Copy>("copyJavadoc") {
+    dependsOn(":common:packageJavadoc")
+
+    val javadocJar = project(":common").tasks.named<Jar>("packageJavadoc").get()
+    from(javadocJar)
+    into(layout.buildDirectory.dir("publish"))
+    rename {
+        "$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar"
+    }
+    logger.lifecycle("will rename ${javadocJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
+}
+
+val prepareSourceJar = tasks.register<Copy>("prepareSourceJar") {
+    dependsOn(":common:generateGrammarSource")
+    dependsOn(":common:generateTestGrammarSource")
+    val commonKotlinSources = project(":common").layout.projectDirectory.dir("src/main/java")
+    val commonAntlrSources = project(":common").layout.projectDirectory.dir("src/main/java")
+    val commonGeneratedSources = project(":common").layout.buildDirectory.dir("generated-src/antlr/main")
+    val platformSources = layout.projectDirectory.dir("src/main/java")
+    from(commonKotlinSources) {
+        include("**/*.java")
+        include("**/*.kt")
+    }
+    from(commonGeneratedSources) {
+        include("**/*.java")
+        include("**/*.tokens")
+        include("**/*.interp")
+    }
+    from(commonAntlrSources) {
+        include("**/*.g4")
+    }
+    from(platformSources) {
+        include("**/*.java")
+        include("**/*.kt")
+    }
+    into(layout.buildDirectory.dir("srcJarContent"))
+}
+
+tasks.register<org.gradle.jvm.tasks.Jar>("packageSources") {
+    dependsOn("prepareSourceJar")
+    archiveClassifier.set("sources")
+    archiveBaseName.set("$mod_loader-$minecraft_version-$mod_artefact_version")
+    archiveVersion.set("")
+    destinationDirectory.set(layout.buildDirectory.dir("publish"))
+
+    from(layout.buildDirectory.dir("srcJarContent"))
+
+}
+
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "org.anti-ad.mc"
+            artifactId = "inventory-profiles-next"
+            version = "$mod_loader-$minecraft_version-$mod_artefact_version"
+            val mainArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version.jar")
+            val javadocArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar")
+            val sourcesArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-sources.jar")
+            artifact(mainArtefact)
+            artifact(javadocArtefact) {
+                classifier = "javadoc"
+            }
+            artifact(sourcesArtefact) {
+                classifier = "sources"
+            }
+            pom {
+                url.set("https://inventory-profiles-next.github.io/")
+                description.set("""
+                    Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
+                """.trimIndent())
+                scm {
+                    val connectionURL = "scm:git:https://github.com/blackd/Inventory-Profiles"
+                    connection.set(connectionURL)
+                    developerConnection.set(connectionURL)
+                    url.set("https://github.com/blackd/Inventory-Profiles")
+                }
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://raw.githubusercontent.com/blackd/Inventory-Profiles/all-in-one/LICENSE")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("mirinimi")
+                        name.set("Plamen K. Kosseff")
+                        email.set("plamen@anti-ad.org")
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "local"
+            val rloc = rootProject.layout.projectDirectory.dir("repo/releases")
+            val sloc = rootProject.layout.projectDirectory.dir("repo/snapshots")
+
+            setUrl {
+                if (version.toString().endsWith("SNAPSHOT"))
+                    sloc
+                else
+                    rloc
+            }
+        }
+    }
+}
+
+val hasSigningKey = project.hasProperty("signingKeyId") || project.hasProperty("signingKey")
+if(hasSigningKey) {
+    doSign(project)
+}
+
+fun doSign(project: Project) {
+    project.signing {
+        setRequired { project.gradle.taskGraph.hasTask("publish") }
+
+        val signingKeyId: String? = project.findProperty("signingKeyId") as String?
+        val signingKey: String? = project.findProperty("signingKey") as String?
+        val signingPassword: String? = project.findProperty("signingPassword") as String?
+        if (signingKeyId != null) {
+            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+        } else if (signingKey != null) {
+            useInMemoryPgpKeys(signingKey, signingPassword)
+        }
+        sign(publishing.publications.getByName("maven"))
+    }
 }

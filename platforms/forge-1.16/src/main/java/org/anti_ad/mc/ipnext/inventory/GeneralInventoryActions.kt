@@ -6,6 +6,7 @@ import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.tryCatch
+import org.anti_ad.mc.common.integration.IgnoredManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -63,7 +64,7 @@ object GeneralInventoryActions {
                postAction: ConfigEnum<PostAction>) {
 
         val screen = Vanilla.screen()
-        if (screen != null && screen !is ContainerScreen<*>) return
+        if (screen != null && (screen !is ContainerScreen<*> || IgnoredManager.getIgnoredClass(screen.javaClass) != null)) return
         TellPlayer.listenLog(Log.LogLevel.WARN) {
             InnerActions.doSort(sortOrder.value.rule(customRule.value),
                                 postAction.value)
@@ -73,6 +74,8 @@ object GeneralInventoryActions {
     // MOVE_ALL_AT_CURSOR off = to container, on -> (pointing container -> to player) else to container
     // use MOVE_ALL_AT_CURSOR instead of SORT_AT_CURSOR
     fun doMoveMatch() {
+        val screen = Vanilla.screen()
+        if (screen != null && (screen !is ContainerScreen<*> || IgnoredManager.getIgnoredClass(screen.javaClass) != null)) return
         val types = ContainerTypes.getTypes(Vanilla.container())
         if (types.contains(CREATIVE)) return // no do creative menu
         if (!types.containsAny(setOf(SORTABLE_STORAGE,
@@ -89,6 +92,8 @@ object GeneralInventoryActions {
 
     // THROWS_ALL_AT_CURSOR off
     fun doThrowMatch() {
+        val screen = Vanilla.screen()
+        if (screen != null && (screen !is ContainerScreen<*> || IgnoredManager.getIgnoredClass(screen.javaClass) != null)) return
         val vanillaContainer = Vanilla.container()
         val types = ContainerTypes.getTypes(vanillaContainer)
         if (types.contains(CREATIVE)) {
@@ -137,6 +142,8 @@ object GeneralInventoryActions {
     }
 
     fun doMoveMatch(toPlayer: Boolean) { // true container to player or false player to container
+        val screen = Vanilla.screen()
+        if (screen != null && (screen !is ContainerScreen<*> || IgnoredManager.getIgnoredClass(screen.javaClass) != null)) return
         val types = ContainerTypes.getTypes(Vanilla.container())
         if (types.contains(CREATIVE)) return // no do creative menu
         if (types.contains(CRAFTING)) {

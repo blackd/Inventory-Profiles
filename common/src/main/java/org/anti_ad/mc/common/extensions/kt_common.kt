@@ -66,6 +66,9 @@ inline fun <T> T.alsoIf(condition: Boolean,
 inline fun <T> T.ifIt(predicate: T.() -> Boolean): T? = if (this.predicate()) this else null
 inline fun <T> T.unlessIt(predicate: T.() -> Boolean): T? = if (!this.predicate()) this else null
 
+
+inline fun <T> T?.orDefault(predicate: () -> T): T = this ?: predicate()
+
 inline fun <T> T.runIf(condition: T.() -> Boolean,
                        block: T.() -> T): T = if (condition()) run(block) else this
 

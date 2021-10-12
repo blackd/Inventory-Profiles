@@ -17,6 +17,11 @@ object Log {
               message)
     }
 
+    fun error(message: String, tw: Throwable) = innerLogger.error("[$id] $message", tw).also {
+        onLog(ERROR,
+              message)
+    }
+
     fun warn(message: String) = innerLogger.warn("[$id] $message").also {
         onLog(WARN,
               message)

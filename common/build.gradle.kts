@@ -5,9 +5,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `java-library`
     `maven-publish`
-    //kotlin("jvm") version "1.5.21"
     idea
     antlr
+
 }
 
 configureCompilation()
@@ -15,11 +15,14 @@ configureDependencies()
 
 group = "org.anti_ad.mc.common"
 
+
+
 dependencies {
     "shadedApi"("commons-io:commons-io:2.6")
     val antlrVersion = "4.9.2"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
+    "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
     "compileOnly"(group = "com.google.code.gson",
                   name = "gson",
                   version = "2.8.7")
@@ -38,9 +41,13 @@ dependencies {
 
 }
 
+
+apply(plugin = "kotlinx-serialization")
+
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
+    freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
 }
 
 tasks.named<AntlrTask>("generateGrammarSource").configure {
@@ -75,27 +82,25 @@ plugins.withId("idea") {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-//            artifact(tasks["sourcesJar"])
-            artifact(tasks["jar"])
-        }
-    }
+val javadoc = tasks.named<Javadoc>("javadoc") {
+    this.title = "Inventory Profiles Next API"
 
-    repositories {
-        val mavenUrl = "https://repo.codemc.io/repository/maven-releases/"
-        val mavenSnapshotUrl = "https://repo.codemc.io/repository/maven-snapshots/"
+    source = project.fileTree("src/main/java/org/anti_ad/mc/ipn/api/")
 
-        maven(mavenUrl) {
-            val mavenUsername: String? by project
-            val mavenPassword: String? by project
-            if (mavenUsername != null && mavenPassword != null) {
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
-                }
-            }
-        }
+    classpath = project.fileTree("/") {
+        include("src/main/java/")
     }
+    classpath += configurations.compileClasspath.get()
+
 }
+
+tasks.create<Jar>("packageJavadoc") {
+    from(javadoc)
+    archiveClassifier.set("javadoc")
+}
+
+tasks.named<DefaultTask>("build") {
+    dependsOn("javadoc")
+    dependsOn("packageJavadoc")
+}
+

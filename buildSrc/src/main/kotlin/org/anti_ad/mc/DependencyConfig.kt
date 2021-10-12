@@ -6,9 +6,11 @@ import org.gradle.kotlin.dsl.dependencies
 
 fun Project.configureDependencies() {
     apply(plugin = "kotlin")
-//    apply(plugin = "antlr")
+    //    apply(plugin = "antlr")
     apply(plugin = "java")
     apply(plugin = "java-library")
+
+
 
     configurations {
         val shaded = create("shaded")
@@ -37,7 +39,6 @@ fun Project.configureDependencies() {
     dependencies {
         "api"("org.jetbrains:annotations:20.1.0")
     }
-
 }
 
 fun Project.addPostDeps() {

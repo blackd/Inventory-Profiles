@@ -11,10 +11,8 @@ import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.NORMAL
 // Keybinds
 // ============
 
-class MainKeybind(
-    defaultStorageString: String,
-    override val defaultSettings: KeybindSettings
-) : IKeybind {
+class MainKeybind(defaultStorageString: String,
+                  override val defaultSettings: KeybindSettings) : IKeybind {
     override val defaultKeyCodes = IKeybind.getKeyCodes(defaultStorageString)
     override var keyCodes = defaultKeyCodes
     override var settings = defaultSettings
@@ -48,13 +46,11 @@ interface IKeybind : IConfigElementObject {
     val defaultSettings: KeybindSettings
     var settings: KeybindSettings
 
-    fun isActivated() =
-        GlobalInputHandler.isActivated(keyCodes,
-                                       settings)
+    fun isActivated() = GlobalInputHandler.isActivated(keyCodes,
+                                                       settings)
 
-    fun isPressing() =
-        GlobalInputHandler.isPressing(keyCodes,
-                                      settings)
+    fun isPressing() = GlobalInputHandler.isPressing(keyCodes,
+                                                     settings)
 
     val displayText
         get() = when (settings.modifierKey) {
@@ -77,12 +73,14 @@ interface IKeybind : IConfigElementObject {
     }
 
     override fun toJsonElement() = JsonObject().apply {
-        if (isKeyCodesModified)
+        if (isKeyCodesModified) {
             this.addProperty("keys",
                              getStorageString(keyCodes))
-        if (isSettingsModified)
+        }
+        if (isSettingsModified) {
             this.add("settings",
                      settings.toJsonElement())
+        }
     }
 
     override fun fromJsonObject(obj: JsonObject) {
