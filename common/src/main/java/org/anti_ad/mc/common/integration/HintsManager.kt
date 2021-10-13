@@ -30,7 +30,8 @@ object HintsManager {
                     Log.warn("IPNGuiHint annotation of '${javaClass.name}' for button IPNButton.${button.name} has no meaningful value. Please report this to the mod author.")
                     zeroZero
                 } else {
-                    ButtonPositionHint(it.horizontalOffset, it.top, it.bottom, it.hide)
+                    val invert = if (button === IPNButton.PROFILE_SELECTOR) -1 else 1
+                    ButtonPositionHint(it.horizontalOffset * invert, it.top, it.bottom * invert, it.hide)
                 }
                 buttonHints[it.button]?.put(javaClass, tmpTriple)
                 if (it.button == button) {
