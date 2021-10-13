@@ -11,6 +11,7 @@ import org.anti_ad.mc.common.gui.widget.setBottomRight
 import org.anti_ad.mc.common.gui.widget.setTopRight
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.integration.ButtonPositionHint
 import org.anti_ad.mc.common.integration.HintsManager
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -54,9 +55,9 @@ abstract class InsertableWidget: Widget() {
 
 }
 
-class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): InsertableWidget() {
-
-
+class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
+                                 private val hints: ButtonPositionHint = HintsManager.hintFor(IPNButton.PROFILE_SELECTOR,
+                                                                                              screen.javaClass)): InsertableWidget() {
 
     override fun postBackgroundRender(mouseX: Int,
                                       mouseY: Int,
@@ -66,7 +67,9 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
         rClearDepth()
         //overflow = Overflow.VISIBLE
         val parentBounds = screen.`(containerBounds)`
-        absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3, height = 20)
+        absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3 + hints.bottom,
+                                           x = parentBounds.x + hints.right,
+                                           height = 20)
         init()
         super.render(mouseX,
                      mouseY,
@@ -75,7 +78,6 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
             rDrawOutline(absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
-        //    Tooltips.renderAll()
     }
 
     private var initialized = false
@@ -92,7 +94,7 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
         private val nextProfileButton = ProfileButtonWidget(ProfileSwitchHandler::nextProfile).apply {
             tx = 50
             ty = 20
-            this@PlayerUICollectionWidget.addChild(this)
+            this@ProfilesUICollectionWidget.addChild(this)
             visible = types.contains(PLAYER)
             tooltipText = I18n.translate("inventoryprofiles.tooltip.next_profile_button")
         }
@@ -100,16 +102,14 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
         private val prevProfileButton = ProfileButtonWidget(ProfileSwitchHandler::prevProfile).apply {
             tx = 60
             ty = 20
-            this@PlayerUICollectionWidget.addChild(this)
+            this@ProfilesUICollectionWidget.addChild(this)
             visible = types.contains(PLAYER)
             tooltipText = I18n.translate("inventoryprofiles.tooltip.prev_profile_button")
         }
 
         private val profileButton = ActiveProfileButtonWidget(ProfileSwitchHandler::applyCurrent).apply {
-            //"show something!"
-            //this.width = 10
-            //this@PlayerUICollectionWidget.addChild(this)
-            parent = this@PlayerUICollectionWidget
+
+            parent = this@ProfilesUICollectionWidget
             val profile = getCurrentProfileName()
             visible = types.contains(PLAYER)
             this.text = profile
@@ -120,21 +120,17 @@ class PlayerUICollectionWidget(override val screen: ContainerScreen<*>): Inserta
         }
 
         private val flex = InnerFlex().apply {
-            parent = this@PlayerUICollectionWidget
+            parent = this@ProfilesUICollectionWidget
             visible = types.contains(PLAYER)
-            absoluteBounds = this@PlayerUICollectionWidget.absoluteBounds.copy(width = this@PlayerUICollectionWidget.absoluteBounds.width - 30,
-                                                                               x = this@PlayerUICollectionWidget.absoluteBounds.x + 15,
-                                                                               height = 17)
+            absoluteBounds = this@ProfilesUICollectionWidget.absoluteBounds.copy(width = this@ProfilesUICollectionWidget.absoluteBounds.width - 30,
+                                                                                 x = this@ProfilesUICollectionWidget.absoluteBounds.x + 15,
+                                                                                 height = 17)
         }
 
         init {
-            //flex.addAndFit(prevProfileButton)
-            //flex.flex.normal.addSpace(10)
             flex.flex.addAndFit(profileButton)
-            //flex.addAndFit(nextProfileButton)
             prevProfileButton.setBottomLeft(7, 0)
             nextProfileButton.setBottomRight(7, 0)
-            //profileButton.setBottomLeft(0, 20)
         }
     }
 
@@ -349,11 +345,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             // move all location
             if (moveAllVisible) {
                 val isPlayer = types.contains(PLAYER)
-                moveAllToContainer.setBottomRight(bottom + (if (isPlayer) 12 else 0) + moveAllToContainer.hints.bottom() ,
-                                                  right + moveAllToContainer.hints.right())
+                moveAllToContainer.setBottomRight(bottom + (if (isPlayer) 12 else 0) + moveAllToContainer.hints.bottom,
+                                                  right + moveAllToContainer.hints.right)
                 if (moveAllToPlayer.visible) {
-                    moveAllToPlayer.setTopRight(top + moveAllToPlayer.hints.top(),
-                                                right + moveAllToPlayer.hints.right())
+                    moveAllToPlayer.setTopRight(top + moveAllToPlayer.hints.top,
+                                                right + moveAllToPlayer.hints.right)
                 }
                 if (!isPlayer) { // player _| shape
                     right += 12
@@ -366,11 +362,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 with(button) {
                     if (visible) {
                         if (addChestSide) {
-                            this.setTopRight(top + hints.top(),
-                                             right + hints.right())
+                            this.setTopRight(top + hints.top,
+                                             right + hints.right)
                         } else {
-                            this.setBottomRight(bottom + hints.bottom(),
-                                                right + hints.right())
+                            this.setBottomRight(bottom + hints.bottom,
+                                                right + hints.right)
                         }
                         right += 12
                     }
@@ -379,11 +375,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
             // checkbox location
             if (types.contains(PLAYER)) {
-                continuousCraftingCheckbox.setBottomRight(113 + continuousCraftingCheckbox.hints.bottom(),
-                                                          31 + continuousCraftingCheckbox.hints.right())
+                continuousCraftingCheckbox.setBottomRight(113 + continuousCraftingCheckbox.hints.bottom,
+                                                          31 + continuousCraftingCheckbox.hints.right)
             } else {
-                continuousCraftingCheckbox.setBottomRight(96 + continuousCraftingCheckbox.hints.bottom(),
-                                                          81 + continuousCraftingCheckbox.hints.right())
+                continuousCraftingCheckbox.setBottomRight(96 + continuousCraftingCheckbox.hints.bottom,
+                                                          81 + continuousCraftingCheckbox.hints.right)
             }
         }
     }
@@ -465,6 +461,3 @@ private open  class ProfileButtonWidget: SortButtonWidget {
     }
 }
 
-internal fun Triple<Int, Int, Int>.right(): Int = this.first
-internal fun Triple<Int, Int, Int>.top(): Int = this.second
-internal fun Triple<Int, Int, Int>.bottom(): Int = this.third

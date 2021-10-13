@@ -4,11 +4,13 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.screen.BaseScreen
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.integration.HintsManager
 import org.anti_ad.mc.common.integration.IgnoredManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
@@ -27,8 +29,9 @@ object ContainerScreenEventHandler {
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && !ignore) {
             widgetsToInset.add(SortingButtonCollectionWidget(target))
         }
-        if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore) {
-            widgetsToInset.add(PlayerUICollectionWidget(target))
+        val hints = HintsManager.hintFor(IPNButton.PROFILE_SELECTOR, target.javaClass)
+        if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hide) {
+            widgetsToInset.add(ProfilesUICollectionWidget(target, hints))
         }
         if (widgetsToInset.size > 0) {
             currentWidgets = widgetsToInset

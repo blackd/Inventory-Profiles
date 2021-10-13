@@ -30,4 +30,15 @@ public @interface IPNGuiHint {
      * @return The desired horizontal offset. Positive values move the button to the left, negative to the right
      */
     int horizontalOffset() default 0;
+
+    /**
+     * This is only meaningful for {@link IPNButton}{@code .PROFILE_SELECTOR}.
+     * IPN Make reasonable efforts to show this part of its UI only when the player inventory is shown,
+     * specifically only when the player presses the "E" key. However, depending on how the other mod
+     * has implemented its UI IPN is not always able to detect that the shown UO is not the player inventory.
+     * Please use the hide option only if your UI doesn't show the player inventory and use the position hints
+     * in other cases.
+     * @return Whether to hide the Profile UI or not.
+     */
+    boolean hide() default false;
 }

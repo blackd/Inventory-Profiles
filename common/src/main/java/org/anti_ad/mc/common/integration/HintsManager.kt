@@ -6,18 +6,19 @@ import org.anti_ad.mc.ipn.api.IPNGuiHint
 
 object HintsManager {
 
-    private val buttonHints = mapOf<IPNButton, MutableMap<Class<*>, Triple<Int, Int, Int>>>(IPNButton.MOVE_TO_CONTAINER to mutableMapOf(),
-                                                                                            IPNButton.MOVE_TO_PLAYER to mutableMapOf(),
-                                                                                            IPNButton.CONTINUOUS_CRAFTING to mutableMapOf(),
-                                                                                            IPNButton.SORT to mutableMapOf(),
-                                                                                            IPNButton.SORT_COLUMNS to mutableMapOf(),
-                                                                                            IPNButton.SORT_ROWS to mutableMapOf())
+    private val buttonHints = mapOf<IPNButton, MutableMap<Class<*>, ButtonPositionHint>>(IPNButton.MOVE_TO_CONTAINER to mutableMapOf(),
+                                                                                         IPNButton.MOVE_TO_PLAYER to mutableMapOf(),
+                                                                                         IPNButton.CONTINUOUS_CRAFTING to mutableMapOf(),
+                                                                                         IPNButton.SORT to mutableMapOf(),
+                                                                                         IPNButton.SORT_COLUMNS to mutableMapOf(),
+                                                                                         IPNButton.SORT_ROWS to mutableMapOf(),
+                                                                                         IPNButton.PROFILE_SELECTOR to mutableMapOf())
 
-    val zeroZero = Triple(0, 0, 0)
+    val zeroZero = ButtonPositionHint()
 
     fun hintFor(button: IPNButton,
-                javaClass: Class<*>): Triple<Int, Int, Int> {
-        val coord = buttonHints[button]?.get(javaClass)
+                javaClass: Class<*>): ButtonPositionHint {
+        val coord = buttonHints[button]!![javaClass]
 
         return if (coord != null) {
             Log.trace("Founds hint for class: ${javaClass.name} + $coord")
@@ -29,7 +30,7 @@ object HintsManager {
                     Log.warn("IPNGuiHint annotation of '${javaClass.name}' for button IPNButton.${button.name} has no meaningful value. Please report this to the mod author.")
                     zeroZero
                 } else {
-                    Triple(it.horizontalOffset, it.top, it.bottom)
+                    ButtonPositionHint(it.horizontalOffset, it.top, it.bottom, it.hide)
                 }
                 buttonHints[it.button]?.put(javaClass, tmpTriple)
                 if (it.button == button) {
@@ -51,13 +52,13 @@ object HintsManager {
             Log.trace("Hint is: $h")
             if (cl.isAnnotationPresent(IPNGuiHint::class.java)) {
                 if (hint.forceButtonHints) {
-                    buttonHints[it]!![cl] = Triple(h.right, h.top, h.bottom)
+                    buttonHints[it]!![cl] =  ButtonPositionHint(h.right, h.top, h.bottom, h.hide)
                 } else {
                     hintFor(it, cl)
                 }
             } else {
                 Log.trace("Adding hint '$h' for button: '$it' for class ${cl.name}")
-                buttonHints[it]!![cl] = Triple(h.right, h.top, h.bottom)
+                buttonHints[it]!![cl] = ButtonPositionHint(h.right, h.top, h.bottom, h.hide)
             }
         }
     }

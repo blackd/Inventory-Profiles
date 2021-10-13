@@ -1,9 +1,17 @@
 <!-- latest begin -->
-### 1.0.3
-- fixes a problem where, on some servers, items were moved out of the locked slots on dimension change.
+### 1.1.0
+* Added API for integration with other mods. It is now possible for other mods to:
+  * mark their screens to be ignored so IPN won't try to interact with them.
+  * give hints to IPN where to put its UI.
+  * there is a configuration file that can provide the above information if the for some reason it's not possible for the other mod to provide in via the API. Entries in the default configuration file will be accepted in case official refusal from the other mod to provide integration or if the other mod is abandoned.
+
+
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.0.3
+- fixes a problem where, on some servers, items were moved out of the locked slots on dimension change.
+
 ### 1.0.2
 - fixes forge 1.17.1 mixin support
 
