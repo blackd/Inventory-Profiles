@@ -36,7 +36,11 @@ jobs:
           CURSEFORGE_DEPOY_TOKEN: ${{ secrets.CURSEFORGE_DEPOY_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           IPNEXT_RELEASE: "yes"
-        run: ./gradlew clean build curseforge publishModrinth
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGKEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGPASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPEUSERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.ORG_GRADLE_PROJECT_SONATYPEPASSWORD }}
+        run: ./gradlew clean build curseforge publishModrinth publishToSonatype
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
