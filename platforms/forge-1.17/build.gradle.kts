@@ -78,7 +78,7 @@ configure<JavaPluginExtension> {
 }
 
 
-group = "org.anti_ad.mc.forge-1.17"
+group = "org.anti-ad.mc"
 
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
@@ -140,6 +140,7 @@ tasks.jar {
 }
 
 tasks.register<Copy>("copyProGuardJar") {
+
     var shadow = tasks.getByName<ShadowJar>("shadowJar");
     val fromJarName = shadow.archiveBaseName.get()
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
@@ -590,6 +591,7 @@ publishing {
             }
             pom {
                 url.set("https://inventory-profiles-next.github.io/")
+                this.name.set("Inventory Profiles Next")
                 description.set("""
                     Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
                 """.trimIndent())

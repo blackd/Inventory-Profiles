@@ -1,4 +1,4 @@
-[![1][1]][2]  [![5][5]][6] [![1][3]][4] **[![8][8]][7]**
+[![1][1]][2]  [![5][5]][6] [![1][3]][4] **[![8][8]][7]** [![Javadoc][10]][9]  
 # Inventory Profiles Next
 **Requirement:** Minecraft 1.16.5 - 1.17, Fabric Loader 0.11.6, Forge 36.1.32
 ## Mod download
@@ -7,13 +7,50 @@
 
 **CurseForge**: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next
 
-# Description
+# Other MODs integration
 
-Continues the development of the original Inventory Profiles mod
+The artefacts are available on Maven Central.
+The Javadoc is available here [![Javadoc][10]][9]
 
-Inventory Profiles is a client side mod that helps you organize and sort your inventory or chests.
+## gradle:
+Gradle examples are in kotlin DSL. 
+Although currently there is no difference between fabric and forge APIs this is not a guarantee, we advise you to add dependency on the proper loader version.
+### Fabric
+```kotlin
+dependencies {
+    compileOnly(group = "org.anti-ad.mc",
+                name = "inventory-profiles-next",
+                version = "fabric-1.17.1-1.1.0")
+}
+```
 
-Press **R + C** to open in-game config menu. Press **R** in the inventory screen to sort your items.
+### Forge
+```kotlin
+dependencies {
+    compileOnly(group = "org.anti-ad.mc",
+                name = "inventory-profiles-next",
+                version = "forge-1.17.1-1.1.0")
+}
+```
+
+### Maven
+### Forge
+```xml
+<dependency>
+    <groupId>org.anti-ad.mc</groupId>
+    <artifactId>inventory-profiles-next</artifactId>
+    <version>fabric-1.17.1-1.1.0</version>
+</dependency>
+```
+
+### Forge
+```xml
+<dependency>
+    <groupId>org.anti-ad.mc</groupId>
+    <artifactId>inventory-profiles-next</artifactId>
+    <version>forge-1.17.1-1.1.0</version>
+</dependency>
+```
 
 
 ### TODO
@@ -29,4 +66,5 @@ Press **R + C** to open in-game config menu. Press **R** in the inventory screen
 [6]: https://modrinth.com/mod/inventory-profiles-next
 [7]: https://discord.gg/23YCxmveUM
 [8]: https://img.shields.io/discord/861171785897738240?label=Discord&logo=discord&style=plastic
-
+[9]: https://javadoc.io/doc/org.anti-ad.mc/inventory-profiles-next/fabric-1.17.1-1.1.0
+[10]: https://javadoc.io/badge2/org.anti-ad.mc/inventory-profiles-next/fabric-1.17.1-1.1.0/javadoc.svg

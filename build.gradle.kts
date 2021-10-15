@@ -58,7 +58,7 @@ tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
 
 allprojects {
     version = versionObj
-    group = "org.anti_ad.mc"
+    group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
 
     tasks.withType<JavaCompile>().configureEach {

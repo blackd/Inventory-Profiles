@@ -41,7 +41,7 @@ plugins {
 configureCommon()
 platformsCommonConfig()
 
-group = "org.anti_ad.mc.fabric_1_17"
+group = "org.anti-ad.mc"
 
 
 dependencies {
@@ -282,6 +282,7 @@ publishing {
             }
             pom {
                 url.set("https://inventory-profiles-next.github.io/")
+                this.name.set("Inventory Profiles Next")
                 description.set("""
                     Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
                 """.trimIndent())

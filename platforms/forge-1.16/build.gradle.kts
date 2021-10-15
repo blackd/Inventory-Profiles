@@ -67,7 +67,7 @@ plugins {
 
 configureCommon()
 
-group = "org.anti_ad.mc.forge-1.16"
+group = "org.anti0ad.mc"
 
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
@@ -470,6 +470,7 @@ publishing {
             }
             pom {
                 url.set("https://inventory-profiles-next.github.io/")
+                this.name.set("Inventory Profiles Next")
                 description.set("""
                     Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
                 """.trimIndent())

@@ -13,7 +13,7 @@ plugins {
 configureCompilation()
 configureDependencies()
 
-group = "org.anti_ad.mc.common"
+group = "org.anti-ad.mc"
 
 
 

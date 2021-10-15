@@ -37,7 +37,7 @@ plugins {
 configureCommon()
 //platformsCommonConfig()
 
-group = "org.anti_ad.mc.fabric_1_16"
+group = "org.anti-ad.mc"
 
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -269,6 +269,7 @@ publishing {
             groupId = "org.anti-ad.mc"
             artifactId = "inventory-profiles-next"
             version = "$mod_loader-$minecraft_version-$mod_artefact_version"
+
             val mainArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version.jar")
             val javadocArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar")
             val sourcesArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-sources.jar")
@@ -280,6 +281,7 @@ publishing {
                 classifier = "sources"
             }
             pom {
+                this.name.set("Inventory Profiles Next")
                 url.set("https://inventory-profiles-next.github.io/")
                 description.set("""
                     Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
