@@ -10,7 +10,7 @@
 # Other MODs integration
 
 The artefacts are available on Maven Central.
-The Javadoc is available here [![Javadoc][10]][9]
+The Javadoc is available here [![Javadoc][10]][9]. If your screen is not an inventory use ```@IPNIgnore``` annotation. If your screen is inventory but IPN buttons are not aligned properly look at ```@IPNGuiHint```.
 
 ## gradle:
 Gradle examples are in kotlin DSL. 
