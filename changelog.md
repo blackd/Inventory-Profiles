@@ -1,4 +1,8 @@
 <!-- latest begin -->
+### 1.1.1
+- fixed client crash on Forge 1.17.x
+- fixed ignored container types handling
+- probably fixed server crash on forge when the mod is installed. **NOTE:** Don't install it on servers it doesn't do anything.
 ### 1.1.0
 * Added API for integration with other mods. It is now possible for other mods to:
   * mark their screens to be ignored so IPN won't try to interact with them.
@@ -31,10 +35,6 @@
 ### Known Issues in Forge 1.17.1 due to missing MixIn support 
 - Preventing swipe moving of locked slots doesn't work.
 - Preventing item pickups in empty locked slots falls back to the server method i.e. items are picked into the inventory and then thrown out.
-
-
-
-
 
 ### 0.8.6
 - Fixed issue with Forge mixin handling that causes incompatibility with [Timeless and Classics](https://www.curseforge.com/minecraft/mc-mods/timeless-and-classic) and [I18nUpdateMod](https://www.curseforge.com/minecraft/mc-mods/i18nupdatemod), and possibly others

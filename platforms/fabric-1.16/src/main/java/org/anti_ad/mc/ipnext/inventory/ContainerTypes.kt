@@ -143,11 +143,11 @@ object ContainerTypes {
                     v = nonStorage
                     register(ignoredClass, v, true)
                 }
-            } else if (ignoredClass != null && z !== ignoredClass) {
+            } else if (ignoredClass != null && z != ignoredClass) {
                 v = nonStorage
                 register(ignoredClass, v, true)
             } else {
-                v = innerMap[z].orDefault { unknownContainerDefaultTypes }
+                v =  outerMap[z] ?: innerMap[z] ?: unknownContainerDefaultTypes
             }
         }
         return v
