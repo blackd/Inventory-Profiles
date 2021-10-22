@@ -1,7 +1,6 @@
 package org.anti_ad.mc.ipnext.mixin;
 
 
-import com.google.common.collect.Lists;
 import kotlin.Unit;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
@@ -14,16 +13,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(Screen.class)
 public abstract class MixinScreen {
 
     @Shadow
-    private final List<Element> children = Lists.newArrayList();
+    private final List<Element> children = new ArrayList<>();
     ;
     @Shadow
-    private final List<Selectable> selectables = Lists.newArrayList();
+    private final List<Selectable> selectables = new ArrayList<>();
     ;
 
     @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")

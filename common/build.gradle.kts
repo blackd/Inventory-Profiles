@@ -10,7 +10,7 @@ plugins {
 
 }
 
-configureCompilation()
+configureCompilation(true)
 configureDependencies()
 
 group = "org.anti-ad.mc"
@@ -18,23 +18,14 @@ group = "org.anti-ad.mc"
 
 
 dependencies {
-    "shadedApi"("commons-io:commons-io:2.6")
+
     val antlrVersion = "4.9.2"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
     "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
-    "compileOnly"(group = "com.google.code.gson",
-                  name = "gson",
-                  version = "2.8.7")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",
                      version = "2.14.1")
-    /*
-    "runtimeOnly"(group = "org.apache.logging.log4j",
-                  name = "log4j-core",
-                  version = "2.14.1")
-
-     */
     "compileOnlyApi"(group = "org.lwjgl",
                      name = "lwjgl-glfw",
                      version = "3.2.2")

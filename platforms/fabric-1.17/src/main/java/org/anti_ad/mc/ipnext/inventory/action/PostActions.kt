@@ -34,7 +34,7 @@ object PostActions {
         if (width * height != slots.size) error("Area is not rectangular!")
         val groups = slots.group()
         val slotCountPairList = groups.mapValues { (_, value) -> value.size }.toList()
-        val calcResult = if (inRows) { // transpose
+        val calcResult = if (!inRows) { // transpose
             GroupInColumnsCalculator(slotCountPairList,
                                      height,
                                      width).calc()?.map { (itemType, slotIndices) ->

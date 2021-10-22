@@ -8,7 +8,6 @@ import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.exists
 import org.anti_ad.mc.common.extensions.listFiles
 import org.anti_ad.mc.common.extensions.name
-import org.anti_ad.mc.common.extensions.readToString
 import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
@@ -163,7 +162,7 @@ object LockSlotsLoader : Loader, Savable {
                 LockSlotsHandler.lockedInvSlotsStoredValue.clear()
                 return
             }
-            val content = file.readToString()
+            val content = file.readText()
             val slotIndices = content.lines().mapNotNull { it.trim().toIntOrNull() }
             LockSlotsHandler.lockedInvSlotsStoredValue.apply {
                 clear()
@@ -199,7 +198,7 @@ object RuleLoader : Loader {
         for (file in files) {
             try {
                 Log.trace("    Trying to read file ${file.name}")
-                val content = file.readToString()
+                val content = file.readText()
                 ruleFiles.add(RuleFile(file.name,
                                        content))
             } catch (e: Exception) {

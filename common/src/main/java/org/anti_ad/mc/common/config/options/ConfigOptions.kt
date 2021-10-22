@@ -1,7 +1,7 @@
 package org.anti_ad.mc.common.config.options
 
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.config.ConfigOptionBase
 import org.anti_ad.mc.common.config.ConfigOptionNumericBase
@@ -49,15 +49,15 @@ class ConfigEnum<E : Enum<E>>(override val defaultValue: E) :
     override fun togglePrevious() = run { value = value.previous() }
 }
 
-class ConfigString(override val defaultValue: String) :
-    ConfigOptionBase(), IConfigOptionPrimitive<String> {
+class ConfigString(override val defaultValue: String) : ConfigOptionBase(), IConfigOptionPrimitive<String> {
     override var value = defaultValue
 }
 
 class ConfigButton(val info: ConfigButtonInfo) : ConfigOptionBase() { // fake config that acts as button
+
     override fun toJsonElement(): JsonElement {
         Log.error("this is a config button") // shouldn't be called
-        return JsonNull.INSTANCE
+        return JsonNull
     }
 
     override fun fromJsonElement(element: JsonElement) {

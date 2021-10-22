@@ -34,7 +34,7 @@ plugins {
     id("com.modrinth.minotaur") version "1.2.1"
 }
 
-configureCommon()
+configureCommon(true)
 //platformsCommonConfig()
 
 group = "org.anti-ad.mc"
@@ -46,14 +46,13 @@ configure<JavaPluginExtension> {
 
 dependencies {
     "shadedApi"(project(":common"))
-    "implementation"("org.apache.commons:commons-rng-core:1.3")
-    "implementation"("commons-io:commons-io:2.4")
-    "implementation"("com.guardsquare:proguard-gradle:7.1.0-beta5")
+    //"implementation"("org.apache.commons:commons-rng-core:1.3")
+    //"implementation"("commons-io:commons-io:2.4")
+    "implementation"("com.guardsquare:proguard-gradle:7.1.1")
     "minecraft"("com.mojang:minecraft:1.16.5")
     "mappings"("net.fabricmc:yarn:1.16.5+build.9:v2")
     "modImplementation"("net.fabricmc:fabric-loader:0.11.6")
     "modImplementation"("net.fabricmc.fabric-api:fabric-api:0.36.0+1.16")
-    "modImplementation"("com.terraformersmc:modmenu:1.16.9")
     "modImplementation"("com.terraformersmc:modmenu:1.16.9")
 }
 
@@ -64,6 +63,11 @@ minecraft{
     runConfigs["client"].programArgs += listOf("--width=1280", "--height=720", "--username=DEV")
 }
 
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "1.8"
+}
 
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")
@@ -173,6 +177,9 @@ val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
 val proguard by tasks.registering(ProGuardTask::class) {
 
     configuration("../../proguard.txt")
+    printmapping {
+        project.layout.buildDirectory.file("proguard/mappings.map")
+    }
 
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()

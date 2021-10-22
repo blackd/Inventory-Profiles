@@ -1,8 +1,8 @@
 #-libraryjars <java.home>/lib/rt.jar
 -libraryjars  <java.home>/jmods/java.base.jmod(!**.jar;!module-info.class)
--keep class !org.anti_ad.mc.common.embedded.** { *; }
+-keep class !org.anti_ad.embedded.** { *; }
 #-ignorewarnings
--optimizationpasses 9 # (828K -> 811K)
+-optimizationpasses 100 # (828K -> 811K)
 #-dontobfuscate
 
 -dontwarn org.jetbrains.annotations.**
@@ -10,6 +10,8 @@
 -dontwarn java.awt.**
 
 -keepattributes *Annotation*
+-verbose
+
 
 #-dontoptimize
 
@@ -20,7 +22,12 @@
 #    public static ** valueOf(java.lang.String);
 #}
 
+-keep class org.anti_ad.mc.** { *; }
 -keep class org.anti_ad.mc.api.** { *; }
+
+#-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonEncoder* { *; }
+#-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonDecoder* { *; }
+#-keep class org.anti_ad.embedded.kotlinx.serialization.json.*Serializer* { *; }
 
 # min build
 #-keep class org.anti_ad.mc.common.mixin.** { *; }
@@ -30,7 +37,7 @@
 #-keep class org.anti_ad.mc.ipnext.config.** { *; }
 
 # https://proandroiddev.com/is-your-kotlin-code-really-obfuscated-a36abf033dde
--assumenosideeffects class org.anti_ad.mc.common.embedded.kotlin.jvm.internal.Intrinsics {
+-assumenosideeffects class org.anti_ad.embedded.kotlin.jvm.internal.Intrinsics {
   public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
   public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
   public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
@@ -43,4 +50,4 @@
   public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
   public static void throwUninitializedPropertyAccessException(java.lang.String);
 }
-#-assumenosideeffects class org.anti_ad.mc.common.embedded.kotlin.jvm.internal.Intrinsics { *; }
+#-assumenosideeffects class org.anti_ad.embedded.kotlin.jvm.internal.Intrinsics { *; }

@@ -1,16 +1,15 @@
 package org.anti_ad.mc.common.config
 
-import com.google.gson.JsonElement
+import kotlinx.serialization.json.JsonElement
 
 abstract class ConfigOptionBase : IConfigOption {
     override var key: String = ""
 }
 
-abstract class ConfigOptionNumericBase<T>(
-    final override val defaultValue: T,
-    override val minValue: T,
-    override val maxValue: T
-) : ConfigOptionBase(), IConfigOptionNumeric<T> where T : Number, T : Comparable<T> {
+abstract class ConfigOptionNumericBase<T>(final override val defaultValue: T,
+                                          override val minValue: T,
+                                          override val maxValue: T) : ConfigOptionBase(),
+                                                                      IConfigOptionNumeric<T> where T : Number, T : Comparable<T> {
     override var value = defaultValue
         set(value) { // no coerceIn for Number :(
             field = value.coerceIn(minValue,

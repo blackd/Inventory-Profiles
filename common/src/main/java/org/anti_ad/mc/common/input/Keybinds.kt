@@ -1,7 +1,9 @@
 package org.anti_ad.mc.common.input
 
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonPrimitive
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.config.IConfigElementObject
 import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.DIFFERENTIATE
@@ -72,35 +74,32 @@ interface IKeybind : IConfigElementObject {
         resetSettingsToDefault()
     }
 
-    override fun toJsonElement() = JsonObject().apply {
-        if (isKeyCodesModified) {
-            this.addProperty("keys",
-                             getStorageString(keyCodes))
-        }
-        if (isSettingsModified) {
-            this.add("settings",
-                     settings.toJsonElement())
-        }
+    fun KeybindSettings.toConfigElement() = ConfigKeybindSettings(defaultSettings,
+                                                                  this)
+    fun KeybindSettings.toJsonElement() = toConfigElement().toJsonElement()
+    fun KeybindSettings.fromJsonElement(element: JsonElement): KeybindSettings {
+        return toConfigElement().apply { fromJsonElement(element) }.settings
     }
 
+    override fun toJsonElement() = JsonObject(mutableMapOf<String, JsonElement>().apply {
+        if (isKeyCodesModified) {
+            this["keys"] = JsonPrimitive(getStorageString(keyCodes))
+        }
+        if (isSettingsModified) {
+            this["settings"] = settings.toJsonElement()
+        }
+    })
     override fun fromJsonObject(obj: JsonObject) {
         try {
             obj["settings"]
                 ?.let { settings = settings.fromJsonElement(it) }
             obj["keys"]
-                ?.let { keyCodes = getKeyCodes(it.asString) }
+                ?.let { keyCodes = getKeyCodes(it.jsonPrimitive.content) }
         } catch (e: Exception) {
             Log.warn("Failed to set config value for 'keys' from the JSON element '${obj["keys"]}'")
         }
     }
 
-    fun KeybindSettings.toConfigElement() = ConfigKeybindSettings(defaultSettings,
-                                                                  this)
-
-    fun KeybindSettings.toJsonElement() = toConfigElement().toJsonElement()
-    fun KeybindSettings.fromJsonElement(element: JsonElement): KeybindSettings {
-        return toConfigElement().apply { fromJsonElement(element) }.settings
-    }
 
     companion object {
         fun getStorageString(keyCodes: List<Int>) = keyCodes.joinToString(",") { KeyCodes.getName(it) }

@@ -65,7 +65,7 @@ plugins {
     id("com.modrinth.minotaur") version "1.2.1"
 }
 
-configureCommon()
+configureCommon(true)
 
 group = "org.anti0ad.mc"
 
@@ -78,15 +78,10 @@ repositories {
 
 dependencies {
     "shadedApi"(project(":common"))
-    "implementation"("org.apache.commons:commons-rng-core:1.3")
-    "implementation"("commons-io:commons-io:2.4")
-    "implementation"("org.apache.commons:commons-lang3:3.8.1")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib")
     "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common")
-    if (false) {
-        "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
-        "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    }
+    "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    "implementation"("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
@@ -102,6 +97,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
+    jvmTarget = "1.8"
 }
 
 
@@ -126,7 +122,7 @@ tasks.jar {
 }
 
 tasks.register<Copy>("copyProGuardJar") {
-    var shadow = tasks.getByName<ShadowJar>("shadowJar");
+    val shadow = tasks.getByName<ShadowJar>("shadowJar");
     val fromJarName = shadow.archiveBaseName.get()
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
     val inName = layout.buildDirectory.file("libs/" + fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard"))
@@ -151,7 +147,9 @@ tasks.register<Copy>("copyProGuardJar") {
 val proguard by tasks.registering(ProGuardTask::class) {
 
     configuration("../../proguard.txt")
-
+    printmapping {
+        project.layout.buildDirectory.file("proguard/mappings.map")
+    }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
 
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
@@ -301,7 +299,7 @@ gradle.buildFinished {
 
 afterEvaluate {
     tasks.forEach {
-        logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
+        logger.info("******************* found task: {} {} {}", it, it.name, it.group)
     }
 
 }

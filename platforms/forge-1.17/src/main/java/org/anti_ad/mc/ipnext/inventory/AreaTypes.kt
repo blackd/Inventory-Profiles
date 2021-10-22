@@ -148,11 +148,9 @@ private fun List<Slot>.toPointList(): List<Point> {
 }
 
 class ItemArea(private val fromSlotLocations: List<Point>) { // vanilla things
-    constructor(
-        fromSlotLocations: List<Point>,
-        slotIndices: List<Int>,
-        orderSensitive: Boolean = false
-    ) : this(fromSlotLocations) {
+    constructor(fromSlotLocations: List<Point>,
+                slotIndices: List<Int>,
+                orderSensitive: Boolean = false) : this(fromSlotLocations) {
         this.orderSensitive = orderSensitive
         this.slotIndices = slotIndices
         checkRectangular()
@@ -215,19 +213,15 @@ class ItemArea(private val fromSlotLocations: List<Point>) { // vanilla things
         )
 
         private fun minus(left: ItemArea,
-                          right: ItemArea) = ItemArea(
-            left.fromSlotLocations,
-            (left.slotIndices - right.slotIndices).distinct(),
-            left.orderSensitive || right.orderSensitive
-        )
+                          right: ItemArea) = ItemArea(left.fromSlotLocations,
+                                                      (left.slotIndices - right.slotIndices).distinct(),
+                                                      left.orderSensitive || right.orderSensitive)
 
-        operator fun invoke(
-            fromSlots: List<Slot>,
-            slotIndices: List<Int>,
-            orderSensitive: Boolean = false
-        ): ItemArea = ItemArea(fromSlots.toPointList(),
-                               slotIndices,
-                               orderSensitive)
+        operator fun invoke(fromSlots: List<Slot>,
+                            slotIndices: List<Int>,
+                            orderSensitive: Boolean = false): ItemArea = ItemArea(fromSlots.toPointList(),
+                                                                                  slotIndices,
+                                                                                  orderSensitive)
     }
 }
 

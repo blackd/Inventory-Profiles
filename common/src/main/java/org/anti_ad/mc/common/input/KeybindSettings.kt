@@ -102,29 +102,33 @@ data class KeybindSettings(val context: Context,
 
 @Suppress("CanBeParameter",
           "MemberVisibilityCanBePrivate")
-class ConfigKeybindSettings(
-    val defaultSettings: KeybindSettings,
-    settings: KeybindSettings
-) : IConfigElementResettableMultiple {
+class ConfigKeybindSettings(val defaultSettings: KeybindSettings,
+                            settings: KeybindSettings) : IConfigElementResettableMultiple {
+
     val context = ConfigEnum(defaultSettings.context)
         .apply { key = "context"; value = settings.context }
-    val activateOn = ConfigEnum(defaultSettings.activateOn)
-        .apply { key = "activate_on"; value = settings.activateOn }
-    val allowExtraKeys = ConfigBoolean(defaultSettings.allowExtraKeys)
-        .apply { key = "allow_extra_keys"; value = settings.allowExtraKeys }
-    val orderSensitive = ConfigBoolean(defaultSettings.orderSensitive)
-        .apply { key = "order_sensitive"; value = settings.orderSensitive }
-    val modifierKey = ConfigEnum(defaultSettings.modifierKey)
-        .apply { key = "modifier_key"; value = settings.modifierKey }
+    val activateOn = ConfigEnum(defaultSettings.activateOn).apply {
+        key = "activate_on"; value = settings.activateOn
+    }
+
+    val allowExtraKeys = ConfigBoolean(defaultSettings.allowExtraKeys).apply {
+        key = "allow_extra_keys"; value = settings.allowExtraKeys
+    }
+
+    val orderSensitive = ConfigBoolean(defaultSettings.orderSensitive).apply {
+        key = "order_sensitive"; value = settings.orderSensitive
+    }
+
+    val modifierKey = ConfigEnum(defaultSettings.modifierKey).apply {
+        key = "modifier_key"; value = settings.modifierKey
+    }
 
     val settings: KeybindSettings
-        get() = KeybindSettings(
-            context.value,
-            activateOn.value,
-            allowExtraKeys.booleanValue,
-            orderSensitive.booleanValue,
-            modifierKey.value,
-        )
+        get() = KeybindSettings(context.value,
+                                activateOn.value,
+                                allowExtraKeys.booleanValue,
+                                orderSensitive.booleanValue,
+                                modifierKey.value)
 
     override fun getConfigOptionMap() = getConfigOptionMapFromList()
     override fun getConfigOptionList() =

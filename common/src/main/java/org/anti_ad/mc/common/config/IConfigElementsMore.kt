@@ -1,34 +1,28 @@
 package org.anti_ad.mc.common.config
 
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.extensions.JsonPrimitive
-import org.anti_ad.mc.common.extensions.forEach
-import org.anti_ad.mc.common.extensions.getAsType
-import org.anti_ad.mc.common.extensions.toJsonArray
-
-// ============
-// extensions
-// ============
-
-fun List<IConfigElement>.toJsonArray() = map { it.toJsonElement() }.toJsonArray()
+import org.anti_ad.mc.common.extensions.toJsonPrimitive
+import org.anti_ad.mc.common.extensions.value
 
 // ============
 // IConfigElementObject
 // ============
 
 interface IConfigElementObject : IConfigElementResettable {
-    override fun toJsonElement(): JsonObject
-    fun fromJsonObject(obj: JsonObject) // do resetToDefault() inside this?
+
     override fun fromJsonElement(element: JsonElement) {
         resetToDefault()
         try {
-            fromJsonObject(element.asJsonObject)
+            fromJsonObject(element.jsonObject)
         } catch (e: Exception) {
             Log.warn("Failed to read JSON element '$element' as a JSON object")
         }
     }
+    fun fromJsonObject(obj: JsonObject)
 }
 
 // ============
@@ -44,19 +38,16 @@ interface IConfigElementResettableMultiple : IConfigElementObject {
     fun getConfigOptionListFromMap(): List<IConfigOption> = getConfigOptionMap().values.toList()
     fun getConfigOptionList(): List<IConfigOption>
 
-    override fun toJsonElement() = JsonObject().apply {
+    override fun toJsonElement() = JsonObject(mutableMapOf<String, JsonElement>().apply {
         getConfigOptionList().forEach {
-            if (it.isModified) this.add(it.key,
-                                        it.toJsonElement())
+            if (it.isModified) this[it.key] = it.toJsonElement()
         }
-    }
+    })
 
     override fun fromJsonObject(obj: JsonObject) {
         val configOptionMap = getConfigOptionMap()
         obj.forEach { (key, value) ->
-            configOptionMap[key]
-                ?.fromJsonElement(value)
-                ?: Log.warn("Unknown config key '$key' with value '$value'")
+            configOptionMap[key]?.fromJsonElement(value) ?: Log.warn("Unknown config key '$key' with value '$value'")
         }
     }
 
@@ -82,15 +73,14 @@ interface IConfigOptionPrimitive<T : Any> : IConfigOption {
         value = defaultValue
     }
 
-    override fun toJsonElement(): JsonElement =
-        JsonPrimitive(value)
-
+    override fun toJsonElement(): JsonElement = toJsonPrimitive(value)
     override fun fromJsonElement(element: JsonElement) {
         resetToDefault()
         try {
-            value = element.asJsonPrimitive.getAsType(defaultValue)
+            value = element.jsonPrimitive.value(defaultValue)
         } catch (e: Exception) {
             Log.warn("Failed to set config value for '$key' from the JSON element '$element'")
         }
     }
+
 }

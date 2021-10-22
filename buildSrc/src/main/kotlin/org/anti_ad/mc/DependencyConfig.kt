@@ -43,6 +43,6 @@ fun Project.configureDependencies() {
 
 fun Project.addPostDeps() {
     buildscript {
-        dependencies.classpath("com.guardsquare:proguard-gradle:7.1.0-beta5")
+        dependencies.classpath("com.guardsquare:proguard-gradle:7.1.1")
     }
 }

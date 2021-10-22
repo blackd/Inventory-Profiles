@@ -1,36 +1,34 @@
 package org.anti_ad.mc.common.extensions
 
-import org.apache.commons.io.FileUtils
-import org.apache.commons.io.IOCase
-import org.apache.commons.io.IOUtils
-import org.apache.commons.io.filefilter.RegexFileFilter
-import java.io.InputStream
-import java.io.OutputStream
-import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import kotlin.io.path.outputStream
 
 // also close the input stream
-fun InputStream.readToString(): String = use {
-    IOUtils.toString(this,
-                     StandardCharsets.UTF_8)
+
+fun String.writeToFile(path: Path) = path.outputStream().writer().use {
+    it.write(this)
 }
-
-fun Path.readToString(): String = FileUtils.readFileToString(this.toFile(),
-                                                             StandardCharsets.UTF_8)
-
-fun String.writeToFile(path: Path) = FileUtils.writeStringToFile(path.toFile(),
-                                                                 this,
-                                                                 StandardCharsets.UTF_8)
 
 fun Path.createDirectories(): Path = Files.createDirectories(this)
 fun Path.exists(): Boolean = Files.exists(this)
-fun Path.listFiles(regex: String): List<Path> =
-    FileUtils.listFiles(this.toFile(),
-                        RegexFileFilter(regex,
-                                        IOCase.INSENSITIVE),
-                        null).map { it.toPath() }
+
+/*
+fun Path.listFiles(regex: String): List<Path> = FileUtils.listFiles(this.toFile(),
+                                                                    RegexFileFilter(regex,
+                                                                                    IOCase.INSENSITIVE),
+                                                                    null).map { it.toPath() }
+ */
+fun Path.listFiles(regex: String): List<Path> {
+    val match = Regex(regex)
+    return Files.walk(this).filter {
+        match.matches(it.name)
+    }.toList()
+}
+
+
+
 
 val Path.name
     get() = this.fileName.toString()
@@ -56,9 +54,5 @@ infix fun Path.pathFrom(other: Path): Path {
     } catch (e: IllegalArgumentException) {
         return this
     }
-}
-
-fun OutputStream.copyFrom(res: InputStream) {
-    IOUtils.copy(res, this);
 }
 

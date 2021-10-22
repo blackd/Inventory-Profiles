@@ -34,7 +34,7 @@ dependencies {
 ```
 
 ### Maven
-### Forge
+### Fabric
 ```xml
 <dependency>
     <groupId>org.anti-ad.mc</groupId>

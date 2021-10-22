@@ -3,12 +3,13 @@ package org.anti_ad.mc.common.integration
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromStream
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.exists
 import org.anti_ad.mc.common.extensions.name
-import org.anti_ad.mc.common.extensions.copyFrom
 import org.anti_ad.mc.ipn.api.IPNButton
 import java.io.IOException
 import java.nio.file.Path
@@ -62,9 +63,16 @@ fun registerFromConfig(file: Path) {
     } else {
         try {
             val res = HintClassData::class.java.classLoader.getResourceAsStream("assets/inventoryprofilesnext/config/ModIntegrationHints.json");
+            res?.use { input ->
+                file.outputStream().use { output ->
+                    input.copyTo(output)
+                    registerFromConfig(file)
+                }
+            }
+            /*
             if (res != null) {
                 val fos = file.outputStream()
-                fos.copyFrom(res)
+                res.copyTo(fos)
                 try {
                     fos.close()
                     res.close()
@@ -73,6 +81,7 @@ fun registerFromConfig(file: Path) {
                 }
                 registerFromConfig(file)
             }
+             */
 
         } catch (ioe: IOException) {
             Log.error("Can't create default ModIntegrationHints.json", ioe)

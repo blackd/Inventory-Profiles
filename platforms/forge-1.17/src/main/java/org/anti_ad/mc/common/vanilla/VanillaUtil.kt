@@ -3,7 +3,6 @@ package org.anti_ad.mc.common.vanilla
 import org.anti_ad.mc.common.extensions.createDirectories
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.pathFrom
-import org.anti_ad.mc.common.extensions.readToString
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
@@ -79,7 +78,7 @@ private object VanillaUtil: IVanillaUtil {
     override fun configDirectory(modName: String): Path = (configDirectory() / modName).apply { createDirectories() }
 
     override fun getResourceAsString(identifier: String): String? = tryCatch {
-        Vanilla.resourceManager().getResource(Identifier(identifier)).inputStream.readToString()
+        Vanilla.resourceManager().getResource(Identifier(identifier)).inputStream.reader().readText()
     }
 
     override fun loggingString(path: Path): String = // return ".minecraft/config/file.txt" etc

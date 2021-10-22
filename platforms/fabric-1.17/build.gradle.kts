@@ -12,7 +12,7 @@ val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.17.1"
 val mappings_version = "1.17.1+build.39"
-val loader_version = "0.11.6"
+val loader_version = "0.11.7"
 val modmenu_version = "2.0.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
@@ -46,14 +46,12 @@ group = "org.anti-ad.mc"
 
 dependencies {
     "shadedApi"(project(":common"))
-    implementation("org.apache.commons:commons-rng-core:1.3")
-    implementation("commons-io:commons-io:2.4")
-
-    implementation("com.guardsquare:proguard-gradle:7.1.0-beta5")
+    implementation("com.guardsquare:proguard-gradle:7.1.1")
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.40.1+1.17")
 }
 
 minecraft {
@@ -64,6 +62,7 @@ minecraft {
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
+    jvmTarget = "16"
 }
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")
@@ -173,7 +172,9 @@ val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
 val proguard by tasks.registering(ProGuardTask::class) {
 
     configuration("../../proguard.txt")
-
+    printmapping {
+        project.layout.buildDirectory.file("proguard/mappings.map")
+    }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
     val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath

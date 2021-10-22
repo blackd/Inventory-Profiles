@@ -4,19 +4,25 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.bundling.ZipEntryCompression
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.kotlin.dsl.*
 
 import org.gradle.language.jvm.tasks.ProcessResources
 
-fun Project.configureCompilation() {
+fun Project.configureCompilation(is18: Boolean = false) {
     apply(plugin = "maven-publish")
     apply(plugin = "idea")
 
     configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        if (is18) {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        } else {
+            sourceCompatibility = JavaVersion.VERSION_16
+            targetCompatibility = JavaVersion.VERSION_16
+        }
     }
 
     tasks.withType<JavaCompile> {

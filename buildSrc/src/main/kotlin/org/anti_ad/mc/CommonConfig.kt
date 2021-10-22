@@ -6,13 +6,9 @@ import org.gradle.kotlin.dsl.get
 import java.io.ByteArrayOutputStream
 
 
-
-fun Project.configureCommon() {
-    configureCommon(false)
-}
-fun Project.configureCommon(is18: Boolean) {
+fun Project.configureCommon(is18: Boolean = false) {
     configureDependencies()
-    configureCompilation()
+    configureCompilation(is18)
     configureDistribution(is18)
 
     version = rootProject.version

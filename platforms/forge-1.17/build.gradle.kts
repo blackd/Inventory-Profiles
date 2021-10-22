@@ -93,11 +93,8 @@ dependencies {
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
 
-    "implementation"("org.apache.commons:commons-rng-core:1.3")
-    "implementation"("commons-io:commons-io:2.4")
-    "implementation"("org.apache.commons:commons-lang3:3.8.1")
-    "implementation"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-    "implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
+    //"implementation"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+    //"implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
@@ -116,6 +113,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
+    jvmTarget = "16"
 }
 
 
@@ -166,7 +164,9 @@ tasks.register<Copy>("copyProGuardJar") {
 val proguard by tasks.registering(ProGuardTask::class) {
 
     configuration("../../proguard.txt")
-
+    printmapping {
+        project.layout.buildDirectory.file("proguard/mappings.map")
+    }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
 
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
@@ -443,7 +443,7 @@ val deobfElements = configurations.register("deobfElements") {
         attribute(Category.CATEGORY_ATTRIBUTE, project.objects.named(Category.LIBRARY))
         attribute(Bundling.BUNDLING_ATTRIBUTE, project.objects.named(Bundling.EXTERNAL))
         attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, project.objects.named(LibraryElements.JAR))
-        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
+        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 16)
     }
     outgoing.artifact(tasks.named("deobfJar"))
 }

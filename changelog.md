@@ -3,6 +3,7 @@
 - fixed client crash on Forge 1.17.x
 - fixed ignored container types handling
 - probably fixed server crash on forge when the mod is installed. **NOTE:** Don't install it on servers it doesn't do anything.
+
 ### 1.1.0
 * Added API for integration with other mods. It is now possible for other mods to:
   * mark their screens to be ignored so IPN won't try to interact with them.
