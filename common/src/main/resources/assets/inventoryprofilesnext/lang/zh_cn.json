@@ -187,7 +187,7 @@
     "inventoryprofiles.config.name.swipe_move_crafting_result_slot":     "滑动移动合成输出栏物品",
     "inventoryprofiles.config.description.prevent_close_gui_drop_item":  "关闭物品栏时自动把鼠标的物品放回背包",
     "inventoryprofiles.config.description.container_swipe_moving_items": "按住 Shift 键并单击鼠标左键时，可以移动鼠标滑过的物品",
-    "inventoryprofiles.config.description.swipe_move_crafting_result_slot": "启用 在合成物品界面的输出栏可以\"滑动移动物品\",
+    "inventoryprofiles.config.description.swipe_move_crafting_result_slot": "启用 在合成物品界面的输出栏可以\"滑动移动物品\" ",
 
     "inventoryprofiles.config.name.instant_mining_cooldown":            "瞬间破坏的挖掘延迟",
     "inventoryprofiles.config.name.disable_block_breaking_cooldown":    "移除挖掘延迟",
