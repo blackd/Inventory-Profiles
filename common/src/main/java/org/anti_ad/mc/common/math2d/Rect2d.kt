@@ -97,12 +97,10 @@ fun Rectangle.normalize() =
     this.normalizeWidth().normalizeHeight()
 
 // class
-data class Rectangle(
-    val x: Int,
-    val y: Int,
-    val width: Int,
-    val height: Int
-) {
+data class Rectangle(val x: Int,
+                     val y: Int,
+                     val width: Int,
+                     val height: Int) {
     constructor(location: Point,
                 size: Size) : this(location.x,
                                    location.y,
@@ -144,12 +142,10 @@ data class Rectangle(
                   size)
 
     fun inflated(amount: Int): Rectangle = // make bigger
-        Rectangle(
-            x - amount,
-            y - amount,
-            width + amount * 2,
-            height + amount * 2
-        )
+        Rectangle(x - amount,
+                  y - amount,
+                  width + amount * 2,
+                  height + amount * 2)
 
     operator fun contains(point: Point) = contains(point.x,
                                                    point.y)

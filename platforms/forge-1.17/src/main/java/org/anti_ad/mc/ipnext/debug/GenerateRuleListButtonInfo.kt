@@ -24,7 +24,7 @@ object GenerateRuleListButtonInfo : ConfigButtonInfo() {
                 is BooleanArgumentType -> "true/false"
                 is EnumArgumentType ->
                     arg.enumClass.enumConstants?.joinToString("/") {
-                        ((it as? Enum<*>)?.name ?: it.toString()).toLowerCase()
+                        ((it as? Enum<*>)?.name ?: it.toString()).lowercase()
                     }
                 else -> "[${arg.javaClass.usefulName}]"
             }

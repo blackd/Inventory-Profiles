@@ -231,13 +231,13 @@ object SingleType : DiffCalculatorUtil {
             get() = gScore + hScore
 
         private val lowerBound by lazy(LazyThreadSafetyMode.NONE) {
-            identities.entrySet.sumBy { (slot, count) ->
+            identities.entrySet.sumOf { (slot, count) ->
                 clickCountLowerBound(slot.n,
                                      slot.g) * count
             }
         }
         private val upperBound by lazy(LazyThreadSafetyMode.NONE) {
-            identities.entrySet.sumBy { (slot, count) ->
+            identities.entrySet.sumOf { (slot, count) ->
                 clickCountUpperBound(slot.n,
                                      slot.g) * count
             }

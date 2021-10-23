@@ -10,6 +10,7 @@ import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.NORMAL
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE
+import java.util.*
 
 data class KeybindSettings(val context: Context,
                            val activateOn: KeyAction,
@@ -43,7 +44,7 @@ data class KeybindSettings(val context: Context,
         }
 
         override fun toString(): String {
-            return I18n.translate("inventoryprofiles.common.enum.key_action." + name.toLowerCase())
+            return I18n.translate("inventoryprofiles.common.enum.key_action." + name.lowercase())
         }
     }
 
@@ -51,7 +52,7 @@ data class KeybindSettings(val context: Context,
         INGAME, GUI, ANY;
 
         override fun toString(): String {
-            return I18n.translate("inventoryprofiles.common.enum.context." + name.toLowerCase())
+            return I18n.translate("inventoryprofiles.common.enum.context." + name.lowercase())
         }
     }
 
@@ -65,7 +66,7 @@ data class KeybindSettings(val context: Context,
         }
 
         override fun toString(): String {
-            return I18n.translate("inventoryprofiles.common.enum.modifier_key." + name.toLowerCase())
+            return I18n.translate("inventoryprofiles.common.enum.modifier_key." + name.lowercase())
         }
     }
 

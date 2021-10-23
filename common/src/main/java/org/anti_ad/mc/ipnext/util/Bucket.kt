@@ -24,7 +24,7 @@ open class MutableBucket<T> protected constructor(innerMap: Map<T, Int>) : Bucke
     private val innerMap = innerMap.toMutableMap()
 
     override val size: Int
-        get() = innerMap.entries.sumBy { it.value }
+        get() = innerMap.entries.sumOf { it.value }
 
     override fun count(element: T): Int {
         return innerMap.getOrDefault(element,

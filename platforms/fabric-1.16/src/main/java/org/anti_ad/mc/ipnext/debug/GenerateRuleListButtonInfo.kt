@@ -10,7 +10,6 @@ import org.anti_ad.mc.ipnext.item.rule.native.NativeRules
 import org.anti_ad.mc.ipnext.item.rule.parameter.BooleanArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.EnumArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.NativeParameters
-import java.util.*
 
 object GenerateRuleListButtonInfo : ConfigButtonInfo() {
     val file = VanillaUtil.configDirectory("inventoryprofilesnext") / "native_rules.txt"
@@ -25,7 +24,7 @@ object GenerateRuleListButtonInfo : ConfigButtonInfo() {
                 is BooleanArgumentType -> "true/false"
                 is EnumArgumentType ->
                     arg.enumClass.enumConstants?.joinToString("/") {
-                        ((it as? Enum<*>)?.name ?: it.toString()).lowercase(Locale.getDefault())
+                        ((it as? Enum<*>)?.name ?: it.toString()).lowercase()
                     }
                 else -> "[${arg.javaClass.usefulName}]"
             }

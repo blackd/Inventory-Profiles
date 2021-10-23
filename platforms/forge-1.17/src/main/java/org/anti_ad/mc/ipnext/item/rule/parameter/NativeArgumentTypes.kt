@@ -20,11 +20,11 @@ object BooleanArgumentType : ArgumentType<Boolean> {
 }
 
 class EnumArgumentType<T : Enum<T>>(val enumClass: Class<T>) : ArgumentType<T> {
-    override fun toString(value: T) = value.name.toLowerCase()
+    override fun toString(value: T) = value.name.lowercase()
     override fun parse(argument: String) =
         trySwallow {
             java.lang.Enum.valueOf(enumClass,
-                                   argument.toUpperCase())
+                                   argument.uppercase())
         }
 }
 

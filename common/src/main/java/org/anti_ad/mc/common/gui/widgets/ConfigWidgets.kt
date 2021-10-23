@@ -8,6 +8,8 @@ import org.anti_ad.mc.common.config.options.ConfigButton
 import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigString
+import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
+import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
@@ -40,19 +42,18 @@ private val WIDGETS_TEXTURE = IdentifierHolder("inventoryprofilesnext",
 private val PATTERN_INTEGER = Regex("-?[0-9]*")
 private val PATTERN_DOUBLE = Regex("^-?([0-9]+(\\.[0-9]*)?)?")
 
-class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
-    ConfigWidgetBase<IConfigOptionNumeric<*>>(configOption) {
+class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetBase<IConfigOptionNumeric<*>>(configOption) {
     val pattern = if (configOption.defaultValue is Double) PATTERN_DOUBLE else PATTERN_INTEGER
 
     var useSlider = true
-    val slider = SliderWidget(configOption.minValue.toDouble(),
-                              configOption.maxValue.toDouble()).apply {
+    val slider = ISliderWidget(configOption.minValue.toDouble(),
+                               configOption.maxValue.toDouble()).apply {
         value = configOption.value.toDouble()
         valueChangedEvent = {
             setNumericValue(value)
         }
     }
-    val textField = TextFieldWidget(18).apply {
+    val textField = ITextFieldWidget(18).apply {
         textPredicate = { it.isEmpty() || pattern.matches(it) }
         changedEvent = {
             if (editing()) try { // try set config value to text
@@ -90,8 +91,8 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
                         mouseY: Int,
                         partialTicks: Float) {
         slider.vanillaMessage = configOption.value.toString()
-        slider.visible = useSlider
-        textField.visible = !useSlider
+        slider.toWidget.visible = useSlider
+        textField.toWidget.visible = !useSlider
         if (useSlider) {
             slider.value = configOption.value.toDouble()
             textField.vanillaFocused = false
@@ -111,18 +112,18 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) :
                          16)
         flex.reverse.addSpace(2)
         flex.reverse.offset.let { offset ->
-            flex.reverse.addAndFit(slider)
+            flex.reverse.addAndFit(slider.toWidget)
             flex.reverse.offset = offset
             flex.reverse.addSpace(1)
             flex.normal.addSpace(2)
-            flex.addAndFit(textField)
-            textField.top = 1
+            flex.addAndFit(textField.toWidget)
+            textField.toWidget.top = 1
         }
     }
 }
 
 class ConfigStringWidget(configOption: ConfigString) : ConfigWidgetBase<ConfigString>(configOption) {
-    val textField = TextFieldWidget(18).apply {
+    val textField = ITextFieldWidget(18).apply {
         changedEvent = {
             configOption.value = vanillaText
         }
@@ -141,8 +142,8 @@ class ConfigStringWidget(configOption: ConfigString) : ConfigWidgetBase<ConfigSt
     init {
         flex.normal.addSpace(2)
         flex.reverse.addSpace(2)
-        flex.addAndFit(textField)
-        textField.top = 1
+        flex.addAndFit(textField.toWidget)
+        textField.toWidget.top = 1
     }
 }
 

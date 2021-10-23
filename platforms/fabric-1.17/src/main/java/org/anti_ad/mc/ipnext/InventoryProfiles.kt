@@ -1,6 +1,7 @@
 package org.anti_ad.mc.ipnext
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
 import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
 import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
 import org.anti_ad.mc.common.vanilla.vanillaInitGlue
@@ -24,7 +25,7 @@ fun init() {
         aliasInitGlue()
         vanillaInitGlue()
         parserInitGlue()
-
+        widgetsInitGlue()
         // Keybind register
         InputHandler.onClientInit()
         InsertWidgetHandler.onClientInit()

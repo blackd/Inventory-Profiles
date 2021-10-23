@@ -4,12 +4,13 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.widgets.RootWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
+import org.anti_ad.mc.common.vanilla.openScreenNullable
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.glue.IScreenMarker
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.rMatrixStack
@@ -18,7 +19,7 @@ import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 // vanillamapping code depends on mappings (package org.anti_ad.mc.common.gui.screen)
 // ============
 
-abstract class BaseScreen(text: Text) : Screen(text) {
+abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     constructor() : this(LiteralText(""))
 
     var isClosing: Boolean = false
@@ -33,7 +34,7 @@ abstract class BaseScreen(text: Text) : Screen(text) {
 
     open fun closeScreen() {
         this.isClosing = true
-        VanillaScreenUtil.openScreenNullable(parent)
+        openScreenNullable(parent)
         this.isClosing = false
     }
 

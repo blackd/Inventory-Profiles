@@ -25,7 +25,7 @@ public abstract class MixinPlayerInventory {
         if (!ModSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()) {
             for (int i = 0; i < this.main.size(); ++i) {
                 if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
-                    if (((ItemStack) this.main.get(i)).isEmpty()) {
+                    if ((this.main.get(i)).isEmpty()) {
                         info.setReturnValue(i);
                         return;
                     }

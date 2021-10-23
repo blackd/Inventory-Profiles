@@ -2,11 +2,10 @@ package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.gui.Tooltips
-import org.anti_ad.mc.common.gui.screen.ConfigOptionHotkeyDialog
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.IKeybind
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
+import org.anti_ad.mc.common.vanilla.glue.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
@@ -37,8 +36,7 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
                                                        }
                                                    }) {
         override fun renderButton(hovered: Boolean) {
-            val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty())
-                modifiedSprite else baseSprite
+            val spriteX = if (targetKeybind.isSettingsModified || configOption.alternativeKeybinds.isNotEmpty()) modifiedSprite else baseSprite
             val spriteY = spriteX.down(targetKeybind.settings.activateOn.ordinal)
             rDrawSprite(spriteY,
                         screenX,
@@ -74,18 +72,19 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
             val no = translate("no")
             return with(targetKeybind.settings) {
                 """§n${translate("advanced_keybind_settings")}
-          |${translate("activate_on")}: §9$activateOn
-          |${translate("context")}: §9$context
-          |${translate("allow_extra_keys")}: §6${if (allowExtraKeys) yes else no}
-          |${translate("order_sensitive")}: §6${if (orderSensitive) yes else no}
-          |${translate("modifier_key")}: §9$modifierKey
-          |
-          |${translate("keybind_settings_tips")}""".trimMargin()
+                    |${translate("activate_on")}: §9$activateOn
+                    |${translate("context")}: §9$context
+                    |${translate("allow_extra_keys")}: §6${if (allowExtraKeys) yes else no}
+                    |${translate("order_sensitive")}: §6${if (orderSensitive) yes else no}
+                    |${translate("modifier_key")}: §9$modifierKey
+                    |
+                    |${translate("keybind_settings_tips")}""".trimMargin()
             }
         }
 
     protected fun onClickKeybindSettingsIcon() {
-        VanillaScreenUtil.openScreen(ConfigOptionHotkeyDialog(configOption))
+        //VanillaScreenUtil.openScreen(ConfigOptionHotkeyDialog(configOption))
+        VanillaScreenUtil.openScreenConfigOptionHotkeyDialog(configOption)
     }
 
     override fun reset() {

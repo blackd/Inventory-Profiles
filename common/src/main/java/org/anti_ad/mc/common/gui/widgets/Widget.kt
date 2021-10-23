@@ -7,6 +7,7 @@ import org.anti_ad.mc.common.extensions.ifFalse
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.gui.widget.Overflow
+import org.anti_ad.mc.common.gui.widgets.glue.IBaseGlueWidget
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
@@ -133,8 +134,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     final override fun hashCode() = super.hashCode()
 }
 
-private interface IWidget<T : IWidget<T>> :
-    IWidgetHierarchical<T>, IWidgetPositioning, IWidgetEventTarget<T>, IWidgetRenderer {
+private interface IWidget<T : IWidget<T>> : IWidgetHierarchical<T>, IWidgetPositioning, IWidgetEventTarget<T>, IWidgetRenderer, IBaseGlueWidget {
     override var parent: T?
     override val children: List<T>
     override var absoluteBounds: Rectangle

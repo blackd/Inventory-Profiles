@@ -1,5 +1,7 @@
 package org.anti_ad.mc.common.gui.widgets
 
+import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
+import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
@@ -124,13 +126,12 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
 }
 
 private class CustomVanillaSliderWidget(val minValue: Double,
-                                        val maxValue: Double) :
-    VanillaSliderWidget(0,
-                        0,
-                        0,
-                        20,
-                        LiteralText(""),
-                        0.5) {
+                                        val maxValue: Double) : VanillaSliderWidget(0,
+                                                                                    0,
+                                                                                    0,
+                                                                                    20,
+                                                                                    LiteralText(""),
+                                                                                    0.5) {
 
     var valueChangedEvent: () -> Unit = { }
 
@@ -145,7 +146,7 @@ private class CustomVanillaSliderWidget(val minValue: Double,
             super.value = (value - minValue) / (maxValue - minValue)
         }
 
-    override fun renderButton(matrixStack: MatrixStack?,
+    override fun renderButton(matrixStack: MatrixStack,
                               i: Int,
                               j: Int,
                               f: Float) {
@@ -180,29 +181,31 @@ private class CustomVanillaSliderWidget(val minValue: Double,
     }
 }
 
-class SliderWidget(
-    val minValue: Double = 0.0,
-    val maxValue: Double = 1.0
-) : VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue,
-                                                                 maxValue)) {
+fun newSliderWidget(minValue: Double = 0.0,
+                    maxValue: Double = 1.0): ISliderWidget = SliderWidget(minValue, maxValue)
+
+private class SliderWidget(override val minValue: Double = 0.0,
+                           override val maxValue: Double = 1.0) : ISliderWidget,
+                                                                  VanillaWidget<VanillaSliderWidget>(CustomVanillaSliderWidget(minValue,
+                                                                                                                               maxValue)) {
 
     private val silder
         get() = vanilla as CustomVanillaSliderWidget
 
-    var valueChangedEvent: () -> Unit
+    override var valueChangedEvent: () -> Unit
         get() = silder.valueChangedEvent
         set(value) {
             silder.valueChangedEvent = value
         }
 
-    var value: Double
+    override var value: Double
         get() = silder.translatedValue
         set(value) {
             silder.translatedValue = value
         }
 }
 
-private class CustomTextFieldWidget(textRenderer: TextRenderer?,
+private class CustomTextFieldWidget(textRenderer: TextRenderer,
                                     i: Int,
                                     j: Int,
                                     k: Int,
@@ -223,20 +226,22 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer?,
     }
 }
 
-class TextFieldWidget(height: Int) :
-    VanillaWidget<VanillaTextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(),
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                height,
-                                                                "")) {
+fun newTextFieldWidget(height: Int): ITextFieldWidget = TextFieldWidget(height)
 
-    var textPredicate: (string: String) -> Boolean = { true }
+private class TextFieldWidget(height: Int) : ITextFieldWidget,
+                                             VanillaWidget<VanillaTextFieldWidget>(CustomTextFieldWidget(Vanilla.textRenderer(),
+                                                                                                         0,
+                                                                                                         0,
+                                                                                                         0,
+                                                                                                         height,
+                                                                                                         "")) {
+
+    override var textPredicate: (string: String) -> Boolean = { true }
         set(value) {
             field = value
             vanilla.setTextPredicate(value)
         }
-    var changedEvent: (string: String) -> Unit = { }
+    override var changedEvent: (string: String) -> Unit = { }
         set(value) {
             field = value
             vanilla.setChangedListener {
@@ -244,7 +249,7 @@ class TextFieldWidget(height: Int) :
             }
         }
 
-    var vanillaText: String
+    override var vanillaText: String
         get() = vanilla.text
         set(value) {
             if (vanilla.text != value) {
@@ -252,7 +257,7 @@ class TextFieldWidget(height: Int) :
             }
         }
 
-    var vanillaFocused: Boolean
+    override var vanillaFocused: Boolean
         get() = vanilla.isFocused
         set(value) {
             (vanilla as CustomTextFieldWidget).isFocused = value
@@ -263,7 +268,7 @@ class TextFieldWidget(height: Int) :
         vanillaFocused = false
     }
 
-    fun editing(): Boolean =
+    override fun editing(): Boolean =
 //    vanilla.method_20315()
         vanilla.isActive
 

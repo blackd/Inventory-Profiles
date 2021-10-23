@@ -19,12 +19,12 @@ class ItemStat(indexedItems: List<IndexedValue<ItemStack>>) {
         }
 
     val totalItemCount: Int
-        get() = itemGroups.values.sumBy { it.itemCount }
+        get() = itemGroups.values.sumOf { it.itemCount }
     val totalSlotCount: Int
-        get() = itemGroups.values.sumBy { it.slotCount }
+        get() = itemGroups.values.sumOf { it.slotCount }
 
     val totalMinSlotCount: Int
-        get() = itemGroups.values.sumBy { it.minSlotCount }
+        get() = itemGroups.values.sumOf { it.minSlotCount }
     val totalMaxSlotCount: Int
         get() = totalItemCount
 

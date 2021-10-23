@@ -11,6 +11,7 @@ import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 
+
 // ============
 // api
 // ============
@@ -71,12 +72,10 @@ fun <T : IConfigOption> T.addTo(declaration: ConfigDeclaration): ConfigOptionDel
                                         declaration)
 }
 
-class ConfigOptionDelegateProvider<T : IConfigOption>(
-    value: T,
-    val declaration: ConfigDeclaration
-) : ByPropertyName<T>({ name ->
-                          value.apply { key = name.toLowerCase() }
-                      })
+class ConfigOptionDelegateProvider<T : IConfigOption>(value: T, val declaration: ConfigDeclaration)
+    : ByPropertyName<T>({ name ->
+                            value.apply { key = name.lowercase() }
+                        })
 
 @Suppress("FunctionName")
 fun <T : IConfigOption> ConfigOptionDelegateProvider<T>.CATEGORY(name: String) =

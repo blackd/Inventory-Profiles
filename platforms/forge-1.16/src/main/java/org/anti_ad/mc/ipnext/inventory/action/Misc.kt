@@ -70,9 +70,9 @@ object RandFixedSum {
     }
 
     private val List<Constraint>.totalMin
-        get() = sumBy { it.min }
+        get() = sumOf { it.min }
     private val List<Constraint>.totalMax
-        get() = sumBy { it.max }
+        get() = sumOf { it.max }
 }
 
 fun List<Pair<ItemType, List<Int>>>.flatten(resultSize: Int? = null): List<ItemStack> { // itemType, itemCounts
