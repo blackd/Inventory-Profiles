@@ -152,8 +152,6 @@
     "inventoryprofiles.config.description.in_rows_custom_rule": "Set the custom rule for sort in rows button",
     "inventoryprofiles.config.description.show_move_all_button": "Show move all buttons on GUI",
     "inventoryprofiles.config.description.show_button_tooltips": "Display tooltips when cursor hover the buttons on GUI",
-    "inventoryprofiles.config.name.use_old_insert_method": "Use Old Insert Method",
-    "inventoryprofiles.config.description.use_old_insert_method": "v0.4.2+ use new method to insert widgets to a screen for better mod compatibility. Set this to true to revert to old method.",
     "inventoryprofiles.gui.config.EditProfiles": "Edit Profiles",
     "inventoryprofiles.gui.config.profiles_help_button": "Open Wiki",
     "inventoryprofiles.gui.config.profiles_config_button": "Profiles Config",
