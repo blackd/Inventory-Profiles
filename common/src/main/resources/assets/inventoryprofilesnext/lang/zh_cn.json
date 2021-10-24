@@ -1,265 +1,246 @@
 {
-
-    "inventoryprofiles.gui.config.title": "Inventory Profiles v%s 配置菜单",
-
-    "inventoryprofiles.common.gui.config.reset": "重置",
-    "inventoryprofiles.common.gui.config.true": "§2开",
-    "inventoryprofiles.common.gui.config.false": "§4关",
-    "inventoryprofiles.common.gui.config.yes": "是",
-    "inventoryprofiles.common.gui.config.no": "否",
-    "inventoryprofiles.common.gui.config.more": " ...(更多)",
-
-    "inventoryprofiles.common.gui.config.advanced_keybind_settings": "进阶按键选项",
-    "inventoryprofiles.common.gui.config.activate_on": "触发在",
-    "inventoryprofiles.common.gui.config.context": "情景",
-    "inventoryprofiles.common.gui.config.allow_extra_keys": "允许额外按键",
-    "inventoryprofiles.common.gui.config.order_sensitive": "顺序敏感",
-    "inventoryprofiles.common.gui.config.keybind_settings_tips": "- 左键进入配置\n- 右键重置为默认值",
-
-    "inventoryprofiles.common.enum.key_action.press": "按下",
-    "inventoryprofiles.common.enum.key_action.release": "放开",
-    "inventoryprofiles.common.enum.key_action.both": "按下 / 放开",
-    "inventoryprofiles.common.enum.context.ingame": "游戏内",
-    "inventoryprofiles.common.enum.context.gui": "介面",
-    "inventoryprofiles.common.enum.context.any": "游戏内 / 介面",
-
-
-
-
-
-
-
-
-
-
-
-    "inventoryprofiles.gui.config.ModSettings": "Mod 设置",
-
-    "inventoryprofiles.config.category.inventory_sorting": "整理选项",
-    "inventoryprofiles.config.category.auto_refill": "Auto Refill",
-    "inventoryprofiles.config.category.advanced_options": "Advanced Options",
-
-    "inventoryprofiles.config.name.open_config_folder":                 "§aOpen Config Folder",
-    "inventoryprofiles.config.name.reload_rule_files":                  "§aReload Rule Files",
-    "inventoryprofiles.config.description.open_config_folder":          "Open folder .minecraft/config/inventoryprofilesnext",
-    "inventoryprofiles.config.description.reload_rule_files":           "Reload rule.*.txt files in config folder",
-    "inventoryprofiles.gui.config.button.open_config_folder":           "config/inventoryprofilesnext",
-    "inventoryprofiles.gui.config.button.reload_rule_files":            "Reload rule.*.txt",
-    "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":   "All reloaded!",
-
-    "inventoryprofiles.config.name.sort_order":                         "排序方式",
-    "inventoryprofiles.config.name.custom_rule":                        "Custom Rule",
-    "inventoryprofiles.config.description.sort_order":                  "背包整理的排序方式",
-    "inventoryprofiles.config.description.custom_rule":                 "The rule for custom sorting method",
-
-    "inventoryprofiles.config.name.enable_auto_refill":                 "Enable Auto Refill",
-    "inventoryprofiles.config.name.disable_for_drop_item":              "Disable For Drop Item",
-    "inventoryprofiles.config.name.refill_armor":                       "Refill Armor",
-    "inventoryprofiles.config.name.refill_before_tool_break":           "Refill Before Tool Break",
-    "inventoryprofiles.config.name.tool_damage_threshold":              "Tool Damage Threshold",
-    "inventoryprofiles.config.name.threshold_unit":                     "Threshold Unit",
-    "inventoryprofiles.config.name.auto_refill_wait_tick":              "Auto Refill Wait Tick",
-    "inventoryprofiles.config.description.enable_auto_refill":          "Refill the item in your hand when they have ran out",
-    "inventoryprofiles.config.description.disable_for_drop_item":       "Disable Auto Refill for drop item",
-    "inventoryprofiles.config.description.refill_armor":                "Refill the item in armor slots when they have broken",
-    "inventoryprofiles.config.description.refill_before_tool_break":    "Refill tool/armor before durability is empty (threshold value by \"Tool Damage Threshold\")",
-    "inventoryprofiles.config.description.tool_damage_threshold":       "When durability below this value (Absolute or %%), refill the item.",
-    "inventoryprofiles.config.description.threshold_unit":              "Set the unit for \"Tool Damage Threshold\" (Absolute Value or Percentage (%%))",
-    "inventoryprofiles.config.description.auto_refill_wait_tick":       "Wait n ticks after the item ran out, then do the auto refill. Might be useful on some laggy servers.",
-
-    "inventoryprofiles.config.name.add_interval_between_clicks":        "增加点击的时间间隔",
-    "inventoryprofiles.config.name.interval_between_clicks_ms":         "时间间隔 (毫秒)",
-    "inventoryprofiles.config.name.restock_hotbar":                     "快捷栏补货",
-    "inventoryprofiles.config.name.sort_at_cursor":                     "整理鼠标指向的区域",
-    "inventoryprofiles.config.name.move_all_at_cursor":                 "Move All At Cursor",
-    "inventoryprofiles.config.name.stop_at_screen_close":               "背包关闭时停止整理",
-    "inventoryprofiles.config.description.add_interval_between_clicks": "整理背包时加入点击之间的时间，模拟手动点击。用\"时间间隔 (毫秒)\"设置时间。可能在延迟较高的服务器或禁用了inventory.fastclick的服务器上有用。(要在无法快速点击背包的服务器上使用的话，推荐用67毫秒)",
-    "inventoryprofiles.config.description.interval_between_clicks_ms":  "点击之间的时间 (单位毫秒) (要在无法快速点击背包的服务器上使用的话，推荐用67毫秒)",
-    "inventoryprofiles.config.description.restock_hotbar":              "整理背包时顺便把快捷栏上物品的数量填满",
-    "inventoryprofiles.config.description.sort_at_cursor":              "用热键会整理鼠标指向的格子的区域，否则永远优先整理箱子。",
-    "inventoryprofiles.config.description.move_all_at_cursor":          "When curosr is pointing container, \"Move All\" hotkey move from container to player. Otherwise it will always move from player to container.",
-    "inventoryprofiles.config.description.stop_at_screen_close":        "背包画面关闭时停止整理 (例如在\"增加点击的时间间隔\"启用时)",
-
-    "inventoryprofiles.config.name.debug_logs":                         "除错输出",
-    "inventoryprofiles.config.description.debug_logs":                  "输出除错讯息",
-
-
-
-
-
-
-
-
-
-
-    "inventoryprofiles.gui.config.GuiSettings": "介面设置",
-    "inventoryprofiles.config.category.inventory": "Inventory",
-
-    "inventoryprofiles.config.name.show_continuous_crafting_checkbox":  "Show Continuous Crafting Checkbox",
-    "inventoryprofiles.config.name.continuous_crafting_checkbox_value": "§bCheckbox Value",
-    "inventoryprofiles.config.name.continuous_crafting_saved_value":    "§bSaved Value",
-    "inventoryprofiles.config.name.show_regular_sort_button":       "显示普通整理按钮",
-    "inventoryprofiles.config.name.regular_post_action":            "§bPost Action",
-    "inventoryprofiles.config.name.regular_sort_order":             "§bSort Order",
-    "inventoryprofiles.config.name.regular_custom_rule":            "§bCustom Rule",
-    "inventoryprofiles.config.name.show_sort_in_columns_button":    "显示垂直方向分类按钮",
-    "inventoryprofiles.config.name.in_columns_post_action":         "§bPost Action",
-    "inventoryprofiles.config.name.in_columns_sort_order":          "§bSort Order",
-    "inventoryprofiles.config.name.in_columns_custom_rule":         "§bCustom Rule",
-    "inventoryprofiles.config.name.show_sort_in_rows_button":       "显示水平方向分类按钮",
-    "inventoryprofiles.config.name.in_rows_post_action":            "§bPost Action",
-    "inventoryprofiles.config.name.in_rows_sort_order":             "§bSort Order",
-    "inventoryprofiles.config.name.in_rows_custom_rule":            "§bCustom Rule",
-    "inventoryprofiles.config.name.show_move_all_button":           "显示移动匹配物品按钮",
-    "inventoryprofiles.config.name.show_button_tooltips":           "显示按钮提示",
-
-    "inventoryprofiles.config.description.show_continuous_crafting_checkbox":  "Show continuous crafting checkbox on GUI (crafting table & survival inventory)\nContinuous Crafting: Auto refill the ingredient slots",
-    "inventoryprofiles.config.description.continuous_crafting_checkbox_value": "Remember the checkbox value or set it next time of opening screen",
-    "inventoryprofiles.config.description.continuous_crafting_saved_value":    "Internal saved value of checkbox",
-    "inventoryprofiles.config.description.show_regular_sort_button":    "背包画面上显示普通整理按钮",
-    "inventoryprofiles.config.description.regular_post_action":         "Set the post action for regular sort button",
-    "inventoryprofiles.config.description.regular_sort_order":          "Set the sort order for regular sort button",
-    "inventoryprofiles.config.description.regular_custom_rule":         "Set the custom rule for regular sort button",
-    "inventoryprofiles.config.description.show_sort_in_columns_button": "背包画面上显示垂直方向分类按钮",
-    "inventoryprofiles.config.description.in_columns_post_action":      "Set the post action for sort in columns button",
-    "inventoryprofiles.config.description.in_columns_sort_order":       "Set the sort order for sort in columns button",
-    "inventoryprofiles.config.description.in_columns_custom_rule":      "Set the custom rule for sort in columns button",
-    "inventoryprofiles.config.description.show_sort_in_rows_button":    "背包画面上显示水平方向分类按钮",
-    "inventoryprofiles.config.description.in_rows_post_action":         "Set the post action for sort in rows button",
-    "inventoryprofiles.config.description.in_rows_sort_order":          "Set the sort order for sort in rows button",
-    "inventoryprofiles.config.description.in_rows_custom_rule":         "Set the custom rule for sort in rows button",
-    "inventoryprofiles.config.description.show_move_all_button":        "背包画面上显示移动匹配物品按钮",
-    "inventoryprofiles.config.description.show_button_tooltips":        "鼠标悬浮在按钮上时显示提示",
-
-
-
-
-
-
-
-
-
-
-    "inventoryprofiles.gui.config.EditProfiles": "编辑设定档",
-    "inventoryprofiles.config.category.coming_soon": "即将到来!",
-
-
-
-
-
-
-
-
-
-
-    "inventoryprofiles.gui.config.Hotkeys": "热键",
-    "inventoryprofiles.config.category.hotkeys": "热键",
-
-    "inventoryprofiles.config.name.open_config_menu":               "打开配置菜单",
-    "inventoryprofiles.config.name.sort_inventory":                 "背包整理",
-    "inventoryprofiles.config.name.sort_inventory_in_columns":      "垂直方向分类",
-    "inventoryprofiles.config.name.sort_inventory_in_rows":         "水平方向分类",
-    "inventoryprofiles.config.name.move_all_items":                 "移动匹配物品",
-    "inventoryprofiles.config.name.dump_item_nbt_to_chat":          "Dump Item Nbt To Chat",
-
-    "inventoryprofiles.config.description.open_config_menu":            "打开此菜单的按键",
-    "inventoryprofiles.config.description.sort_inventory":              "一键背包整理的按键",
-    "inventoryprofiles.config.description.sort_inventory_in_columns":   "一键垂直方向分类的按键",
-    "inventoryprofiles.config.description.sort_inventory_in_rows":      "一键水平方向分类的按键",
-    "inventoryprofiles.config.description.move_all_items":              "一键移动所有箱子里有同类的物品的按键",
-    "inventoryprofiles.config.description.dump_item_nbt_to_chat":       "Prints the item string with nbt to the chat",
-
-
-
-
-
-
-
-
-
-
-    "inventoryprofiles.gui.config.Tweaks": "原版修改",
-    "inventoryprofiles.config.category.client_side_tweaks": "客户端",
-    "inventoryprofiles.config.category.survival": "Survival",
-
-    "inventoryprofiles.config.name.prevent_close_gui_drop_item":         "防止关闭介面掉落物品",
-    "inventoryprofiles.config.name.container_swipe_moving_items":        "Container Swipe Moving Items",
-    "inventoryprofiles.config.name.swipe_move_crafting_result_slot":     "Swipe Move Crafting Result Slot",
-    "inventoryprofiles.config.description.prevent_close_gui_drop_item":  "关闭物品栏时自动把鼠标的物品放回背包",
-    "inventoryprofiles.config.description.container_swipe_moving_items": "Allows you to move items for the slots under the cursor while holding shift and left click",
-    "inventoryprofiles.config.description.swipe_move_crafting_result_slot": "Enable \"Swipe Moving Items\" in crafting result slot",
-
-    "inventoryprofiles.config.name.instant_mining_cooldown":            "瞬间破坏的挖掘延迟",
-    "inventoryprofiles.config.name.disable_block_breaking_cooldown":    "移除挖掘延迟",
-    "inventoryprofiles.config.name.disable_item_use_cooldown":          "移除右键使用冷却时间",
-    "inventoryprofiles.config.name.disable_screen_shaking_on_damage":   "禁止受到伤害摇晃画面",
-    "inventoryprofiles.config.name.disable_lava_fog":                   "禁用岩浆迷雾",
-    "inventoryprofiles.config.description.instant_mining_cooldown":             "让瞬间破坏方块后挖掘下一个方块也有挖掘延迟。优先度较 \"移除挖掘延迟\" 低。",
-    "inventoryprofiles.config.description.disable_block_breaking_cooldown":     "移除挖掘下一个方块的延迟",
-    "inventoryprofiles.config.description.disable_item_use_cooldown":           "移除按住右键使用物品时的每一个物品之间冷却时间。相当于每游戏刻都按一次右键。(一秒为二十游戏刻)",
-    "inventoryprofiles.config.description.disable_screen_shaking_on_damage":    "受到伤害时画面不再摇晃",
-    "inventoryprofiles.config.description.disable_lava_fog":                    "岩浆下看得更清晰",
-
-
-
-
-
-
-
-
-
-
-    "inventoryprofiles.gui.config.Debugs": "Debugs",
-    "inventoryprofiles.config.category.debugs": "Debugs",
-
-    "inventoryprofiles.config.name.debug_screen":                   "Debug Screen",
-    "inventoryprofiles.config.description.debug_screen":            "Open debug screen",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    "inventoryprofiles.enum.sorting_method.global": "Global (%s)",
-    "inventoryprofiles.enum.sorting_method.default": "预设（创造模式菜单）",
-    "inventoryprofiles.enum.sorting_method.item_name": "物品名称",
-    "inventoryprofiles.enum.sorting_method.item_id": "物品 ID",
-    "inventoryprofiles.enum.sorting_method.raw_id": "Item Numerical ID",
-    "inventoryprofiles.enum.sorting_method.custom": "Custom Rule",
-
-    "inventoryprofiles.enum.post_action.none":             "None",
-    "inventoryprofiles.enum.post_action.group_in_rows":    "Group In Rows",
-    "inventoryprofiles.enum.post_action.group_in_columns": "Group In Columns",
-    "inventoryprofiles.enum.post_action.distribute_evenly":"Distribute Evenly",
-    "inventoryprofiles.enum.post_action.shuffle":          "Shuffle",
-    "inventoryprofiles.enum.post_action.fill_one":         "Fill One",
-    "inventoryprofiles.enum.post_action.reverse":          "Reverse",
-
-    "inventoryprofiles.enum.threshold_unit.absolute":      "Absolute Value",
-    "inventoryprofiles.enum.threshold_unit.percentage":    "Percentage (%%)",
-
-    "inventoryprofiles.enum.continuous_crafting_checkbox_value.remember":    "Remember",
-    "inventoryprofiles.enum.continuous_crafting_checkbox_value.checked":     "Checked",
-    "inventoryprofiles.enum.continuous_crafting_checkbox_value.unchecked":   "Unchecked",
-
-
-    "inventoryprofiles.tooltip.sort_button": "整理物品栏",
-    "inventoryprofiles.tooltip.sort_columns_button": "垂直方向分类",
-    "inventoryprofiles.tooltip.sort_rows_button": "水平方向分类",
-    "inventoryprofiles.tooltip.move_all_button": "移动匹配物品\n§6(按住 §oSHIFT§r\n§6包括快捷栏)§r",
-    "inventoryprofiles.tooltip.continuous_crafting_checkbox": "Continuous Crafting"
+    "inventoryprofiles.gui.config.title":                                          "Inventory Profiles Next v%s 配置菜单",
+    "inventoryprofiles.common.gui.config.reset":                                   "重置",
+    "inventoryprofiles.common.gui.config.true":                                    "§2开",
+    "inventoryprofiles.common.gui.config.false":                                   "§4关",
+    "inventoryprofiles.common.gui.config.yes":                                     "是",
+    "inventoryprofiles.common.gui.config.no":                                      "否",
+    "inventoryprofiles.common.gui.config.more":                                    " ...(更多)",
+    "inventoryprofiles.common.gui.config.advanced_keybind_settings":               "进阶按键选项",
+    "inventoryprofiles.common.gui.config.activate_on":                             "触发在",
+    "inventoryprofiles.common.gui.config.context":                                 "情景",
+    "inventoryprofiles.common.gui.config.allow_extra_keys":                        "允许额外按键",
+    "inventoryprofiles.common.gui.config.order_sensitive":                         "顺序敏感",
+    "inventoryprofiles.common.gui.config.modifier_key":                            "Ctrl/Alt/Shift",
+    "inventoryprofiles.common.gui.config.keybind_settings_tips":                   "- 左键进入配置\n- 右键重置为默认值",
+    "inventoryprofiles.common.enum.key_action.press":                              "按下",
+    "inventoryprofiles.common.enum.key_action.release":                            "放开",
+    "inventoryprofiles.common.enum.key_action.both":                               "按下 / 放开",
+    "inventoryprofiles.common.enum.context.ingame":                                "游戏内",
+    "inventoryprofiles.common.enum.context.gui":                                   "界面",
+    "inventoryprofiles.common.enum.context.any":                                   "游戏内 / 界面",
+    "inventoryprofiles.common.enum.modifier_key.differentiate":                    "Diff left/right",
+    "inventoryprofiles.common.enum.modifier_key.normal":                           "Normal",
+    "inventoryprofiles.gui.config.ModSettings":                                    "Mod 设置",
+    "inventoryprofiles.config.category.inventory_sorting":                         "整理选项",
+    "inventoryprofiles.config.category.move_matching_items":                       "Move Matching Items",
+    "inventoryprofiles.config.category.profiles":                                  "Profiles",
+    "inventoryprofiles.config.category.lock_slots":                                "Lock Slots",
+    "inventoryprofiles.config.category.auto_refill":                               "自动补货",
+    "inventoryprofiles.config.category.advanced_options":                          "高级设定",
+    "inventoryprofiles.config.name.open_config_folder":                            "§a打开配置文件夹",
+    "inventoryprofiles.config.name.reload_rule_files":                             "§a重新加载规则文件",
+    "inventoryprofiles.config.description.open_config_folder":                     "打开文件夹 .minecraft/config/inventoryprofilesnext",
+    "inventoryprofiles.config.description.reload_rule_files":                      "在配置文件夹中重新加载规则.*.txt ",
+    "inventoryprofiles.gui.config.button.open_config_folder":                      "打开config/inventoryprofilesnext",
+    "inventoryprofiles.gui.config.button.reload_rule_files":                       "重新加载规则.*.txt",
+    "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":              "全部重新加载!",
+    "inventoryprofiles.config.name.sort_order":                                    "排序方式",
+    "inventoryprofiles.config.name.custom_rule":                                   "自定义规则",
+    "inventoryprofiles.config.description.sort_order":                             "背包整理的排序方式",
+    "inventoryprofiles.config.description.custom_rule":                            "自定义排序方式",
+    "inventoryprofiles.config.name.include_hotbar_modifier":                       "Include Hotbar Modifier",
+    "inventoryprofiles.config.name.move_all_modifier":                             "Move All Modifier",
+    "inventoryprofiles.config.name.always_include_hotbar":                         "Always Include Hotbar",
+    "inventoryprofiles.config.name.always_move_all":                               "Always Move All",
+    "inventoryprofiles.config.name.always_throw_all":                              "Always Throw All",
+    "inventoryprofiles.config.description.include_hotbar_modifier":                "Hold this key to include hotbar",
+    "inventoryprofiles.config.description.move_all_modifier":                      "Hold this key to move/throw all",
+    "inventoryprofiles.config.description.always_include_hotbar":                  "Include hotbar without holding the modifier key (then holding the modifier key is to exclude hotbar)",
+    "inventoryprofiles.config.description.always_move_all":                        "Move all without holding the modifier key (then holding the modifier key is to move matching items only)",
+    "inventoryprofiles.config.description.always_throw_all":                       "Throw all without holding the modifier key (then holding the modifier key is to throw matching items only)",
+    "inventoryprofiles.config.name.enable_profiles":                               "Enable Equipment Profiles Support",
+    "inventoryprofiles.config.name.profiles_per_server":                           "Enable Different Profiles per Server/World",
+    "inventoryprofiles.config.description.enable_profiles":                        "Enables profiles support.\nProfiles are sets of gear you can switch between with a single button.\n\nIf you wanna learn how to setup the Profile Support go to the \"Edit Profiles\" page.",
+    "inventoryprofiles.config.description.profiles_per_server":                    "If set to true you will have different set of profiles for every server you connect to.",
+    "inventoryprofiles.config.name.enable_lock_slots":                             "Enable Lock Slots",
+    "inventoryprofiles.config.name.enable_lock_slots_per_server":                  "Enable Unique Locked Slots per World/Server",
+    "inventoryprofiles.config.name.lock_slots_switch_config_modifier":             "Switch Config Modifier",
+    "inventoryprofiles.config.name.lock_slots_config_key":                         "Config Key",
+    "inventoryprofiles.config.name.lock_slots_quick_config_key":                   "Quick Config Key",
+    "inventoryprofiles.config.name.lock_slots_quick_disable":                      "Quick Disable",
+    "inventoryprofiles.config.name.lock_slots_config_switch_type":                 "Config Switch Type",
+    "inventoryprofiles.config.name.show_locked_slots_background":                  "Show Locked Slots Background",
+    "inventoryprofiles.config.name.show_locked_slots_foreground":                  "Show Locked Slots Foreground",
+    "inventoryprofiles.config.name.locked_slots_foreground_style":                 "Locked Slots Foreground Style",
+    "inventoryprofiles.config.name.locked_slots_disable_quick_move_throw":         "Disable Shift+Click, Ctrl+Q and Q For Locked Slots",
+    "inventoryprofiles.config.name.locked_slots_allow_pickup_into_empty":          "Enable Picking Items into Empty Locked Slots",
+    "inventoryprofiles.config.name.locked_slots_delay_keeper_reinit_ticks":        "Maximum Ticks to Wait on Dimension Change",
+    "inventoryprofiles.config.description.enable_lock_slots":                      "Locked slots are ignored for: sort, move all, clean cursor, continuous crafting supplies storage, auto refill supplies storage (auto refill monitoring slots are not affected). \nNotice:\nSorting in columns/rows only works if the shape of remaining non-locked slots is rectangular.",
+    "inventoryprofiles.config.description.enable_lock_slots_per_server":           "If enabled every server and uniquely named world will have their own locked slots.\nNotice:\n1. If you tend to name all your worlds \"New World\" they will all share the same locked slots.\n2. Servers behind bungee cord/velocity proxies will share locked slots.",
+    "inventoryprofiles.config.description.lock_slots_switch_config_modifier":      "Config lock slots by \"Config Key\" while holding this key (Default Alt + Left Click to config lock slots)",
+    "inventoryprofiles.config.description.lock_slots_config_key":                  "Config lock slots while holding modifier key (Default Alt + Left Click to config lock slots)",
+    "inventoryprofiles.config.description.lock_slots_quick_config_key":            "Config lock slots without holding modifier key",
+    "inventoryprofiles.config.description.lock_slots_quick_disable":               "Quick disable lock slots when this key is being held down",
+    "inventoryprofiles.config.description.lock_slots_config_switch_type":          "Set config switch type to toggle or hold",
+    "inventoryprofiles.config.description.show_locked_slots_background":           "Draw locked slots background\n\nYou can create your own texture and put it in\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png",
+    "inventoryprofiles.config.description.show_locked_slots_foreground":           "Draw locked slots foreground\n\nYou can create your own texture and put it in\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png",
+    "inventoryprofiles.config.description.locked_slots_foreground_style":          "Select foreground style from preset\n\nYou can create your own texture and put it in\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png",
+    "inventoryprofiles.config.description.locked_slots_disable_quick_move_throw":  "Locked slots will be immune to:\n - Shift+Click\n - Ctrl+Q\n - Swipe Shift+Click\n - Swipe Ctrl+Q",
+    "inventoryprofiles.config.description.locked_slots_allow_pickup_into_empty":   "Should it be possible to pick items from the ground into EMPTY locked slots.\nStackable items will still be picked into locked sots of the same item that have room.\nNOTE: See next setting description for more information!",
+    "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks": "The maximum number of client ticks to wait for the server to send the content of the player inventory. \nIf locked slots get items moved out/thrown away on dimension change you need to increase this value.\nThis often happens on servers under heavy load.\nNOTE: 20 ticks are equivalent of 1 second.\n§l§cWARNING§r: Setting this too high MAY lead to locked slot management not working properly until this timeout expires.",
+    "inventoryprofiles.config.name.enable_auto_refill":                            "开启自动补货",
+    "inventoryprofiles.config.name.disable_for_drop_item":                         "禁用掉落物品",
+    "inventoryprofiles.config.name.refill_armor":                                  "补充防具",
+    "inventoryprofiles.config.name.refill_before_tool_break":                      "在工具损坏之前补充",
+    "inventoryprofiles.config.name.tool_damage_threshold":                         "工具损坏阈值",
+    "inventoryprofiles.config.name.threshold_unit":                                "阈值单位",
+    "inventoryprofiles.config.name.auto_refill_wait_tick":                         "自动补充等待游戏刻",
+    "inventoryprofiles.config.description.enable_auto_refill":                     "物品用完后补充到手中",
+    "inventoryprofiles.config.description.disable_for_drop_item":                  "关闭掉落物品的自动补充",
+    "inventoryprofiles.config.description.refill_armor":                           "在护甲损坏之前补充护甲槽",
+    "inventoryprofiles.config.description.refill_before_tool_break":               "在用完耐久之前重新补充工具/防具（阈值由\"工具损坏阈值\"来表示）",
+    "inventoryprofiles.config.description.tool_damage_threshold":                  "当耐久低于此值（绝对值或%%）时，补充物品。",
+    "inventoryprofiles.config.description.threshold_unit":                         "设置 \"工具损坏阈值\" (绝对值或百分比 (%%))",
+    "inventoryprofiles.config.description.auto_refill_wait_tick":                  "物品用完后等待N个游戏刻，然后执行自动补货。 在延迟高的服务器上可能很有用。",
+    "inventoryprofiles.config.name.add_interval_between_clicks":                   "增加点击的时间间隔",
+    "inventoryprofiles.config.name.interval_between_clicks_ms":                    "时间间隔 (毫秒)",
+    "inventoryprofiles.config.name.restock_hotbar":                                "快捷栏补货",
+    "inventoryprofiles.config.name.sort_at_cursor":                                "整理鼠标指向的区域",
+    "inventoryprofiles.config.name.move_all_at_cursor":                            "移动全部（指向）",
+    "inventoryprofiles.config.name.stop_at_screen_close":                          "背包关闭时停止整理",
+    "inventoryprofiles.config.description.add_interval_between_clicks":            "整理背包时加入点击之间的时间，模拟手动点击。用\"时间间隔 (毫秒)\"设置时间。可能在延迟较高的服务器或禁用了inventory.fastclick的服务器上有用。(要在无法快速点击背包的服务器上使用的话，推荐用67毫秒)",
+    "inventoryprofiles.config.description.interval_between_clicks_ms":             "点击之间的时间 (单位毫秒) (要在无法快速点击背包的服务器上使用的话，推荐用67毫秒)",
+    "inventoryprofiles.config.description.restock_hotbar":                         "整理背包时顺便把快捷栏上物品的数量填满",
+    "inventoryprofiles.config.description.sort_at_cursor":                         "用热键会整理鼠标指向的格子的区域，否则永远优先整理箱子。",
+    "inventoryprofiles.config.description.move_all_at_cursor":                     "当光标指向容器时, \"Move All\" 热键将从容器里移动物品到玩家背包。否则，它将始终从玩家背包移动物品到容器里。",
+    "inventoryprofiles.config.description.stop_at_screen_close":                   "背包画面关闭时停止整理 (例如在\"增加点击的时间间隔\"启用时)",
+    "inventoryprofiles.config.name.debug_logs":                                    "除错输出",
+    "inventoryprofiles.config.description.debug_logs":                             "输出除错讯息",
+    "inventoryprofiles.gui.config.GuiSettings":                                    "介面设置",
+    "inventoryprofiles.config.category.inventory":                                 "Inventory",
+    "inventoryprofiles.config.category.other":                                     "Other",
+    "inventoryprofiles.config.name.enable_profiles_ui":                            "Enable Profiles Switching Gui",
+    "inventoryprofiles.config.name.enable_profiles_announcement":                  "Enable Profile Announcement on Change/Apply",
+    "inventoryprofiles.config.description.enable_profiles_ui":                     "This enables small 3 button user interface under the player inventory screen that can be used to switch between profiles and apply the currently active one.\nAll of the Gui functions are available as shortcuts.",
+    "inventoryprofiles.config.description.profiles_announcement":                  "The current profile is announced with a text popup just over the Hotbar.",
+    "inventoryprofiles.config.name.enable_inventory_buttons":                      "Enable Inventory Buttons",
+    "inventoryprofiles.config.name.treat_unknown_screens_as_containers":           "Add Inventory Buttons to All In Game Screens",
+    "inventoryprofiles.config.name.show_continuous_crafting_checkbox":             "显示连续制作 勾选框",
+    "inventoryprofiles.config.name.continuous_crafting_checkbox_value":            "§b勾选框的值",
+    "inventoryprofiles.config.name.continuous_crafting_saved_value":               "§b保存值",
+    "inventoryprofiles.config.name.show_regular_sort_button":                      "显示普通整理按钮",
+    "inventoryprofiles.config.name.regular_post_action":                           "§b执行模式",
+    "inventoryprofiles.config.name.regular_sort_order":                            "§b排序",
+    "inventoryprofiles.config.name.regular_custom_rule":                           "§b自定义规则",
+    "inventoryprofiles.config.name.show_sort_in_columns_button":                   "显示垂直方向分类按钮",
+    "inventoryprofiles.config.name.in_columns_post_action":                        "§b执行模式",
+    "inventoryprofiles.config.name.in_columns_sort_order":                         "§b排序",
+    "inventoryprofiles.config.name.in_columns_custom_rule":                        "§b自定义规则",
+    "inventoryprofiles.config.name.show_sort_in_rows_button":                      "显示水平方向分类按钮",
+    "inventoryprofiles.config.name.in_rows_post_action":                           "§b执行模式",
+    "inventoryprofiles.config.name.in_rows_sort_order":                            "§b排序",
+    "inventoryprofiles.config.name.in_rows_custom_rule":                           "§b自定义规则",
+    "inventoryprofiles.config.name.show_move_all_button":                          "显示移动匹配物品按钮",
+    "inventoryprofiles.config.name.show_button_tooltips":                          "显示按钮提示",
+    "inventoryprofiles.config.description.enable_inventory_buttons":               "This controls whether we add our buttons to the container screen.",
+    "inventoryprofiles.config.description.treat_unknown_screens_as_containers":    "This is mostly for compatibility with other mods that have introduce screens which are not real inventory.\nSetting this to false will disable the inserting of widgets for all but vanilla screens.\n\nNOTE: This is deprecated and will be removed in version 1.2.0.",
+    "inventoryprofiles.config.description.show_continuous_crafting_checkbox":      "在 GUI 上显示连续制作的勾选框(合成台&生存模式背包栏)\n连续制作：自动填充配原材料",
+    "inventoryprofiles.config.description.continuous_crafting_checkbox_value":     "记住该勾选框的值或在下次打开界面时进行设置",
+    "inventoryprofiles.config.description.continuous_crafting_saved_value":        "勾选框的内部保存值",
+    "inventoryprofiles.config.description.show_regular_sort_button":               "背包画面上显示普通整理按钮",
+    "inventoryprofiles.config.description.regular_post_action":                    "设置执行普通整理的模式",
+    "inventoryprofiles.config.description.regular_sort_order":                     "设置普通整理顺序的按钮",
+    "inventoryprofiles.config.description.regular_custom_rule":                    "设置自定义规则整理顺序的按钮",
+    "inventoryprofiles.config.description.show_sort_in_columns_button":            "背包画面上显示垂直方向分类按钮",
+    "inventoryprofiles.config.description.in_columns_post_action":                 "设置执行竖直方向整理的模式",
+    "inventoryprofiles.config.description.in_columns_sort_order":                  "设置竖直方向整理顺序的按钮",
+    "inventoryprofiles.config.description.in_columns_custom_rule":                 "设置自定义规则竖直整理顺序的按钮",
+    "inventoryprofiles.config.description.show_sort_in_rows_button":               "背包画面上显示水平方向分类按钮",
+    "inventoryprofiles.config.description.in_rows_post_action":                    "设置执行水平方向整理的模式",
+    "inventoryprofiles.config.description.in_rows_sort_order":                     "背包画面上显示移动匹配物品按钮",
+    "inventoryprofiles.config.description.in_rows_custom_rule":                    "设置自定义规则水平整理顺序的按钮",
+    "inventoryprofiles.config.description.show_move_all_button":                   "背包画面上显示移动匹配物品按钮",
+    "inventoryprofiles.config.description.show_button_tooltips":                   "鼠标悬浮在按钮上时显示提示",
+    "inventoryprofiles.gui.config.EditProfiles":                                   "编辑设定档",
+    "inventoryprofiles.gui.config.profiles_help_button":                           "Open Wiki",
+    "inventoryprofiles.gui.config.profiles_config_button":                         "Profiles Config",
+    "inventoryprofiles.config.name.open_config_profiles_help":                     "§aOpen Profiles Wiki",
+    "inventoryprofiles.config.name.open_server_profiles":                          "§aOpen Profiles For Current Server",
+    "inventoryprofiles.config.category.still_under_construction":                  "Not Finished Yet!",
+    "inventoryprofiles.config.category.quick_slots":                               "Quick Profile Settings",
+    "inventoryprofiles.config.category.profiles_help_message":                     "For more information",
+    "inventoryprofiles.config.name.quick_slot_1_profile":                          "Quick Profile 1 Name",
+    "inventoryprofiles.config.name.quick_slot_2_profile":                          "Quick Profile 2 Name",
+    "inventoryprofiles.config.name.quick_slot_3_profile":                          "Quick Profile 3 Name",
+    "inventoryprofiles.config.description.quick_slot_1_profile":                   "The name of the Profile that will be accessible with Quick Profile 1 hot key.",
+    "inventoryprofiles.config.description.quick_slot_2_profile":                   "The name of the Profile that will be accessible with Quick Profile 2 hot key.",
+    "inventoryprofiles.config.description.quick_slot_3_profile":                   "The name of the Profile that will be accessible with Quick Profile 3 hot key.",
+    "inventoryprofiles.gui.config.Hotkeys":                                        "热键",
+    "inventoryprofiles.config.category.hotkeys":                                   "热键",
+    "inventoryprofiles.config.category.misc":                                      "Misc",
+    "inventoryprofiles.config.name.open_config_menu":                              "打开配置菜单",
+    "inventoryprofiles.config.name.reload_custom_configs":                         "Reload MOD Configurations",
+    "inventoryprofiles.config.name.sort_inventory":                                "背包整理",
+    "inventoryprofiles.config.name.sort_inventory_in_columns":                     "垂直方向分类",
+    "inventoryprofiles.config.name.sort_inventory_in_rows":                        "水平方向分类",
+    "inventoryprofiles.config.name.move_all_items":                                "移动匹配物品",
+    "inventoryprofiles.config.name.throw_all_items":                               "Throw All Items",
+    "inventoryprofiles.config.name.dump_item_nbt_to_chat":                         "物品NBT转到聊天栏",
+    "inventoryprofiles.config.name.apply_profile":                                 "Reapply the Currently Selected Profile",
+    "inventoryprofiles.config.name.next_profile":                                  "Select and Apply Next Profile",
+    "inventoryprofiles.config.name.prev_profile":                                  "Select and Apply Previous Profile",
+    "inventoryprofiles.config.name.profile_1":                                     "Select and Apply Quick Profile 1",
+    "inventoryprofiles.config.name.profile_2":                                     "Select and Apply Quick Profile 2",
+    "inventoryprofiles.config.name.profile_3":                                     "Select and Apply Quick Profile 3",
+    "inventoryprofiles.config.name.save_as_profile":                               "Save the current state as \"Saved\" Profile",
+    "inventoryprofiles.config.description.save_as_profile":                        "This hotkey saves the current equipment set as a Profile named \"Saved\".\nYou can use the Saved profiles to build your own profiles.\n\n§l§cNOTE§r:\nEVERY TIME you press it a new Profile named \"Saved\" is created.\nThe \"Saved\" profiles will not be part of the next/previous rotation and cannot be assigned to Quick Profiles.",
+    "inventoryprofiles.config.description.next_profile":                           "Hotkey for changing to the next profile.",
+    "inventoryprofiles.config.description.prev_profile":                           "Hotkey for changing to the previous profile.",
+    "inventoryprofiles.config.description.profile_1":                              "Hotkey for changing to Quick Profile 1.\nYou can configure the Quick Profiles in the Edit Profiles config page.",
+    "inventoryprofiles.config.description.profile_2":                              "Hotkey for changing to Quick Profile 2.\nYou can configure the Quick Profiles in the Edit Profiles config page.",
+    "inventoryprofiles.config.description.profile_3":                              "Hotkey for changing to Quick Profile 3.\nYou can configure the Quick Profiles in the Edit Profiles config page.",
+    "inventoryprofiles.config.description.open_config_menu":                       "打开此菜单的按键",
+    "inventoryprofiles.config.description.sort_inventory":                         "一键背包整理的按键",
+    "inventoryprofiles.config.description.sort_inventory_in_columns":              "一键垂直方向分类的按键",
+    "inventoryprofiles.config.description.sort_inventory_in_rows":                 "一键水平方向分类的按键",
+    "inventoryprofiles.config.description.move_all_items":                         "一键移动所有箱子里有同类的物品的按键",
+    "inventoryprofiles.config.description.throw_all_items":                        "The key to throw all items for either player inventory or the opened container.Generally useful for mass crafting.\nAll modifier keys for Move All Items apply here too.",
+    "inventoryprofiles.config.description.dump_item_nbt_to_chat":                  "将带有 NBT 的物品的字符串输出到聊天栏中",
+    "inventoryprofiles.config.description.reload_custom_configs":                  "This hotkey can be used for faster config reloading when you are defining new custom rules.\nIn ANY other case it's recommended to keep it unset.\nReloading the configurations is not something you want to do often.",
+    "inventoryprofiles.gui.config.Tweaks":                                         "原版修改",
+    "inventoryprofiles.config.category.client_side_tweaks":                        "客户端",
+    "inventoryprofiles.config.name.prevent_close_gui_drop_item":                   "防止关闭介面掉落物品",
+    "inventoryprofiles.config.name.container_swipe_moving_items":                  "箱子滑动移动物品",
+    "inventoryprofiles.config.name.swipe_move_crafting_result_slot":               "滑动移动合成输出栏物品",
+    "inventoryprofiles.config.description.prevent_close_gui_drop_item":            "关闭物品栏时自动把鼠标的物品放回背包",
+    "inventoryprofiles.config.description.container_swipe_moving_items":           "按住 Shift 键并单击鼠标左键时，可以移动鼠标滑过的物品",
+    "inventoryprofiles.config.description.swipe_move_crafting_result_slot":        "启用 在合成物品界面的输出栏可以\"滑动移动物品\" ",
+    "inventoryprofiles.gui.config.Debugs":                                         "调试",
+    "inventoryprofiles.config.category.debugs":                                    "调试",
+    "inventoryprofiles.config.name.debug_screen":                                  "调试界面",
+    "inventoryprofiles.config.description.debug_screen":                           "打开调试界面",
+    "inventoryprofiles.enum.sorting_method.global":                                "全局 (%s)",
+    "inventoryprofiles.enum.sorting_method.default":                               "预设（创造模式菜单）",
+    "inventoryprofiles.enum.sorting_method.item_name":                             "物品名称",
+    "inventoryprofiles.enum.sorting_method.item_id":                               "物品 ID",
+    "inventoryprofiles.enum.sorting_method.raw_id":                                "物品数字ID",
+    "inventoryprofiles.enum.sorting_method.custom":                                "自定义规则",
+    "inventoryprofiles.enum.post_action.none":                                     "无",
+    "inventoryprofiles.enum.post_action.group_in_rows":                            "按行整理（全局）",
+    "inventoryprofiles.enum.post_action.group_in_columns":                         "按列整理（全局）",
+    "inventoryprofiles.enum.post_action.distribute_evenly":                        "均匀分配",
+    "inventoryprofiles.enum.post_action.shuffle":                                  "随机整理",
+    "inventoryprofiles.enum.post_action.fill_one":                                 "补充一个",
+    "inventoryprofiles.enum.post_action.reverse":                                  "倒序",
+    "inventoryprofiles.enum.threshold_unit.absolute":                              "绝对值",
+    "inventoryprofiles.enum.threshold_unit.percentage":                            "百分比 (%%)",
+    "inventoryprofiles.enum.continuous_crafting_checkbox_value.remember":          "记住",
+    "inventoryprofiles.enum.continuous_crafting_checkbox_value.checked":           "已检查",
+    "inventoryprofiles.enum.continuous_crafting_checkbox_value.unchecked":         "未检查",
+    "inventoryprofiles.enum.switch_type.toggle":                                   "Toggle",
+    "inventoryprofiles.enum.switch_type.hold":                                     "Hold",
+    "inventoryprofiles.tooltip.sort_button":                                       "整理物品栏",
+    "inventoryprofiles.tooltip.sort_columns_button":                               "垂直方向分类",
+    "inventoryprofiles.tooltip.sort_rows_button":                                  "水平方向分类",
+    "inventoryprofiles.tooltip.move_all_button.title_move_matching":               "Move Matching Items",
+    "inventoryprofiles.tooltip.move_all_button.title_move_all":                    "Move All Items",
+    "inventoryprofiles.tooltip.move_all_button.include_hotbar":                    "§6Hold §o%s§r\n§6 - Include Hotbar",
+    "inventoryprofiles.tooltip.move_all_button.exclude_hotbar":                    "§6Hold §o%s§r\n§6 - Exclude Hotbar",
+    "inventoryprofiles.tooltip.move_all_button.move_all":                          "§6Hold §o%s§r\n§6 - Move All",
+    "inventoryprofiles.tooltip.move_all_button.move_matching_only":                "§6Hold §o%s§r\n§6 - Move Matching Only",
+    "inventoryprofiles.tooltip.continuous_crafting_checkbox":                      "连续制作",
+    "inventoryprofiles.tooltip.next_profile_button":                               "Select and apply next profile",
+    "inventoryprofiles.tooltip.prev_profile_button":                               "Select and apply previous profile",
+    "inventoryprofiles.tooltip.apply_profile_button":                              "Apply selected profile"
 }
