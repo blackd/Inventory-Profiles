@@ -12,7 +12,7 @@ import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
-import org.anti_ad.mc.common.integration.registerFromConfig
+import org.anti_ad.mc.common.integration.registerFromConfigFile
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfilesConfig
 import org.anti_ad.mc.common.util.LogicalStringComparator
@@ -218,7 +218,7 @@ object HintsLoader: Loader {
     override fun reload(clientWorld: ClientWorld?) {
         if (!loaded) {
             loaded = true
-            registerFromConfig(configFolder / "ModIntegrationHints.json")
+            registerFromConfigFile(configFolder / "ModIntegrationHints.json")
         }
     }
 

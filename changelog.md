@@ -1,8 +1,22 @@
 <!-- latest begin -->
+### 1.1.2
+- brand new Simplified Chinese translation thanks to @PVWXX
+- profiles now support empty slots. For example in one profile you have shield in the offhend slot and another profile want it empty. For items moved out in this case an attempt will be made to move them in a free locked slot.<br>
+  Just add the slot name without items in the configuration. 
+- added full auto crafting. Just hold shift+alt while clicking on the crafting slot.
+- fixed sort in column and row buttons to. They were swapped.
+- fixed forge server crash.
+- fixed forge client complaining if IPN is not installed on the server. 
+- made handling of ignored screens and inventories more robust.
+<!-- latest end -->
+
+<!-- rest begin -->
+
 ### 1.1.1
 - fixed client crash on Forge 1.17.x
 - fixed ignored container types handling
 - probably fixed server crash on forge when the mod is installed. **NOTE:** Don't install it on servers it doesn't do anything.
+
 
 ### 1.1.0
 * Added API for integration with other mods. It is now possible for other mods to:
@@ -10,10 +24,6 @@
   * give hints to IPN where to put its UI.
   * there is a configuration file that can provide the above information if the for some reason it's not possible for the other mod to provide in via the API. Entries in the default configuration file will be accepted in case official refusal from the other mod to provide integration or if the other mod is abandoned.
 
-
-<!-- latest end -->
-
-<!-- rest begin -->
 ### 1.0.3
 - fixes a problem where, on some servers, items were moved out of the locked slots on dimension change.
 
