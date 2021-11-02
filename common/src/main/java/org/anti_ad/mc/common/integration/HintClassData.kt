@@ -17,7 +17,7 @@ import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 
 @Serializable
-data class ButtonPositionHint(val right: Int = 0,
+data class ButtonPositionHint(val horizontalOffset: Int = 0,
                               val top: Int = 0,
                               val bottom: Int = 0,
                               val hide: Boolean = false ) {

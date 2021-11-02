@@ -44,7 +44,8 @@ object ProfileSwitchHandler: IInputHandler {
 
     private var doApplyProfile: Boolean = false
 
-    private var allSlots: List<Int> = (9..45).toList() + (5..8).toList()
+    private val allSlots: List<Int> = (9..45).toList() + (5..8).toList()
+    private val hotBarSlots: List<Int> = (0+36..8+36).toList()
 
     fun onTickInGame() {
         if (VanillaUtil.inGame() && doApplyProfile) {
@@ -141,9 +142,7 @@ object ProfileSwitchHandler: IInputHandler {
             targetProfile = newProfile
             if (targetProfile.valid) {
                 targetProfile.slots.forEach {
-                    if (it.items.isNotEmpty()) {
-                        monitors.add(ProfileMonitor(it.id.slotId, it.items))
-                    }
+                    monitors.add(ProfileMonitor(it.id.slotId, it.items))
                 }
                 doApplyProfile = true
             }
@@ -226,14 +225,38 @@ object ProfileSwitchHandler: IInputHandler {
                         clicks: MutableList<Pair<Int, Int>>): Boolean {
             val currentItem = Vanilla.playerContainer().`(slots)`[slot].`(itemStack)`
             Log.trace("found ${currentItem.itemType.itemId} in slot $slot")
-            val swapWith: Int? = targetValues.findIn(sourceSlots, ::bestMatch)
-            if (swapWith != null) {
-                if (slot != swapWith) {
-                    Log.trace("swapping $swapWith to $slot")
-                    //clicks.add(Pair(slot, swapWith))
-                    swapSlots(slot, swapWith)
+            if (targetValues.isNotEmpty()) {
+                val swapWith: Int? = targetValues.findIn(sourceSlots, ::bestMatch)
+                if (swapWith != null) {
+                    if (slot != swapWith) {
+                        Log.trace("swapping $swapWith to $slot")
+                        //clicks.add(Pair(slot, swapWith))
+                        swapSlots(slot, swapWith)
+                    }
+                    return true
                 }
-                return true
+            } else {
+                val preferLocked = true
+                val preferNonHotbar = true
+                var targets = if (preferLocked && LockedSlotKeeper.emptyLockedSlots.isNotEmpty()) {
+                    LockedSlotKeeper.emptyLockedSlots.toList()
+                } else {
+                    LockedSlotKeeper.emptyNonLockedSlots.toList()
+                }
+
+                if (preferNonHotbar) {
+                    val noHotBar = targets - hotBarSlots
+                    if (noHotBar.isNotEmpty()) {
+                        targets = noHotBar
+                    }
+                }
+
+                targets.forEach {
+                    if (Vanilla.playerContainer().`(slots)`[it].`(itemStack)`.isEmpty()) {
+                        swapSlots(slot, it)
+                        return true
+                    }
+                }
             }
             return false
         }

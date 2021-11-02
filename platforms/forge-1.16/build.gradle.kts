@@ -271,7 +271,7 @@ configure<UserDevExtension> {
         }
         val action = create("client", runConfig)
         rcltName = action.taskName
-        //create("server", runConfig)
+        create("server", runConfig)
         //create("data", runConfig)
     }
     //tasks[rcltName].dependsOn("injectCommonResources")

@@ -1,5 +1,8 @@
 {
-  "de.maxhenkel.camera.gui.ImageScreen": {
-    "ignore": true
-  }
+    "de.maxhenkel.camera.gui.ImageScreen":                       {
+        "ignore": true
+    },
+    "tfar.dankstorage.client.screens.AbstractDankStorageScreen": {
+        "ignore": true
+    }
 }

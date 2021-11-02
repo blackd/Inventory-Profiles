@@ -239,7 +239,8 @@
     "inventoryprofiles.tooltip.move_all_button.exclude_hotbar":                    "§6Hold §o%s§r\n§6 - Exclude Hotbar",
     "inventoryprofiles.tooltip.move_all_button.move_all":                          "§6Hold §o%s§r\n§6 - Move All",
     "inventoryprofiles.tooltip.move_all_button.move_matching_only":                "§6Hold §o%s§r\n§6 - Move Matching Only",
-    "inventoryprofiles.tooltip.continuous_crafting_checkbox":                      "Continuous Crafting",
+    "inventoryprofiles.tooltip.continuous_crafting_checkbox":                      "Continuous Crafting\n§6Hold §o%s§r§6: for Auto Crafting",
+    "inventoryprofiles.tooltip.auto_crafting_checkbox":                            "Auto Crafting\n§6Stop holding §o%s§r§6: for Continuous Crafting",
     "inventoryprofiles.tooltip.next_profile_button":                               "Select and apply next profile",
     "inventoryprofiles.tooltip.prev_profile_button":                               "Select and apply previous profile",
     "inventoryprofiles.tooltip.apply_profile_button":                              "Apply selected profile"

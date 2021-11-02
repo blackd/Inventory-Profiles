@@ -1,6 +1,8 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.input.KeybindSettings
+import org.anti_ad.mc.common.input.MainKeybind
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -28,12 +30,14 @@ import org.anti_ad.mc.ipnext.item.transferNTo
 
 object ContinuousCraftingHandler {
 
+
     private var afterRefill: Boolean  = false
     var processingClick: Boolean = false
 
     private val checked
         get() = GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
     private var trackingScreen: ContainerScreen<*>? = null
+
     fun onTickInGame() {
         val screen = Vanilla.screen()
         if (screen !is ContainerScreen<*> || !checked) {
@@ -49,6 +53,7 @@ object ContinuousCraftingHandler {
 
     lateinit var monitor: Monitor
     var isCrafting = false
+
     fun init() {
         val container = Vanilla.container()
         val types = ContainerTypes.getTypes(container)
@@ -63,16 +68,22 @@ object ContinuousCraftingHandler {
     var onCraftCount = 0 // this tick crafted item
 
     var crafted = false
+
+    private val SHIFT = MainKeybind("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
+
     fun handle() {
         if (!isCrafting) return
         // todo quick craft from recipe book
         if (!processingClick && onCraftCount > 0) {
             onCraftCount--
         }
-        if (false && afterRefill) {
-            if (ModSettings.MOVE_ALL_MODIFIER.isPressing()) {
-                Vanilla.mc().tell() {
-                    ContainerClicker.shiftClick(0)
+        if (afterRefill) {
+            if (SHIFT.isPressing() ) {
+                if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                    //doThrowOfType(whatsCooking)
+                    Vanilla.queueForMainThread {
+                        ContainerClicker.shiftClick(0)
+                    }
                 }
             }
             afterRefill = false

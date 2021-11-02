@@ -53,7 +53,6 @@ public class MixinPlayerInteractionManagerForLockedSlotsMovePrevention {
                           CallbackInfo ci) {
 
         if (GuiSettings.INSTANCE.getCONTINUOUS_CRAFTING_SAVED_VALUE().getValue()) {
-            Log.INSTANCE.trace("setting to false");
             ContinuousCraftingHandler.INSTANCE.setProcessingClick(false);
         }
     }

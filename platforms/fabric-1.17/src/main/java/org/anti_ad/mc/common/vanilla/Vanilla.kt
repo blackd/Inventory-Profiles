@@ -51,10 +51,11 @@ object Vanilla {
     fun playerContainer() = player().playerScreenHandler ?: throw AssertionError("unreachable")
     fun container() = player().currentScreenHandler ?: playerContainer()
 
+    fun queueForMainThread(r: Runnable) = mc().send(r)
+
     fun interactionManager() =
         mc().interactionManager ?: error("mc.interactionManager is not initialized! Probably not in game")
 
     fun recipeBook() = player().recipeBook ?: throw AssertionError("unreachable")
 
 }
-

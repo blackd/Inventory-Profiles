@@ -51,6 +51,8 @@ object Vanilla {
     fun playerContainer() = player().container ?: throw AssertionError("unreachable") // container / openContainer
     fun container() = player().openContainer ?: playerContainer()
 
+    fun queueForMainThread(r: Runnable) = mc().enqueue(r)
+
     fun interactionManager() =
         mc().playerController ?: error("mc.interactionManager is not initialized! Probably not in game")
 

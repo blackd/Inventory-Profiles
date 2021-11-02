@@ -9,7 +9,7 @@ buildscript {
     }
 }
 
-val versionObj = Version("1", "1", "1",
+val versionObj = Version("1", "1", "2",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 

@@ -20,8 +20,8 @@ object LockedSlotKeeper {
     private var worldJoined = false
     private var ticksAfterJoin = 0
 
-    private val emptyLockedSlots = mutableListOf<Int>()
-    private val emptyNonLockedSlots = mutableListOf<Int>()
+    val emptyLockedSlots = mutableListOf<Int>()
+    val emptyNonLockedSlots = mutableListOf<Int>()
 
     var processingLockedPickups: Boolean = false
         get() {
@@ -89,7 +89,7 @@ object LockedSlotKeeper {
 
     private fun checkNewItems() {
         this.emptyLockedSlots.forEach {
-            val stack = Vanilla.container().`(slots)`[it].`(vanillaStack)` //stack
+            val stack = Vanilla.container().`(slots)`[it].`(vanillaStack)`
             if (!stack.isEmpty) {
                 processingLockedPickups = true
                 //items changed so do stuff to keep the slot empty!
@@ -140,7 +140,7 @@ object LockedSlotKeeper {
             }
             Log.trace("empty locked slots $emptyLockedSlots")
             nonLockedSource.slotIndices.forEach {
-                if (slots[it].`(vanillaStack)`.isEmpty) { //stack
+                if (slots[it].`(vanillaStack)`.isEmpty) {
                     emptyNonLockedSlots.add(it)
                 }
             }

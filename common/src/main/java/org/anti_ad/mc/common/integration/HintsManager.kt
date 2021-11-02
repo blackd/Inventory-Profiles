@@ -53,13 +53,13 @@ object HintsManager {
             Log.trace("Hint is: $h")
             if (cl.isAnnotationPresent(IPNGuiHint::class.java)) {
                 if (hint.forceButtonHints) {
-                    buttonHints[it]!![cl] =  ButtonPositionHint(h.right, h.top, h.bottom, h.hide)
+                    buttonHints[it]!![cl] =  ButtonPositionHint(h.horizontalOffset, h.top, h.bottom, h.hide)
                 } else {
                     hintFor(it, cl)
                 }
             } else {
                 Log.trace("Adding hint '$h' for button: '$it' for class ${cl.name}")
-                buttonHints[it]!![cl] = ButtonPositionHint(h.right, h.top, h.bottom, h.hide)
+                buttonHints[it]!![cl] = ButtonPositionHint(h.horizontalOffset, h.top, h.bottom, h.hide)
             }
         }
     }

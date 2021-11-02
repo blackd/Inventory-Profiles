@@ -216,22 +216,50 @@ enum class ProfileSlotId(val slotId: Int) {
 
 
 fun main(args: Array<String>) {
-    val testConfig = """profile Main
-    HOT1
-        "minecraft:netherite_axe" -> [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
-        "minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5s},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
-    HOT2
-        "minecraft:netherite_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5s},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
-        "minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5s},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
+    val testConfig = """profile Main activate HOT1
+	HOT1
+		"minecraft:netherite_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1},{id:"minecraft:smite",lvl:5},{id:"minecraft:unbreaking",lvl:3}]
+		"minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1},{id:"minecraft:smite",lvl:5},{id:"minecraft:unbreaking",lvl:3}]
+	HOT2
+		"minecraft:netherite_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5}]
+		"minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1},{id:"minecraft:smite",lvl:5},{id:"minecraft:unbreaking",lvl:3}]
+		"minecraft:netherite_axe"
+		"minecraft:diamond_axe"
+	HOT3
+		"minecraft:water_bucket"
+	HOT4
+		"minecraft:terracotta"
+	CHEST
+		"minecraft:netherite_chestplate"
+	OFFHAND
+		"minecraft:shield" -> "Enchantments" : [{id:"minecraft:unbreaking",lvl:3},{id:"minecraft:mending",lvl:1}]
+	LEGS
+		"minecraft:netherite_leggings" -> "Enchantments" : [{id:"minecraft:fire_protection",lvl:3},{id:"minecraft:unbreaking",lvl:3}]
+	FEET
+		"minecraft:netherite_boots" -> "Enchantments" : [{id:"minecraft:protection",lvl:4},{id:"minecraft:unbreaking",lvl:3}]
 
 profile PvP activate HOT5
-    HOT5
-        "minecraft:netherite_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5s},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
-        "minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5s},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
-    OFFHAND
-        "minecraft:netherite_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5s},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
-        "minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5s},{id:"minecraft:silk_touch",lvl:1s},{id:"minecraft:smite",lvl:5s},{id:"minecraft:unbreaking",lvl:3s}]
-        "minecraft:diamond_axe"
+	HOT3
+		"minecraft:netherite_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1},{id:"minecraft:smite",lvl:5},{id:"minecraft:unbreaking",lvl:3}]
+		"minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1},{id:"minecraft:smite",lvl:5},{id:"minecraft:unbreaking",lvl:3}]
+	HOT5
+		"minecraft:netherite_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1},{id:"minecraft:smite",lvl:5},{id:"minecraft:unbreaking",lvl:3}]
+		"minecraft:diamond_axe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:5},{id:"minecraft:silk_touch",lvl:1},{id:"minecraft:smite",lvl:5},{id:"minecraft:unbreaking",lvl:3}]
+		"minecraft:diamond_axe"
+	HOT4
+		"minecraft:iron_pickaxe" -> "Enchantments" : [{id:"minecraft:efficiency",lvl:4},{id:"minecraft:fortune",lvl:3}]
+	HOT7
+		"minecraft:splash_potion" -> "Potion" : {id:"minecraft:strong_harming"}
+	HOT6
+		"minecraft:splash_potion" -> "Potion" : {id:"minecraft:harming"}
+	HOT2
+		"minecraft:splash_potion" -> "Potion" : {id:"minecraft:weakness"}
+	HOT1
+		"minecraft:splash_potion" -> "Potion" : {id:"minecraft:regeneration"}
+	HOT8
+		"minecraft:splash_potion" -> "Potion" : {id:"minecraft:long_turtle_master"}
+	HOT9
+    HOT1
 """
 
     val r = ProfilesConfig.getProfiles(testConfig);

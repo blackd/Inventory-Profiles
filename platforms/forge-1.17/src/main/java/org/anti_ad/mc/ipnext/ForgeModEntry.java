@@ -2,16 +2,11 @@ package org.anti_ad.mc.ipnext;
 
 import kotlin.Unit;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.IExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fmlclient.ConfigGuiHandler;
-import org.anti_ad.mc.common.forge.CommonForgeEventHandler;
 import org.anti_ad.mc.ipnext.event.ClientInitHandler;
-import org.anti_ad.mc.ipnext.forge.ForgeEventHandler;
-import org.anti_ad.mc.ipnext.gui.ConfigScreen;
+import org.anti_ad.mc.ipnext.forge.ClientInit;
+import org.anti_ad.mc.ipnext.forge.ServerInit;
 
 
 /**
@@ -20,26 +15,14 @@ import org.anti_ad.mc.ipnext.gui.ConfigScreen;
 @Mod(ModInfo.MOD_ID)
 public class ForgeModEntry {
 
+    private static Runnable toInit = FMLEnvironment.dist == Dist.CLIENT ? new ClientInit() : new ServerInit();
+
     public ForgeModEntry() {
-        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
-                () -> new IExtensionPoint.DisplayTest(() -> ModLoadingContext.get().getActiveContainer().getModInfo().getVersion().toString(),
-                        (remote, isServer) -> true));
-        if (FMLEnvironment.dist != Dist.CLIENT) {
-            return;
+        try {
+            toInit.run();
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
-
-        MinecraftForge.EVENT_BUS.register(new CommonForgeEventHandler());
-
-        MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
-        
-        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->
-                new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> new ConfigScreen()));
-
-//    GlobalInputHandler.getInstance().registerInputHandler(new InputHandler());
-//
-//    Configs.saveLoadManager.load();
-
-        InventoryProfilesKt.init();
 
         ClientInitHandler.INSTANCE.register(() -> {
             ModInfo.MOD_VERSION = ModInfo.getModVersion();

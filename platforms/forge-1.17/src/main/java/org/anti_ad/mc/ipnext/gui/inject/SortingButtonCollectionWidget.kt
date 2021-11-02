@@ -39,7 +39,6 @@ import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
-import java.util.*
 
 private val TEXTURE = IdentifierHolder("inventoryprofilesnext",
                                "textures/gui/gui_buttons.png")
@@ -68,7 +67,7 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
         //overflow = Overflow.VISIBLE
         val parentBounds = screen.`(containerBounds)`
         absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3 + hints.bottom,
-                                           x = parentBounds.x + hints.right,
+                                           x = parentBounds.x + hints.horizontalOffset,
                                            height = 20)
         init()
         super.render(mouseX,
@@ -280,7 +279,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                         (_, keybind) -> keybind?.keyCodes?.isEmpty() != true
                 }.joinToString("\n") { (suffix, keybind) ->
                     I18n.translate("$prefix.$suffix",
-                                   keybind?.displayText?.uppercase(Locale.getDefault()))
+                                   keybind?.displayText?.uppercase())
                 }
             // extra I18n.translate null is ok
         }
@@ -321,17 +320,20 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             }
         }
 
-        private val continuousCraftingCheckbox = SortButtonWidget { -> switchContinuousCraftingValue() }.apply {
+        private val continuousCraftingCheckbox = CheckBoxWidget { -> switchContinuousCraftingValue() }.apply {
 //      tx = 70 or 80
             tx = if (continuousCraftingValue) 80 else 70
+            highlightTx = if (continuousCraftingValue) 120 else 70
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue && types.contains(CRAFTING)
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox")
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
+            highlightTooltip = I18n.translate("inventoryprofiles.tooltip.auto_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
         }
 
         fun switchContinuousCraftingValue() {
             continuousCraftingValue = !continuousCraftingValue
             continuousCraftingCheckbox.tx = if (continuousCraftingValue) 80 else 70
+            continuousCraftingCheckbox.highlightTx = if (continuousCraftingValue) 120 else 70
         }
 
         init {
@@ -346,10 +348,10 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             if (moveAllVisible) {
                 val isPlayer = types.contains(PLAYER)
                 moveAllToContainer.setBottomRight(bottom + (if (isPlayer) 12 else 0) + moveAllToContainer.hints.bottom,
-                                                  right + moveAllToContainer.hints.right)
+                                                  right + moveAllToContainer.hints.horizontalOffset)
                 if (moveAllToPlayer.visible) {
                     moveAllToPlayer.setTopRight(top + moveAllToPlayer.hints.top,
-                                                right + moveAllToPlayer.hints.right)
+                                                right + moveAllToPlayer.hints.horizontalOffset)
                 }
                 if (!isPlayer) { // player _| shape
                     right += 12
@@ -363,10 +365,10 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                     if (visible) {
                         if (addChestSide) {
                             this.setTopRight(top + hints.top,
-                                             right + hints.right)
+                                             right + hints.horizontalOffset)
                         } else {
                             this.setBottomRight(bottom + hints.bottom,
-                                                right + hints.right)
+                                                right + hints.horizontalOffset)
                         }
                         right += 12
                     }
@@ -376,12 +378,41 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             // checkbox location
             if (types.contains(PLAYER)) {
                 continuousCraftingCheckbox.setBottomRight(113 + continuousCraftingCheckbox.hints.bottom,
-                                                          31 + continuousCraftingCheckbox.hints.right)
+                                                          31 + continuousCraftingCheckbox.hints.horizontalOffset)
             } else {
                 continuousCraftingCheckbox.setBottomRight(96 + continuousCraftingCheckbox.hints.bottom,
-                                                          81 + continuousCraftingCheckbox.hints.right)
+                                                          81 + continuousCraftingCheckbox.hints.horizontalOffset)
             }
         }
+    }
+}
+
+class CheckBoxWidget : SortButtonWidget {
+    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
+    constructor(clickEvent: () -> Unit) : super(clickEvent)
+    constructor() : super()
+
+    var highlightTx = 0
+    var highlightTy = 0
+    var highlightTooltip: String = ""
+
+    override fun render(mouseX: Int,
+                        mouseY: Int,
+                        partialTicks: Float) {
+        val oldTx = tx
+        val oldTy = ty
+        val oldTooltipText = tooltipText
+        if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+            tx = highlightTx
+            ty = highlightTy
+            tooltipText = highlightTooltip
+        }
+        super.render(mouseX,
+                     mouseY,
+                     partialTicks)
+        tx = oldTx
+        ty = oldTy
+        tooltipText = oldTooltipText
     }
 }
 
@@ -390,10 +421,10 @@ open class SortButtonWidget : TexturedButtonWidget {
     constructor(clickEvent: () -> Unit) : super(clickEvent)
     constructor() : super()
 
-    var tx = 0
-    var ty = 0
-    var hints = HintsManager.zeroZero
-    var tooltipText: String = ""
+    open var tx = 0
+    open var ty = 0
+    open var hints = HintsManager.zeroZero
+    open var tooltipText: String = ""
     override val texture: IdentifierHolder
         get() = TEXTURE
     override val texturePt: Point

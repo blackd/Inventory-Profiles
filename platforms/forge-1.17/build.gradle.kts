@@ -12,7 +12,7 @@ val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.70"
+val forge_version = "37.0.104"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 
@@ -290,7 +290,7 @@ configure<UserDevExtension> {
 
         rcltName = action.taskName
 
-        //create("server", runConfig)
+        create("server", runConfig)
         //create("data", runConfig)
         all {
             lazyToken("minecraft_classpath") {

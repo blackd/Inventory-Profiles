@@ -35,6 +35,10 @@ object IgnoredManager {
         return null
     }
 
+    fun isAccepted(target: Any?): Boolean {
+        return target != null && getIgnoredClass(target.javaClass) == null
+    }
+
     fun addIgnore(cl: Class<*>) {
         blackListed[cl] = true
     }

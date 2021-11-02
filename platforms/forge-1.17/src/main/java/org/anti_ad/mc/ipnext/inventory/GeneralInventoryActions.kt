@@ -8,7 +8,7 @@ import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -28,6 +28,7 @@ import org.anti_ad.mc.ipnext.inventory.action.moveMatchCraftingTo
 import org.anti_ad.mc.ipnext.inventory.action.moveMatchTo
 import org.anti_ad.mc.ipnext.inventory.action.restockFrom
 import org.anti_ad.mc.ipnext.inventory.action.sort
+import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.rule.Rule
@@ -62,8 +63,6 @@ object GeneralInventoryActions {
                customRule: ConfigString,
                postAction: ConfigEnum<PostAction>) {
 
-        val screen = Vanilla.screen()
-        if (screen != null && screen !is ContainerScreen<*>) return
         TellPlayer.listenLog(Log.LogLevel.WARN) {
             InnerActions.doSort(sortOrder.value.rule(customRule.value),
                                 postAction.value)
@@ -87,6 +86,25 @@ object GeneralInventoryActions {
         }
     }
 
+
+    fun doThrowOfType(type: ItemStack) {
+        val vanillaContainer = Vanilla.container()
+        val types = ContainerTypes.getTypes(vanillaContainer)
+        if (types.contains(CREATIVE)) {
+            return
+        } // no do creative menu
+        if (!types.containsAny(setOf(SORTABLE_STORAGE,
+                                     NO_SORTING_STORAGE,
+                                     CRAFTING))) {
+            return
+        }
+        val isContainer = false
+
+        val includeHotbar = true
+        val throwAll = false
+        executeThrow(includeHotbar, vanillaContainer, isContainer, throwAll, type)
+    }
+
     // THROWS_ALL_AT_CURSOR off
     fun doThrowMatch() {
         val vanillaContainer = Vanilla.container()
@@ -106,6 +124,14 @@ object GeneralInventoryActions {
                 ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
         val throwAll = // xor
                 ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_THROW_ALL.booleanValue
+        executeThrow(includeHotbar, vanillaContainer, isContainer, throwAll)
+    }
+
+    private fun executeThrow(includeHotbar: Boolean,
+                             vanillaContainer: Container,
+                             isContainer: Boolean,
+                             throwAll: Boolean,
+                             type: ItemStack? = null) {
         with(AreaTypes) {
             val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
                     lockedSlots
@@ -113,17 +139,20 @@ object GeneralInventoryActions {
             val slots = vanillaContainer.`(slots)`
             val source = (if (isContainer) container else player).getItemArea(vanillaContainer, slots)
 
-
             val actUponSlots = if (throwAll) {
                 source.slotIndices.filter {
                     !slots[it].`(itemStack)`.isEmpty()
                 }.toList()
             } else {
-                val focusedStack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
-                source.slotIndices.filter {
-                    val checkStack = slots[it].`(itemStack)`
-                    !checkStack.isEmpty() && checkStack.itemType == focusedStack.itemType
-                }.toList()
+                val focusedStack = type ?: vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
+                if (!focusedStack.isEmpty()) {
+                    source.slotIndices.filter {
+                        val checkStack = slots[it].`(itemStack)`
+                        !checkStack.isEmpty() && checkStack.itemType == focusedStack.itemType
+                    }.toList()
+                } else {
+                    listOf()
+                }
             }
             if (actUponSlots.isNotEmpty()) {
                 val interval: Int =

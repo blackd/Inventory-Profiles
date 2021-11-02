@@ -20,8 +20,8 @@ object LockedSlotKeeper {
     private var worldJoined = false
     private var ticksAfterJoin = 0
 
-    private val emptyLockedSlots = mutableListOf<Int>()
-    private val emptyNonLockedSlots = mutableListOf<Int>()
+    val emptyLockedSlots = mutableListOf<Int>()
+    val emptyNonLockedSlots = mutableListOf<Int>()
 
     var processingLockedPickups: Boolean = false
         get() {
