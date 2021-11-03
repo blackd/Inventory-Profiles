@@ -8,6 +8,7 @@ import org.anti_ad.mc.common.vanilla.vanillaInitGlue
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
+import org.anti_ad.mc.ipnext.config.configInitGlue
 import org.anti_ad.mc.ipnext.event.ClientInitHandler
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
@@ -26,6 +27,7 @@ fun init() {
         vanillaInitGlue()
         parserInitGlue()
         widgetsInitGlue()
+        configInitGlue()
         // Keybind register
         InputHandler.onClientInit()
         InsertWidgetHandler.onClientInit()

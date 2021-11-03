@@ -17,8 +17,7 @@ import kotlin.math.max
 
 private const val COLOR_WHITE = -0x1
 
-class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) :
-    BaseDialog(TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings")) {
+class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey) : BaseDialog(TranslatableText("inventoryprofiles.common.gui.config.advanced_keybind_settings")) {
     private val keybindSettingElement =
         with(configHotkey.mainKeybind) {
             ConfigKeybindSettings(defaultSettings,

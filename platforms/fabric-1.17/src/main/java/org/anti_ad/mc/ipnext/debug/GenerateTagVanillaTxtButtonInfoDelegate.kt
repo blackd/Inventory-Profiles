@@ -3,9 +3,7 @@ package org.anti_ad.mc.ipnext.debug
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.writeToFile
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
-import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Item
@@ -19,7 +17,7 @@ import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 // vanillamapping code depends on mappings
 // ============
 
-object GenerateTagVanillaTxtButtonInfo : ConfigButtonClickHandler() {
+object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
     val fileDatapack = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.datapack.txt"
     val fileHardcoded = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.hardcoded.txt"
 

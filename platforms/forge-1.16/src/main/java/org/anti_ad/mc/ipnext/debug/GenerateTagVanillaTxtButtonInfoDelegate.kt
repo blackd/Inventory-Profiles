@@ -23,9 +23,6 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
     val fileDatapack = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.datapack.txt"
     val fileHardcoded = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.hardcoded.txt"
 
-    override val buttonText: String
-        get() = "generate tags.vanilla.txt"
-
     override fun onClick(guiClick: () -> Unit) {
         TellPlayer.chat("Generate tags.vanilla.txt")
         ItemTags.getCollection().toTagTxtContent().writeToFile(fileHardcoded)
@@ -35,13 +32,13 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
             .writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
     } // eventually they are the same ~.~
 
-    val Identifier.omittedString: String // omit minecraft
+    private val Identifier.omittedString: String // omit minecraft
         get() = if (namespace == "minecraft") path else toString()
 
-    val String.omittedString: String // omit minecraft
+    private val String.omittedString: String // omit minecraft
         get() = removePrefix("minecraft:")
 
-    fun TagGroup<Item>.toTagTxtContent(): String { // lets sort it
+    private fun TagGroup<Item>.toTagTxtContent(): String { // lets sort it
         val list = mutableListOf<Pair<String, MutableList<String>>>()
         for ((identifier, tag) in idTagMap) { // forge tagMap = entries
 //      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values

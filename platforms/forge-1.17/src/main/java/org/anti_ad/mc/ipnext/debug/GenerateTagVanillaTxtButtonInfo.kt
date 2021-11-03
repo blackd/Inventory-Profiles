@@ -4,6 +4,7 @@ import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
+import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Identifier
@@ -18,14 +19,11 @@ import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 // vanillamapping code depends on mappings
 // ============
 
-object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
+object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
     val fileDatapack = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.datapack.txt"
     val fileHardcoded = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.hardcoded.txt"
 
-    override val buttonText: String
-        get() = "generate tags.vanilla.txt"
-
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(guiClick: () -> Unit) {
         TellPlayer.chat("Generate tags.vanilla.txt")
         ItemTags.getAllTags().toTagTxtContent().writeToFile(fileHardcoded) //getCollection()
         val server = Vanilla.server()
@@ -35,13 +33,13 @@ object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
         //    .writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
     } // eventually they are the same ~.~
 
-    val Identifier.omittedString: String // omit minecraft
+    private val Identifier.omittedString: String // omit minecraft
         get() = if (namespace == "minecraft") path else toString()
 
-    val String.omittedString: String // omit minecraft
+    private val String.omittedString: String // omit minecraft
         get() = removePrefix("minecraft:")
 
-    fun TagGroup<Item>.toTagTxtContent(): String { // lets sort it
+    private fun TagGroup<Item>.toTagTxtContent(): String { // lets sort it
         val list = mutableListOf<Pair<String, MutableList<String>>>()
         for ((identifier, tag) in this.allTags) { // forge tagMap = entries
             //    list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values

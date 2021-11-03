@@ -10,15 +10,13 @@ import org.anti_ad.mc.common.extensions.listFiles
 import org.anti_ad.mc.common.extensions.name
 import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.extensions.writeToFile
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
+import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.integration.registerFromConfigFile
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfilesConfig
 import org.anti_ad.mc.common.util.LogicalStringComparator
 import org.anti_ad.mc.common.vanilla.Vanilla.mc
 import org.anti_ad.mc.common.vanilla.alias.ClientWorld
-import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.loggingPath
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -26,27 +24,19 @@ import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import java.nio.file.Path
-import java.util.*
-import kotlin.concurrent.schedule
+
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
 
 private val strCmpLogical = LogicalStringComparator.file()
 
-object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
-    override val buttonText: String
-        get() = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files")
+object ReloadRuleFileButtonInfoDelegate : ConfigButtonClickHandler() {
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(guiClick: () -> Unit) {
         TellPlayer.listenLog(Log.LogLevel.INFO) {
             RuleLoader.reload()
         }
-        widget.active = false
-        widget.text = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files.reloaded")
-        Timer().schedule(5000) { // reset after 5 sec
-            widget.text = buttonText
-            widget.active = true
-        }
+        guiClick()
         val fileNames = RuleFileRegister.loadedFileNames.filter { it != RuleLoader.internalFileDisplayName }
         TellPlayer.chat("Reloaded ${fileNames.size} files: $fileNames")
     }
