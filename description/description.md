@@ -27,6 +27,18 @@ This mod will:
 </tr>
 </table>
 
+## Like the mod? Consider buying me a coffee. 
+<table>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td>
+<iframe class="center" src="https://github.com/sponsors/blackd/button" height="35" width="116"></iframe>
+</td>
+</tr>
+</tbody>
+</table>
 ## What's new
 
 !include`snippetStart="<!-- latest begin -->", snippetEnd="<!-- latest end -->"` ../changelog.md

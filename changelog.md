@@ -1,4 +1,7 @@
 <!-- latest begin -->
+
+### 1.1.3
+- fixed java 8 incompatibility for 1.16.5 builds
 ### 1.1.2
 - brand new Simplified Chinese translation thanks to @PVWXX
 - profiles now support empty slots. For example in one profile you have shield in the offhend slot and another profile want it empty. For items moved out in this case an attempt will be made to move them in a free locked slot.<br>

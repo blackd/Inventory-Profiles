@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.extensions
 
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -22,9 +23,13 @@ fun Path.listFiles(regex: String): List<Path> = FileUtils.listFiles(this.toFile(
  */
 fun Path.listFiles(regex: String): List<Path> {
     val match = Regex(regex)
-    return Files.walk(this).filter {
+    val res: MutableList<Path> = mutableListOf()
+    Files.walk(this).filter {
         match.matches(it.name)
-    }.toList()
+    }.forEach {
+        res.add(it)
+    }
+    return res
 }
 
 
