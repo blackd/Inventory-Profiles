@@ -3,21 +3,17 @@ package org.anti_ad.mc.ipnext.debug
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.extensions.writeToFile
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
+import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.item.rule.native.NativeRules
 import org.anti_ad.mc.ipnext.item.rule.parameter.BooleanArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.EnumArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.NativeParameters
 
-object GenerateRuleListButtonInfo : ConfigButtonInfo() {
+object GenerateRuleListButtonInfoDelegate : ConfigButtonClickHandler() {
     val file = VanillaUtil.configDirectory("inventoryprofilesnext") / "native_rules.txt"
 
-    override val buttonText: String
-        get() = "generate native_rules.txt"
-
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(guiClick: () -> Unit) {
         var s = "Parameter:\n"
         for ((name, parameter) in NativeParameters.map) {
             s += "    $name: " + when (val arg = parameter.argumentType) {

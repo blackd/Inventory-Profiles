@@ -122,3 +122,9 @@ open class ConfigButtonInfo {
     open val buttonText: String = ""
     open fun onClick(widget: ButtonWidget) {}
 }
+
+open class ConfigButtonClickHandler {
+    open fun onClick(guiClick: () -> Unit) {
+        guiClick()
+    }
+}

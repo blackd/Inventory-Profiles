@@ -1,22 +1,17 @@
 package org.anti_ad.mc.ipnext.config
 
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.ipnext.item.rule.Rule
-import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
-import org.anti_ad.mc.ipnext.parser.TemporaryRuleParser
+
+
 
 private const val ENUM = "inventoryprofiles.enum"
 
-enum class SortingMethod(private val ruleName: String?) {
+enum class SortingMethod(val ruleName: String?) {
     DEFAULT("default"),
     ITEM_NAME("item_name"),
     ITEM_ID("item_id"),
     RAW_ID("raw_id"),
     CUSTOM(null);
-
-    val rule: Rule
-        get() = ruleName?.let { RuleFileRegister.getCustomRuleOrEmpty(it) }
-            ?: TemporaryRuleParser.parse(ModSettings.CUSTOM_RULE.value)
 
     override fun toString(): String =
         I18n.translate("$ENUM.sorting_method.${name.lowercase()}")
@@ -29,14 +24,6 @@ enum class SortingMethodIndividual {
     ITEM_ID,
     RAW_ID,
     CUSTOM;
-
-    fun rule(customContent: String): Rule {
-        return when (this) {
-            GLOBAL -> ModSettings.SORT_ORDER.value.rule
-            CUSTOM -> TemporaryRuleParser.parse(customContent)
-            else -> SortingMethod.values()[ordinal - 1].rule
-        }
-    }
 
     override fun toString(): String =
         if (this == GLOBAL)

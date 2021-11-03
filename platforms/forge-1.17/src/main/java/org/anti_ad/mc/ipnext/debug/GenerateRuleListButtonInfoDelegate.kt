@@ -11,13 +11,13 @@ import org.anti_ad.mc.ipnext.item.rule.parameter.EnumArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.NativeParameters
 import org.anti_ad.mc.ipnext.item.rule.vnative.NativeRules
 
-object GenerateRuleListButtonInfo : ConfigButtonInfo() {
+object GenerateRuleListButtonInfoDelegate : ConfigButtonClickHandler() {
     val file = VanillaUtil.configDirectory("inventoryprofilesnext") / "native_rules.txt"
 
     override val buttonText: String
         get() = "generate native_rules.txt"
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(guiClick: () -> Unit) {
         var s = "Parameter:\n"
         for ((name, parameter) in NativeParameters.map) {
             s += "    $name: " + when (val arg = parameter.argumentType) {

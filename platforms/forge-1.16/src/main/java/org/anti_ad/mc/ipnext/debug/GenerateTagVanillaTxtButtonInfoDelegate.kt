@@ -4,6 +4,7 @@ import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
+import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Identifier
@@ -18,14 +19,14 @@ import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 // vanillamapping code depends on mappings
 // ============
 
-object GenerateTagVanillaTxtButtonInfo : ConfigButtonInfo() {
+object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
     val fileDatapack = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.datapack.txt"
     val fileHardcoded = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.vanilla.hardcoded.txt"
 
     override val buttonText: String
         get() = "generate tags.vanilla.txt"
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(guiClick: () -> Unit) {
         TellPlayer.chat("Generate tags.vanilla.txt")
         ItemTags.getCollection().toTagTxtContent().writeToFile(fileHardcoded)
         val server = Vanilla.server()

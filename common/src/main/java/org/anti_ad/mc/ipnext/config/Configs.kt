@@ -16,9 +16,6 @@ import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
-import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfo
-import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfo
-import org.anti_ad.mc.ipnext.parser.ReloadRuleFileButtonInfo
 
 private const val category = "inventoryprofiles.config.category"
 
