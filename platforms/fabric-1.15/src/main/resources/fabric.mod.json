@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "inventoryprofilesnext",
+  "version": "@VERSION@",
+  "name": "Inventory Profiles Next",
+  "description": "Take control over your inventory",
+  "authors": [
+    "mirinimi/blackd"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next",
+    "sources": "https://github.com/blackd/Inventory-Profiles"
+  },
+  "license": "@LICENSE@",
+  "icon": "assets/inventoryprofilesnext/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "org.anti_ad.mc.ipnext.InventoryProfilesKt::init"
+    ],
+    "modmenu": [
+      "org.anti_ad.mc.ipnext.compat.ModMenuApiImpl"
+    ]
+  },
+  "mixins": [
+    "mixins.common.json",
+    "mixins.ipnext.json"
+  ],
+  "depends": {
+    "fabric-resource-loader-v0": "*",
+    "minecraft": ">=1.15.2"
+  }
+}

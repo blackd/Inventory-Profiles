@@ -1,7 +1,8 @@
 <!-- latest begin -->
 
 ### 1.1.3
-- fixed java 8 incompatibility for 1.16.5 builds
+-fixed java 8 incompatibility for 1.16.5 builds
+
 ### 1.1.2
 - brand new Simplified Chinese translation thanks to @PVWXX
 - profiles now support empty slots. For example in one profile you have shield in the offhend slot and another profile want it empty. For items moved out in this case an attempt will be made to move them in a free locked slot.<br>
@@ -11,6 +12,7 @@
 - fixed forge server crash.
 - fixed forge client complaining if IPN is not installed on the server. 
 - made handling of ignored screens and inventories more robust.
+
 <!-- latest end -->
 
 <!-- rest begin -->
