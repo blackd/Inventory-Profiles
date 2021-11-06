@@ -29,6 +29,6 @@
   "depends": {
     "fabric-resource-loader-v0": "*",
     "fabricloader": ">=0.11.6",
-    "minecraft": ">=1.16"
+    "minecraft": "~1.16"
   }
 }

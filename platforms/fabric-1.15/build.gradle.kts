@@ -1,6 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.modrinth.minotaur.TaskModrinthUpload
-import net.fabricmc.loom.LoomGradleExtension
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
 import proguard.gradle.ProGuardTask
@@ -26,12 +25,13 @@ logger.lifecycle("""
 
 configureCommon(true)
 
+/*
 configurations.all {
     resolutionStrategy {
         force ("net.fabricmc:sponge-mixin:0.9.4+mixin.0.8.2")
     }
 }
-
+*/
 plugins {
     `java-library`
     id("com.github.johnrengelman.shadow")
@@ -65,9 +65,11 @@ dependencies {
 
 
 
-minecraft{
+loom {
     runConfigs["client"].runDir = "run/1.15.2"
     runConfigs["client"].programArgs += listOf("--width=1280", "--height=720", "--username=DEV")
+    //refmapName = "inventoryprofilesnext-refmap.json"
+    mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json");
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
@@ -163,11 +165,6 @@ tasks.named<DefaultTask>("build") {
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
 }
-
-configure<LoomGradleExtension> {
-    refmapName = "inventoryprofilesnext-refmap.json"
-}
-
 
 val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
     group = "fabric"

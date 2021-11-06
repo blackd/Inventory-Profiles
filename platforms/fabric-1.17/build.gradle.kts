@@ -1,6 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.modrinth.minotaur.TaskModrinthUpload
-import net.fabricmc.loom.LoomGradleExtension
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.platformsCommonConfig
@@ -11,8 +10,8 @@ val supported_minecraft_versions = listOf("1.17", "1.17.1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.17.1"
-val mappings_version = "1.17.1+build.39"
-val loader_version = "0.11.7"
+val mappings_version = "1.17.1+build.63"
+val loader_version = "0.12.4"
 val modmenu_version = "2.0.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
@@ -27,6 +26,13 @@ logger.lifecycle("""
     loom version: $loom_version_117
     ***************************************************
     """.trimIndent())
+/*
+configurations.all {
+    resolutionStrategy {
+        force ("net.fabricmc:sponge-mixin:0.10.1+mixin.0.8.4")
+    }
+}
+*/
 
 plugins {
     `java-library`
@@ -54,9 +60,11 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.40.1+1.17")
 }
 
-minecraft {
+loom {
     runConfigs["client"].runDir = "run/1.17.x"
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
+    //refmapName = "inventoryprofilesnext-refmap.json"
+    mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 }
 
 val compileKotlin: KotlinCompile by tasks
@@ -64,6 +72,40 @@ compileKotlin.kotlinOptions {
     languageVersion = "1.5"
     jvmTarget = "16"
 }
+
+val proguard by tasks.registering(ProGuardTask::class) {
+
+    configuration("../../proguard.txt")
+    printmapping {
+        project.layout.buildDirectory.file("proguard/mappings.map")
+    }
+    // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
+    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
+    val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath
+
+    injars(inName)
+    outjars("build/libs/${fabricRemapJar.archiveBaseName.get()}-all-proguard.jar")
+
+    doFirst {
+        libraryjars( configurations.runtimeClasspath.get().files.filter {
+            !it.name.contains("InventoryProfilesNext-common")
+        })
+    }
+    dependsOn(tasks["shadowJar"])
+}
+
+val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
+    group = "fabric"
+    val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+    val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
+    dependsOn(proGuardTask)
+    input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
+    addNestedDependencies.set(true)
+    addDefaultNestedDependencies.set(false)
+    //remapAccessWidener.set(true)
+}
+
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")
 
@@ -151,45 +193,6 @@ tasks.named<DefaultTask>("build") {
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
 }
-
-configure<LoomGradleExtension> {
-    refmapName = "inventoryprofilesnext-refmap.json"
-}
-
-
-val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
-    group = "fabric"
-    val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
-    val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
-    dependsOn(proGuardTask)
-    input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
-    archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
-    addNestedDependencies.set(true)
-    addDefaultNestedDependencies.set(false)
-    //remapAccessWidener.set(true)
-}
-
-val proguard by tasks.registering(ProGuardTask::class) {
-
-    configuration("../../proguard.txt")
-    printmapping {
-        project.layout.buildDirectory.file("proguard/mappings.map")
-    }
-    // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
-    val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath
-
-    injars(inName)
-    outjars("build/libs/${fabricRemapJar.archiveBaseName.get()}-all-proguard.jar")
-
-    doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files.filter {
-            !it.name.contains("InventoryProfilesNext-common")
-        })
-    }
-    dependsOn(tasks["shadowJar"])
-}
-
 
 
 // ============
