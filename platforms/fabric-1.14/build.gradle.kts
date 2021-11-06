@@ -229,6 +229,10 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
             displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
         })
 
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("fabric-api")
+            optionalDependency("modmenu")
+        })
         afterEvaluate {
             uploadTask.dependsOn("build")
         }

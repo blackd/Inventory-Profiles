@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.matthewprenger.cursegradle.CurseRelation
 import com.modrinth.minotaur.TaskModrinthUpload
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
@@ -222,7 +223,10 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
         })
-
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("fabric-api")
+            optionalDependency("modmenu")
+        })
         afterEvaluate {
             uploadTask.dependsOn("build")
         }
