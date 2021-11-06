@@ -5,10 +5,10 @@ import org.anti_ad.mc.configureCommon
 import proguard.gradle.ProGuardTask
 
 
-val supported_minecraft_versions = listOf("1.15", "1.15.1", "1.15.2")
+val supported_minecraft_versions = listOf("1.14.1", "1.14.2", "1.14.3", "1.14.4")
 val mod_loader = "fabric"
 val mod_version = project.version
-val minecraft_version = "1.15.2"
+val minecraft_version = "1.14.4"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 
@@ -19,7 +19,7 @@ logger.lifecycle("""
     loader: $mod_loader
     mod version: $mod_version
     building against MC: $minecraft_version
-    loom version:     $loom_version_115
+    loom version:     $loom_version_114
     ***************************************************
     """.trimIndent())
 
@@ -56,17 +56,17 @@ configure<JavaPluginExtension> {
 dependencies {
     "shadedApi"(project(":common"))
     "implementation"("com.guardsquare:proguard-gradle:7.1.1")
-    minecraft("com.mojang:minecraft:1.15.2")
-    mappings("net.fabricmc:yarn:1.15.2+build.17")
+    minecraft("com.mojang:minecraft:1.14.4")
+    mappings("net.fabricmc:yarn:1.14.4+build.18:v2")
     modImplementation("net.fabricmc:fabric-loader:0.12.4")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.28.5+1.15")
-    modImplementation("com.terraformersmc:modmenu:1.10.6")
+    modImplementation("io.github.prospector:modmenu:1.7.17+build.1")
 }
 
 
 
 loom {
-    runConfigs["client"].runDir = "run/1.15.2"
+    runConfigs["client"].runDir = "run/1.14.4"
     runConfigs["client"].programArgs += listOf("--width=1280", "--height=720", "--username=DEV")
     //refmapName = "inventoryprofilesnext-refmap.json"
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json");

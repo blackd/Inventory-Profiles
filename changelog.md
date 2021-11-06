@@ -1,7 +1,11 @@
 <!-- latest begin -->
 
+### 1.1.4
+- added 1.15+ and 1.14.1+ versions. Just to be on par with the old mod
+- the fabric 1.16 version now runs on all minor versions
+
 ### 1.1.3
--fixed java 8 incompatibility for 1.16.5 builds
+- fixed java 8 incompatibility for 1.16.5 builds
 
 ### 1.1.2
 - brand new Simplified Chinese translation thanks to @PVWXX

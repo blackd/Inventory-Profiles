@@ -1,12 +1,11 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.modrinth.minotaur.TaskModrinthUpload
-import net.fabricmc.loom.LoomGradleExtension
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
 import proguard.gradle.ProGuardTask
 
 
-val supported_minecraft_versions = listOf("1.16.5")
+val supported_minecraft_versions = listOf("1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5")
 val mod_loader = "fabric"
 val mod_version = project.version
 val minecraft_version = "1.16.5"
