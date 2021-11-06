@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
     val l: MutableMap<String, HintClassData> = mutableMapOf()
     var v = HintClassData(true)
     l["de.maxhenkel.camera.gui.ImageScreen"] = v
-    v =HintClassData(false, mapOf(IPNButton.MOVE_TO_CONTAINER to ButtonPositionHint(60)))
+    v =HintClassData(false, false, mapOf(IPNButton.MOVE_TO_CONTAINER to ButtonPositionHint(60)))
     l["ninjaphenix.expandedstorage.base.client.menu.PagedScreen"] = v
     val s = Json.encodeToString(l)
     println(s)

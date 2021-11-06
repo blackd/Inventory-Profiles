@@ -1,8 +1,69 @@
 {
-    "de.maxhenkel.camera.gui.ImageScreen":                       {
+    "de.maxhenkel.camera.gui.ImageScreen": {
         "ignore": true
     },
     "tfar.dankstorage.client.screens.AbstractDankStorageScreen": {
-        "ignore": true
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.LifeSupportScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.PowerGenScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.PortalBeamBlockScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.Machines.PackerScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.Machines.PressScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.Machines.Machine1InputScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.Machines.PowerFurnaceScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.Machines.BatteryBlockScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.ElectrolyzerScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.Machines.AutoConstructorScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.CatalyzerScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.RocketStationScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.StarshipControlScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "agap.main.ColonyCommandScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "dev.cammiescorner.arcanus.client.screens.BookshelfScreen": {
+        "ignore": true,
+        "playerOnly": true
     }
 }
