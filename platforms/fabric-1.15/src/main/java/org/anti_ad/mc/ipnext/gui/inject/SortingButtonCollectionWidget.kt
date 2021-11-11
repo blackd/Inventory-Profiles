@@ -90,7 +90,7 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
         val container = Vanilla.container()
         val types = ContainerTypes.getTypes(container)
 
-        private val nextProfileButton = ProfileButtonWidget(ProfileSwitchHandler::nextProfile).apply {
+        private val nextProfileButton = ProfileButtonWidget { -> ProfileSwitchHandler.nextProfile(true) }.apply {
             tx = 50
             ty = 20
             this@ProfilesUICollectionWidget.addChild(this)
@@ -98,7 +98,7 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
             tooltipText = I18n.translate("inventoryprofiles.tooltip.next_profile_button")
         }
 
-        private val prevProfileButton = ProfileButtonWidget(ProfileSwitchHandler::prevProfile).apply {
+        private val prevProfileButton = ProfileButtonWidget{ -> ProfileSwitchHandler.prevProfile(true) }.apply {
             tx = 60
             ty = 20
             this@ProfilesUICollectionWidget.addChild(this)
@@ -106,7 +106,7 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
             tooltipText = I18n.translate("inventoryprofiles.tooltip.prev_profile_button")
         }
 
-        private val profileButton = ActiveProfileButtonWidget(ProfileSwitchHandler::applyCurrent).apply {
+        private val profileButton = ActiveProfileButtonWidget { ProfileSwitchHandler.applyCurrent(true) }.apply {
 
             parent = this@ProfilesUICollectionWidget
             val profile = getCurrentProfileName()
@@ -237,21 +237,21 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         val addChestSide = types.contains(SORTABLE_STORAGE)
         val addNonChestSide = types.contains(PURE_BACKPACK)
         val shouldAdd = addChestSide || addNonChestSide
-        private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort() }.apply {
+        private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort(true) }.apply {
             hints = HintsManager.hintFor(IPNButton.SORT, screen.javaClass)
             tx = 10
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_button")
         }
-        private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns() }.apply {
+        private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns(true) }.apply {
             hints = HintsManager.hintFor(IPNButton.SORT_COLUMNS, screen.javaClass)
             tx = 20
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
         }
-        private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows() }.apply {
+        private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows(true) }.apply {
             hints = HintsManager.hintFor(IPNButton.SORT_ROWS, screen.javaClass)
             tx = 30
             this@SortingButtonCollectionWidget.addChild(this)
@@ -261,11 +261,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
 
 
-        val moveAllVisible = GuiSettings.SHOW_MOVE_ALL_BUTTON.booleanValue &&
+        private val moveAllVisible = GuiSettings.SHOW_MOVE_ALL_BUTTON.booleanValue &&
                 types.containsAny(setOf(SORTABLE_STORAGE,
                                         NO_SORTING_STORAGE,
                                         CRAFTING))
-        val moveAllToolTip: String = with(ModSettings) {
+        private val moveAllToolTip: String = with(ModSettings) {
             val prefix = "inventoryprofiles.tooltip.move_all_button"
             val line1 = if (ALWAYS_MOVE_ALL.booleanValue) "title_move_all" else "title_move_matching"
             val line2 = if (ALWAYS_INCLUDE_HOTBAR.booleanValue) "exclude_hotbar" else "include_hotbar"
@@ -283,7 +283,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 }
             // extra I18n.translate null is ok
         }
-        private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(false) }.apply {
+        private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(toPlayer = false, gui = true) }.apply {
             hints = HintsManager.hintFor(IPNButton.MOVE_TO_CONTAINER, screen.javaClass)
             tx = 50
             this@SortingButtonCollectionWidget.addChild(this)
@@ -291,7 +291,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             tooltipText = moveAllToolTip
         }
 
-        private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(true) }.apply {
+        private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(toPlayer = true, gui = true) }.apply {
             hints = HintsManager.hintFor(IPNButton.MOVE_TO_PLAYER, screen.javaClass)
             tx = 60
             this@SortingButtonCollectionWidget.addChild(this)
@@ -302,7 +302,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         // ============
         // continuous crafting
         // ============
-        fun updateConfigValue(newValue: Boolean) {
+        private fun updateConfigValue(newValue: Boolean) {
             GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.value = newValue
             SaveLoadManager.save() // todo save when onClose instead of every time check box value change
         }
@@ -330,7 +330,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             highlightTooltip = I18n.translate("inventoryprofiles.tooltip.auto_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
         }
 
-        fun switchContinuousCraftingValue() {
+        private fun switchContinuousCraftingValue() {
             continuousCraftingValue = !continuousCraftingValue
             continuousCraftingCheckbox.tx = if (continuousCraftingValue) 80 else 70
             continuousCraftingCheckbox.highlightTx = if (continuousCraftingValue) 120 else 70

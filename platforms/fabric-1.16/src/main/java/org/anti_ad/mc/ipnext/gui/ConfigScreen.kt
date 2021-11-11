@@ -18,8 +18,8 @@ private const val BUTTON_PREFIX = "inventoryprofiles.gui.config."
 private const val DISPLAY_NAME_PREFIX = "inventoryprofiles.config.name."
 private const val DESCRIPTION_PREFIX = "inventoryprofiles.config.description."
 
-class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.config.title",
-                                                       ModInfo.MOD_VERSION)) {
+class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.config.title",
+                                                                                         ModInfo.MOD_VERSION)) {
 
 
     companion object {

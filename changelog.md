@@ -1,5 +1,17 @@
 <!-- latest begin -->
 
+### 1.1.5
+- fixed move all when key binding is set to "ctrl + alt + q"
+- some changes under the hood
+- added updates check. The check is done once you enter a word/connect ot a server and message is displayed if there is new version available.
+- added analytics. What data is collected? Once a session we collect information about the version of the mod and what features of the mod are used. We do not store any personal information. Your IP is not stored. The data will not be sold or transferred or shared with anyone.
+- both of the above can be disabled in the mod Settings.
+
+<!-- latest end -->
+
+
+<!-- rest begin -->
+
 ### 1.1.4
 - added 1.15+ and 1.14.1+ versions. Just to be on par with the old mod
 - the fabric 1.16 version now runs on all minor versions
@@ -16,10 +28,6 @@
 - fixed forge server crash.
 - fixed forge client complaining if IPN is not installed on the server. 
 - made handling of ignored screens and inventories more robust.
-
-<!-- latest end -->
-
-<!-- rest begin -->
 
 ### 1.1.1
 - fixed client crash on Forge 1.17.x

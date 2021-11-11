@@ -13,5 +13,8 @@ class ModMenuApiImpl : ModMenuApi {
     }
 
     override fun getConfigScreenFactory(): Function<Screen, out Screen> =
-            Function { parent: Screen -> ConfigScreen().apply { this.parent = parent } }
+            Function { parent: Screen -> ConfigScreen(true).apply {
+                this.parent = parent
+                dumpWidgetTree()
+            } }
 }

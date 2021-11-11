@@ -5,9 +5,10 @@ import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.debug.DepthTestScreen
 import org.anti_ad.mc.common.gui.debug.SpriteTestScreen
 import org.anti_ad.mc.common.input.GlobalInputHandler
+import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla.worldNullable
-import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.alias.ClientWorld
+import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
@@ -34,6 +35,7 @@ object InputHandler : IInputHandler {
                 return true
             }
             if (Hotkeys.RELOAD_CUSTOM_CONFIGS.isActivated() && VanillaUtil.inGame()) {
+                InfoManager.event("reloadConfigs")
                 val cw: ClientWorld? = worldNullable()
                 if (cw != null) {
                     CustomDataFileLoader.reload(cw)

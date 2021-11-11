@@ -6,6 +6,7 @@ import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.tryCatch
+import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
 import org.anti_ad.mc.common.vanilla.alias.Container
@@ -36,7 +37,8 @@ import org.anti_ad.mc.ipnext.item.rule.Rule
 
 object GeneralInventoryActions {
 
-    fun doSort() {
+    fun doSort(gui: Boolean = false) {
+        InfoManager.event(lazy { if (gui) "gui/" else {""} + "doSort" })
         with(GuiSettings) {
             doSort(REGULAR_SORT_ORDER,
                    REGULAR_CUSTOM_RULE,
@@ -44,7 +46,8 @@ object GeneralInventoryActions {
         }
     }
 
-    fun doSortInColumns() {
+    fun doSortInColumns(gui: Boolean = false) {
+        InfoManager.event(lazy { if (gui) "gui/" else {""} + "doSortInColumns" })
         with(GuiSettings) {
             doSort(IN_COLUMNS_SORT_ORDER,
                    IN_COLUMNS_CUSTOM_RULE,
@@ -52,7 +55,8 @@ object GeneralInventoryActions {
         }
     }
 
-    fun doSortInRows() {
+    fun doSortInRows(gui: Boolean = false) {
+        InfoManager.event(lazy { if (gui) "gui/" else {""} + "doSortInRows" })
         with(GuiSettings) {
             doSort(IN_ROWS_SORT_ORDER,
                    IN_ROWS_CUSTOM_RULE,
@@ -73,6 +77,7 @@ object GeneralInventoryActions {
     // MOVE_ALL_AT_CURSOR off = to container, on -> (pointing container -> to player) else to container
     // use MOVE_ALL_AT_CURSOR instead of SORT_AT_CURSOR
     fun doMoveMatch() {
+
         val types = ContainerTypes.getTypes(Vanilla.container())
         if (types.contains(CREATIVE)) return // no do creative menu
         if (!types.containsAny(setOf(SORTABLE_STORAGE,
@@ -125,6 +130,13 @@ object GeneralInventoryActions {
                 ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
         val throwAll = // xor
                 ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_THROW_ALL.booleanValue
+        val path = lazy {
+            "doThrowMatch" + if (isContainer) "/container" else {""} + if (throwAll) "/all" else {""} + if (includeHotbar) "/hotbar" else {""}
+        }
+        val params = lazy{
+            "&throwAll=$throwAll&includeHotbar=$includeHotbar&isContainer=$isContainer"
+        }
+        InfoManager.event(path, params)
         executeThrow(includeHotbar, vanillaContainer, isContainer, throwAll)
     }
 
@@ -166,7 +178,7 @@ object GeneralInventoryActions {
         }
     }
 
-    fun doMoveMatch(toPlayer: Boolean) { // true container to player or false player to container
+    fun doMoveMatch(toPlayer: Boolean, gui: Boolean = false) { // true container to player or false player to container
         val types = ContainerTypes.getTypes(Vanilla.container())
         if (types.contains(CREATIVE)) return // no do creative menu
         if (types.contains(CRAFTING)) {
@@ -177,6 +189,8 @@ object GeneralInventoryActions {
                 ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
         val moveAll = // xor
                 ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
+        InfoManager.event(lazy {if (gui) "gui/" else {""} + "doMoveMatch" + if (moveAll) "/all" else {""} + if (includeHotbar) "/hotbar" else {""} },
+                          lazy { "&forceToPlayer=$toPlayer" })
         AdvancedContainer.tracker {
             with(AreaTypes) {
                 val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
@@ -195,6 +209,7 @@ object GeneralInventoryActions {
 
     fun doMoveMatchCrafting() {
         val includeHotbar = VanillaUtil.altDown()
+        InfoManager.event("doMoveMatchCrafting")
         AdvancedContainer.tracker {
             with(AreaTypes) {
                 val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -

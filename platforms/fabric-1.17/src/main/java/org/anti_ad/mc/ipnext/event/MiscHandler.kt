@@ -6,6 +6,7 @@ import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
+import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
@@ -32,17 +33,18 @@ object MiscHandler {
 
     fun swipeMoving() {
         if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
+            InfoManager.event("swipeMoving/shift")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 ContainerClicker.shiftClick(vPlayerSlotOf(s,
                                                           screen).`(id)`)
             }
         } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
+            InfoManager.event("swipeMoving/ctrl+q")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 val matchSet = setOf(ContainerType.NO_SORTING_STORAGE,
                                      ContainerType.SORTABLE_STORAGE)
                 if (types.containsAny(matchSet) && !types.contains(ContainerType.CREATIVE)) {
-                    ContainerClicker.qClick(vPlayerSlotOf(s,
-                                                          screen,).`(id)`)
+                    ContainerClicker.qClick(vPlayerSlotOf(s, screen).`(id)`)
                 }
             }
         }

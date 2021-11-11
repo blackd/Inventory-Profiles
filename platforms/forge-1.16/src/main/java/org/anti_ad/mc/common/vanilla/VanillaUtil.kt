@@ -8,6 +8,7 @@ import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
+import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.Util
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil
@@ -16,6 +17,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import java.io.File
 import java.net.URL
 import java.nio.file.Path
+import kotlin.concurrent.thread
 
 fun initVanillaUtil() {
     __glue_vanillaUtil = VanillaUtil
@@ -86,14 +88,14 @@ private object VanillaUtil: IVanillaUtil {
 
     override fun open(file: File) {
         // ResourcePackOptionsScreen.init()
-        Thread() { ->
+        thread { ->
             Util.getOSType().openFile(file)
         }.start()
     }
 
     override fun open(url: URL) {
         // ResourcePackOptionsScreen.init()
-        Thread() { ->
+        thread { ->
             Util.getOSType().openURL(url)
         }.start()
     }
@@ -101,7 +103,7 @@ private object VanillaUtil: IVanillaUtil {
 
     override fun isValidScreen(ctx: KeybindSettings.Context) = ctx.isValid(Vanilla.screen())
 
-    override fun chat(message: String) = Vanilla.chatHud().printChatMessage(LiteralText(message)) // forge printChatMessage() = addMessage()
+    override fun chat(message: Any) = Vanilla.chatHud().printChatMessage(if (message is Text) message else LiteralText(message.toString()))
 }
 
 private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {

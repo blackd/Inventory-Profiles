@@ -80,10 +80,9 @@ object ModSettings : ConfigDeclaration {
                                                               0,
                                                               100)
 
-/* todo
-  auto pick
-  ref: MiningToolItem.getMiningSpeed()
-*/
+        .CATEGORY("$category.privacy")
+    val ENABLE_UPDATES_CHECK                      /**/ by bool(true)
+    val ENABLE_ANALYTICS                          /**/ by bool(true)
 
         .CATEGORY("$category.advanced_options")
     val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
@@ -98,6 +97,8 @@ object ModSettings : ConfigDeclaration {
 
         .CATEGORY("$category.debugs")
     val DEBUG by bool(false)
+        .CATEGORY("§§hide - first run")
+    val FIRST_RUN by bool(true)
 }
 
 object GuiSettings : ConfigDeclaration {

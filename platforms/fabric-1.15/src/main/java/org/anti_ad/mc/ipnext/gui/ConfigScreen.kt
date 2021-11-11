@@ -4,6 +4,7 @@ import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.builder.toMultiConfigList
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
+import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.alias.TranslatableText
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.ipnext.ModInfo
@@ -18,8 +19,8 @@ private const val BUTTON_PREFIX = "inventoryprofiles.gui.config."
 private const val DISPLAY_NAME_PREFIX = "inventoryprofiles.config.name."
 private const val DESCRIPTION_PREFIX = "inventoryprofiles.config.description."
 
-class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.config.title",
-                                                       ModInfo.MOD_VERSION)) {
+class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.config.title",
+                                                                                         ModInfo.MOD_VERSION)) {
 
 
     companion object {
@@ -43,6 +44,7 @@ class ConfigScreen : ConfigScreenBase(TranslatableText("inventoryprofiles.gui.co
     }
 
     override fun closeScreen() {
+        InfoManager.event(if (gui) "gui/" else {""} + "closeConfig")
         storedSelectedIndex = selectedIndex
         SaveLoadManager.save()
         AutoRefillHandler.init() // update

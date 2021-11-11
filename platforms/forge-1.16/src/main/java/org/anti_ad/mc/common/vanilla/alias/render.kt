@@ -7,9 +7,13 @@ import net.minecraft.client.gui.AbstractGui
 import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.ClickEvent
+import net.minecraft.util.text.event.HoverEvent
+import net.minecraft.util.text.TextFormatting
 
 typealias Text = ITextComponent // TextComponent is BaseText!!!!!!!
 typealias LiteralText = StringTextComponent
@@ -27,3 +31,8 @@ typealias SrcFactor = GlStateManager.SourceFactor
 typealias DstFactor = GlStateManager.DestFactor
 
 typealias MathHelper = MathHelper
+typealias Style = Style
+typealias ClickEvent = ClickEvent
+typealias ClickEventAction = ClickEvent.Action
+typealias Formatting = TextFormatting
+

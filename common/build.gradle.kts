@@ -29,7 +29,6 @@ dependencies {
     "compileOnlyApi"(group = "org.lwjgl",
                      name = "lwjgl-glfw",
                      version = "3.2.2")
-
 }
 
 

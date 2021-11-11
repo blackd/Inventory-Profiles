@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.vanilla.alias
 
+import net.minecraft.util.SharedConstants
 import net.minecraft.client.MainWindow
 import net.minecraft.client.Minecraft
 import net.minecraft.client.audio.SimpleSound
@@ -27,6 +28,8 @@ typealias PositionedSoundInstance = SimpleSound
 typealias SoundEvents = SoundEvents
 typealias Util = Util
 typealias ClientWorld = ClientWorld
+
+typealias SharedConstants = SharedConstants
 
 private fun translate(string: String,
                       vararg objects: Any?): String = I18n.format(string,

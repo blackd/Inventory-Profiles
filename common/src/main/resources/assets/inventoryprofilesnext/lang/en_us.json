@@ -27,6 +27,7 @@
     "inventoryprofiles.config.category.profiles":                                  "Profiles",
     "inventoryprofiles.config.category.lock_slots":                                "Lock Slots",
     "inventoryprofiles.config.category.auto_refill":                               "Auto Refill",
+    "inventoryprofiles.config.category.privacy":                                   "Privacy",
     "inventoryprofiles.config.category.advanced_options":                          "Advanced Options",
     "inventoryprofiles.config.name.open_config_folder":                            "§aOpen Config Folder",
     "inventoryprofiles.config.name.reload_rule_files":                             "§aReload Rule Files",
@@ -79,6 +80,8 @@
     "inventoryprofiles.config.description.locked_slots_disable_quick_move_throw":  "Locked slots will be immune to:\n - Shift+Click\n - Ctrl+Q\n - Swipe Shift+Click\n - Swipe Ctrl+Q",
     "inventoryprofiles.config.description.locked_slots_allow_pickup_into_empty":   "Should it be possible to pick items from the ground into EMPTY locked slots.\nStackable items will still be picked into locked sots of the same item that have room.\nNOTE: See next setting description for more information!",
     "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks": "The maximum number of client ticks to wait for the server to send the content of the player inventory. \nIf locked slots get items moved out/thrown away on dimension change you need to increase this value.\nThis often happens on servers under heavy load.\nNOTE: 20 ticks are equivalent of 1 second.\n§l§cWARNING§r: Setting this too high MAY lead to locked slot management not working properly until this timeout expires.",
+    "inventoryprofiles.config.name.enable_updates_check":                          "Enable Update Checks",
+    "inventoryprofiles.config.name.enable_analytics":                              "Enable Analytics",
     "inventoryprofiles.config.name.enable_auto_refill":                            "Enable Auto Refill",
     "inventoryprofiles.config.name.disable_for_drop_item":                         "Disable For Dropped Item",
     "inventoryprofiles.config.name.refill_armor":                                  "Refill Armor Before It Breaks",
@@ -86,6 +89,8 @@
     "inventoryprofiles.config.name.tool_damage_threshold":                         "Damage Threshold",
     "inventoryprofiles.config.name.threshold_unit":                                "Threshold Units",
     "inventoryprofiles.config.name.auto_refill_wait_tick":                         "Number of Ticks to Wait Before Auto Refill",
+    "inventoryprofiles.config.description.enable_updates_check":                   "We can check for updates and display a message. The check is made by reading the information off github.com",
+    "inventoryprofiles.config.description.enable_analytics":                       "Enable Analytics.\nOnly information about the version of the mod and which features are used is collected.\nNO Personal information is sent. Your IP address is not stored.\nNone of the collected information will be shared, sold or transferred to anyone!",
     "inventoryprofiles.config.description.enable_auto_refill":                     "Refill the active item when the stack runs out.",
     "inventoryprofiles.config.description.disable_for_drop_item":                  "Disable \"Auto Refill\" for dropped items",
     "inventoryprofiles.config.description.refill_armor":                           "Refill armor slots if items are about to break",
@@ -243,5 +248,9 @@
     "inventoryprofiles.tooltip.auto_crafting_checkbox":                            "Auto Crafting\n§6Stop holding §o%s§r§6: for Continuous Crafting",
     "inventoryprofiles.tooltip.next_profile_button":                               "Select and apply next profile",
     "inventoryprofiles.tooltip.prev_profile_button":                               "Select and apply previous profile",
-    "inventoryprofiles.tooltip.apply_profile_button":                              "Apply selected profile"
+    "inventoryprofiles.tooltip.apply_profile_button":                              "Apply selected profile",
+    "inventoryprofiles.update.version":                                            " Version: ",
+    "inventoryprofiles.update.available":                                          " is now available.\n",
+    "inventoryprofiles.update.get":                                                "Get it from: ",
+    "inventoryprofiles.update.or":                                                 " or "
 }

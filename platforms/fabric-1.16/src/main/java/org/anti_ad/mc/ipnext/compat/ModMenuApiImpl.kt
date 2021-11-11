@@ -8,7 +8,7 @@ class ModMenuApiImpl : ModMenuApi {
 
     override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreen> {
         return ConfigScreenFactory<ConfigScreen> { parent ->
-            val c = ConfigScreen()
+            val c = ConfigScreen(true)
             c.parent = parent
             c.dumpWidgetTree()
             c

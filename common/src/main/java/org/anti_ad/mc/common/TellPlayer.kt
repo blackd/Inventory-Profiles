@@ -1,11 +1,15 @@
 package org.anti_ad.mc.common
 
-import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 
 object TellPlayer {
 
     fun chat(message: String) {
+        if (!VanillaUtil.inGame()) return
+        VanillaUtil.chat(message)
+    }
+
+    fun chat(message: Any) {
         if (!VanillaUtil.inGame()) return
         VanillaUtil.chat(message)
     }

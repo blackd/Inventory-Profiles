@@ -6,6 +6,14 @@
         "ignore": true,
         "playerOnly": true
     },
+    "tfar.dankstorage.container.DankMenu": {
+        "ignore": true,
+        "playerOnly": true
+    },
+    "tfar.dankstorage.client.screens.PortableDankStorageScreen": {
+        "ignore": true,
+        "playerOnly": true
+    },
     "agap.main.LifeSupportScreen": {
         "ignore": true,
         "playerOnly": true

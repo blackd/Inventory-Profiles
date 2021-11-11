@@ -2,6 +2,7 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfileEnchantmentData
 import org.anti_ad.mc.common.profiles.conifg.ProfileItemData
@@ -128,7 +129,8 @@ object ProfileSwitchHandler: IInputHandler {
 
     val monitors: MutableList<ProfileMonitor> = mutableListOf()
 
-    fun applyCurrent() {
+    fun applyCurrent(gui: Boolean = false) {
+        InfoManager.event(lazy { if (gui) "gui/" else {""} + "applyCurrent" })
         doApplyProfile = targetProfile.valid
     }
 
@@ -199,7 +201,7 @@ object ProfileSwitchHandler: IInputHandler {
         return false
     }
 
-    fun switchToProfileName(name: String) {
+    private fun switchToProfileName(name: String) {
         val index = byName(name)
         if (index != -1) {
             activeProfileId = index
@@ -207,13 +209,15 @@ object ProfileSwitchHandler: IInputHandler {
         }
     }
 
-    fun prevProfile() {
+    fun prevProfile(gui: Boolean = false) {
+        InfoManager.event(lazy { if (gui) "gui/" else {""} + "prevProfile" })
         if (ProfilesLoader.profiles.isNotEmpty()) {
             init(ProfilesLoader.profiles[nextOrFirst()])
         }
     }
 
-    fun nextProfile() {
+    fun nextProfile(gui: Boolean = false) {
+        InfoManager.event(lazy { if (gui) "gui/" else {""} + "nextProfile"})
         if (ProfilesLoader.profiles.isNotEmpty()) {
             init(ProfilesLoader.profiles[prevOrLast()])
         }

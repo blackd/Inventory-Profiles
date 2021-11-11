@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.vanilla.alias
 
+import net.minecraft.SharedConstants
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -28,10 +29,11 @@ typealias SoundEvents = SoundEvents
 typealias Util = Util
 typealias ClientWorld = ClientWorld
 
+typealias SharedConstants = SharedConstants
 
 private fun translate(string: String,
-              vararg objects: Any?): String = I18n.translate(string,
-                                                             *objects)
+                      vararg objects: Any?): String = I18n.translate(string,
+                                                                     *objects)
 
 fun initI18nGlue() {
     __glue_I18n_translate = ::translate

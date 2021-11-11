@@ -3,6 +3,7 @@ package org.anti_ad.mc.ipnext.event
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
+import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -81,6 +82,7 @@ object ContinuousCraftingHandler {
             if (SHIFT.isPressing() ) {
                 if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
                     //doThrowOfType(whatsCooking)
+                    InfoManager.event("auto-crafting")
                     Vanilla.queueForMainThread {
                         ContainerClicker.shiftClick(0)
                     }
@@ -91,6 +93,7 @@ object ContinuousCraftingHandler {
         if (crafted) {
             if (!processingClick && onCraftCount <= 0) {
                 if (monitor.autoRefill()) {
+                    InfoManager.event("cont-crafting")
                     crafted = false
                     onCraftCount = 0
                     afterRefill = true

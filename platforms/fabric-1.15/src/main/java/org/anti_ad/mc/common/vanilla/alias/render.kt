@@ -8,8 +8,12 @@ import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
+import net.minecraft.text.Style
 import net.minecraft.text.TranslatableText
+import net.minecraft.text.ClickEvent
+import net.minecraft.util.Formatting
 import net.minecraft.util.math.MathHelper
+
 
 typealias Text = Text
 typealias LiteralText = LiteralText
@@ -26,3 +30,8 @@ typealias GlStateManager = GlStateManager
 typealias SrcFactor = GlStateManager.SrcFactor
 typealias DstFactor = GlStateManager.DstFactor
 typealias MathHelper = MathHelper
+typealias Style = Style
+typealias ClickEvent = ClickEvent
+typealias ClickEventAction = ClickEvent.Action
+typealias Formatting = Formatting
+
