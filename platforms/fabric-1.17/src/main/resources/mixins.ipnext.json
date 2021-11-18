@@ -18,7 +18,8 @@
         "MixinMinecraftClient",
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
-        "MixinScreen"
+        "MixinScreen",
+        "MixinInGameHud"
     ],
     "injectors":          {
         "defaultRequire": 1

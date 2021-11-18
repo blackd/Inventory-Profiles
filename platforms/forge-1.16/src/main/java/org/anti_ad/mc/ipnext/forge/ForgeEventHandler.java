@@ -1,23 +1,22 @@
 package org.anti_ad.mc.ipnext.forge;
 
 import kotlin.Unit;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtilKt;
 import org.anti_ad.mc.ipnext.config.Tweaks;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
+import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
@@ -94,6 +93,20 @@ public class ForgeEventHandler {
                 && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory // options.keyInventory
                 .isActiveAndMatches(mouseKey))) {
             GeneralInventoryActions.INSTANCE.handleCloseContainer();
+        }
+    }
+
+    //@SubscribeEvent
+    public void onOverlayLayerPre(RenderGameOverlayEvent.Pre event) {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
+            LockSlotsHandler.INSTANCE.preRenderHud(event.getMatrixStack());
+        }
+    }
+
+    @SubscribeEvent
+    public void onOverlayLayerPost(RenderGameOverlayEvent.Post event) {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
+            LockSlotsHandler.INSTANCE.postRenderHud(event.getMatrixStack());
         }
     }
 

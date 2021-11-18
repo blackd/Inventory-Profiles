@@ -1,6 +1,7 @@
 package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.IInputHandler
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.debug.DebugInfos
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 
@@ -17,6 +18,10 @@ object GlobalInputHandler {
         private set
     var lastAction = -1 // only GLFW_PRESS or GLFW_RELEASE
         private set
+
+    fun isWaitingForRelease(key: Int): Boolean {
+        return pressedKeys.contains(key)
+    }
 
     fun isActivated(keyCodes: List<Int>,
                     settings: KeybindSettings): Boolean {
@@ -43,14 +48,18 @@ object GlobalInputHandler {
 
     private fun onKey(key: Int,
                       action: Int): Boolean { // action: only GLFW_PRESS or GLFW_RELEASE
+
         val isPress = action == GLFW_PRESS
-        if (isPress == pressedKeys.contains(key)) // (PRESS && contain) || (RELEASE && !contain)
+        if (isPress == pressedKeys.contains(key)) { // (PRESS && contain) || (RELEASE && !contain)
             return false // should err / cancelled by other mod
+        }
+
         previousPressedKeys = pressedKeys.toSet()
-        if (isPress)
+        if (isPress) {
             pressedKeys.add(key)
-        else
+        } else {
             pressedKeys.remove(key)
+        }
         lastKey = key
         lastAction = action
         return onInput()
@@ -61,10 +70,8 @@ object GlobalInputHandler {
             handleAssignKeybind()
             return true
         }
-        if (registeredCancellable.any {
-                it.onInput(lastKey,
-                           lastAction)
-            }) {
+        if (registeredCancellable.any { it.onInput(lastKey,
+                                                   lastAction) }) {
             return true
         }
         registered.forEach {
@@ -87,9 +94,7 @@ object GlobalInputHandler {
     private var ignoreLeftClick = false // fix forge version while compatible with fabric version
 
     private fun handleAssignKeybind() {
-        val pressedKeys: List<Int> = currentAssigningKeybind
-            ?.run { settings.modifierKey.handleKeys(pressedKeys.toList()) }
-            ?: pressedKeys.toList()
+        val pressedKeys: List<Int> = currentAssigningKeybind?.run { settings.modifierKey.handleKeys(pressedKeys.toList()) } ?: pressedKeys.toList()
         if (lastAction == GLFW_PRESS) {
             if (lastKey == KeyCodes.MOUSE_BUTTON_1 && ignoreLeftClick) { // GLFW_MOUSE_BUTTON_1 - 100
                 return

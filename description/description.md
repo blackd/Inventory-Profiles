@@ -32,8 +32,8 @@ This mod will:
 <tbody>
 <tr>
 <td></td>
-<td><a href="https://www.patreon.com/mirinimi"> <img src="https://nc.anti-ad.org/cgi-bin/test.png" alt="Patreon Logo"/> </a> </td>
-<td>
+<td style="vertical-align: middle;"><a href="https://www.patreon.com/mirinimi"> <img src="https://nc.anti-ad.org/cgi-bin/test.png" alt="Patreon Logo"/> </a> </td>
+<td style="vertical-align: middle;">
 <iframe class="center" src="https://github.com/sponsors/blackd/button" height="35" width="116"></iframe>
 </td>
 </tr>

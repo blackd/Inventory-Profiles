@@ -61,7 +61,7 @@ object ClientEventHandler {
     }
 
     fun onJoinWorld(clientWorld: ClientWorld) {
-        if (firstJoin && ModSettings.ENABLE_UPDATES_CHECK.value) {
+        if (firstJoin) {
             firstJoin = false
             doCheckVersion()
         }
@@ -87,53 +87,58 @@ object ClientEventHandler {
 
     fun doCheckVersion() {
         InfoManager.checkVersion { new, current, isBeta ->
-            timer (name = "versionMessage", initialDelay = 5000, period = 10000) {
-                Vanilla.queueForMainThread {
-                    val clickableMsg = LiteralText("")
-                        .append(LiteralText("Inventory Profiles Next:")
-                                    .apply {
-                                        style = Style()
-                                            .setBold(true)
-                                            .setColor(Formatting.AQUA) }
-                               )
-                        .append(LiteralText(I18n.translate("inventoryprofiles.update.version"))
-                                    .apply {
-                                        style = Style()
-                                    })
-                        .append(LiteralText("'$new'")
-                                    .apply {
-                                        style = Style()
-                                            .setBold(true)
-                                            .setColor(Formatting.DARK_GREEN)
-                                    })
-                        .append(LiteralText(I18n.translate("inventoryprofiles.update.available"))
-                                    .apply {
-                                        style = Style()
-                                    })
-                        .append(I18n.translate("inventoryprofiles.update.get"))
-                        .append(LiteralText("\"Modrinth\"")
-                                    .apply {
-                                        style = Style()
-                                            .setBold(true)
-                                            .setColor(Formatting.DARK_GREEN)
-                                            .setUnderline(true)
-                                            .setClickEvent(ClickEvent(ClickEventAction.OPEN_URL, "https://modrinth.com/mod/inventory-profiles-next"))
-                                            .setHoverEvent(createHoverEventText("https://modrinth.com/mod/inventory-profiles-next"))
-                                    })
-                        .append(LiteralText(I18n.translate("inventoryprofiles.update.or"))
-                                    .apply { style = Style() } )
-                        .append(LiteralText("\"CurseForge\"")
-                                    .apply {
-                                        style = Style()
-                                            .setBold(true)
-                                            .setColor(Formatting.DARK_RED)
-                                            .setUnderline(true)
-                                            .setClickEvent(ClickEvent(ClickEventAction.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next"))
-                                            .setHoverEvent(createHoverEventText("https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next"))
-                                    })
-                    TellPlayer.chat(clickableMsg)
+            if (ModSettings.ENABLE_UPDATES_CHECK.value) {
+                timer(name = "versionMessage", initialDelay = 5000, period = 10000) {
+                    Vanilla.queueForMainThread {
+                        val clickableMsg = LiteralText("")
+                            .append(LiteralText("Inventory Profiles Next:")
+                                        .apply {
+                                            style = Style()
+                                                .setBold(true)
+                                                .setColor(Formatting.AQUA)
+                                        }
+                                   )
+                            .append(LiteralText(I18n.translate("inventoryprofiles.update.version"))
+                                        .apply {
+                                            style = Style()
+                                        })
+                            .append(LiteralText("'$new'")
+                                        .apply {
+                                            style = Style()
+                                                .setBold(true)
+                                                .setColor(Formatting.DARK_GREEN)
+                                        })
+                            .append(LiteralText(I18n.translate("inventoryprofiles.update.available"))
+                                        .apply {
+                                            style = Style()
+                                        })
+                            .append(I18n.translate("inventoryprofiles.update.get"))
+                            .append(LiteralText("\"Modrinth\"")
+                                        .apply {
+                                            style = Style()
+                                                .setBold(true)
+                                                .setColor(Formatting.DARK_GREEN)
+                                                .setUnderline(true)
+                                                .setClickEvent(ClickEvent(ClickEventAction.OPEN_URL,
+                                                                          "https://modrinth.com/mod/inventory-profiles-next"))
+                                                .setHoverEvent(createHoverEventText("https://modrinth.com/mod/inventory-profiles-next"))
+                                        })
+                            .append(LiteralText(I18n.translate("inventoryprofiles.update.or"))
+                                        .apply { style = Style() })
+                            .append(LiteralText("\"CurseForge\"")
+                                        .apply {
+                                            style = Style()
+                                                .setBold(true)
+                                                .setColor(Formatting.DARK_RED)
+                                                .setUnderline(true)
+                                                .setClickEvent(ClickEvent(ClickEventAction.OPEN_URL,
+                                                                          "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next"))
+                                                .setHoverEvent(createHoverEventText("https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next"))
+                                        })
+                        TellPlayer.chat(clickableMsg)
+                    }
+                    this.cancel()
                 }
-                this.cancel()
             }
         }
     }

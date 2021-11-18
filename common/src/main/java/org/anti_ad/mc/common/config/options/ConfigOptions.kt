@@ -33,8 +33,7 @@ class ConfigInteger(defaultValue: Int,
         get() = value
 }
 
-open class ConfigBoolean(final override val defaultValue: Boolean) :
-    ConfigOptionBase(), IConfigOptionPrimitive<Boolean>, IConfigOptionToggleable {
+open class ConfigBoolean(final override val defaultValue: Boolean): ConfigOptionBase(), IConfigOptionPrimitive<Boolean>, IConfigOptionToggleable {
     override var value = defaultValue
     override fun toggleNext() = run { value = !value }
     override fun togglePrevious() = run { value = !value }

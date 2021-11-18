@@ -15,6 +15,7 @@ import org.anti_ad.mc.common.input.KeybindSettings.ModifierKey.NORMAL
 
 class MainKeybind(defaultStorageString: String,
                   override val defaultSettings: KeybindSettings) : IKeybind {
+
     override val defaultKeyCodes = IKeybind.getKeyCodes(defaultStorageString)
     override var keyCodes = defaultKeyCodes
     override var settings = defaultSettings
@@ -67,8 +68,14 @@ interface IKeybind : IConfigElementObject {
     override val isModified
         get() = isKeyCodesModified || isSettingsModified
 
-    fun resetKeyCodesToDefault() = run { keyCodes = defaultKeyCodes }
-    fun resetSettingsToDefault() = run { settings = defaultSettings }
+    fun resetKeyCodesToDefault() {
+        keyCodes = defaultKeyCodes
+    }
+
+    fun resetSettingsToDefault() {
+        settings = defaultSettings
+    }
+
     override fun resetToDefault() {
         resetKeyCodesToDefault()
         resetSettingsToDefault()
@@ -76,7 +83,9 @@ interface IKeybind : IConfigElementObject {
 
     fun KeybindSettings.toConfigElement() = ConfigKeybindSettings(defaultSettings,
                                                                   this)
+
     fun KeybindSettings.toJsonElement() = toConfigElement().toJsonElement()
+
     fun KeybindSettings.fromJsonElement(element: JsonElement): KeybindSettings {
         return toConfigElement().apply { fromJsonElement(element) }.settings
     }
@@ -89,12 +98,15 @@ interface IKeybind : IConfigElementObject {
             this["settings"] = settings.toJsonElement()
         }
     })
+
     override fun fromJsonObject(obj: JsonObject) {
         try {
-            obj["settings"]
-                ?.let { settings = settings.fromJsonElement(it) }
-            obj["keys"]
-                ?.let { keyCodes = getKeyCodes(it.jsonPrimitive.content) }
+            obj["settings"]?.let {
+                settings = settings.fromJsonElement(it)
+            }
+            obj["keys"]?.let {
+                keyCodes = getKeyCodes(it.jsonPrimitive.content)
+            }
         } catch (e: Exception) {
             Log.warn("Failed to set config value for 'keys' from the JSON element '${obj["keys"]}'")
         }
@@ -102,12 +114,21 @@ interface IKeybind : IConfigElementObject {
 
 
     companion object {
+
         fun getStorageString(keyCodes: List<Int>) = keyCodes.joinToString(",") { KeyCodes.getName(it) }
+
         fun getDisplayText(keyCodes: List<Int>) = keyCodes.joinToString(" + ") { KeyCodes.getFriendlyName(it) }
+
         fun getDisplayTextModifier(keyCodes: List<Int>) = keyCodes.joinToString(" + ") { KeyCodes.getModifierName(it) }
+
         fun getKeyCodes(storageString: String): List<Int> =
-            storageString.split(",")
-                .map { KeyCodes.getKeyCode(it.trim()) }
-                .filter { it != -1 }.distinct()
+                storageString
+                    .split(",")
+                    .map {
+                        KeyCodes.getKeyCode(it.trim())
+                    }
+                    .filter {
+                        it != -1
+                    }.distinct()
     }
 }

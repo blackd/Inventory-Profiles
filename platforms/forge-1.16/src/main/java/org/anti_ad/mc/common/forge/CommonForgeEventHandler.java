@@ -1,12 +1,18 @@
 package org.anti_ad.mc.common.forge;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputMappings;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.anti_ad.mc.common.input.GlobalInputHandler;
 import org.anti_ad.mc.common.input.GlobalScreenEventListener;
 import org.anti_ad.mc.common.vanilla.Vanilla;
+import org.anti_ad.mc.ipnext.config.ModSettings;
+import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.lwjgl.glfw.GLFW;
 
 public class CommonForgeEventHandler {
@@ -25,6 +31,14 @@ public class CommonForgeEventHandler {
         if (event.isCanceled()) return;
         event.setCanceled(GlobalScreenEventListener.INSTANCE
                 .onKeyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers(), true));
+    }
+
+    private boolean shouldCancelThrow(int keycode) {
+        int currentItem = Vanilla.INSTANCE.mc().player != null ? Vanilla.INSTANCE.mc().player.inventory.currentItem : -1;
+        return ModSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
+                && PlayerInventory.isHotbar(currentItem)
+                && Vanilla.INSTANCE.mc().gameSettings.keyBindDrop.getKey().getKeyCode() == keycode
+                && !LockSlotsHandler.INSTANCE.isQMoveActionAllowed(currentItem + 36, true, 0);
     }
 
     @SubscribeEvent

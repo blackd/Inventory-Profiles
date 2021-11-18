@@ -6,6 +6,8 @@ import net.minecraftforge.client.event.GuiContainerEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -15,6 +17,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtilKt;
 import org.anti_ad.mc.ipnext.config.Tweaks;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
+import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
@@ -28,7 +31,6 @@ public class ForgeEventHandler {
     public void clientClick(ClientTickEvent e) {
         if (e.phase == Phase.START) {
             ClientEventHandler.INSTANCE.onTickPre();
-            onTickPre();
         } else { // e.phase == Phase.END
             ClientEventHandler.INSTANCE.onTick();
         }
@@ -95,7 +97,20 @@ public class ForgeEventHandler {
         }
     }
 
-    public void onTickPre() {
-
+    // this event is disabled.
+    //@SubscribeEvent
+    public void onOverlayLayerPre(RenderGameOverlayEvent.PreLayer event) {
+        if (event.getOverlay() == ForgeIngameGui.HOTBAR_ELEMENT) {
+            LockSlotsHandler.INSTANCE.preRenderHud(event.getMatrixStack());
+        }
     }
+
+
+    @SubscribeEvent
+    public void onOverlayLayerPost(RenderGameOverlayEvent.PostLayer event) {
+        if (event.getOverlay() == ForgeIngameGui.HOTBAR_ELEMENT) {
+            LockSlotsHandler.INSTANCE.postRenderHud(event.getMatrixStack());
+        }
+    }
+
 }

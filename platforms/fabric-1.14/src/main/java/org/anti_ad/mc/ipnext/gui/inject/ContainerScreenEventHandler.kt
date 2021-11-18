@@ -44,8 +44,9 @@ object ContainerScreenEventHandler {
             (it as InsertableWidget).run {
                 val currentScreen = Vanilla.screen()
                 val matchScreen = (currentScreen as? BaseScreen)?.hasParent(screen) ?: (currentScreen == screen)
-                if (!matchScreen)
+                if (!matchScreen) {
                     currentWidgets = null
+                }
             }
         }
     }
@@ -57,8 +58,8 @@ object ContainerScreenEventHandler {
     fun onBackgroundRender() {
         currentWidgets?.forEach {
             (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
-                                    VanillaUtil.mouseY(),
-                                    VanillaUtil.lastFrameDuration())
+                                                          VanillaUtil.mouseY(),
+                                                          VanillaUtil.lastFrameDuration())
         }
         LockSlotsHandler.onBackgroundRender()
     }
@@ -70,6 +71,10 @@ object ContainerScreenEventHandler {
     fun postRender() {
         LockSlotsHandler.postRender()
         ContainerClicker.postScreenRender()
-        currentWidgets?.forEach {  it.let { Tooltips.renderAll() }}
+        currentWidgets?.forEach {
+            it.let {
+                Tooltips.renderAll()
+            }
+        }
     }
 }

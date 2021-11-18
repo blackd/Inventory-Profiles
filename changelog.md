@@ -1,11 +1,13 @@
 <!-- latest begin -->
 
 ### 1.1.5
-- fixed move all when key binding is set to "ctrl + alt + q"
+- the hotbar now shows the locked slots.
+- new setting (enabled by default) to disable drop for locked slots containing non-stackable items. 
+  prevents accidental drops of gear.
+- fixed "move all" when key binding is set to "ctrl + alt + q"
 - some changes under the hood
 - added updates check. The check is done once you enter a word/connect ot a server and message is displayed if there is new version available.
-- added analytics. What data is collected? Once a session we collect information about the version of the mod and what features of the mod are used. We do not store any personal information. Your IP is not stored. The data will not be sold or transferred or shared with anyone.
-- both of the above can be disabled in the mod Settings.
+
 
 <!-- latest end -->
 

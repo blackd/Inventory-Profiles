@@ -58,10 +58,12 @@ object ModSettings : ConfigDeclaration {
     val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
     val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
     val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
-    val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(1,
+    val ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR          /**/ by bool(true)
+    val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(2,
                                                               1,
                                                               6)
     val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW     /**/ by bool(false)
+    val LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE    /**/ by bool(true)
     val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY      /**/ by bool(false)
     val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS    /**/ by int(50,
                                                               20,
@@ -82,7 +84,7 @@ object ModSettings : ConfigDeclaration {
 
         .CATEGORY("$category.privacy")
     val ENABLE_UPDATES_CHECK                      /**/ by bool(true)
-    val ENABLE_ANALYTICS                          /**/ by bool(true)
+    val ENABLE_ANALYTICS                          /**/ by bool(false)
 
         .CATEGORY("$category.advanced_options")
     val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)

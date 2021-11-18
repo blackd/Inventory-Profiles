@@ -3,7 +3,6 @@ package org.anti_ad.mc.common.moreinfo
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.extensions.orDefault
 import java.net.URL
 import java.util.concurrent.*
 
@@ -17,14 +16,19 @@ object InfoManager {
     var modName = "name-missing"
     var loader: String = "loader-missing"
 
-    val defaultRequest: Map<String, String> = mapOf("domain" to "ipn-stats.anti-ad.org",
+    private val defaultRequest: Map<String, String> = mapOf("domain" to "ipn-stats.anti-ad.org",
                                                     "name" to "pageview")
-    val session: MutableMap<String, String> = mutableMapOf()
-    val target = URL("https://p.anti-ad.org/api/event")
+    private val session: MutableMap<String, String> = mutableMapOf()
+    private val target = URL("https://p.anti-ad.org/api/event")
 
-    val versionUrl = URL("https://github.com/blackd/Inventory-Profiles/releases/latest")
+    private val versionUrl = URL("https://ipn.anti-ad.org/ipn/versionCheckV2")
 
     var isEnabled: () -> Boolean = { true }
+
+    private val isBeta by lazy { version.contains("BETA") }
+    private val currentVer by lazy { SemVer.parse(if (isBeta) version.substringBefore("-")  else { version }) }
+    private val mcVersionClean by lazy { mcVersion.split(".").joinToString(separator = "") }
+
 
     private val executor = Executors.newFixedThreadPool(2)
 
@@ -79,6 +83,7 @@ object InfoManager {
 
             requestMethod = "POST"
             setRequestProperty("Content-Type", "application/json; utf-8")
+            setRequestProperty("User-Agent", "Minecraft/$mcVersionClean IPN/${currentVer.major}${currentVer.minor}${currentVer.patch}")
             setRequestProperty("Content-Length", bodyBytes.size.toString())
             doOutput = true
 
@@ -108,9 +113,12 @@ object InfoManager {
         with(versionUrl.openConnection() as HttpsURLConnection) {
             val isBeta = version.contains("BETA")
             val currentVer = SemVer.parse(if (isBeta) version.substringBefore("-")  else { version })
+            setRequestProperty("User-Agent", "Minecraft/$mcVersion; $loader; IPN/$currentVer;" + if (isBeta) " Beta" else "")
+
             instanceFollowRedirects = false
-            if (responseCode == 302) {
-                val latestVer = SemVer.parse(getHeaderField("location").orDefault { "" }.substringAfterLast("/", version).substringAfter("v"))
+            val xIpn = getHeaderField("X-IPN")
+            if (responseCode == 302 && xIpn != null) {
+                val latestVer = SemVer.parse(xIpn)
                 if (latestVer > latestVer || (isBeta && latestVer >= currentVer) ) {
                     function(latestVer, currentVer, isBeta)
                 }

@@ -9,7 +9,9 @@
   ],
   "client": [
     "MixinScreenHandler",
-    "MixinPlayerInventory"
+    "MixinPlayerInventory",
+    "MixinMinecraftClient",
+    "IMixinKeyBinding"
   ],
   "injectors": {
     "defaultRequire": 1

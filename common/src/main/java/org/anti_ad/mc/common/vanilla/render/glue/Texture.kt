@@ -99,13 +99,31 @@ fun rDrawCenteredSprite(sprite: Sprite,
                                                                location.y)
 
 fun rDrawCenteredSprite(sprite: Sprite,
+                        tIndex: Int,
+                        location: Point) = rDrawCenteredSprite(sprite,
+                                                               tIndex,
+                                                               location.x,
+                                                               location.y)
+
+
+fun rDrawCenteredSprite(sprite: Sprite,
+                        tIndex: Int,
                         x: Int,
                         y: Int) {
     val (w, h) = sprite.size
     __glue_rDrawSprite(sprite,
-                       0,
+                       tIndex,
                        x - w / 2,
                        y - h / 2)
+}
+
+fun rDrawCenteredSprite(sprite: Sprite,
+                        x: Int,
+                        y: Int) {
+    rDrawCenteredSprite(sprite,
+                       0,
+                       x,
+                       y)
 }
 
 
