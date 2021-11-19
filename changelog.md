@@ -1,6 +1,10 @@
 <!-- latest begin -->
 
 ### 1.1.5
+- fixed crash on 1.17.
+- 1.18 is now separate build and 1.17 builds are no longer compatible with 1.18
+
+### 1.1.5
 - the hotbar now shows the locked slots.
 - new setting (enabled by default) to disable drop for locked slots containing non-stackable items. 
   prevents accidental drops of gear.
