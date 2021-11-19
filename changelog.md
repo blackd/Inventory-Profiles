@@ -1,6 +1,6 @@
 <!-- latest begin -->
 
-### 1.1.5
+### 1.1.6
 - fixed crash on 1.17.
 - 1.18 is now separate build and 1.17 builds are no longer compatible with 1.18
 

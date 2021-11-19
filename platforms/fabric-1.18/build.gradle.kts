@@ -6,7 +6,7 @@ import org.anti_ad.mc.platformsCommonConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.18-pre1")
+val supported_minecraft_versions = listOf("1.18-pre4", "1.18-snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.18-pre1"
@@ -217,9 +217,9 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         changelog = file("../../changelog.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            //if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+            if (!it.toLowerCase().contains("pre")) {
                 this.addGameVersion(it)
-            //}
+            }
         }
         val fabricRemapJar = tasks.named<RemapJarTask>("remapShadedJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
@@ -268,7 +268,9 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
         +*************************************************+
     """.trimIndent())
     supported_minecraft_versions.forEach { ver ->
-        addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
+        if (!ver.toLowerCase().contains("snapshot")) {
+            addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
+        }
     }
     versionName = "IPN $mod_version for $mod_loader $minecraft_version"
     changelog = project.rootDir.resolve("changelog.md").readText()
