@@ -1,5 +1,12 @@
 <!-- latest begin -->
 
+### 1.1.7
+- fixed crash when opening the wiki link and config folder.
+- fixes incompatibility with MaliLib where sometimes this mod key bindings will stop working.
+- fixes the version checker which didn't display the new version message.
+
+<!-- latest end -->
+
 ### 1.1.6
 - fixed crash on 1.17.
 - 1.18 is now separate build and 1.17 builds are no longer compatible with 1.18
@@ -13,7 +20,7 @@
 - added updates check. The check is done once you enter a word/connect ot a server and message is displayed if there is new version available.
 
 
-<!-- latest end -->
+
 
 
 <!-- rest begin -->

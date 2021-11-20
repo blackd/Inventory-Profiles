@@ -90,14 +90,14 @@ private object VanillaUtil : IVanillaUtil {
         //todo check with every version if this is safe to do!!!!!
         thread { ->
             Util.getOperatingSystem().open(file)
-        }.start()
+        }
     }
 
     override fun open(url: URL) {
         // ResourcePackOptionsScreen.init()
         thread { ->
             Util.getOperatingSystem().open(url)
-        }.start()
+        }
     }
 
 

@@ -90,14 +90,14 @@ private object VanillaUtil: IVanillaUtil {
         // ResourcePackOptionsScreen.init()
         thread { ->
             Util.getPlatform().openFile(file) // getOSType()
-        }.start()
+        }
     }
 
     override fun open(url: URL) {
         // ResourcePackOptionsScreen.init()
         thread { ->
             Util.getPlatform().openUrl(url)
-        }.start()
+        }
     }
 
 

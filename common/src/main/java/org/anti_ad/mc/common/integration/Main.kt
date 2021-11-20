@@ -1,3 +1,4 @@
+/*
 package org.anti_ad.mc.common.integration
 
 import kotlinx.serialization.*
@@ -13,3 +14,5 @@ fun main(args: Array<String>) {
     val s = Json.encodeToString(l)
     println(s)
 }
+
+ */

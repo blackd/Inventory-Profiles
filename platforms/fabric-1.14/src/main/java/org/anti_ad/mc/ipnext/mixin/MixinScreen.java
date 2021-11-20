@@ -18,6 +18,7 @@ public abstract class MixinScreen {
     @Shadow
     protected abstract <T extends AbstractButtonWidget> T addButton(T abstractButtonWidget);
 
+    @SuppressWarnings("ConstantConditions")
     @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")
     public void init(MinecraftClient minecraftClient, int i, int j, CallbackInfo ci) {
         Screen self = (Screen) (Object) this;

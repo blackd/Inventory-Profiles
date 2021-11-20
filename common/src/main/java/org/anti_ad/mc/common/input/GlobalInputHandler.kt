@@ -2,12 +2,11 @@ package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.extensions.ifFalse
+import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.debug.DebugInfos
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
-
 import org.lwjgl.glfw.GLFW.*
-
-
 
 object GlobalInputHandler {
 
@@ -116,17 +115,36 @@ object GlobalInputHandler {
         }
     }
 
+    fun isKeyDown(keyCode: Int, window: Long): Boolean {
+        var keyCode = keyCode
+        if (keyCode >= 0) {
+            return glfwGetKey(window, keyCode) == GLFW_PRESS
+        }
+        keyCode += 100
+        return keyCode >= 0 && glfwGetMouseButton(window, keyCode) == GLFW_PRESS
+    }
     // ============
     // Vanilla key hook handler
     // ============
     fun onKey(key: Int,
               scanCode: Int,
               action: Int,
-              modifiers: Int): Boolean {
+              modifiers: Int,
+              checkPressing: Boolean,
+              handle: Long): Boolean {
         DebugInfos.onKey(key,
                          scanCode,
                          action,
                          modifiers)
+        if (checkPressing && pressedKeys.isNotEmpty()) {
+            val pressed = pressedKeys.toSet()
+            pressedKeys.clear()
+            pressed.forEach {
+                isKeyDown(it, handle).ifTrue {
+                    pressedKeys.add(it)
+                }
+            }
+        }
         return when (action) {
             GLFW_PRESS, GLFW_RELEASE -> onKey(key,
                                               action)

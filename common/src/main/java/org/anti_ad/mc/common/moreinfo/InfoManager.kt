@@ -119,7 +119,7 @@ object InfoManager {
             val xIpn = getHeaderField("X-IPN")
             if (responseCode == 302 && xIpn != null) {
                 val latestVer = SemVer.parse(xIpn)
-                if (latestVer > latestVer || (isBeta && latestVer >= currentVer) ) {
+                if (latestVer > currentVer || (isBeta && latestVer >= currentVer) ) {
                     function(latestVer, currentVer, isBeta)
                 }
             }

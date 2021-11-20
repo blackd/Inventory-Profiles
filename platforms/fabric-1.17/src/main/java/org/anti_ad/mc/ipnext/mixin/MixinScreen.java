@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,13 +20,14 @@ import java.util.List;
 @Mixin(Screen.class)
 public abstract class MixinScreen {
 
-    @Shadow
+    @Shadow @Final
     private final List<Element> children = new ArrayList<>();
-    ;
-    @Shadow
-    private final List<Selectable> selectables = new ArrayList<>();
-    ;
 
+    @Shadow @Final
+    private final List<Selectable> selectables = new ArrayList<>();
+
+
+    @SuppressWarnings("ConstantConditions")
     @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")
     public void init(MinecraftClient minecraftClient, int i, int j, CallbackInfo ci) {
         Screen self = (Screen) (Object) this;
@@ -35,6 +37,7 @@ public abstract class MixinScreen {
         });
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public <T extends Element & Selectable> T addSelectableChild(T child) {
         this.children.add(child);
         this.selectables.add((Selectable) child);
