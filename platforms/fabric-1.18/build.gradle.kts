@@ -6,11 +6,11 @@ import org.anti_ad.mc.platformsCommonConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.18-pre4", "1.18-snapshot")
+val supported_minecraft_versions = listOf("1.18-pre5", "1.18-Snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.18-pre1"
-val mappings_version = "1.18-pre1+build.14"
+val minecraft_version = "1.18-pre5"
+val mappings_version = "1.18-pre5+build.9"
 val loader_version = "0.12.5"
 val modmenu_version = "3.0.0"
 
@@ -51,17 +51,24 @@ platformsCommonConfig()
 group = "org.anti-ad.mc"
 
 configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "17"
+}
+
 dependencies {
     "shadedApi"(project(":common"))
-    implementation("com.guardsquare:proguard-gradle:7.1.1")
+    implementation("com.guardsquare:proguard-gradle:7.2.0-beta2")
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.41.0+1.18")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.42.8+1.18")
 }
 
 loom {
@@ -71,11 +78,6 @@ loom {
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 }
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "16"
-}
 
 val proguard by tasks.registering(ProGuardTask::class) {
 

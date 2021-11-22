@@ -40,9 +40,3 @@ fun Project.configureDependencies() {
         "api"("org.jetbrains:annotations:20.1.0")
     }
 }
-
-fun Project.addPostDeps() {
-    buildscript {
-        dependencies.classpath("com.guardsquare:proguard-gradle:7.1.1")
-    }
-}

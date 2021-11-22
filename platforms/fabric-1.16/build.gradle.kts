@@ -44,6 +44,23 @@ plugins {
 configureCommon(true)
 //platformsCommonConfig()
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "1.8"
+}
+
+//this is here so we always compile for 1.8
+tasks.withType<JavaCompile> {
+    this.targetCompatibility = "1.8"
+}
+
 group = "org.anti-ad.mc"
 
 configure<JavaPluginExtension> {
@@ -69,12 +86,6 @@ loom {
     runConfigs["client"].programArgs += listOf("--width=1280", "--height=720", "--username=DEV")
     //refmapName = "inventoryprofilesnext-refmap.json"
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
-}
-
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "1.8"
 }
 
 val proguard by tasks.registering(ProGuardTask::class) {

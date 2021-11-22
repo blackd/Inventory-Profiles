@@ -41,21 +41,33 @@ plugins {
     antlr
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.modrinth.minotaur") version "1.2.1"
+    //id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
 
 //platformsCommonConfig()
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "1.8"
+}
+
+
+
 group = "org.anti-ad.mc"
 
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
 
 dependencies {
     "shadedApi"(project(":common"))
-    "implementation"("com.guardsquare:proguard-gradle:7.1.1")
+    //"implementation"("com.guardsquare:proguard-gradle:7.2.0-SNAPSHOT")
+    implementation("com.guardsquare:proguard-gradle:7.2.0-beta2")
+
     minecraft("com.mojang:minecraft:1.14.4")
     mappings("net.fabricmc:yarn:1.14.4+build.18:v2")
     modImplementation("net.fabricmc:fabric-loader:0.12.4")
@@ -72,11 +84,7 @@ loom {
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json");
 }
 
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "1.8"
-}
+
 
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")
@@ -155,6 +163,10 @@ afterEvaluate {
         }
 
         logger.lifecycle("will rename ${fabricRemapJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
+    }
+    //this is here so we always compile for 1.8
+    tasks.withType<JavaCompile> {
+        this.targetCompatibility = "1.8"
     }
 
 }

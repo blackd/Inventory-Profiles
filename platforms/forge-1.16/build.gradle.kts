@@ -67,6 +67,18 @@ plugins {
 
 configureCommon(true)
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "1.8"
+}
+
+
 group = "org.anti0ad.mc"
 
 repositories {
@@ -94,11 +106,6 @@ if ("true" == System.getProperty("idea.sync.active")) {
     }
 }
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "1.8"
-}
 
 
 tasks.register<Copy>("copyMixinMappings") {

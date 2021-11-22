@@ -48,9 +48,20 @@ plugins {
 
 group = "org.anti-ad.mc"
 
-configure<JavaPluginExtension> {
+java {
     sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "1.8"
+}
+
+//this is here so we always compile for 1.8
+tasks.withType<JavaCompile> {
+    this.targetCompatibility = "1.8"
 }
 
 dependencies {
@@ -72,11 +83,6 @@ loom {
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json");
 }
 
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "1.8"
-}
 
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")

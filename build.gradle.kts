@@ -5,11 +5,12 @@ import java.io.ByteArrayOutputStream
 
 buildscript {
     dependencies {
-        classpath("com.guardsquare:proguard-gradle:7.1.0-beta5")
+        classpath("com.guardsquare:proguard-gradle:7.2.0-beta2")
     }
 }
 
-val versionObj = Version("1", "1", "7",
+
+val versionObj = Version("1", "1", "8",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -87,6 +88,35 @@ tasks.register("owner-testing-env") {
             standardOutput = bos
         }
         logger.lifecycle(bos.toString())
+    }
+}
+
+
+tasks.register<DefaultTask>("minimizeJars") {
+    subprojects.filter {
+        val isFabric = it.name.startsWith("fabric")
+        val isForge = it.name.startsWith("forge")
+        isFabric || isForge
+    }.forEach {
+        val isForge = !it.name.startsWith("fabric")
+        val taskName = if (isForge) { "shadowJar" } else { "remapShadedJar" }
+        val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+        dependsOn(jarTask)
+        if (isForge) {
+            val endTask = it.tasks.named("reobfJar")
+            dependsOn(endTask)
+        }
+        val jarFile = jarTask.get()
+        val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
+        doLast {
+            exec {
+                this.workingDir = it.layout.projectDirectory.asFile
+                val script = project.layout.projectDirectory.file("optimize-jar.sh")
+                this.executable = script.asFile.absolutePath
+                this.args(jarPath.get().asFile.absolutePath, it.layout.buildDirectory.get().asFile.absolutePath)
+
+            }
+        }
     }
 }
 

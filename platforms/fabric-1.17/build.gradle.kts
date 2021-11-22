@@ -47,6 +47,22 @@ plugins {
 configureCommon()
 platformsCommonConfig()
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
+
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "16"
+}
+
+//this is here so we always compile for 1.8
+tasks.withType<JavaCompile> {
+    this.targetCompatibility = "16"
+}
+
 group = "org.anti-ad.mc"
 
 
@@ -67,11 +83,6 @@ loom {
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 }
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "16"
-}
 
 val proguard by tasks.registering(ProGuardTask::class) {
 

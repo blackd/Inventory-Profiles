@@ -12,7 +12,7 @@ val supported_minecraft_versions = listOf("1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
-val forge_version = "37.0.104"
+val forge_version = "37.0.112"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 
@@ -72,11 +72,16 @@ configureCommon()
 platformsCommonConfig()
 
 
-configure<JavaPluginExtension> {
+java {
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
 }
 
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.5"
+    jvmTarget = "16"
+}
 
 group = "org.anti-ad.mc"
 
@@ -85,6 +90,7 @@ repositories {
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
 }
+
 
 
 dependencies {
@@ -110,11 +116,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
     }
 }
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "16"
-}
+
 
 
 tasks.register<Copy>("copyMixinMappings") {

@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version "1.6.0"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
 repositories {
@@ -10,9 +11,21 @@ repositories {
     gradlePluginPortal()
 }
 
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+    dependencies {
+        classpath("gradle.plugin.com.github.johnrengelman:shadow:7.1.0")
+    }
+}
+
 dependencies {
-    "implementation"("com.github.jengelman.gradle.plugins:shadow:+")
+    //"implementation"("com.github.jengelman.gradle.plugins:shadow:7.1.0")
     //implementation(kotlin("stdlib-jdk8"))
+    implementation("gradle.plugin.com.github.johnrengelman:shadow:7.1.0")
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
