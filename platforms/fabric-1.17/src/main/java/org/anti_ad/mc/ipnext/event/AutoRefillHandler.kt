@@ -203,16 +203,20 @@ object AutoRefillHandler {
                     val slots = playerContainer.`(slots)`
                     with(AreaTypes) {
                         playerStorage - lockedSlots
-                    }.getItemArea(playerContainer, slots).slotIndices.map {
-                            IndexedValue(it - 9,
-                                         slots[it].`(itemStack)`)
+                    }.getItemArea(playerContainer,
+                                  slots).slotIndices.map {
+                        IndexedValue(it - 9,
+                                     slots[it].`(itemStack)`)
                     }
                 }.asSequence()
                 var index = -1
                 val itemType = checkingItem.itemType
                 if (itemType.isDamageable) {
-                    val threshold =
-                        if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) getThreshold(itemType) else -1
+                    val threshold = if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
+                        getThreshold(itemType)
+                    } else {
+                        -1
+                    }
                     filtered = filtered.filter { it.value.itemType.run { isDamageable && durability > threshold } }
                     when (itemType.item) {
                         is ArmorItem -> {

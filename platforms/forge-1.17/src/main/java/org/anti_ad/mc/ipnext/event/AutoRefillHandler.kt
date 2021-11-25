@@ -11,7 +11,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.ShovelItem
 import org.anti_ad.mc.common.vanilla.alias.items.SwordItem
 import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
-import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
@@ -44,7 +44,7 @@ object AutoRefillHandler {
     var screenOpening = false
 
     fun onTickInGame() {
-        if (Vanilla.screen() != null || (ModSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey())) {
+        if (Vanilla.screen() != null || (AutoRefillSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey())) {
             screenOpening = true
         } else if (VanillaUtil.inGame()) { //  Vanilla.screen() == null
             if (screenOpening) {
@@ -63,7 +63,7 @@ object AutoRefillHandler {
         monitors.clear()
         val list = listOf(ItemSlotMonitor { 36 + vMainhandIndex() }, // main hand inv 0-8
                           ItemSlotMonitor(45) // offhand inv 40
-        ) + if (!ModSettings.REFILL_ARMOR.booleanValue) listOf() else
+        ) + if (!AutoRefillSettings.REFILL_ARMOR.booleanValue) listOf() else
             listOf(ItemSlotMonitor(5), // head inv 39
                    ItemSlotMonitor(6), // chest inv 38
                    ItemSlotMonitor(7), // legs inv 37
@@ -114,7 +114,7 @@ object AutoRefillHandler {
 
         fun checkHandle() {
             if (shouldHandle) {
-                if (tickCount >= ModSettings.AUTO_REFILL_WAIT_TICK.integerValue) {
+                if (tickCount >= AutoRefillSettings.AUTO_REFILL_WAIT_TICK.integerValue) {
                     // do handle
                     handle()
                     updateCurrent()
@@ -174,7 +174,7 @@ object AutoRefillHandler {
             if (currentItem.isEmpty()) return true // something become nothing
             val itemType = currentItem.itemType
             if (itemType.isDamageable) {
-                if (ModSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
+                if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
                     val threshold = getThreshold(itemType)
                     if (itemType.durability <= threshold) return true.also { checkingItem = currentItem }
                 }
@@ -201,18 +201,22 @@ object AutoRefillHandler {
 //        val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
                 var filtered = Vanilla.playerContainer().let { playerContainer ->
                     val slots = playerContainer.`(slots)`
-                    with(AreaTypes) { playerStorage - lockedSlots }.getItemArea(playerContainer,
-                                                                                slots)
-                        .slotIndices.map {
-                            IndexedValue(it - 9,
-                                         slots[it].`(itemStack)`)
-                        }
+                    with(AreaTypes) {
+                        playerStorage - lockedSlots
+                    }.getItemArea(playerContainer,
+                                  slots).slotIndices.map {
+                        IndexedValue(it - 9,
+                                     slots[it].`(itemStack)`)
+                    }
                 }.asSequence()
                 var index = -1
                 val itemType = checkingItem.itemType
                 if (itemType.isDamageable) {
-                    val threshold =
-                        if (ModSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) getThreshold(itemType) else -1
+                    val threshold = if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
+                        getThreshold(itemType)
+                    } else {
+                        -1
+                    }
                     filtered = filtered.filter { it.value.itemType.run { isDamageable && durability > threshold } }
                     when (itemType.item) {
                         is ArmorItem -> {
@@ -282,9 +286,9 @@ object AutoRefillHandler {
 
             private fun getThreshold(itemType: ItemType): Int {
                 if (!itemType.isDamageable) return 0
-                return when (ModSettings.THRESHOLD_UNIT.value) {
-                    ABSOLUTE -> ModSettings.TOOL_DAMAGE_THRESHOLD.integerValue
-                    PERCENTAGE -> ModSettings.TOOL_DAMAGE_THRESHOLD.integerValue * itemType.maxDamage / 100
+                return when (AutoRefillSettings.THRESHOLD_UNIT.value) {
+                    ABSOLUTE -> AutoRefillSettings.TOOL_DAMAGE_THRESHOLD.integerValue
+                    PERCENTAGE -> AutoRefillSettings.TOOL_DAMAGE_THRESHOLD.integerValue * itemType.maxDamage / 100
                 }.coerceAtLeast(0)
             }
         }
