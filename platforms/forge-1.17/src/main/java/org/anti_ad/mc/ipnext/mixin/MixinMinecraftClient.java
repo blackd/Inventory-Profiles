@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Final;
@@ -29,7 +30,7 @@ public abstract class MixinMinecraftClient {
             method = "handleKeybinds()V")
     public void handleInputEvents(CallbackInfo info) {
         IMixinKeyBinding drop = (IMixinKeyBinding) options.keyDrop;
-        if(ModSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
+        if(LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
                 && Inventory.isHotbarSlot(this.player.getInventory().selected)
                 && drop.getTimesPressed() > 0 ) {
 

@@ -6,42 +6,48 @@ convert() {
     local IN=$1
     local TMP_OUT=$2
     
-    echo converting $IN to $OUT
+    echo converting "$IN" to "$OUT"
     
-    unzip -d $TMP_OUT $IN
+    unzip -d "$TMP_OUT" "$IN" > /dev/null
 
-    pushd .
+    pushd . > /dev/null
 
-    cd $2
+    # shellcheck disable=SC2164
+    cd "$2"
 
-    find . -type f | sort | zip -X -9 -@ $OUT 1> /dev/null
+    find . -type f | sort | zip -q -X -9 -@ "$OUT" > /dev/null
 
-#    advzip -i 50 -4 -z $OUT
+    advzip -3 -z "$OUT" > /dev/null
 
-    popd
+    # shellcheck disable=SC2164
+    popd > /dev/null
 }
 
-if [[ "x$1" == "" ]]; then
+if [[ "x$1" == "x" ]]; then
     echo "source jar not specified"
     exit 1
 fi
 
-if [[ "x$2" == "" ]]; then 
-    echo "rootdir not specified"
+if [[ "x$2" == "x" ]]; then
+    echo "root dir not specified"
     exit 1
 fi
 
-mkdir $2/jaropt/
+mkdir "$2/jaropt/" > /dev/null
 
-UNPACK_DIR=$(mktemp -d $2/jaropt/XXXXXXXXXX)
-TMP_OUTPUT_DIR=$(mktemp -d $2/jaropt/XXXXXXXXXX)
+UNPACK_DIR=$(mktemp -d "$2/jaropt/XXXXXXXXXX")
+TMP_OUTPUT_DIR=$(mktemp -d "$2/jaropt/XXXXXXXXXX")
 
-echo $UNPACK_DIR
+JAR_NAME=$(basename "$1")
 
-JAR_NAME=$(basename $1)
+convert "$1" "$UNPACK_DIR" "$TMP_OUTPUT_DIR/$JAR_NAME"
 
-convert $1 $UNPACK_DIR $TMP_OUTPUT_DIR/$JAR_NAME
+ORGSIZE=$(stat --printf "%s" "$1")
+NEWSIZE=$(stat --printf "%s" "$TMP_OUTPUT_DIR/$JAR_NAME")
+PERCENT=$(awk -vo="$ORGSIZE" -vn="$NEWSIZE" 'BEGIN { printf("%.3f", n/o*100)}')
 
-mv $TMP_OUTPUT_DIR/$JAR_NAME $1
+echo "$ORGSIZE -> $NEWSIZE  or $PERCENT%"
 
-rm -rf $UNPACK_DIR $TMP_OUTPUT_DIR
+mv "$TMP_OUTPUT_DIR/$JAR_NAME" "$1"
+
+rm -rf "$UNPACK_DIR" "$TMP_OUTPUT_DIR"

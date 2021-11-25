@@ -47,40 +47,11 @@ object ModSettings : ConfigDeclaration {
         .CATEGORY("$category.lock_slots")
     val ENABLE_LOCK_SLOTS                         /**/ by bool(true)
     val ENABLE_LOCK_SLOTS_PER_SERVER              /**/ by bool(true)
-    val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("LEFT_ALT",
-                                                                 KeybindSettings.GUI_EXTRA)
-    val LOCK_SLOTS_CONFIG_KEY                     /**/ by hotkey("BUTTON_1",
-                                                                 KeybindSettings.GUI_EXTRA)
-    val LOCK_SLOTS_QUICK_CONFIG_KEY               /**/ by hotkey("",
-                                                                 KeybindSettings.GUI_EXTRA)
-    val LOCK_SLOTS_QUICK_DISABLE                  /**/ by hotkey("",
-                                                                 KeybindSettings.GUI_EXTRA)
-    val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
-    val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
-    val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
-    val ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR          /**/ by bool(true)
-    val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(2,
-                                                              1,
-                                                              6)
-    val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW     /**/ by bool(false)
-    val LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE    /**/ by bool(true)
-    val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY      /**/ by bool(false)
-    val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS    /**/ by int(50,
-                                                              20,
-                                                              400)
+
 
         .CATEGORY("$category.auto_refill")
     val ENABLE_AUTO_REFILL                        /**/ by bool(true)
-    val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
-    val REFILL_ARMOR                              /**/ by bool(true)
-    val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
-    val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
-                                                              0,
-                                                              100)
-    val THRESHOLD_UNIT                            /**/ by enum(ThresholdUnit.ABSOLUTE)
-    val AUTO_REFILL_WAIT_TICK                     /**/ by int(0,
-                                                              0,
-                                                              100)
+
 
         .CATEGORY("$category.privacy")
     val ENABLE_UPDATES_CHECK                      /**/ by bool(true)
@@ -101,6 +72,58 @@ object ModSettings : ConfigDeclaration {
     val DEBUG by bool(false)
         .CATEGORY("§§hide - first run")
     val FIRST_RUN by bool(true)
+}
+
+object AutoRefillSettings : ConfigDeclaration {
+
+    override val builder = createBuilder()
+        .CATEGORY("§§vgap:3")
+
+    val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
+    val REFILL_ARMOR                              /**/ by bool(true)
+    val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
+    val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
+                                                              0,
+                                                              100)
+    val THRESHOLD_UNIT                            /**/ by enum(ThresholdUnit.ABSOLUTE)
+    val AUTO_REFILL_WAIT_TICK                     /**/ by int(0,
+                                                              0,
+                                                              100)
+}
+
+
+object LockedSlotsSettings : ConfigDeclaration {
+
+    override val builder = createBuilder()
+
+        .CATEGORY("§§vgap:3")
+    val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW     /**/ by bool(false)
+    val LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE    /**/ by bool(true)
+    val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY      /**/ by bool(false)
+    val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS    /**/ by int(50,
+                                                              20,
+                                                              400)
+    val LOCK_SLOTS_DISABLE_USER_INTERACTION       /**/ by bool(false)
+
+        .CATEGORY("$category.hotkeys")
+    val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("LEFT_ALT",
+                                                                 KeybindSettings.GUI_EXTRA)
+    val LOCK_SLOTS_CONFIG_KEY                     /**/ by hotkey("BUTTON_1",
+                                                                 KeybindSettings.GUI_EXTRA)
+    val LOCK_SLOTS_QUICK_CONFIG_KEY               /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_EXTRA)
+    val LOCK_SLOTS_QUICK_DISABLE                  /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_EXTRA)
+    val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
+
+        .CATEGORY("$category.lock_slots.gui")
+    val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
+    val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
+    val ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR          /**/ by bool(true)
+    val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(2,
+                                                              1,
+                                                              6)
+
 }
 
 object GuiSettings : ConfigDeclaration {
@@ -224,6 +247,8 @@ const val FILE_PATH = "inventoryprofilesnext/inventoryprofiles.json"
 val Configs = listOf(
     ModSettings,
     GuiSettings,
+    LockedSlotsSettings,
+    AutoRefillSettings,
     EditProfiles,
     Hotkeys,
     Tweaks,

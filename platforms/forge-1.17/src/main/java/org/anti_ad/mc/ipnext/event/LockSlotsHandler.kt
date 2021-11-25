@@ -15,6 +15,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
@@ -39,7 +40,7 @@ import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
 object LockSlotsHandler {
     val lockedInvSlotsStoredValue = mutableSetOf<Int>() // locked invSlot list
     val enabled: Boolean
-        get() = ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !ModSettings.LOCK_SLOTS_QUICK_DISABLE.isPressing()
+        get() = ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCK_SLOTS_QUICK_DISABLE.isPressing()
     val lockedInvSlots: Iterable<Int>
         get() = if (enabled) lockedInvSlotsStoredValue else listOf()
 
@@ -83,13 +84,13 @@ object LockSlotsHandler {
         get() = backgroundSprite.down().right(2)
 
     private val foregroundSprite: Sprite
-        get() = backgroundSprite.right().down(ModSettings.LOCKED_SLOTS_FOREGROUND_STYLE.integerValue - 1)
+        get() = backgroundSprite.right().down(LockedSlotsSettings.LOCKED_SLOTS_FOREGROUND_STYLE.integerValue - 1)
     private val configSprite = backgroundSprite.left()
     private val configSpriteLocked = configSprite.down()
 
     fun onBackgroundRender() {
         if (displayingConfig) return
-        if (!ModSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue) return
+        if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue) return
         drawSprite(backgroundSprite,
                    null)
     }
@@ -114,7 +115,7 @@ object LockSlotsHandler {
     }
 
     private fun drawForeground() {
-        if (!ModSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
+        if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
         drawSprite(foregroundSprite,
                    null)
     }
@@ -173,7 +174,7 @@ object LockSlotsHandler {
                 val topLeft = Point(k1, l1) + Point(8,8)
 
                 rDrawCenteredSprite(lockedSprite, 0, topLeft)
-                if (ModSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) {
+                if (LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) {
                     rDrawCenteredSprite(foregroundSprite, 0, topLeft)
                 }
             }
@@ -217,13 +218,13 @@ object LockSlotsHandler {
     fun onCancellableInput(): Boolean {
         if (!enabled) return false
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return false
-        when (ModSettings.LOCK_SLOTS_CONFIG_SWITCH_TYPE.value) {
-            TOGGLE -> if (ModSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isActivated()) displayingConfig =
+        when (LockedSlotsSettings.LOCK_SLOTS_CONFIG_SWITCH_TYPE.value) {
+            TOGGLE -> if (LockedSlotsSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isActivated()) displayingConfig =
                 !displayingConfig
-            HOLD -> displayingConfig = ModSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isPressing()
+            HOLD -> displayingConfig = LockedSlotsSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isPressing()
         }
-        val currentClicked = (displayingConfig && ModSettings.LOCK_SLOTS_CONFIG_KEY.isPressing())
-                || ModSettings.LOCK_SLOTS_QUICK_CONFIG_KEY.isPressing()
+        val currentClicked = (displayingConfig && LockedSlotsSettings.LOCK_SLOTS_CONFIG_KEY.isPressing())
+                || LockedSlotsSettings.LOCK_SLOTS_QUICK_CONFIG_KEY.isPressing()
         if (currentClicked != clicked) {
             if (!currentClicked) {
                 clicked = false
@@ -294,10 +295,10 @@ object LockSlotsHandler {
         if (slot == -1) return true
         val locked = lockedInvSlots.contains(qMoveSlotMapping[slot])
         if (!locked) return true
-        if (ModSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.value && button == 1) {
+        if (LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.value && button == 1) {
             return false
         }
-        if (isThrow && ModSettings.LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE.value) {
+        if (isThrow && LockedSlotsSettings.LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE.value) {
             val slots = Vanilla.playerContainer().`(slots)`
             if (slot <= slots.size) {
                 val itemSlot = slots[slot].`(itemStack)`
@@ -309,7 +310,7 @@ object LockSlotsHandler {
     }
 
     fun postRenderHud(matrixStack: MatrixStack) {
-        if (ModSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value) {
+        if (LockedSlotsSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value) {
             drawHotSprite(matrixStack)
         }
     }

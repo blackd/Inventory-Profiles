@@ -4,7 +4,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.encodeToStream
+import kotlinx.serialization.json.jsonObject
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.config.IConfigElement
@@ -44,11 +46,34 @@ class ConfigSaveLoadManager(private val config: IConfigElement,
     override fun load(clientWorld: Any?) {
         try {
             if (!configFile.exists()) return
-            configFile.readText().toJsonElement()
-                .let {
-                    //config.oldFromJsonElement(it)
-                    config.fromJsonElement(it)
+            var saveAfterLoad = false
+            var j = configFile.readText().toJsonElement()
+            val jo = j.jsonObject
+            if (jo["LockedSlotsSettings"] == null || jo["AutoRefillSettings"] == null) {
+                val ms = jo["ModSettings"]
+                if (ms != null) {
+                    val converted: MutableMap<String, JsonElement> = jo.toMutableMap()
+                    if (jo["LockedSlotsSettings"] == null) {
+                        saveAfterLoad = true
+                        converted["LockedSlotsSettings"] = ms
+                    }
+                    if (jo["AutoRefillSettings"] == null) {
+                        saveAfterLoad = true
+                        converted["AutoRefillSettings"] = ms
+                    }
+                    if (saveAfterLoad) {
+                        j = JsonObject(converted)
+                    }
                 }
+
+            }
+
+            //config.oldFromJsonElement(it)
+            config.fromJsonElement(j)
+            if(saveAfterLoad) {
+                save()
+            }
+
         } catch (e: IOException) {
             Log.error("Failed to read config file $path")
         } catch (e: SerializationException) {

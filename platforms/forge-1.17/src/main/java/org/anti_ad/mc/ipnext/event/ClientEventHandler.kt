@@ -15,6 +15,7 @@ import org.anti_ad.mc.common.vanilla.alias.createHoverEventText
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
 import org.anti_ad.mc.ipnext.parser.CustomDataFileLoader
@@ -68,7 +69,7 @@ object ClientEventHandler {
         if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
             AutoRefillHandler.onJoinWorld()
         }
-        if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !ModSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
+        if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
             LockedSlotKeeper.onJoinWorld()
         }
         CustomDataFileLoader.reload()

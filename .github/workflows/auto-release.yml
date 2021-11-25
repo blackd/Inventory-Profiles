@@ -18,6 +18,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
+      - name: Install AdvZip
+        run: sudo apt-get install advancecomp
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Cache Gradle packages
@@ -36,7 +38,7 @@ jobs:
       - name: Build with Gradle
         env:
           IPNEXT_RELEASE: "yes"
-        run: ./gradlew clean build minimizeJars
+        run: ./gradlew clean build
       - name: Build with Gradle
         env:
           CURSEFORGE_DEPOY_TOKEN: ${{ secrets.CURSEFORGE_DEPOY_TOKEN }}

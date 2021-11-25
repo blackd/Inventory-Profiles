@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerInventory;
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
@@ -40,7 +41,7 @@ public abstract class MixinMinecraftClient {
     @Inject(at = @At("HEAD"),
             method = "handleInputEvents()V")
     public void handleInputEvents(CallbackInfo info) {
-        if(ModSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
+        if(LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
                 && PlayerInventory.isValidHotbarIndex(this.player.inventory.selectedSlot)
                 && (MinecraftClient.getInstance().options.keyDrop.isPressed() || MinecraftClient.getInstance().options.keyDrop.wasPressed())) {
 

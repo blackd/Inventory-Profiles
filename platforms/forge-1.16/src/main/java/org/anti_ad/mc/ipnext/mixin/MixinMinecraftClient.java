@@ -4,6 +4,7 @@ import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Final;
@@ -29,7 +30,7 @@ public abstract class MixinMinecraftClient {
             method = "processKeyBinds()V")
     public void handleInputEvents(CallbackInfo info) {
         IMixinKeyBinding drop = (IMixinKeyBinding) gameSettings.keyBindDrop;
-        if(ModSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
+        if(LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
                 && PlayerInventory.isHotbar(this.player.inventory.currentItem)
                 && drop.getTimesPressed() > 0 ) {
 

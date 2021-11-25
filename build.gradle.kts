@@ -151,6 +151,7 @@ tasks.register<Copy>("copyPlatformJars") {
             dependsOn(t)
         }
     }
+    dependsOn("minimizeJars")
     finalizedBy("owner-testing-env")
 }
 

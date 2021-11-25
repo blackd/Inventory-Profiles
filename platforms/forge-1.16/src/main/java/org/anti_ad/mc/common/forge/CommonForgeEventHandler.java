@@ -11,6 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.anti_ad.mc.common.input.GlobalInputHandler;
 import org.anti_ad.mc.common.input.GlobalScreenEventListener;
 import org.anti_ad.mc.common.vanilla.Vanilla;
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.lwjgl.glfw.GLFW;
@@ -35,7 +36,7 @@ public class CommonForgeEventHandler {
 
     private boolean shouldCancelThrow(int keycode) {
         int currentItem = Vanilla.INSTANCE.mc().player != null ? Vanilla.INSTANCE.mc().player.inventory.currentItem : -1;
-        return ModSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
+        return LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
                 && PlayerInventory.isHotbar(currentItem)
                 && Vanilla.INSTANCE.mc().gameSettings.keyBindDrop.getKey().getKeyCode() == keycode
                 && !LockSlotsHandler.INSTANCE.isQMoveActionAllowed(currentItem + 36, true, 0);

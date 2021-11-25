@@ -4,6 +4,7 @@ package org.anti_ad.mc.ipnext.mixin;
 import net.minecraft.world.entity.player.Inventory; //net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.world.item.ItemStack; //net.minecraft.item.ItemStack;
 import net.minecraft.core.NonNullList; //net.minecraft.util.NonNullList;
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Final;
@@ -23,7 +24,7 @@ public abstract class MixinPlayerInventory {
             method = "getFreeSlot",
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
-    if (!ModSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()) {
+    if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()) {
         for(int i = 0; i < this.items.size(); ++i) {
             if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
                 if ((this.items.get(i)).isEmpty()) {

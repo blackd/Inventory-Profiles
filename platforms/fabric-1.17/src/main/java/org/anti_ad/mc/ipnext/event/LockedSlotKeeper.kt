@@ -3,6 +3,7 @@ package org.anti_ad.mc.ipnext.event
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
@@ -46,10 +47,10 @@ object LockedSlotKeeper {
         }
 
     fun onTickInGame() {
-        if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !ModSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
+        if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
 
             if (worldJoined) {
-                if (ticksAfterJoin > ModSettings.LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS.integerValue) {
+                if (ticksAfterJoin > LockedSlotsSettings.LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS.integerValue) {
                     Log.trace("Initialising because of timeout!")
                     init()
                     worldJoined = false
