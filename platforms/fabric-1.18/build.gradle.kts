@@ -6,11 +6,11 @@ import org.anti_ad.mc.platformsCommonConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.18-pre5", "1.18-Snapshot")
+val supported_minecraft_versions = listOf("1.18-rc2", "1.18-Snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.18-pre5"
-val mappings_version = "1.18-pre5+build.9"
+val minecraft_version = "1.18-rc2"
+val mappings_version = "1.18-rc2+build.1"
 val loader_version = "0.12.5"
 val modmenu_version = "3.0.0"
 
@@ -68,7 +68,7 @@ dependencies {
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.42.8+1.18")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.43.1+1.18")
 }
 
 loom {
@@ -219,7 +219,8 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         changelog = file("../../changelog.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre")) {
+            val l = it.toLowerCase()
+            if (!l.contains("pre") && !l.contains("rc")) {
                 this.addGameVersion(it)
             }
         }

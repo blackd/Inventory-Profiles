@@ -1,11 +1,23 @@
 <!-- latest begin -->
 
+### 1.1.8
+- it is now possible to disable all user actions for locked slots. It becomes very practical when used in conjunction with "Quick Disable" hotkey.
+- fixed locked slots behaviour when a chest or other container is opened.
+- rearranged the config screen. Now "Locked Slots" and "Auto Refill" have their own pages. However, the settings to enable or disable them are still in "Mod Settings"
+- the configuration file has changed. The old one will automatically be converted but if you downgrade all settings from "Locked Slots" and "Auto Refill" will be lost.
+
+# 1.14 END OF LIVE ANNOUNCEMENT
+This is the last release of Inventory Profiles Next for Minecraft 1.14.x
+
+<!-- latest end -->
+
+
+<!-- rest begin -->
+
 ### 1.1.7
 - fixed crash when opening the wiki link and config folder.
 - fixes incompatibility with MaliLib where sometimes this mod key bindings will stop working.
 - fixes the version checker which didn't display the new version message.
-
-<!-- latest end -->
 
 ### 1.1.6
 - fixed crash on 1.17.
@@ -13,17 +25,12 @@
 
 ### 1.1.5
 - the hotbar now shows the locked slots.
-- new setting (enabled by default) to disable drop for locked slots containing non-stackable items. 
+- new setting (enabled by default) to disable drop for locked slots containing non-stackable items.
   prevents accidental drops of gear.
 - fixed "move all" when key binding is set to "ctrl + alt + q"
 - some changes under the hood
 - added updates check. The check is done once you enter a word/connect ot a server and message is displayed if there is new version available.
 
-
-
-
-
-<!-- rest begin -->
 
 ### 1.1.4
 - added 1.15+ and 1.14.1+ versions. Just to be on par with the old mod
