@@ -78,7 +78,7 @@ object InfoManager {
         }
         with (target.openConnection() as HttpsURLConnection) {
             val reqBody = Json.encodeToJsonElement<Map<String, String>>(body).toString()
-            Log.trace("request body $reqBody")
+            //Log.trace("request body $reqBody")
             val bodyBytes = reqBody.toByteArray()
 
             requestMethod = "POST"

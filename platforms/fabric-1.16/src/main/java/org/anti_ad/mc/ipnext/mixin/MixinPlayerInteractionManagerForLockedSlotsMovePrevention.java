@@ -30,7 +30,7 @@ public class MixinPlayerInteractionManagerForLockedSlotsMovePrevention {
         boolean move = actionType == SlotActionType.QUICK_MOVE;
         boolean thr = actionType == SlotActionType.THROW;
         if(!LockedSlotKeeper.INSTANCE.getProcessingLockedPickups() && (move || thr)) {
-            if (!LockSlotsHandler.INSTANCE.isQMoveActionAllowed(slotIndex, thr, button)) {
+            if (!LockSlotsHandler.INSTANCE.isQMoveActionAllowed(slotIndex)) {
                 cir.cancel();
             }
         }

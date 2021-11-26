@@ -29,7 +29,7 @@ public class MixinScreenHandler {
         boolean move = actionType == ClickType.QUICK_MOVE;
         boolean thr = actionType == ClickType.THROW;
         if(!LockedSlotKeeper.INSTANCE.getProcessingLockedPickups() && (move || thr)) {
-            if (!LockSlotsHandler.INSTANCE.isQMoveActionAllowed(slotIndex, thr, button)) {
+            if (!LockSlotsHandler.INSTANCE.isQMoveActionAllowed(slotIndex)) {
                 cir.cancel();
             }
         }

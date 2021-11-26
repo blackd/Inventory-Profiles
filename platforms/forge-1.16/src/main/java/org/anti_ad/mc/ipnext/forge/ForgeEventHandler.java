@@ -99,14 +99,14 @@ public class ForgeEventHandler {
     //@SubscribeEvent
     public void onOverlayLayerPre(RenderGameOverlayEvent.Pre event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-            LockSlotsHandler.INSTANCE.preRenderHud(event.getMatrixStack());
+            LockSlotsHandler.INSTANCE.preRenderHud();
         }
     }
 
     @SubscribeEvent
     public void onOverlayLayerPost(RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-            LockSlotsHandler.INSTANCE.postRenderHud(event.getMatrixStack());
+            LockSlotsHandler.INSTANCE.postRenderHud();
         }
     }
 

@@ -49,7 +49,7 @@ public abstract class MixinMinecraftClient {
                 && PlayerInventory.isValidHotbarIndex(this.player.getInventory().selectedSlot)
                 && (MinecraftClient.getInstance().options.keyDrop.isPressed() || MinecraftClient.getInstance().options.keyDrop.wasPressed())) {
 
-            if (!LockSlotsHandler.INSTANCE.isQMoveActionAllowed(this.player.getInventory().selectedSlot + 36, true, 0)) {
+            if (!LockSlotsHandler.INSTANCE.isHotbarQMoveActionAllowed(this.player.getInventory().selectedSlot + 36, true)) {
                 IMixinKeyBinding drop = (IMixinKeyBinding) MinecraftClient.getInstance().options.keyDrop;
                 drop.setPressed(false);
                 drop.setTimesPressed(0);

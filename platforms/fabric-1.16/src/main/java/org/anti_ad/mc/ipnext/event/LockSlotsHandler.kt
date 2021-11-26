@@ -7,9 +7,9 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
+import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.render.gPopMatrix
 import org.anti_ad.mc.common.vanilla.render.gPushMatrix
 import org.anti_ad.mc.common.vanilla.render.gTranslatef
@@ -41,6 +41,9 @@ import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
     - auto refill supplies storage
  */
 object LockSlotsHandler {
+
+    var lastMouseClickSlot: Slot? = null
+
     val lockedInvSlotsStoredValue = mutableSetOf<Int>() // locked invSlot list
     val enabled: Boolean
         get() = ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCK_SLOTS_QUICK_DISABLE.isPressing()
@@ -63,6 +66,17 @@ object LockSlotsHandler {
     }
 
     fun isSlotLocked(i: Int) = lockedInvSlots.contains(i)
+
+    fun isMappedSlotLocked(slot: Slot): Boolean {
+        val screen = Vanilla.screen() as? ContainerScreen<*> ?: return false
+        val playerSlot = vPlayerSlotOf(slot,
+                                       screen)
+        return if (playerSlot.`(inventory)` is PlayerInventory) {
+            lockedInvSlots.contains(playerSlot.`(invSlot)`)
+        } else {
+            false
+        }
+    }
 
     // ============
     // render
@@ -152,7 +166,7 @@ object LockSlotsHandler {
         rEnableDepth()
     }
 
-    private fun drawHotSprite(matrixStack: MatrixStack) {
+    private fun drawHotSprite() {
         if (!enabled) return
         //    rClearDepth() // use translate or zOffset
         rDisableDepth()
@@ -292,32 +306,45 @@ object LockSlotsHandler {
                                          6 to 38,
                                          5 to 39)
 
-    fun isQMoveActionAllowed(slot: Int, isThrow: Boolean, button: Int): Boolean {
 
-        if (slot == -1) return true
-        val locked = lockedInvSlots.contains(qMoveSlotMapping[slot])
-        if (!locked) return true
-        if (LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.value && button == 1) {
-            return false
-        }
-        if (isThrow && LockedSlotsSettings.LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE.value) {
-            val slots = Vanilla.playerContainer().`(slots)`
-            if (slot <= slots.size) {
-                val itemSlot = slots[slot].`(itemStack)`
-                val itemType = itemSlot.itemType
-                return itemType.maxCount > 1
+    fun isQMoveActionAllowed(slot: Int): Boolean {
+        return isQMoveActionAllowedInt(slot) {
+            if (LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.value
+                || LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.value) {
+                return false
             }
+            return true
         }
-        return true
     }
 
-    fun postRenderHud(matrixStack: MatrixStack) {
+    fun isHotbarQMoveActionAllowed(slot: Int, isThrow: Boolean): Boolean {
+        return isQMoveActionAllowedInt(slot) {
+            if (isThrow && LockedSlotsSettings.LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE.value) {
+                val slots = Vanilla.playerContainer().`(slots)`
+                if (slot <= slots.size) {
+                    val itemSlot = slots[slot].`(itemStack)`
+                    val itemType = itemSlot.itemType
+                    return itemType.maxCount > 1
+                }
+            }
+            return true
+        }
+    }
+
+    private inline fun isQMoveActionAllowedInt(slot: Int, predicate: () -> Boolean): Boolean {
+        if (slot == -1 || slot == -999) return true
+        val locked = lastMouseClickSlot?.let { isMappedSlotLocked(it) } ?: lockedInvSlots.contains(qMoveSlotMapping[slot])
+        if (!locked) return true
+        return predicate()
+    }
+
+    fun postRenderHud() {
         if (LockedSlotsSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value) {
-            drawHotSprite(matrixStack)
+            drawHotSprite()
         }
     }
 
-    fun preRenderHud(matrixStack: MatrixStack) {
+    fun preRenderHud() {
         //drawHotSprite(matrixStack)
     }
 }

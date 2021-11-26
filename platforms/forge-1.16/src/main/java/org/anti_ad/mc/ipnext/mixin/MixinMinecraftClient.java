@@ -34,7 +34,7 @@ public abstract class MixinMinecraftClient {
                 && PlayerInventory.isHotbar(this.player.inventory.currentItem)
                 && drop.getTimesPressed() > 0 ) {
 
-            if (!LockSlotsHandler.INSTANCE.isQMoveActionAllowed(this.player.inventory.currentItem + 36, true, 0)) {
+            if (!LockSlotsHandler.INSTANCE.isHotbarQMoveActionAllowed(this.player.inventory.currentItem + 36, true)) {
 
                 drop.setPressed(false);
                 drop.setTimesPressed(0);

@@ -97,13 +97,15 @@ object LockedSlotsSettings : ConfigDeclaration {
     override val builder = createBuilder()
 
         .CATEGORY("§§vgap:3")
-    val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW     /**/ by bool(false)
+    val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW           /**/ by bool(true)
     val LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE    /**/ by bool(true)
-    val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY      /**/ by bool(false)
-    val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS    /**/ by int(50,
-                                                              20,
-                                                              400)
-    val LOCK_SLOTS_DISABLE_USER_INTERACTION       /**/ by bool(false)
+    val LOCK_SLOTS_DISABLE_USER_INTERACTION             /**/ by bool(false)
+
+        .CATEGORY("$category.lock_slots.empty")
+    val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY            /**/ by bool(false)
+    val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS          /**/ by int(50,
+                                                                    20,
+                                                                    400)
 
         .CATEGORY("$category.hotkeys")
     val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("LEFT_ALT",

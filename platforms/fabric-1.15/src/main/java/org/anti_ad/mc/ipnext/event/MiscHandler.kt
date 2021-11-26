@@ -35,16 +35,20 @@ object MiscHandler {
         if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
             InfoManager.event("swipeMoving/shift")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
-                ContainerClicker.shiftClick(vPlayerSlotOf(s,
-                                                          screen).`(id)`)
+                if (!LockSlotsHandler.isMappedSlotLocked(s)) {
+                    ContainerClicker.shiftClick(vPlayerSlotOf(s,
+                                                              screen).`(id)`)
+                }
             }
         } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
             InfoManager.event("swipeMoving/ctrl+q")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
-                val matchSet = setOf(ContainerType.NO_SORTING_STORAGE,
-                                     ContainerType.SORTABLE_STORAGE)
-                if (types.containsAny(matchSet) && !types.contains(ContainerType.CREATIVE)) {
-                    ContainerClicker.qClick(vPlayerSlotOf(s, screen).`(id)`)
+                if (!LockSlotsHandler.isMappedSlotLocked(s)) {
+                    val matchSet = setOf(ContainerType.NO_SORTING_STORAGE,
+                                         ContainerType.SORTABLE_STORAGE)
+                    if (types.containsAny(matchSet) && !types.contains(ContainerType.CREATIVE)) {
+                        ContainerClicker.qClick(vPlayerSlotOf(s, screen).`(id)`)
+                    }
                 }
             }
         }

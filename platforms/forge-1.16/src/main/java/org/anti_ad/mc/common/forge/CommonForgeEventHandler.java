@@ -34,14 +34,6 @@ public class CommonForgeEventHandler {
                 .onKeyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers(), true));
     }
 
-    private boolean shouldCancelThrow(int keycode) {
-        int currentItem = Vanilla.INSTANCE.mc().player != null ? Vanilla.INSTANCE.mc().player.inventory.currentItem : -1;
-        return LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
-                && PlayerInventory.isHotbar(currentItem)
-                && Vanilla.INSTANCE.mc().gameSettings.keyBindDrop.getKey().getKeyCode() == keycode
-                && !LockSlotsHandler.INSTANCE.isQMoveActionAllowed(currentItem + 36, true, 0);
-    }
-
     @SubscribeEvent
     public void onKeyRelease(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
         onScreenKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_RELEASE, event.getModifiers(), event);
