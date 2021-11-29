@@ -36,7 +36,7 @@ fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with
     return itemId + (tag ?: "")
 }
 
-val ItemType.Companion.EMPTY
+inline val ItemType.Companion.EMPTY
     get() = ItemType(Items.AIR,
                      null)
 
@@ -46,97 +46,98 @@ fun ItemType.isEmpty(): Boolean {
     }
 }
 
-val ItemType.maxCount: Int
+inline val ItemType.maxCount: Int
     get() = vanillaStack.maxCount
 
-val ItemType.vanillaStack: VanillaItemStack
+inline val ItemType.vanillaStack: VanillaItemStack
     get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }
 
 fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
     VanillaItemStack(this.item,
                      count).apply { tag = this@vanillaStackWithCount.tag }
 
-val ItemType.identifier: Identifier
+inline val ItemType.identifier: Identifier
     get() = Registry.ITEM.`(getIdentifier)`(item)
 
-val ItemType.namespace: String
+inline val ItemType.namespace: String
     get() = identifier.namespace
 
 //region ItemType String Relative
 
-val ItemType.hasCustomName: Boolean
+inline val ItemType.hasCustomName: Boolean
     get() = vanillaStack.hasCustomName()
-val ItemType.customName: String
+inline val ItemType.customName: String
     get() = if (hasCustomName) displayName else ""
-val ItemType.displayName: String
+inline val ItemType.displayName: String
     get() = vanillaStack.name.string
-val ItemType.translatedName: String
+inline val ItemType.translatedName: String
     get() = I18n.translate(translationKey)
-val ItemType.itemId: String
+inline val ItemType.itemId: String
     get() = identifier.toString()
-val ItemType.translationKey: String
+inline val ItemType.translationKey: String
     get() = vanillaStack.translationKey
-val ItemType.isStackable: Boolean
+inline val ItemType.isStackable: Boolean
     get() = vanillaStack.isStackable
 
 //endregion
 
 //region ItemType Number Relative
 
-val ItemType.groupIndex: Int
+inline val ItemType.groupIndex: Int
     get() = item.group?.index ?: when {
         item === Items.ENCHANTED_BOOK -> ItemGroup.TOOLS.index
         namespace == "minecraft" -> ItemGroup.MISC.index
         else -> ItemGroup.GROUPS.size
     }
-val ItemType.rawId: Int
+inline val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
-val ItemType.damage: Int
+inline val ItemType.damage: Int
     get() = vanillaStack.damage
-val ItemType.enchantmentsScore: Double
+inline val ItemType.enchantmentsScore: Double
     get() = EnchantmentHelper.getEnchantments(vanillaStack).toList().fold(0.0) { acc, (enchantment, level) ->
         acc + if (enchantment.isCursed) -0.001 else level.toDouble() / enchantment.maximumLevel
     } // cursed enchantments +0 scores
 
-val ItemType.isDamageable: Boolean
+inline val ItemType.isDamageable: Boolean
     get() = vanillaStack.isDamageable
-val ItemType.maxDamage: Int
+inline val ItemType.maxDamage: Int
     get() = vanillaStack.maxDamage
-val ItemType.durability: Int
+inline val ItemType.durability: Int
     get() = maxDamage - damage
 
-val ItemType.isBucket: Boolean
+inline val ItemType.isBucket: Boolean
     get() = item is BucketItem || item is MilkBucketItem || item is FishBucketItem
-val ItemType.isStew: Boolean
+inline val ItemType.isStew: Boolean
     get() = item is MushroomStewItem || item is SuspiciousStewItem
 //endregion
 
 //region ItemType Potion Relative
 
-val ItemType.hasPotionName: Boolean
+inline val ItemType.hasPotionName: Boolean
     get() = tag?.contains("Potion",
                           8) ?: false
-val ItemType.potionName: String
+inline val ItemType.potionName: String
     get() = if (hasPotionName) PotionUtil.getPotion(tag).finishTranslationKey("") else ""
-val ItemType.hasPotionEffects: Boolean
+inline val ItemType.hasPotionEffects: Boolean
     get() = PotionUtil.getPotionEffects(tag).isNotEmpty()
-val ItemType.hasCustomPotionEffects: Boolean
+inline val ItemType.hasCustomPotionEffects: Boolean
     get() = PotionUtil.getCustomPotionEffects(tag).isNotEmpty()
-val ItemType.potionEffects: List<StatusEffectInstance>
+inline val ItemType.potionEffects: List<StatusEffectInstance>
     get() = PotionUtil.getPotionEffects(tag)
-val ItemType.comparablePotionEffects: List<PotionEffect>
+inline val ItemType.comparablePotionEffects: List<PotionEffect>
     get() = potionEffects.map { it.`(asComparable)` }
 
-val StatusEffectInstance.`(asComparable)`: PotionEffect
+@Suppress("ObjectPropertyName")
+inline val StatusEffectInstance.`(asComparable)`: PotionEffect
     get() = PotionEffect(
         Registry.STATUS_EFFECT.getId(this.effectType).toString(),
         this.amplifier,
         this.duration
     )
 
-data class PotionEffect(val effect: String,
-                        val amplifier: Int,
-                        val duration: Int) : Comparable<PotionEffect> {
+data class PotionEffect(inline val effect: String,
+                        inline val amplifier: Int,
+                        inline val duration: Int) : Comparable<PotionEffect> {
     override fun compareTo(other: PotionEffect): Int { // stronger first
         this.effect.compareTo(other.effect).let { if (it != 0) return it }
         other.amplifier.compareTo(this.amplifier).let { if (it != 0) return it }

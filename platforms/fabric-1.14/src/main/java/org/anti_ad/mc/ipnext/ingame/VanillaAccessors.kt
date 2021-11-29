@@ -43,39 +43,39 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // use `()` to avoid potential mapping name collision
 
-val VanillaItemStack.`(itemType)`: ItemType
+inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
                      tag)
-val VanillaItemStack.`(itemStack)`: ItemStack
+inline val VanillaItemStack.`(itemStack)`: ItemStack
     get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`,
                                                         count)
-val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
+inline val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
     get() = if (isEmpty) MutableItemStack.empty() else MutableItemStack(`(itemType)`,
                                                                         count)
 
-val Container.`(slots)`: List<Slot>
+inline val Container.`(slots)`: List<Slot>
     get() = slots
 
 inline val Container.`(syncId)`: Int
     get() = syncId
 
-val Slot.`(id)`
+inline val Slot.`(id)`
     get() = id
-val Slot.`(invSlot)`
+inline val Slot.`(invSlot)`
     get() = (this as IMixinSlot).invSlot
-val Slot.`(itemStack)`: ItemStack
+inline val Slot.`(itemStack)`: ItemStack
     get() = stack.`(itemStack)`
-val Slot.`(vanillaStack)`: VanillaItemStack
+inline val Slot.`(vanillaStack)`: VanillaItemStack
     get() = this.stack
-val Slot.`(mutableItemStack)`: MutableItemStack
+inline val Slot.`(mutableItemStack)`: MutableItemStack
     get() = stack.`(mutableItemStack)`
-val Slot.`(inventory)`: Inventory
+inline val Slot.`(inventory)`: Inventory
     get() = inventory
-val Slot.`(left)`: Int
+inline val Slot.`(left)`: Int
     get() = xPosition
-val Slot.`(top)`: Int
+inline val Slot.`(top)`: Int
     get() = yPosition
-val Slot.`(topLeft)`: Point
+inline val Slot.`(topLeft)`: Point
     get() = Point(`(left)`,
                   `(top)`)
 
@@ -83,32 +83,32 @@ fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
     return canInsert(itemStack.vanillaStack)
 }
 
-val Screen.`(focusedSlot)`: Slot?
+inline val Screen.`(focusedSlot)`: Slot?
     get() = (this as? ContainerScreen<*>)?.`(rawFocusedSlot)`?.let {
         vPlayerSlotOf(it,
                       this)
     }
 
-val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
+inline val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
     get() = (this as IMixinContainerScreen).focusedSlot
-val ContainerScreen<*>.`(containerBounds)`: Rectangle
+inline val ContainerScreen<*>.`(containerBounds)`: Rectangle
     get() = (this as IMixinContainerScreen).run {
         Rectangle(containerX,
                   containerY,
                   containerWidth,
                   containerHeight)
     }
-val ContainerScreen<*>.`(container)`: Container
+inline val ContainerScreen<*>.`(container)`: Container
     get() = container
 
-var PlayerInventory.`(selectedSlot)`: Int
+inline var PlayerInventory.`(selectedSlot)`: Int
     get() = selectedSlot
     set(value) {
         selectedSlot = value
     }
 
 // getSelectedTab() = method_2469()
-val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
+inline val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
     get() = this.method_2469()  == ItemGroup.INVENTORY.index
 
 // ============
@@ -141,31 +141,31 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 // ============
 // nbt Tag
 // ============
-val NbtElement.`(type)`: Int
+inline val NbtElement.`(type)`: Int
     get() = type.toInt()
-val NbtElement.`(asString)`: String
+inline val NbtElement.`(asString)`: String
     get() = asString()
 
-val MinecraftClient.`(window)`: Window
+inline val MinecraftClient.`(window)`: Window
     get() = window
 
-val MinecraftClient.`(options)`: GameOptions
+inline val MinecraftClient.`(options)`: GameOptions
     get() = options
 
-val GameOptions.`(keyDrop)`: KeyBinding
+inline val GameOptions.`(keyDrop)`: KeyBinding
     get() = keyDrop
 
-val KeyBinding.`(isPressed)`: Boolean
+inline val KeyBinding.`(isPressed)`: Boolean
     get() = isPressed
 
 
-val Window.`(scaledWidth)`: Int
+inline val Window.`(scaledWidth)`: Int
     get() = scaledWidth
 
-val Window.`(scaledHeight)`: Int
+inline val Window.`(scaledHeight)`: Int
     get() = scaledHeight
 
-val ArmorItem.`(equipmentSlot)`: EquipmentSlot
+inline val ArmorItem.`(equipmentSlot)`: EquipmentSlot
     get() = slotType
 
 @Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")

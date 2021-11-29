@@ -40,13 +40,13 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // use `()` to avoid potential mapping name collision
 
-val VanillaItemStack.`(itemType)`: ItemType
+inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
                      tag)
-val VanillaItemStack.`(itemStack)`: ItemStack
+inline val VanillaItemStack.`(itemStack)`: ItemStack
     get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`,
                                                         count)
-val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
+inline val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
     get() = if (isEmpty) MutableItemStack.empty() else MutableItemStack(`(itemType)`,
                                                                         count)
 
@@ -56,23 +56,23 @@ inline val Container.`(slots)`: List<Slot>
 inline val Container.`(syncId)`: Int
     get() = windowId
 
-val Slot.`(id)`: Int
+inline val Slot.`(id)`: Int
     get() = slotNumber
-val Slot.`(invSlot)`: Int
+inline val Slot.`(invSlot)`: Int
     get() = slotIndex // forge
-val Slot.`(itemStack)`: ItemStack
+inline val Slot.`(itemStack)`: ItemStack
     get() = stack.`(itemStack)`
-val Slot.`(vanillaStack)`: VanillaItemStack
+inline val Slot.`(vanillaStack)`: VanillaItemStack
     get() = this.stack
-val Slot.`(mutableItemStack)`: MutableItemStack
+inline val Slot.`(mutableItemStack)`: MutableItemStack
     get() = stack.`(mutableItemStack)`
-val Slot.`(inventory)`: Inventory
+inline val Slot.`(inventory)`: Inventory
     get() = inventory
-val Slot.`(left)`: Int
+inline val Slot.`(left)`: Int
     get() = xPos
-val Slot.`(top)`: Int
+inline val Slot.`(top)`: Int
     get() = yPos
-val Slot.`(topLeft)`: Point
+inline val Slot.`(topLeft)`: Point
     get() = Point(`(left)`,
                   `(top)`)
 
@@ -80,28 +80,28 @@ fun Slot.`(canInsert)`(itemStack: ItemStack): Boolean {
     return isItemValid(itemStack.vanillaStack) // isItemValid(itemStack.vanillaStack)
 }
 
-val Screen.`(focusedSlot)`: Slot?
+inline val Screen.`(focusedSlot)`: Slot?
     get() = (this as? ContainerScreen<*>)?.`(rawFocusedSlot)`?.let {
         vPlayerSlotOf(it,
                       this)
     }
 
-val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
+inline val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
     get() = slotUnderMouse // forge
-val ContainerScreen<*>.`(containerBounds)`: Rectangle
+inline val ContainerScreen<*>.`(containerBounds)`: Rectangle
     get() = Rectangle(guiLeft,
                       guiTop,
                       xSize,
                       ySize)
-val ContainerScreen<*>.`(container)`: Container
+inline val ContainerScreen<*>.`(container)`: Container
     get() = this.container //in official mappings this is "menu"
 
-var PlayerInventory.`(selectedSlot)`: Int
+inline var PlayerInventory.`(selectedSlot)`: Int
     get() = currentItem //currentItem // selectedSlot = currentItem
     set(value) {
         currentItem = value
     }
-val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
+inline val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() == ItemGroup.INVENTORY.getIndex()
     get() = selectedTabIndex == ItemGroup.INVENTORY.index  // in official mappings this is .TAB_INVENTORY.id  // index
 
 // ============
@@ -134,18 +134,18 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 // ============
 // nbt Tag
 // ============
-val NbtElement.`(type)`: Int
+inline val NbtElement.`(type)`: Int
     get() = id.toInt()
-val NbtElement.`(asString)`: String
+inline val NbtElement.`(asString)`: String
     get() = string //asString
 
-val MinecraftClient.`(window)`: Window
+inline val MinecraftClient.`(window)`: Window
     get() = mainWindow
 
-val MinecraftClient.`(options)`: GameOptions
+inline val MinecraftClient.`(options)`: GameOptions
     get() = gameSettings
 
-val GameOptions.`(keyDrop)`: KeyBinding
+inline val GameOptions.`(keyDrop)`: KeyBinding
     get() = keyBindDrop
 
 inline val KeyBinding.`(isPressed)`: Boolean
@@ -157,7 +157,7 @@ inline val Window.`(scaledWidth)`: Int
 inline val Window.`(scaledHeight)`: Int
     get() = scaledHeight
 
-val ArmorItem.`(equipmentSlot)`: EquipmentSlot
+inline val ArmorItem.`(equipmentSlot)`: EquipmentSlot
     get() = equipmentSlot
 
 @Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")

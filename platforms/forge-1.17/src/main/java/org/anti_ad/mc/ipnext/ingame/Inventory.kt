@@ -14,7 +14,7 @@ import org.anti_ad.mc.ipnext.item.ItemStack
 // vanillamapping code depends on mappings
 // ============
 
-private val vPlayerSlots
+private inline val vPlayerSlots
     get() = Vanilla.playerContainer().`(slots)`
 
 //fun vCursorStack() = Vanilla.playerInventory().carried.`(itemStack)` //itemStack = carried
