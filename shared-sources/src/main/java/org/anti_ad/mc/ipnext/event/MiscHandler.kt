@@ -36,8 +36,10 @@ object MiscHandler {
             InfoManager.event("swipeMoving/shift")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)) {
+                    LockSlotsHandler.lastMouseClickSlot = s
                     ContainerClicker.shiftClick(vPlayerSlotOf(s,
                                                               screen).`(id)`)
+                    LockSlotsHandler.lastMouseClickSlot = null
                 }
             }
         } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
@@ -47,7 +49,9 @@ object MiscHandler {
                     val matchSet = setOf(ContainerType.NO_SORTING_STORAGE,
                                          ContainerType.SORTABLE_STORAGE)
                     if (types.containsAny(matchSet) && !types.contains(ContainerType.CREATIVE)) {
+                        LockSlotsHandler.lastMouseClickSlot = s
                         ContainerClicker.qClick(vPlayerSlotOf(s, screen).`(id)`)
+                        LockSlotsHandler.lastMouseClickSlot = null
                     }
                 }
             }
