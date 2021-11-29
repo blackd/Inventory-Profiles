@@ -19,10 +19,10 @@ group = "org.anti-ad.mc"
 
 dependencies {
 
-    val antlrVersion = "4.9.2"
+    val antlrVersion = "4.9.3"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
-    "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+    "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",
                      version = "2.14.1")

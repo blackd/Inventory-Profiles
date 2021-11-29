@@ -6,11 +6,11 @@ import org.anti_ad.mc.platformsCommonConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.18-rc2", "1.18-Snapshot")
+val supported_minecraft_versions = listOf("1.18-rc4", "1.18-Snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.18-rc2"
-val mappings_version = "1.18-rc2+build.1"
+val minecraft_version = "1.18-rc4"
+val mappings_version = "1.18-rc4+build.1"
 val loader_version = "0.12.5"
 val modmenu_version = "3.0.0"
 

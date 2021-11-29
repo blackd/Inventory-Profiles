@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_ANONYMOUS_PARAMETER")
+
 package org.anti_ad.mc.common.vanilla.render.glue
 
 
