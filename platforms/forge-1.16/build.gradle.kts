@@ -98,6 +98,12 @@ dependencies {
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
+afterEvaluate {
+    project.sourceSets.getByName("main") {
+        this.java.srcDirs("./src/shared/java")
+    }
+}
+
 if ("true" == System.getProperty("idea.sync.active")) {
     afterEvaluate {
         tasks.withType<JavaCompile>().all {

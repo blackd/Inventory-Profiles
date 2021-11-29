@@ -74,6 +74,11 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:1.10.6")
 }
 
+afterEvaluate {
+    project.sourceSets.getByName("main") {
+        this.java.srcDirs("./src/shared/java")
+    }
+}
 
 
 loom {

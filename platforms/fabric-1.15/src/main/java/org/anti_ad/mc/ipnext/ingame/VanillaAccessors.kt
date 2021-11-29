@@ -4,18 +4,28 @@ package org.anti_ad.mc.ipnext.ingame
 
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.vanilla.alias.ClientPlayerInteractionManager
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.DefaultedRegistry
+import org.anti_ad.mc.common.vanilla.alias.GameOptions
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Inventory
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
+import org.anti_ad.mc.common.vanilla.alias.KeyBinding
+import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.NbtElement
+import org.anti_ad.mc.common.vanilla.alias.PlayerContainer
+import org.anti_ad.mc.common.vanilla.alias.PlayerEntity
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.Registry
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
+import org.anti_ad.mc.common.vanilla.alias.SlotActionType
+import org.anti_ad.mc.common.vanilla.alias.Window
+import org.anti_ad.mc.common.vanilla.alias.items.ArmorItem
+import org.anti_ad.mc.common.vanilla.alias.items.EquipmentSlot
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
@@ -44,6 +54,9 @@ val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
 
 val Container.`(slots)`: List<Slot>
     get() = slots
+
+inline val Container.`(syncId)`: Int
+    get() = syncId
 
 val Slot.`(id)`
     get() = id
@@ -132,3 +145,34 @@ val NbtElement.`(type)`: Int
 val NbtElement.`(asString)`: String
     get() = asString()
 
+val MinecraftClient.`(window)`: Window
+    get() = window
+
+val MinecraftClient.`(options)`: GameOptions
+    get() = options
+
+val GameOptions.`(keyDrop)`: KeyBinding
+    get() = keyDrop
+
+val KeyBinding.`(isPressed)`: Boolean
+    get() = isPressed
+
+val Window.`(scaledWidth)`: Int
+    get() = scaledWidth
+
+val Window.`(scaledHeight)`: Int
+    get() = scaledHeight
+
+val ArmorItem.`(equipmentSlot)`: EquipmentSlot
+    get() = slotType
+
+@Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")
+inline fun ClientPlayerInteractionManager.`(clickSlot)`(i: Int, j: Int, k: Int, slotActionType: SlotActionType, playerEntity: PlayerEntity) =
+        this.clickSlot(i, j, k, slotActionType, playerEntity)
+
+@Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")
+inline fun PlayerContainer.`(onSlotClick)`(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) =
+        this.onSlotClick(slotIndex, button, actionType, player)
+
+@Suppress("FunctionName")
+fun PlayerContainer.`(sendContentUpdates)`() = sendContentUpdates()

@@ -11,6 +11,6 @@ typealias Screen = Screen
 typealias ContainerScreen<T> = ContainerScreen<T>
 typealias CreativeInventoryScreen = CreativeScreen
 
-typealias AbstractButtonWidget = Widget
+typealias ClickableWidget = Widget
 typealias SliderWidget = AbstractSlider
 typealias TextFieldWidget = TextFieldWidget

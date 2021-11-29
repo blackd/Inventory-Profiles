@@ -8,7 +8,7 @@ import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.item.rule.parameter.BooleanArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.EnumArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.NativeParameters
-import org.anti_ad.mc.ipnext.item.rule.vnative.NativeRules
+import org.anti_ad.mc.ipnext.item.rule.natives.NativeRules
 
 object GenerateRuleListButtonInfoDelegate : ConfigButtonClickHandler() {
     val file = VanillaUtil.configDirectory("inventoryprofilesnext") / "native_rules.txt"

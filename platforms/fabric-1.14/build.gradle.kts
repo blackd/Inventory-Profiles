@@ -75,6 +75,11 @@ dependencies {
     modImplementation("io.github.prospector:modmenu:1.7.17+build.1")
 }
 
+afterEvaluate {
+    project.sourceSets.getByName("main") {
+        this.java.srcDirs("./src/shared/java")
+    }
+}
 
 
 loom {

@@ -78,6 +78,11 @@ loom {
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 }
 
+afterEvaluate {
+    project.sourceSets.getByName("main") {
+        this.java.srcDirs("./src/shared/java")
+    }
+}
 
 val proguard by tasks.registering(ProGuardTask::class) {
 

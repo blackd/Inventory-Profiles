@@ -43,7 +43,7 @@ class ConfigSaveLoadManager(private val config: IConfigElement,
         }
     }
 
-    override fun load(clientWorld: Any?) {
+    override fun load() {
         try {
             if (!configFile.exists()) return
             var saveAfterLoad = false

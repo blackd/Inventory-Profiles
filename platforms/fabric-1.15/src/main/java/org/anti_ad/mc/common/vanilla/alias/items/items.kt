@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.vanilla.alias.items
 
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.AxeItem
 import net.minecraft.item.BucketItem
@@ -27,3 +28,4 @@ typealias PickaxeItem = PickaxeItem
 typealias AxeItem = AxeItem
 typealias HoeItem = HoeItem
 typealias ToolItem = ToolItem
+typealias EquipmentSlot = EquipmentSlot

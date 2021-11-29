@@ -12,7 +12,7 @@ import org.anti_ad.mc.common.math2d.resizeTopLeft
 import org.anti_ad.mc.common.math2d.resizeTopRight
 import org.anti_ad.mc.common.math2d.split3x3
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
+import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.render.glue.DynamicSizeMode
@@ -32,7 +32,7 @@ inline operator fun IdentifierHolder.invoke(): Identifier {
 }
 
 private val VANILLA_TEXTURE_WIDGETS: IdentifierHolder
-    get() = IdentifierHolder( AbstractButtonWidget.WIDGETS_LOCATION )
+    get() = IdentifierHolder(ClickableWidget.WIDGETS_LOCATION)
 
 private fun makeIdentifier(ns: String, path: String): Any {
     return Identifier(ns, path)

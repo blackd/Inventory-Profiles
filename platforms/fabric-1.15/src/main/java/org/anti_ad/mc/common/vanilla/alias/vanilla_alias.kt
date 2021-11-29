@@ -2,6 +2,8 @@ package org.anti_ad.mc.common.vanilla.alias
 
 import net.minecraft.SharedConstants
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.options.GameOptions
+import net.minecraft.client.options.KeyBinding
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.util.Window
@@ -12,6 +14,9 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.Util
 import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
+import net.minecraft.client.network.ClientPlayerInteractionManager
+import net.minecraft.entity.player.PlayerEntity
+
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
 typealias MinecraftClient = MinecraftClient
@@ -30,6 +35,10 @@ typealias Util = Util
 typealias ClientWorld = ClientWorld
 
 typealias SharedConstants = SharedConstants
+typealias GameOptions = GameOptions
+typealias KeyBinding = KeyBinding
+typealias ClientPlayerInteractionManager = ClientPlayerInteractionManager
+typealias PlayerEntity = PlayerEntity
 
 private fun translate(string: String,
                       vararg objects: Any?): String = I18n.translate(string,

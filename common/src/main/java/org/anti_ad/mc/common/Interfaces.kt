@@ -2,7 +2,7 @@ package org.anti_ad.mc.common
 
 interface Savable {
     fun save()
-    fun load(clientWorld: Any? = null)
+    fun load()
 }
 
 interface IInputHandler {

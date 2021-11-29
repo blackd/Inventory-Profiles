@@ -11,6 +11,8 @@ import net.minecraft.world.item.PickaxeItem
 import net.minecraft.world.item.ShovelItem
 import net.minecraft.world.item.SuspiciousStewItem
 import net.minecraft.world.item.SwordItem
+import net.minecraft.world.entity.EquipmentSlot
+
 
 typealias BucketItem = BucketItem
 typealias MilkBucketItem = MilkBucketItem
@@ -26,3 +28,4 @@ typealias PickaxeItem = PickaxeItem
 typealias AxeItem = AxeItem
 typealias HoeItem = HoeItem
 typealias ToolItem = DiggerItem
+typealias EquipmentSlot = EquipmentSlot

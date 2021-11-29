@@ -13,6 +13,6 @@ typealias ContainerScreen<T> = AbstractContainerScreen<T>
 typealias CreativeInventoryScreen = CreativeModeInventoryScreen
 
 typealias AbstractWidget = AbstractWidget
-typealias AbstractButtonWidget = AbstractButton
+typealias ClickableWidget = AbstractButton
 typealias SliderWidget = AbstractSliderButton
 typealias TextFieldWidget = EditBox

@@ -39,7 +39,7 @@ public abstract class MixinMinecraftClient {
 
     @Inject(at = @At("RETURN"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V")
     public void joinWorld(ClientWorld clientWorld, CallbackInfo info) {
-        ClientEventHandler.INSTANCE.onJoinWorld(clientWorld);
+        ClientEventHandler.INSTANCE.onJoinWorld();
     }
 
     @Inject(at = @At("HEAD"),

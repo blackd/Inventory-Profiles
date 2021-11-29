@@ -4,7 +4,7 @@ import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.AbstractButtonWidget
+import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.DrawableHelper
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.MathHelper
@@ -21,9 +21,9 @@ import org.anti_ad.mc.common.vanilla.alias.TextFieldWidget as VanillaTextFieldWi
 // vanillamapping code depends on mappings
 // ============
 
-open class VanillaWidget<T : AbstractButtonWidget>(
+open class VanillaWidget<T : ClickableWidget>(
     val vanilla: T
-) : Widget() {
+                                             ) : Widget() {
     init {
         sizeChanged += {
             vanilla.width = width
