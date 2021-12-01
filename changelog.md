@@ -1,18 +1,25 @@
 <!-- latest begin -->
 
-### 1.1.8
-- it is now possible to disable all user actions for locked slots. It becomes very practical when used in conjunction with "Quick Disable" hotkey.
-- fixed locked slots behaviour when a chest or other container is opened.
-- rearranged the config screen. Now "Locked Slots" and "Auto Refill" have their own pages. However, the settings to enable or disable them are still in "Mod Settings"
-- the configuration file has changed. The old one will automatically be converted but if you downgrade all settings from "Locked Slots" and "Auto Refill" will be lost.
+### 1.1.9
+- fixed locked slots behaviour when a chest or other container is opened and swipe drop/move is used.
+- native 1.18 version.
 
 # 1.14 END OF LIVE ANNOUNCEMENT
+
+1.14 gets an update because I don't want to leave it with a buggy major feature.
 This is the last release of Inventory Profiles Next for Minecraft 1.14.x
 
 <!-- latest end -->
 
 
 <!-- rest begin -->
+
+### 1.1.8
+- it is now possible to disable all user actions for locked slots. It becomes very practical when used in conjunction with "Quick Disable" hotkey.
+- fixed locked slots behaviour when a chest or other container is opened.
+- rearranged the config screen. Now "Locked Slots" and "Auto Refill" have their own pages. However, the settings to enable or disable them are still in "Mod Settings"
+- the configuration file has changed. The old one will automatically be converted but if you downgrade all settings from "Locked Slots" and "Auto Refill" will be lost.
+
 
 ### 1.1.7
 - fixed crash when opening the wiki link and config folder.

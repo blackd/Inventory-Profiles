@@ -52,10 +52,10 @@ object ContinuousCraftingHandler {
         handle()
     }
 
-    lateinit var monitor: Monitor
-    var isCrafting = false
+    private lateinit var monitor: Monitor
+    private var isCrafting = false
 
-    fun init() {
+    private fun init() {
         val container = Vanilla.container()
         val types = ContainerTypes.getTypes(container)
         isCrafting = types.contains(CRAFTING)
@@ -66,13 +66,13 @@ object ContinuousCraftingHandler {
         processingClick = false
     }
 
-    var onCraftCount = 0 // this tick crafted item
+    private var onCraftCount = 0 // this tick crafted item
 
-    var crafted = false
+    private var crafted = false
 
     private val SHIFT = MainKeybind("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
 
-    fun handle() {
+    private fun handle() {
         if (!isCrafting) return
         // todo quick craft from recipe book
         if (!processingClick && onCraftCount > 0) {
@@ -117,7 +117,7 @@ object ContinuousCraftingHandler {
 
 
 
-    class Monitor(container: Container) {
+    private class Monitor(container: Container) {
         val containerSlots = container.`(slots)`
         val ingredientSlots = containerSlots.filter { it.`(inventory)` is CraftingInventory }
 
@@ -142,11 +142,11 @@ object ContinuousCraftingHandler {
             val typeToSlotListMap = mutableMapOf<ItemType, MutableList<Int>>() // slotIndex
             for (slotMonitor in slotMonitors) {
                 with(slotMonitor) {
-                    if (shouldHandle(storedItem,
-                                     slot.`(itemStack)`)) {
+                    if (shouldHandle(storedItem, slot.`(itemStack)`)) {
                         // record this
-                        typeToSlotListMap.getOrPut(storedItem.itemType,
-                                                   { mutableListOf() }).add(slot.`(id)`)
+                        typeToSlotListMap.getOrPut(storedItem.itemType) {
+                            mutableListOf()
+                        }.add(slot.`(id)`)
                         handledSomething = true
                     }
                 }
@@ -182,7 +182,7 @@ object ContinuousCraftingHandler {
         }
     }
 
-    class ItemSlotMonitor(val slot: Slot) {
+    private class ItemSlotMonitor(val slot: Slot) {
         var storedItem = ItemStack.EMPTY
 
         fun save() {
