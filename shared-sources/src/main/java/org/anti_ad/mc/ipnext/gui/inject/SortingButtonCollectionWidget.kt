@@ -322,6 +322,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
         private val continuousCraftingCheckbox = CheckBoxWidget { -> switchContinuousCraftingValue() }.apply {
 //      tx = 70 or 80
+            hints = HintsManager.hintFor(IPNButton.CONTINUOUS_CRAFTING, screen.javaClass)
             tx = if (continuousCraftingValue) 80 else 70
             highlightTx = if (continuousCraftingValue) 120 else 70
             this@SortingButtonCollectionWidget.addChild(this)

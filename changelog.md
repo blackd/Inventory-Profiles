@@ -1,5 +1,8 @@
 <!-- latest begin -->
 
+### Support for Forge 1.18 is in *ALPHA STATE*
+PLEASE, IF SOMETHING DOESN'T WORK **DON'T COMPLAIN IN THE COMMENTS** REPORT AN ISSUE!
+
 ### 1.1.9
 - fixed locked slots behaviour when a chest or other container is opened and swipe drop/move is used.
 - native 1.18 version.
