@@ -82,6 +82,7 @@ object AutoRefillSettings : ConfigDeclaration {
     val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
     val REFILL_ARMOR                              /**/ by bool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
+    val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
     val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
                                                               0,
                                                               100)
@@ -89,6 +90,12 @@ object AutoRefillSettings : ConfigDeclaration {
     val AUTO_REFILL_WAIT_TICK                     /**/ by int(0,
                                                               0,
                                                               100)
+        .CATEGORY("$category.auto-refill.non-enchanted")
+    val ALLOW_BREAK_FOR_NON_ENCHANTED             /**/ by bool(false)
+    val TOOL_MAX_DURABILITY_THRESHOLD             /**/ by int(500,
+                                                              0,
+                                                              5000)
+
 }
 
 

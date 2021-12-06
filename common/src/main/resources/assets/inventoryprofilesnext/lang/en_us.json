@@ -126,21 +126,28 @@
     "inventoryprofiles.config.description.show_move_all_button":                   "Show \"Move All\" buttons in the container/player Gui.",
     "inventoryprofiles.config.description.show_button_tooltips":                   "Display tooltips for the buttons.",
 
-    "inventoryprofiles.gui.config.AutoRefillSettings":                              "Auto Refill",
+    "inventoryprofiles.gui.config.AutoRefillSettings":                             "Auto Refill",
 
+    "inventoryprofiles.config.category.auto-refill.non-enchanted":                 "Non Enchanted Items",
     "inventoryprofiles.config.name.disable_for_drop_item":                         "Disable For Dropped Item",
     "inventoryprofiles.config.name.refill_armor":                                  "Refill Armor Before It Breaks",
     "inventoryprofiles.config.name.refill_before_tool_break":                      "Replace Tools Before They Break",
+    "inventoryprofiles.config.name.disable_for_loyalty_items":                     "Don't Replace Loyalty Gear",
     "inventoryprofiles.config.name.tool_damage_threshold":                         "Damage Threshold",
     "inventoryprofiles.config.name.threshold_unit":                                "Threshold Units",
     "inventoryprofiles.config.name.auto_refill_wait_tick":                         "Number of Ticks to Wait Before Auto Refill",
+    "inventoryprofiles.config.name.allow_break_for_non_enchanted":                 "Allow Some Non Enchanted Gear to Break",
+    "inventoryprofiles.config.name.tool_max_durability_threshold":                 "Max Durability Threshold",
     "inventoryprofiles.config.description.enable_auto_refill":                     "Refill the active item when the stack runs out.",
     "inventoryprofiles.config.description.disable_for_drop_item":                  "Disable \"Auto Refill\" for dropped items",
     "inventoryprofiles.config.description.refill_armor":                           "Refill armor slots if items are about to break",
     "inventoryprofiles.config.description.refill_before_tool_break":               "Refill tools and armor before they break.\nSee \"Damage Threshold\" for more information.",
+    "inventoryprofiles.config.description.disable_for_loyalty_items":              "Disable replacement of Loyalty enchanted gear.\nWhen this is true anything that is enchanted with any level of Loyalty\n will not be replaced when thrown or dropped.",
     "inventoryprofiles.config.description.tool_damage_threshold":                  "Controls the durability level that will trigger auto refill.",
     "inventoryprofiles.config.description.threshold_unit":                         "Set the unit for \"Damage Threshold\".\nAbsolute value and percentage (%%) are supported.",
     "inventoryprofiles.config.description.auto_refill_wait_tick":                  "Auto refill will wait this many ticks before doing the swap. \nThis might be useful on some during high server lag. \nHowever, depending on the \"Damage Threshold\" value, the tool might break before a swap is initiated.",
+    "inventoryprofiles.config.description.allow_break_for_non_enchanted":          "Don't try to save non enchanted items.\nThat has maximum durability less than the setting below.",
+    "inventoryprofiles.config.description.tool_max_durability_threshold":          "Tools with maximum durability below this value will be allowed to break if the setting above is true.\nThe idea that most players don't really want to keep stone tools,\n but will be annoyed if they break a dimond one.",
 
 
 

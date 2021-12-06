@@ -16,7 +16,9 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.alchemy.PotionUtils
+import net.minecraft.world.item.enchantment.Enchantment
 import net.minecraft.world.item.enchantment.EnchantmentHelper
+import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.nbt.Tag as NbtTag
 import net.minecraft.tags.Tag as TagTag
 
@@ -52,6 +54,8 @@ typealias StringNbtReader =  TagParser// JsonToNBT.getTagFromJson = StringNbtRea
 // ============
 
 typealias EnchantmentHelper = EnchantmentHelper
+typealias Enchantment = Enchantment
+typealias Enchantments = Enchantments
 
 // ============
 // potion

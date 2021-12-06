@@ -1,7 +1,9 @@
 package org.anti_ad.mc.ipnext.item
 
+import net.minecraftforge.registries.ForgeRegistries
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
@@ -98,6 +100,9 @@ inline val ItemType.enchantmentsScore: Double
             acc + if (enchantment.isCurse) -0.001 else level.toDouble() / enchantment.maxLevel
         } // cursed enchantments +0 scores
 
+inline val ItemType.enchantments: MutableMap<Enchantment, Int>
+    get() = EnchantmentHelper.getEnchantments(vanillaStack)
+
 inline val ItemType.isDamageable: Boolean
     get() = vanillaStack.isDamageableItem //isDamageable  // .isDamageableItem
 inline val ItemType.maxDamage: Int
@@ -133,8 +138,9 @@ inline val ItemType.comparablePotionEffects: List<PotionEffect>
 @Suppress("ObjectPropertyName")
 inline val StatusEffectInstance.`(asComparable)`: PotionEffect
     get() = PotionEffect(
-        Registry.MOB_EFFECT.getId(this.effect)
-            .toString(), // forge EFFECTS = STATUS_EFFECT  == MOB_EFFECT | effectType = potion = effect
+        //this.effect.descriptionId
+        ForgeRegistries.MOB_EFFECTS.getKey(this.effect).toString(),
+        ////Registry.MOB_EFFECT.getId(this.effect).toString(), // forge EFFECTS = STATUS_EFFECT  == MOB_EFFECT | effectType = potion = effect
         this.amplifier,
         this.duration
     )

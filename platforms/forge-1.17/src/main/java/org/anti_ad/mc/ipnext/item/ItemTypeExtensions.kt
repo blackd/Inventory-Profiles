@@ -2,6 +2,7 @@ package org.anti_ad.mc.ipnext.item
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
@@ -97,6 +98,9 @@ inline val ItemType.enchantmentsScore: Double
         .fold(0.0) { acc, (enchantment, level) ->
             acc + if (enchantment.isCurse) -0.001 else level.toDouble() / enchantment.maxLevel
         } // cursed enchantments +0 scores
+
+inline val ItemType.enchantments: MutableMap<Enchantment, Int>
+    get() = EnchantmentHelper.getEnchantments(vanillaStack)
 
 inline val ItemType.isDamageable: Boolean
     get() = vanillaStack.isDamageableItem //isDamageable  // .isDamageableItem

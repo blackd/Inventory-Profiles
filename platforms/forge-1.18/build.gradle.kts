@@ -12,7 +12,7 @@ val supported_minecraft_versions = listOf("1.18")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.18"
-val forge_version = "38.0.14"
+val forge_version = "38.0.15"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 

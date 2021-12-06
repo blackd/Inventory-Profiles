@@ -1,7 +1,9 @@
 package org.anti_ad.mc.common.vanilla.alias
 
 import net.minecraft.command.arguments.NBTPathArgument
+import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
@@ -52,6 +54,8 @@ typealias StringNbtReader = JsonToNBT // JsonToNBT.getTagFromJson = StringNbtRea
 // ============
 
 typealias EnchantmentHelper = EnchantmentHelper
+typealias Enchantment = Enchantment
+typealias Enchantments = Enchantments
 
 // ============
 // potion

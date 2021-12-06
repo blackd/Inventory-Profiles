@@ -1,7 +1,9 @@
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.Enchantments
 import org.anti_ad.mc.common.vanilla.alias.Items
 import org.anti_ad.mc.common.vanilla.alias.items.ArmorItem
 import org.anti_ad.mc.common.vanilla.alias.items.AxeItem
@@ -30,6 +32,7 @@ import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.comparablePotionEffects
 import org.anti_ad.mc.ipnext.item.durability
+import org.anti_ad.mc.ipnext.item.enchantments
 import org.anti_ad.mc.ipnext.item.hasPotionEffects
 import org.anti_ad.mc.ipnext.item.isBucket
 import org.anti_ad.mc.ipnext.item.isDamageable
@@ -141,8 +144,7 @@ object AutoRefillHandler {
         private fun isSwapped(): Boolean { // check this current == other lastTick and other current == this lastTick
             if (currentItem == lastTickItem) return false
             return anothers.any { another ->
-                this.currentItem == another.lastTickItem
-                        && this.lastTickItem == another.currentItem
+                this.currentItem == another.lastTickItem && this.lastTickItem == another.currentItem
             }
         }
 
@@ -174,23 +176,28 @@ object AutoRefillHandler {
         var checkingItem = storedItem // use to select
         private fun shouldHandleItem(): Boolean {
             checkingItem = storedItem
+
+
             if (storedItem.isEmpty()) return false // nothing become anything
-            if (currentItem.isEmpty()) return true // something become nothing
+            if (currentItem.isEmpty()) {
+                return !(AutoRefillSettings.DISABLE_FOR_LOYALTY_ITEMS.value && storedItem.itemType.enchantments[Enchantments.LOYALTY] != null)
+            }
             val itemType = currentItem.itemType
             if (itemType.isDamageable) {
                 if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
-                    val threshold = getThreshold(itemType)
-                    if (itemType.durability <= threshold) return true.also { checkingItem = currentItem }
+                    if (!(AutoRefillSettings.ALLOW_BREAK_FOR_NON_ENCHANTED.value
+                                && itemType.enchantments.isEmpty()
+                                && itemType.maxDamage < AutoRefillSettings.TOOL_MAX_DURABILITY_THRESHOLD.value)) {
+                        val threshold = getThreshold(itemType)
+                        if (itemType.durability <= threshold) return true.also { checkingItem = currentItem }
+                    }
                 }
             }
+
             if (storedItem.itemType.isBucket) return false
             // todo potion -> bottle, soup -> bowl etc
-            if (storedItem.itemType.item == Items.POTION
-                && currentItem.itemType.item == Items.GLASS_BOTTLE
-            ) return true
-            if (storedItem.itemType.isStew
-                && currentItem.itemType.item == Items.BOWL
-            ) return true
+            if (storedItem.itemType.item == Items.POTION && currentItem.itemType.item == Items.GLASS_BOTTLE) return true
+            if (storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL) return true
             // todo any else?
 
             return false
