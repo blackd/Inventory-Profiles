@@ -1,7 +1,18 @@
 <!-- latest begin -->
 
-### Support for Forge 1.18 is in *ALPHA STATE*
+### Support for Forge 1.18 is in *BETA STATE*
 PLEASE, IF SOMETHING DOESN'T WORK **DON'T COMPLAIN IN THE COMMENTS** REPORT AN ISSUE!
+
+### 1.2.0
+- added support for Loyalty enchanted items. Throwing a loyalty trident will not trigger refill to allow the thrown one to return to the same slot.
+- new auto refill feature. You can now allow non-enchanted items to break if their max durability is below a preset value.
+- native 1.18 version.
+
+
+<!-- latest end -->
+
+
+<!-- rest begin -->
 
 ### 1.1.9
 - fixed locked slots behaviour when a chest or other container is opened and swipe drop/move is used.
@@ -11,11 +22,6 @@ PLEASE, IF SOMETHING DOESN'T WORK **DON'T COMPLAIN IN THE COMMENTS** REPORT AN I
 
 1.14 gets an update because I don't want to leave it with a buggy major feature.
 This is the last release of Inventory Profiles Next for Minecraft 1.14.x
-
-<!-- latest end -->
-
-
-<!-- rest begin -->
 
 ### 1.1.8
 - it is now possible to disable all user actions for locked slots. It becomes very practical when used in conjunction with "Quick Disable" hotkey.

@@ -474,7 +474,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../changelog.md")
-        releaseType = "alpha"
+        releaseType = "beta"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
                 this.addGameVersion(it)
