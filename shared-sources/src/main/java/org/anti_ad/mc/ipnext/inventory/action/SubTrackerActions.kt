@@ -1,6 +1,5 @@
 package org.anti_ad.mc.ipnext.inventory.action
 
-import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.ipnext.config.PostAction
 import org.anti_ad.mc.ipnext.config.PostAction.*
 import org.anti_ad.mc.ipnext.inventory.data.MutableSubTracker
@@ -71,8 +70,12 @@ fun MutableSubTracker.sort(sortingRule: Rule,
 }
 
 private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
-    val overStacked = this.filter {
-        it.itemType.maxCount < it.count
+
+    val overStackedMap = mutableMapOf<Int, ItemStack>()
+    val overStacked = this.filterIndexed { index, itemStack ->
+        val keep = itemStack.overstacked
+        if (keep) overStackedMap[index] = itemStack
+        keep
     }
     val bucket = (this - overStacked).collect()
     val sorted =  bucket.elementSet.toList().sortedWith(sortingRule)
@@ -80,17 +83,13 @@ private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
             itemType to pack(bucket.count(itemType),
                              itemType.maxCount)
         }
-        .flatten(this.size).toMutableList()
-    var index = 0
-    overStacked.forEach {
-        val i = sorted.findEmptySlot(index)
-        index = i
-        if (i >= 0) {
-            sorted[i] = ItemStack(it.itemType, it.count)
-        } else {
-            Log.warn("Unable to handle over stacked item $it")
-        }
+        .flatten(this.size)
+        .toMutableList()
+
+    overStackedMap.forEach { (i, itemStack) ->
+        sorted.add(i, itemStack)
     }
+
     return sorted
 }
 

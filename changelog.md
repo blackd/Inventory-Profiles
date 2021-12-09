@@ -1,18 +1,19 @@
 <!-- latest begin -->
 
-### Support for Forge 1.18 is in *BETA STATE*
-PLEASE, IF SOMETHING DOESN'T WORK **DON'T COMPLAIN IN THE COMMENTS** REPORT AN ISSUE!
-
-### 1.2.0
-- added support for Loyalty enchanted items. Throwing a loyalty trident will not trigger refill to allow the thrown one to return to the same slot.
-- new auto refill feature. You can now allow non-enchanted items to break if their max durability is below a preset value.
-- native 1.18 version.
-
+### 1.2.1
+- fixes mode matching/all not moving all expected items.
+- fixed handling of overstacked items. Now we will just leave them in place.
+- forge 1.18 support looks stable enough 
 
 <!-- latest end -->
 
 
 <!-- rest begin -->
+
+### 1.2.0
+- added support for Loyalty enchanted items. Throwing a loyalty trident will not trigger refill to allow the thrown one to return to the same slot.
+- new auto refill feature. You can now allow non-enchanted items to break if their max durability is below a preset value.
+- native 1.18 version.
 
 ### 1.1.9
 - fixed locked slots behaviour when a chest or other container is opened and swipe drop/move is used.
@@ -47,6 +48,7 @@ This is the last release of Inventory Profiles Next for Minecraft 1.14.x
 - some changes under the hood
 - added updates check. The check is done once you enter a word/connect ot a server and message is displayed if there is new version available.
 
+<!-- rest end -->
 
 ### 1.1.4
 - added 1.15+ and 1.14.1+ versions. Just to be on par with the old mod
@@ -135,4 +137,4 @@ This is the last release of Inventory Profiles Next for Minecraft 1.14.x
 [1]: https://discord.gg/23YCxmveUM
 [2]: https://img.shields.io/discord/861171785897738240?label=Discord&logo=discord&style=plastic
 
-<!-- rest end -->
+

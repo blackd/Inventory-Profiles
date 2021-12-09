@@ -10,7 +10,7 @@ buildscript {
 }
 
 
-val versionObj = Version("1", "2", "0",
+val versionObj = Version("1", "2", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -192,11 +192,14 @@ afterEvaluate {
 @Suppress("MemberVisibilityCanBePrivate")
 class Version(val major: String, val minor: String, val revision: String, val preRelease: Boolean = false) {
 
+    val gitHash
+        get() = getGitHash()
+
     override fun toString(): String {
         return if (!preRelease)
             "$major.$minor.$revision"
         else //Only use git hash if it's a prerelease.
-            "$major.$minor.$revision-BETA+C${getGitHash()}-SNAPSHOT"
+            "$major.$minor.$revision-BETA+C$gitHash-SNAPSHOT"
     }
 
     fun toCleanString(): String {

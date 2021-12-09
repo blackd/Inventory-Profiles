@@ -63,6 +63,9 @@ compileKotlin.kotlinOptions {
 
 dependencies {
     "shadedApi"(project(":common"))
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.0")
+
     implementation("com.guardsquare:proguard-gradle:7.2.0-beta2")
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")

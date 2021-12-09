@@ -45,32 +45,10 @@ This mod will:
 
 ## Requirements
 
-- Forge 1.16.5 >= 36.1.32
+- Forge - always use the latest version for your minecraft version
 
-or
-
-- Forge 1.17.x >= 37.0.17
-
-or
-
-- Fabric Loader >= 0.11.6 (see [Updating Fabric](#updating-fabric))
+- Fabric Loader >= 0.11.6 
 - Mod Menu >= 2.0.2 - _optional_
-
-## Migrate from Inventory Profiles
-
-1. Move <span class="red"><strong>MINECRAFTHOME/config/inventoryprofiles</strong></span> somewhere
-2. Remove the old mod
-3. Install this mod
-4. Move back the <span class="red"><strong>inventoryprofiles</strong></span> folder from above
-5. Rename it to <span class="green"><strong>inventoryprofilesnext</strong></span>
-
-**Note:** If you're a Windows user, your **MINECRAFTHOME** is probably **%appdata%/.minecraft**
-
-## Updating Fabric
-
-For the official launcher make sure you don't have the game or the launcher running and follow [this guide](https://fabricmc.net/wiki/player:tutorials:install_mcl:windows)
-
-For the other launchers... really you should know how to do it :)
 
 ## Contributing
 

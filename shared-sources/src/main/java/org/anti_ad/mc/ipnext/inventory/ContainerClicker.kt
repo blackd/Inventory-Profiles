@@ -8,12 +8,14 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
+import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.alias.SlotActionType
 import org.anti_ad.mc.common.vanilla.render.alpha
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.ingame.`(clickSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
@@ -119,19 +121,23 @@ object ContainerClicker {
         Vanilla.playerContainer().`(sendContentUpdates)`()
     }
 
-    fun executeQClicks(clicks: List<Int>,
+    fun executeQClicks(clicks: Map<Int, Slot>,
                        interval: Int) {
         if (interval == 0) {
             if (Vanilla.container() is CreativeContainer) { // bulk content updates
                 doSendContentUpdates = false
-                clicks.forEach {
-                    qClick(it)
+                clicks.forEach { (index, slot) ->
+                    LockSlotsHandler.lastMouseClickSlot = slot
+                    qClick(index)
+                    LockSlotsHandler.lastMouseClickSlot = null
                 }
                 sendContentUpdates()
                 doSendContentUpdates = true
             } else {
-                clicks.forEach {
-                    qClick(it)
+                clicks.forEach { (index, slot) ->
+                    LockSlotsHandler.lastMouseClickSlot = slot
+                    qClick(index)
+                    LockSlotsHandler.lastMouseClickSlot = null
                 }
             }
         } else {
@@ -159,8 +165,10 @@ object ContainerClicker {
                 }
                 if (iterator.hasNext()) {
                     val slotId = iterator.next()
-                    highlight.id = slotId
-                    qClick(slotId)
+                    highlight.id = slotId.key
+                    LockSlotsHandler.lastMouseClickSlot = slotId.value
+                    qClick(slotId.key)
+                    LockSlotsHandler.lastMouseClickSlot = null
                 } else {
                     cancel()
                     highlights.remove(highlight)

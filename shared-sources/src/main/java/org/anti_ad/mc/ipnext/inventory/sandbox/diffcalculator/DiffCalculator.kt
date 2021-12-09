@@ -143,10 +143,8 @@ abstract class DiffCalculatorInstance(val sandbox: ContainerSandbox,
 
 class NoRoomException(message: String) : RuntimeException(message)
 
-class GenericDiffCalculatorInstance(sandbox: ContainerSandbox,
-                                    goalTracker: ItemTracker) :
-    DiffCalculatorInstance(sandbox,
-                           goalTracker), DiffCalculatorUtil {
+class GenericDiffCalculatorInstance(sandbox: ContainerSandbox, goalTracker: ItemTracker) : DiffCalculatorInstance(sandbox,
+                                                                                                                  goalTracker), DiffCalculatorUtil {
 
     val intermediateGoalTracker: ItemTracker by lazy(LazyThreadSafetyMode.NONE) {
         return@lazy if (cursorGoal.isEmpty()) {

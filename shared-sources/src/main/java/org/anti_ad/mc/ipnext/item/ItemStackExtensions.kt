@@ -72,12 +72,15 @@ fun MutableItemStack.transferNTo(another: MutableItemStack,
         another.itemType = itemType
         another.count = 0
     }
+    val anotherVanilla = another.vanillaStack
+    Log.trace("another is $anotherVanilla")
     val transferableCount = if (overstacked) {
         count
     } else {
         n.coerceAtMost(minOf(count,
                              another.room)).coerceAtLeast(0)
     }
+    if (transferableCount == 0) return
     count -= transferableCount
     another.count += transferableCount
     normalize()

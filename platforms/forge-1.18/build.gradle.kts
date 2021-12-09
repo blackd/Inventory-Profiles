@@ -7,6 +7,7 @@ import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.platformsCommonConfig
 import proguard.gradle.ProGuardTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 
 val supported_minecraft_versions = listOf("1.18")
 val mod_loader = "forge"
@@ -89,21 +90,30 @@ repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+
+    maven {
+        url = uri("https://www.cursemaven.com")
+        content {
+            includeGroup ("curse.maven")
+        }
+    }
 }
 
-
+val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
 
 dependencies {
     "shadedApi"(project(":common"))
 
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.0")
 
     //"implementation"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
     //"implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
+
+    //runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3555237"))
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
@@ -270,7 +280,7 @@ configurations {
 configure<UserDevExtension> {
     mappings(mapOf(
         "channel" to "official",
-        "version" to "1.17.1"
+        "version" to "1.18"
                   ))
     runs {
         val runConfig = Action<RunConfig> {

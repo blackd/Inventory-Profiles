@@ -11,6 +11,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
+import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -146,26 +147,32 @@ object GeneralInventoryActions {
                              throwAll: Boolean,
                              type: ItemStack? = null) {
         with(AreaTypes) {
-            val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
-                    lockedSlots
+            val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) - lockedSlots
             val container = itemStorage
             val slots = vanillaContainer.`(slots)`
             val source = (if (isContainer) container else player).getItemArea(vanillaContainer, slots)
 
             val actUponSlots = if (throwAll) {
-                source.slotIndices.filter {
-                    !slots[it].`(itemStack)`.isEmpty()
-                }.toList()
+                val res = mutableMapOf<Int, Slot>()
+                source.slotIndices.forEach() {
+                    val checkStack = slots[it]
+                    if (!checkStack.`(itemStack)`.isEmpty()) {
+                        res[it] = checkStack
+                    }
+                }
+                res
             } else {
                 val focusedStack = type ?: vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
+                val res = mutableMapOf<Int, Slot>()
                 if (!focusedStack.isEmpty()) {
-                    source.slotIndices.filter {
+                    source.slotIndices.forEach {
                         val checkStack = slots[it].`(itemStack)`
-                        !checkStack.isEmpty() && checkStack.itemType == focusedStack.itemType
-                    }.toList()
-                } else {
-                    listOf()
+                        if (!checkStack.isEmpty() && checkStack.itemType == focusedStack.itemType) {
+                            res[it] = slots[it]
+                        }
+                    }
                 }
+                res
             }
             if (actUponSlots.isNotEmpty()) {
                 val interval: Int =

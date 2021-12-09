@@ -1,77 +1,120 @@
 {
-    "de.maxhenkel.camera.gui.ImageScreen": {
+    "de.maxhenkel.camera.gui.ImageScreen":                       {
         "ignore": true
     },
     "tfar.dankstorage.client.screens.AbstractDankStorageScreen": {
-        "ignore": true,
+        "ignore":     true,
         "playerOnly": true
     },
-    "tfar.dankstorage.container.DankMenu": {
-        "ignore": true,
+    "tfar.dankstorage.container.DankMenu":                       {
+        "ignore":     true,
         "playerOnly": true
     },
     "tfar.dankstorage.client.screens.PortableDankStorageScreen": {
-        "ignore": true,
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.LifeSupportScreen": {
-        "ignore": true,
+    "agap.main.LifeSupportScreen":                               {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.PowerGenScreen": {
-        "ignore": true,
+    "agap.main.PowerGenScreen":                                  {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.PortalBeamBlockScreen": {
-        "ignore": true,
+    "agap.main.PortalBeamBlockScreen":                           {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.Machines.PackerScreen": {
-        "ignore": true,
+    "agap.main.Machines.PackerScreen":                           {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.Machines.PressScreen": {
-        "ignore": true,
+    "agap.main.Machines.PressScreen":                            {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.Machines.Machine1InputScreen": {
-        "ignore": true,
+    "agap.main.Machines.Machine1InputScreen":                    {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.Machines.PowerFurnaceScreen": {
-        "ignore": true,
+    "agap.main.Machines.PowerFurnaceScreen":                     {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.Machines.BatteryBlockScreen": {
-        "ignore": true,
+    "agap.main.Machines.BatteryBlockScreen":                     {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.ElectrolyzerScreen": {
-        "ignore": true,
+    "agap.main.ElectrolyzerScreen":                              {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.Machines.AutoConstructorScreen": {
-        "ignore": true,
+    "agap.main.Machines.AutoConstructorScreen":                  {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.CatalyzerScreen": {
-        "ignore": true,
+    "agap.main.CatalyzerScreen":                                 {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.RocketStationScreen": {
-        "ignore": true,
+    "agap.main.RocketStationScreen":                             {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.StarshipControlScreen": {
-        "ignore": true,
+    "agap.main.StarshipControlScreen":                           {
+        "ignore":     true,
         "playerOnly": true
     },
-    "agap.main.ColonyCommandScreen": {
-        "ignore": true,
+    "agap.main.ColonyCommandScreen":                             {
+        "ignore":     true,
         "playerOnly": true
     },
-    "dev.cammiescorner.arcanus.client.screens.BookshelfScreen": {
-        "ignore": true,
+    "dev.cammiescorner.arcanus.client.screens.BookshelfScreen":  {
+        "ignore":     true,
         "playerOnly": true
+    },
+    "net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen": {
+        "buttonHints": {
+            "MOVE_TO_PLAYER": {
+                "horizontalOffset": 30
+            },
+            "SORT" : {
+                "horizontalOffset": 30
+            },
+            "SORT_COLUMNS" : {
+                "horizontalOffset": 30
+            },
+            "SORT_ROWS" : {
+                "horizontalOffset": 30
+            },
+            "MOVE_TO_CONTAINER": {
+                "bottom": 2
+            }
+
+        }
+    },
+    "vazkii.quark.addons.oddities.client.screen.BackpackInventoryScreen": {
+        "buttonHints": {
+            "SORT" : {
+                "horizontalOffset": 1,
+                "bottom": 72
+            },
+            "SORT_COLUMNS" : {
+                "horizontalOffset": 13,
+                "bottom": 60
+            },
+            "SORT_ROWS" : {
+                "horizontalOffset": 13,
+                "bottom": 60
+            },
+            "CONTINUOUS_CRAFTING" : {
+                "bottom": 60
+            },
+            "MOVE_TO_CONTAINER": {
+                "horizontalOffset": 13,
+                "bottom": 60
+            }
+        }
     }
 }

@@ -31,5 +31,5 @@ inline fun initInfoManager() {
     InfoManager.modName = ModInfo.MOD_NAME
     InfoManager.modId = ModInfo.MOD_ID
     InfoManager.version = ModInfo.getModVersion()
-    InfoManager.mcVersion = SharedConstants.m_183709_().releaseTarget
+    InfoManager.mcVersion = SharedConstants.getCurrentVersion().releaseTarget
 }
