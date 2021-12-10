@@ -1,9 +1,10 @@
 <!-- latest begin -->
 
 ### 1.2.1
-- fixes mode matching/all not moving all expected items.
-- fixed handling of overstacked items. Now we will just leave them in place.
+- fixes throw matching/all not dropping all expected items.
+- "fixed" handling of overstacked items. Now we will just leave them in place.
 - forge 1.18 support looks stable enough 
+- fabric 1.14 gets an update because of the first fix. If no other major problems are found this will be the last update.
 
 <!-- latest end -->
 

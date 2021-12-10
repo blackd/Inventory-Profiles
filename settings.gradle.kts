@@ -12,9 +12,10 @@ if (JavaVersion.current() >= JavaVersion.VERSION_16) {
 include("platforms:fabric-1.16")
 include("platforms:fabric-1.15")
 include("platforms:forge-1.16")
+include("platforms:fabric-1.14")
 
 if (System.getenv("IPN_COMPILE_ALL") != null) {
-    include("platforms:fabric-1.14")
+
 }
 
 

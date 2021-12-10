@@ -58,10 +58,6 @@ If you speak another language and would like to help to translate it, you can do
 
 If you're a Kotlin developer and want to contribute, please see [the source](https://github.com/blackd/Inventory-Profiles)
 
-## Thanks
-
-Thanks to **jsminda**, the original author of [Inventory Profile](https://github.com/jsnimda/Inventory-Profiles)
-
 ## License
 
 This mod is distributed under [MIT license](https://github.com/blackd/Inventory-Profiles/blob/all-in-one/LICENSE)
