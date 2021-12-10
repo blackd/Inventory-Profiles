@@ -58,13 +58,13 @@ configure<JavaPluginExtension> {
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
-    jvmTarget = "17"
+    jvmTarget = "16"
 }
 
 dependencies {
     "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.0")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
 
     implementation("com.guardsquare:proguard-gradle:7.2.0-beta2")
     minecraft("com.mojang:minecraft:$minecraft_version")

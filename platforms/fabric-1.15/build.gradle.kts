@@ -66,10 +66,10 @@ tasks.withType<JavaCompile> {
 
 dependencies {
     "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
 
     "implementation"("com.guardsquare:proguard-gradle:7.1.1")
     minecraft("com.mojang:minecraft:1.15.2")

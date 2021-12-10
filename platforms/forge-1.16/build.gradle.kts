@@ -25,6 +25,8 @@ logger.lifecycle("""
     ***************************************************
     """.trimIndent())
 
+configureCommon(true)
+
 buildscript {
     repositories {
         maven { url = uri("https://maven.minecraftforge.net/maven") }
@@ -60,12 +62,11 @@ plugins {
     java
     `maven-publish`
     signing
-    //kotlin("jvm") version "1.6.0"
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.modrinth.minotaur") version "1.2.1"
 }
 
-configureCommon(true)
+
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -90,10 +91,10 @@ repositories {
 
 dependencies {
     "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }

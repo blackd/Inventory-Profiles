@@ -22,10 +22,10 @@ dependencies {
     val antlrVersion = "4.9.3"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
     "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",

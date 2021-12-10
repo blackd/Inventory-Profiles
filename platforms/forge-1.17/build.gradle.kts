@@ -96,8 +96,8 @@ repositories {
 dependencies {
     "shadedApi"(project(":common"))
 
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.0")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
 
     //"implementation"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
     //"implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
