@@ -2,7 +2,7 @@
     "providers": [
         {
             "type": "bitmap",
-            "file": "inventoryprofilesnex:font/tab.png",
+            "file": "inventoryprofilesnext:font/tab.png",
             "ascent": 7,
             "chars": ["\u0009"]
         }
