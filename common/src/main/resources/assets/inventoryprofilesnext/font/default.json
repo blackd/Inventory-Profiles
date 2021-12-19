@@ -2,7 +2,7 @@
     "providers": [
         {
             "type": "bitmap",
-            "file": "minecraft:font/tab.png",
+            "file": "inventoryprofilesnex:font/tab.png",
             "ascent": 7,
             "chars": ["\u0009"]
         }
