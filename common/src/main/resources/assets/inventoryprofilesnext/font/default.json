@@ -1,0 +1,10 @@
+{
+    "providers": [
+        {
+            "type": "bitmap",
+            "file": "minecraft:font/tab.png",
+            "ascent": 7,
+            "chars": ["\u0009"]
+        }
+    ]
+}
