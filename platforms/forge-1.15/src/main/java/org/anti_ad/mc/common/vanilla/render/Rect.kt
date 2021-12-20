@@ -7,14 +7,13 @@ import org.anti_ad.mc.common.vanilla.render.glue.__glue_rFillRect
 
 
 private val dummyDrawableHelper = object : DrawableHelper() {
-    fun fillGradient(i: Int,
-                     j: Int,
-                     k: Int,
-                     l: Int,
-                     m: Int,
-                     n: Int) {
-        super.fillGradient(rMatrixStack,
-                           i,
+    public override fun fillGradient(i: Int,
+                                     j: Int,
+                                     k: Int,
+                                     l: Int,
+                                     m: Int,
+                                     n: Int) {
+        super.fillGradient(i,
                            j,
                            k,
                            l,
@@ -36,8 +35,7 @@ fun initRectGlue() {
     }
 
     __glue_rFillRect = { x1, y1, x2, y2, color ->
-        DrawableHelper.fill(rMatrixStack,
-                            x1,
+        DrawableHelper.fill(x1,
                             y1,
                             x2,
                             y2,

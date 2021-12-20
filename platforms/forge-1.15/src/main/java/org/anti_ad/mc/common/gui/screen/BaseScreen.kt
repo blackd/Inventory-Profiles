@@ -32,7 +32,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     open val screenInfo
         get() = ScreenInfo.default
 
-    override fun closeScreen() {
+    open fun closeScreen() {
         this.isClosing = true
         openScreenNullable(parent)
         this.isClosing = false
@@ -77,7 +77,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
         rClearDepth()
     }
 
-    open fun render(mouseX: Int,
+    override fun render(mouseX: Int,
                     mouseY: Int,
                     partialTicks: Float) {
         renderWidgetPre(mouseX,
@@ -88,16 +88,6 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
                           partialTicks)
     }
 
-    //override fun func_230430_a_(matrixStack: MatrixStack?, i: Int, j: Int, f: Float) {
-    override fun render(matrixStack: MatrixStack,
-                        i: Int,
-                        j: Int,
-                        f: Float) {
-        rMatrixStack = matrixStack ?: MatrixStack().also { Log.debug("null matrixStack") }
-        render(i,
-               j,
-               f)
-    }
 
     // ============
     // vanilla overrides

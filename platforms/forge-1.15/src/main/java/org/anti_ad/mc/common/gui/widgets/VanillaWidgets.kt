@@ -36,18 +36,17 @@ open class VanillaWidget<T : ClickableWidget>(
     }
 
     var vanillaMessage: String
-        get() = vanilla.message.string //asString()
+        get() = vanilla.message //asString()
         //    get() = vanilla.func_230458_i_().unformattedComponentText
         set(value) {
-            vanilla.message = LiteralText(value)
+            vanilla.message = value
         }
 
     override fun render(mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         rStandardGlState() // added this todo (unknown reason fixing text field overflow)
-        vanilla.render(rMatrixStack,
-                       mouseX,
+        vanilla.render(mouseX,
                        mouseY,
                        partialTicks)
         super.render(mouseX,
@@ -134,31 +133,29 @@ private class CustomVanillaSliderWidget(val minValue: Double,
                                                                                     0,
                                                                                     0,
                                                                                     20,
-                                                                                    LiteralText(""),
                                                                                     0.5) {
 
     var valueChangedEvent: () -> Unit = { }
 
-    //override fun updateMessage() {}
+    override fun updateMessage() {}
 
-    override fun func_230979_b_() {}
+    //override fun func_230979_b_() {}
 
-    //    override fun applyValue() {
-    override fun func_230972_a_() {
+    override fun applyValue() {
+    //override fun func_230972_a_() {
         valueChangedEvent()
     }
 
     var translatedValue: Double
-        get() = (maxValue - minValue) * super.sliderValue + minValue
+        get() = (maxValue - minValue) * super.value + minValue
         //    get() = (maxValue - minValue) * super.field_230683_b_ + minValue
         set(value) {
-            super.sliderValue = (value - minValue) / (maxValue - minValue)
+            super.value = (value - minValue) / (maxValue - minValue)
         }
 
-    override fun renderWidget(matrixStack: MatrixStack,
-                              i: Int,
-                              j: Int,
-                              f: Float) {
+    override fun renderButton (i: Int,
+                               j: Int,
+                               f: Float) {
         // fix slider width > 400
         val hovered = isHovered
         val absoluteBounds = Rectangle(x,
@@ -174,20 +171,17 @@ private class CustomVanillaSliderWidget(val minValue: Double,
 
         // ref: AbstractButtonWidget.renderButton()
         //renderBackground(
-        renderBg(matrixStack,
-                 Vanilla.mc(),
+        renderBg(Vanilla.mc(),
                  i,
                  j)
 //    val l = if (active) 16777215 else 10526880
         val l = if (active) if (hovered) 16777120 else 14737632 else 10526880
-        DrawableHelper.drawCenteredString(
-            matrixStack,
-            Vanilla.textRenderer(),
-            message,
-            x + width / 2,
-            y + (height - 8) / 2,
-            l or (MathHelper.ceil(alpha * 255.0f) shl 24)
-        )
+        this.drawCenteredString(Vanilla.textRenderer(),
+                                message,
+                                x + width / 2,
+                                y + (height - 8) / 2,
+                                l or (MathHelper.ceil(alpha * 255.0f) shl 24)
+                               )
     }
 }
 
@@ -226,7 +220,7 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer,
                            j,
                            k,
                            l,
-                           LiteralText(string)) {
+                           LiteralText(string).text) {
     public override fun setFocused(bl: Boolean) {
         super.setFocused(bl)
     }

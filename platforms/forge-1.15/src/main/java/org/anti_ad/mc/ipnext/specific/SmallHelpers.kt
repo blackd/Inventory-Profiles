@@ -13,7 +13,7 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
         ""
     }
     mc().isSingleplayer -> {
-        (mc().integratedServer?.serverConfiguration?.worldName ?: "").sanitized()
+        (mc().integratedServer?.worldName ?: "").sanitized()
     }
     mc().isConnectedToRealms -> {
         (mc().connection?.networkManager?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()

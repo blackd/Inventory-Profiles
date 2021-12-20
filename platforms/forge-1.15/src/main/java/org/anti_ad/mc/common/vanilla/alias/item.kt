@@ -17,10 +17,10 @@ import net.minecraft.nbt.NumberNBT
 import net.minecraft.nbt.StringNBT
 import net.minecraft.potion.EffectInstance
 import net.minecraft.potion.PotionUtils
-import net.minecraft.tags.ITagCollection
+import net.minecraft.tags.TagCollection
 import net.minecraft.tags.ItemTags
 import net.minecraft.nbt.INBT as NbtTag
-import net.minecraft.tags.ITag as TagTag
+import net.minecraft.tags.Tag as TagTag
 
 typealias Item = Item
 typealias Items = Items
@@ -30,7 +30,7 @@ typealias ItemGroup = ItemGroup
 
 typealias ItemTags = ItemTags
 typealias TagTag<T> = TagTag<T>
-typealias TagGroup<T> = ITagCollection<T>
+typealias TagGroup<T> = TagCollection<T>
 
 // ============
 // nbt

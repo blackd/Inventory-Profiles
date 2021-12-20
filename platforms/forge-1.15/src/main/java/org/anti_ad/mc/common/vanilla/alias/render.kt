@@ -15,15 +15,11 @@ import net.minecraft.util.text.event.ClickEvent
 import net.minecraft.util.text.event.HoverEvent
 import net.minecraft.util.text.TextFormatting
 
-import net.minecraft.util.text.Color
-import net.minecraft.util.text.IFormattableTextComponent
 
 
 typealias Text = ITextComponent // TextComponent is BaseText!!!!!!!
 typealias LiteralText = StringTextComponent
 typealias TranslatableText = TranslationTextComponent
-typealias TextColor = Color
-typealias MutableText = IFormattableTextComponent
 
 typealias TextRenderer = FontRenderer
 

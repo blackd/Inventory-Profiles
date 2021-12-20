@@ -281,9 +281,10 @@ configure<UserDevExtension> {
                 }
             }
             this.sources.add(sourceSets["assetsFixtemp"])
-
-            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
-            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+                jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+                jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            }
             //taskName = "plamenRunClient"
             this.forceExit = false
         }
@@ -298,14 +299,14 @@ configure<UserDevExtension> {
 
 
 tasks.register<Copy>("injectCommonResources") {
-    //tasks["prepareRuns"].dependsOn("injectCommonResources")
+    tasks["prepareRuns"].dependsOn("injectCommonResources")
     from(project(":common").layout.buildDirectory.dir("resources/main"))
     include("assets/**")
     into(project.layout.buildDirectory.dir("resources/main"))
 }
 
 tasks.register<Delete>("removeCommonResources") {
-    //tasks["prepareRuns"].finalizedBy("removeCommonResources")
+    tasks["prepareRuns"].finalizedBy("removeCommonResources")
     doLast {
         delete(project.layout.buildDirectory.dir("resources/main/assets"))
     }

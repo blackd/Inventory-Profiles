@@ -24,8 +24,7 @@ open class BaseOverlay : BaseScreen {
                         mouseY: Int,
                         partialTicks: Float) {
         try {
-            parent?.render(rMatrixStack,
-                           mouseX,
+            parent?.render(mouseX,
                            mouseY,
                            partialTicks)
 //      parent?.func_230430_a_(rMatrixStack, mouseX, mouseY, partialTicks)

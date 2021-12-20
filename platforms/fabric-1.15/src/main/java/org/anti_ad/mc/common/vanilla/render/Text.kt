@@ -11,7 +11,6 @@ import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_tex
 
 fun initTextGlue() {
     __glue_Vanilla_textRenderer_textHandler_wrapLines = { s: String, i: Int ->
-        // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
         Vanilla.textRenderer().wrapStringToWidth(LiteralText(s).string,
                                                  i)
     }

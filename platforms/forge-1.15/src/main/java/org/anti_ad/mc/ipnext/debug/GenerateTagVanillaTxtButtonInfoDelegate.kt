@@ -28,8 +28,8 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
         ItemTags.getCollection().toTagTxtContent().writeToFile(fileHardcoded)
         val server = Vanilla.server()
         server ?: return Unit.also { TellPlayer.chat("Not integrated server!!!") }
-        server.func_244266_aF().itemTags.toTagTxtContent()
-            .writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
+        //server.func_244266_aF().itemTags.toTagTxtContent().writeToFile(fileDatapack) // tagtagManager.items() = forge networkTagManager.items
+        server.networkTagManager.items.toTagTxtContent().writeToFile(fileDatapack)
     } // eventually they are the same ~.~
 
     private val Identifier.omittedString: String // omit minecraft
@@ -40,7 +40,7 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
 
     private fun TagGroup<Item>.toTagTxtContent(): String { // lets sort it
         val list = mutableListOf<Pair<String, MutableList<String>>>()
-        for ((identifier, tag) in idTagMap) { // forge tagMap = entries
+        for ((identifier, tag) in tagMap) { // forge tagMap = entries
 //      list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }.toMutableList() // allElements = values
             list += identifier.toString() to tag.allElements.map { Registry.ITEM.`(getIdentifier)`(it).toString() }
                 .toMutableList() // allElements = values
