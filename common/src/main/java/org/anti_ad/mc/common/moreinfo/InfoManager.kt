@@ -104,7 +104,7 @@ object InfoManager {
             try {
                 doCheckVersion(function)
             } catch (t: Throwable) {
-                Log.error("", t)
+                Log.warn("Update check failed with message - ${t.message}")
             }
         }
     }
