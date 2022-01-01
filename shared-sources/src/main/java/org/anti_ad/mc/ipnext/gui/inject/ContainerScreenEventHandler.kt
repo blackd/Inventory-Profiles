@@ -13,6 +13,7 @@ import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
+import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
@@ -57,8 +58,8 @@ object ContainerScreenEventHandler {
     fun onBackgroundRender() {
         currentWidgets?.forEach {
             (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
-                                    VanillaUtil.mouseY(),
-                                    VanillaUtil.lastFrameDuration())
+                                                          VanillaUtil.mouseY(),
+                                                          VanillaUtil.lastFrameDuration())
         }
         LockSlotsHandler.onBackgroundRender()
     }

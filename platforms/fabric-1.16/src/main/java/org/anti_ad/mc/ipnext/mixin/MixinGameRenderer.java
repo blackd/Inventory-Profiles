@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * MixinGameRenderer
  */
-@Mixin(GameRenderer.class)
+@Mixin(value = GameRenderer.class, priority = 10000)
 public class MixinGameRenderer {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;" +

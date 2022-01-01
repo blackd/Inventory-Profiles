@@ -318,7 +318,9 @@ object ContainerClicker {
                 return@map playerSlot.`(id)` to slot.`(topLeft)`
             }.toMap()
         }
+
     private val highlights: MutableSet<Highlight> = ConcurrentHashMap.newKeySet()
+
     private fun drawHighlight() {
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         val topLeft = screen.`(containerBounds)`.topLeft

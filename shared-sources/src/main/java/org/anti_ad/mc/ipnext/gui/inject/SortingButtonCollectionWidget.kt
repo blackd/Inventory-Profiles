@@ -13,18 +13,12 @@ import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.integration.ButtonPositionHint
 import org.anti_ad.mc.common.integration.HintsManager
-import org.anti_ad.mc.common.math2d.Point
-import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
-import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
@@ -34,25 +28,17 @@ import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
+import org.anti_ad.mc.ipnext.gui.inject.base.CheckBoxWidget
+import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
+import org.anti_ad.mc.ipnext.gui.inject.base.ProfileButtonWidget
+import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
-private val TEXTURE = IdentifierHolder("inventoryprofilesnext",
-                               "textures/gui/gui_buttons.png")
 
-
-abstract class InsertableWidget: Widget() {
-
-    abstract fun postBackgroundRender(mouseX: Int,
-                             mouseY: Int,
-                             partialTicks: Float);
-
-    abstract val screen: ContainerScreen<*>
-
-}
 
 class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
                                  private val hints: ButtonPositionHint = HintsManager.hintFor(IPNButton.PROFILE_SELECTOR,
@@ -385,111 +371,6 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                                                           81 + continuousCraftingCheckbox.hints.horizontalOffset)
             }
         }
-    }
-}
-
-class CheckBoxWidget : SortButtonWidget {
-    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
-    constructor(clickEvent: () -> Unit) : super(clickEvent)
-    constructor() : super()
-
-    var highlightTx = 0
-    var highlightTy = 0
-    var highlightTooltip: String = ""
-
-    override fun render(mouseX: Int,
-                        mouseY: Int,
-                        partialTicks: Float) {
-        val oldTx = tx
-        val oldTy = ty
-        val oldTooltipText = tooltipText
-        if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
-            tx = highlightTx
-            ty = highlightTy
-            tooltipText = highlightTooltip
-        }
-        super.render(mouseX,
-                     mouseY,
-                     partialTicks)
-        tx = oldTx
-        ty = oldTy
-        tooltipText = oldTooltipText
-    }
-}
-
-open class SortButtonWidget : TexturedButtonWidget {
-    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
-    constructor(clickEvent: () -> Unit) : super(clickEvent)
-    constructor() : super()
-
-    open var tx = 0
-    open var ty = 0
-    open var hints = HintsManager.zeroZero
-    open var tooltipText: String = ""
-    override val texture: IdentifierHolder
-        get() = TEXTURE
-    override val texturePt: Point
-        get() = Point(tx,
-                      ty)
-    override val hoveringTexturePt: Point
-        get() = Point(tx,
-                      ty + 10)
-
-    override fun render(mouseX: Int,
-                        mouseY: Int,
-                        partialTicks: Float) {
-        super.render(mouseX,
-                     mouseY,
-                     partialTicks)
-        if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
-                                                                      mouseY) && tooltipText.isNotEmpty()) {
-            Tooltips.addTooltip(tooltipText,
-                                mouseX,
-                                mouseY)
-        }
-    }
-
-    init {
-        size = Size(10,
-                    10)
-    }
-}
-
-abstract class TexturedButtonWidget : ButtonWidget {
-    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
-    constructor(clickEvent: () -> Unit) : super(clickEvent)
-    constructor() : super()
-
-    abstract val texture: IdentifierHolder
-    abstract val texturePt: Point
-    abstract val hoveringTexturePt: Point
-
-    override fun renderButton(hovered: Boolean) {
-        val textureLocation = if (hovered) hoveringTexturePt else texturePt
-        rDrawSprite(Sprite(texture,
-                           Rectangle(textureLocation,
-                                     size)),
-                    screenX,
-                    screenY)
-    }
-
-    override fun mouseClicked(x: Int,
-                              y: Int,
-                              button: Int): Boolean {
-        return super.mouseClicked(x,y,button) && visible
-    }
-
-}
-
-private open  class ProfileButtonWidget: SortButtonWidget {
-    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
-    constructor(clickEvent: () -> Unit) : super(clickEvent)
-    constructor() : super()
-
-    override fun mouseClicked(x: Int,
-                              y: Int,
-                              button: Int): Boolean {
-        return super.mouseClicked(x,y,button) && visible
     }
 }
 

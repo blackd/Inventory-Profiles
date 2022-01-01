@@ -33,7 +33,7 @@ fun Project.configureDependencies() {
         maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
         maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/releases/") }
         maven { url = uri("https://maven.fabricmc.net/") }
-
+        maven { url = uri("https://maven.shedaniel.me") }
     }
 
     dependencies {

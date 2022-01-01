@@ -72,6 +72,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.43.1+1.18")
+    modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 }
 
 loom {
