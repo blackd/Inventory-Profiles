@@ -3,76 +3,58 @@
         "ignore": true
     },
     "tfar.dankstorage.client.screens.AbstractDankStorageScreen": {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "tfar.dankstorage.container.DankMenu":                       {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "tfar.dankstorage.client.screens.PortableDankStorageScreen": {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.LifeSupportScreen":                               {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.PowerGenScreen":                                  {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.PortalBeamBlockScreen":                           {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.Machines.PackerScreen":                           {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.Machines.PressScreen":                            {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.Machines.Machine1InputScreen":                    {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.Machines.PowerFurnaceScreen":                     {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.Machines.BatteryBlockScreen":                     {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.ElectrolyzerScreen":                              {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.Machines.AutoConstructorScreen":                  {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.CatalyzerScreen":                                 {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.RocketStationScreen":                             {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.StarshipControlScreen":                           {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "agap.main.ColonyCommandScreen":                             {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "dev.cammiescorner.arcanus.client.screens.BookshelfScreen":  {
-        "ignore":     true,
-        "playerOnly": true
+        "ignore":     true
     },
     "net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen": {
         "buttonHints": {
@@ -116,5 +98,26 @@
                 "bottom": 60
             }
         }
+    },
+    "me.lizardofoz.inventorio.client.ui.InventorioScreen" : {
+        "playerSideOnly": true,
+        "buttonHints": {
+            "SORT" : {
+                "horizontalOffset": 10
+            },
+            "SORT_COLUMNS" : {
+                "horizontalOffset": 10
+            },
+            "SORT_ROWS" : {
+                "bottom": 14,
+                "horizontalOffset": 12
+            },
+            "MOVE_TO_CONTAINER": {
+                "bottom": 2
+            }
+        }
+    },
+    "me.lizardofoz.inventorio.player.InventorioScreenHandler" : {
+        "playerSideOnly": true
     }
 }

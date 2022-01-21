@@ -20,6 +20,7 @@ import net.minecraft.util.text.IFormattableTextComponent
 
 
 typealias Text = ITextComponent // TextComponent is BaseText!!!!!!!
+typealias VanillaTextSerializer = ITextComponent.Serializer
 typealias LiteralText = StringTextComponent
 typealias TranslatableText = TranslationTextComponent
 typealias TextColor = Color

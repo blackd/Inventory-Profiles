@@ -18,6 +18,7 @@ import net.minecraft.util.text.TextFormatting
 
 
 typealias Text = ITextComponent // TextComponent is BaseText!!!!!!!
+typealias TextSerializer = ITextComponent.Serializer
 typealias LiteralText = StringTextComponent
 typealias TranslatableText = TranslationTextComponent
 

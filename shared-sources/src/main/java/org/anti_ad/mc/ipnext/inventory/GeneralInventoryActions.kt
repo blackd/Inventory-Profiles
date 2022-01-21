@@ -6,6 +6,7 @@ import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.tryCatch
+import org.anti_ad.mc.common.integration.HintsManager
 import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
@@ -253,8 +254,10 @@ object GeneralInventoryActions {
 
 private object InnerActions {
 
-    private fun forcePlayerSide(): Boolean = // default container side
-            ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.`(inventory)` is PlayerInventory
+    private fun forcePlayerSide(): Boolean { // default container side
+        return (ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.`(inventory)` is PlayerInventory) ||
+                HintsManager.isForcePlayerSide(Vanilla.screen()?.javaClass)
+    }
 
     fun doSort(sortingRule: Rule,
                postAction: PostAction) = tryCatch {

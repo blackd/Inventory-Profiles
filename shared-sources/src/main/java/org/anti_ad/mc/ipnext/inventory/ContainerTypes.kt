@@ -1,8 +1,7 @@
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.extensions.orDefault
-import org.anti_ad.mc.common.integration.IgnoredManager
+import org.anti_ad.mc.common.integration.HintsManager
 import org.anti_ad.mc.common.vanilla.alias.AbstractFurnaceContainer
 import org.anti_ad.mc.common.vanilla.alias.AnvilContainer
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
@@ -29,6 +28,10 @@ import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
 private val nonStorage = setOf(TEMP_SLOTS)
 
+private val playerOnly = setOf(PURE_BACKPACK,
+                               PLAYER,
+                               CRAFTING)
+
 object ContainerTypes {
 
     private val innerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
@@ -36,9 +39,7 @@ object ContainerTypes {
 
     init {
         register(
-            PlayerContainer::class.java           /**/ to setOf(PURE_BACKPACK,
-                                                                PLAYER,
-                                                                CRAFTING),
+            PlayerContainer::class.java           /**/ to playerOnly,
             CreativeContainer::class.java         /**/ to setOf(PURE_BACKPACK,
                                                                 CREATIVE),
 
@@ -133,12 +134,18 @@ object ContainerTypes {
         } else {
             Log.trace("container.slots.size: ${container.`(slots)`.size}")
             val z: Class<*>? = getRepresentingClass(container)
-            val ignoredClass = IgnoredManager.getIgnoredClass(container.javaClass)
+            val ignoredClass = HintsManager.getIgnoredClass(container.javaClass)
+            val playerSideOnly = HintsManager.isForcePlayerSide(container.javaClass)
             Log.trace("Representing class: ${z?.name}")
             if (z == null) {
                 if (ignoredClass == null) {
-                    v = unknownContainerDefaultTypes
-                    register(container.javaClass, v, true)
+                    if (!playerSideOnly) {
+                        v = unknownContainerDefaultTypes
+                        register(container.javaClass, v, true)
+                    } else {
+                        v = playerOnly
+                        register(container.javaClass, v, true)
+                    }
                 } else {
                     v = nonStorage
                     register(ignoredClass, v, true)

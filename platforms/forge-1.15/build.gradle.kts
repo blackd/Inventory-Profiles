@@ -281,7 +281,7 @@ configure<UserDevExtension> {
                 }
             }
             this.sources.add(sourceSets["assetsFixtemp"])
-            if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+            if (JavaVersion.current() >= JavaVersion.VERSION_11) {
                 jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
                 jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
             }

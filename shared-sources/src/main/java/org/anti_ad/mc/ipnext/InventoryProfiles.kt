@@ -46,6 +46,7 @@ fun init() {
             InfoManager.isEnabled = { ModSettings.ENABLE_ANALYTICS.value }
         }
         InfoManager.event(lazy {"${InfoManager.loader}/${InfoManager.mcVersion}/${InfoManager.version}/started"})
+        //var s: Sounds = Sounds.REFILL_STEP_NOTIFY
     }
 
 }

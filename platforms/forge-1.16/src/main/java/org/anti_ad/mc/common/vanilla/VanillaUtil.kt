@@ -9,6 +9,7 @@ import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.alias.VanillaTextSerializer
 import org.anti_ad.mc.common.vanilla.alias.Util
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil
@@ -110,4 +111,14 @@ private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
     KeybindSettings.Context.INGAME -> s == null
     KeybindSettings.Context.GUI -> s != null
     KeybindSettings.Context.ANY -> true
+}
+
+fun showSubTitle(text: Text?) {
+    text?.apply {
+        Vanilla.inGameHud().renderTitles(null, text,0, 0, 0)
+    }
+}
+
+object TextSerializer {
+    fun fromJson(json: String) = VanillaTextSerializer.getComponentFromJson(json)
 }

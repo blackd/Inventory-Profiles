@@ -1,0 +1,3 @@
+{
+    "tool_refill_step_ping": { "subtitle": "subtitles.inventoryprofilesnext.refill_ping", "sounds": [ { "name": "inventoryprofilesnext:tool_refill_step_ping" } ] }
+}

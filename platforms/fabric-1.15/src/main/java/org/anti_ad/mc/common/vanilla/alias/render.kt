@@ -16,6 +16,8 @@ import net.minecraft.util.math.MathHelper
 
 
 typealias Text = Text
+typealias TextSerializer = Text.Serializer
+
 typealias LiteralText = LiteralText
 typealias TranslatableText = TranslatableText
 

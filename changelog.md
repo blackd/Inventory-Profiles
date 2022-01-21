@@ -1,14 +1,17 @@
 <!-- latest begin -->
 
-### 1.2.2 - just a hotfix 
-- fixed typo.
-- removed a debug dump that looked like it's something important.
-- added forge 1.15.2 version 
+### 1.2.3
+- workaround for REI tooltip rendering incompatibility.
 
 <!-- latest end -->
 
 
 <!-- rest begin -->
+
+### 1.2.2 - just a hotfix
+- fixed typo.
+- removed a debug dump that looked like it's something important.
+- added forge 1.15.2 version
 
 ### 1.2.1
 - fixes throw matching/all not dropping all expected items.

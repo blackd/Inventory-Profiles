@@ -1,10 +1,10 @@
 package org.anti_ad.mc.ipnext.event
 
-import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Enchantments
 import org.anti_ad.mc.common.vanilla.alias.Items
+import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.alias.items.ArmorItem
 import org.anti_ad.mc.common.vanilla.alias.items.AxeItem
 import org.anti_ad.mc.common.vanilla.alias.items.HoeItem
@@ -13,9 +13,12 @@ import org.anti_ad.mc.common.vanilla.alias.items.ShovelItem
 import org.anti_ad.mc.common.vanilla.alias.items.SwordItem
 import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.showSubTitle
+import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
+import org.anti_ad.mc.ipnext.config.ToolReplaceVisualNotification
 import org.anti_ad.mc.ipnext.ingame.`(equipmentSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(isPressed)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
@@ -31,6 +34,7 @@ import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.comparablePotionEffects
+import org.anti_ad.mc.ipnext.item.customOrTranslatedName
 import org.anti_ad.mc.ipnext.item.durability
 import org.anti_ad.mc.ipnext.item.enchantments
 import org.anti_ad.mc.ipnext.item.hasPotionEffects
@@ -107,6 +111,9 @@ object AutoRefillHandler {
         var currentItem = ItemStack.EMPTY
         var currentSlotId = -1
 
+        private var lastNotifyDurability: Int = -1;
+        private var lastNotifyBreakDurability: Int = -1;
+
         fun updateCurrent() {
             lastTickItem = currentItem
             currentSlotId = slotId()
@@ -152,24 +159,34 @@ object AutoRefillHandler {
             storedItem = currentItem
             storedSlotId = currentSlotId
             tickCount = 0
+            lastNotifyDurability = storedItem.itemType.durability
+            lastNotifyBreakDurability = storedItem.itemType.durability
         }
 
         private fun handle() {
             // find same type with stored item in backpack
             GeneralInventoryActions.cleanCursor()
+            val itemType = checkingItem.itemType
             val foundSlotId = findCorrespondingSlot(checkingItem)
-            foundSlotId ?: return
-            if ((storedSlotId - 36) in 0..8) { // use swap
-                //handles hotbar
-                ContainerClicker.swap(foundSlotId,
-                                      storedSlotId - 36)
-            } else {
-                //handles offhand and armor slots
-                ContainerClicker.leftClick(foundSlotId)
-                ContainerClicker.leftClick(storedSlotId)
-                if (!vCursorStack().isEmpty()) {
-                    ContainerClicker.leftClick(foundSlotId) // put back
+            if (foundSlotId != null) {
+
+                if (itemType.isDamageable) notifySuccessfulChange(itemType, foundSlotId)
+
+                if ((storedSlotId - 36) in 0..8) { // use swap
+                    //handles hotbar
+                    ContainerClicker.swap(foundSlotId,
+                                          storedSlotId - 36)
+                } else {
+                    //handles offhand and armor slots
+                    ContainerClicker.leftClick(foundSlotId)
+                    ContainerClicker.leftClick(storedSlotId)
+                    if (!vCursorStack().isEmpty()) {
+                        ContainerClicker.leftClick(foundSlotId) // put back
+                    }
                 }
+
+            } else if (itemType.isDamageable) {
+                notifyFailToChange()
             }
         }
 
@@ -189,6 +206,8 @@ object AutoRefillHandler {
                                 && itemType.enchantments.isEmpty()
                                 && itemType.maxDamage < AutoRefillSettings.TOOL_MAX_DURABILITY_THRESHOLD.value)) {
                         val threshold = getThreshold(itemType)
+
+                        notifyDurabilityChange(itemType, itemType.durability, threshold)
                         if (itemType.durability <= threshold) return true.also { checkingItem = currentItem }
                     }
                 }
@@ -200,6 +219,137 @@ object AutoRefillHandler {
             if (storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL) return true
             // todo any else?
 
+            return false
+        }
+        private fun notifySuccessfulChange(itemType: ItemType,
+                                           foundSlotId: Int) {
+            if (AutoRefillSettings.VISUAL_REPLACE_SUCCESS_NOTIFICATION.value) {
+                val replacingWith = Vanilla.playerContainer().`(slots)`[foundSlotId].`(itemStack)`.itemType
+
+                val message: (Boolean) -> String = {
+                    val newl = if (it) {
+                        """{"text": "\n"},"""
+                    } else {
+                        """{"text": " - ", "color": "#FFFFFF"},"""
+                    }
+                    """[
+                           {"translate" : "inventoryprofiles.config.notification.tool_replace_ping.ipn", "color" : "#3584E4" },
+                           $newl
+                           {"text" : "\"${itemType.customOrTranslatedName}\" ", "color": "#FF8484"},
+                           {"translate" : "inventoryprofiles.config.notification.tool_replace_success", "color": "#FFFFFF"},
+                           {"text" : " \"${replacingWith.customOrTranslatedName}\"", "color": "#8484FF"}
+                    ]"""
+                }
+                when (AutoRefillSettings.TYPE_VISUAL_REPLACE_SUCCESS_NOTIFICATION.value) {
+                    ToolReplaceVisualNotification.SUBTITLE -> {
+                        showSubTitle(TextSerializer.fromJson(message(false)));
+                    }
+                    ToolReplaceVisualNotification.HOTBAR   -> Vanilla.inGameHud().setOverlayMessage(TextSerializer.fromJson(message(false)),
+                                                                                                    false)
+                    ToolReplaceVisualNotification.CHAT     -> VanillaUtil.chat(TextSerializer.fromJson(message(true))!!)
+                }
+            }
+            if (AutoRefillSettings.AUDIO_REPLACE_SUCCESS_NOTIFICATION.value) {
+                Sounds.REFILL_STEP_NOTIFY.play(.2f)
+                Sounds.REFILL_STEP_NOTIFY.play(1.5f, 5)
+            }
+        }
+
+        private fun notifyFailToChange() {
+            if (!currentItem.isEmpty() && (AutoRefillSettings.VISUAL_REPLACE_FAILED_NOTIFICATION.value || AutoRefillSettings.AUDIO_REPLACE_FAILED_NOTIFICATION.value)) {
+                val itemType = currentItem.itemType
+                val threshold = getThreshold(itemType)
+                val durability = itemType.durability
+                if (durability <= threshold) {
+                    if (durability != lastNotifyBreakDurability) {
+                        if (AutoRefillSettings.VISUAL_REPLACE_FAILED_NOTIFICATION.value) {
+                            val message: (Boolean) -> String = {
+                                val newl = if (it) {
+                                    """{"text": "\n"},"""
+                                } else {
+                                    """{"text": " - ", "color": "#FFFFFF"},"""
+                                }
+                                """[
+                                   {"translate" : "inventoryprofiles.config.notification.tool_replace_ping.ipn", "color" : "#3584E4" },
+                                   {"translate": "inventoryprofiles.config.notification.tool_replace_ping.warning", "color" : "#FF8484"},
+                                   $newl
+                                   {"translate": "inventoryprofiles.config.notification.tool_replace_failed.replacing", "color" : "#E5A50A", "with": ["${itemType.customOrTranslatedName}"]}
+                                   ]"""
+                            }
+                            when (AutoRefillSettings.TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION.value) {
+                                ToolReplaceVisualNotification.SUBTITLE -> {
+                                    showSubTitle(TextSerializer.fromJson(message(false)))
+                                }
+                                ToolReplaceVisualNotification.HOTBAR   -> Vanilla.inGameHud().setOverlayMessage(TextSerializer.fromJson(message(false)),
+                                                                                                                false)
+                                ToolReplaceVisualNotification.CHAT     -> VanillaUtil.chat(TextSerializer.fromJson(message(true))!!)
+                            }
+
+                        }
+                        if (AutoRefillSettings.AUDIO_REPLACE_FAILED_NOTIFICATION.value) {
+                            Sounds.REFILL_STEP_NOTIFY.play(1.2f)
+                            Sounds.REFILL_STEP_NOTIFY.play(1.5f, 5)
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun notifyDurabilityChange(itemType: ItemType,
+                                           durability: Int,
+                                           threshold: Int) {
+            if ((AutoRefillSettings.VISUAL_DURABILITY_NOTIFICATION.value
+                        || AutoRefillSettings.AUDIO_DURABILITY_NOTIFICATION.value)
+                && isItNotifyStep(durability, threshold)) {
+
+
+                if (AutoRefillSettings.VISUAL_DURABILITY_NOTIFICATION.value) {
+                    val message: (Boolean) -> String =  {
+                        //                        {"translate": "inventoryprofiles.config.notification.tool_replace_ping.warning", "color" : "#FF8484"},
+                        val newl = if (it) {
+                            """{"text": "\n"},"""
+                        } else {
+                            """{"text": " - ", "color": "#FFFFFF"},"""
+                        }
+                        """[
+                        {"text" : ""},
+                        {"translate" : "inventoryprofiles.config.notification.tool_replace_ping.ipn", "color" : "#3584E4" },
+                        $newl
+                        {"translate": "inventoryprofiles.config.notification.tool_replace_ping.durability", "color" : "#E5A50A", "with": ["${itemType.customOrTranslatedName}","$durability"]},
+                        {"translate": "inventoryprofiles.config.notification.tool_replace_ping.replacing", "color" : "#FF4545", "with": ["$threshold"]}
+                        ]"""
+                    }
+                    when (AutoRefillSettings.TYPE_VISUAL_DURABILITY_NOTIFICATION.value) {
+                        ToolReplaceVisualNotification.SUBTITLE -> {
+                            showSubTitle(TextSerializer.fromJson(message(false)))
+                        }
+                        ToolReplaceVisualNotification.HOTBAR -> Vanilla.inGameHud().setOverlayMessage(TextSerializer.fromJson(message(false)), false)
+                        ToolReplaceVisualNotification.CHAT -> VanillaUtil.chat(TextSerializer.fromJson(message(true))!!)
+                    }
+
+                }
+                if (AutoRefillSettings.AUDIO_DURABILITY_NOTIFICATION.value) {
+                    Sounds.REFILL_STEP_NOTIFY.play()
+                }
+            }
+        }
+
+        private fun isItNotifyStep(durability: Int,
+                                   threshold: Int): Boolean {
+            if (storedItem.itemType != lastTickItem.itemType) {
+                lastNotifyDurability = -1
+            }
+            if (lastNotifyDurability != durability && durability != threshold) {
+                val num = AutoRefillSettings.NUMBER_OF_NOTIFICATIONS.value
+                val step = AutoRefillSettings.NOTIFICATION_STEP.value
+                for (i in threshold..threshold + num * step step step) {
+                    //            Log.trace("Checking if ")
+                    if (durability == i) {
+                        lastNotifyDurability = i;
+                        return true
+                    }
+                }
+            }
             return false
         }
 

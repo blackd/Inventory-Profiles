@@ -8,6 +8,8 @@ import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
+import org.anti_ad.mc.common.vanilla.alias.SimpleSoundInstance
+import org.anti_ad.mc.common.vanilla.alias.SoundEvent
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.Util
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
@@ -110,4 +112,15 @@ private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
     KeybindSettings.Context.INGAME -> s == null
     KeybindSettings.Context.GUI    -> s != null
     KeybindSettings.Context.ANY    -> true
+}
+
+fun showSubTitle(text: Text?) {
+    text?.apply {
+        Vanilla.inGameHud().setTitle(Text.nullToEmpty(""))
+        Vanilla.inGameHud().setSubtitle(text)
+    }
+}
+
+object PositionedSoundInstance {
+    fun master(sound: SoundEvent, pitch: Float, volume: Float) = SimpleSoundInstance.forUI(sound, pitch, volume)
 }

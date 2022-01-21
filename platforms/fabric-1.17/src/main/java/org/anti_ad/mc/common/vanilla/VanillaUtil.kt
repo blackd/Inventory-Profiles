@@ -111,3 +111,8 @@ private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
     KeybindSettings.Context.GUI -> s != null
     KeybindSettings.Context.ANY -> true
 }
+
+fun showSubTitle(text: Text?) {
+    Vanilla.inGameHud().setSubtitle(text)
+    Vanilla.inGameHud().setTitle(Text.of(" "))
+}

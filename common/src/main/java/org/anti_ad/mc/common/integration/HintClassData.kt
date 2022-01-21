@@ -24,9 +24,9 @@ data class ButtonPositionHint(val horizontalOffset: Int = 0,
 
 @Serializable
 data class HintClassData(val ignore: Boolean = false,
-                         val onlyPlayer: Boolean = false,
+                         val playerSideOnly: Boolean = false,
                          val buttonHints: Map<IPNButton, ButtonPositionHint> = emptyMap(),
-                         val forceButtonHints: Boolean = false) {
+                         val force: Boolean = false) {
 }
 
 val parser = HiddenJson {
@@ -71,23 +71,17 @@ fun registerFromConfigFile(file: Path) {
 
 private fun processConfig(config: Map<String, HintClassData>) {
     Log.trace("Read config: $config")
-    config.forEach { (s, hint) ->
-        Log.trace("Checking for class: $s")
-        val cl: Class<*>
-        try {
-            cl = Class.forName(s)
-            Log.trace("Successfully loaded class: ${cl.name}")
-        } catch (_: Throwable) {
-            Log.trace("Could not load class $s")
-            return@forEach
-        }
+    config.forEach { (className, hint) ->
         if (hint.ignore) {
-            Log.trace("Adding ignore for ${cl.name}")
-            IgnoredManager.addIgnore(cl)
+            Log.trace("Adding ignore for $className")
+            HintsManager.addIgnore(className, hint.force)
         }
         if (hint.buttonHints.isNotEmpty()) {
-            Log.trace("Adding gui hints for ${cl.name}")
-            HintsManager.addHints(cl, hint)
+            Log.trace("Adding gui hints for $className")
+            HintsManager.addHints(className, hint)
+        }
+        if (hint.playerSideOnly) {
+            HintsManager.addPlayerSideOnly(className)
         }
     }
 }

@@ -15,7 +15,9 @@ import net.minecraft.util.Util
 import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
 import net.minecraft.client.network.ClientPlayerInteractionManager
+import net.minecraft.client.sound.SoundInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.sound.SoundEvent
 
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
@@ -31,6 +33,7 @@ typealias DefaultedRegistry<T> = DefaultedRegistry<T>
 
 typealias PositionedSoundInstance = PositionedSoundInstance
 typealias SoundEvents = SoundEvents
+typealias SoundInstance = SoundInstance
 typealias Util = Util
 typealias ClientWorld = ClientWorld
 
@@ -39,6 +42,8 @@ typealias GameOptions = GameOptions
 typealias KeyBinding = KeyBinding
 typealias ClientPlayerInteractionManager = ClientPlayerInteractionManager
 typealias PlayerEntity = PlayerEntity
+
+typealias SoundEvent = SoundEvent
 
 private fun translate(string: String,
                       vararg objects: Any?): String = I18n.translate(string,

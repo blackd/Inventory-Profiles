@@ -18,6 +18,7 @@ import net.minecraft.ChatFormatting
 import net.minecraft.util.Mth
 
 typealias Text = Component // TextComponent is BaseText!!!!!!!
+typealias TextSerializer = Component.Serializer
 typealias LiteralText = TextComponent
 typealias TranslatableText = TranslatableComponent
 typealias MutableText = MutableComponent

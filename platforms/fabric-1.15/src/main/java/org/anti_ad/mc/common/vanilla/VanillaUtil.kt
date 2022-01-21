@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.vanilla
 
+import net.minecraft.client.gui.hud.InGameHud
 import org.anti_ad.mc.common.extensions.createDirectories
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.pathFrom
@@ -105,4 +106,12 @@ private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
     KeybindSettings.Context.INGAME -> s == null
     KeybindSettings.Context.GUI -> s != null
     KeybindSettings.Context.ANY -> true
+}
+
+fun showSubTitle(text: Text?) {
+    text?.apply {
+        Vanilla.inGameHud().setDefaultTitleFade()
+        Vanilla.inGameHud().setTitles(null, text.getString(),0, 0, 0)
+        Vanilla.inGameHud().setTitles(" ",null,0, 0, 0)
+    }
 }

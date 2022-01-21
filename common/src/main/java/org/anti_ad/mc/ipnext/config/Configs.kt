@@ -95,6 +95,26 @@ object AutoRefillSettings : ConfigDeclaration {
     val TOOL_MAX_DURABILITY_THRESHOLD             /**/ by int(500,
                                                               0,
                                                               5000)
+        .CATEGORY("$category.auto-refill.notifications")
+    val VISUAL_DURABILITY_NOTIFICATION            /**/ by bool(true)
+    val TYPE_VISUAL_DURABILITY_NOTIFICATION       /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
+    val AUDIO_DURABILITY_NOTIFICATION             /**/ by bool(true)
+    val NUMBER_OF_NOTIFICATIONS                   /**/ by int(3,
+                                                              1,
+                                                              10)
+    val NOTIFICATION_STEP                         /**/ by int(5,
+                                                              1,
+                                                              5)
+    val VISUAL_REPLACE_SUCCESS_NOTIFICATION       /**/ by bool(true)
+    val AUDIO_REPLACE_SUCCESS_NOTIFICATION        /**/ by bool(true)
+    val TYPE_VISUAL_REPLACE_SUCCESS_NOTIFICATION  /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
+    val VISUAL_REPLACE_FAILED_NOTIFICATION        /**/ by bool(true)
+    val AUDIO_REPLACE_FAILED_NOTIFICATION         /**/ by bool(true)
+    val TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION   /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
+
+
+
+
 
 }
 

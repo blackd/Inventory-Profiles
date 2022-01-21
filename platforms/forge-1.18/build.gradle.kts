@@ -9,11 +9,11 @@ import proguard.gradle.ProGuardTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 
-val supported_minecraft_versions = listOf("1.18")
+val supported_minecraft_versions = listOf("1.18", "1.18.1")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.18"
-val forge_version = "38.0.17"
+val minecraft_version = "1.18.1"
+val forge_version = "39.0.9"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 
@@ -114,6 +114,7 @@ dependencies {
     "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
 
     //runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3555237"))
+    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
@@ -280,7 +281,7 @@ configurations {
 configure<UserDevExtension> {
     mappings(mapOf(
         "channel" to "official",
-        "version" to "1.18"
+        "version" to "1.18.1"
                   ))
     runs {
         val runConfig = Action<RunConfig> {

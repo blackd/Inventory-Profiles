@@ -41,8 +41,7 @@ open class ConfigBoolean(final override val defaultValue: Boolean): ConfigOption
         get() = value
 }
 
-class ConfigEnum<E : Enum<E>>(override val defaultValue: E) :
-    ConfigOptionBase(), IConfigOptionPrimitive<E>, IConfigOptionToggleable {
+class ConfigEnum<E : Enum<E>>(override val defaultValue: E) : ConfigOptionBase(), IConfigOptionPrimitive<E>, IConfigOptionToggleable {
     override var value = defaultValue
     override fun toggleNext() = run { value = value.next() }
     override fun togglePrevious() = run { value = value.previous() }

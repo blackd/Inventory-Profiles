@@ -48,6 +48,14 @@ enum class PostAction {
         I18n.translate("$ENUM.post_action.${name.lowercase()}")
 }
 
+
+enum class ToolReplaceVisualNotification {
+    SUBTITLE,
+    HOTBAR,
+    CHAT;
+    override fun toString(): String =
+            I18n.translate("$ENUM.tool_replace_visual_notification.${name.lowercase()}")
+}
 enum class ThresholdUnit {
     ABSOLUTE,
     PERCENTAGE;

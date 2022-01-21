@@ -9,6 +9,7 @@ import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.alias.TextSerializer
 import org.anti_ad.mc.common.vanilla.alias.Util
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil
@@ -111,3 +112,12 @@ private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
     KeybindSettings.Context.GUI -> s != null
     KeybindSettings.Context.ANY -> true
 }
+
+fun showSubTitle(text: Text?) {
+    text?.apply {
+        Vanilla.inGameHud().setDefaultTitlesTimes()
+        Vanilla.inGameHud().displayTitle(null, text.getString(),0, 0, 0)
+        Vanilla.inGameHud().displayTitle(" ",null,0, 0, 0)
+    }
+}
+

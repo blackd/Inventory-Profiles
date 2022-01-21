@@ -78,6 +78,9 @@ inline val ItemType.translationKey: String
 inline val ItemType.isStackable: Boolean
     get() = vanillaStack.isStackable
 
+inline val ItemType.customOrTranslatedName: String
+    get() = if (hasCustomName) displayName else I18n.translate(translationKey)
+
 //endregion
 
 //region ItemType Number Relative
