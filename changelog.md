@@ -1,7 +1,7 @@
 <!-- latest begin -->
 
 ### 1.2.4
-- added compatibility with Inventorio, now sorting works in the extended inventory and the buttons are not overlaping the extra slots.
+- improved compatibility with Inventorio, now sorting works in the extended inventory and the buttons are not overlaping the extra slots.
 - added visual and sound alerts when tools run out of durability and are replaced or when there is no replacement tool. Check the "Auto Refill" configuration for more information.
 - All Relms worlds will now share configurations for locked slots and profiles. It's impossible to reliably detect the Relms world.
 
