@@ -2,9 +2,7 @@
 #-*- coding: utf-8 -*-
 
 import pypandoc
-from premailer import transform as premail
 from pathlib import Path
-import re
 
 def main():
     Path("out/debug").mkdir(parents=True, exist_ok=True)
