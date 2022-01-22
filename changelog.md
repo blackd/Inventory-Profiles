@@ -1,12 +1,16 @@
 <!-- latest begin -->
 
-### 1.2.3
-- workaround for REI tooltip rendering incompatibility.
+### 1.2.4
+- added compatibility with Inventorio, now sorting works in the extended inventory and the buttons are not overlaping the extra slots.
+- added visual and sound alerts when tools run out of durability and are replaced or when there is no replacement tool. Check the "Auto Refill" configuration for more information.
 
 <!-- latest end -->
 
 
 <!-- rest begin -->
+
+### 1.2.3
+- workaround for REI tooltip rendering incompatibility.
 
 ### 1.2.2 - just a hotfix
 - fixed typo.
