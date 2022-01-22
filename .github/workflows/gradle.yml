@@ -22,7 +22,7 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
     - name: Install Pandoc and Related
-      run: sudo apt-get install pandoc; pip install --user --upgrade --force pypandoc==1.6.4; pip install --user --upgrade --force --no-cache git+https://github.com/DCsunset/pandoc-include@v1.0.0
+      run: sudo apt-get install pandoc; pip install --user --upgrade --force panflute==2.1.0; pip install --user --upgrade --force pypandoc==1.6.4; pip install --user --upgrade --force --no-cache git+https://github.com/DCsunset/pandoc-include@v1.0.0
     - name: Create Release Notes
       run: pushd .; cd description; python3 build_release_notes.py; popd
     - name: Validate Gradle wrapper
