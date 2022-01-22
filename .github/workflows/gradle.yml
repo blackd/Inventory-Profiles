@@ -23,7 +23,7 @@ jobs:
         distribution: 'adopt'
     - name: Install Pandoc and Related
       run: sudo apt-get install pandoc;
-    - run: pip install --user --upgrade --force panflute==2.1.0
+    - run: pip install --user --upgrade --force panflute==2.0.5
     - run: pip install --user pypandoc==1.6.4
     - run: pip install --user --no-cache git+https://github.com/DCsunset/pandoc-include@v1.0.0
     - name: Create Release Notes
