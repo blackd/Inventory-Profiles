@@ -16,7 +16,8 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
         (mc().singleplayerServer?.worldData?.levelName ?: "").sanitized() //serverConfiguration?.worldName ?: "" // integratedServer
     }
     mc().isConnectedToRealms -> {
-        (mc().connection?.connection?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()
+        "@relms".sanitized()
+        //(mc().connection?.connection?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()
     }
     mc().currentServer != null -> {
         (mc().currentServer?.ip?.replace("/","")?.replace(":","&") ?: "").sanitized()

@@ -16,7 +16,8 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
         (mc().integratedServer?.serverConfiguration?.worldName ?: "").sanitized()
     }
     mc().isConnectedToRealms -> {
-        (mc().connection?.networkManager?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()
+        "@relms".sanitized()
+        //(mc().connection?.networkManager?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()
     }
     mc().currentServerData != null -> {
         (mc().currentServerData?.serverIP?.replace("/","")?.replace(":","&") ?: "").sanitized()

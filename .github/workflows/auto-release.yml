@@ -20,6 +20,15 @@ jobs:
           distribution: 'adopt'
       - name: Install AdvZip
         run: sudo apt-get install advancecomp
+      - name: Install Pandoc and Related
+        run: wget "https://github.com/jgm/pandoc/releases/download/2.17.0.1/pandoc-2.17.0.1-1-amd64.deb"
+      - run: sudo dpkg -i pandoc-2.17.0.1-1-amd64.deb
+      - run: sudo apt-get -f install
+      - run: pip install --user --upgrade --force panflute==2.0.5
+      - run: pip install --user pypandoc==1.6.4
+      - run: pip install --user --no-cache git+https://github.com/DCsunset/pandoc-include@v1.0.0
+      - name: Create Release Notes
+        run: pushd .; cd description; python3 build_release_notes.py; popd
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Cache Gradle packages
@@ -49,7 +58,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: build/libs/*.jar
-          body_path: changelog.md
+          body_path: description/out/pandoc-release_notes.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Cleanup Gradle Cache
