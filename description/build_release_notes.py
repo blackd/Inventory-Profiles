@@ -11,7 +11,7 @@ def main():
         "release_notes.md",
         "md",
         format="md",
-        filters=["pandoc-include"]
+        #filters=["pandoc-include"]
     )
 
     with open("out/pandoc-release_notes.md", "wb") as f:
