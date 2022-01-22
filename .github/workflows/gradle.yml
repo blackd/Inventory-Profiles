@@ -22,7 +22,9 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
     - name: Install Pandoc and Related
-      run: sudo apt-get install pandoc; pip install --user --upgrade --force --no-cache git+https://github.com/DCsunset/pandoc-include
+      run: sudo apt-get install pandoc; pip install --user --upgrade --force pypandoc; pip install --user --upgrade --force --no-cache git+https://github.com/DCsunset/pandoc-include
+    - name: Create Release Notes
+      run: pushd .; cd description; python3 build_release_notes.py; popd
     - name: Validate Gradle wrapper
       uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
     - name: Install AdvZip
