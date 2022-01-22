@@ -97,7 +97,7 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               5000)
         .CATEGORY("$category.auto-refill.notifications")
     val VISUAL_DURABILITY_NOTIFICATION            /**/ by bool(true)
-    val TYPE_VISUAL_DURABILITY_NOTIFICATION       /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
+    val TYPE_VISUAL_DURABILITY_NOTIFICATION       /**/ by enum(ToolReplaceVisualNotification.HOTBAR)
     val AUDIO_DURABILITY_NOTIFICATION             /**/ by bool(true)
     val NUMBER_OF_NOTIFICATIONS                   /**/ by int(3,
                                                               1,
@@ -107,7 +107,7 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               5)
     val VISUAL_REPLACE_SUCCESS_NOTIFICATION       /**/ by bool(true)
     val AUDIO_REPLACE_SUCCESS_NOTIFICATION        /**/ by bool(true)
-    val TYPE_VISUAL_REPLACE_SUCCESS_NOTIFICATION  /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
+    val TYPE_VISUAL_REPLACE_SUCCESS_NOTIFICATION  /**/ by enum(ToolReplaceVisualNotification.HOTBAR)
     val VISUAL_REPLACE_FAILED_NOTIFICATION        /**/ by bool(true)
     val AUDIO_REPLACE_FAILED_NOTIFICATION         /**/ by bool(true)
     val TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION   /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
