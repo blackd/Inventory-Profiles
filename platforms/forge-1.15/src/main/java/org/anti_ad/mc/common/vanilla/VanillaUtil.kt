@@ -9,7 +9,6 @@ import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Text
-import org.anti_ad.mc.common.vanilla.alias.TextSerializer
 import org.anti_ad.mc.common.vanilla.alias.Util
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil

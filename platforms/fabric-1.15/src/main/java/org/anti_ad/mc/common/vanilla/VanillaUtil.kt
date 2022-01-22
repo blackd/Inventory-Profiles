@@ -111,7 +111,7 @@ private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
 fun showSubTitle(text: Text?) {
     text?.apply {
         Vanilla.inGameHud().setDefaultTitleFade()
-        Vanilla.inGameHud().setTitles(null, text.getString(),0, 0, 0)
+        Vanilla.inGameHud().setTitles(null, text.string, 0, 0, 0)
         Vanilla.inGameHud().setTitles(" ",null,0, 0, 0)
     }
 }

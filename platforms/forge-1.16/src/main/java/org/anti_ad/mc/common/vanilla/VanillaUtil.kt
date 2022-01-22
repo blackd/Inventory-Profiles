@@ -115,7 +115,9 @@ private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
 
 fun showSubTitle(text: Text?) {
     text?.apply {
+        Vanilla.inGameHud().setDefaultTitlesTimes()
         Vanilla.inGameHud().renderTitles(null, text,0, 0, 0)
+        Vanilla.inGameHud().renderTitles(Text.getTextComponentOrEmpty(" "), null,0, 0, 0)
     }
 }
 
