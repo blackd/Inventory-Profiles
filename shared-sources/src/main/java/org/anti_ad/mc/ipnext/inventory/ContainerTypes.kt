@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.integration.HintsManager
+import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.alias.AbstractFurnaceContainer
 import org.anti_ad.mc.common.vanilla.alias.AnvilContainer
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
@@ -37,7 +37,8 @@ object ContainerTypes {
     private val innerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
     private val outerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
 
-    init {
+    @JvmStatic
+    fun init() {
         register(
             PlayerContainer::class.java           /**/ to playerOnly,
             CreativeContainer::class.java         /**/ to setOf(PURE_BACKPACK,
@@ -73,7 +74,18 @@ object ContainerTypes {
                                                                 RECTANGULAR,
                                                                 HEIGHT_3)
 
-        )
+                )
+
+    }
+
+    init {
+        init()
+    }
+
+    fun reset() {
+        outerMap.clear()
+        innerMap.clear()
+        init()
     }
 
     private val unknownContainerDefaultTypes : Set<ContainerType>
@@ -134,8 +146,8 @@ object ContainerTypes {
         } else {
             Log.trace("container.slots.size: ${container.`(slots)`.size}")
             val z: Class<*>? = getRepresentingClass(container)
-            val ignoredClass = HintsManager.getIgnoredClass(container.javaClass)
-            val playerSideOnly = HintsManager.isForcePlayerSide(container.javaClass)
+            val ignoredClass = if (HintsManagerNG.getHints(container.javaClass).ignore) container.javaClass else null
+            val playerSideOnly = HintsManagerNG.isPlayerSideOnly(container.javaClass)
             Log.trace("Representing class: ${z?.name}")
             if (z == null) {
                 if (ignoredClass == null) {
@@ -159,6 +171,8 @@ object ContainerTypes {
         }
         return v
     }
+
+
 
 //  fun match(container: Container, vararg with: ContainerType) = match(container, with.toSet())
 //  fun match(container: Container, with: Set<ContainerType> = setOf(), without: Set<ContainerType> = setOf()) =

@@ -4,6 +4,7 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.annotation.MayThrow
+import org.anti_ad.mc.common.extensions.createDirectories
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.exists
 import org.anti_ad.mc.common.extensions.listFiles
@@ -11,7 +12,7 @@ import org.anti_ad.mc.common.extensions.name
 import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
-import org.anti_ad.mc.common.integration.registerFromConfigFile
+import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfilesConfig
 import org.anti_ad.mc.common.util.LogicalStringComparator
@@ -19,10 +20,13 @@ import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.loggingPath
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
+import org.anti_ad.mc.ipnext.inventory.ContainerType
+import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.specific.serverIdentifier
 import java.nio.file.Path
+import kotlin.io.path.createDirectory
 
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
@@ -94,6 +98,7 @@ object ProfilesLoader: Loader, Savable {
 // ============
 
 interface Loader {
+    fun load()
     fun reload()
 }
 
@@ -101,7 +106,7 @@ object CustomDataFileLoader {
     private val loaders = mutableListOf<Loader>()
 
     fun load() {
-        reload()
+        loaders.forEach { it.load() }
     }
 
     fun reload() {
@@ -138,9 +143,7 @@ object LockSlotsLoader : Loader, Savable {
         }
     }
 
-    override fun load() {
-        internalLoad()
-    }
+    override fun load() = reload()
 
     private fun internalLoad() {
         cachedValue = listOf()
@@ -176,6 +179,8 @@ object RuleLoader : Loader {
             .also { Log.error("Failed to load in-jar file inventoryprofilesnext:config/rules.txt") }
     private const val regex = "^rules\\.(?:.*\\.)?txt\$"
 
+    override fun load() = reload()
+
     override fun reload() {
         Log.clearIndent()
         Log.trace("[-] Rule reloading...")
@@ -201,12 +206,21 @@ object RuleLoader : Loader {
 }
 
 object HintsLoader: Loader {
-    var loaded = false
-    override fun reload() {
-        if (!loaded) {
-            loaded = true
-            registerFromConfigFile(configFolder / "ModIntegrationHints.json")
+
+    private var firstLoad: Boolean = false
+
+    override fun load() {
+        if(!firstLoad) {
+            firstLoad = true
+            reload()
         }
+    }
+
+    override fun reload() {
+        val path = (configFolder / "integrationHints").apply { createDirectories() }
+        ContainerTypes.reset()
+        HintsManagerNG.upgradeOldConfig(configFolder / "ModIntegrationHints.json" , path)
+        HintsManagerNG.init(path)
     }
 
 }

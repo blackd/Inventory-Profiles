@@ -2,20 +2,12 @@ package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.detectable
-import org.anti_ad.mc.common.gui.Tooltips
-import org.anti_ad.mc.common.gui.widget.Axis
-import org.anti_ad.mc.common.gui.widget.BiFlex
 import org.anti_ad.mc.common.gui.widget.Overflow
-import org.anti_ad.mc.common.gui.widget.setBottomLeft
 import org.anti_ad.mc.common.gui.widget.setBottomRight
 import org.anti_ad.mc.common.gui.widget.setTopRight
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.integration.ButtonPositionHint
-import org.anti_ad.mc.common.integration.HintsManager
+import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
@@ -27,135 +19,13 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
-import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.gui.inject.base.CheckBoxWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
-import org.anti_ad.mc.ipnext.gui.inject.base.ProfileButtonWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
-import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
-
-
-
-class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
-                                 private val hints: ButtonPositionHint = HintsManager.hintFor(IPNButton.PROFILE_SELECTOR,
-                                                                                              screen.javaClass)): InsertableWidget() {
-
-    override fun postBackgroundRender(mouseX: Int,
-                                      mouseY: Int,
-                                      partialTicks: Float) {
-
-        rStandardGlState()
-        rClearDepth()
-        //overflow = Overflow.VISIBLE
-        val parentBounds = screen.`(containerBounds)`
-        absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3 + hints.bottom,
-                                           x = parentBounds.x + hints.horizontalOffset,
-                                           height = 20)
-        init()
-        super.render(mouseX,
-                     mouseY,
-                     partialTicks)
-        if (Debugs.DEBUG_RENDER.booleanValue) {
-            rDrawOutline(absoluteBounds.inflated(1),
-                         0xffff00.opaque)
-        }
-    }
-
-    private var initialized = false
-    fun init() {
-        if (initialized) return
-        initialized = true
-        InitWidgets()
-    }
-
-    inner class InitWidgets { // todo cleanup code
-        val container = Vanilla.container()
-        val types = ContainerTypes.getTypes(container)
-
-        private val nextProfileButton = ProfileButtonWidget { -> ProfileSwitchHandler.nextProfile(true) }.apply {
-            tx = 50
-            ty = 20
-            this@ProfilesUICollectionWidget.addChild(this)
-            visible = types.contains(PLAYER)
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.next_profile_button")
-        }
-
-        private val prevProfileButton = ProfileButtonWidget{ -> ProfileSwitchHandler.prevProfile(true) }.apply {
-            tx = 60
-            ty = 20
-            this@ProfilesUICollectionWidget.addChild(this)
-            visible = types.contains(PLAYER)
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.prev_profile_button")
-        }
-
-        private val profileButton = ActiveProfileButtonWidget { ProfileSwitchHandler.applyCurrent(true) }.apply {
-
-            parent = this@ProfilesUICollectionWidget
-            val profile = getCurrentProfileName()
-            visible = types.contains(PLAYER)
-            this.text = profile
-            height = 15
-            top = 1
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.apply_profile_button")
-
-        }
-
-        private val flex = InnerFlex().apply {
-            parent = this@ProfilesUICollectionWidget
-            visible = types.contains(PLAYER)
-            absoluteBounds = this@ProfilesUICollectionWidget.absoluteBounds.copy(width = this@ProfilesUICollectionWidget.absoluteBounds.width - 30,
-                                                                                 x = this@ProfilesUICollectionWidget.absoluteBounds.x + 15,
-                                                                                 height = 17)
-        }
-
-        init {
-            flex.flex.addAndFit(profileButton)
-            prevProfileButton.setBottomLeft(7, 0)
-            nextProfileButton.setBottomRight(7, 0)
-        }
-    }
-
-    private fun getCurrentProfileName(): String {
-        return ProfileSwitchHandler.activeProfileName ?: "§cNONE§r"
-    }
-
-    inner class InnerFlex(): Widget() {
-        val flex = BiFlex(this,
-                          Axis.HORIZONTAL)
-
-    }
-
-    inner class ActiveProfileButtonWidget(onClick: () -> Unit): ButtonWidget(onClick) {
-        override var text: String
-            get() {
-                return getCurrentProfileName()
-            }
-            set(_) {}
-        var tooltipText: String = ""
-        override fun render(mouseX: Int,
-                            mouseY: Int,
-                            partialTicks: Float) {
-            super.render(mouseX,
-                         mouseY,
-                         partialTicks)
-            if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
-                                                                          mouseY) && tooltipText.isNotEmpty()) {
-                Tooltips.addTooltip(tooltipText,
-                                    mouseX,
-                                    mouseY)
-            }
-        }
-        override fun mouseClicked(x: Int,
-                                  y: Int,
-                                  button: Int): Boolean {
-            return super.mouseClicked(x,y,button) && visible
-        }
-    }
-}
 
 class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : InsertableWidget() {
 
@@ -198,47 +68,28 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         val container = Vanilla.container()
         val types = ContainerTypes.getTypes(container)
 
-        val dummyRenderUpdater = object : Widget() { // update buttons in CreativeInventoryScreen
-            init {
-                this@SortingButtonCollectionWidget.addChild(this)
-            }
+        private val addChestSide = types.contains(SORTABLE_STORAGE)
+        private val addNonChestSide = types.contains(PURE_BACKPACK)
+        private val shouldAdd = addChestSide || addNonChestSide
 
-            val buttons by lazy(LazyThreadSafetyMode.NONE) {
-                listOf(sortButton,
-                       sortInColumnButton,
-                       sortInRowButton)
-            }
-            val originalVisibles by lazy(LazyThreadSafetyMode.NONE) { buttons.map { it.visible } }
-            override fun render(mouseX: Int,
-                                mouseY: Int,
-                                partialTicks: Float) {
-                if (screen !is CreativeInventoryScreen) return
-                val visible = screen.`(isInventoryTab)`
-                buttons.forEachIndexed { index, button ->
-                    button.visible = originalVisibles[index] && visible
-                }
-            }
-        }
+        private val hints = HintsManagerNG.getHints(screen.javaClass)
 
-        val addChestSide = types.contains(SORTABLE_STORAGE)
-        val addNonChestSide = types.contains(PURE_BACKPACK)
-        val shouldAdd = addChestSide || addNonChestSide
         private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort(true) }.apply {
-            hints = HintsManager.hintFor(IPNButton.SORT, screen.javaClass)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.SORT)
             tx = 10
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_button")
         }
         private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns(true) }.apply {
-            hints = HintsManager.hintFor(IPNButton.SORT_COLUMNS, screen.javaClass)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS)
             tx = 20
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
         }
         private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows(true) }.apply {
-            hints = HintsManager.hintFor(IPNButton.SORT_ROWS, screen.javaClass)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS)
             tx = 30
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.booleanValue && shouldAdd
@@ -270,7 +121,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             // extra I18n.translate null is ok
         }
         private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(toPlayer = false, gui = true) }.apply {
-            hints = HintsManager.hintFor(IPNButton.MOVE_TO_CONTAINER, screen.javaClass)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.MOVE_TO_CONTAINER)
             tx = 50
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible
@@ -278,7 +129,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         }
 
         private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(toPlayer = true, gui = true) }.apply {
-            hints = HintsManager.hintFor(IPNButton.MOVE_TO_PLAYER, screen.javaClass)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.MOVE_TO_PLAYER)
             tx = 60
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible && !types.contains(CRAFTING)
@@ -308,7 +159,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
         private val continuousCraftingCheckbox = CheckBoxWidget { -> switchContinuousCraftingValue() }.apply {
 //      tx = 70 or 80
-            hints = HintsManager.hintFor(IPNButton.CONTINUOUS_CRAFTING, screen.javaClass)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.CONTINUOUS_CRAFTING)
             tx = if (continuousCraftingValue) 80 else 70
             highlightTx = if (continuousCraftingValue) 120 else 70
             this@SortingButtonCollectionWidget.addChild(this)

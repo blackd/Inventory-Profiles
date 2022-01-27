@@ -4,7 +4,7 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.screen.BaseScreen
 import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.integration.HintsManager
+import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -25,12 +25,12 @@ object ContainerScreenEventHandler {
         if (target != Vanilla.screen()) return
         Log.trace("Showing screen of type ${target.javaClass.name}")
         val widgetsToInset = mutableListOf<Widget>()
-        val ignore = HintsManager.getIgnoredClass(target.javaClass) != null
+        val hints = HintsManagerNG.getHints(target.javaClass)
+        val ignore = hints.ignore
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && !ignore) {
             widgetsToInset.add(SortingButtonCollectionWidget(target))
         }
-        val hints = HintsManager.hintFor(IPNButton.PROFILE_SELECTOR, target.javaClass)
-        if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hide) {
+        if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hintFor(IPNButton.PROFILE_SELECTOR).hide) {
             widgetsToInset.add(ProfilesUICollectionWidget(target, hints))
         }
         if (widgetsToInset.size > 0) {

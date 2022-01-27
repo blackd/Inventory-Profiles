@@ -2,7 +2,7 @@ package org.anti_ad.mc.ipnext.input
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.config.options.ConfigHotkey
-import org.anti_ad.mc.common.integration.HintsManager
+import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
@@ -17,7 +17,9 @@ object InventoryInputHandler : IInputHandler {
         val scr = Vanilla.screen();
         val ctr = Vanilla.container();
         if (scr != null && scr is ContainerScreen<*> ) {
-            if (HintsManager.isAccepted(scr) && HintsManager.isAccepted(ctr)) {
+            val screenHints = HintsManagerNG.getHints(scr.javaClass)
+            val containerHints = HintsManagerNG.getHints(ctr.javaClass)
+            if (!screenHints.ignore && !containerHints.ignore) {
                 with(GeneralInventoryActions) {
                     return Hotkeys.SORT_INVENTORY                /**/ run ::doSort
                             || Hotkeys.SORT_INVENTORY_IN_COLUMNS /**/ run ::doSortInColumns

@@ -1,0 +1,136 @@
+{
+    "cammera" : {
+        "de.maxhenkel.camera.gui.ImageScreen": {
+            "ignore": true
+        }
+    },
+    "dankstorage": {
+        "tfar.dankstorage.client.screens.AbstractDankStorageScreen": {
+            "ignore": true
+        },
+        "tfar.dankstorage.container.DankMenu":                       {
+            "ignore": true
+        },
+        "tfar.dankstorage.client.screens.PortableDankStorageScreen": {
+            "ignore": true
+        }
+    },
+    "agap": {
+        "agap.main.LifeSupportScreen":              {
+            "ignore": true
+        },
+        "agap.main.PowerGenScreen":                 {
+            "ignore": true
+        },
+        "agap.main.PortalBeamBlockScreen":          {
+            "ignore": true
+        },
+        "agap.main.Machines.PackerScreen":          {
+            "ignore": true
+        },
+        "agap.main.Machines.PressScreen":           {
+            "ignore": true
+        },
+        "agap.main.Machines.Machine1InputScreen":   {
+            "ignore": true
+        },
+        "agap.main.Machines.PowerFurnaceScreen":    {
+            "ignore": true
+        },
+        "agap.main.Machines.BatteryBlockScreen":    {
+            "ignore": true
+        },
+        "agap.main.ElectrolyzerScreen":             {
+            "ignore": true
+        },
+        "agap.main.Machines.AutoConstructorScreen": {
+            "ignore": true
+        },
+        "agap.main.CatalyzerScreen":                {
+            "ignore": true
+        },
+        "agap.main.RocketStationScreen":            {
+            "ignore": true
+        },
+        "agap.main.StarshipControlScreen":          {
+            "ignore": true
+        },
+        "agap.main.ColonyCommandScreen":            {
+            "ignore": true
+        }
+    },
+    "arcanus" : {
+        "dev.cammiescorner.arcanus.client.screens.BookshelfScreen": {
+            "ignore": true
+        }
+    },
+    "sophisticatedbackpacks": {
+        "net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen": {
+            "buttonHints": {
+                "MOVE_TO_PLAYER":    {
+                    "horizontalOffset": 30
+                },
+                "SORT":              {
+                    "horizontalOffset": 30
+                },
+                "SORT_COLUMNS":      {
+                    "horizontalOffset": 30
+                },
+                "SORT_ROWS":         {
+                    "horizontalOffset": 30
+                },
+                "MOVE_TO_CONTAINER": {
+                    "bottom": 2
+                }
+            }
+        }
+    },
+    "quark": {
+        "vazkii.quark.addons.oddities.client.screen.BackpackInventoryScreen": {
+            "buttonHints": {
+                "SORT":                {
+                    "horizontalOffset": 1,
+                    "bottom":           72
+                },
+                "SORT_COLUMNS":        {
+                    "horizontalOffset": 13,
+                    "bottom":           60
+                },
+                "SORT_ROWS":           {
+                    "horizontalOffset": 13,
+                    "bottom":           60
+                },
+                "CONTINUOUS_CRAFTING": {
+                    "bottom": 60
+                },
+                "MOVE_TO_CONTAINER":   {
+                    "horizontalOffset": 13,
+                    "bottom":           60
+                }
+            }
+        }
+    },
+    "inventorio": {
+        "me.lizardofoz.inventorio.client.ui.InventorioScreen":     {
+            "playerSideOnly": true,
+            "buttonHints":    {
+                "SORT":              {
+                    "horizontalOffset": 10
+                },
+                "SORT_COLUMNS":      {
+                    "horizontalOffset": 10
+                },
+                "SORT_ROWS":         {
+                    "bottom":           14,
+                    "horizontalOffset": 12
+                },
+                "MOVE_TO_CONTAINER": {
+                    "bottom": 2
+                }
+            }
+        },
+        "me.lizardofoz.inventorio.player.InventorioScreenHandler": {
+            "playerSideOnly": true
+        }
+    }
+}

@@ -61,6 +61,15 @@ compileKotlin.kotlinOptions {
     jvmTarget = "16"
 }
 
+repositories {
+    maven {
+        url = uri("https://www.cursemaven.com")
+        content {
+            includeGroup ("curse.maven")
+        }
+    }
+}
+
 dependencies {
     "shadedApi"(project(":common"))
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
@@ -73,6 +82,11 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.43.1+1.18")
     modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
+
+    modRuntimeOnly("curse.maven:inventorio-491073:3553574")
+    modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
+
+
 }
 
 loom {

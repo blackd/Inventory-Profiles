@@ -1,7 +1,7 @@
 package org.anti_ad.mc.ipnext.gui.inject.base
 
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.integration.HintsManager
+import org.anti_ad.mc.common.integration.BUTTON_NO_HINTS
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
@@ -19,7 +19,7 @@ abstract class TexturedButtonWidget : ButtonWidget {
 
     open var tx = 0
     open var ty = 0
-    open var hints = HintsManager.zeroZero
+    open var hints = BUTTON_NO_HINTS
     open var tooltipText: String = ""
 
     override fun renderButton(hovered: Boolean) {

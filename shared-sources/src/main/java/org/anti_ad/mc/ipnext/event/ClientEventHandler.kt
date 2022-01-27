@@ -65,7 +65,7 @@ object ClientEventHandler: PClientEventHandler {
         if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
             LockedSlotKeeper.onJoinWorld()
         }
-        CustomDataFileLoader.reload()
+        CustomDataFileLoader.load()
     }
 
     // ============

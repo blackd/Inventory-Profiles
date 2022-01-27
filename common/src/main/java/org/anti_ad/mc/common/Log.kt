@@ -100,16 +100,24 @@ object Log {
         }
     }
     fun trace(message: String) = trace { message }
-    fun trace(message: () -> String) {
+    fun trace(message: String, tw: Throwable) = trace({message}, tw = tw)
+    fun trace(message: () -> String) = trace(message, tw = null)
+    fun trace(message: () -> String, tw: Throwable? = null) {
         if (keeping) {
             kept.add(getMessageString(message))
         }
         if (shouldTrace()) {
             val messageString = getMessageString(message)
-            innerLogger.info("[$id/TRACE] $messageString").also {
-                onLog(TRACE,
-                      messageString)
+            tw?.let {
+                innerLogger.info("[$id/TRACE] $messageString", it).also {
+                    onLog(TRACE,
+                          messageString)
+                }
+            } ?: innerLogger.info("[$id/TRACE] $messageString").also {
+                    onLog(TRACE,
+                          messageString)
             }
+
         }
     }
 
