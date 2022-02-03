@@ -90,6 +90,7 @@ inline val Screen.`(focusedSlot)`: Slot?
 
 inline val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
     get() = (this as IMixinContainerScreen).focusedSlot
+
 inline val ContainerScreen<*>.`(containerBounds)`: Rectangle
     get() = (this as IMixinContainerScreen).run {
         Rectangle(containerX,

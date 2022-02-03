@@ -4,6 +4,8 @@ import kotlinx.serialization.json.JsonElement
 
 abstract class ConfigOptionBase : IConfigOption {
     override var key: String = ""
+    override var importance = IConfigOption.Importance.IMPORTANT
+    override var hidden = false
 }
 
 abstract class ConfigOptionNumericBase<T>(final override val defaultValue: T,
@@ -37,6 +39,13 @@ interface IConfigElementResettable : IConfigElement {
 
 interface IConfigOption : IConfigElementResettable {
     var key: String
+    var importance: Importance
+    var hidden: Boolean
+
+    enum class Importance {
+        NORMAL,
+        IMPORTANT
+    }
 }
 
 interface IConfigOptionNumeric<T : Number> : IConfigOptionPrimitive<T> {

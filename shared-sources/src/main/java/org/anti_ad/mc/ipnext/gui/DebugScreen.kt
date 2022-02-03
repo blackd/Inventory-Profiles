@@ -3,6 +3,7 @@ package org.anti_ad.mc.ipnext.gui
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.gui.debug.BaseDebugScreen
 import org.anti_ad.mc.common.gui.debug.DebugInfos
+import org.anti_ad.mc.common.gui.widgets.Page
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
@@ -42,8 +43,9 @@ import org.anti_ad.mc.ipnext.item.rawId
 import org.anti_ad.mc.ipnext.item.translatedName
 import org.anti_ad.mc.ipnext.item.translationKey
 
-class DebugScreen : BaseDebugScreen() {
-    inner class PageContainer : Page("Container") {
+class DebugScreen: BaseDebugScreen() {
+    inner class PageContainer: Page("Container") {
+
         override val content: List<String>
             get() {
                 val slot = slot
@@ -51,32 +53,30 @@ class DebugScreen : BaseDebugScreen() {
                 slot ?: return listOf(a)
                 val itemType = itemType
                 val c = "itemType: $itemType"
-                val d =
-                    itemType.run {
-                        listOf(
-                            ::identifier,
-                            ::namespace,
-                            ::hasCustomName,
-                            ::customName,
-                            ::displayName,
-                            ::translatedName,
-                            ::itemId,
-                            ::translationKey,
-                            ::groupIndex,
-                            ::rawId,
-                            ::damage,
-                            ::enchantmentsScore,
-                            ::hasPotionEffects,
-                            ::hasCustomPotionEffects,
-                            ::hasPotionName,
-                            ::potionName,
-                            ::potionEffects,
-                            ::comparablePotionEffects,
-                            ::isDamageable,
-                            ::maxDamage,
-                            ::durability,
-                        ).joinToString("\n") { "${it.name}: ${it.get()}" }
-                    }
+                val d = itemType.run {
+                    listOf(
+                        ::identifier,
+                        ::namespace,
+                        ::hasCustomName,
+                        ::customName,
+                        ::displayName,
+                        ::translatedName,
+                        ::itemId,
+                        ::translationKey,
+                        ::groupIndex,
+                        ::rawId,
+                        ::damage,
+                        ::enchantmentsScore,
+                        ::hasPotionEffects,
+                        ::hasCustomPotionEffects,
+                        ::hasPotionName,
+                        ::potionName,
+                        ::potionEffects,
+                        ::comparablePotionEffects,
+                        ::isDamageable,
+                        ::maxDamage,
+                        ::durability).joinToString("\n") { "${it.name}: ${it.get()}" }
+                }
                 return listOf(a,
                               c,
                               d).joinToString("\n").lines()
@@ -93,18 +93,19 @@ class DebugScreen : BaseDebugScreen() {
                 val a = "slot: ${slot?.javaClass?.usefulName}"
                 slot ?: return a
                 val b =
-                    slot.run {
-                        """invSlot: $`(invSlot)` id: $`(id)`
+                        slot.run {
+                            """invSlot: $`(invSlot)` id: $`(id)`
               |inventory: ${`(inventory)`.javaClass.usefulName}
               |x: $`(left)` y: $`(top)`
               |
               """.trimMargin()
-                    }
+                        }
                 return "$a\n$b"
             }
     }
 
-    inner class PageScreenInfo : Page("ScreenInfo") {
+    inner class PageScreenInfo: Page("ScreenInfo") {
+
         override val content: List<String>
             get() = listOf(screen,
                            focusedSlot,
@@ -119,7 +120,7 @@ class DebugScreen : BaseDebugScreen() {
                 containerStringOf(it.`(container)`,
                                   "screenContainer")
             }
-                ?: "screenContainer: null"
+                    ?: "screenContainer: null"
         val container: String
             get() = containerStringOf(Vanilla.container(),
                                       "container")
@@ -132,7 +133,7 @@ class DebugScreen : BaseDebugScreen() {
 
     fun addContent(additionalContent: Page.() -> List<String>,
                    page: Page): Page {
-        return object : Page(page.name) {
+        return object: Page(page.name) {
             override val content: List<String>
                 get() = page.content + page.additionalContent()
 
@@ -152,19 +153,20 @@ class DebugScreen : BaseDebugScreen() {
     init {
         val parent = parent
         if (parent is ContainerScreen<*>) {
-            val page0Plus = addContent({
-                                           parent.`(containerBounds)`.run {
-                                               """
-            |
-            |container
-            |x: $x y: $y
-            |width: $width height: $height
-            |relative mouse
-            |x: ${DebugInfos.mouseX - x} y: ${DebugInfos.mouseY - y}
-            """.trimMargin().lines()
-                                           }
-                                       },
-                                       pages[0]) // todo better code
+            val page0Plus = addContent(
+                {
+                    parent.`(containerBounds)`.run {
+                        """
+                    |
+                    |container
+                    |x: $x y: $y
+                    |width: $width height: $height
+                    |relative mouse
+                    |x: ${DebugInfos.mouseX - x} y: ${DebugInfos.mouseY - y}
+                    |""".trimMargin().lines()
+                    }
+                },
+                pages[0]) // todo better code
             pages[0] = page0Plus
             pages.add(PageContainer())
             pages.add(PageScreenInfo())
@@ -178,6 +180,7 @@ class DebugScreen : BaseDebugScreen() {
     }
 
     companion object {
+
         var storedPageIndex = 0
     }
 }

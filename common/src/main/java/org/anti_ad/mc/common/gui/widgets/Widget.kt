@@ -36,7 +36,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     var _visible = true
     override var visible: Boolean
         get() {
-            return _visible && (this.absoluteBounds.insideOf(parent?.absoluteBounds) || overflow == Overflow.VISIBLE)
+            return _visible && (this.absoluteBounds.insideOf(parent?.absoluteBounds) || parent?.overflow == Overflow.VISIBLE)
         }
         set(value) {
             _visible = value
@@ -69,7 +69,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
                                      newValue))
     }
 
-    private fun screenLocationChanged() {
+    protected fun screenLocationChanged() {
         children.forEach { it.screenLocationChanged() }
         screenLocationChanged(Unit)
     }
@@ -291,7 +291,7 @@ private fun resize(anchorFirst: Boolean,
 }
 
 private fun <T> T.resizeChildren(oldValue: Size,
-                                 newValue: Size)
+                         newValue: Size)
         where T : IWidgetPositioning, T : IWidgetHierarchical<T> {
     children.forEach { child ->
         val anchor = child.anchor

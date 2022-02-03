@@ -122,8 +122,9 @@ class ConfigNumericWidget(configOption: IConfigOptionNumeric<*>) : ConfigWidgetB
     }
 }
 
-class ConfigStringWidget(configOption: ConfigString) : ConfigWidgetBase<ConfigString>(configOption) {
-    val textField = ITextFieldWidget(18).apply {
+class ConfigStringWidget(configOption: ConfigString,
+                         height: Int = 18) : ConfigWidgetBase<ConfigString>(configOption) {
+    val textField = ITextFieldWidget(height).apply {
         changedEvent = {
             configOption.value = vanillaText
         }

@@ -1,14 +1,15 @@
 package org.anti_ad.mc.ipnext.gui.inject.base
 
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.integration.BUTTON_NO_HINTS
+import org.anti_ad.mc.common.gui.widgets.Hintable
+import org.anti_ad.mc.common.integration.ButtonPositionHint
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 
-abstract class TexturedButtonWidget : ButtonWidget {
+abstract class TexturedButtonWidget : ButtonWidget, Hintable {
     constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
     constructor(clickEvent: () -> Unit) : super(clickEvent)
     constructor() : super()
@@ -19,8 +20,11 @@ abstract class TexturedButtonWidget : ButtonWidget {
 
     open var tx = 0
     open var ty = 0
-    open var hints = BUTTON_NO_HINTS
     open var tooltipText: String = ""
+
+    abstract override var hints: ButtonPositionHint
+
+    override var underManagement: Boolean = false
 
     override fun renderButton(hovered: Boolean) {
         val textureLocation = if (hovered) hoveringTexturePt else texturePt

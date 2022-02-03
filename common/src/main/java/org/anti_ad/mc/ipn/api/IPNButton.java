@@ -40,5 +40,6 @@ public enum IPNButton {
      * Please use the hide option only if your UI doesn't show the player inventory and use the position hints
      * in other cases.
      */
-    PROFILE_SELECTOR;
+    PROFILE_SELECTOR,
+    SHOW_EDITOR;
 }

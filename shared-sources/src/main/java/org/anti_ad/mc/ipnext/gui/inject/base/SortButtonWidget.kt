@@ -1,6 +1,8 @@
 package org.anti_ad.mc.ipnext.gui.inject.base
 
 import org.anti_ad.mc.common.gui.Tooltips
+import org.anti_ad.mc.common.gui.widgets.Hintable
+import org.anti_ad.mc.common.integration.ButtonPositionHint
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
@@ -18,9 +20,19 @@ open class SortButtonWidget : TexturedButtonWidget {
                     10)
     }
 
+    override var hintManagementRenderer = Hintable.HintManagementRenderer(this)
+
+    open var id: String = ""
+        get() {
+            return "inventoryprofiles.injected.ui.element.$field"
+        }
+
     constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
     constructor(clickEvent: () -> Unit) : super(clickEvent)
     constructor() : super()
+
+    override lateinit var hints: ButtonPositionHint
+
 
     override val texture: IdentifierHolder
         get() = TEXTURE
@@ -37,6 +49,7 @@ open class SortButtonWidget : TexturedButtonWidget {
         super.render(mouseX,
                      mouseY,
                      partialTicks)
+        hintManagementRenderer.renderUnderManagement()
         if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
                                                                       mouseY) && tooltipText.isNotEmpty()) {
             Tooltips.addTooltip(tooltipText,
@@ -44,5 +57,6 @@ open class SortButtonWidget : TexturedButtonWidget {
                                 mouseY)
         }
     }
+
 
 }

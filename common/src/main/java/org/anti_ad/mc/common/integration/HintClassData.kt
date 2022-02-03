@@ -1,37 +1,28 @@
 package org.anti_ad.mc.common.integration
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json as HiddenJson
-import kotlinx.serialization.json.decodeFromStream
-import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.extensions.exists
-import org.anti_ad.mc.common.extensions.name
+import kotlinx.serialization.Transient
 import org.anti_ad.mc.ipn.api.IPNButton
-import java.io.IOException
-import java.nio.file.Path
-import kotlin.io.path.inputStream
-import kotlin.io.path.outputStream
-
-
-val BUTTON_NO_HINTS = ButtonPositionHint()
 
 @Serializable
-data class ButtonPositionHint(val horizontalOffset: Int = 0,
-                              val top: Int = 0,
-                              val bottom: Int = 0,
-                              val hide: Boolean = false ) {
+data class ButtonPositionHint(var horizontalOffset: Int = 0,
+                              var top: Int = 0,
+                              var bottom: Int = 0,
+                              var hide: Boolean = false ) {
 
 }
 
 @Serializable
-data class HintClassData(val ignore: Boolean = false,
-                         val playerSideOnly: Boolean = false,
-                         val buttonHints: Map<IPNButton, ButtonPositionHint> = emptyMap(),
-                         val force: Boolean = false) {
+data class HintClassData(var ignore: Boolean = false,
+                         var playerSideOnly: Boolean = false,
+                         val buttonHints: MutableMap<IPNButton, ButtonPositionHint> = mutableMapOf(),
+                         var force: Boolean = false) {
 
+    @Transient
     private var id: String? = null
+
+    @Transient
+    private var dirty: Boolean = false
 
     fun changeId(newId: String) {
         id = newId
@@ -39,6 +30,24 @@ data class HintClassData(val ignore: Boolean = false,
 
     fun readId() = id
 
-    fun hintFor(button: IPNButton) = buttonHints[button] ?: BUTTON_NO_HINTS
+    fun dirty(): Boolean {
+        return dirty
+    }
+    fun markAsDirty() {
+        dirty = true
+    }
+
+    fun hintFor(button: IPNButton): ButtonPositionHint {
+        return buttonHints[button] ?: ButtonPositionHint().also { buttonHints[button] = it }
+    }
+
+    fun areButtonsMoved(): Boolean {
+        buttonHints.forEach { (_, hints) ->
+            if (hints.top != 0 || hints.bottom != 0 || hints.horizontalOffset != 0) {
+                return true
+            }
+        }
+        return false
+    }
 
 }

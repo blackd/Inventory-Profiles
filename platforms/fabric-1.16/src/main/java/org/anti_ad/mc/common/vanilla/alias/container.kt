@@ -63,3 +63,23 @@ typealias TradeOutputSlot = TradeOutputSlot
 typealias CraftingResultSlot = CraftingResultSlot
 
 typealias SlotActionType = SlotActionType
+
+val vanillaContainers = listOf<Class<*>>(PlayerContainer::class.java,
+                                         CreativeContainer::class.java,
+                                         EnchantingTableContainer::class.java,
+                                         AnvilContainer::class.java,
+                                         BeaconContainer::class.java,
+                                         CartographyTableContainer::class.java,
+                                         GrindstoneContainer::class.java,
+                                         LecternContainer::class.java,
+                                         LoomContainer::class.java,
+                                         StonecutterContainer::class.java,
+                                         MerchantContainer::class.java,
+                                         CraftingTableContainer::class.java,
+                                         HopperContainer::class.java,
+                                         BrewingStandContainer::class.java,
+                                         AbstractFurnaceContainer::class.java,
+                                         GenericContainer::class.java,
+                                         ShulkerBoxContainer::class.java,
+                                         HorseContainer::class.java,
+                                         Generic3x3Container::class.java)

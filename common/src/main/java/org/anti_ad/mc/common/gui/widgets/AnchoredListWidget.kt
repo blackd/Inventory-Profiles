@@ -21,9 +21,9 @@ private const val rowHeight = 13
 private const val leastY = 7
 private const val SEPARATOR_WIDTH = 10
 
-open class AnchoredListWidget : Widget() {
+open class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
     var anchorHeader = AnchorHeader()
-    val container = ScrollableContainerWidget().apply {
+    val container = ScrollableContainerWidget(scrollbarWidth).apply {
         anchor = AnchorStyles.all
         this@AnchoredListWidget.addChild(this)
         top = anchorHeader.height
@@ -65,8 +65,8 @@ open class AnchoredListWidget : Widget() {
         anchorHeader.addAnchor(displayText)
     }
 
-    fun isOutOfContainer(entry: Widget): Boolean =
-        container.scrollY > entry.bounds.bottom || container.scrollY + container.viewport.height < entry.top
+    fun isOutOfContainer(entry: Widget): Boolean = container.isOutOfContainer(entry)
+
 
     // ============
     // AnchorHeader
@@ -108,6 +108,7 @@ open class AnchoredListWidget : Widget() {
             set(value) {
                 this._visble = value
                 super.visible = value
+                container.top = if (value) anchorHeader.height else 0
             }
 
         fun addAnchor(displayText: String,

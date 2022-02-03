@@ -46,3 +46,17 @@ fun Widget.setBottomRight(bottom: Int,
     this.bottom = bottom
     this.right = right
 }
+
+fun Widget.setHMiddle(bottom: Int,
+                      top: Int) {
+    anchor = AnchorStyles.leftRight
+    this.bottom = bottom
+    this.top = top
+}
+
+fun Widget.setVMiddle(left: Int,
+                      right: Int) {
+    anchor = AnchorStyles.topBottom
+    this.left = left
+    this.right = right
+}

@@ -28,7 +28,10 @@ abstract  class FlexWidgetBase: Widget() {
 abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : FlexWidgetBase() {
 
     val resetButton = ButtonWidget { -> reset() }.apply {
-        text = I18n.translate("inventoryprofiles.common.gui.config.reset")
+        text = when(configOption.importance) {
+            IConfigOption.Importance.IMPORTANT -> I18n.translate("inventoryprofiles.common.gui.config.reset")
+            IConfigOption.Importance.NORMAL -> "R"
+        }
     }
 
 
@@ -50,9 +53,16 @@ abstract class ConfigWidgetBase<out T : IConfigOption>(val configOption: T) : Fl
     }
 
     init {
-        height = 20
+        height = when (configOption.importance) {
+            IConfigOption.Importance.IMPORTANT -> 20
+            IConfigOption.Importance.NORMAL -> 15
+        }
+        val resetWidthPlus = when (configOption.importance) {
+            IConfigOption.Importance.IMPORTANT -> 15
+            IConfigOption.Importance.NORMAL -> 9
+        }
         flex.reverse.add(resetButton,
-                         rMeasureText(resetButton.text) + 15)
+                         rMeasureText(resetButton.text) + resetWidthPlus)
         flex.reverse.addSpace(2)
     }
 
@@ -72,11 +82,22 @@ class ConfigOptionToggleableButtonWidget(val configOptionToggleable: IConfigOpti
                      mouseY,
                      partialTicks)
     }
+    init {
+        active = !configOptionToggleable.hidden
+    }
 }
 
 class ConfigBooleanWidget(configOption: ConfigBoolean) : ConfigWidgetBase<ConfigBoolean>(configOption) {
-    var trueText = I18n.translate("inventoryprofiles.common.gui.config.true")
-    var falseText = I18n.translate("inventoryprofiles.common.gui.config.false")
+    var trueText = if (configOption.importance == IConfigOption.Importance.IMPORTANT) {
+        I18n.translate("inventoryprofiles.common.gui.config.true")
+    } else {
+        I18n.translate("inventoryprofiles.common.gui.config.yes")
+    }
+    var falseText = if (configOption.importance == IConfigOption.Importance.IMPORTANT) {
+        I18n.translate("inventoryprofiles.common.gui.config.false")
+    } else {
+        I18n.translate("inventoryprofiles.common.gui.config.no")
+    }
     val booleanButton = ConfigOptionToggleableButtonWidget(configOption) {
         if (configOption.booleanValue) trueText else falseText
     }

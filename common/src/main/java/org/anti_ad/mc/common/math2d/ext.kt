@@ -115,7 +115,8 @@ private fun List<Point>.toListOfRectangle(): List<Rectangle> {
 // chunked
 // ============
 
-private fun Int.chunked(size: Int): List<Int> {
+private fun Int.chunked(aSize: Int): List<Int> {
+    val size = if (aSize != 0) aSize else 1
     val rem = this % size
     val list = List(this / size) { size }
     return if (rem == 0) list else list + listOf(rem)

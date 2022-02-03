@@ -15,9 +15,10 @@ private const val COLOR_SCROLLBAR = -0x272728 // 0xFFC0C0C0;
 private const val COLOR_SCROLLBAR_HOVER_SHADOW = -0x3f3f40
 private const val COLOR_SCROLLBAR_HOVER = -0x1
 
-class ScrollableContainerWidget : Widget() {
+class ScrollableContainerWidget(scrollbarW: Int = 6) : Widget() {
 
-    private val scrollbarWidth = 6
+    private var scrollbarWidth: Int = scrollbarW
+
     private val padding = 3
 
     val viewport = Widget().apply {
@@ -91,6 +92,8 @@ class ScrollableContainerWidget : Widget() {
 
     var renderBorder = false
     var borderColor = COLOR_BORDER
+
+    var scrollWheelAmount: Int = 20
 
     //region Scrollbar
 
@@ -217,8 +220,9 @@ class ScrollableContainerWidget : Widget() {
         super.mouseScrolled(x,
                             y,
                             amount) || if (scrollbar.visible) {
-            scrollY -= (amount * 20).toInt()
+            scrollY -= (amount * scrollWheelAmount).toInt()
             true
         } else false
 
+    fun isOutOfContainer(entry: Widget) = scrollY > entry.bounds.bottom || scrollY + viewport.height < entry.top
 }

@@ -74,12 +74,12 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void onBackgroundRender(ContainerScreenEvent.DrawBackground e) {
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender();
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(e.getPoseStack(), e.getMouseX(), e.getMouseY());
     }
 
     @SubscribeEvent
     public void onForegroundRender(ContainerScreenEvent.DrawForeground e) {
-        ContainerScreenEventHandler.INSTANCE.onForegroundRender();
+        ContainerScreenEventHandler.INSTANCE.onForegroundRender(e.getPoseStack(), e.getMouseX(), e.getMouseY());
     }
 
     // ============

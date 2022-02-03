@@ -7,19 +7,15 @@ import org.anti_ad.mc.common.extensions.runIf
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.gui.widget.fillParent
+import org.anti_ad.mc.common.gui.widgets.HudText
+import org.anti_ad.mc.common.gui.widgets.Page
 import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.render.COLOR_BLACK
-import org.anti_ad.mc.common.vanilla.render.COLOR_HUD_TEXT
-import org.anti_ad.mc.common.vanilla.render.COLOR_HUD_TEXT_BG
 import org.anti_ad.mc.common.vanilla.render.COLOR_WHITE
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawHorizontalLine
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawText
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawVerticalLine
-import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText
 import org.anti_ad.mc.common.vanilla.render.glue.rWrapText
 import kotlin.math.sign
 
@@ -29,52 +25,22 @@ import kotlin.math.sign
   margin 1
  */
 open class BaseDebugScreen : BaseOverlay() {
-    var textPosition // 0-3: top-left / top-right / bottom-left / bottom-right
+    private var textPosition // 0-3: top-left / top-right / bottom-left / bottom-right
             by detectable(0) { _, _ -> updateWidgets() }
-    val isTop
+    private val isTop
         get() = textPosition in 0..1
-    val isLeft
+    private val isLeft
         get() = textPosition % 2 == 0
 
     var pageIndex = 0
     val pages = mutableListOf<Page>()
-    val page: Page?
+    private val page: Page?
         get() = pages.getOrNull(pageIndex)
 
-    val defaultPageNameWidget = HudText("[-1] null")
+    private val defaultPageNameWidget = HudText("[-1] null")
     var pageNameWidget = defaultPageNameWidget
-    val hudTextContainer = Widget()
+    private val hudTextContainer = Widget()
 
-    abstract class Page(val name: String) {
-        abstract val content: List<String>
-        open fun preRender(mouseX: Int,
-                           mouseY: Int,
-                           partialTicks: Float) {
-        } // evaluate before hud text
-
-        open val widget: Widget // draw extra content, add after hud text
-            get() = Widget()
-    }
-
-    class HudText(text: String) : Widget() {
-        init {
-            this.text = text
-            size = Size(2 + rMeasureText(text),
-                        9)
-        }
-
-        override fun render(mouseX: Int,
-                            mouseY: Int,
-                            partialTicks: Float) {
-            if (text.isEmpty()) return
-            rFillRect(absoluteBounds,
-                      COLOR_HUD_TEXT_BG)
-            rDrawText(text,
-                      screenX + 1,
-                      screenY + 1,
-                      COLOR_HUD_TEXT)
-        }
-    }
 
     fun hudTextContains(mouseX: Int,
                         mouseY: Int): Boolean {
@@ -84,7 +50,7 @@ open class BaseDebugScreen : BaseOverlay() {
         }
     }
 
-    fun updateHudText() {
+    private fun updateHudText() {
         val page = page ?: return
         hudTextContainer.clearChildren()
 //    val texts = page.content.map { HudText(it) }
@@ -105,7 +71,7 @@ open class BaseDebugScreen : BaseOverlay() {
         }
     }
 
-    fun updateWidgets() {
+    private fun updateWidgets() {
         internalClearWidgets()
         pageNameWidget = HudText(if (isLeft) "${page?.name} [$pageIndex]" else "[$pageIndex] ${page?.name}")
         addWidget(pageNameWidget)

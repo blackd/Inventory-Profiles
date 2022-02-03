@@ -75,6 +75,7 @@ class Flex(val owner: Widget,
             isLast: Boolean = false // set anchor fit
            ) {
         // (direction.isHorizontal)
+        owner.removeChild(child)
         var x = if (direction.isReverse) ownerExtent - offset - extent else offset
         var y = (maxCross - cross) / 2
         var width = extent

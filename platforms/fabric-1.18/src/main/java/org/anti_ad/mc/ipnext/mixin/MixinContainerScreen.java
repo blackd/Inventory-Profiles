@@ -29,13 +29,13 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
             "drawBackground(Lnet/minecraft/client/util/math/MatrixStack;FII)V", shift = At.Shift.AFTER), method = "render")
     public void onBackgroundRender(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender();
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(matrixStack, i, j);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
             "drawForeground(Lnet/minecraft/client/util/math/MatrixStack;II)V", shift = At.Shift.AFTER), method = "render")
     public void onForegroundRender(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-        ContainerScreenEventHandler.INSTANCE.onForegroundRender();
+        ContainerScreenEventHandler.INSTANCE.onForegroundRender(matrixStack, i, j);
     }
 
     @Inject(at = @At(value = "HEAD",

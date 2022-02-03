@@ -96,6 +96,10 @@ object ContainerTypes {
             return nonStorage
         }
 
+    fun deregister(containerClass: Class<*>) {
+        outerMap.remove(containerClass)
+    }
+
     fun register(containerClass: Class<*>,
                  types: Set<ContainerType>,
                  external: Boolean = false) {

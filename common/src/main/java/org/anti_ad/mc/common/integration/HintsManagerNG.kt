@@ -2,6 +2,7 @@ package org.anti_ad.mc.common.integration
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.encodeToStream
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.exists
@@ -14,6 +15,7 @@ import java.io.InputStream
 import java.nio.file.FileVisitOption
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.deleteIfExists
 import kotlin.io.path.inputStream
 import kotlin.io.path.isDirectory
 import kotlin.io.path.moveTo
@@ -24,12 +26,11 @@ import kotlinx.serialization.json.Json as HiddenJson
 
 private val json = HiddenJson {
     ignoreUnknownKeys = true
+    prettyPrint = true
 }
 
 @OptIn(ExperimentalSerializationApi::class)
 object HintsManagerNG {
-
-    private val NO_HINTS: HintClassData = HintClassData()
 
     private const val exampleFileName = "exampleIntegrationHints.json"
 
@@ -78,7 +79,7 @@ object HintsManagerNG {
                 }
                 data.forEach { ids ->
                     ids.value.forEach { v ->
-                        internalConfigs[v.key] = v.value.also { it.changeId(v.key) }
+                        internalConfigs[v.key] = v.value.also { it.changeId(ids.key) }
                     }
                 }
             }
@@ -117,7 +118,7 @@ object HintsManagerNG {
                 val newVal = if (isIgnored || isIPNPlayerSideOnly || buttonHints.isNotEmpty()) {
                     HintClassData(isIgnored, isIPNPlayerSideOnly, buttonHints, false)
                 } else {
-                    NO_HINTS
+                    HintClassData()
                 }
                 effectiveHints[cl.name] = newVal
                 newVal
@@ -166,6 +167,38 @@ object HintsManagerNG {
                 }
             }
         }
+    }
+
+    private fun getAllById(id: String): Map<String, HintClassData> {
+        return effectiveHints.filterValues {
+            id == it.readId()
+        }
+
+    }
+
+    fun saveDirty(screenHints: HintClassData,
+                  containerHints: HintClassData) {
+
+        if (screenHints.readId() == containerHints.readId()) {
+            saveFile(screenHints.readId()!!, getAllById(screenHints.readId()!!))
+        } else {
+            saveFile(screenHints.readId()!!, getAllById(screenHints.readId()!!))
+            saveFile(containerHints.readId()!!, getAllById(containerHints.readId()!!))
+        }
+        reset()
+        doInit()
+    }
+
+    private fun saveFile(readId: String,
+                         allById: Map<String, HintClassData>) {
+        val fileName = if (!readId.lowercase().endsWith(".json")) {
+            "$readId.json"
+        } else {
+            readId
+        }
+        val file = externalHintsPath / fileName
+        file.deleteIfExists()
+        json.encodeToStream(allById, file.outputStream())
     }
 
 }

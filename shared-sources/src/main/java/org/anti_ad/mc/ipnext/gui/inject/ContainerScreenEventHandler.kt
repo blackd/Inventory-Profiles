@@ -8,6 +8,7 @@ import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -27,12 +28,16 @@ object ContainerScreenEventHandler {
         val widgetsToInset = mutableListOf<Widget>()
         val hints = HintsManagerNG.getHints(target.javaClass)
         val ignore = hints.ignore
+
+        val editor = EditorWidget(target).also { it.addHintable(it) }
+
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && !ignore) {
-            widgetsToInset.add(SortingButtonCollectionWidget(target))
+            widgetsToInset.add(SortingButtonCollectionWidget(target).also { editor.addHintable(it) })
         }
         if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hintFor(IPNButton.PROFILE_SELECTOR).hide) {
-            widgetsToInset.add(ProfilesUICollectionWidget(target, hints))
+            widgetsToInset.add(ProfilesUICollectionWidget(target, hints).also { editor.addHintable(it) })
         }
+        widgetsToInset.add(editor)
         if (widgetsToInset.size > 0) {
             currentWidgets = widgetsToInset
             InsertWidgetHandler.insertWidget(currentWidgets)
@@ -54,7 +59,7 @@ object ContainerScreenEventHandler {
         checkValid()
     }
 
-    fun onBackgroundRender() {
+    fun onBackgroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
         currentWidgets?.forEach {
             (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
                                                           VanillaUtil.mouseY(),
@@ -63,7 +68,12 @@ object ContainerScreenEventHandler {
         LockSlotsHandler.onBackgroundRender()
     }
 
-    fun onForegroundRender() {
+    fun onForegroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
+        currentWidgets?.forEach {
+            (it as InsertableWidget).postForegroundRender(VanillaUtil.mouseX(),
+                                                          VanillaUtil.mouseY(),
+                                                          VanillaUtil.lastFrameDuration())
+        }
         LockSlotsHandler.onForegroundRender()
     }
 

@@ -7,6 +7,7 @@ import org.anti_ad.mc.common.gui.widget.setBottomRight
 import org.anti_ad.mc.common.gui.widget.setTopRight
 import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
@@ -23,11 +24,16 @@ import org.anti_ad.mc.ipnext.gui.inject.base.CheckBoxWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
+import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
+//todo REFACTOR THIS SHIT
+
 class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : InsertableWidget() {
+
+    override val container: Container = Vanilla.container()
 
     override fun render(mouseX: Int,
                         mouseY: Int,
@@ -38,6 +44,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
     override fun postBackgroundRender(mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
+        rehint()
         rStandardGlState()
         rClearDepth()
         overflow = Overflow.VISIBLE
@@ -53,26 +60,46 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 //    Tooltips.renderAll()
     }
 
+    override fun postForegroundRender(mouseX: Int,
+                                      mouseY: Int,
+                                      lastFrameDuration: Float) {
+
+    }
+
     var initialized = false
+
+    var rehint = {}
+
     fun init() {
         if (initialized) return
         initialized = true
-        InitWidgets()
+        InitWidgets().also { rehint = it::reHint }
     }
+
+
 
     init {
         overflow = Overflow.VISIBLE
+        hintableList.clear()
     }
 
     inner class InitWidgets { // todo cleanup code
-        val container = Vanilla.container()
-        val types = ContainerTypes.getTypes(container)
 
+
+        private val hints = HintsManagerNG.getHints(screen.javaClass)
+
+        val types = ContainerTypes.getTypes(container).let {
+            if (hints.playerSideOnly) {
+                it - SORTABLE_STORAGE + PURE_BACKPACK
+            } else {
+                it
+            }
+        }
         private val addChestSide = types.contains(SORTABLE_STORAGE)
         private val addNonChestSide = types.contains(PURE_BACKPACK)
         private val shouldAdd = addChestSide || addNonChestSide
 
-        private val hints = HintsManagerNG.getHints(screen.javaClass)
+
 
         private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort(true) }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.SORT)
@@ -80,6 +107,8 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_button")
+            id = "sort_button"
+            hintableList.add(this)
         }
         private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns(true) }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS)
@@ -87,6 +116,8 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
+            id = "sort_columns_button"
+            hintableList.add(this)
         }
         private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows(true) }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS)
@@ -94,6 +125,8 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.booleanValue && shouldAdd
             tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
+            id = "sort_rows_button"
+            hintableList.add(this)
         }
 
 
@@ -126,6 +159,8 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible
             tooltipText = moveAllToolTip
+            id = "sort_move_all_button"
+            hintableList.add(this)
         }
 
         private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(toPlayer = true, gui = true) }.apply {
@@ -134,6 +169,8 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible && !types.contains(CRAFTING)
             tooltipText = moveAllToolTip
+            id = "sort_move_all_button"
+            hintableList.add(this)
         }
 
         // ============
@@ -166,6 +203,8 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue && types.contains(CRAFTING)
             tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
             highlightTooltip = I18n.translate("inventoryprofiles.tooltip.auto_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
+            id = "sort_crafting_checkbox"
+            hintableList.add(this)
         }
 
         private fun switchContinuousCraftingValue() {
@@ -173,8 +212,11 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             continuousCraftingCheckbox.tx = if (continuousCraftingValue) 80 else 70
             continuousCraftingCheckbox.highlightTx = if (continuousCraftingValue) 120 else 70
         }
-
         init {
+            reHint()
+        }
+
+        fun reHint() {
             // right = 7, each + 12
             val bottom = 85
             val top = 5

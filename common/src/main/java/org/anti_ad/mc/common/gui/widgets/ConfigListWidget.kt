@@ -6,6 +6,7 @@ import org.anti_ad.mc.common.gui.Tooltips
 import org.anti_ad.mc.common.gui.widget.AnchorStyles
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
+import kotlin.math.roundToInt
 
 private const val COLOR_WHITE = -0x1
 private const val textY = 6
@@ -29,8 +30,9 @@ fun CategorizedMultiConfig.toListWidget(displayNameOf: (String) -> String,
     }
 
 class ConfigListWidget(private val displayNameOf: (String) -> String,
-                       private val descriptionOf: (String) -> String) :
-    AnchoredListWidget() {
+                       private val descriptionOf: (String) -> String,
+                       scrollbarSize: Int = 6) :
+    AnchoredListWidget(scrollbarSize) {
 
     override fun render(mouseX: Int,
                         mouseY: Int,
@@ -63,19 +65,30 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
         val description
             get() = descriptionOf(configOption.key)
 
+        init {
+            height = when(configOption.importance) {
+                IConfigOption.Importance.IMPORTANT -> 20
+                IConfigOption.Importance.NORMAL -> 14
+            }
+        }
+
         val configWidget: ConfigWidgetBase<*> = configOption.toConfigWidget().apply {
             anchor = AnchorStyles.all
             this@ConfigOptionEntry.addChild(this)
             top = 0
-            left = this@ConfigOptionEntry.width / 2
+            left = (this@ConfigOptionEntry.width / 2.5).roundToInt()
             right = 0
             bottom = 0
+            active = !configOption.hidden
         }
 
         val displayNameTextWidget = TextButtonWidget(displayName).apply {
             clickThrough = true
             this@ConfigOptionEntry.addChild(this)
-            top = textY
+            top = when (configOption.importance) {
+                IConfigOption.Importance.IMPORTANT -> textY
+                IConfigOption.Importance.NORMAL -> 3
+            }
             left = 2
             zIndex = 1
         }
@@ -101,8 +114,9 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
         }
 
         init {
+            height = configWidget.height + 1
             sizeChanged += {
-                configWidget.left = width / 2
+                configWidget.left = (width * .60).roundToInt()
             }
         }
     }

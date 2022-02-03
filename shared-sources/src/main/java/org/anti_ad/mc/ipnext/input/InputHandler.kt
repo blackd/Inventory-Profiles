@@ -28,7 +28,7 @@ object InputHandler : IInputHandler {
                          lastAction: Int): Boolean {
         return tryCatch(false) {
             if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
-                VanillaScreenUtil.openScreen(ConfigScreen())
+                VanillaScreenUtil.openScreen(ConfigScreen().also { it.dumpWidgetTree() })
             }
 
             if (ProfileSwitchHandler.onInput(lastKey, lastAction)) {

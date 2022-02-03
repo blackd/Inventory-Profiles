@@ -315,5 +315,27 @@
     "inventoryprofiles.update.version":                                            " Version: ",
     "inventoryprofiles.update.available":                                          " is now available.\n",
     "inventoryprofiles.update.get":                                                "Get it from: ",
-    "inventoryprofiles.update.or":                                                 " or "
+    "inventoryprofiles.update.or":                                                 " or ",
+
+    "inventoryprofiles.gui.editor.name.screen.ignore": "Ignore",
+    "inventoryprofiles.gui.editor.description.screen.ignore": "This will cause Inventory Profiles Next to not add it's buttons in the UI and\nto disable any management functions for the containers.\nNOTE:\nUsually it's necessary to set this to true for both Container and Screen.",
+    "inventoryprofiles.gui.editor.name.screen.player_side": "Player Only",
+    "inventoryprofiles.gui.editor.description.screen.player_side": "This will cause Inventory Profiles Next to detect the UI as player inventory only.\nNOTE:\nUsually you want to set this for both Screen and Container. But do try different combinations.",
+    "inventoryprofiles.gui.editor.name.screen.force": "Force",
+    "inventoryprofiles.gui.editor.description.screen.force": "By default if the mod that provides the UI provides compatibility information Inventory Profiles Next will use it\nThis setting allows you to override the mod.",
+    "inventoryprofiles.gui.editor.name.screen.profile": "Show Profile UI",
+    "inventoryprofiles.gui.editor.description.screen.profile": "The Profiles Selector UI should be visible only when the Player inventory screen is shown.\nIf for some reason it's visible for any other screen setting this to yes will disable it.",
+    "inventoryprofiles.gui.editor.category.screen": "Screen",
+    "inventoryprofiles.gui.editor.category.container": "Container",
+    "inventoryprofiles.gui.editor.name.class.screen": "Screen",
+    "inventoryprofiles.gui.editor.name.class.container": "Container",
+
+    "inventoryprofiles.gui.editor.name.help.select.next": "Select Next Button",
+    "inventoryprofiles.gui.editor.description.help.select.next": "Pressing 'Space' selects the next button",
+    "inventoryprofiles.gui.editor.name.help.select.prev": "Select Previous Button",
+    "inventoryprofiles.gui.editor.description.help.select.prev": "'Shift'+'Space' selects the previous button",
+    "inventoryprofiles.gui.editor.name.help.move.keys": "Move The Button",
+    "inventoryprofiles.gui.editor.description.help.move.keys": "'W','S','A','D' and the arrow keys will move the selected button",
+    "inventoryprofiles.gui.editor.name.help.move.speed": "Move Faster!!!",
+    "inventoryprofiles.gui.editor.description.help.move.speed": "Holding 'Shift' with Move keys will make the button move faster."
 }

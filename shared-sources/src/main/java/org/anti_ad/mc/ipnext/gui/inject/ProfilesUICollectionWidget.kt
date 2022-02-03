@@ -6,7 +6,9 @@ import org.anti_ad.mc.common.gui.widget.BiFlex
 import org.anti_ad.mc.common.gui.widget.setBottomLeft
 import org.anti_ad.mc.common.gui.widget.setBottomRight
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
+import org.anti_ad.mc.common.gui.widgets.Hintable
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.integration.ButtonPositionHint
 import org.anti_ad.mc.common.integration.HintClassData
 import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
@@ -27,7 +29,19 @@ import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 
 class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
-                                 private val hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget() {
+                                 private val hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget(), Hintable {
+
+    override var hints: ButtonPositionHint = hintsData.hintFor(IPNButton.PROFILE_SELECTOR)
+    override var hintManagementRenderer = Hintable.HintManagementRenderer(this)
+    override var underManagement: Boolean = false
+    override val container = Vanilla.container()
+    private val types = ContainerTypes.getTypes(container)
+
+    private var initialized = false
+
+    init {
+        visible = types.contains(ContainerType.PLAYER)
+    }
 
     override fun postBackgroundRender(mouseX: Int,
                                       mouseY: Int,
@@ -35,8 +49,6 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
 
         rStandardGlState()
         rClearDepth()
-
-        val hints = hintsData.hintFor(IPNButton.PROFILE_SELECTOR)
         //overflow = Overflow.VISIBLE
         val parentBounds = screen.`(containerBounds)`
         absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3 + hints.bottom,
@@ -50,18 +62,39 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
             rDrawOutline(absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
+
+        hintManagementRenderer.renderUnderManagement()
+
     }
 
-    private var initialized = false
+    override fun postForegroundRender(mouseX: Int,
+                                      mouseY: Int,
+                                      lastFrameDuration: Float) {
+
+    }
+
+    override fun moveUp(step: Int) {
+        hints.bottom = hints.bottom - step
+    }
+
+    override fun moveDown(step: Int) {
+        hints.bottom = hints.bottom + step
+    }
+
+    private fun getCurrentProfileName(): String {
+        return ProfileSwitchHandler.activeProfileName ?: "§cNONE§r"
+    }
+
     fun init() {
+
         if (initialized) return
+
         initialized = true
         InitWidgets()
+        hintableList.add(this);
     }
 
     inner class InitWidgets { // todo cleanup code
-        val container = Vanilla.container()
-        val types = ContainerTypes.getTypes(container)
 
         private val nextProfileButton = ProfileButtonWidget { -> ProfileSwitchHandler.nextProfile(true) }.apply {
             tx = 50
@@ -104,10 +137,6 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
             prevProfileButton.setBottomLeft(7, 0)
             nextProfileButton.setBottomRight(7, 0)
         }
-    }
-
-    private fun getCurrentProfileName(): String {
-        return ProfileSwitchHandler.activeProfileName ?: "§cNONE§r"
     }
 
     inner class InnerFlex(): Widget() {

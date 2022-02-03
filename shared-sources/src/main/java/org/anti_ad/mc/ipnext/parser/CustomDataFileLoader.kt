@@ -217,7 +217,7 @@ object HintsLoader: Loader {
     }
 
     override fun reload() {
-        val path = (configFolder / "integrationHints").apply { createDirectories() }
+        val path = (configFolder / "integrationHints").also { it.createDirectories() }
         ContainerTypes.reset()
         HintsManagerNG.upgradeOldConfig(configFolder / "ModIntegrationHints.json" , path)
         HintsManagerNG.init(path)
