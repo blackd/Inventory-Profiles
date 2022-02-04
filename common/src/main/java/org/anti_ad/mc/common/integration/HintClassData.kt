@@ -64,5 +64,10 @@ data class HintClassData(var ignore: Boolean = false,
         }.toMutableMap()
     }
 
+    fun fillMissingHints() {
+        IPNButton.values().forEach {
+            buttonHints.putIfAbsent(it, ButtonPositionHint())
+        }
+    }
 
 }

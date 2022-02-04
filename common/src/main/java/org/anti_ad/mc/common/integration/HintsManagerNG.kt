@@ -67,7 +67,10 @@ object HintsManagerNG {
                 tryLog(id, ::logError) {
                     val data = processConfig(f.inputStream())
                     data.forEach { v ->
-                        externalConfigs[v.key] = v.value.also { it.changeId(id) }
+                        externalConfigs[v.key] = v.value.also {
+                            it.changeId(id)
+                            it.fillMissingHints()
+                        }
                     }
                 }
             }
@@ -114,11 +117,14 @@ object HintsManagerNG {
                                                                        ipnButton.bottom,
                                                                        ipnButton.hide)
                 }
+
                 val isIPNPlayerSideOnly = cl.isAnnotationPresent(IPNPlayerSideOnly::class.java)
                 val newVal = if (isIgnored || isIPNPlayerSideOnly || buttonHints.isNotEmpty()) {
                     HintClassData(isIgnored, isIPNPlayerSideOnly, buttonHints, false)
                 } else {
                     HintClassData()
+                }.also { nv ->
+                    nv.fillMissingHints()
                 }
                 effectiveHints[cl.name] = newVal
                 newVal
