@@ -93,10 +93,9 @@ class GUIDEEditorScreen(private val target: Screen,
                                     currentValue: Boolean,
                                     val valueSetEvent: (Boolean) -> Unit): ConfigBoolean(default) {
 
-        override var value: Boolean
-            get() = super.value
+        override var value: Boolean = currentValue
             set(value) {
-                super.value = value
+                field = value
                 valueSetEvent(value)
             }
 
@@ -143,7 +142,7 @@ class GUIDEEditorScreen(private val target: Screen,
                                                                   isVanillaScreen,
                                                                   true,
                                                                   !screenHints.buttonHints[IPNButton.PROFILE_SELECTOR]!!.hide) {
-            if (screenHints.buttonHints[IPNButton.PROFILE_SELECTOR]!!.hide != it) {
+            if (screenHints.buttonHints[IPNButton.PROFILE_SELECTOR]!!.hide == it) {
                 screenHints.markAsDirty()
             }
             screenHints.buttonHints[IPNButton.PROFILE_SELECTOR]!!.hide = !it
@@ -154,7 +153,7 @@ class GUIDEEditorScreen(private val target: Screen,
                                                         false,
                                                         containerHints.ignore) {
             if (containerHints.ignore != it) {
-                screenHints.markAsDirty()
+                containerHints.markAsDirty()
             }
             containerHints.ignore = it
             ContainerTypes.deregister(container.javaClass)
@@ -165,7 +164,7 @@ class GUIDEEditorScreen(private val target: Screen,
                                                             false,
                                                             containerHints.playerSideOnly) {
             if (containerHints.playerSideOnly != it) {
-                screenHints.markAsDirty()
+                containerHints.markAsDirty()
             }
             containerHints.playerSideOnly = it
             ContainerTypes.deregister(container.javaClass)
@@ -176,7 +175,7 @@ class GUIDEEditorScreen(private val target: Screen,
                                                        false,
                                                        containerHints.force) {
             if (containerHints.force != it) {
-                screenHints.markAsDirty()
+                containerHints.markAsDirty()
             }
             containerHints.force = it
             ContainerTypes.deregister(container.javaClass)
@@ -406,12 +405,20 @@ class GUIDEEditorScreen(private val target: Screen,
 
     override fun closeScreen() {
         if (screenHints.dirty() || containerHints.dirty() || screenHints.areButtonsMoved()) {
-            if (screenHints.readId() == null) {
-                screenHints.changeId("player-defined")
+            var screenId = screenHints.readId()
+            var containerId = containerHints.readId()
+            if (screenId == null) {
+                screenId = containerId ?: "player-defined"
             }
-            if (containerHints.readId() == null) {
-                containerHints.changeId("player-defined")
+
+            if (containerId == null) {
+
+                containerId = screenId ?: "player-defined"
             }
+
+            screenHints.changeId(screenId)
+            containerHints.changeId(containerId)
+
             HintsManagerNG.saveDirty(screenHints, containerHints)
             ContainerTypes.reset()
         }

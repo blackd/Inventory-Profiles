@@ -102,7 +102,7 @@ abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
     // ============
     // vanilla overrides
     // ============
-    final override fun isPauseScreen(): Boolean = screenInfo.isPauseScreen
+    final override fun shouldPause(): Boolean = screenInfo.isPauseScreen
     final override fun onClose() {
         if (!isClosing) {
             closeScreen()

@@ -2,33 +2,15 @@ package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.integration.HintsManagerNG
-import org.anti_ad.mc.common.vanilla.alias.AbstractFurnaceContainer
-import org.anti_ad.mc.common.vanilla.alias.AnvilContainer
-import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
-import org.anti_ad.mc.common.vanilla.alias.BrewingStandContainer
-import org.anti_ad.mc.common.vanilla.alias.CartographyTableContainer
 import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.CraftingTableContainer
-import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
-import org.anti_ad.mc.common.vanilla.alias.EnchantingTableContainer
-import org.anti_ad.mc.common.vanilla.alias.Generic3x3Container
-import org.anti_ad.mc.common.vanilla.alias.GenericContainer
-import org.anti_ad.mc.common.vanilla.alias.GrindstoneContainer
-import org.anti_ad.mc.common.vanilla.alias.HopperContainer
-import org.anti_ad.mc.common.vanilla.alias.HorseContainer
-import org.anti_ad.mc.common.vanilla.alias.LecternContainer
-import org.anti_ad.mc.common.vanilla.alias.LoomContainer
-import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
-import org.anti_ad.mc.common.vanilla.alias.PlayerContainer
-import org.anti_ad.mc.common.vanilla.alias.ShulkerBoxContainer
-import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
+import org.anti_ad.mc.common.vanilla.alias.versionSpecificContainerTypes
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
-private val nonStorage = setOf(TEMP_SLOTS)
+val nonStorage = setOf(TEMP_SLOTS)
 
-private val playerOnly = setOf(PURE_BACKPACK,
+val playerOnly = setOf(PURE_BACKPACK,
                                PLAYER,
                                CRAFTING)
 
@@ -39,43 +21,7 @@ object ContainerTypes {
 
     @JvmStatic
     fun init() {
-        register(
-            PlayerContainer::class.java           /**/ to playerOnly,
-            CreativeContainer::class.java         /**/ to setOf(PURE_BACKPACK,
-                                                                CREATIVE),
-
-            EnchantingTableContainer::class.java  /**/ to nonStorage,
-            AnvilContainer::class.java            /**/ to nonStorage,
-            BeaconContainer::class.java           /**/ to nonStorage,
-            CartographyTableContainer::class.java /**/ to nonStorage,
-            GrindstoneContainer::class.java       /**/ to nonStorage,
-            LecternContainer::class.java          /**/ to nonStorage,
-            LoomContainer::class.java             /**/ to nonStorage,
-            StonecutterContainer::class.java      /**/ to nonStorage,
-
-            MerchantContainer::class.java         /**/ to setOf(TRADER),
-            CraftingTableContainer::class.java    /**/ to setOf(CRAFTING),
-
-            HopperContainer::class.java           /**/ to setOf(NO_SORTING_STORAGE),
-            BrewingStandContainer::class.java     /**/ to setOf(NO_SORTING_STORAGE),
-            AbstractFurnaceContainer::class.java  /**/ to setOf(NO_SORTING_STORAGE),
-
-            GenericContainer::class.java          /**/ to setOf(SORTABLE_STORAGE,
-                                                                RECTANGULAR,
-                                                                WIDTH_9),
-            ShulkerBoxContainer::class.java       /**/ to setOf(SORTABLE_STORAGE,
-                                                                RECTANGULAR,
-                                                                WIDTH_9),
-            HorseContainer::class.java            /**/ to setOf(SORTABLE_STORAGE,
-                                                                RECTANGULAR,
-                                                                HEIGHT_3,
-                                                                HORSE_STORAGE),
-            Generic3x3Container::class.java       /**/ to setOf(SORTABLE_STORAGE,
-                                                                RECTANGULAR,
-                                                                HEIGHT_3)
-
-                )
-
+        register(*versionSpecificContainerTypes)
     }
 
     init {

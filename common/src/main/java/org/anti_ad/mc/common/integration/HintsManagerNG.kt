@@ -61,9 +61,9 @@ object HintsManagerNG {
     private fun doInit() {
         if (externalHintsPath.isDirectory()) {
             Files.find(externalHintsPath, 1, { p, a ->
-                a.isRegularFile && p.fileName.toString().lowercase().endsWith(".json")
+                a.isRegularFile && p.fileName.toString().endsWith(".json")
             }, FileVisitOption.FOLLOW_LINKS).forEach { f ->
-                val id = f.name
+                val id = f.name.substringBeforeLast(".json")
                 tryLog(id, ::logError) {
                     val data = processConfig(f.inputStream())
                     data.forEach { v ->
@@ -170,8 +170,14 @@ object HintsManagerNG {
     }
 
     private fun getAllById(id: String): Map<String, HintClassData> {
-        return effectiveHints.filterValues {
-            id == it.readId()
+        return mutableMapOf<String, HintClassData>().also { res ->
+            effectiveHints.filterValues {
+                id == it.readId()
+            }.forEach {
+                if (it.value.hasInfo())  {
+                    res[it.key] = it.value.copy(buttonHints = it.value.copyOnlyChanged())
+                }
+            }
         }
 
     }

@@ -6,11 +6,11 @@ import org.anti_ad.mc.platformsCommonConfig
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.18")
+val supported_minecraft_versions = listOf("1.18", "1.18.1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.18"
-val mappings_version = "1.18+build.1"
+val minecraft_version = "1.18.1"
+val mappings_version = "1.18.1+build.22"
 val loader_version = "0.12.8"
 val modmenu_version = "3.0.0"
 
@@ -80,10 +80,11 @@ dependencies {
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.43.1+1.18")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.46.4+1.18")
     modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 
     modRuntimeOnly("curse.maven:inventorio-491073:3553574")
+    modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
     modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
 
 

@@ -21,6 +21,7 @@ interface Hintable {
 
     fun moveLeft(step: Int) {
         if (this is Widget) {
+            hints.dirty = true
             if (this.anchor.right) {
                 hints.horizontalOffset = hints.horizontalOffset + step
             } else {
@@ -33,6 +34,7 @@ interface Hintable {
     fun moveRight(step: Int) {
 
         if (this is Widget) {
+            hints.dirty = true
             if (this.anchor.right) {
                 hints.horizontalOffset = hints.horizontalOffset - step
             } else {
@@ -43,6 +45,7 @@ interface Hintable {
 
     fun moveUp(step: Int) {
         if (this is Widget) {
+            hints.dirty = true
             if (this.anchor.bottom) {
                 hints.bottom = hints.bottom + step
             } else {
@@ -52,6 +55,7 @@ interface Hintable {
     }
     fun moveDown(step: Int) {
         if (this is Widget) {
+            hints.dirty = true
             if (this.anchor.bottom) {
                 hints.bottom = hints.bottom - step
             } else {

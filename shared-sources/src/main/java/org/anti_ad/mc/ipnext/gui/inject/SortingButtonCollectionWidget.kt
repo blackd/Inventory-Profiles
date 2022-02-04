@@ -5,10 +5,12 @@ import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.gui.widget.Overflow
 import org.anti_ad.mc.common.gui.widget.setBottomRight
 import org.anti_ad.mc.common.gui.widget.setTopRight
+import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
@@ -24,6 +26,7 @@ import org.anti_ad.mc.ipnext.gui.inject.base.CheckBoxWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
+import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
@@ -85,6 +88,27 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
     inner class InitWidgets { // todo cleanup code
 
+        val dummyRenderUpdater = object : Widget() { // update buttons in CreativeInventoryScreen
+            init {
+                this@SortingButtonCollectionWidget.addChild(this)
+            }
+
+            val buttons by lazy(LazyThreadSafetyMode.NONE) {
+                listOf(sortButton,
+                       sortInColumnButton,
+                       sortInRowButton)
+            }
+            val originalVisibles by lazy(LazyThreadSafetyMode.NONE) { buttons.map { it.visible } }
+            override fun render(mouseX: Int,
+                                mouseY: Int,
+                                partialTicks: Float) {
+                if (screen !is CreativeInventoryScreen) return
+                val visible = screen.`(isInventoryTab)`
+                buttons.forEachIndexed { index, button ->
+                    button.visible = originalVisibles[index] && visible
+                }
+            }
+        }
 
         private val hints = HintsManagerNG.getHints(screen.javaClass)
 

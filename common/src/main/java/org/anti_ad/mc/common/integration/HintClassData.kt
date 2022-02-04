@@ -9,6 +9,8 @@ data class ButtonPositionHint(var horizontalOffset: Int = 0,
                               var top: Int = 0,
                               var bottom: Int = 0,
                               var hide: Boolean = false ) {
+    @Transient
+    var dirty: Boolean = false
 
 }
 
@@ -43,11 +45,24 @@ data class HintClassData(var ignore: Boolean = false,
 
     fun areButtonsMoved(): Boolean {
         buttonHints.forEach { (_, hints) ->
-            if (hints.top != 0 || hints.bottom != 0 || hints.horizontalOffset != 0) {
+            if (hints.dirty) {
                 return true
             }
         }
         return false
     }
+
+    fun hasInfo(): Boolean {
+        return playerSideOnly || ignore || force || buttonHints.filterValues { v ->
+            v.top + v.horizontalOffset + v.bottom != 0 && ! v.hide
+        }.isNotEmpty()
+    }
+
+    fun copyOnlyChanged(): MutableMap<IPNButton, ButtonPositionHint> {
+        return buttonHints.filter { (k, v) ->
+            !v.hide && v.top + v.bottom + v.horizontalOffset > 0
+        }.toMutableMap()
+    }
+
 
 }
