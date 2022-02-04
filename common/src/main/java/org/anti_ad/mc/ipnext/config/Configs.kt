@@ -80,6 +80,7 @@ object AutoRefillSettings : ConfigDeclaration {
         .CATEGORY("§§vgap:3")
 
     val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
+    val IGNORE_LOCKED_SLOTS                       /**/ by bool(true)
     val REFILL_ARMOR                              /**/ by bool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
     val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)

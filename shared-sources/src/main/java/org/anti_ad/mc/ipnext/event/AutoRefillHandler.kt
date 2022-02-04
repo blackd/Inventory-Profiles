@@ -355,15 +355,14 @@ object AutoRefillHandler {
 
         companion object {
             private fun findCorrespondingSlot(checkingItem: ItemStack): Int? { // for stored item
-                // ============
-                // vanillamapping code depends on mappings
-                // ============
-                // found slot id 9..35 (same inv)
-//        val items = Vanilla.playerContainer().`(slots)`.slice(9..35).map { it.`(itemStack)` }
                 var filtered = Vanilla.playerContainer().let { playerContainer ->
                     val slots = playerContainer.`(slots)`
                     with(AreaTypes) {
-                        playerStorage - lockedSlots
+                        if (AutoRefillSettings.IGNORE_LOCKED_SLOTS.value) {
+                            playerStorage
+                        } else {
+                            playerStorage - lockedSlots
+                        }
                     }.getItemArea(playerContainer,
                                   slots).slotIndices.map {
                         IndexedValue(it - 9,

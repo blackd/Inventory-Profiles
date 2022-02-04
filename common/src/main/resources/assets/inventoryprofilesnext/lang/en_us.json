@@ -130,6 +130,7 @@
 
     "inventoryprofiles.config.category.auto-refill.non-enchanted":                  "Non Enchanted Items",
     "inventoryprofiles.config.name.disable_for_drop_item":                          "Disable For Dropped Item",
+    "inventoryprofiles.config.name.ignore_locked_slots":                            "Use Items From Locked Slots",
     "inventoryprofiles.config.name.refill_armor":                                   "Refill Armor Before It Breaks",
     "inventoryprofiles.config.name.refill_before_tool_break":                       "Replace Tools Before They Break",
     "inventoryprofiles.config.name.disable_for_loyalty_items":                      "Don't Replace Loyalty Gear",
@@ -164,6 +165,7 @@
     "inventoryprofiles.config.description.visual_durability_notification":          "This enables visual notifications when a tool/armor durability is getting close to the level for replacement.",
     "inventoryprofiles.config.description.enable_auto_refill":                      "Refill the active item when the stack runs out.",
     "inventoryprofiles.config.description.disable_for_drop_item":                   "Disable \"Auto Refill\" for dropped items",
+    "inventoryprofiles.config.description.ignore_locked_slots":                     "Allow Auto Refill to use items from locked slots.",
     "inventoryprofiles.config.description.refill_armor":                            "Refill armor slots if items are about to break",
     "inventoryprofiles.config.description.refill_before_tool_break":                "Refill tools and armor before they break.\nSee \"Damage Threshold\" for more information.",
     "inventoryprofiles.config.description.disable_for_loyalty_items":               "Disable replacement of Loyalty enchanted gear.\nWhen this is true anything that is enchanted with any level of Loyalty\n will not be replaced when thrown or dropped.",
@@ -312,6 +314,7 @@
     "inventoryprofiles.tooltip.next_profile_button":                               "Select and apply next profile",
     "inventoryprofiles.tooltip.prev_profile_button":                               "Select and apply previous profile",
     "inventoryprofiles.tooltip.apply_profile_button":                              "Apply selected profile",
+    "inventoryprofiles.tooltip.editor_toggle":                                     "Show configuration screen for Inventory Profiles Next GUI overlay",
     "inventoryprofiles.update.version":                                            " Version: ",
     "inventoryprofiles.update.available":                                          " is now available.\n",
     "inventoryprofiles.update.get":                                                "Get it from: ",
