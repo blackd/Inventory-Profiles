@@ -44,6 +44,14 @@ object ContainerScreenEventHandler {
         }
     }
 
+    fun showEditor() {
+        currentWidgets?.forEach {
+            if (it is EditorWidget) {
+                it.showEditorScreen()
+            }
+        }
+    }
+
     private fun checkValid() {
         currentWidgets?.forEach {
             (it as InsertableWidget).run {

@@ -9,11 +9,9 @@ import org.anti_ad.mc.common.vanilla.vanillaInitGlue
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
-import org.anti_ad.mc.ipnext.config.configInitGlue
 import org.anti_ad.mc.ipnext.event.ClientInitHandler
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
-import org.anti_ad.mc.ipnext.parser.parserInitGlue
 import org.anti_ad.mc.ipnext.specific.initInfoManager
 
 @Suppress("unused")
@@ -28,9 +26,7 @@ fun init() {
         renderInitTheGlue()
         aliasInitGlue()
         vanillaInitGlue()
-        parserInitGlue()
         widgetsInitGlue()
-        configInitGlue()
 
         // Keybind register
         InputHandler.onClientInit()

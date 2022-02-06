@@ -1,15 +1,24 @@
 <!-- latest begin -->
 
-### 1.2.4
-- improved compatibility with Inventorio, now sorting works in the extended inventory and the buttons are not overlaping the extra slots.
-- added visual and sound alerts when tools run out of durability and are replaced or when there is no replacement tool. Check the "Auto Refill" configuration for more information.
-- All Relms worlds will now share configurations for locked slots and profiles. It's impossible to reliably detect the Relms world.
+### 1.3.0
+- Added in game Overlay Editor. If IPN buttons overlap with another mod UI you can now move them. Also allows you to influence how IPN detects the UI, for example as a chest to just as player inventory.
+- Fixed Profiles switching with hotkeys.
+- Fixed Auto Refill clashing with Profiles switching.
+- Added new setting to allow Auto Refill to use items from locked slots.
 
+### End of Life Announcement
+This is the last version that supports Minecraft 1.15.x both Fabric and Forge
 
 <!-- latest end -->
 
 
 <!-- rest begin -->
+
+### 1.2.4
+- improved compatibility with Inventorio, now sorting works in the extended inventory and the buttons are not overlaping the extra slots.
+- added visual and sound alerts when tools run out of durability and are replaced or when there is no replacement tool. Check the "Auto Refill" configuration for more information.
+- All Realms worlds will now share configurations for locked slots and profiles. It's impossible to reliably detect the Realms world.
+
 
 ### 1.2.3
 - workaround for REI tooltip rendering incompatibility.

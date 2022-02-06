@@ -17,6 +17,7 @@ import org.anti_ad.mc.ipnext.debug.DebugFunc
 import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.gui.DebugScreen
+import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 import org.anti_ad.mc.ipnext.parser.CustomDataFileLoader
 
@@ -40,6 +41,10 @@ object InputHandler : IInputHandler {
                 if (cw != null) {
                     CustomDataFileLoader.reload()
                 }
+            }
+            if (Hotkeys.OPEN_GUI_EDITOR.isActivated()) {
+                ContainerScreenEventHandler.showEditor()
+                return true
             }
             // todo fix hotkey while typing text field
             if (InventoryInputHandler.onInput(lastKey,

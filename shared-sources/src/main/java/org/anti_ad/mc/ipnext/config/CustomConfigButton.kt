@@ -7,6 +7,10 @@ import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfoDelegate
+import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfoDelegate
+import org.anti_ad.mc.ipnext.parser.ProfilesLoader
+import org.anti_ad.mc.ipnext.parser.ReloadRuleFileButtonInfoDelegate
 import java.net.URL
 import java.nio.file.Path
 import java.util.*
@@ -14,10 +18,8 @@ import kotlin.concurrent.schedule
 
 private val configFolder = VanillaUtil.configDirectory("inventoryprofilesnext")
 
-var __glue_profileFilePath: () -> Path = { TODO("Glue failed to apply!") }
-
 val profileFilePath: Path
-    get() = __glue_profileFilePath()
+    get() = ProfilesLoader.file
 
 
 open class DefaultDelegatedConfigButtonInfo: ConfigButtonInfo() {
@@ -28,7 +30,7 @@ open class DefaultDelegatedConfigButtonInfo: ConfigButtonInfo() {
 }
 
 object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
-    var delegate: ConfigButtonClickHandler? = null
+    var delegate: ConfigButtonClickHandler? = ReloadRuleFileButtonInfoDelegate
     override val buttonText: String
         get() = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files")
 
@@ -45,11 +47,14 @@ object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
 }
 
 object GenerateTagVanillaTxtButtonInfo : DefaultDelegatedConfigButtonInfo() {
+
+    override var delegate: ConfigButtonClickHandler? = GenerateTagVanillaTxtButtonInfoDelegate
     override val buttonText: String
         get() = "generate tags.vanilla.txt"
 }
 
 object GenerateRuleListButtonInfo : DefaultDelegatedConfigButtonInfo() {
+    override var delegate: ConfigButtonClickHandler? = GenerateRuleListButtonInfoDelegate
     override val buttonText: String
         get() = "generate native_rules.txt"
 }

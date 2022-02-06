@@ -17,6 +17,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.Debugs
+import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.gui.GUIDEEditorScreen
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.ProfileButtonWidget
@@ -24,7 +25,7 @@ import org.anti_ad.mc.ipnext.gui.inject.base.ProfileButtonWidget
 class EditorWidget(override val screen: ContainerScreen<*>,
                    private val hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget(), Hintable {
 
-    private val targets = mutableListOf<InsertableWidget>()
+    val targets = mutableListOf<InsertableWidget>()
     override var hints: ButtonPositionHint = hintsData.hintFor(IPNButton.SHOW_EDITOR)
 
     override var underManagement: Boolean = false
@@ -48,6 +49,7 @@ class EditorWidget(override val screen: ContainerScreen<*>,
                                     containerHeight)
         init()
         rehint()
+        visible = GuiSettings.ENABLE_INVENTORY_EDITOR_BUTTON.value
         super.render(mouseX,
                      mouseY,
                      partialTicks)
@@ -94,7 +96,7 @@ class EditorWidget(override val screen: ContainerScreen<*>,
             ty = 40
             hints = this@EditorWidget.hints
             this@EditorWidget.addChild(this)
-            visible = true
+            visible = GuiSettings.ENABLE_INVENTORY_EDITOR_BUTTON.value
             tooltipText = I18n.translate("inventoryprofiles.tooltip.editor_toggle")
             zIndex = 0
             hintableList.add(this)
@@ -116,7 +118,7 @@ class EditorWidget(override val screen: ContainerScreen<*>,
 
     }
 
-    private fun showEditorScreen() {
+    fun showEditorScreen() {
         GUIDEEditorScreen(this.screen,
                           this.container,
                           targets).let {

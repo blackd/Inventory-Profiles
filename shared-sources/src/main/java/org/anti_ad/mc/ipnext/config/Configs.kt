@@ -164,6 +164,7 @@ object GuiSettings : ConfigDeclaration {
     val ENABLE_PROFILES_ANNOUNCEMENT              /**/ by bool(true)
         .CATEGORY("$category.inventory")
     val ENABLE_INVENTORY_BUTTONS                  /**/ by bool(true)
+    val ENABLE_INVENTORY_EDITOR_BUTTON            /**/ by bool(true)
     val TREAT_UNKNOWN_SCREENS_AS_CONTAINERS       /**/ by bool(true)
     val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by bool(true)
     val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)
@@ -217,19 +218,21 @@ object Hotkeys : ConfigDeclaration {
                                                                  KeybindSettings.GUI_EXTRA)
     val THROW_ALL_ITEMS                           /**/ by hotkey("",
                                                                  KeybindSettings.GUI_EXTRA)
+    val OPEN_GUI_EDITOR                           /**/ by hotkey("R,G",
+                                                                 KeybindSettings.GUI_DEFAULT)
         .CATEGORY("$category.profiles")
     val APPLY_PROFILE                             /**/ by hotkey("",
-                                                                 KeybindSettings.ANY_DEFAULT)
+                                                                 KeybindSettings.INGAME_DEFAULT)
     val NEXT_PROFILE                              /**/ by hotkey("",
-                                                                 KeybindSettings.ANY_DEFAULT)
+                                                                 KeybindSettings.INGAME_DEFAULT)
     val PREV_PROFILE                              /**/ by hotkey("",
-                                                                 KeybindSettings.ANY_DEFAULT)
+                                                                 KeybindSettings.INGAME_DEFAULT)
     val PROFILE_1                                 /**/ by hotkey("",
-                                                                 KeybindSettings.ANY_DEFAULT)
+                                                                 KeybindSettings.INGAME_DEFAULT)
     val PROFILE_2                                 /**/ by hotkey("",
-                                                                 KeybindSettings.ANY_DEFAULT)
+                                                                 KeybindSettings.INGAME_DEFAULT)
     val PROFILE_3                                 /**/ by hotkey("",
-                                                                 KeybindSettings.ANY_DEFAULT)
+                                                                 KeybindSettings.INGAME_DEFAULT)
     val SAVE_AS_PROFILE                           /**/ by hotkey("",
                                                                  KeybindSettings.GUI_DEFAULT)
 

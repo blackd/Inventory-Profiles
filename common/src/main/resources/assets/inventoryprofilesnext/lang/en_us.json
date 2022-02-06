@@ -242,6 +242,7 @@
     "inventoryprofiles.config.name.move_all_items":                                "Move All Items",
     "inventoryprofiles.config.name.throw_all_items":                               "Throw All Items",
     "inventoryprofiles.config.name.dump_item_nbt_to_chat":                         "Dump Item Nbt To Chat",
+    "inventoryprofiles.config.name.open_gui_editor":                               "Show GUI overlay Config",
     "inventoryprofiles.config.name.apply_profile":                                 "Reapply the Currently Selected Profile",
     "inventoryprofiles.config.name.next_profile":                                  "Select and Apply Next Profile",
     "inventoryprofiles.config.name.prev_profile":                                  "Select and Apply Previous Profile",
@@ -262,6 +263,7 @@
     "inventoryprofiles.config.description.move_all_items":                         "The key to move all the items that already existed in the container",
     "inventoryprofiles.config.description.throw_all_items":                        "The key to throw all items for either player inventory or the opened container.Generally useful for mass crafting.\nAll modifier keys for Move All Items apply here too.",
     "inventoryprofiles.config.description.dump_item_nbt_to_chat":                  "Prints the item string with nbt to the chat.",
+    "inventoryprofiles.config.description.open_gui_editor":                        "Show configuration screen for Inventory Profiles Next GUI overlay",
     "inventoryprofiles.config.description.reload_custom_configs":                  "This hotkey can be used for faster config reloading when you are defining new custom rules.\nIn ANY other case it's recommended to keep it unset.\nReloading the configurations is not something you want to do often.",
 
     "inventoryprofiles.gui.config.Tweaks":                                         "Tweaks",
