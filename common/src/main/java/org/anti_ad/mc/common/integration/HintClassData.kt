@@ -54,13 +54,13 @@ data class HintClassData(var ignore: Boolean = false,
 
     fun hasInfo(): Boolean {
         return playerSideOnly || ignore || force || buttonHints.filterValues { v ->
-            v.top + v.horizontalOffset + v.bottom != 0 && ! v.hide
+            v.top != 0 || v.horizontalOffset != 0 || v.bottom != 0 || !v.hide
         }.isNotEmpty()
     }
 
     fun copyOnlyChanged(): MutableMap<IPNButton, ButtonPositionHint> {
         return buttonHints.filter { (k, v) ->
-            !v.hide && v.top + v.bottom + v.horizontalOffset > 0
+            !v.hide || v.top !=0 || v.bottom != 0 || v.horizontalOffset != 0
         }.toMutableMap()
     }
 
