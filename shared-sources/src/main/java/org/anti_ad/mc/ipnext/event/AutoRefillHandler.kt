@@ -46,6 +46,7 @@ import org.anti_ad.mc.ipnext.item.maxDamage
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.item.rule.natives.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
+import org.anti_ad.mc.ipnext.item.vanillaStack
 
 object AutoRefillHandler {
 
@@ -53,6 +54,8 @@ object AutoRefillHandler {
         get() = Vanilla.mc().`(options)`.`(keyDrop)`.`(isPressed)`
 
     var screenOpening = false
+
+    val profilesSwappedItems = mutableListOf<Int>()
 
     fun onTickInGame() {
         if (Vanilla.screen() != null || (AutoRefillSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey)) {
@@ -192,8 +195,13 @@ object AutoRefillHandler {
 
         var checkingItem = storedItem // use to select
         private fun shouldHandleItem(): Boolean {
-            checkingItem = storedItem
 
+            if (profilesSwappedItems.contains(slotId())) {
+                profilesSwappedItems.remove(slotId())
+                return false
+            }
+
+            checkingItem = storedItem
 
             if (storedItem.isEmpty()) return false // nothing become anything
             if (currentItem.isEmpty()) {

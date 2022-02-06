@@ -266,6 +266,7 @@ object ProfileSwitchHandler: IInputHandler {
         }
 
         private fun swapSlots(to: Int, foundSlotId: Int) {
+            AutoRefillHandler.profilesSwappedItems.add(to)
             GeneralInventoryActions.cleanCursor()
             if ((to - 36) in 0..8) { // use swap
                 //handles hotbar
