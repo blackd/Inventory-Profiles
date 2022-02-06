@@ -111,6 +111,7 @@ object ProfileSwitchHandler: IInputHandler {
                 sourceSlots = sourceSlots - it.slot
             }
         }
+        LockedSlotKeeper.init()
         if (targetProfile.active != ProfileSlotId.NONE) {
             val activate: Int = targetProfile.active.slotId;
             Vanilla.playerInventory().`(selectedSlot)` = activate - 36
@@ -274,6 +275,7 @@ object ProfileSwitchHandler: IInputHandler {
                                       to - 36)
             } else {
                 //handles offhand and armor slots
+
                 ContainerClicker.leftClick(foundSlotId)
                 ContainerClicker.leftClick(to)
                 if (!vCursorStack().isEmpty()) {
