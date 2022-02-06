@@ -1,5 +1,8 @@
 <!-- latest begin -->
 
+### 1.3.1
+- Fixed "button locations not saving in some cases"
+
 ### 1.3.0
 - Added in game Overlay Editor. If IPN buttons overlap with another mod UI you can now move them. Also allows you to influence how IPN detects the UI, for example as a chest to just as player inventory.
 - Fixed Profiles switching with hotkeys.
