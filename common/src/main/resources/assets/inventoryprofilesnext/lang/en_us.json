@@ -84,6 +84,8 @@
     "inventoryprofiles.config.category.inventory":                                 "Inventory",
     "inventoryprofiles.config.category.other":                                     "Other",
     "inventoryprofiles.config.name.enable_profiles_ui":                            "Enable Profiles Switching Gui",
+    "inventoryprofiles.config.name.enable_inventory_editor_button":                "Enable Overlay Editor Button",
+    "inventoryprofiles.config.description.enable_inventory_editor_button":         "When enabled a small button will appear in the to left of the screen that will open the IPN Overlay Editor.",
     "inventoryprofiles.config.name.enable_profiles_announcement":                  "Enable Profile Announcement on Change/Apply",
     "inventoryprofiles.config.description.enable_profiles_ui":                     "This enables small 3 button user interface under the player inventory screen that can be used to switch between profiles and apply the currently active one.\nAll of the Gui functions are available as shortcuts.",
     "inventoryprofiles.config.description.profiles_announcement":                  "The current profile is announced with a text popup just over the Hotbar.",
