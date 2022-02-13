@@ -91,6 +91,7 @@ object AutoRefillSettings : ConfigDeclaration {
     val REFILL_ARMOR                              /**/ by bool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
     val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
+    val AUTOREFILL_BLACKLIST                      /**/ by handledString("", ::blackListChanged)
     val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
                                                               0,
                                                               100)

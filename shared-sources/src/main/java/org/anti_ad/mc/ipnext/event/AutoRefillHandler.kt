@@ -42,11 +42,26 @@ import org.anti_ad.mc.ipnext.item.isBucket
 import org.anti_ad.mc.ipnext.item.isDamageable
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isStew
+import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.maxDamage
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.item.rule.natives.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
-import org.anti_ad.mc.ipnext.item.vanillaStack
+
+
+
+val blacklist: MutableSet<String> = mutableSetOf()
+
+private fun ItemStack.isBlackListed(): Boolean {
+    return this.itemType.itemId in blacklist
+}
+
+fun blackListChanged() {
+    blacklist.clear()
+    AutoRefillSettings.AUTOREFILL_BLACKLIST.value.split(",").forEach {
+        blacklist.add(it.trim())
+    }
+}
 
 object AutoRefillHandler {
 
@@ -202,7 +217,7 @@ object AutoRefillHandler {
             }
 
             checkingItem = storedItem
-
+            if (storedItem.isBlackListed()) return false
             if (storedItem.isEmpty()) return false // nothing become anything
             if (currentItem.isEmpty()) {
                 return !(AutoRefillSettings.DISABLE_FOR_LOYALTY_ITEMS.value && storedItem.itemType.enchantments[Enchantments.LOYALTY] != null)
@@ -463,3 +478,5 @@ object AutoRefillHandler {
     }
 
 }
+
+
