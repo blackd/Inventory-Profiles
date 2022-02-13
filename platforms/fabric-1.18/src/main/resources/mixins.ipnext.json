@@ -4,7 +4,6 @@
     "package":            "org.anti_ad.mc.ipnext.mixin",
     "compatibilityLevel": "JAVA_16",
     "mixins":             [
-
     ],
     "client":             [
         "IMixinContainerScreen",
@@ -16,11 +15,11 @@
         "MixinCraftingResultSlot",
         "MixinGameRenderer",
         "MixinGuiCloseC2SPacket",
+        "MixinInGameHud",
         "MixinMinecraftClient",
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
-        "MixinScreen",
-        "MixinInGameHud"
+        "MixinScreen"
     ],
     "injectors":          {
         "defaultRequire": 1

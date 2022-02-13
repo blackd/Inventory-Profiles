@@ -1,6 +1,7 @@
 package org.anti_ad.mc.ipnext.gui
 
 import org.anti_ad.mc.common.config.CategorizedMultiConfig
+import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.config.builder.toMultiConfigList
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
@@ -12,6 +13,7 @@ import org.anti_ad.mc.ipnext.config.Configs
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.config.Modpacks
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 
@@ -36,8 +38,12 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(Translat
 
     init {
         openConfigMenuHotkey = Hotkeys.OPEN_CONFIG_MENU
-        (Configs - if (ModSettings.DEBUG.booleanValue) listOf() else listOf(Debugs)) // hide debugs class
-            .toMultiConfigList().forEach { multi ->
+        // hide debugs class
+        val toRemove = mutableSetOf<ConfigDeclaration>()
+        if (!ModSettings.DEBUG.booleanValue) toRemove.add(Debugs)
+        if (!ModSettings.FOR_MODPACK_DEVS.booleanValue) toRemove.add(Modpacks)
+        val configsToUse = Configs - toRemove
+        configsToUse.toMultiConfigList().forEach { multi ->
                 addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
             }
         selectedIndex = storedSelectedIndex

@@ -17,6 +17,7 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.client.network.ClientPlayerInteractionManager
 import net.minecraft.client.sound.SoundInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.screen.ScreenHandlerFactory
 import net.minecraft.sound.SoundEvent
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
@@ -41,6 +42,8 @@ typealias GameOptions = GameOptions
 typealias KeyBinding = KeyBinding
 typealias ClientPlayerInteractionManager = ClientPlayerInteractionManager
 typealias PlayerEntity = PlayerEntity
+
+typealias ScreenHandlerFactory = ScreenHandlerFactory
 
 typealias SoundEvent = SoundEvent
 

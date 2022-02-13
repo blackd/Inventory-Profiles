@@ -13,7 +13,7 @@ val supported_minecraft_versions = listOf("1.18", "1.18.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.18.1"
-val forge_version = "39.0.66"
+val forge_version = "39.0.75"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 
@@ -113,8 +113,13 @@ dependencies {
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
 
-    //runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3555237"))
-    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
+//    runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3597547"))
+//    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
+    runtimeOnly ( fg.deobf("curse.maven:immersive-engineering-231951:3587149"))
+    runtimeOnly ( fg.deobf("curse.maven:roughly-enough-items-310111:3638569"))
+    runtimeOnly ( fg.deobf("curse.maven:architectury-forge-419699:3638627"))
+    runtimeOnly ( fg.deobf("curse.maven:cloth-config-forge-348521:3641133"))
+//    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }

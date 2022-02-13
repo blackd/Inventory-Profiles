@@ -141,11 +141,11 @@ class GUIDEEditorScreen(private val target: Screen,
         val screenShowProfileSelectorOption = EditorConfigBoolean("screen.profile",
                                                                   isVanillaScreen,
                                                                   true,
-                                                                  !screenHints.buttonHints[IPNButton.PROFILE_SELECTOR]!!.hide) {
-            if (screenHints.buttonHints[IPNButton.PROFILE_SELECTOR]!!.hide == it) {
+                                                                  !screenHints.hintFor(IPNButton.PROFILE_SELECTOR).hide) {
+            if (screenHints.hintFor(IPNButton.PROFILE_SELECTOR).hide == it) {
                 screenHints.markAsDirty()
             }
-            screenHints.buttonHints[IPNButton.PROFILE_SELECTOR]!!.hide = !it
+            screenHints.hintFor(IPNButton.PROFILE_SELECTOR).hide = !it
         }
 
         val containerIgnoreOption = EditorConfigBoolean("screen.ignore",

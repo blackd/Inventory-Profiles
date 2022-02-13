@@ -16,6 +16,9 @@ import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
+import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.common.integration.MergePriority
+import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
 
 private const val category = "inventoryprofiles.config.category"
 
@@ -69,7 +72,10 @@ object ModSettings : ConfigDeclaration {
     val STOP_AT_SCREEN_CLOSE                      /**/ by bool(false)
 
         .CATEGORY("$category.debugs")
-    val DEBUG by bool(false)
+    val DEBUG                                     /**/ by bool(false)
+    val FOR_MODPACK_DEVS                          /**/ by bool(false)
+
+
         .CATEGORY("§§hide - first run")
     val FIRST_RUN by bool(true)
 }
@@ -275,6 +281,16 @@ object Debugs : ConfigDeclaration {
     val GEN_RULE_LIST                             /**/ by button(GenerateRuleListButtonInfo)
 }
 
+object Modpacks : ConfigDeclaration {
+    override val builder = createBuilder()
+
+        .CATEGORY("$category.modpacks")
+    val MAKE_BLOCK_SCREEN_GENERATOR_SCRIPT        /**/ by button(GenerateTagsAsJson)
+    val DIFF_CALCULATOR_PRIORITY                  /**/ by enum(MergePriority.EXTERNAL)
+    val EXPORT_HINTS                              /**/ by button(ExportHints(true))
+
+}
+
 const val FILE_PATH = "inventoryprofilesnext/inventoryprofiles.json"
 
 val Configs = listOf(
@@ -285,7 +301,8 @@ val Configs = listOf(
     EditProfiles,
     Hotkeys,
     Tweaks,
-    Debugs
+    Debugs,
+    Modpacks
 )
 
 object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toMultiConfig(),

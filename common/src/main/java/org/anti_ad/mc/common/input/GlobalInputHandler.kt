@@ -136,7 +136,7 @@ object GlobalInputHandler {
                          scanCode,
                          action,
                          modifiers)
-        if (checkPressing && pressedKeys.isNotEmpty()) {
+        if (handle != 0L && checkPressing && pressedKeys.isNotEmpty()) {
             val pressed = pressedKeys.toSet()
             pressedKeys.clear()
             pressed.forEach {

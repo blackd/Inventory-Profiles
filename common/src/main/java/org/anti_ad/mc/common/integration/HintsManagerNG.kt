@@ -1,6 +1,8 @@
 package org.anti_ad.mc.common.integration
 
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import org.anti_ad.mc.common.Log
@@ -36,9 +38,15 @@ object HintsManagerNG {
 
     private const val builtInHintsResource = "assets/inventoryprofilesnext/config/ModIntegrationHintsNG.json"
 
+    private const val hintsExport = "ModIntegrationExport.json"
+
     private const val exampleHintsResource = "assets/inventoryprofilesnext/config/$exampleFileName"
 
+    private const val integratedOverride = "ModIntegrationOverride.json"
+
     private lateinit var externalHintsPath: Path
+
+    private lateinit var configRoot: Path
 
     private val externalConfigs: MutableMap<String, HintClassData> = mutableMapOf()
 
@@ -52,8 +60,9 @@ object HintsManagerNG {
         }
     }
 
-    fun init(external: Path) {
+    fun init(root: Path, external: Path) {
         reset()
+        configRoot = root
         externalHintsPath = external
         doInit()
     }
@@ -61,7 +70,7 @@ object HintsManagerNG {
     private fun doInit() {
         if (externalHintsPath.isDirectory()) {
             Files.find(externalHintsPath, 1, { p, a ->
-                a.isRegularFile && p.fileName.toString().endsWith(".json")
+                a.isRegularFile && p.fileName.toString().endsWith(".json") && p.fileName.toString() != "exampleIntegrationHints.json"
             }, FileVisitOption.FOLLOW_LINKS).forEach { f ->
                 val id = f.name.substringBeforeLast(".json")
                 tryLog(id, ::logError) {
@@ -75,16 +84,14 @@ object HintsManagerNG {
                 }
             }
         }
-        HintsManagerNG::class.java.classLoader.getResourceAsStream(builtInHintsResource)?.use { input ->
-            tryLog("", ::logError) {
-                val data: MutableMap<String, Map<String, HintClassData>> = json.decodeFromStream<MutableMap<String, Map<String, HintClassData>>>(input).also {
-                    trySwallow {  input.close() }
-                }
-                data.forEach { ids ->
-                    ids.value.forEach { v ->
-                        internalConfigs[v.key] = v.value.also { it.changeId(ids.key) }
-                    }
-                }
+        val overrideFile = configRoot / integratedOverride
+        if (overrideFile.exists()) {
+            overrideFile.inputStream().use { input ->
+                readInternalConfig(input)
+            }
+        } else {
+            HintsManagerNG::class.java.classLoader.getResourceAsStream(builtInHintsResource)?.use { input ->
+                readInternalConfig(input)
             }
         }
         externalConfigs.forEach { (name, hintClassData) ->
@@ -94,6 +101,62 @@ object HintsManagerNG {
             effectiveHints.putIfAbsent(name, hintClassData)
         }
     }
+
+    private fun readInternalConfig(input: InputStream) {
+        tryLog("", ::logError) {
+            val data: MutableMap<String, Map<String, HintClassData>> = json.decodeFromStream<MutableMap<String, Map<String, HintClassData>>>(
+                input).also {
+                trySwallow { input.close() }
+            }
+            data.forEach { ids ->
+                ids.value.forEach { v ->
+                    internalConfigs[v.key] = v.value.also { it.changeId(ids.key) }
+                }
+            }
+        }
+    }
+
+    fun saveAllAsIntegrated(priority: MergePriority) {
+        val data: MutableMap<String, MutableMap<String, HintClassData>> = collectAllWithPriority(priority)
+        val d1 = data.toSortedMap()
+        val file = configRoot / hintsExport
+        file.deleteIfExists()
+        with(file.outputStream()) {
+            json.encodeToStream(MapSerializer(String.serializer(), MapSerializer(String.serializer(), HintClassData.serializer())), d1, this)
+            this.close()
+        }
+    }
+
+    private fun collectAllWithPriority(priority: MergePriority): MutableMap<String, MutableMap<String, HintClassData>> {
+        val first = if (priority == MergePriority.EXTERNAL) externalConfigs else internalConfigs
+        val second = if (priority == MergePriority.EXTERNAL) internalConfigs else externalConfigs
+        val data: MutableMap<String, MutableMap<String, HintClassData>> = mutableMapOf()
+        val included = mutableSetOf<String>()
+        first.forEach { (key, value) ->
+            val dataForId = data.putIfAbsent(value.readId()!!, mutableMapOf()) ?: data[value.readId()!!]
+            dataForId!!.putIfAbsent(key, value.copy(buttonHints = value.copyOnlyChanged()))
+            included.add(key)
+        }
+        second.forEach { (key, value) ->
+            if (!included.contains(key)) {
+                val dataForId = data.putIfAbsent(value.readId()!!, mutableMapOf()) ?: data[value.readId()!!]
+                dataForId!!.putIfAbsent(key, value.copy(buttonHints = value.copyOnlyChanged()))
+            }
+        }
+        return data
+    }
+
+    fun saveAllAsSeparate(priority: MergePriority) {
+        val data: MutableMap<String, MutableMap<String, HintClassData>> = collectAllWithPriority(priority)
+        data.forEach { (id, hints) ->
+            val file = externalHintsPath / "$id.json"
+            file.deleteIfExists()
+            with(file.outputStream()) {
+                json.encodeToStream(hints, this)
+            }
+        }
+    }
+
 
     fun getHints(cl: Class<*>): HintClassData {
         return effectiveHints[cl.name].let {
@@ -181,11 +244,11 @@ object HintsManagerNG {
                 id == it.readId()
             }.forEach {
                 if (it.value.hasInfo())  {
-                    res[it.key] = it.value.copy(buttonHints = it.value.copyOnlyChanged())
+                    val hints = it.value.copyOnlyChanged()
+                    res[it.key] = it.value.copy(buttonHints = hints)
                 }
             }
         }
-
     }
 
     fun saveDirty(screenHints: HintClassData,
@@ -210,9 +273,8 @@ object HintsManagerNG {
         }
         val file = externalHintsPath / fileName
         file.deleteIfExists()
-        json.encodeToStream(allById, file.outputStream())
+        if (allById.isNotEmpty()) json.encodeToStream(allById, file.outputStream())
     }
-
 }
 
 private fun logError(th: Throwable,
@@ -228,4 +290,9 @@ private inline fun <R> tryLog(id: String,
     } catch (e: Throwable) {
         onFailure(e, id)
     }
+}
+
+enum class MergePriority {
+    INTERNAL,
+    EXTERNAL
 }

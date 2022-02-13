@@ -110,6 +110,10 @@ inline fun <T> T.alsoIf(condition: (T) -> Boolean,
 inline fun Boolean.ifTrue(block: () -> Unit) = also { if (this) block() }
 inline fun Boolean.ifFalse(block: () -> Unit) = also { if (!this) block() }
 
+operator fun Boolean.plus(b: Boolean): Int = (if (this) 1 else 0) + if (b) 1 else 0
+operator fun Boolean.plus(b: Int): Int = (if (this) 1 else 0) + b
+operator fun Int.plus(b: Boolean): Int = this + if (b) 1 else 0
+
 // ============
 // Bulk Comparisons
 // ============

@@ -54,14 +54,18 @@ data class HintClassData(var ignore: Boolean = false,
 
     fun hasInfo(): Boolean {
         return playerSideOnly || ignore || force || buttonHints.filterValues { v ->
-            v.top != 0 || v.horizontalOffset != 0 || v.bottom != 0 || !v.hide
+            v.top != 0 || v.horizontalOffset != 0 || v.bottom != 0 || v.hide
         }.isNotEmpty()
     }
 
     fun copyOnlyChanged(): MutableMap<IPNButton, ButtonPositionHint> {
-        return buttonHints.filter { (k, v) ->
-            !v.hide || v.top !=0 || v.bottom != 0 || v.horizontalOffset != 0
-        }.toMutableMap()
+        val res = mutableMapOf<IPNButton, ButtonPositionHint>()
+        buttonHints.forEach { (ipnButton, buttonPositionHint) ->
+            if (buttonPositionHint.hide || buttonPositionHint.top != 0 || buttonPositionHint.horizontalOffset != 0 || buttonPositionHint.bottom != 0) {
+                res[ipnButton] = buttonPositionHint.copy()
+            }
+        }
+        return res
     }
 
     fun fillMissingHints() {

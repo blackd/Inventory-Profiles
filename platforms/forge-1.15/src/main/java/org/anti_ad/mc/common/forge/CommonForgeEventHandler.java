@@ -22,7 +22,7 @@ public class CommonForgeEventHandler {
     @SubscribeEvent
     public void onKeyLast(InputEvent.KeyInputEvent event) {
         if (Vanilla.INSTANCE.screen() == null) { // non null is handled below
-            GlobalInputHandler.INSTANCE.onKey(event.getKey(), event.getScanCode(), event.getAction(), event.getModifiers(), false, 0l);
+            GlobalInputHandler.INSTANCE.onKey(event.getKey(), event.getScanCode(), event.getAction(), event.getModifiers(), true, 0l);
         }
     }
 
@@ -63,7 +63,8 @@ public class CommonForgeEventHandler {
         // (as post will also be swallowed if vanilla screen handle it)
         // fixme better approach
         Screen lastScreen = Vanilla.INSTANCE.screen();
-        boolean result = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers, false, 0l);
+        long handle = Vanilla.INSTANCE.window().getHandle();
+        boolean result = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers, true, handle);
         event.setCanceled(result || lastScreen != Vanilla.INSTANCE.screen()); // detect gui change, cancel vanilla
     }
 
