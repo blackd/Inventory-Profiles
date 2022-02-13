@@ -8,6 +8,7 @@ import org.anti_ad.mc.common.config.options.ConfigButton
 import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigString
+import org.anti_ad.mc.common.config.options.HandledConfigString
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -22,6 +23,7 @@ fun ConfigHotkey.toWidget() = ConfigHotkeyWidget(this)
 fun IConfigOptionNumeric<*>.toWidget() = ConfigNumericWidget(this)
 
 fun ConfigString.toWidget() = ConfigStringWidget(this)
+fun HandledConfigString.toWidget() = ConfigStringWidget(this)
 
 fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this) {
     is ConfigBoolean -> this.toWidget()
@@ -29,6 +31,7 @@ fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this
     is ConfigEnum<*> -> this.toWidget()
     is ConfigHotkey -> this.toWidget()
     is ConfigString -> this.toWidget()
+    is HandledConfigString -> this.toWidget()
     is ConfigButton -> this.toWidget()
     else -> object : ConfigWidgetBase<IConfigOption>(this) {}
         .also { Log.error("unknown config option $this") }

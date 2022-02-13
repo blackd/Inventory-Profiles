@@ -41,6 +41,9 @@ fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) =
 fun ConfigDeclaration.string(defaultValue: String) =
     ConfigString(defaultValue).addTo(this)
 
+fun ConfigDeclaration.handledString(defaultValue: String, changeHandler: () -> Unit) =
+        HandledConfigString(defaultValue, changeHandler).addTo(this)
+
 fun ConfigDeclaration.button(info: ConfigButtonInfo) =
     ConfigButton(info).addTo(this)
 

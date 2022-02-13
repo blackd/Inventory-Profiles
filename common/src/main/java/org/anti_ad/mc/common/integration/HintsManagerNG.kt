@@ -6,9 +6,11 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.exists
 import org.anti_ad.mc.common.extensions.trySwallow
+import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipn.api.IPNGuiHint
 import org.anti_ad.mc.ipn.api.IPNIgnore
@@ -152,6 +154,7 @@ object HintsManagerNG {
             val file = externalHintsPath / "$id.json"
             file.deleteIfExists()
             with(file.outputStream()) {
+                TellPlayer.chat("Generating ${file.name}")
                 json.encodeToStream(hints, this)
             }
         }
@@ -292,7 +295,13 @@ private inline fun <R> tryLog(id: String,
     }
 }
 
+
+private const val ENUM = "inventoryprofiles.enum"
+
 enum class MergePriority {
     INTERNAL,
-    EXTERNAL
+    EXTERNAL;
+
+    override fun toString(): String =
+            I18n.translate("$ENUM.merge_priority.${name.lowercase()}")
 }

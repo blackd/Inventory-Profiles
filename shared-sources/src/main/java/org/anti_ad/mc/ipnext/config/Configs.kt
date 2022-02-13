@@ -10,15 +10,16 @@ import org.anti_ad.mc.common.config.builder.bool
 import org.anti_ad.mc.common.config.builder.button
 import org.anti_ad.mc.common.config.builder.createBuilder
 import org.anti_ad.mc.common.config.builder.enum
+import org.anti_ad.mc.common.config.builder.handledString
 import org.anti_ad.mc.common.config.builder.hotkey
 import org.anti_ad.mc.common.config.builder.hotkeyedBool
 import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
-import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.integration.MergePriority
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
+import org.anti_ad.mc.ipnext.event.blackListChanged
 
 private const val category = "inventoryprofiles.config.category"
 
@@ -288,6 +289,7 @@ object Modpacks : ConfigDeclaration {
     val MAKE_BLOCK_SCREEN_GENERATOR_SCRIPT        /**/ by button(GenerateTagsAsJson)
     val DIFF_CALCULATOR_PRIORITY                  /**/ by enum(MergePriority.EXTERNAL)
     val EXPORT_HINTS                              /**/ by button(ExportHints(true))
+    val EXPORT_EXTERNAL_HINTS                     /**/ by button(ExportHints(false))
 
 }
 

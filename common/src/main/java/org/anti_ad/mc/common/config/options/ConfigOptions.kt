@@ -47,7 +47,15 @@ class ConfigEnum<E : Enum<E>>(override val defaultValue: E) : ConfigOptionBase()
     override fun togglePrevious() = run { value = value.previous() }
 }
 
-class ConfigString(override val defaultValue: String) : ConfigOptionBase(), IConfigOptionPrimitive<String> {
+class HandledConfigString(override val defaultValue: String, val changeHandler: () -> Unit ) : ConfigString(defaultValue), IConfigOptionPrimitive<String> {
+    override var value = defaultValue
+        set(value) {
+            field = value
+            changeHandler()
+        }
+}
+
+open class ConfigString(override val defaultValue: String) : ConfigOptionBase(), IConfigOptionPrimitive<String> {
     override var value = defaultValue
 }
 
