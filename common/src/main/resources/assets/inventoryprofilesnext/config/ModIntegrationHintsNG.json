@@ -142,6 +142,294 @@
             "ignore": true
         }
     },
+    "assemblylinemachines": {
+        "me.haydenb.assemblylinemachines.block.utility.BlockBottomlessStorageUnit$ScreenBottomlessStorageUnit": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -10
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -22
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -34
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.utility.BlockQuantumLink$ScreenQuantumLink": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -10
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -22
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -34
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockAlloySmelter$ScreenAlloySmelter": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockMetalShaper$ScreenMetalShaper": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.energy.BlockCoalGenerator$ScreenCoalGenerator": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.fluidutility.BlockRefinery$ScreenRefinery": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.automation.BlockPoweredSpawner$ScreenPoweredSpawner": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockElectricFurnace$ScreenElectricFurnace": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockElectricFluidMixer$ScreenElectricFluidMixer": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockExperienceMill$ScreenExperienceMill": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockElectricGrinder$ScreenElectricGrinder": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.fluidutility.BlockFluidRouter$ScreenFluidRouter": {
+            "ignore": true
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockElectricPurifier$ScreenElectricPurifier": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockLumberMill$ScreenLumberMill": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -37
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        },
+        "me.haydenb.assemblylinemachines.block.automation.BlockAutocraftingTable$ScreenAutocraftingTable": {
+            "playerSideOnly": true
+        },
+        "me.haydenb.assemblylinemachines.block.energy.BlockGearbox$ScreenGearbox": {
+            "playerSideOnly": true
+        },
+        "me.haydenb.assemblylinemachines.block.automation.BlockInteractor$ScreenInteractor": {
+            "playerSideOnly": true
+        },
+        "me.haydenb.assemblylinemachines.block.energy.BlockCrankmill$ScreenCrankmill": {
+            "playerSideOnly": true
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockSimpleFluidMixer$ScreenSimpleFluidMixer": {
+            "playerSideOnly": true
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockSimpleGrinder$ScreenSimpleGrinder": {
+            "playerSideOnly": true
+        },
+        "me.haydenb.assemblylinemachines.block.fluidutility.BlockCorruptingBasin$ScreenCorruptingBasin": {
+            "playerSideOnly": true
+        },
+        "me.haydenb.assemblylinemachines.block.machines.BlockQuarry$ScreenQuarry": {
+            "ignore": true
+        },
+        "me.haydenb.assemblylinemachines.block.energy.BlockBatteryCell$ScreenBatteryCell": {
+            "playerSideOnly": true
+        }
+    },
+    "assortedstorage": {
+        "com.grim3212.assorted.storage.client.screen.LocksmithWorkbenchScreen": {
+            "playerSideOnly": true
+        }
+    },
     "beyond_earth": {
         "net.mrscauthd.beyond_earth.gui.screens.coalgenerator.CoalGeneratorGuiWindow": {
             "playerSideOnly": true
@@ -328,6 +616,11 @@
     },
     "cfm": {
         "com.mrcrayfish.furniture.client.gui.screen.inventory.PostBoxScreen": {
+            "playerSideOnly": true
+        }
+    },
+    "chipped": {
+        "com.grimbo.chipped.container.ChippedScreen": {
             "playerSideOnly": true
         }
     },
@@ -782,6 +1075,98 @@
             "playerSideOnly": true
         }
     },
+    "electrodynamics": {
+        "electrodynamics.client.screen.tile.ScreenWindmill": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenHydroelectricGenerator": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenCobblestoneGenerator": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenCreativePowerSource": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenCreativeFluidSource": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenFluidVoid": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenElectrolyticSeparator": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenCarbyneBatteryBox": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenSolarPanel": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenCombustionChamber": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenChemicalCrystallizer": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenChemicalMixer": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenMineralWasher": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenFermentationPlant": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenLithiumBatteryBox": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenBatteryBox": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenElectricArcFurnaceTriple": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenElectricArcFurnaceDouble": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenElectricArcFurnace": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenElectricFurnaceTriple": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenElectricFurnaceDouble": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenElectricFurnace": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenCoalGenerator": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.item.ScreenSeismicScanner": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenTankGeneric": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenDO2OProcessor": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenChargerGeneric": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenO2OProcessor": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenO2OProcessorDouble": {
+            "playerSideOnly": true
+        },
+        "electrodynamics.client.screen.tile.ScreenO2OProcessorTriple": {
+            "playerSideOnly": true
+        }
+    },
     "elementalcraft": {
         "sirttas.elementalcraft.block.spelldesk.SpellDeskScreen": {
             "playerSideOnly": true
@@ -801,6 +1186,14 @@
                     "bottom": 10
                 }
             }
+        }
+    },
+    "energymeter": {
+        "com.github.almostreliable.energymeter.client.gui.MeterScreen": {
+            "ignore": true
+        },
+        "com.github.almostreliable.energymeter.meter.MeterContainer": {
+            "ignore": true
         }
     },
     "engineersdecor": {
@@ -961,6 +1354,38 @@
             "playerSideOnly": true
         }
     },
+    "extendedcrafting": {
+        "com.blakebr0.extendedcrafting.client.screen.CraftingCoreScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.BasicTableScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.AdvancedTableScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.EliteTableScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.UltimateTableScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.BasicAutoTableScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.AdvancedAutoTableScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.EliteAutoTableScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.CompressorScreen": {
+            "playerSideOnly": true
+        },
+        "com.blakebr0.extendedcrafting.client.screen.EnderCrafterScreen": {
+            "playerSideOnly": true
+        }
+    },
     "extradisks": {
         "de.melanx.extradisks.blocks.item.ExtraItemStorageBlockScreen": {
             "playerSideOnly": true
@@ -1040,15 +1465,16 @@
             "playerSideOnly": true,
             "buttonHints": {
                 "SORT": {
-                    "horizontalOffset": -40
+                    "horizontalOffset": -40,
+                    "bottom": -10
                 },
                 "SORT_COLUMNS": {
                     "horizontalOffset": -28,
-                    "bottom": -12
+                    "bottom": -22
                 },
                 "SORT_ROWS": {
                     "horizontalOffset": -16,
-                    "bottom": -24
+                    "bottom": -34
                 }
             }
         }
@@ -1662,6 +2088,9 @@
         }
     },
     "prettypipes": {
+        "de.ellpeck.prettypipes.pipe.containers.MainPipeGui": {
+            "playerSideOnly": true
+        },
         "de.ellpeck.prettypipes.terminal.containers.ItemTerminalGui": {
             "playerSideOnly": true,
             "buttonHints": {
@@ -2203,6 +2632,11 @@
             "playerSideOnly": true
         }
     },
+    "simpleplanes": {
+        "xyz.przemyk.simpleplanes.client.gui.PlaneWorkbenchScreen": {
+            "playerSideOnly": true
+        }
+    },
     "sophisticatedbackpacks": {
         "net.p3pp3rf1y.sophisticatedbackpacks.client.gui.BackpackScreen": {
             "buttonHints": {
@@ -2230,6 +2664,67 @@
                 "MOVE_TO_CONTAINER": {
                     "horizontalOffset": 2,
                     "bottom": -26
+                }
+            }
+        }
+    },
+    "storagenetwork": {
+        "com.lothrazar.storagenetwork.block.cable.linkfilter.GuiCableFilter": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": -3
+                },
+                "SORT_COLUMNS": {
+                    "bottom": -3
+                },
+                "SORT_ROWS": {
+                    "bottom": -3
+                }
+            }
+        },
+        "com.lothrazar.storagenetwork.block.cable.inputfilter.GuiCableImportFilter": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": -8
+                },
+                "SORT_COLUMNS": {
+                    "bottom": -8
+                },
+                "SORT_ROWS": {
+                    "bottom": -8
+                }
+            }
+        },
+        "com.lothrazar.storagenetwork.block.cable.export.GuiCableExportFilter": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": -7
+                },
+                "SORT_COLUMNS": {
+                    "bottom": -7
+                },
+                "SORT_ROWS": {
+                    "bottom": -7
+                }
+            }
+        },
+        "com.lothrazar.storagenetwork.block.inventory.GuiNetworkInventory": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -12
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -24
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -36
                 }
             }
         }
@@ -2279,6 +2774,22 @@
     "tinyredstone": {
         "com.dannyandson.tinyredstone.gui.ChopperScreen": {
             "playerSideOnly": true
+        }
+    },
+    "trapcraft": {
+        "trapcraft.client.gui.IgniterScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 62
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 62
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 62
+                }
+            }
         }
     },
     "waystones": {
