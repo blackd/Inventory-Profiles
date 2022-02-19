@@ -614,6 +614,29 @@
             "ignore": true
         }
     },
+    "car": {
+        "de.maxhenkel.car.gui.GuiSplitTank": {
+            "playerSideOnly": true
+        },
+        "de.maxhenkel.car.gui.GuiGenerator": {
+            "playerSideOnly": true
+        },
+        "de.maxhenkel.car.gui.GuiFluidExtractor": {
+            "playerSideOnly": true
+        },
+        "de.maxhenkel.car.gui.GuiBackmixReactor": {
+            "playerSideOnly": true
+        },
+        "de.maxhenkel.car.gui.GuiBlastFurnace": {
+            "playerSideOnly": true
+        },
+        "de.maxhenkel.car.gui.GuiOilMill": {
+            "playerSideOnly": true
+        },
+        "de.maxhenkel.car.gui.GuiGasStation": {
+            "playerSideOnly": true
+        }
+    },
     "cfm": {
         "com.mrcrayfish.furniture.client.gui.screen.inventory.PostBoxScreen": {
             "playerSideOnly": true
@@ -683,6 +706,14 @@
             "ignore": true
         },
         "net.blay09.mods.cookingforblockheads.menu.RecipeBookMenu": {
+            "ignore": true
+        }
+    },
+    "corail_recycler": {
+        "ovh.corail.recycler.gui.GuiRecycler": {
+            "ignore": true
+        },
+        "ovh.corail.recycler.gui.RecyclerMenu": {
             "ignore": true
         }
     },
@@ -1186,6 +1217,59 @@
                     "bottom": 10
                 }
             }
+        }
+    },
+    "enderrift": {
+        "dev.gigaherz.enderrift.automation.browser.BrowserScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "dev.gigaherz.enderrift.automation.browser.CraftingBrowserScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "dev.gigaherz.enderrift.automation.iface.InterfaceScreen": {
+            "playerSideOnly": true
+        },
+        "dev.gigaherz.enderrift.generator.GeneratorScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": -2
+                },
+                "SORT_COLUMNS": {
+                    "bottom": -2
+                },
+                "SORT_ROWS": {
+                    "bottom": -2
+                }
+            }
+        },
+        "gigaherz.enderthing.gui.PasscodeScreen": {
+            "ignore": true
+        },
+        "gigaherz.enderthing.gui.PasscodeContainer": {
+            "ignore": true
         }
     },
     "energymeter": {
@@ -2071,6 +2155,14 @@
             "playerSideOnly": true
         }
     },
+    "nekoration": {
+        "com.devbobcorn.nekoration.client.gui.screen.EaselMenuScreen": {
+            "ignore": true
+        },
+        "com.devbobcorn.nekoration.blocks.containers.EaselMenuMenu": {
+            "force": true
+        }
+    },
     "occultism": {
         "com.github.klikli_dev.occultism.client.gui.storage.StorageControllerGui": {
             "playerSideOnly": true
@@ -2669,6 +2761,9 @@
         }
     },
     "storagenetwork": {
+        "com.lothrazar.storagenetwork.block.request.GuiNetworkTable": {
+            "playerSideOnly": true
+        },
         "com.lothrazar.storagenetwork.block.cable.linkfilter.GuiCableFilter": {
             "playerSideOnly": true,
             "buttonHints": {
@@ -2790,6 +2885,128 @@
                     "horizontalOffset": 62
                 }
             }
+        }
+    },
+    "voluminousenergy": {
+        "com.veteam.voluminousenergy.blocks.screens.PrimitiveBlastFurnaceScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.PrimitiveStirlingGeneratorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.CrusherScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.ElectrolyzerScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.CentrifugalAgitatorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.CompressorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.StirlingGeneratorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.CombustionGeneratorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.PrimitiveBlastFurnaceContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.PrimitiveStirlingGeneratorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.CrusherContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.ElectrolyzerContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.CentrifugalAgitatorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.CompressorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.StirlingGeneratorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.CombustionGeneratorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.AqueoulizerScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.AqueoulizerContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.AirCompressorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.AirCompressorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.DistillationUnitScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.DistillationUnitContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.PumpScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.PumpContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.GasFiredFurnaceScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.GasFiredFurnaceContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.ElectricFurnaceScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.ElectricFurnaceContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.BatteryBoxScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.BatteryBoxContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.PrimitiveSolarPanelScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.PrimitiveSolarPanelContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.SolarPanelScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.SolarPanelContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.CentrifugalSeparatorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.CentrifugalSeparatorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.ImplosionCompressorScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.ImplosionCompressorContainer": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.screens.BlastFurnaceScreen": {
+            "ignore": true
+        },
+        "com.veteam.voluminousenergy.blocks.containers.BlastFurnaceContainer": {
+            "ignore": true
         }
     },
     "waystones": {
