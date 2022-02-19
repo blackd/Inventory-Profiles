@@ -1,6 +1,6 @@
 <!-- latest begin -->
 
-### 1.3.2+1.15-hotfix-1
+### 1.3.3
 - Fixed Hotkey assigment on Forge
 
 <!-- latest end -->
