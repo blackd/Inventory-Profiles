@@ -3,22 +3,12 @@ rootProject.name = "InventoryProfilesNext"
 include("common")
 
 
-if (JavaVersion.current() >= JavaVersion.VERSION_16) {
-    include("platforms:fabric-1.18")
-    include("platforms:fabric-1.17")
-    include("platforms:fabric-1.16")
 
-    include("platforms:forge-1.17")
-    include("platforms:forge-1.18")
-}
-
-include("platforms:forge-1.16")
 include("platforms:fabric-1.15")
 include("platforms:forge-1.15")
 
 if (System.getenv("IPN_COMPILE_ALL") != null) {
     //include("platforms:fabric-1.14")
-
 }
 
 

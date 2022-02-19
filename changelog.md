@@ -1,8 +1,7 @@
 <!-- latest begin -->
 
-### 1.3.3
-- Fixed Hotkey assigment on Forge 
-- Added hints UIs from ~80 mods 
+### 1.3.2+hotfix-1
+- Fixed Hotkey assigment on Forge
 
 <!-- latest end -->
 
