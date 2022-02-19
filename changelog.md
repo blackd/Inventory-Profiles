@@ -1,5 +1,18 @@
 <!-- latest begin -->
 
+### 1.3.3
+- Fixed Hotkey assigment on Forge 
+- Added hints UIs from ~80 mods 
+
+<!-- latest end -->
+
+
+<!-- rest begin -->
+
+### 1.3.2
+- Added blacklist for Auto Refill
+- Some fixes in the Hints system and edit UI
+
 ### 1.3.1
 - Fixed "button locations not saving in some cases"
 
@@ -9,13 +22,6 @@
 - Fixed Auto Refill clashing with Profiles switching.
 - Added new setting to allow Auto Refill to use items from locked slots.
 
-### End of Life Announcement
-This is the last version that supports Minecraft 1.15.x both Fabric and Forge
-
-<!-- latest end -->
-
-
-<!-- rest begin -->
 
 ### 1.2.4
 - improved compatibility with Inventorio, now sorting works in the extended inventory and the buttons are not overlaping the extra slots.

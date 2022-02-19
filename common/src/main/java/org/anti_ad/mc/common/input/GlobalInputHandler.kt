@@ -49,7 +49,7 @@ object GlobalInputHandler {
                       action: Int): Boolean { // action: only GLFW_PRESS or GLFW_RELEASE
 
         val isPress = action == GLFW_PRESS
-        if (isPress == pressedKeys.contains(key)) { // (PRESS && contain) || (RELEASE && !contain)
+        if (isPress && pressedKeys.contains(key)) { // (PRESS && contain) || (RELEASE && !contain)
             return false // should err / cancelled by other mod
         }
 
@@ -66,7 +66,11 @@ object GlobalInputHandler {
 
     private fun onInput(): Boolean {
         if (currentAssigningKeybind != null) {
-            handleAssignKeybind()
+            if (lastAction == GLFW_PRESS) {
+                handleAssignKeybind()
+            } else {
+                handleAssignKeybind()
+            }
             return true
         }
         if (registeredCancellable.any { it.onInput(lastKey,
@@ -93,7 +97,10 @@ object GlobalInputHandler {
     private var ignoreLeftClick = false // fix forge version while compatible with fabric version
 
     private fun handleAssignKeybind() {
-        val pressedKeys: List<Int> = currentAssigningKeybind?.run { settings.modifierKey.handleKeys(pressedKeys.toList()) } ?: pressedKeys.toList()
+        val pressedKeys: List<Int> = currentAssigningKeybind?.run {
+            settings.modifierKey.handleKeys(pressedKeys.toList())
+        } ?: pressedKeys.toList()
+
         if (lastAction == GLFW_PRESS) {
             if (lastKey == KeyCodes.MOUSE_BUTTON_1 && ignoreLeftClick) { // GLFW_MOUSE_BUTTON_1 - 100
                 return
@@ -146,8 +153,14 @@ object GlobalInputHandler {
             }
         }
         return when (action) {
-            GLFW_PRESS, GLFW_RELEASE -> onKey(key,
-                                              action)
+            GLFW_PRESS -> {
+                onKey(key,
+                      action)
+            }
+            GLFW_RELEASE -> {
+                onKey(key,
+                      action)
+            }
             else -> false
         }
     }

@@ -89,9 +89,15 @@ repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+    maven {
+        url = uri("https://www.cursemaven.com")
+        content {
+            includeGroup ("curse.maven")
+        }
+    }
 }
 
-
+val fg: net.minecraftforge.gradle.userdev.DependencyManagementExtension = project.extensions["fg"] as net.minecraftforge.gradle.userdev.DependencyManagementExtension
 
 dependencies {
     "shadedApi"(project(":common"))
@@ -106,6 +112,8 @@ dependencies {
     "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+
+    runtimeOnly ( fg.deobf("curse.maven:nekoration-508028:3579060"))
 }
 
 afterEvaluate {
