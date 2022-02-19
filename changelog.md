@@ -1,8 +1,8 @@
 <!-- latest begin -->
 
 ### 1.3.3
-- Fixed Hotkey assigment on Forge 
-- Added hints UIs from ~80 mods 
+- Fixed Hotkey assignment on Forge 
+- Added hints UIs from ~80 mods
 
 <!-- latest end -->
 
