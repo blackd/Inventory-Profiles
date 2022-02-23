@@ -1,13 +1,18 @@
 <!-- latest begin -->
 
-### 1.3.3
-- Fixed Hotkey assignment on Forge 
-- Added hints UIs from ~80 mods
+### 1.3.4
+- Fixed Auto Refill alert sounds on Forge when connected to Forge server.
+- Fixes Auto Refill causing exception storm in the logs when connected to Forge server.
 
 <!-- latest end -->
 
 
 <!-- rest begin -->
+
+### 1.3.3
+- Fixed Hotkey assignment on Forge
+- Added hints UIs from ~80 mods
+
 
 ### 1.3.2
 - Added blacklist for Auto Refill

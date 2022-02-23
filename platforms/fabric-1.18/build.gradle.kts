@@ -81,11 +81,12 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.46.4+1.18")
-    modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 
-    modRuntimeOnly("curse.maven:inventorio-491073:3553574")
-    modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
-    modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
+    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
+
+    //modRuntimeOnly("curse.maven:inventorio-491073:3553574")
+    //modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
+    //modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
 
 
 }

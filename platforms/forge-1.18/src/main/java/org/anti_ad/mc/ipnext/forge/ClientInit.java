@@ -1,17 +1,11 @@
 package org.anti_ad.mc.ipnext.forge;
 
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.client.ConfigGuiHandler;
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler;
-import org.anti_ad.mc.common.vanilla.VanillaSound;
 import org.anti_ad.mc.ipnext.InventoryProfilesKt;
-import org.anti_ad.mc.ipnext.event.Sounds;
 import org.anti_ad.mc.ipnext.gui.ConfigScreen;
 
 
@@ -30,8 +24,6 @@ public class ClientInit implements Runnable {
                 new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> new ConfigScreen()));
 
         InventoryProfilesKt.init();
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        VanillaSound.INSTANCE.getREGISTER().register(bus);
-        Sounds.Companion.registerAll();
+
     }
 }

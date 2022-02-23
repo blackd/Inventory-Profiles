@@ -5,18 +5,19 @@ import org.anti_ad.mc.common.vanilla.VanillaSound
 import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.ipnext.ModInfo
+import org.anti_ad.mc.ipnext.ModInfo.MOD_ID
 
-enum class Sounds(loc: String, pitch: Float = 1.0F) {
+enum class Sounds(private val loc: String, pitch: Float = 1.0F) {
 
     REFILL_STEP_NOTIFY("tool_refill_step_ping");
-    private val registryObject: Any?
+    //private val registryObject: Any?
 
     private val defaultPitch: Float
 
     init {
         try {
             this.defaultPitch = pitch
-            registryObject = VanillaSound.registerSound(loc)
+            //registryObject = VanillaSound.registerSound(loc)
 
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -28,13 +29,15 @@ enum class Sounds(loc: String, pitch: Float = 1.0F) {
 
     }
 
+    private val soundEvent =  SoundEvent(Identifier(MOD_ID, loc))
+
     fun play()  {
-        Vanilla.soundManager().play(PositionedSoundInstance.master(VanillaSound.getEvent(registryObject), defaultPitch, .75F))
+        VanillaSound.play(PositionedSoundInstance.master(soundEvent, defaultPitch, .75F))
     }
 
-    fun play(pitch: Float) = VanillaSound.play(PositionedSoundInstance.master(VanillaSound.getEvent(registryObject), pitch, .75f))
+    fun play(pitch: Float) = VanillaSound.play(PositionedSoundInstance.master(soundEvent, pitch, .75f))
 
-    fun play(pitch: Float, delay: Int) = VanillaSound.play(PositionedSoundInstance.master(VanillaSound.getEvent(registryObject), pitch, .75f), delay)
+    fun play(pitch: Float, delay: Int) = VanillaSound.play(PositionedSoundInstance.master(soundEvent, pitch, .75f), delay)
 
 
     companion object {
