@@ -229,7 +229,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
     project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
         id = "495267"
         changelogType = "markdown"
-        changelog = file("../../changelog.md")
+        changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
@@ -293,7 +293,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
         +*************************************************+
     """.trimIndent())
     versionName = "IPN $mod_version for $mod_loader $minecraft_version"
-    changelog = project.rootDir.resolve("changelog.md").readText()
+    changelog = project.rootDir.resolve("description/out/pandoc-release_notes.md").readText()
     addLoader(mod_loader)
 }
 

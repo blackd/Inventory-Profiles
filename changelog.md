@@ -3,6 +3,7 @@
 ### 1.3.4
 - Fixed Auto Refill alert sounds on Forge when connected to Forge server.
 - Fixes Auto Refill causing exception storm in the logs when connected to Forge server.
+- Shiny new Russian translation thanks to @DrHesperus
 
 <!-- latest end -->
 

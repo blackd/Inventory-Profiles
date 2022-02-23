@@ -489,7 +489,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
     project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
         id = "495267"
         changelogType = "markdown"
-        changelog = file("../../changelog.md")
+        changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "beta"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
@@ -524,7 +524,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
     onlyIf {
         System.getenv("MODRINTH_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null
     }
-    versionType = com.modrinth.minotaur.request.VersionType.BETA
+    versionType = com.modrinth.minotaur.request.VersionType.RELEASE
     token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
 
     projectId = "O7RBXm3n"
@@ -539,7 +539,7 @@ val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
         addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
     }
     versionName = "IPN $mod_version for $mod_loader $minecraft_version"
-    changelog = project.rootDir.resolve("changelog.md").readText()
+    changelog = project.rootDir.resolve("description/out/pandoc-release_notes.md").readText()
     addLoader(mod_loader)
 
 }
