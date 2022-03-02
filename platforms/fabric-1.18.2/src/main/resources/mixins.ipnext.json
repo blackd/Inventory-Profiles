@@ -1,0 +1,27 @@
+{
+    "required":           true,
+    "minVersion":         "0.8",
+    "package":            "org.anti_ad.mc.ipnext.mixin",
+    "compatibilityLevel": "JAVA_16",
+    "mixins":             [
+    ],
+    "client":             [
+        "IMixinContainerScreen",
+        "IMixinKeyBinding",
+        "IMixinSlot",
+        "MixinClientPlayerEntity",
+        "MixinClientPlayNetworkHandler",
+        "MixinContainerScreen",
+        "MixinCraftingResultSlot",
+        "MixinGameRenderer",
+        "MixinGuiCloseC2SPacket",
+        "MixinInGameHud",
+        "MixinMinecraftClient",
+        "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
+        "MixinPlayerInventory",
+        "MixinScreen"
+    ],
+    "injectors":          {
+        "defaultRequire": 1
+  }
+}

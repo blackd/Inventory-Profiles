@@ -52,6 +52,17 @@ object Log {
         unit()
         unindent()
     }
+
+    inline fun indent(times: Int, unit: () -> Unit) {
+        repeat(times) {
+            indent()
+        }
+        unit()
+        repeat(times) {
+            unindent()
+        }
+    }
+
     fun indent() {
         indent++
     }
@@ -99,6 +110,14 @@ object Log {
             trace { it }
         }
     }
+
+
+    fun traceIf(function: () -> Unit) {
+        if (shouldTrace()) {
+            function()
+        }
+    }
+
     fun trace(message: String) = trace { message }
     fun trace(message: String, tw: Throwable) = trace({message}, tw = tw)
     fun trace(message: () -> String) = trace(message, tw = null)

@@ -65,7 +65,7 @@ object GenerateTagVanillaTxtButtonInfo : DefaultDelegatedConfigButtonInfo() {
 
     override var delegate: ConfigButtonClickHandler? = GenerateTagVanillaTxtButtonInfoDelegate
     override val buttonText: String
-        get() = "generate tags.vanilla.txt"
+        get() = "generate tags.*.txt"
 }
 
 object GenerateRuleListButtonInfo : DefaultDelegatedConfigButtonInfo() {
