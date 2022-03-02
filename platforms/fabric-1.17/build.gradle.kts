@@ -1,10 +1,9 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.modrinth.minotaur.TaskModrinthUpload
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.platformsCommonConfig
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
+import com.modrinth.minotaur.dependencies.ModDependency
 
 val supported_minecraft_versions = listOf("1.17", "1.17.1")
 val mod_loader = "fabric"
@@ -41,7 +40,7 @@ plugins {
     id("fabric-loom").version(loom_version_117)
     antlr
     id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.modrinth.minotaur") version "1.2.1"
+    id("com.modrinth.minotaur") version "2.0.0"
 }
 
 configureCommon()
@@ -262,33 +261,30 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 // modrith
 // ============
 
-
-val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
-
-    onlyIf {
-        System.getenv("MODRINTH_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null
+modrinth {
+    if (System.getenv("IPNEXT_RELEASE") != null) {
+        token.set(System.getenv("MODRINTH_TOKEN"))
     }
 
-    token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
-
-    projectId = "O7RBXm3n"
-    versionNumber = "$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
-    // On fabric, use 'remapJar' instead of 'jar'
-    this.changelog
-    val fabricRemapJar = tasks.named<RemapJarTask>("remapShadedJar").get()
+    projectId.set("O7RBXm3n")
+    versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
+    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
-    uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    gameVersions.addAll(supported_minecraft_versions)
     logger.lifecycle("""
         +*************************************************+
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-    supported_minecraft_versions.forEach { ver ->
-        addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
-    }
-    versionName = "IPN $mod_version for $mod_loader $minecraft_version"
-    changelog = project.rootDir.resolve("description/out/pandoc-release_notes.md").readText()
-    addLoader(mod_loader)
+    versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
+    this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
+    loaders.add(mod_loader)
+    dependencies.set(
+        mutableListOf(
+            ModDependency("P7dR8mSH","required"),
+            ModDependency("mOgUt4GM","optional")))
+
 }
 
 publishing {
