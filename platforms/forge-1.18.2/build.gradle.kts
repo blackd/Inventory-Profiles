@@ -9,11 +9,11 @@ import proguard.gradle.ProGuardTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 
-val supported_minecraft_versions = listOf("1.18", "1.18.1")
+val supported_minecraft_versions = listOf("1.18.2")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.18.1"
-val forge_version = "39.1.2"
+val minecraft_version = "1.18.2"
+val forge_version = "40.0.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
 
@@ -122,8 +122,8 @@ dependencies {
 //    runtimeOnly ( fg.deobf("curse.maven:architectury-forge-419699:3638627"))
 //    runtimeOnly ( fg.deobf("curse.maven:cloth-config-forge-348521:3641133"))
 //    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
-    runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
-    runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
+    //runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
+    //runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
 
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
@@ -291,7 +291,7 @@ configurations {
 configure<UserDevExtension> {
     mappings(mapOf(
         "channel" to "official",
-        "version" to "1.18.1"
+        "version" to "1.18.2"
                   ))
     runs {
         val runConfig = Action<RunConfig> {
@@ -523,6 +523,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 // modrith
 // ============
 
+
 modrinth {
 
     if (System.getenv("IPNEXT_RELEASE") != null) {
@@ -544,6 +545,35 @@ modrinth {
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
 }
+
+/*
+val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
+
+    onlyIf {
+        System.getenv("MODRINTH_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null
+    }
+    versionType = com.modrinth.minotaur.request.VersionType.RELEASE
+    token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
+
+    projectId = "O7RBXm3n"
+    versionNumber = "$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
+    // On fabric, use 'remapJar' instead of 'jar'
+    this.changelog
+
+    val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
+    val remappedJarFile = forgeReobfJar.archiveFile
+    uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
+    supported_minecraft_versions.forEach { ver ->
+        addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
+    }
+    versionName = "IPN $mod_version for $mod_loader $minecraft_version"
+    changelog = project.rootDir.resolve("description/out/pandoc-release_notes.md").readText()
+    addLoader(mod_loader)
+
+}
+*/
+
+
 
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")
