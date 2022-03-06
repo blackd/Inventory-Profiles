@@ -39,7 +39,7 @@ fun List<ProfileData>.dump() {
     Log.indent {
         forEach { profile ->
             Log.trace {
-                if (profile.active != null) {
+                if (profile.active != ProfileSlotId.NONE) {
                     "${profile.name} activate slot ${profile.active.name}"
                 } else {
                     profile.name

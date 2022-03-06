@@ -45,7 +45,7 @@ POTION         : '"Potion" :';
 ARROW : '->';
 
 //Arrow: WS? ARROW ;
-fragment ID: [a-zA-Z0-9_]+;
+fragment ID: [a-zA-Z0-9_\-]+;
 
 fragment NUMBER: [0-9]+([a-z])?;
 

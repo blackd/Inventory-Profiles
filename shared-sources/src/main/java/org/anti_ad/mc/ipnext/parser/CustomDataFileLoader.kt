@@ -15,6 +15,7 @@ import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.profiles.conifg.ProfileData
 import org.anti_ad.mc.common.profiles.conifg.ProfilesConfig
+import org.anti_ad.mc.common.profiles.conifg.dump
 import org.anti_ad.mc.common.util.LogicalStringComparator
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.loggingPath
@@ -85,7 +86,7 @@ object ProfilesLoader: Loader, Savable {
             tryOrPrint({msg->
                            Log.warn(msg)
                            TellPlayer.chat("Loading Profile settings failed: $msg")}) {
-                temp.addAll(ProfilesConfig.getProfiles(file.readText()))
+                temp.addAll(ProfilesConfig.getProfiles(file.readText()).also { it.dump() })
             }
         }
         savedProfiles.addAll(temp.filter { it.name.uppercase() == "SAVED" })

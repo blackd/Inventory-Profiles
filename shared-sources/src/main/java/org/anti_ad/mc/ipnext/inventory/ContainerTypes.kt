@@ -11,8 +11,8 @@ import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 val nonStorage = setOf(TEMP_SLOTS)
 
 val playerOnly = setOf(PURE_BACKPACK,
-                               PLAYER,
-                               CRAFTING)
+                       PLAYER,
+                       CRAFTING)
 
 object ContainerTypes {
 
@@ -46,9 +46,9 @@ object ContainerTypes {
         outerMap.remove(containerClass)
     }
 
-    fun register(containerClass: Class<*>,
-                 types: Set<ContainerType>,
-                 external: Boolean = false) {
+    private fun register(containerClass: Class<*>,
+                         types: Set<ContainerType>,
+                         external: Boolean = false) {
         if (external) {
             outerMap[containerClass] = outerMap.getOrDefault(containerClass,
                                                              setOf()) + types

@@ -1,14 +1,24 @@
 <!-- latest begin -->
 
-### 1.3.4
-- Fixed Auto Refill alert sounds on Forge when connected to Forge server.
-- Fixes Auto Refill causing exception storm in the logs when connected to Forge server.
-- Shiny new Russian translation thanks to @DrHesperus
+## Warning.
+**Due to changes in 1.18.2 existing custom sort rules that use Tags might behave differently or not work at all.
+You may need to update them to reflect any changes in the Tags.**
+
+
+### 1.3.5
+- Fixed infinite loop when no overlay buttons are visible and the editor is shown.
+- Relaxed the rules so Profiles can support invalid namespaces that contain dashes.
+- 1.18.2 is considered stable now with the above **warning** in mind.
 
 <!-- latest end -->
 
 
 <!-- rest begin -->
+
+### 1.3.4
+- Fixed Auto Refill alert sounds on Forge when connected to Forge server.
+- Fixes Auto Refill causing exception storm in the logs when connected to Forge server.
+- Shiny new Russian translation thanks to @DrHesperus
 
 ### 1.3.3
 - Fixed Hotkey assignment on Forge

@@ -43,13 +43,11 @@ import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 
-private val Hintable?.isVisible: Boolean
-    get() {
-        if (this != null && this is Widget) return this.visible
-        return false
-    }
 
-private val SHIFT = MainKeybind("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
+
+
+
+
 
 class GUIDEEditorScreen(private val target: Screen,
                         private val container: Container,
@@ -61,6 +59,20 @@ class GUIDEEditorScreen(private val target: Screen,
         const val NAME_ROOT = "$TRANSLATE_ROOT.name"
         const val DESCRIPTION_ROOT = "$TRANSLATE_ROOT.description"
         const val CATEGORY_ROOT = "$TRANSLATE_ROOT.category"
+
+        private fun MutableList<Hintable>.whenAtLeastOneVisible(function: () -> Unit) {
+            if (this.find { it.isVisible } != null) {
+                function()
+            }
+        }
+
+        private val Hintable?.isVisible: Boolean
+            get() {
+                if (this != null && this is Widget) return this.visible
+                return false
+            }
+
+        val SHIFT = MainKeybind("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
     }
 
     private var selectedIndex: Int = 0
@@ -372,22 +384,24 @@ class GUIDEEditorScreen(private val target: Screen,
 
     private fun selectWidgets(forward: Boolean = true) {
         activeHintable?.underManagement = false
-        if (!forward) {
-            do {
-                selectedIndex--
-                if (selectedIndex <= 0) {
-                    selectedIndex = allHintable.size - 1
-                }
-                activeHintable = allHintable[selectedIndex]
-            } while (!activeHintable.isVisible)
-        } else {
-            do {
-                selectedIndex++
-                if (selectedIndex >= allHintable.size) {
-                    selectedIndex = 0
-                }
-                activeHintable = allHintable[selectedIndex]
-            } while (!activeHintable.isVisible)
+        allHintable.whenAtLeastOneVisible {
+            if (!forward) {
+                do {
+                    selectedIndex--
+                    if (selectedIndex <= 0) {
+                        selectedIndex = allHintable.size - 1
+                    }
+                    activeHintable = allHintable[selectedIndex]
+                } while (!activeHintable.isVisible)
+            } else {
+                do {
+                    selectedIndex++
+                    if (selectedIndex >= allHintable.size) {
+                        selectedIndex = 0
+                    }
+                    activeHintable = allHintable[selectedIndex]
+                } while (!activeHintable.isVisible)
+            }
         }
         activeHintable?.underManagement = true
     }
@@ -426,3 +440,5 @@ class GUIDEEditorScreen(private val target: Screen,
     }
 
 }
+
+
