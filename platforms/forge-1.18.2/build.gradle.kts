@@ -122,8 +122,8 @@ dependencies {
 //    runtimeOnly ( fg.deobf("curse.maven:architectury-forge-419699:3638627"))
 //    runtimeOnly ( fg.deobf("curse.maven:cloth-config-forge-348521:3641133"))
 //    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
-    runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
-    runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
+    //runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
+    //runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
 
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
