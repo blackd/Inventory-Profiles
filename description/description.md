@@ -62,12 +62,4 @@ If you're a Kotlin developer and want to contribute, please see [the source](htt
 
 This mod is distributed under [MIT license](https://github.com/blackd/Inventory-Profiles/blob/all-in-one/LICENSE)
 
-## Full change log
-
-<div class="spoiler">
-
-!include`snippetStart="<!-- rest begin -->", snippetEnd="<!-- rest end -->"` ../changelog.md
-
-</div>
-
 <p></p>
