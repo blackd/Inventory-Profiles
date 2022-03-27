@@ -7,7 +7,7 @@ import org.anti_ad.mc.common.math2d.Size
 /// Screen.kt
 
 var __glue_rScreenHeight: () -> Int = {
-    Log.error("__glue_rScreenHeight is not initialized!")
+    Log.glueError("__glue_rScreenHeight is not initialized!")
     400
 }
 val glue_rScreenHeight: Int
@@ -15,14 +15,14 @@ val glue_rScreenHeight: Int
 
 
 var __glue_rScreenWidth: () -> Int = {
-    Log.error("__glue_rScreenWidth is not initialized!")
+    Log.glueError("__glue_rScreenWidth is not initialized!")
     400
 }
 val glue_rScreenWidth: Int
-    get() = __glue_rScreenWidth.invoke()
+    get() = __glue_rScreenWidth()
 
 var __glue_rScreenSize: () -> Size = {
-    Log.error("__glue_rScreenSize is not initialized!")
+    Log.glueError("__glue_rScreenSize is not initialized!")
     Size(glue_rScreenWidth, glue_rScreenHeight)
 }
 val glue_rScreenSize: Size
@@ -37,12 +37,12 @@ fun __glue_rDepthMask__Default(bounds: Rectangle,
 var __glue_rDepthMask: (bounds: Rectangle,
                         block: () -> Unit) -> Unit =  { _: Rectangle,
                                                         block : () -> Unit ->
-    Log.error("__glue_rDepthMask is not initialized!")
+    Log.glueError("__glue_rDepthMask is not initialized!")
     block()
 }
 
 var __glue_rRenderDirtBackground: () -> Unit = {
-    Log.error("____glue_rRenderDirtBackground is not initialized!")
+    Log.glueError("____glue_rRenderDirtBackground is not initialized!")
 }
 
 fun rRenderDirtBackground() {
@@ -59,7 +59,7 @@ fun rRenderBlackOverlay() { // Screen.renderBackground
 }
 
 var __glue_VanillaUtil_inGame: () -> Boolean = {
-    Log.error("__glue_VanillaUtil_inGame is not initialized!")
+    Log.glueError("__glue_VanillaUtil_inGame is not initialized!")
     false
 }
 

@@ -14,8 +14,22 @@ import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
 import org.anti_ad.mc.ipnext.specific.initInfoManager
 
+var initGlueProc: (() -> Unit)? = ::initGlues;
+
+private fun initGlues() {
+    initGlueProc?.also {
+        renderInitTheGlue()
+        aliasInitGlue()
+        vanillaInitGlue()
+        widgetsInitGlue()
+        initGlueProc = null
+    }
+}
+
 @Suppress("unused")
 fun init() {
+
+    initGlues()
 
     ClientInitHandler.register {
 
@@ -23,10 +37,6 @@ fun init() {
         Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
         Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
 
-        renderInitTheGlue()
-        aliasInitGlue()
-        vanillaInitGlue()
-        widgetsInitGlue()
 
         // Keybind register
         InputHandler.onClientInit()

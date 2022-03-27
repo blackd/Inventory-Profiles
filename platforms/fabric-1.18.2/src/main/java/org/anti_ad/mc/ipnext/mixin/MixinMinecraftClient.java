@@ -5,6 +5,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerInventory;
+import org.anti_ad.mc.ipnext.InventoryProfilesKt;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
@@ -29,11 +30,17 @@ public abstract class MixinMinecraftClient {
 
     @Inject(at = @At("HEAD"), method = "tick()V")
     public void tick(CallbackInfo info) {
+        if (InventoryProfilesKt.getInitGlueProc() != null) {
+            InventoryProfilesKt.getInitGlueProc().invoke();
+        }
         ClientEventHandler.INSTANCE.onTickPre();
     }
 
     @Inject(at = @At("RETURN"), method = "tick()V")
     public void tick2(CallbackInfo info) {
+        if (InventoryProfilesKt.getInitGlueProc() != null) {
+            InventoryProfilesKt.getInitGlueProc().invoke();
+        }
         ClientEventHandler.INSTANCE.onTick();
     }
 

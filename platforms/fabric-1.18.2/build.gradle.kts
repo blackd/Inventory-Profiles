@@ -299,7 +299,6 @@ modrinth {
         mutableListOf(
             ModDependency("P7dR8mSH","required"),
             ModDependency("mOgUt4GM","optional")))
-
 }
 
 publishing {

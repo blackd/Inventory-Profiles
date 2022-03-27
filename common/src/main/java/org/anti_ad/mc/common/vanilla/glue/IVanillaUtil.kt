@@ -1,5 +1,6 @@
 package org.anti_ad.mc.common.vanilla.glue
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.input.KeybindSettings
 import java.io.File
 import java.net.URL
@@ -18,94 +19,117 @@ val Path.loggingPath
 
 object DummyVanillaUtil : IVanillaUtil {
     override fun isValidScreen(ctx: KeybindSettings.Context): Boolean {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun isOnClientThread(): Boolean {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun inGame(): Boolean {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun languageCode(): String {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun shiftDown(): Boolean {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun ctrlDown(): Boolean {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun altDown(): Boolean {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseX(): Int {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseY(): Int {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseXRaw(): Double {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseYRaw(): Double {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseXDouble(): Double {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseYDouble(): Double {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseScaleX(amount: Double): Double {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun mouseScaleY(amount: Double): Double {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun lastFrameDuration(): Float {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun configDirectory(): Path {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun configDirectory(modName: String): Path {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun getResourceAsString(identifier: String): String? {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun loggingString(path: Path): String {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun open(file: File) {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun open(url: URL) {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 
     override fun chat(message: Any) {
+        Log.glueError("VanillaUtil Not Initialized")
         TODO("Not yet implemented")
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
+import org.anti_ad.mc.ipnext.InventoryProfilesKt;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +30,9 @@ public abstract class MixinScreen {
     @SuppressWarnings("ConstantConditions")
     @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")
     public void init(MinecraftClient minecraftClient, int i, int j, CallbackInfo ci) {
+        if (InventoryProfilesKt.getInitGlueProc() != null) {
+            InventoryProfilesKt.getInitGlueProc().invoke();
+        }
         Screen self = (Screen) (Object) this;
         ScreenEventHandler.INSTANCE.onScreenInit(self, x -> {
             addSelectableChild(x);

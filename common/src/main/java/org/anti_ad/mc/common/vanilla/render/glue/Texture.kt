@@ -7,13 +7,13 @@ import org.anti_ad.mc.common.math2d.Corner.*
 var __glue_VANILLA_TEXTURE_WIDGETS: IdentifierHolder = IdentifierHolder(Any())
 
 var __glue_make_Identifier: (String, String) -> Any = { _: String, _: String ->
-    Log.error("__glue_make_Identifier not initialized! This hard breaks stuff!")
+    Log.glueError("__glue_make_Identifier not initialized! This hard breaks stuff!")
     throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
 }
 
 var __glue_rBlit: (x: Int, y: Int, w: Int, h: Int, sx: Int, sy: Int, sw: Int, sh: Int, tw: Int, th: Int) -> Unit = {
         _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int, _: Int ->
-    Log.error("__glue_rBlit not initialized! This hard breaks stuff!")
+    Log.glueError("__glue_rBlit not initialized! This hard breaks stuff!")
     throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
 }
 
@@ -21,7 +21,7 @@ var __glue_rDrawSprite: (sprite: Sprite,
                          tIndex: Int,
                          x: Int,
                          y: Int) -> Unit = { _: Sprite, _: Int, _: Int, _: Int ->
-    Log.error("__glue_rBlit not initialized! This hard breaks stuff!")
+    Log.glueError("__glue_rBlit not initialized! This hard breaks stuff!")
     throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
 }
 
@@ -29,12 +29,12 @@ var __glue_rDrawDynamicSizeSprite: (sprite: DynamicSizeSprite,
                                      bounds: Rectangle,
                                      mode: DynamicSizeMode)  -> Unit  =
     { _: DynamicSizeSprite, _: Rectangle, _: DynamicSizeMode ->
-        Log.error("__glue_rDrawDynamicSizeSprite not initialized! This hard breaks stuff!")
+        Log.glueError("__glue_rDrawDynamicSizeSprite not initialized! This hard breaks stuff!")
         throw UninitializedPropertyAccessException("__glue_make_Identifier not initialized! This hard breaks stuff!")
     }
 
 var __glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite: () -> Sprite = {
-    Log.error("__glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite not initialized! This hard breaks stuff!")
+    Log.glueError("__glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite not initialized! This hard breaks stuff!")
     throw UninitializedPropertyAccessException("__glue___glue_VANILLA_TEXTURE_WIDGETS_Sprite not initialized! This hard breaks stuff!")
 }
 
@@ -159,10 +159,8 @@ data class Sprite(val identifier: IdentifierHolder,
     fun down(amount: Int = 1) = down(amount.toDouble())
 }
 
-class DynamicSizeSprite(
-    private val sprite: Sprite,
-    centerBounds: Rectangle
-) {
+class DynamicSizeSprite(private val sprite: Sprite,
+                        centerBounds: Rectangle) {
     constructor(sprite: Sprite,
                 borderWidth: Int) : this(sprite,
                                          sprite.spriteBounds.inflated(-borderWidth))

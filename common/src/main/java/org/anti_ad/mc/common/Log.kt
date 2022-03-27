@@ -22,6 +22,8 @@ object Log {
               message)
     }
 
+    fun glueError(message: String) = error("$message -- NOTE --  This IS NOT IPN problem. Some other mod have changed the startup sequence and caused this. Exception that fallows may have information on which one.", Exception("Glue Error Trace"))
+
     fun warn(message: String) = innerLogger.warn("[$id] $message").also {
         onLog(WARN,
               message)

@@ -4,16 +4,16 @@ import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.math2d.Rectangle
 
 var __glue_Vanilla_textRenderer_getWidth: (String) -> Int = { _: String ->
-    Log.error("__glue_Vanilla_textRenderer_getWidth not initialized!")
+    Log.glueError("__glue_Vanilla_textRenderer_getWidth not initialized!")
     100
 }
 
 var __glue_Vanilla_textRenderer_drawWithShadow: (String, Double, Double, Int) -> Unit = {_: String, _: Double, _: Double, _: Int ->
-    Log.error("__glue_Vanilla_textRenderer_drawWithShadow not initialized!")
+    Log.glueError("__glue_Vanilla_textRenderer_drawWithShadow not initialized!")
 }
 
 var __glue_Vanilla_textRenderer_draw: (String, Double, Double, Int) -> Unit = {_: String, _: Double, _: Double, _: Int ->
-    Log.error("__glue_Vanilla_textRenderer_draw not initialized!")
+    Log.glueError("__glue_Vanilla_textRenderer_draw not initialized!")
 }
 
 fun rMeasureText(string: String): Int = __glue_Vanilla_textRenderer_getWidth(string)
@@ -61,7 +61,7 @@ fun rDrawCenteredText(string: String,
               shadow)
 }
 var __glue_Vanilla_textRenderer_textHandler_wrapLines: (String, Int) -> String = { s: String, _: Int ->
-    Log.error("glue__Vanilla_textRenderer_textHandler_wrapLines not initialized!")
+    Log.glueError("glue__Vanilla_textRenderer_textHandler_wrapLines not initialized!")
     s
 }
 

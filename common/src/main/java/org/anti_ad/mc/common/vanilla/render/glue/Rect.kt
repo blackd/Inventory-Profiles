@@ -15,14 +15,14 @@ var __glue_rFillRect: (x1: Int, y1: Int, x2: Int, y2: Int,
                                                x2: Int,
                                                y2: Int,
                                                color: Int ->
-    Log.error("__glue_rDepthMask is not initialized!")
+    Log.glueError("__glue_rDepthMask is not initialized!")
 }
 
 
 var __glue_dummyDrawableHelper_fillGradient: (i: Int, j: Int, k: Int,
                                               l: Int, m: Int, n: Int) -> Unit = { i: Int, j: Int, k: Int,
                                                                                   l: Int, m: Int, n: Int ->
-    Log.error("__glue_dummyDrawableHelper_fillGradient is not initialized!")
+    Log.glueError("__glue_dummyDrawableHelper_fillGradient is not initialized!")
 }
 
 // top to bottom

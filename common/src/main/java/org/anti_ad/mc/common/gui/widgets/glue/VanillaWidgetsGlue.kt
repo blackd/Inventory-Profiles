@@ -1,8 +1,10 @@
 package org.anti_ad.mc.common.gui.widgets.glue
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.gui.widgets.Widget
 
 var __glue_SliderWidgetContructor: (minValue: Double, maxValue: Double) -> ISliderWidget = { _: Double, _: Double ->
+    Log.glueError("SliderWidgetContructor Not Initialized!")
     TODO("Glue Not Initialized! Report an ISSUE")
 }
 
@@ -37,6 +39,7 @@ interface ISliderWidget: IBaseGlueWidget {
 }
 
 var __glue_TextFieldWidgetContructor: (height: Int) -> ITextFieldWidget = { _ ->
+    Log.glueError("TextFieldWidgetContructor Not Initialized!")
     TODO("Glue Not Initialized! Report an ISSUE")
 }
 
