@@ -11,7 +11,7 @@ val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.18.1"
 val mappings_version = "1.18.1+build.22"
-val loader_version = "0.12.8"
+val loader_version = "0.14.3"
 val modmenu_version = "3.0.0"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]
@@ -58,7 +58,7 @@ configure<JavaPluginExtension> {
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
-    jvmTarget = "16"
+    jvmTarget = "17"
 }
 
 repositories {
@@ -133,7 +133,7 @@ val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
     input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
-    addDefaultNestedDependencies.set(false)
+    //addDefaultNestedDependencies.set(false)
     //remapAccessWidener.set(true)
 }
 

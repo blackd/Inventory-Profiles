@@ -73,14 +73,14 @@ platformsCommonConfig()
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
-    jvmTarget = "16"
+    jvmTarget = "17"
 }
 
 group = "org.anti-ad.mc"

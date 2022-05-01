@@ -82,7 +82,7 @@ dependencies {
     implementation("com.guardsquare:proguard-gradle:7.1.1")
     minecraft("com.mojang:minecraft:1.16.5")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
-    modImplementation("net.fabricmc:fabric-loader:0.12.4")
+    modImplementation("net.fabricmc:fabric-loader:0.14.3")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.41.3+1.16")
     modImplementation("com.terraformersmc:modmenu:1.16.9")
 }

@@ -20,8 +20,8 @@ fun Project.configureCompilation(is18: Boolean = false) {
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
         } else {
-            sourceCompatibility = JavaVersion.VERSION_16
-            targetCompatibility = JavaVersion.VERSION_16
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
     }
 

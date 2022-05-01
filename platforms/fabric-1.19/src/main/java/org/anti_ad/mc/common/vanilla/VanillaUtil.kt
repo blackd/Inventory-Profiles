@@ -78,7 +78,7 @@ private object VanillaUtil : IVanillaUtil {
     override fun configDirectory(modName: String): Path = (configDirectory() / modName).apply { createDirectories() }
 
     override fun getResourceAsString(identifier: String): String? = tryCatch {
-        Vanilla.resourceManager().getResource(Identifier(identifier)).inputStream?.reader()?.readText()
+        Vanilla.resourceManager().getResource(Identifier(identifier)).get().inputStream?.reader()?.readText()
     }
 
     override fun loggingString(path: Path): String = // return ".minecraft/config/file.txt" etc

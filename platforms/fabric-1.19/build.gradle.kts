@@ -9,10 +9,10 @@ import com.modrinth.minotaur.dependencies.ModDependency
 val supported_minecraft_versions = listOf("1.19")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "22w12a"
-val mappings_version = "22w12a+build.2"
-val loader_version = "0.13.3"
-val modmenu_version = "3.0.1"
+val minecraft_version = "22w15a"
+val mappings_version = "22w15a+build.4"
+val loader_version = "0.14.3"
+val modmenu_version = "3.1.0"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
@@ -75,12 +75,16 @@ dependencies {
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
 
-    implementation("com.guardsquare:proguard-gradle:7.2.0-beta2")
+    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2")
+
+
+
+    implementation("com.guardsquare:proguard-gradle:7.2.1")
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
-    modCompileOnly("com.terraformersmc:modmenu:$modmenu_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.49.4+1.19")
+    modImplementation("com.terraformersmc:modmenu:$modmenu_version")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.50.1+1.19")
 
     //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 
@@ -125,17 +129,22 @@ val proguard by tasks.registering(ProGuardTask::class) {
     dependsOn(tasks["shadowJar"])
 }
 
+
+
 val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
     group = "fabric"
     val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
     val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
     dependsOn(proGuardTask)
+    //dependsOn("prepareRemapShadedJar")
     input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
-    addDefaultNestedDependencies.set(false)
+    //addDefaultNestedDependencies.set(false)
     //remapAccessWidener.set(true)
 }
+
+
 
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")
@@ -187,6 +196,14 @@ tasks.register<org.gradle.jvm.tasks.Jar>("packageSources") {
 }
 
 afterEvaluate {
+/*
+    val prepareJarRemapTask = tasks.named<net.fabricmc.loom.task.PrepareJarRemapTask>("PrepareJarRemapTask") {
+        val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
+        val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+        dependsOn(proGuardTask)
+        this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    }
+*/
     tasks.register<Copy>("injectCommonResources") {
         dependsOn(":common:processResources")
         from(project(":common").layout.buildDirectory.dir("resources/main"))
@@ -216,6 +233,14 @@ afterEvaluate {
         logger.lifecycle("will rename ${fabricRemapJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
     }
 
+    tasks.named<net.fabricmc.loom.task.PrepareJarRemapTask>("prepareRemapShadedJar") {
+        val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
+        val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+        dependsOn(proGuardTask)
+        this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+        dependsOn(proGuardTask)
+    }
+
 }
 
 tasks.named<DefaultTask>("build") {
@@ -224,6 +249,7 @@ tasks.named<DefaultTask>("build") {
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
 }
+
 
 
 // ============

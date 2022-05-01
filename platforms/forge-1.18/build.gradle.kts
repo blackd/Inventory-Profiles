@@ -82,7 +82,7 @@ java {
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
-    jvmTarget = "16"
+    jvmTarget = "17"
 }
 
 group = "org.anti-ad.mc"

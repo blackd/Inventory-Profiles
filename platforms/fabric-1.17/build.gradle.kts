@@ -10,7 +10,7 @@ val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.17.1"
 val mappings_version = "1.17.1+build.63"
-val loader_version = "0.12.4"
+val loader_version = "0.14.3"
 val modmenu_version = "2.0.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
@@ -47,19 +47,18 @@ configureCommon()
 platformsCommonConfig()
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
-    jvmTarget = "16"
+    jvmTarget = "17"
 }
 
-//this is here so we always compile for 1.8
 tasks.withType<JavaCompile> {
-    this.targetCompatibility = "16"
+    this.targetCompatibility = "17"
 }
 
 group = "org.anti-ad.mc"
@@ -121,7 +120,7 @@ val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
     input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
-    addDefaultNestedDependencies.set(false)
+    //addDefaultNestedDependencies.set(false)
     //remapAccessWidener.set(true)
 }
 

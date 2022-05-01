@@ -26,11 +26,11 @@ fun Project.configureDistribution(is18: Boolean) {
         //include("assets/**")
         //include("org/anti_ad/mc/**")
 
-        exclude("**/*.kotlin_metadata")
-        exclude("**/*.kotlin_module")
-        exclude("**/*.kotlin_builtins")
-        exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
-        exclude("**/*_ws$*.class")
+        //exclude("**/*.kotlin_metadata")
+        //exclude("**/*.kotlin_module")
+        //exclude("**/*.kotlin_builtins")
+        //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
+        //exclude("**/*_ws$*.class")
         exclude("**/*.stg")
         exclude("**/*.st")
         exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
