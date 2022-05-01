@@ -2,13 +2,13 @@ import org.anti_ad.mc.getGitHash
 import java.io.ByteArrayOutputStream
 
 
-
+/*
 buildscript {
     dependencies {
-        classpath("com.guardsquare:proguard-gradle:7.2.0-beta2")
+        classpath("com.guardsquare:proguard-gradle:7.2.1")
     }
 }
-
+ */
 
 val versionObj = Version("1", "3", "5",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
@@ -27,13 +27,18 @@ repositories {
 
 }
 
+
 plugins {
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.serialization") version "1.5.31"
+    `kotlin-dsl`
+    kotlin("jvm") version "1.6.21"
+    kotlin("plugin.serialization") version "1.6.21"
+
+
     idea
     `java-library`
     `maven-publish`
-    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
+    id("fabric-loom") version(loom_version) apply false
 }
 
 nexusPublishing {

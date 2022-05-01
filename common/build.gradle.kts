@@ -3,6 +3,8 @@ import org.anti_ad.mc.configureDependencies
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    kotlin("jvm") //version "1.6.21"
+    kotlin("plugin.serialization") //version "1.6.21"
     `java-library`
     `maven-publish`
     idea
@@ -22,10 +24,12 @@ dependencies {
     val antlrVersion = "4.9.3"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.10")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+
     "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",

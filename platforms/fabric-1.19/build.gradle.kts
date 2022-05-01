@@ -9,13 +9,19 @@ import com.modrinth.minotaur.dependencies.ModDependency
 val supported_minecraft_versions = listOf("1.19")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "22w15a"
-val mappings_version = "22w15a+build.4"
+val minecraft_version = "22w17a"
+val mappings_version = "22w17a+build.5"
 val loader_version = "0.14.3"
-val modmenu_version = "3.1.0"
+val modmenu_version = "4.0.0-beta.4"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
+
+buildscript {
+    dependencies {
+        classpath("com.guardsquare:proguard-gradle:7.2.1")
+    }
+}
 
 logger.lifecycle("""
     ***************************************************
@@ -24,22 +30,18 @@ logger.lifecycle("""
     loader: $mod_loader
     mod version: $mod_version
     building against MC: $minecraft_version
-    loom version: $loom_version_118
+    loom version: $loom_version
     ***************************************************
     """.trimIndent())
-/*
-configurations.all {
-    resolutionStrategy {
-        force ("net.fabricmc:sponge-mixin:0.10.1+mixin.0.8.4")
-    }
-}
-*/
+
 
 plugins {
+    kotlin("jvm") //version "1.6.21"
+    kotlin("plugin.serialization") //version "1.6.21"
     `java-library`
     `maven-publish`
     signing
-    id("fabric-loom").version(loom_version_118)
+    id("fabric-loom") //version(loom_version)
     antlr
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id("com.modrinth.minotaur") version "2.0.0"
@@ -57,8 +59,8 @@ configure<JavaPluginExtension> {
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "16"
+    languageVersion = "1.6"
+    jvmTarget = "17"
 }
 
 repositories {
@@ -70,21 +72,20 @@ repositories {
     }
 }
 
+
+
 dependencies {
     "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2")
-
-
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
 
     implementation("com.guardsquare:proguard-gradle:7.2.1")
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.50.1+1.19")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.51.3+1.19")
 
     //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 
