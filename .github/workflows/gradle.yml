@@ -47,8 +47,10 @@ jobs:
       run: chmod +x gradlew
     - name: Grant execute permission for optimize-jar.sh
       run: chmod +x optimize-jar.sh
+    - name: Grant execute permission for do-build.sh
+      run: chmod +x optimize-jar.sh
     - name: Build with Gradle
-      run: ./gradlew clean build; exit 0
+      run: ./do-build.sh
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v2
       with:
