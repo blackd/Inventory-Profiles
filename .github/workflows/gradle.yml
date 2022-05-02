@@ -48,7 +48,7 @@ jobs:
     - name: Grant execute permission for optimize-jar.sh
       run: chmod +x optimize-jar.sh
     - name: Build with Gradle
-      run: ./gradlew clean build
+      run: ./gradlew clean build  && exit 0
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v2
       with:
