@@ -1,9 +1,9 @@
 #!/bin/bash
 
-./gradlew --no-daemon --no-parallel --max-workers 1 -S  --foreground build &
+./gradlew --no-daemon --no-parallel --max-workers 1 -S build &
 
 wait $(jobs -p)
 
-./gradlew --no-daemon --no-parallel --max-workers 1 -S  --foreground build &
+./gradlew --no-daemon --no-parallel --max-workers 1 -S  build &
 
 exit 0
