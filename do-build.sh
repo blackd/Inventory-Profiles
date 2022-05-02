@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./gradlew clean build &
+./gradlew --no-daemon --no-parallel --max-workers 2 -S clean build &
 
 wait $(jobs -p)
 
