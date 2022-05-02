@@ -1,11 +1,11 @@
 package org.anti_ad.mc.common.gui.widgets
 
+import net.minecraft.text.Text
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
 import org.anti_ad.mc.common.gui.widgets.glue.ITextFieldWidget
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.MathHelper
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.TextRenderer
@@ -33,9 +33,9 @@ open class VanillaWidget<T : ClickableWidget>(val vanilla: T) : Widget() {
     }
 
     var vanillaMessage: String
-        get() = vanilla.message.asString()
+        get() = vanilla.message.string
         set(value) {
-            vanilla.message = LiteralText(value)
+            vanilla.message = Text.literal(value)
         }
 
     override fun render(mouseX: Int,
@@ -130,7 +130,7 @@ private class CustomVanillaSliderWidget(val minValue: Double,
                                                                                     0,
                                                                                     0,
                                                                                     20,
-                                                                                    LiteralText(""),
+                                                                                    Text.literal(""),
                                                                                     0.5) {
 
     var valueChangedEvent: () -> Unit = { }
@@ -216,7 +216,7 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer,
                            j,
                            k,
                            l,
-                           LiteralText(string)) {
+                           Text.literal(string)) {
     public override fun setFocused(bl: Boolean) {
         super.setFocused(bl)
     }

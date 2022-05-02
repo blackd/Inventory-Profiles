@@ -43,6 +43,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT")
+        classpath("com.guardsquare:proguard-gradle:7.2.1")
     }
 }
 
@@ -59,24 +60,27 @@ apply(plugin = "org.spongepowered.mixin")
 
 
 plugins {
+    kotlin("jvm")
+    kotlin("plugin.serialization")
     java
     `maven-publish`
     signing
-    id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.modrinth.minotaur") version "2.+"
+    id("com.matthewprenger.cursegradle")
+    id("com.modrinth.minotaur")
+    id("com.github.johnrengelman.shadow")
 }
 
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "1.8"
+    languageVersion = "1.6"
+    jvmTarget = "17"
 }
 
 
@@ -97,6 +101,7 @@ dependencies {
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+    implementation("com.guardsquare:proguard-gradle:7.2.1")
 }
 
 afterEvaluate {
@@ -135,6 +140,45 @@ tasks.jar {
     dependsOn("copyMixinMappings")
 }
 
+tasks.named<ShadowJar>("shadowJar") {
+
+    configurations = listOf(project.configurations["shaded"])
+
+    archiveClassifier.set("shaded")
+    setVersion(project.version)
+
+    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    relocate("kotlin", "org.anti_ad.embedded.kotlin")
+    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    //include("assets/**")
+    //include("org/anti_ad/mc/**")
+
+    exclude("META-INF/**")
+    exclude("**/*.kotlin_metadata")
+    exclude("**/*.kotlin_module")
+    exclude("**/*.kotlin_builtins")
+    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
+    //exclude("**/*_ws$*.class")
+    exclude("**/*.stg")
+    exclude("**/*.st")
+    exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("com/ibm/**")
+    exclude("org/glassfish/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
+    exclude("org/jline/**")
+    exclude("net/minecraftforge/**")
+    exclude("io/netty/**")
+    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("META-INF/maven/**")
+    exclude("META-INF/LICENSE")
+    exclude("META-INF/README")
+
+    minimize()
+}
+
+
 tasks.register<Copy>("copyProGuardJar") {
     val shadow = tasks.getByName<ShadowJar>("shadowJar");
     val fromJarName = shadow.archiveBaseName.get()
@@ -165,7 +209,6 @@ val proguard by tasks.registering(ProGuardTask::class) {
         project.layout.buildDirectory.file("proguard/mappings.map")
     }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
-
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
     val inName = fabricRemapJar.archiveFileName.get().replace("-shaded", "")
     val outName = fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard")

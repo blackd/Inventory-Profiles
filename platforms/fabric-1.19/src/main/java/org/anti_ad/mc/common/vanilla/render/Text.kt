@@ -3,8 +3,8 @@
 package org.anti_ad.mc.common.vanilla.render
 
 import net.minecraft.text.Style
+import net.minecraft.text.Text
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_draw
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_drawWithShadow
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_getWidth
@@ -13,7 +13,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.__glue_Vanilla_textRenderer_tex
 fun initTextGlue() {
     __glue_Vanilla_textRenderer_textHandler_wrapLines = { s: String, i: Int ->
         // wrapStringToWidth() = wrapLines() // trimToWidth() is not!!!!!!!!!!
-        Vanilla.textRenderer().textHandler.wrapLines(LiteralText(s),
+        Vanilla.textRenderer().textHandler.wrapLines(Text.literal(s),
                                                      i,
                                                      Style.EMPTY).joinToString("\n") { it.string }
     }

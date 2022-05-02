@@ -11,8 +11,9 @@ val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "22w17a"
 val mappings_version = "22w17a+build.5"
-val loader_version = "0.14.3"
+val loader_version = "0.14.4"
 val modmenu_version = "4.0.0-beta.4"
+val fabric_api_version = "0.52.0+1.19"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
@@ -31,6 +32,7 @@ logger.lifecycle("""
     mod version: $mod_version
     building against MC: $minecraft_version
     loom version: $loom_version
+    fabric api version: $fabric_api_version
     ***************************************************
     """.trimIndent())
 
@@ -43,8 +45,9 @@ plugins {
     signing
     id("fabric-loom") //version(loom_version)
     antlr
-    id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.modrinth.minotaur") version "2.0.0"
+    id("com.matthewprenger.cursegradle") //version "1.4.0"
+    id("com.modrinth.minotaur") //version "2.0.0"
+    id("com.github.johnrengelman.shadow")
 }
 
 configureCommon()
@@ -85,7 +88,8 @@ dependencies {
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.51.3+1.19")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
+    implementation("gradle.plugin.com.github.johnrengelman:shadow:7.1.2")
 
     //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 
@@ -107,6 +111,45 @@ afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
     }
+}
+
+
+tasks.named<ShadowJar>("shadowJar") {
+
+    configurations = listOf(project.configurations["shaded"])
+
+    archiveClassifier.set("shaded")
+    setVersion(project.version)
+
+    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    relocate("kotlin", "org.anti_ad.embedded.kotlin")
+    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    //include("assets/**")
+    //include("org/anti_ad/mc/**")
+
+    exclude("META-INF/**")
+    exclude("**/*.kotlin_metadata")
+    exclude("**/*.kotlin_module")
+    exclude("**/*.kotlin_builtins")
+    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
+    //exclude("**/*_ws$*.class")
+    exclude("**/*.stg")
+    exclude("**/*.st")
+    exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("com/ibm/**")
+    exclude("org/glassfish/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
+    exclude("org/jline/**")
+    exclude("net/minecraftforge/**")
+    exclude("io/netty/**")
+    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("META-INF/maven/**")
+    exclude("META-INF/LICENSE")
+    exclude("META-INF/README")
+
+    minimize()
 }
 
 val proguard by tasks.registering(ProGuardTask::class) {

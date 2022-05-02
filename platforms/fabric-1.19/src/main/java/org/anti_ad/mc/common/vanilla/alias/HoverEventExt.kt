@@ -6,4 +6,4 @@ import net.minecraft.text.HoverEvent
 // direct usage of HoverEventAction.SHOW_TEXT in
 // .withHoverEvent(HoverEvent(HoverEventAction.SHOW_TEXT
 
-fun createHoverEventText(text: String): HoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, LiteralText(text))
+fun createHoverEventText(text: String): HoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal(text))

@@ -12,6 +12,11 @@ val minecraft_version = "1.16.5"
 val mappings_version = "1.16.5+build.9"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
+buildscript {
+    dependencies {
+        classpath("com.guardsquare:proguard-gradle:7.2.1")
+    }
+}
 
 logger.lifecycle("""
     ***************************************************
@@ -20,29 +25,24 @@ logger.lifecycle("""
     loader: $mod_loader
     mod version: $mod_version
     building against MC: $minecraft_version
-    loom version:     $loom_version_116
+    loom version:     $loom_version
     ***************************************************
     """.trimIndent())
-
-/*
-configurations.all {
-    resolutionStrategy {
-        force("net.fabricmc:sponge-mixin:0.8.2+build.23")
-    }
-}
-*/
 
 
 
 plugins {
+    kotlin("jvm")
+    kotlin("plugin.serialization")
     `java-library`
-    id("fabric-loom").version(loom_version_116)
+    id("fabric-loom")
     `maven-publish`
     signing
     antlr
-    id("com.matthewprenger.cursegradle") version "1.4.0"
-    //id("com.modrinth.minotaur") version "1.2.1"
-    id("com.modrinth.minotaur") version "2.0.0"
+    id("com.matthewprenger.cursegradle")
+    id("com.modrinth.minotaur")
+    id("com.github.johnrengelman.shadow")
+
 }
 
 configureCommon(true)
@@ -51,26 +51,21 @@ configureCommon(true)
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "1.8"
+    languageVersion = "1.6"
+    jvmTarget = "17"
 }
 
 //this is here so we always compile for 1.8
 tasks.withType<JavaCompile> {
-    this.targetCompatibility = "1.8"
+    this.targetCompatibility = "17"
 }
 
 group = "org.anti-ad.mc"
-
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
 
 dependencies {
     "shadedApi"(project(":common"))
@@ -79,12 +74,13 @@ dependencies {
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
 
-    implementation("com.guardsquare:proguard-gradle:7.1.1")
+    implementation("com.guardsquare:proguard-gradle:7.2.1")
     minecraft("com.mojang:minecraft:1.16.5")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:0.14.3")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.41.3+1.16")
     modImplementation("com.terraformersmc:modmenu:1.16.9")
+    implementation("com.guardsquare:proguard-gradle:7.2.1")
 }
 
 
@@ -101,6 +97,45 @@ afterEvaluate {
         this.java.srcDirs("./src/shared/java")
     }
 }
+
+tasks.named<ShadowJar>("shadowJar") {
+
+    configurations = listOf(project.configurations["shaded"])
+
+    archiveClassifier.set("shaded")
+    setVersion(project.version)
+
+    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    relocate("kotlin", "org.anti_ad.embedded.kotlin")
+    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    //include("assets/**")
+    //include("org/anti_ad/mc/**")
+
+    exclude("META-INF/**")
+    exclude("**/*.kotlin_metadata")
+    exclude("**/*.kotlin_module")
+    exclude("**/*.kotlin_builtins")
+    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
+    //exclude("**/*_ws$*.class")
+    exclude("**/*.stg")
+    exclude("**/*.st")
+    exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("com/ibm/**")
+    exclude("org/glassfish/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
+    exclude("org/jline/**")
+    exclude("net/minecraftforge/**")
+    exclude("io/netty/**")
+    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("META-INF/maven/**")
+    exclude("META-INF/LICENSE")
+    exclude("META-INF/README")
+
+    minimize()
+}
+
 
 val proguard by tasks.registering(ProGuardTask::class) {
 
@@ -215,6 +250,13 @@ afterEvaluate {
         logger.lifecycle("will rename ${fabricRemapJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
     }
 
+    tasks.named<net.fabricmc.loom.task.PrepareJarRemapTask>("prepareRemapShadedJar") {
+        val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
+        val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+        dependsOn(proGuardTask)
+        this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+        dependsOn(proGuardTask)
+    }
 }
 
 tasks.named<DefaultTask>("build") {

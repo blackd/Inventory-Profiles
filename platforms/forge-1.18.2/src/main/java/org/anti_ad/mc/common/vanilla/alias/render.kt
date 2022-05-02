@@ -40,3 +40,7 @@ typealias Style = Style
 typealias ClickEvent = ClickEvent
 typealias ClickEventAction = ClickEvent.Action
 typealias Formatting = ChatFormatting
+
+fun getTranslatable(s: String, vararg args: Any): Text = TranslatableText(s, args)
+
+fun getLiteral(s: String): Text = LiteralText(s)

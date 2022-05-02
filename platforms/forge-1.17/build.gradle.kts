@@ -42,6 +42,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.1.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
+        classpath("com.guardsquare:proguard-gradle:7.2.1")
     }
 }
 
@@ -60,12 +61,15 @@ apply(plugin = "org.spongepowered.mixin")
 
 
 plugins {
+    kotlin("jvm")
+    kotlin("plugin.serialization")
     java
     idea
     `maven-publish`
     signing
-    id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.modrinth.minotaur") version "2.+"
+    id("com.matthewprenger.cursegradle")
+    id("com.modrinth.minotaur")
+    id("com.github.johnrengelman.shadow")
 }
 
 configureCommon()
@@ -112,6 +116,7 @@ dependencies {
     "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+    implementation("com.guardsquare:proguard-gradle:7.2.1")
 
     runtimeOnly ( fg.deobf("curse.maven:nekoration-508028:3579060"))
 }
@@ -152,6 +157,45 @@ tasks.jar {
     }
     dependsOn("copyMixinMappings")
 }
+
+tasks.named<ShadowJar>("shadowJar") {
+
+    configurations = listOf(project.configurations["shaded"])
+
+    archiveClassifier.set("shaded")
+    setVersion(project.version)
+
+    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    relocate("kotlin", "org.anti_ad.embedded.kotlin")
+    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    //include("assets/**")
+    //include("org/anti_ad/mc/**")
+
+    exclude("META-INF/**")
+    exclude("**/*.kotlin_metadata")
+    exclude("**/*.kotlin_module")
+    exclude("**/*.kotlin_builtins")
+    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
+    //exclude("**/*_ws$*.class")
+    exclude("**/*.stg")
+    exclude("**/*.st")
+    exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("com/ibm/**")
+    exclude("org/glassfish/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
+    exclude("org/jline/**")
+    exclude("net/minecraftforge/**")
+    exclude("io/netty/**")
+    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("META-INF/maven/**")
+    exclude("META-INF/LICENSE")
+    exclude("META-INF/README")
+
+    minimize()
+}
+
 
 tasks.register<Copy>("copyProGuardJar") {
 

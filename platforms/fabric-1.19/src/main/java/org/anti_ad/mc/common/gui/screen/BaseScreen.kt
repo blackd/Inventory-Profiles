@@ -5,7 +5,6 @@ import org.anti_ad.mc.common.gui.widgets.RootWidget
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.openScreenNullable
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
@@ -21,7 +20,7 @@ import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 // ============
 
 abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
-    constructor() : this(LiteralText(""))
+    constructor() : this(Text.literal(""))
 
     var isClosing: Boolean = false
 

@@ -11,9 +11,10 @@ import org.anti_ad.mc.common.profiles.conifg.ProfileSlotId
 import org.anti_ad.mc.common.profiles.conifg.fromEnchantmentLevel
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.AbstractNbtList
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.common.vanilla.alias.NbtString
+import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.alias.getLiteral
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -102,7 +103,7 @@ object ProfileSwitchHandler: IInputHandler {
     private fun applyProfile() {
         //Vanilla.inGameHud().setSubtitle(LiteralText(targetProfile.name))
         if (GuiSettings.ENABLE_PROFILES_ANNOUNCEMENT.booleanValue) {
-            Vanilla.inGameHud().setOverlayMessage(LiteralText(targetProfile.name), false)
+            Vanilla.inGameHud().setOverlayMessage(getLiteral(targetProfile.name), false)
         }
         var sourceSlots = allSlots
         val clicks = mutableListOf<Pair<Int, Int>>()

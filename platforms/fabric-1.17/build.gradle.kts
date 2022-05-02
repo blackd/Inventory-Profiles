@@ -14,6 +14,11 @@ val loader_version = "0.14.3"
 val modmenu_version = "2.0.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
+buildscript {
+    dependencies {
+        classpath("com.guardsquare:proguard-gradle:7.2.1")
+    }
+}
 
 logger.lifecycle("""
     ***************************************************
@@ -22,25 +27,21 @@ logger.lifecycle("""
     loader: $mod_loader
     mod version: $mod_version
     building against MC: $minecraft_version
-    loom version: $loom_version_117
+    loom version: $loom_version
     ***************************************************
     """.trimIndent())
-/*
-configurations.all {
-    resolutionStrategy {
-        force ("net.fabricmc:sponge-mixin:0.10.1+mixin.0.8.4")
-    }
-}
-*/
 
 plugins {
+    kotlin("jvm")
+    kotlin("plugin.serialization")
     `java-library`
     `maven-publish`
     signing
-    id("fabric-loom").version(loom_version_117)
+    id("fabric-loom")
     antlr
-    id("com.matthewprenger.cursegradle") version "1.4.0"
-    id("com.modrinth.minotaur") version "2.0.0"
+    id("com.matthewprenger.cursegradle")
+    id("com.modrinth.minotaur")
+    id("com.github.johnrengelman.shadow")
 }
 
 configureCommon()
@@ -90,6 +91,43 @@ afterEvaluate {
     }
 }
 
+tasks.named<ShadowJar>("shadowJar") {
+
+    configurations = listOf(project.configurations["shaded"])
+
+    archiveClassifier.set("shaded")
+    setVersion(project.version)
+
+    relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    relocate("kotlin", "org.anti_ad.embedded.kotlin")
+    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    //include("assets/**")
+    //include("org/anti_ad/mc/**")
+
+    exclude("META-INF/**")
+    exclude("**/*.kotlin_metadata")
+    exclude("**/*.kotlin_module")
+    exclude("**/*.kotlin_builtins")
+    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
+    //exclude("**/*_ws$*.class")
+    exclude("**/*.stg")
+    exclude("**/*.st")
+    exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("com/ibm/**")
+    exclude("org/glassfish/**")
+    exclude("org/intellij/**")
+    exclude("org/jetbrains/**")
+    exclude("org/jline/**")
+    exclude("net/minecraftforge/**")
+    exclude("io/netty/**")
+    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
+    exclude("META-INF/maven/**")
+    exclude("META-INF/LICENSE")
+    exclude("META-INF/README")
+
+    minimize()
+}
 
 val proguard by tasks.registering(ProGuardTask::class) {
 
@@ -201,6 +239,14 @@ afterEvaluate {
         }
 
         logger.lifecycle("will rename ${fabricRemapJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
+    }
+
+    tasks.named<net.fabricmc.loom.task.PrepareJarRemapTask>("prepareRemapShadedJar") {
+        val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
+        val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+        dependsOn(proGuardTask)
+        this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+        dependsOn(proGuardTask)
     }
 
 }

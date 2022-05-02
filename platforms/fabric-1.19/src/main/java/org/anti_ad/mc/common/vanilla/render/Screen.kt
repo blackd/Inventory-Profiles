@@ -1,9 +1,9 @@
 package org.anti_ad.mc.common.vanilla.render
 
+import net.minecraft.text.Text
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_VanillaUtil_inGame
@@ -22,11 +22,7 @@ private val rScreenSize
                  rScreenHeight)
 
 
-private val dummyScreen = object : Screen(
-    LiteralText(
-        ""
-    )
-) {}
+private val dummyScreen = object : Screen(Text.literal("")) {}
 
 
 fun initScreenGlue() {

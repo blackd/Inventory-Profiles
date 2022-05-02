@@ -6,7 +6,6 @@ import org.anti_ad.mc.common.extensions.pathFrom
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.alias.Identifier
-import org.anti_ad.mc.common.vanilla.alias.LiteralText
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.Util
@@ -103,7 +102,7 @@ private object VanillaUtil : IVanillaUtil {
 
     override fun isValidScreen(ctx: KeybindSettings.Context) = ctx.isValid(Vanilla.screen())
 
-    override fun chat(message: Any) = Vanilla.chatHud().addMessage(if (message is Text) message else LiteralText(message.toString()))
+    override fun chat(message: Any) = Vanilla.chatHud().addMessage(if (message is Text) message else Text.literal(message.toString()))
 }
 
 private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {
