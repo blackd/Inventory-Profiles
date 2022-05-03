@@ -8,4 +8,6 @@ for i in $PROJ; do
   cd ../../
 done
 
+./gradlew --no-daemon --no-parallel --max-workers 1 -S --build-cache build
+
 exit 0
