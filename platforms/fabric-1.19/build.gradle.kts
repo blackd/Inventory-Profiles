@@ -301,10 +301,8 @@ tasks.named<DefaultTask>("build") {
 // ============
 
 
-
 configure<com.matthewprenger.cursegradle.CurseExtension> {
-
-    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE_DISABLED") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
@@ -346,8 +344,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 
 
 modrinth {
-
-    if (System.getenv("IPNEXT_RELEASE") != null) {
+    if (System.getenv("IPNEXT_RELEASE_DISABLED") != null) {
         token.set(System.getenv("MODRINTH_TOKEN"))
     }
 
@@ -358,17 +355,17 @@ modrinth {
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions)
     logger.lifecycle("""
-        +*************************************************+
-        Will release ${remappedJarFile.get().asFile.path}
-        +*************************************************+
+    +*************************************************+
+    Will release ${remappedJarFile.get().asFile.path}
+    +*************************************************+
     """.trimIndent())
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
     dependencies.set(
         mutableListOf(
-            ModDependency("P7dR8mSH","required"),
-            ModDependency("mOgUt4GM","optional")))
+            ModDependency("P7dR8mSH", "required"),
+            ModDependency("mOgUt4GM", "optional")))
 }
 
 publishing {
@@ -391,8 +388,8 @@ publishing {
                 url.set("https://inventory-profiles-next.github.io/")
                 this.name.set("Inventory Profiles Next")
                 description.set("""
-                    Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
-                """.trimIndent())
+                Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
+            """.trimIndent())
                 scm {
                     val connectionURL = "scm:git:https://github.com/blackd/Inventory-Profiles"
                     connection.set(connectionURL)
@@ -430,6 +427,7 @@ publishing {
         }
     }
 }
+
 
 val hasSigningKey = project.hasProperty("signingKeyId") || project.hasProperty("signingKey")
 if(hasSigningKey) {

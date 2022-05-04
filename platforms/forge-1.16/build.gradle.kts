@@ -256,6 +256,7 @@ fun dummyJar(thisJarNam: String, fromJarNam: String) = tasks.creating(Jar::class
 tasks.named<ShadowJar>("shadowJar") {
     archiveBaseName.set(tasks.getByName<Jar>("jar").archiveBaseName.orNull) // Pain. Agony, even.
     archiveClassifier.set("") // Suffering, if you will.
+    dependsOn("copyMixinMappings")
     //finalizedBy(tasks["customJar"])
 }
 

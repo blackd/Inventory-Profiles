@@ -1,5 +1,11 @@
 <!-- latest begin -->
 
+### 1.3.6
+- Addressed a very rare issue that causes random game crash due to some mods changing the game startup sequence.
+
+
+<!-- latest end -->
+
 ## Warning.
 **Due to changes in 1.18.2 existing custom sort rules that use Tags might behave differently or not work at all.
 You may need to update them to reflect any changes in the Tags.**
@@ -10,7 +16,7 @@ You may need to update them to reflect any changes in the Tags.**
 - Relaxed the rules so Profiles can support invalid namespaces that contain dashes.
 - 1.18.2 is considered stable now with the above **warning** in mind.
 
-<!-- latest end -->
+
 
 
 <!-- rest begin -->
