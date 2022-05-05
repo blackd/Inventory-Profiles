@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
@@ -7,7 +6,7 @@ import org.anti_ad.mc.configureCommon
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.16.5")
+val supported_minecraft_versions = listOf("1.16.2", "1.16.3", "1.16.4", "1.16.5")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.16.5"
@@ -73,18 +72,18 @@ plugins {
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.6"
-    jvmTarget = "17"
+    jvmTarget = "1.8"
 }
 
 
-group = "org.anti0ad.mc"
+group = "org.anti-ad.mc"
 
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
@@ -100,8 +99,8 @@ dependencies {
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
+
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
-    implementation("com.guardsquare:proguard-gradle:7.2.1")
 }
 
 afterEvaluate {
@@ -121,6 +120,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
 
 
 tasks.register<Copy>("copyMixinMappings") {
+    dependsOn("compileJava")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
     from(inName)
@@ -151,10 +151,9 @@ tasks.named<ShadowJar>("shadowJar") {
     relocate("kotlin", "org.anti_ad.embedded.kotlin")
     relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
 
-    //include("assets/**")
     //include("org/anti_ad/mc/**")
 
-    exclude("META-INF/**")
+    //exclude("META-INF/**")
     exclude("**/*.kotlin_metadata")
     exclude("**/*.kotlin_module")
     exclude("**/*.kotlin_builtins")
@@ -172,10 +171,14 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("io/netty/**")
     //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
+    exclude("META-INF/com.android.tools/**")
+    exclude("META-INF/proguard/**")
+    exclude("META-INF/services/**")
     exclude("META-INF/LICENSE")
     exclude("META-INF/README")
-
     minimize()
+
+    dependsOn("copyMixinMappings")
 }
 
 

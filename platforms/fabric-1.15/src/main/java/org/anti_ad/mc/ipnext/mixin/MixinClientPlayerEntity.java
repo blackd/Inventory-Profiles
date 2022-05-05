@@ -28,7 +28,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
         // client = null; // ...what?
     }
 
-    @Inject(at = @At("HEAD"), method = "closeHandledScreen()V")
+    @Inject(at = @At("HEAD"), method = "closeContainer()V")
     public void closeContainer(CallbackInfo info) {
         // if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()) {
         //   SorterEventPort.handleCloseContainer(this.client);

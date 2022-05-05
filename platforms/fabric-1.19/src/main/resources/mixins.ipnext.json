@@ -9,7 +9,6 @@
         "IMixinContainerScreen",
         "IMixinKeyBinding",
         "IMixinSlot",
-        "MixinClientPlayerEntity",
         "MixinClientPlayNetworkHandler",
         "MixinContainerScreen",
         "MixinCraftingResultSlot",

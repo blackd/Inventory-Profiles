@@ -110,14 +110,13 @@ val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyMa
 dependencies {
     "shadedApi"(project(":common"))
 
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
-
-    //"implementation"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-    //"implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
+    //"implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
 
 //    runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3597547"))
 //    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
@@ -151,6 +150,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
 
 
 tasks.register<Copy>("copyMixinMappings") {
+    dependsOn("compileJava")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
     from(inName)
@@ -181,10 +181,9 @@ tasks.named<ShadowJar>("shadowJar") {
     relocate("kotlin", "org.anti_ad.embedded.kotlin")
     relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
 
-    //include("assets/**")
     //include("org/anti_ad/mc/**")
 
-    exclude("META-INF/**")
+
     exclude("**/*.kotlin_metadata")
     exclude("**/*.kotlin_module")
     exclude("**/*.kotlin_builtins")
@@ -202,6 +201,9 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("io/netty/**")
     //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
+    exclude("META-INF/com.android.tools/**")
+    exclude("META-INF/proguard/**")
+    exclude("META-INF/services/**")
     exclude("META-INF/LICENSE")
     exclude("META-INF/README")
 

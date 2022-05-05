@@ -51,36 +51,35 @@ configureCommon(true)
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.6"
-    jvmTarget = "17"
+    jvmTarget = "1.8"
 }
 
 //this is here so we always compile for 1.8
 tasks.withType<JavaCompile> {
-    this.targetCompatibility = "17"
+    this.targetCompatibility = "1.8"
+    this.sourceCompatibility = "1.8"
 }
 
 group = "org.anti-ad.mc"
 
 dependencies {
     "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
-    implementation("com.guardsquare:proguard-gradle:7.2.1")
     minecraft("com.mojang:minecraft:1.16.5")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:0.14.3")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.41.3+1.16")
     modImplementation("com.terraformersmc:modmenu:1.16.9")
-    implementation("com.guardsquare:proguard-gradle:7.2.1")
 }
 
 
@@ -143,6 +142,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
     printmapping {
         project.layout.buildDirectory.file("proguard/mappings.map")
     }
+
 
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()

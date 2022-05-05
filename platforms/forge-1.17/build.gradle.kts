@@ -8,7 +8,7 @@ import org.anti_ad.mc.platformsCommonConfig
 import proguard.gradle.ProGuardTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val supported_minecraft_versions = listOf("1.17.1")
+val supported_minecraft_versions = listOf("1.17", "1.17.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.17.1"
@@ -106,17 +106,15 @@ val fg: net.minecraftforge.gradle.userdev.DependencyManagementExtension = projec
 dependencies {
     "shadedApi"(project(":common"))
 
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
-
-    //"implementation"("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-    //"implementation"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
     "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    "implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
+    //"implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
     "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
     "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
-    implementation("com.guardsquare:proguard-gradle:7.2.1")
 
     runtimeOnly ( fg.deobf("curse.maven:nekoration-508028:3579060"))
 }
@@ -139,6 +137,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
 
 
 tasks.register<Copy>("copyMixinMappings") {
+    dependsOn("compileJava")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
     from(inName)
@@ -169,10 +168,8 @@ tasks.named<ShadowJar>("shadowJar") {
     relocate("kotlin", "org.anti_ad.embedded.kotlin")
     relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
 
-    //include("assets/**")
     //include("org/anti_ad/mc/**")
 
-    exclude("META-INF/**")
     exclude("**/*.kotlin_metadata")
     exclude("**/*.kotlin_module")
     exclude("**/*.kotlin_builtins")
@@ -190,6 +187,9 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("io/netty/**")
     //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
+    exclude("META-INF/com.android.tools/**")
+    exclude("META-INF/proguard/**")
+    exclude("META-INF/services/**")
     exclude("META-INF/LICENSE")
     exclude("META-INF/README")
 
@@ -212,9 +212,7 @@ tasks.register<Copy>("copyProGuardJar") {
         ******************************
         
     """.trimIndent())
-    from(
-        inName
-        )
+    from(inName)
     rename {
         outName
     }

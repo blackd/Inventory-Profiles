@@ -9,11 +9,11 @@ import com.modrinth.minotaur.dependencies.ModDependency
 val supported_minecraft_versions = listOf("1.19")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "22w17a"
-val mappings_version = "22w17a+build.5"
+val minecraft_version = "22w18a"
+val mappings_version = "22w18a+build.3"
 val loader_version = "0.14.4"
 val modmenu_version = "4.0.0-beta.4"
-val fabric_api_version = "0.52.0+1.19"
+val fabric_api_version = "0.52.1+1.19"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
@@ -81,15 +81,14 @@ dependencies {
     "shadedApi"(project(":common"))
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
-    implementation("com.guardsquare:proguard-gradle:7.2.1")
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
-    implementation("gradle.plugin.com.github.johnrengelman:shadow:7.1.2")
 
     //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 

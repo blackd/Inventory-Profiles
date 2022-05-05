@@ -48,18 +48,19 @@ configureCommon()
 platformsCommonConfig()
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
-    jvmTarget = "17"
+    jvmTarget = "16"
 }
 
 tasks.withType<JavaCompile> {
-    this.targetCompatibility = "17"
+    this.targetCompatibility = "16"
+    this.sourceCompatibility = "16"
 }
 
 group = "org.anti-ad.mc"
@@ -67,14 +68,18 @@ group = "org.anti-ad.mc"
 
 dependencies {
     "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
-    implementation("com.guardsquare:proguard-gradle:7.1.1")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.40.1+1.17")
+
+
     modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:6.3.358")
 }
 

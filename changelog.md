@@ -2,7 +2,7 @@
 
 ### 1.3.6
 - Addressed a very rare issue that causes random game crash due to some mods changing the game startup sequence.
-
+- fixed bug in 1.15.2 that prevented gui hints from working.
 
 <!-- latest end -->
 

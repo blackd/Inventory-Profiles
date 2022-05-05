@@ -74,18 +74,19 @@ repositories {
 
 dependencies {
     "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
-    implementation("com.guardsquare:proguard-gradle:7.2.0-beta2")
     minecraft("com.mojang:minecraft:$minecraft_version")
     mappings("net.fabricmc:yarn:$mappings_version:v2")
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
     modImplementation("com.terraformersmc:modmenu:$modmenu_version")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.46.4+1.18")
 
-    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
 
+    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
     //modRuntimeOnly("curse.maven:inventorio-491073:3553574")
     //modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
     //modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
