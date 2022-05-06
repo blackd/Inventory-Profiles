@@ -80,6 +80,7 @@ dependencies {
 
     minecraft("com.mojang:minecraft:1.15.2")
     mappings("net.fabricmc:yarn:1.15.2+build.17")
+
     modImplementation("net.fabricmc:fabric-loader:0.12.4")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.28.5+1.15")
     modImplementation("com.terraformersmc:modmenu:1.10.6")

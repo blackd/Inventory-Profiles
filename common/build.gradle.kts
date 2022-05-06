@@ -21,19 +21,19 @@ group = "org.anti-ad.mc"
 
 dependencies {
 
-    val antlrVersion = "4.9.3"
+    val antlrVersion = "4.10.1"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.10")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+    "shadedApi"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
 
-    "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+    "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     "compileOnlyApi"(group = "org.apache.logging.log4j",
                      name = "log4j-api",
-                     version = "2.14.1")
+                     version = "2.17.2")
     "compileOnlyApi"(group = "org.lwjgl",
                      name = "lwjgl-glfw",
                      version = "3.2.2")
@@ -100,5 +100,8 @@ tasks.create<Jar>("packageJavadoc") {
 tasks.named<DefaultTask>("build") {
     dependsOn("javadoc")
     dependsOn("packageJavadoc")
+}
+repositories {
+    mavenCentral()
 }
 
