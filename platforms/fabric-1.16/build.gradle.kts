@@ -316,6 +316,8 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 
 modrinth {
 
+    this.failSilently.set(true)
+
     if (System.getenv("IPNEXT_RELEASE") != null) {
         token.set(System.getenv("MODRINTH_TOKEN"))
     }

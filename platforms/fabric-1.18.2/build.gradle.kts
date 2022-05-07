@@ -326,6 +326,8 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 
 modrinth {
 
+    this.failSilently.set(true)
+
     if (System.getenv("IPNEXT_RELEASE") != null) {
         token.set(System.getenv("MODRINTH_TOKEN"))
     }
@@ -344,6 +346,7 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+
     dependencies.set(
         mutableListOf(
             ModDependency("P7dR8mSH","required"),

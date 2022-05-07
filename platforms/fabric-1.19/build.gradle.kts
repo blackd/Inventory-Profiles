@@ -301,7 +301,8 @@ tasks.named<DefaultTask>("build") {
 
 
 configure<com.matthewprenger.cursegradle.CurseExtension> {
-    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE_DISABLED") != null) {
+
+    if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
@@ -331,7 +332,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
-        debug = false
+        debug = true
         javaIntegration = false
         forgeGradleIntegration = mod_loader == "forge"
     })
@@ -343,7 +344,10 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 
 
 modrinth {
-    if (System.getenv("IPNEXT_RELEASE_DISABLED") != null) {
+
+    this.failSilently.set(true)
+
+    if (System.getenv("IPNEXT_RELEASE") != null) {
         token.set(System.getenv("MODRINTH_TOKEN"))
     }
 
