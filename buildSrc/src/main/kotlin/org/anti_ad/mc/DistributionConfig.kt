@@ -1,9 +1,10 @@
 package org.anti_ad.mc
 
-//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.plugins.BasePluginExtension
+import org.gradle.jvm.tasks.Jar
 
 import org.gradle.kotlin.dsl.*
 

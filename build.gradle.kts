@@ -92,35 +92,6 @@ tasks.register("owner-testing-env") {
     }
 }
 
-
-tasks.register<DefaultTask>("minimizeJars") {
-    subprojects.filter {
-        val isFabric = it.name.startsWith("fabric")
-        val isForge = it.name.startsWith("forge")
-        isFabric || isForge
-    }.forEach {
-        val isForge = !it.name.startsWith("fabric")
-        val taskName = if (isForge) { "shadowJar" } else { "remapShadedJar" }
-        val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
-        dependsOn(jarTask)
-        if (isForge) {
-            val endTask = it.tasks.named("reobfJar")
-            dependsOn(endTask)
-        }
-        val jarFile = jarTask.get()
-        val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
-        doLast {
-            exec {
-                this.workingDir = it.layout.projectDirectory.asFile
-                val script = project.layout.projectDirectory.file("optimize-jar.sh")
-                this.executable = script.asFile.absolutePath
-                this.args(jarPath.get().asFile.absolutePath, it.layout.buildDirectory.get().asFile.absolutePath)
-
-            }
-        }
-    }
-}
-
 tasks.register<Copy>("copyPlatformJars") {
     subprojects.filter {
         val isFabric = it.name.startsWith("fabric")
@@ -128,7 +99,7 @@ tasks.register<Copy>("copyPlatformJars") {
         isFabric || isForge
     }.forEach {
         val isForge = !it.name.startsWith("fabric")
-        val taskName = if (isForge) { "shadowJar" } else { "remapShadedJar" }
+        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
         val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
         dependsOn(jarTask)
         if (isForge) {
@@ -152,7 +123,6 @@ tasks.register<Copy>("copyPlatformJars") {
             dependsOn(t)
         }
     }
-    dependsOn("minimizeJars")
     finalizedBy("owner-testing-env")
 }
 

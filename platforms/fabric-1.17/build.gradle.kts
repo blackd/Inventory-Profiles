@@ -4,6 +4,11 @@ import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.platformsCommonConfig
 import proguard.gradle.ProGuardTask
 import com.modrinth.minotaur.dependencies.ModDependency
+import org.anti_ad.mc.addTaskToDepTree
+import org.anti_ad.mc.fabricCommonAfterEvaluate
+import org.anti_ad.mc.fabricCommonDependency
+import org.anti_ad.mc.fabricRegisterCommonTasks
+import org.anti_ad.mc.registerMinimizeJarTask
 
 val supported_minecraft_versions = listOf("1.17", "1.17.1")
 val mod_loader = "fabric"
@@ -13,6 +18,7 @@ val mappings_version = "1.17.1+build.63"
 val loader_version = "0.14.3"
 val modmenu_version = "2.0.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
+val fabric_api_version = "0.40.1+1.17"
 
 buildscript {
     dependencies {
@@ -38,7 +44,6 @@ plugins {
     `maven-publish`
     signing
     id("fabric-loom")
-    antlr
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
     id("com.github.johnrengelman.shadow")
@@ -54,7 +59,7 @@ java {
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
+    languageVersion = "1.6"
     jvmTarget = "16"
 }
 
@@ -66,20 +71,12 @@ tasks.withType<JavaCompile> {
 group = "org.anti-ad.mc"
 
 
+fabricCommonDependency(minecraft_version,
+                       mappings_version,
+                       loader_version,
+                       fabric_api_version,
+                       modmenu_version)
 dependencies {
-    "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-
-    minecraft("com.mojang:minecraft:$minecraft_version")
-    mappings("net.fabricmc:yarn:$mappings_version:v2")
-    modImplementation("net.fabricmc:fabric-loader:$loader_version")
-    modImplementation("com.terraformersmc:modmenu:$modmenu_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.40.1+1.17")
-
-
     modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:6.3.358")
 }
 
@@ -155,7 +152,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
     dependsOn(tasks["shadowJar"])
 }
 
-val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
+val remapped = tasks.named<RemapJarTask>("remapJar") {
     group = "fabric"
     val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
     val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
@@ -167,100 +164,21 @@ val remapped = tasks.register<RemapJarTask>("remapShadedJar") {
     //remapAccessWidener.set(true)
 }
 
-tasks.register<Copy>("copyJavadoc") {
-    dependsOn(":common:packageJavadoc")
-
-    val javadocJar = project(":common").tasks.named<Jar>("packageJavadoc").get()
-    from(javadocJar)
-    into(layout.buildDirectory.dir("publish"))
-    rename {
-        "$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar"
-    }
-    logger.lifecycle("will rename ${javadocJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
-}
-
-val prepareSourceJar = tasks.register<Copy>("prepareSourceJar") {
-    dependsOn(":common:generateGrammarSource")
-    dependsOn(":common:generateTestGrammarSource")
-    val commonKotlinSources = project(":common").layout.projectDirectory.dir("src/main/java")
-    val commonAntlrSources = project(":common").layout.projectDirectory.dir("src/main/java")
-    val commonGeneratedSources = project(":common").layout.buildDirectory.dir("generated-src/antlr/main")
-    val platformSources = layout.projectDirectory.dir("src/main/java")
-    from(commonKotlinSources) {
-        include("**/*.java")
-        include("**/*.kt")
-    }
-    from(commonGeneratedSources) {
-        include("**/*.java")
-        include("**/*.tokens")
-        include("**/*.interp")
-    }
-    from(commonAntlrSources) {
-        include("**/*.g4")
-    }
-    from(platformSources) {
-        include("**/*.java")
-        include("**/*.kt")
-    }
-    into(layout.buildDirectory.dir("srcJarContent"))
-}
-
-tasks.register<org.gradle.jvm.tasks.Jar>("packageSources") {
-    dependsOn("prepareSourceJar")
-    archiveClassifier.set("sources")
-    archiveBaseName.set("$mod_loader-$minecraft_version-$mod_artefact_version")
-    archiveVersion.set("")
-    destinationDirectory.set(layout.buildDirectory.dir("publish"))
-
-    from(layout.buildDirectory.dir("srcJarContent"))
-
-}
+fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 
 afterEvaluate {
-    tasks.register<Copy>("injectCommonResources") {
-        dependsOn(":common:processResources")
-        from(project(":common").layout.buildDirectory.dir("resources/main"))
-        include("assets/**")
-        into(project.layout.buildDirectory.dir("resources/main"))
-    }
-
-    tasks.register<Delete>("removeCommonResources") {
-        this.delete(project.layout.buildDirectory.dir("resources/main/assets"))
-    }
-
-    tasks.getByName("runClient") {
-        dependsOn("injectCommonResources")
-        finalizedBy("removeCommonResources")
-    }
-
-    tasks.register<Copy>("copyJarForPublish") {
-        dependsOn(remapped)
-
-        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
-        from(fabricRemapJar.archiveFile.get().asFile)
-        into(layout.buildDirectory.dir("publish"))
-        rename {
-            "$mod_loader-$minecraft_version-$mod_artefact_version.jar"
-        }
-
-        logger.lifecycle("will rename ${fabricRemapJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
-    }
-
-    tasks.named<net.fabricmc.loom.task.PrepareJarRemapTask>("prepareRemapShadedJar") {
-        val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
-        val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
-        dependsOn(proGuardTask)
-        this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
-        dependsOn(proGuardTask)
-    }
-
+    fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
+
+registerMinimizeJarTask()
+
 tasks.named<DefaultTask>("build") {
-    dependsOn(tasks["remapShadedJar"])
+    dependsOn(tasks["remapJar"])
     dependsOn("copyJavadoc")
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
+    dependsOn("minimizeJar")
 }
 
 
@@ -286,7 +204,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val fabricRemapJar = tasks.named<RemapJarTask>("remapShadedJar").get()
+        val fabricRemapJar = tasks.named<RemapJarTask>("remapJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
@@ -321,7 +239,7 @@ modrinth {
 
     projectId.set("O7RBXm3n")
     versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
-    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapShadedJar").get()
+    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions)

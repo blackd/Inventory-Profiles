@@ -4,7 +4,9 @@ import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
 import org.anti_ad.mc.configureCommon
+import org.anti_ad.mc.forgeCommonAfterEvaluate
 import org.anti_ad.mc.platformsCommonConfig
+import org.anti_ad.mc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -278,38 +280,10 @@ tasks.named<ShadowJar>("shadowJar") {
     //finalizedBy(tasks["customJar"])
 }
 
+registerMinimizeJarTask()
 
 afterEvaluate {
-    tasks.named<RenameJarInPlace>("reobfJar") {
-        var shadow = tasks.getByName("customJar");
-        dependsOn(shadow)
-        dependsOn(tasks["copyProGuardJar"])
-        //input = shadow.archiveFile.orNull?.asFile
-    }
-    tasks.named<ProGuardTask>("proguard") {
-        var shadow = tasks.getByName<ShadowJar>("shadowJar");
-        dependsOn(shadow)
-    }
-
-    tasks.register<Copy>("copyJarForPublish") {
-        dependsOn("shadowJar")
-        dependsOn("reobfJar")
-
-        val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
-        from(forgeRemapJar.archiveFile.get().asFile)
-        into(layout.buildDirectory.dir("publish"))
-        rename {
-            "$mod_loader-$minecraft_version-$mod_artefact_version.jar"
-        }
-
-        logger.lifecycle("will rename ${forgeRemapJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar")
-    }
-    tasks.named<DefaultTask>("build") {
-        dependsOn("copyJavadoc")
-        dependsOn("packageSources")
-        dependsOn("copyJarForPublish")
-    }
-
+    forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
 var rcltName = ""
