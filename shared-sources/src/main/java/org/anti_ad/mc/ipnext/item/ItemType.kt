@@ -2,10 +2,14 @@ package org.anti_ad.mc.ipnext.item
 
 import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+import org.anti_ad.mc.ipnext.ingame.`(keys)`
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,
-                    val tag: NbtCompound?) {
+                    val tag: NbtCompound?,
+                    val isDamageable: Boolean = false,
+                    var ignoreDurability: Boolean = false) {
+
     override fun toString() = item.toString() + "" + (tag ?: "")
 
     override fun equals(other: Any?): Boolean {
@@ -16,7 +20,21 @@ data class ItemType(val item: Item,
 
         if (isEmpty() && other.isEmpty()) return true
         if (item != other.item) return false
-        if (tag != other.tag) return false
+        if (!ignoreDurability || !isDamageable) {
+            if (tag != other.tag) return false
+        } else {
+            if (tag != null && other.tag != null) {
+                if (tag.`(keys)`.size == other.tag.`(keys)`.size) {
+                    tag.`(keys)`.forEach {
+                        if (tag[it] != other.tag[it]) return false
+                    }
+                } else {
+                    return false
+                }
+            } else {
+                return tag == null && other.tag == null
+            }
+        }
 
         return true
     }

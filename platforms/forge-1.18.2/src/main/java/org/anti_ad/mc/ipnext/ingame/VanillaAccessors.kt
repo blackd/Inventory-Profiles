@@ -15,6 +15,7 @@ import org.anti_ad.mc.common.vanilla.alias.Inventory
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
 import org.anti_ad.mc.common.vanilla.alias.KeyBinding
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
+import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.common.vanilla.alias.NbtElement
 import org.anti_ad.mc.common.vanilla.alias.PlayerContainer
 import org.anti_ad.mc.common.vanilla.alias.PlayerEntity
@@ -43,7 +44,8 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
-                     tag)
+                     tag,
+                     isDamageableItem)
 inline val VanillaItemStack.`(itemStack)`: ItemStack
     get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`,
                                                         count)
@@ -141,6 +143,9 @@ inline val NbtElement.`(type)`: Int
     get() = id.toInt()
 inline val NbtElement.`(asString)`: String
     get() = asString //asString //string
+
+inline val NbtCompound.`(keys)`: Set<String>
+    get() = allKeys
 
 inline val MinecraftClient.`(window)`: Window
     get() = window

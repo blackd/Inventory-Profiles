@@ -196,6 +196,7 @@ object ContinuousCraftingHandler {
 
         fun save() {
             storedItem = slot.`(itemStack)`
+            storedItem.itemType.ignoreDurability = true
         }
     }
 }
