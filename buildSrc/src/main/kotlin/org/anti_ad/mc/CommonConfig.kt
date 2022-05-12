@@ -79,7 +79,7 @@ fun Project.registerCopyJarForPublishTask(source: Jar, mod_loader: Any, minecraf
             "$mod_loader-$minecraft_version-$mod_artefact_version.jar"
         }
 
-        logger.lifecycle("will rename ${source.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
+        logger.debug("will rename ${source.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
     }
 }
 fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
@@ -110,7 +110,7 @@ fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, m
     }
 
     val depTree = addTaskToDepTree(0,tasks["build"], mutableSetOf<String>())
-    logger.lifecycle(depTree)
+    logger.debug(depTree)
 
 }
 
@@ -125,7 +125,7 @@ fun Project.fabricRegisterCommonTasks(mod_loader: Any, minecraft_version: Any, m
         rename {
             "$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar"
         }
-        logger.lifecycle("will rename ${javadocJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
+        logger.debug("will rename ${javadocJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
     }
 
     val prepareSourceJar = tasks.register<Copy>("prepareSourceJar") {

@@ -33,6 +33,8 @@ object ContinuousCraftingHandler {
 
 
     private var afterRefill: Boolean  = false
+    private var submitNextCraft: Int  = 0
+
     var processingClick: Boolean = false
 
     private val checked
@@ -78,18 +80,25 @@ object ContinuousCraftingHandler {
         if (!processingClick && onCraftCount > 0) {
             onCraftCount--
         }
+        if (submitNextCraft > 0) {
+            if (--submitNextCraft <= 0) {
+                Vanilla.queueForMainThread {
+                    ContainerClicker.shiftClick(0)
+                }
+                submitNextCraft = 0
+            }
+        }
         if (afterRefill) {
             if (SHIFT.isPressing() ) {
                 if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
                     //doThrowOfType(whatsCooking)
                     InfoManager.event("auto-crafting")
-                    Vanilla.queueForMainThread {
-                        ContainerClicker.shiftClick(0)
-                    }
+                    submitNextCraft = ModSettings.AUTO_CRAFT_DELAY.integerValue
                 }
             }
             afterRefill = false
         }
+
         if (crafted) {
             if (!processingClick && onCraftCount <= 0) {
                 if (monitor.autoRefill()) {

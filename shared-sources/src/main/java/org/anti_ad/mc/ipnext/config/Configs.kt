@@ -66,6 +66,9 @@ object ModSettings : ConfigDeclaration {
     val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10,
                                                               1,
                                                               500)
+    val AUTO_CRAFT_DELAY                          /**/ by int(3,
+                                                              1,
+                                                              20)
     val HIGHLIGHT_CLICKING_SLOT                   /**/ by bool(true)
     val RESTOCK_HOTBAR                            /**/ by bool(false)
     val SORT_AT_CURSOR                            /**/ by bool(false)

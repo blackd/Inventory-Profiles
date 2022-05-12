@@ -1,4 +1,5 @@
 import org.anti_ad.mc.getGitHash
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
 val versionObj = Version("1", "3", "6",
@@ -51,10 +52,10 @@ nexusPublishing {
 
 
 // This is here but it looks like it's not inherited by the child projects
-tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
+tasks.named<KotlinCompile>("compileKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.ExperimentalStdlibApi")
+        freeCompilerArgs = listOf("-opt-in=kotlin.ExperimentalStdlibApi")
     }
 }
 
@@ -66,6 +67,13 @@ allprojects {
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
         options.isIncremental = true
+    }
+
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            freeCompilerArgs = mutableListOf("-opt-in=kotlin.ExperimentalStdlibApi") + freeCompilerArgs
+        }
+        this.incremental = true
     }
 
 }
@@ -108,7 +116,7 @@ tasks.register<Copy>("copyPlatformJars") {
         }
         val jarFile = jarTask.get()
         val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
-        logger.lifecycle("""
+        logger.debug("""
             *************************
               ${it.path} finalized mod jar is ${jarPath.get().asFile.absoluteFile}
             *************************

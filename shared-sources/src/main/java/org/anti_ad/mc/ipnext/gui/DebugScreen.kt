@@ -42,6 +42,7 @@ import org.anti_ad.mc.ipnext.item.potionName
 import org.anti_ad.mc.ipnext.item.rawId
 import org.anti_ad.mc.ipnext.item.translatedName
 import org.anti_ad.mc.ipnext.item.translationKey
+import org.anti_ad.mc.ipnext.item.maxCount
 
 class DebugScreen: BaseDebugScreen() {
     inner class PageContainer: Page("Container") {
@@ -75,7 +76,8 @@ class DebugScreen: BaseDebugScreen() {
                         ::comparablePotionEffects,
                         ::isDamageable,
                         ::maxDamage,
-                        ::durability).joinToString("\n") { "${it.name}: ${it.get()}" }
+                        ::durability,
+                        ::maxCount).joinToString("\n") { "${it.name}: ${it.get()}" }
                 }
                 return listOf(a,
                               c,
