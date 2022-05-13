@@ -127,7 +127,7 @@ tasks.register<Copy>("copyPlatformJars") {
     into(layout.buildDirectory.dir("libs"))
 
     subprojects.forEach {
-        it.getTasksByName("build", false).forEach { t ->
+        it.getTasksByName("minimizeJar", false).forEach { t ->
             dependsOn(t)
         }
     }
@@ -136,6 +136,7 @@ tasks.register<Copy>("copyPlatformJars") {
 
 tasks.named<DefaultTask>("build") {
 
+    /*
     subprojects.filter {
         val isFabric = it.name.startsWith("fabric")
         val isForge = it.name.startsWith("forge")
@@ -143,11 +144,13 @@ tasks.named<DefaultTask>("build") {
     }.forEach {
         dependsOn(it.tasks["build"])
     }
+     */
     dependsOn(tasks["copyPlatformJars"])
     //finalizedBy(tasks["copyPlatformJars"])
 }
 
 afterEvaluate {
+    /*
     tasks.named<DefaultTask>("build") {
         subprojects.filter {
             val isFabric = it.name.startsWith("fabric")
@@ -163,6 +166,7 @@ afterEvaluate {
         }
         dependsOn(tasks["copyPlatformJars"])
     }
+     */
 }
 
 /**
