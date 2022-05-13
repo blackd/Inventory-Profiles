@@ -26,7 +26,9 @@ data class ItemType(val item: Item,
             if (tag != null && other.tag != null) {
                 if (tag.`(keys)`.size == other.tag.`(keys)`.size) {
                     tag.`(keys)`.forEach {
-                        if (tag[it] != other.tag[it]) return false
+                        if (it != "Damage") {
+                            if (tag[it] != other.tag[it]) return false
+                        }
                     }
                 } else {
                     return false
