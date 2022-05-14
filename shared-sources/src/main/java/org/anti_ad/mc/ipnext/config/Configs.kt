@@ -39,6 +39,8 @@ object ModSettings : ConfigDeclaration {
                                                                  KeybindSettings.GUI_EXTRA)
     val MOVE_ALL_MODIFIER                         /**/ by hotkey("LEFT_SHIFT",
                                                                  KeybindSettings.GUI_EXTRA)
+    val MOVE_FOCUS_MACH_MODIFIER                  /**/ by hotkey("LEFT_CONTROL",
+                                                                 KeybindSettings.GUI_EXTRA)
     val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
     val ALWAYS_MOVE_ALL                           /**/ by bool(false)
     val ALWAYS_THROW_ALL                          /**/ by bool(false)
@@ -74,6 +76,7 @@ object ModSettings : ConfigDeclaration {
     val SORT_AT_CURSOR                            /**/ by bool(false)
     val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)
     val STOP_AT_SCREEN_CLOSE                      /**/ by bool(false)
+    val IGNORE_DURABILITY                         /**/ by bool(true)
 
         .CATEGORY("$category.debugs")
     val DEBUG                                     /**/ by bool(false)

@@ -1,7 +1,11 @@
 package org.anti_ad.mc.ipnext.inventory.action
 
+import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.PostAction
 import org.anti_ad.mc.ipnext.config.PostAction.*
+import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
+import org.anti_ad.mc.ipnext.ingame.vCursorStack
+import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
 import org.anti_ad.mc.ipnext.inventory.data.MutableSubTracker
 import org.anti_ad.mc.ipnext.inventory.data.collect
 import org.anti_ad.mc.ipnext.inventory.data.itemTypes
@@ -41,8 +45,26 @@ fun MutableSubTracker.moveAllTo(another: MutableSubTracker) {
 
 fun MutableSubTracker.moveMatchTo(another: MutableSubTracker) {
     val anotherSlots = another.slots
-    val itemTypes = anotherSlots.itemTypes()
-    slots.forEach { if (itemTypes.contains(it.itemType)) it.moveTo(anotherSlots) }
+    if (ModSettings.IGNORE_DURABILITY.booleanValue) {
+        val itemTypes = anotherSlots.itemTypes(true)
+        slots.forEach { if (itemTypes.contains(it.itemType.copy(ignoreDurability = true))) it.moveTo(anotherSlots) }
+    } else {
+        val itemTypes = anotherSlots.itemTypes()
+        slots.forEach { if (itemTypes.contains(it.itemType)) it.moveTo(anotherSlots) }
+    }
+}
+
+fun MutableSubTracker.moveFocusMatchTo(another: MutableSubTracker) {
+    val anotherSlots = another.slots
+    val focusedSlot = vFocusedSlot()?.`(itemStack)`
+    val toMoveSlot = if (focusedSlot == null || focusedSlot.itemType.isEmpty()) vCursorStack() else focusedSlot
+
+    val moveType = if (ModSettings.IGNORE_DURABILITY.booleanValue) {
+        toMoveSlot.itemType.copy(ignoreDurability = true)
+    } else {
+        toMoveSlot.itemType
+    }
+    slots.forEach { if (moveType == it.itemType) it.moveTo(anotherSlots) }
 }
 
 fun MutableSubTracker.moveMatchCraftingTo(crafting: MutableSubTracker) {

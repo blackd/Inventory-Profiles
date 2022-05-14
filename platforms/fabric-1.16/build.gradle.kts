@@ -84,9 +84,7 @@ dependencies {
 
 
 loom {
-    runConfigs["client"].runDir = "run/1.16.5"
     runConfigs["client"].programArgs += listOf("--width=1280", "--height=720", "--username=DEV")
-    //refmapName = "inventoryprofilesnext-refmap.json"
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 }
 

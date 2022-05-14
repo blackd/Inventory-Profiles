@@ -20,7 +20,7 @@ import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.ContainerType.CRAFTING
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
-import org.anti_ad.mc.ipnext.inventory.data.collect
+import org.anti_ad.mc.ipnext.inventory.data.processAndCollect
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
@@ -106,6 +106,10 @@ object ContinuousCraftingHandler {
                     crafted = false
                     onCraftCount = 0
                     afterRefill = true
+                } else {
+                    crafted = false
+                    onCraftCount = 0
+                    afterRefill = false
                 }
             } else {
                 Log.trace("Not refilling yet")
@@ -151,9 +155,11 @@ object ContinuousCraftingHandler {
             val typeToSlotListMap = mutableMapOf<ItemType, MutableList<Int>>() // slotIndex
             for (slotMonitor in slotMonitors) {
                 with(slotMonitor) {
+                    val n = slot.`(itemStack)`
+                    n.itemType.ignoreDurability = true
                     if (shouldHandle(storedItem, slot.`(itemStack)`)) {
                         // record this
-                        typeToSlotListMap.getOrPut(storedItem.itemType) {
+                        typeToSlotListMap.getOrPut(storedItem.itemType.copy(ignoreDurability = true)) {
                             mutableListOf()
                         }.add(slot.`(id)`)
                         handledSomething = true
@@ -164,15 +170,23 @@ object ContinuousCraftingHandler {
                 return handledSomething
             }
             handledSomething = true
-            AdvancedContainer.tracker(instant = true) {
+            AdvancedContainer.tracker(/*instant = true*/) {
                 val playerSubTracker = tracker.subTracker(playerSlotIndices)
-                val counter = playerSubTracker.slots.collect()
+                val counter = playerSubTracker.slots.processAndCollect { stack ->
+                    stack.copyAsMutable().also {
+                        it.itemType.ignoreDurability = true
+                    }
+                }
                 val map: Map<ItemType, Pair<Int, List<MutableItemStack>>> =
                     typeToSlotListMap.mapValues { (type, list) ->
-                        (counter.count(type) / list.size).coerceAtMost(type.maxCount) to list.map { tracker.slots[it] }
+                        val searchFor = type.copy(ignoreDurability = true)
+                        (counter.count(searchFor) / list.size).coerceAtMost(type.maxCount) to list.map {
+                            tracker.slots[it]
+                        }
                     }
                 playerSubTracker.slots.forEach { source ->
-                    map[source.itemType]?.let { (eachCount, fedList) ->
+                    val searchFor = source.itemType.copy(ignoreDurability = true)
+                    map[searchFor]?.let { (eachCount, fedList) ->
                         for (destination in fedList) {
                             if (destination.count >= eachCount) continue
                             if (source.isEmpty()) break
@@ -183,7 +197,16 @@ object ContinuousCraftingHandler {
                     }
                 }
             }
-            return true
+            for (slotMonitor in slotMonitors) {
+                with(slotMonitor) {
+                    val n = slot.`(itemStack)`
+                    if (!storedItem.isEmpty()) {
+                        handledSomething = !n.isEmpty()
+                    }
+                }
+                if (!handledSomething) break
+            }
+            return handledSomething
         }
 
         fun save() {
@@ -193,6 +216,10 @@ object ContinuousCraftingHandler {
 
     private class ItemSlotMonitor(val slot: Slot) {
         var storedItem = ItemStack.EMPTY
+        set(value)  {
+            field = value
+            value.itemType.ignoreDurability = true
+        }
 
         fun save() {
             storedItem = slot.`(itemStack)`

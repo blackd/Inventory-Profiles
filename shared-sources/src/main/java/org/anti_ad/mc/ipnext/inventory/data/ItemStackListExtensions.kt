@@ -17,11 +17,21 @@ fun List<ItemStack>.copyAsMutable(): List<MutableItemStack> =
 fun List<ItemStack>.filterNotEmpty(): List<ItemStack> =
     filterNot { it.isEmpty() }
 
-fun List<ItemStack>.itemTypes(): Set<ItemType> =
-    filterNotEmpty().map { it.itemType }.toSet()
+fun List<ItemStack>.itemTypes(ignoreDurability: Boolean = false): Set<ItemType> =
+    filterNotEmpty().map { it.itemType.also { iType -> iType.ignoreDurability = ignoreDurability } }.toSet()
 
 fun List<ItemStack>.collect(): ItemBucket {
-    return MutableItemBucket().apply { addAll(this@collect) }
+    return MutableItemBucket().apply {
+        addAll(this@collect)
+    }
+}
+
+fun List<ItemStack>.processAndCollect(process: (ItemStack) -> ItemStack ): ItemBucket {
+    return MutableItemBucket().apply {
+        this@processAndCollect.forEach {
+            add(process(it))
+        }
+    }
 }
 
 fun List<ItemStack>.stat(): ItemStat {

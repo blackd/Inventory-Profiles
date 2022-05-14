@@ -28,6 +28,7 @@ import org.anti_ad.mc.ipnext.ingame.vCursorStack
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.action.moveAllTo
+import org.anti_ad.mc.ipnext.inventory.action.moveFocusMatchTo
 import org.anti_ad.mc.ipnext.inventory.action.moveMatchCraftingTo
 import org.anti_ad.mc.ipnext.inventory.action.moveMatchTo
 import org.anti_ad.mc.ipnext.inventory.action.restockFrom
@@ -164,10 +165,11 @@ object GeneralInventoryActions {
                 res
             } else {
                 val focusedStack = type ?: vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
+                focusedStack.itemType.ignoreDurability = ModSettings.IGNORE_DURABILITY.booleanValue
                 val res = mutableMapOf<Int, Slot>()
                 if (!focusedStack.isEmpty()) {
                     source.slotIndices.forEach {
-                        val checkStack = slots[it].`(itemStack)`
+                        val checkStack = slots[it].`(itemStack)`.also { itemStack ->  itemStack.itemType.ignoreDurability = ModSettings.IGNORE_DURABILITY.booleanValue }
                         if (!checkStack.isEmpty() && checkStack.itemType == focusedStack.itemType) {
                             res[it] = slots[it]
                         }
@@ -197,6 +199,7 @@ object GeneralInventoryActions {
                 ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
         val moveAll = // xor
                 ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
+        val moveFocusMatch = ModSettings.MOVE_FOCUS_MACH_MODIFIER.isPressing() || !vCursorStack().isEmpty()
         InfoManager.event(lazy {if (gui) "gui/" else {""} + "doMoveMatch" + if (moveAll) "/all" else {""} + if (includeHotbar) "/hotbar" else {""} },
                           lazy { "&forceToPlayer=$toPlayer" })
         AdvancedContainer.tracker {
@@ -209,7 +212,11 @@ object GeneralInventoryActions {
                 if (moveAll) {
                     source.moveAllTo(destination)
                 } else {
-                    source.moveMatchTo(destination)
+                    if (moveFocusMatch) {
+                        source.moveFocusMatchTo(destination)
+                    } else {
+                        source.moveMatchTo(destination)
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@ package org.anti_ad.mc.ipnext.item
 
 import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(keys)`
 
 // different nbt is treated as different type, as they can't stack together
@@ -41,10 +42,25 @@ data class ItemType(val item: Item,
         return true
     }
 
+    private fun tagHashCode(): Int {
+        var result: Int = 0
+        if (!ignoreDurability || !isDamageable) {
+            result = tag?.hashCode() ?: 0
+        }
+        tag?.let {
+            it.`(keys)`.forEach { key ->
+                if (key != "Damage") {
+                    result += it[key].hashCode()
+                }
+            }
+        }
+        return result
+    }
+
     override fun hashCode(): Int {
         if (isEmpty()) return 0 // temp solution for StackOverflowError
         var result = item.hashCode()
-        result = 31 * result + (tag?.hashCode() ?: 0)
+        result = 31 * result + tagHashCode()
         return result
     }
 
