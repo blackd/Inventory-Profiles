@@ -14,7 +14,7 @@ done
 
 for i in $PROJ_TO_RELEASE; do
   cd platforms/$i
-  ./gradlew --max-workers 1 -S --build-cache build modrinth curseforge #publishToSonatype
+  ../../gradlew --max-workers 1 -S --build-cache build modrinth curseforge #publishToSonatype
   cd ../../
   killall -9 java
 done
