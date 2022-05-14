@@ -19,7 +19,8 @@ for i in $PROJ_TO_RELEASE; do
   killall -9 java
 done
 
-
+killall -9 java
+./gradlew --max-workers 1 -S --build-cache build
 
 
 exit 0
