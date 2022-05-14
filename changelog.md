@@ -1,10 +1,19 @@
 <!-- latest begin -->
 
+### 1.3.7
+- Added configuration "Wait Ticks Before Next Craft Click" that can be used to make auto-crafting more stable on slow servers.
+- Now auto/continuous crafting ignores items durability. As in auto-crafting of dispensers with farmed bows is now possible.
+  <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/BOVKOCVPIGY?wmode=transparent" height="358" width="638"></iframe>
+- Move/Throw is now configured to ignore durability. There is a new setting "Ignore item durability for Throw/Move" that can be used to revert to the old behaviour.
+  <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/NFpmpHZA0kw?wmode=transparent" height="358" width="638"></iframe>
+- Move can now move only the items of the type under the cursor despite the type being present in the target chest/inventory.
+  <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/GPsqasYC9Bg?wmode=transparent" height="358" width="638"></iframe>
+
+<!-- latest end -->
+
 ### 1.3.6
 - Addressed a very rare issue that causes random game crash due to some mods changing the game startup sequence.
 - fixed bug in 1.15.2 that prevented gui hints from working.
-
-<!-- latest end -->
 
 ## Warning.
 **Due to changes in 1.18.2 existing custom sort rules that use Tags might behave differently or not work at all.
