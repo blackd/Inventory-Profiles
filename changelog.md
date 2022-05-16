@@ -1,6 +1,8 @@
 <!-- latest begin -->
 
-### 1.3.7
+### 1.3.7/8
+
+- New release because the last one was bodged by GihHub Action resulting invalid jar files. First forge builds had problems then some fabric builds are not working for some players. As result github actions will no longer be used for releasing.
 - Added configuration "Wait Ticks Before Next Craft Click" that can be used to make auto-crafting more stable on slow servers.
 - Now auto/continuous crafting ignores items durability. As in auto-crafting of dispensers with farmed bows is now possible.
   <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/BOVKOCVPIGY?wmode=transparent" height="358" width="638"></iframe>
