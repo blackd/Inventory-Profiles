@@ -37,7 +37,8 @@ fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with
 
 inline val ItemType.Companion.EMPTY
     get() = ItemType(Items.AIR,
-                     null)
+                     null,
+                     { false })
 
 fun ItemType.isEmpty(): Boolean {
     return (item == Items.AIR).ifTrue {

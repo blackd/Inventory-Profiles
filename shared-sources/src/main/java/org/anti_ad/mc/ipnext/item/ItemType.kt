@@ -2,14 +2,16 @@ package org.anti_ad.mc.ipnext.item
 
 import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
-import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(keys)`
+
+
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,
                     val tag: NbtCompound?,
-                    val isDamageable: Boolean = false,
-                    var ignoreDurability: Boolean = false) {
+                    val isDamageableFn: (() -> Boolean),
+                    var ignoreDurability: Boolean = false,
+                    private val isDamageable: Boolean = isDamageableFn()) {
 
     override fun toString() = item.toString() + "" + (tag ?: "")
 
@@ -41,9 +43,8 @@ data class ItemType(val item: Item,
 
         return true
     }
-
     private fun tagHashCode(): Int {
-        var result: Int = 0
+        var result = 0
         if (!ignoreDurability || !isDamageable) {
             result = tag?.hashCode() ?: 0
         }
@@ -63,6 +64,7 @@ data class ItemType(val item: Item,
         result = 31 * result + tagHashCode()
         return result
     }
+    companion object {
 
-    companion object
+    }
 }

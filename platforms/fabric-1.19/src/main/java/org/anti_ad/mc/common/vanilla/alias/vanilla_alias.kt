@@ -47,6 +47,19 @@ typealias ScreenHandlerFactory = ScreenHandlerFactory
 
 typealias SoundEvent = SoundEvent
 
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
+    get() = Registry.BLOCK_ENTITY_TYPE.ids
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-BLOCK-IDS)`
+    get() = Registry.BLOCK.ids
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-CONTAINER-IDS)`
+    get() = Registry.SCREEN_HANDLER.ids
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-ITEM-IDS)`
+    get() = Registry.ITEM.ids
+
 private fun translate(string: String,
                       vararg objects: Any?): String = I18n.translate(string,
                                                                      *objects)

@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.entity.player.Player
+import net.minecraftforge.registries.ForgeRegistries
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
 
 typealias MinecraftClient = Minecraft
@@ -43,6 +44,19 @@ typealias ClientPlayerInteractionManager = MultiPlayerGameMode
 typealias PlayerEntity = Player
 
 typealias SoundEvent = SoundEvent
+
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
+    get() = ForgeRegistries.BLOCK_ENTITIES.keys
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-BLOCK-IDS)`
+    get() = ForgeRegistries.BLOCKS.keys
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-CONTAINER-IDS)`
+    get() = ForgeRegistries.CONTAINERS.keys
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-ITEM-IDS)`
+    get() = ForgeRegistries.ITEMS.keys
 
 private fun translate(string: String,
                       vararg objects: Any?): String = I18n.get(string,

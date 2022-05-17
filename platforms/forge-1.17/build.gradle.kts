@@ -42,7 +42,7 @@ buildscript {
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
-        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.1.+")
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
         classpath("com.guardsquare:proguard-gradle:7.2.1")
     }

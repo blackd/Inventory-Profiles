@@ -12,6 +12,7 @@ import org.anti_ad.mc.common.vanilla.alias.DefaultedRegistry
 import org.anti_ad.mc.common.vanilla.alias.GameOptions
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Inventory
+import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
 import org.anti_ad.mc.common.vanilla.alias.KeyBinding
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
@@ -41,11 +42,10 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // use `()` to avoid potential mapping name collision
 
-
 inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
                      tag,
-                     isDamageableItem)
+                     { this.isDamageableItem })
 inline val VanillaItemStack.`(itemStack)`: ItemStack
     get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`,
                                                         count)

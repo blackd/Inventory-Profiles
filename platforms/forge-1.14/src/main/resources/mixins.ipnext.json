@@ -1,0 +1,19 @@
+{
+    "required":           true,
+    "minVersion":         "0.8",
+    "package":            "org.anti_ad.mc.ipnext.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "refmap":             "ipnext.refmap.json",
+    "mixins":             [
+    ],
+    "client":             [
+        "IMixinKeyBinding",
+        "MixinAbstractContainerScreen",
+        "MixinMinecraftClient",
+        "MixinPlayerInventory",
+        "MixinScreenHandler"
+    ],
+    "injectors":          {
+        "defaultRequire": 1
+  }
+}

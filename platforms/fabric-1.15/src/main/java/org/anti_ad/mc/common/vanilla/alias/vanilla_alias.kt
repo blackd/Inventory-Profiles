@@ -1,6 +1,8 @@
 package org.anti_ad.mc.common.vanilla.alias
 
 import net.minecraft.SharedConstants
+import net.minecraft.block.Block
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.options.GameOptions
 import net.minecraft.client.options.KeyBinding
@@ -16,7 +18,9 @@ import net.minecraft.util.registry.DefaultedRegistry
 import net.minecraft.util.registry.Registry
 import net.minecraft.client.network.ClientPlayerInteractionManager
 import net.minecraft.client.sound.SoundInstance
+import net.minecraft.container.ContainerType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.sound.SoundEvent
 
 import org.anti_ad.mc.common.vanilla.alias.glue.__glue_I18n_translate
@@ -44,6 +48,19 @@ typealias ClientPlayerInteractionManager = ClientPlayerInteractionManager
 typealias PlayerEntity = PlayerEntity
 
 typealias SoundEvent = SoundEvent
+
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
+    get() = Registry.BLOCK_ENTITY_TYPE.ids
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-BLOCK-IDS)`
+    get() = Registry.BLOCK.ids
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-CONTAINER-IDS)`
+    get() = Registry.CONTAINER.ids
+@Suppress("ObjectPropertyName", "HasPlatformType")
+inline val `(REGISTRIES-ITEM-IDS)`
+    get() = Registry.ITEM.ids
 
 private fun translate(string: String,
                       vararg objects: Any?): String = I18n.translate(string,

@@ -47,7 +47,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    mappings_version: Any,
                                    loader_version: Any,
                                    fabric_api_version: Any,
-                                   modmenu_version: Any) {
+                                   modmenu_version: Any? = null) {
     dependencies {
 
         "shadedApi"(project(":common"))
@@ -61,7 +61,9 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
         "modImplementation"("net.fabricmc:fabric-loader:$loader_version")
         "modImplementation"("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
-        "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
+        modmenu_version?.let {
+            "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
+        }
     }
 }
 
