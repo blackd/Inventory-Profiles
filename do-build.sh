@@ -1,5 +1,5 @@
 #!/bin/bash
-PROJ="fabric-1.15 fabric-1.16  fabric-1.17  fabric-1.18  fabric-1.18.2 fabric-1.19  forge-1.15 forge-1.16  forge-1.17  forge-1.18.2"
+PROJ="fabric-1.14 fabric-1.15 fabric-1.16  fabric-1.17  fabric-1.18  fabric-1.18.2 fabric-1.19 forge-1.14 forge-1.15 forge-1.16  forge-1.17  forge-1.18.2"
 echo
 echo
 echo
