@@ -13,7 +13,7 @@ if (JavaVersion.current() >= JavaVersion.VERSION_16) {
     include("platforms:fabric-1.14")
 
     include("platforms:forge-1.18.2")
-    //include("platforms:forge-1.18")
+    include("platforms:forge-1.18")
     include("platforms:forge-1.17")
     include("platforms:forge-1.16")
     include("platforms:forge-1.15")

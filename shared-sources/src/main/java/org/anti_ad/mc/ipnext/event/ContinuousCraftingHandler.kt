@@ -54,7 +54,7 @@ object ContinuousCraftingHandler {
         handle()
     }
 
-    private lateinit var monitor: Monitor
+    private lateinit var monitor: IMonitor
     private var isCrafting = false
 
     private fun init() {
@@ -62,7 +62,21 @@ object ContinuousCraftingHandler {
         val types = ContainerTypes.getTypes(container)
         isCrafting = types.contains(CRAFTING)
         if (!isCrafting) return
-        monitor = Monitor(container)
+
+        monitor = when(ModSettings.CONTINUOUS_CRAFTING_METHOD.integerValue) {
+            1 -> {
+                Log.error("Using DEFAULT Monitor")
+                Monitor(container)
+            }
+            2 -> {
+                Log.error("Using OLD Monitor")
+                MonitorP(container)
+            }
+            else -> {
+                Log.error("Unexpected value so Using DEFAULT Monitor")
+                Monitor(container)
+            }
+        }
         onCraftCount = 0
         crafted = false
         processingClick = false
@@ -128,28 +142,47 @@ object ContinuousCraftingHandler {
         // ^^ i think this is the right approach can really fix the stability
     }
 
+    private interface IItemSlotMonitor {
+        val slot: Slot
+        var storedItem: ItemStack
+        fun save()
+    }
 
+    private interface IMonitor {
 
-    private class Monitor(container: Container) {
-        val containerSlots = container.`(slots)`
-        val ingredientSlots = containerSlots.filter { it.`(inventory)` is CraftingInventory }
+        val containerSlots: List<Slot>
+        val ingredientSlots: List<Slot>
 
         //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
-        val slotMonitors = ingredientSlots.map { ItemSlotMonitor(it) }
+        val slotMonitors: List<IItemSlotMonitor>
+        val playerSlotIndices: List<Int>
+        fun shouldHandle(storedItem: ItemStack,
+                         currentItem: ItemStack): Boolean
 
-        val playerSlotIndices = with(AreaTypes) { playerStorage + playerHotbar + playerOffhand - lockedSlots }
+        fun autoRefill(): Boolean
+        fun save()
+    }
+
+    private class Monitor(container: Container): IMonitor {
+        override val containerSlots = container.`(slots)`
+        override val ingredientSlots = containerSlots.filter { it.`(inventory)` is CraftingInventory }
+
+        //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
+        override val slotMonitors = ingredientSlots.map { ItemSlotMonitor(it) }
+
+        override val playerSlotIndices = with(AreaTypes) { playerStorage + playerHotbar + playerOffhand - lockedSlots }
             .getItemArea(container,
                          containerSlots).slotIndices // supplies
 
-        private fun shouldHandle(storedItem: ItemStack,
-                                 currentItem: ItemStack): Boolean {
+        override fun shouldHandle(storedItem: ItemStack,
+                                  currentItem: ItemStack): Boolean {
             Log.trace("Checking if wee should load more items into crafting slot")
             if (storedItem.isEmpty()) return false
             Log.trace("Should handle: ${currentItem.isEmpty()}")
             return currentItem.isEmpty() // storedItem not empty -> became empty
         }
 
-        fun autoRefill(): Boolean {
+        override fun autoRefill(): Boolean {
             // do statistic
             var handledSomething = false
             val typeToSlotListMap = mutableMapOf<ItemType, MutableList<Int>>() // slotIndex
@@ -170,7 +203,7 @@ object ContinuousCraftingHandler {
                 return handledSomething
             }
             handledSomething = true
-            AdvancedContainer.tracker(/*instant = true*/) {
+            AdvancedContainer.tracker(instant = true) {
                 val playerSubTracker = tracker.subTracker(playerSlotIndices)
                 val counter = playerSubTracker.slots.processAndCollect { stack ->
                     stack.copyAsMutable().also {
@@ -209,21 +242,98 @@ object ContinuousCraftingHandler {
             return handledSomething
         }
 
-        fun save() {
+        override fun save() {
             slotMonitors.forEach { it.save() }
         }
     }
 
-    private class ItemSlotMonitor(val slot: Slot) {
-        var storedItem = ItemStack.EMPTY
+    private class ItemSlotMonitor(override val slot: Slot) : IItemSlotMonitor {
+        override var storedItem = ItemStack.EMPTY
         set(value)  {
             field = value
             value.itemType.ignoreDurability = true
         }
 
-        fun save() {
+        override fun save() {
             storedItem = slot.`(itemStack)`
             storedItem.itemType.ignoreDurability = true
+        }
+    }
+
+
+
+
+    private class MonitorP(container: Container): IMonitor {
+        override val containerSlots = container.`(slots)`
+        override val ingredientSlots = containerSlots.filter { it.`(inventory)` is CraftingInventory }
+
+        //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
+        override val slotMonitors = ingredientSlots.map { ItemSlotMonitorP(it) }
+
+        override val playerSlotIndices = with(AreaTypes) { playerStorage + playerHotbar + playerOffhand - lockedSlots }
+            .getItemArea(container,
+                         containerSlots).slotIndices // supplies
+
+        override fun shouldHandle(storedItem: ItemStack,
+                                 currentItem: ItemStack): Boolean {
+            Log.trace("Checking if wee should load more items into crafting slot")
+            if (storedItem.isEmpty()) return false
+            Log.trace("Should handle: ${currentItem.isEmpty()}")
+            return currentItem.isEmpty() // storedItem not empty -> became empty
+        }
+
+        override fun autoRefill(): Boolean {
+            // do statistic
+            var handledSomething = false
+            val typeToSlotListMap = mutableMapOf<ItemType, MutableList<Int>>() // slotIndex
+            for (slotMonitor in slotMonitors) {
+                with(slotMonitor) {
+                    if (shouldHandle(storedItem, slot.`(itemStack)`)) {
+                        // record this
+                        typeToSlotListMap.getOrPut(storedItem.itemType) {
+                            mutableListOf()
+                        }.add(slot.`(id)`)
+                        handledSomething = true
+                    }
+                }
+            }
+            if (typeToSlotListMap.isEmpty()) {
+                return handledSomething
+            }
+            handledSomething = true
+            AdvancedContainer.tracker(instant = true) {
+                val playerSubTracker = tracker.subTracker(playerSlotIndices)
+                //val counter = playerSubTracker.slots.collect()
+                val counter = playerSubTracker.slots.processAndCollect { it }
+                val map: Map<ItemType, Pair<Int, List<MutableItemStack>>> =
+                        typeToSlotListMap.mapValues { (type, list) ->
+                            (counter.count(type) / list.size).coerceAtMost(type.maxCount) to list.map { tracker.slots[it] }
+                        }
+                playerSubTracker.slots.forEach { source ->
+                    map[source.itemType]?.let { (eachCount, fedList) ->
+                        for (destination in fedList) {
+                            if (destination.count >= eachCount) continue
+                            if (source.isEmpty()) break
+                            val remaining = eachCount - destination.count
+                            source.transferNTo(destination,
+                                               remaining)
+                        }
+                    }
+                }
+            }
+            return true
+        }
+
+        override fun save() {
+            slotMonitors.forEach { it.save() }
+        }
+    }
+
+    private class ItemSlotMonitorP(override val slot: Slot):IItemSlotMonitor {
+        override var storedItem = ItemStack.EMPTY
+
+        override fun save() {
+            storedItem = slot.`(itemStack)`
         }
     }
 }

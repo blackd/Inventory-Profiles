@@ -77,6 +77,9 @@ object ModSettings : ConfigDeclaration {
     val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)
     val STOP_AT_SCREEN_CLOSE                      /**/ by bool(false)
     val IGNORE_DURABILITY                         /**/ by bool(true)
+    val CONTINUOUS_CRAFTING_METHOD                /**/ by int(1,
+                                                              1,
+                                                              2)
 
         .CATEGORY("$category.debugs")
     val DEBUG                                     /**/ by bool(false)

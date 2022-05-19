@@ -12,7 +12,6 @@ import org.anti_ad.mc.common.vanilla.alias.DefaultedRegistry
 import org.anti_ad.mc.common.vanilla.alias.GameOptions
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Inventory
-import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
 import org.anti_ad.mc.common.vanilla.alias.KeyBinding
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient

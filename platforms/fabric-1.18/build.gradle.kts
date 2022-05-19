@@ -210,6 +210,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
                 this.addGameVersion(it)
             }
         }
+        this.addGameVersion("Fabric")
         val fabricRemapJar = tasks.named<RemapJarTask>("remapJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {

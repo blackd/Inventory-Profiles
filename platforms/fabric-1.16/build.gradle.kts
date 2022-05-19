@@ -200,6 +200,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
                 this.addGameVersion(it)
             }
         }
+        this.addGameVersion("Fabric")
         val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         logger.lifecycle("""
