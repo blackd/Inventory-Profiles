@@ -1,5 +1,13 @@
 <!-- latest begin -->
+### 1.4.0
 
+- Added support for wildcards in custom sort rules. See the [wiki](https://inventory-profiles-next.github.io/custom-rules/add/#wildcards) for more information.
+- Added new setting "Continuous Crafting Method" that allows you to choose between 2 modes of continuous/auto crafting. If the default doesn't work for you try the alternative.
+- Probably made continuous/auto crafting more stable...
+
+<!-- latest end -->
+
+<!-- rest begin -->
 ### 1.3.7/8
 
 - New release because the last one was bodged by GihHub Action resulting invalid jar files. First forge builds had problems then some fabric builds are not working for some players. As result github actions will no longer be used for releasing.
@@ -11,7 +19,6 @@
 - Move can now move only the items of the type under the cursor despite the type being present in the target chest/inventory.
   <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/GPsqasYC9Bg?wmode=transparent" height="358" width="638"></iframe>
 
-<!-- latest end -->
 
 ### 1.3.6
 - Addressed a very rare issue that causes random game crash due to some mods changing the game startup sequence.
@@ -30,7 +37,7 @@ You may need to update them to reflect any changes in the Tags.**
 
 
 
-<!-- rest begin -->
+
 
 ### 1.3.4
 - Fixed Auto Refill alert sounds on Forge when connected to Forge server.
@@ -203,5 +210,3 @@ This is the last release of Inventory Profiles Next for Minecraft 1.14.x
 
 [1]: https://discord.gg/23YCxmveUM
 [2]: https://img.shields.io/discord/861171785897738240?label=Discord&logo=discord&style=plastic
-
-
