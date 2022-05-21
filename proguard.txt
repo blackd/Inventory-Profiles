@@ -1,6 +1,13 @@
 #-libraryjars <java.home>/lib/rt.jar
 -libraryjars  <java.home>/jmods/java.base.jmod(!**.jar;!module-info.class)
 -keep class !org.anti_ad.embedded.** { *; }
+
+#-keep class org.anti_ad.mc.ipnext.InventoryProfilesKt { *; }
+#-keep class org.anti_ad.mc.ipnext.compat.** { *; }
+#-keep class org.anti_ad.mc.ipnext.mixin.** { *; }
+#-keep class org.anti_ad.mc.common.mixin.** { *; }
+#-keepnames class org.anti_ad.mc.ipnext.config.**
+
 #-ignorewarnings
 -optimizationpasses 100 # (828K -> 811K)
 #-dontobfuscate
@@ -22,8 +29,8 @@
 #    public static ** valueOf(java.lang.String);
 #}
 
--keep class org.anti_ad.mc.** { *; }
--keep class org.anti_ad.mc.api.** { *; }
+#-keep class org.anti_ad.mc.** { *; }
+#-keep class org.anti_ad.mc.api.** { *; }
 
 #-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonEncoder* { *; }
 #-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonDecoder* { *; }

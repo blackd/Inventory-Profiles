@@ -40,6 +40,7 @@ fun Project.configureDependencies() {
 
     dependencies {
         "api"("org.jetbrains:annotations:20.1.0")
+        "shadedApi"("com.yevdo:jwildcard:1.4")
     }
 }
 
@@ -66,5 +67,3 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         }
     }
 }
-
-

@@ -7,8 +7,7 @@ class IndentedDataFileParser(lines: List<String>,
                              private val maxDepth: Int = -1) {
     private val errors = mutableListOf<Line>()
     private val filteredLines = lines.mapIndexed { index, s ->
-        Line(index + 1,
-             s)
+        Line(index + 1, s)
     }.filter {
         !it.text.isCommentOrBlank
     }.dropWhile {
@@ -74,7 +73,7 @@ class IndentedDataFileParser(lines: List<String>,
                                                             fileName,
                                                             maxDepth)
 
-        private fun parse(lines: List<String>,
+        fun parse(lines: List<String>,
                           fileName: String = "<unknown file>",
                           maxDepth: Int = -1): IndentedData = IndentedDataFileParser(lines,
                                                                                      fileName,

@@ -12,14 +12,14 @@ import org.anti_ad.mc.ipnext.parser.SyntaxErrorException
   get [RuleDefinition]: fail -> log and remove
  */
 class RuleFile(val fileName: String,
-               val content: String) {
+               private val content: String) {
     // for same name definition, later overrides former
     val rulesMap = mutableMapOf<String, MutableList<RuleDefinition>>()
 
     @ThrowsCaught
     fun parseContent() {
         Log.trace("[-] Parsing file $fileName")
-        val data = IndentedDataFileParser.parse(content,
+        val data = IndentedDataFileParser.parse(content.lines().preprocessRules(),
                                                 fileName)
         for (subData in data.subData) {
             Log.trace("    - parsing rule: ${subData.text}")
@@ -27,8 +27,7 @@ class RuleFile(val fileName: String,
                 @ThrowsCaught
                 val definition = RuleParser.parseRuleDefinition(subData)
                 // then add to rules
-                rulesMap.getOrPut(definition.ruleName,
-                                  { mutableListOf() }).add(definition)
+                rulesMap.getOrPut(definition.ruleName) { mutableListOf() }.add(definition)
             } catch (e: SyntaxErrorException) {
                 Log.warn("Syntax error in '$fileName' (${subData.text})")
                 Log.warn("  > at: ${e.line}:${e.pos} ${e.msg}")

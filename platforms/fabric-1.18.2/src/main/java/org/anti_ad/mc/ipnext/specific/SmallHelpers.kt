@@ -2,6 +2,7 @@
 
 package org.anti_ad.mc.ipnext.specific
 
+import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla.mc
 import org.anti_ad.mc.common.vanilla.alias.SharedConstants
@@ -24,6 +25,31 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
     }
     else -> {
         ""
+    }
+}
+
+fun detectServerType(): String {
+    return when {
+        mc().isInSingleplayer -> {
+            "vanilla"
+        }
+        mc().isConnectedToRealms -> {
+            "realms"
+        }
+        mc().currentServerEntry != null -> {
+            val brand = mc().player?.serverBrand.orDefault { "vanilla" }.lowercase()
+            when {
+                brand.contains("fabric") -> "vanilla"
+                brand.contains("forge") -> "vanilla"
+                brand.contains("paper") -> "paper"
+                brand.contains("spigot") -> "paper"
+                brand.contains("bukkit") -> "paper"
+                else -> "vanilla"
+            }
+        }
+        else -> {
+            "vanilla"
+        }
     }
 }
 

@@ -111,6 +111,7 @@ tasks.named<ShadowJar>("shadowJar") {
     setVersion(project.version)
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
+    relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
     relocate("kotlin", "org.anti_ad.embedded.kotlin")
     relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
 
