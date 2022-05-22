@@ -10,7 +10,7 @@ import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
 import org.anti_ad.mc.registerMinimizeJarTask
 
-val supported_minecraft_versions = listOf("1.19")
+val supported_minecraft_versions = listOf("1.19-Snapshot", "1.19-pre1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.19-pre1"
@@ -211,7 +211,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
-        releaseType = "release"
+        releaseType = "alpha"
         supported_minecraft_versions.forEach {
             val l = it.toLowerCase()
             if (!l.contains("pre") && !l.contains("rc")) {
@@ -258,7 +258,12 @@ modrinth {
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-    gameVersions.addAll(supported_minecraft_versions)
+    supported_minecraft_versions.forEach {
+        if (!it.toLowerCase().contains("snapshot")) {
+            gameVersions.add(it)
+        }
+    }
+    //gameVersions.addAll(supported_minecraft_versions)
     logger.lifecycle("""
     +*************************************************+
     Will release ${remappedJarFile.get().asFile.path}
@@ -271,6 +276,8 @@ modrinth {
         mutableListOf(
             ModDependency("P7dR8mSH", "required"),
             ModDependency("mOgUt4GM", "optional")))
+
+    this.versionType.set(com.modrinth.minotaur.request.VersionType.ALPHA.name)
 }
 
 publishing {
