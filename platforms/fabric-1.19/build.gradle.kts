@@ -234,7 +234,6 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
 
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
-        debug = true
         javaIntegration = false
         forgeGradleIntegration = mod_loader == "forge"
     })
