@@ -3,7 +3,8 @@
 
 - Added support for wildcards in custom sort rules. See the [wiki](https://inventory-profiles-next.github.io/custom-rules/add/#wildcards) for more information.
 - Added new setting "Continuous Crafting Method" that allows you to choose between 2 modes of continuous/auto crafting. If the default doesn't work for you try the alternative.
-- Probably made continuous/auto crafting more stable...
+- Workaround for [MC-216434](https://bugs.mojang.com/browse/MC-216434) when continuous/auto crafting is enabled. Next release will contain fix for it independent of continuous crafting.
+- Made continuous/auto crafting more stable...
 
 <!-- latest end -->
 
