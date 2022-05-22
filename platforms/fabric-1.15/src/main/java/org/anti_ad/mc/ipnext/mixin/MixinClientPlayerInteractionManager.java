@@ -20,7 +20,6 @@ public class MixinClientPlayerInteractionManager {
         if (slotId == 0) {
             ClientEventHandler.INSTANCE.onCrafted();
         }
-        Log.INSTANCE.debug("ClientPlayerInteractionManager::clickSlot");
     }
 
 }

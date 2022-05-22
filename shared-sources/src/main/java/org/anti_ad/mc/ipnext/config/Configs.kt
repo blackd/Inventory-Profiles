@@ -68,7 +68,7 @@ object ModSettings : ConfigDeclaration {
     val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10,
                                                               1,
                                                               500)
-    val AUTO_CRAFT_DELAY                          /**/ by int(3,
+    val AUTO_CRAFT_DELAY                          /**/ by int(1,
                                                               1,
                                                               20)
     val CONTINUOUS_CRAFTING_METHOD                /**/ by int(1,

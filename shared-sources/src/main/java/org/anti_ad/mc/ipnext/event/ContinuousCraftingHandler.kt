@@ -26,6 +26,7 @@ import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.MutableItemStack
 import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.maxCount
 import org.anti_ad.mc.ipnext.item.transferNTo
 
@@ -33,25 +34,24 @@ object ContinuousCraftingHandler {
 
 
     private var afterRefill: Boolean  = false
+    private var autoRefillRetry = 0
     private var submitNextCraft: Int  = 0
 
     var processingClick: Boolean = false
 
-    private val checked
+    private val enabled
         get() = GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
     private var trackingScreen: ContainerScreen<*>? = null
 
     fun onTickInGame() {
         val screen = Vanilla.screen()
-        if (screen !is ContainerScreen<*> || !checked) {
-            trackingScreen = null
-            return
+        if (enabled && screen is ContainerScreen<*>) {
+            if (screen != trackingScreen) {
+                trackingScreen = screen
+                init()
+            }
+            handle()
         }
-        if (screen != trackingScreen) {
-            trackingScreen = screen
-            init()
-        }
-        handle()
     }
 
     private lateinit var monitor: IMonitor
@@ -65,11 +65,11 @@ object ContinuousCraftingHandler {
 
         monitor = when(ModSettings.CONTINUOUS_CRAFTING_METHOD.integerValue) {
             1 -> {
-                Log.error("Using DEFAULT Monitor")
+                Log.trace("Using DEFAULT Monitor")
                 Monitor(container)
             }
             2 -> {
-                Log.error("Using OLD Monitor")
+                Log.trace("Using OLD Monitor")
                 MonitorP(container)
             }
             else -> {
@@ -120,7 +120,11 @@ object ContinuousCraftingHandler {
                     crafted = false
                     onCraftCount = 0
                     afterRefill = true
+                    autoRefillRetry = 0
+                } else if (autoRefillRetry < 6) {
+                    autoRefillRetry++
                 } else {
+                    autoRefillRetry = 0
                     crafted = false
                     onCraftCount = 0
                     afterRefill = false
@@ -157,7 +161,8 @@ object ContinuousCraftingHandler {
         val slotMonitors: List<IItemSlotMonitor>
         val playerSlotIndices: List<Int>
         fun shouldHandle(storedItem: ItemStack,
-                         currentItem: ItemStack): Boolean
+                         currentItem: ItemStack,
+                         slot: Slot): Boolean
 
         fun autoRefill(): Boolean
         fun save()
@@ -175,10 +180,14 @@ object ContinuousCraftingHandler {
                          containerSlots).slotIndices // supplies
 
         override fun shouldHandle(storedItem: ItemStack,
-                                  currentItem: ItemStack): Boolean {
+                                  currentItem: ItemStack,
+                                  slot: Slot): Boolean {
             Log.trace("Checking if wee should load more items into crafting slot")
             if (storedItem.isEmpty()) return false
             Log.trace("Should handle: ${currentItem.isEmpty()}")
+            if (currentItem.itemType.itemId == "minecraft:glass_bottle" && storedItem.itemType.itemId == "minecraft:honey_bottle") {
+                ContainerClicker.shiftClick(slot.`(id)`)
+            }
             return currentItem.isEmpty() // storedItem not empty -> became empty
         }
 
@@ -190,7 +199,7 @@ object ContinuousCraftingHandler {
                 with(slotMonitor) {
                     val n = slot.`(itemStack)`
                     n.itemType.ignoreDurability = true
-                    if (shouldHandle(storedItem, slot.`(itemStack)`)) {
+                    if (shouldHandle(storedItem, slot.`(itemStack)`, slot)) {
                         // record this
                         typeToSlotListMap.getOrPut(storedItem.itemType.copy(ignoreDurability = true)) {
                             mutableListOf()
@@ -275,7 +284,8 @@ object ContinuousCraftingHandler {
                          containerSlots).slotIndices // supplies
 
         override fun shouldHandle(storedItem: ItemStack,
-                                 currentItem: ItemStack): Boolean {
+                                  currentItem: ItemStack,
+                                  slot: Slot): Boolean {
             Log.trace("Checking if wee should load more items into crafting slot")
             if (storedItem.isEmpty()) return false
             Log.trace("Should handle: ${currentItem.isEmpty()}")
@@ -288,7 +298,7 @@ object ContinuousCraftingHandler {
             val typeToSlotListMap = mutableMapOf<ItemType, MutableList<Int>>() // slotIndex
             for (slotMonitor in slotMonitors) {
                 with(slotMonitor) {
-                    if (shouldHandle(storedItem, slot.`(itemStack)`)) {
+                    if (shouldHandle(storedItem, slot.`(itemStack)`, slot)) {
                         // record this
                         typeToSlotListMap.getOrPut(storedItem.itemType) {
                             mutableListOf()

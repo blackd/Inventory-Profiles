@@ -14,6 +14,6 @@ public class MixinCraftingResultSlot {
     @Inject(at = @At("HEAD"), method = "onCrafted(Lnet/minecraft/item/ItemStack;)V")
     public void onCrafted(ItemStack itemStack, CallbackInfo ci) {
         //ClientEventHandler.INSTANCE.onCrafted();
-        Log.INSTANCE.debug("MixinCraftingResultSlot::onCrafted");
+        //Log.INSTANCE.debug("MixinCraftingResultSlot::onCrafted");
     }
 }

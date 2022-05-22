@@ -3,7 +3,6 @@ package org.anti_ad.mc.ipnext.mixin;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.slot.SlotActionType;
-import org.anti_ad.mc.common.Log;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +17,6 @@ public class MixinClientPlayerInteractionManager {
         if (slotId == 0) {
             ClientEventHandler.INSTANCE.onCrafted();
         }
-        Log.INSTANCE.debug("ClientPlayerInteractionManager::clickSlot");
     }
 
 }
