@@ -1,3 +1,23 @@
+/*
+ * Inventory Profiles Next
+ *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
+ *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.common.TellPlayer
@@ -38,8 +58,7 @@ class AdvancedContainer(private val vanillaContainer: Container,
 
     private val slotIdClicks: List<Pair<Int, Int>>
         get() = vanillaSlots.let { slots ->
-            @ThrowsCaught
-            tryOrElse(::handleException) { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
+            @ThrowsCaught tryOrElse(::handleException) { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
         }
 
     private fun handleException(e: Throwable): Nothing? {
@@ -74,14 +93,16 @@ class AdvancedContainer(private val vanillaContainer: Container,
         }
     }
 
-    inner class SandboxDsl(val sandbox: ContainerSandbox) : AdvancedContainerDsl() {
+    inner class SandboxDsl(val sandbox: ContainerSandbox): AdvancedContainerDsl() {
+
         val sandboxTracker: ItemTracker
             get() = sandbox.items
         val ItemArea.asSubTracker: SubTracker
             get() = sandboxTracker.subTracker(this.slotIndices)
     }
 
-    inner class TrackerDsl(val tracker: MutableItemTracker) : AdvancedContainerDsl() {
+    inner class TrackerDsl(val tracker: MutableItemTracker): AdvancedContainerDsl() {
+
         val ItemArea.asSubTracker: MutableSubTracker
             get() = tracker.subTracker(this.slotIndices)
     }
@@ -98,13 +119,10 @@ class AdvancedContainer(private val vanillaContainer: Container,
     // ============
 
     fun arrange(instant: Boolean = false) {
-        val interval: Int =
-            if (instant) 0
-            else if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue)
-                ModSettings.INTERVAL_BETWEEN_CLICKS_MS.integerValue
-            else 0
-        ContainerClicker.executeClicks(slotIdClicks,
-                                       interval)
+        val interval: Int = if (instant) 0
+        else if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue) ModSettings.INTERVAL_BETWEEN_CLICKS_MS.integerValue
+        else 0
+        ContainerClicker.executeClicks(slotIdClicks, interval)
     }
 
     // ============
@@ -112,10 +130,11 @@ class AdvancedContainer(private val vanillaContainer: Container,
     // ============
 
     companion object {
+
         fun create(): AdvancedContainer {
             return when (val container = Vanilla.container()) {
                 is CreativeContainer -> Vanilla.playerContainer()
-                else -> container
+                else                 -> container
             }.let { AdvancedContainer(it) }
         }
 
@@ -143,7 +162,9 @@ class AdvancedContainer(private val vanillaContainer: Container,
     fun cleanCursor() {
         sandbox {
             with(AreaTypes) {
-                if (sandboxTracker.cursor.isEmpty()) return@sandbox
+                if (sandboxTracker.cursor.isEmpty()) {
+                    return@sandbox
+                }
                 /*
                  * refer: PlayerInventory.offerOrDrop, getOccupiedSlotWithRoomForStack
                  * vanilla getOccupiedSlotWithRoomForStack logic:
@@ -157,40 +178,40 @@ class AdvancedContainer(private val vanillaContainer: Container,
                  */
                 // ++ (can put to slot checking)
                 // 1.
-                (focusedSlot - lockedSlots).get().asSubTracker
-                    .let {
-                        sandbox.cursorPutTo(it,
-                                            skipEmpty = false)
-                    }
-                if (sandboxTracker.cursor.isEmpty()) return@sandbox
+                (focusedSlot - lockedSlots).get().asSubTracker.let {
+                    sandbox.cursorPutTo(it, skipEmpty = false)
+                }
+                if (sandboxTracker.cursor.isEmpty()) {
+                    return@sandbox
+                }
                 // 2.
-                (playerHands + playerHotbar + playerStorage - lockedSlots).get().asSubTracker
-                    .let {
-                        sandbox.cursorPutTo(it,
-                                            skipEmpty = true)
-                    }
-                if (sandboxTracker.cursor.isEmpty()) return@sandbox
+                (playerHands + playerHotbar + playerStorage - lockedSlots).get().asSubTracker.let {
+                    sandbox.cursorPutTo(it, skipEmpty = true)
+                }
+                if (sandboxTracker.cursor.isEmpty()) {
+                    return@sandbox
+                }
                 // 3.
-                (playerStorage + playerHotbar + playerOffhand - lockedSlots).get().asSubTracker
-                    .let {
-                        sandbox.cursorPutTo(it,
-                                            skipEmpty = false)
-                    }
-                if (sandboxTracker.cursor.isEmpty()) return@sandbox
+                (playerStorage + playerHotbar + playerOffhand - lockedSlots).get().asSubTracker.let {
+                    sandbox.cursorPutTo(it, skipEmpty = false)
+                }
+                if (sandboxTracker.cursor.isEmpty()) {
+                    return@sandbox
+                }
                 // 4.
-                itemStorage.get().asSubTracker
-                    .let {
-                        sandbox.cursorPutTo(it,
-                                            skipEmpty = true)
-                    }
-                if (sandboxTracker.cursor.isEmpty()) return@sandbox
+                itemStorage.get().asSubTracker.let {
+                    sandbox.cursorPutTo(it, skipEmpty = true)
+                }
+                if (sandboxTracker.cursor.isEmpty()) {
+                    return@sandbox
+                }
                 // 5.
-                itemStorage.get().asSubTracker
-                    .let {
-                        sandbox.cursorPutTo(it,
-                                            skipEmpty = false)
-                    }
-                if (sandboxTracker.cursor.isEmpty()) return@sandbox
+                itemStorage.get().asSubTracker.let {
+                    sandbox.cursorPutTo(it, skipEmpty = false)
+                }
+                if (sandboxTracker.cursor.isEmpty()) {
+                    return@sandbox
+                }
             }
         }
     }

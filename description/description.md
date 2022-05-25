@@ -43,12 +43,6 @@ This mod will:
 
 !include`snippetStart="<!-- latest begin -->", snippetEnd="<!-- latest end -->"` ../changelog.md
 
-## Requirements
-
-- Forge - always use the latest version for your minecraft version
-
-- Fabric Loader >= 0.11.6 
-- Mod Menu >= 2.0.2 - _optional_
 
 ## Contributing
 

@@ -1,3 +1,23 @@
+/*
+ * Inventory Profiles Next
+ *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
+ *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package org.anti_ad.mc.ipnext.parser
 
 import org.anti_ad.mc.common.Log
@@ -27,7 +47,11 @@ import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.specific.serverIdentifier
 import java.nio.file.Path
+import kotlin.io.path.createDirectories
 import kotlin.io.path.createDirectory
+import kotlin.io.path.deleteExisting
+import kotlin.io.path.isRegularFile
+import kotlin.io.path.notExists
 
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
@@ -63,6 +87,10 @@ object ProfilesLoader: Loader, Savable {
 
     val file: Path
         get() {
+            return configFolder / serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue) / "profiles.txt"
+        }
+    private val fileOld: Path
+        get() {
             return configFolder / "profiles${serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue)}.txt"
         }
 
@@ -82,6 +110,11 @@ object ProfilesLoader: Loader, Savable {
         profiles.clear()
         savedProfiles.clear()
         val temp = mutableListOf<ProfileData>()
+        if (fileOld.exists() && file.notExists()) {
+            val content = fileOld.readText()
+            content.writeToFile(file)
+            fileOld.deleteExisting()
+        }
         if (file.exists()) {
             tryOrPrint({msg->
                            Log.warn(msg)
@@ -126,9 +159,15 @@ object CustomDataFileLoader {
 object LockSlotsLoader : Loader, Savable {
 
     val file: Path
-    get() {
-        return configFolder / "lockSlots${serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue)}.txt"
-    }
+        get() {
+            (configFolder / serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue)).createDirectories()
+            return configFolder / serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue) / "lockSlots.txt"
+        }
+
+    val fileOld: Path
+        get() {
+            return configFolder / "lockSlots${serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue)}.txt"
+        }
 
 
     private var cachedValue = listOf<Int>()
@@ -149,7 +188,12 @@ object LockSlotsLoader : Loader, Savable {
     private fun internalLoad() {
         cachedValue = listOf()
         try {
-            if (!file.exists()) {
+            if (fileOld.exists() && file.notExists()) {
+                val content = fileOld.readText()
+                content.writeToFile(file)
+                fileOld.deleteExisting()
+            }
+            if (file.notExists()) {
                 LockSlotsHandler.lockedInvSlotsStoredValue.clear()
                 return
             }
