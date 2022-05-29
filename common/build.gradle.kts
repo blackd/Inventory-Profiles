@@ -42,7 +42,7 @@ group = "org.anti-ad.mc"
 
 dependencies {
 
-    val antlrVersion = "4.10.1"
+    val antlrVersion = "4.9.3"
     "antlr"("org.antlr:antlr4:$antlrVersion")
     "implementation"("org.antlr:antlr4-runtime:$antlrVersion")
     "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")

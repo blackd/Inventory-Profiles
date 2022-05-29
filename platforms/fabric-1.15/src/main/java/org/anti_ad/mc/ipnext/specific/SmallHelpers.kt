@@ -33,7 +33,7 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
         ""
     }
     mc().isInSingleplayer -> {
-        (mc().server?.levelName ?: "").sanitized()
+        (mc().server?.levelName ?: "")
     }
     mc().isConnectedToRealms -> {
         "@relms".sanitized()

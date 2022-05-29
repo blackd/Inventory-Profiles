@@ -46,6 +46,8 @@ import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.specific.serverIdentifier
+import org.anti_ad.mc.ipnext.util.dashedSanitized
+import org.anti_ad.mc.ipnext.util.sanitized
 import java.nio.file.Path
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createDirectory
@@ -87,11 +89,13 @@ object ProfilesLoader: Loader, Savable {
 
     val file: Path
         get() {
-            return configFolder / serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue) / "profiles.txt"
+            val dir = serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue).sanitized()
+            (configFolder / dir ).createDirectories()
+            return configFolder / dir / "profiles.txt"
         }
     private val fileOld: Path
         get() {
-            return configFolder / "profiles${serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue)}.txt"
+            return configFolder / "profiles${serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue).dashedSanitized()}.txt"
         }
 
     val profiles = mutableListOf<ProfileData>()
@@ -160,13 +164,14 @@ object LockSlotsLoader : Loader, Savable {
 
     val file: Path
         get() {
-            (configFolder / serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue)).createDirectories()
-            return configFolder / serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue) / "lockSlots.txt"
+            val dir = serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue).sanitized()
+            (configFolder / dir ).createDirectories()
+            return configFolder / dir / "lockSlots.txt"
         }
 
     val fileOld: Path
         get() {
-            return configFolder / "lockSlots${serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue)}.txt"
+            return configFolder / "lockSlots${serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue).dashedSanitized()}.txt"
         }
 
 

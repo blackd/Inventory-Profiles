@@ -116,12 +116,15 @@ object HintsManagerNG {
                 readInternalConfig(input)
             }
         }
+        Log.info("Loaded ${externalConfigs.size} external GUI hints")
         externalConfigs.forEach { (name, hintClassData) ->
             effectiveHints.putIfAbsent(name, hintClassData)
         }
+        Log.info("Loaded ${internalConfigs.size} build-in GUI hints")
         internalConfigs.forEach { (name, hintClassData) ->
             effectiveHints.putIfAbsent(name, hintClassData)
         }
+        Log.info("Effective GUI hints after merge: ${effectiveHints.size}")
     }
 
     private fun readInternalConfig(input: InputStream) {

@@ -27,6 +27,7 @@ import org.anti_ad.mc.common.extensions.plus
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.Vanilla.`(sendChatMessage)`
 import org.anti_ad.mc.ipnext.config.Modpacks
+import java.lang.Thread.sleep
 
 fun generateCommands(namespaces: MutableSet<String>,
                      blocks: MutableMap<String, MutableList<String>>,
@@ -37,35 +38,55 @@ fun generateCommands(namespaces: MutableSet<String>,
     val blocksMax = if (blocks.isEmpty()) 0 else blocks.values.sortedByDescending { it.size }[0].size
     val itemsMax = if (items.isEmpty()) 0 else items.values.sortedByDescending  { it.size }[0].size
     val bEntMax = if (blockEntities.isEmpty()) 0 else blockEntities.values.sortedByDescending  { it.size }[0].size
-    val width = maxOf(blocksMax, itemsMax, bEntMax) * 2
-    if ((width+10) * (namespaces.size * 3 + 10) < 32768) {
+    val width = maxOf( blocksMax, itemsMax, bEntMax) * 2
+    val px = Vanilla.px.toLong()
+    val py = Vanilla.py.toLong()
+    val pz = Vanilla.pz.toLong()
 
-        script.add("/fill ~-5 ~-1 ~-5 ~${namespaces.size * 3 + 5} ~-1 ~${width + 5} minecraft:black_stained_glass" )
-        script.add("/fill ~ ~-1 ~ ~${namespaces.size * 3} ~-1 ~${width} minecraft:smooth_stone" )
-
-        script.add("/fill ~-5 ~ ~-5 ~${namespaces.size * 3 + 5} ~1 ~-5 minecraft:glass")
-        script.add("/fill ~-5 ~ ~-5 ~-5 ~1 ~${width + 5} minecraft:glass")
-        script.add("/fill ~-5 ~ ~${width + 5} ~${namespaces.size * 3 + 5} ~1 ~${width + 5} minecraft:glass")
-        script.add("/fill ~${namespaces.size * 3 + 5} ~ ~-5 ~${namespaces.size * 3 + 5} ~1 ~${width + 5} minecraft:glass")
-
-        script.add("/fill ~-5 ~1 ~-5 ~${namespaces.size * 3 + 5} ~-1 ~-5 minecraft:smooth_stone" )
-    } else {
-        script.add("this thing is too big to make with single command.... that sucks")
-    }
     var pos = 1
-    namespaces.forEach { namespace ->
+
+
+
+    //script.add("/fill ~ ~-1 ~ ~${len} ~-1 ~${width} minecraft:smooth_stone" )
+
+    val playerName = Vanilla.player().gameProfile.name
+
+    script.add("/tp $playerName ~ ~ ~ 180 0")
+
+    //script.add("/fill ${px-5} ${py-1} ${pz + 3} ${px+width+5} ${py-1} ${pz+1} minecraft:glass")
+
+    script.add("/fill ${px-3} ${py-1} ${pz + 4} ${px+width+2} ${py-1} $pz minecraft:glass")
+    script.add("/fill ${px-4} ${py-1} ${pz + 4} ${px+width+2} ${py+1} ${pz + 4} minecraft:black_stained_glass")
+    script.add("/fill ${px-4} ${py-1} ${pz + 4} ${px-4} ${py+1} ${pz - 1} minecraft:black_stained_glass")
+    script.add("/fill ${px+width+3} ${py-1} ${pz + 4} ${px+width+3} ${py+1} ${pz - 1} minecraft:black_stained_glass")
+
+
+
+    //fill ~-5 ~-1 ~3 ~25 ~-1 ~ minecraft:black_stained_glass//
+
+    genRowScript(px, py, pz, script, playerName, width)
+
+    blocks.keys.forEach { namespace ->
         val blocksToProcess = blocks[namespace]
         if (blocksToProcess != null) {
-            script.add("/setblock ~$pos ~ ~-2 minecraft:oak_sign{Text1:\"{\\\"text\\\":\\\"$namespace\\\"}\"} destroy")
-
-            var blockPos = 1
+///setblock 1000 126 905 minecraft:oak_sign[rotation=12,waterlogged=false]{Text1:"{\"text\":\"test\"}"}
+            script.add("/setblock ${px - 2} $py ${pz - pos} minecraft:oak_sign[rotation=12,waterlogged=false]{Text1:\"{\\\"text\\\":\\\"$namespace\\\"}\"} destroy")
+            genRowScript(px, py, pz - pos, script, playerName, width)
+            var blockPos = 0
             blocksToProcess.forEach { blockName ->
-                script.add("/setblock ~$pos ~ ~$blockPos $namespace:$blockName destroy")
+                script.add("/setblock ${px + blockPos} $py ${pz - pos} $namespace:$blockName destroy")
                 blockPos += 2
+                sleep(20)
             }
             pos += 4
         }
     }
+
+    script.add("/fill ${px-3} ${py-1} ${pz - pos - 3} ${px+width+2} ${py-1} ${pz - pos} minecraft:glass")
+    script.add("/fill ${px-4} ${py-1} ${pz - pos - 3} ${px+width+2} ${py+1} ${pz - pos - 3} minecraft:black_stained_glass")
+    script.add("/fill ${px-4} ${py-1} ${pz - pos - 3} ${px-4} ${py+1} ${pz - pos } minecraft:black_stained_glass")
+    script.add("/fill ${px+width+3} ${py-1} ${pz - pos - 3} ${px+width+3} ${py+1} ${pz - pos} minecraft:black_stained_glass")
+
     if (alsoGiveCommands) {
         items.keys.forEach {namespace ->
             items[namespace]?.forEach {
@@ -76,6 +97,19 @@ fun generateCommands(namespaces: MutableSet<String>,
     return  script
 }
 
+private fun genRowScript(x: Long,
+                         y: Long,
+                         z: Long,
+                         script: MutableList<String>,
+                         playerName: String,
+                         width: Int) {
+//
+    script.add("/fill ${x-4} ${y-1} $z ${x-4} ${y+1} ${z-3} minecraft:black_stained_glass")
+    script.add("/fill ${x-3} ${y-1} $z ${x-1} ${y-1} ${z-3} minecraft:glass")
+    script.add("/fill ${x} ${y-1} $z ${x + width} ${y-1} ${z-3} minecraft:smooth_stone")
+    script.add("/fill ${x + width} ${y-1} $z ${x + width + 2} ${y-1} ${z-3} minecraft:glass")
+    script.add("/fill ${x + width + 3} ${y-1} $z ${x + width + 3} ${y + 1} ${z-3} minecraft:black_stained_glass")
+}
 
 fun extractBlockInfo(namespaces: MutableSet<String>,
                      blocks: MutableMap<String, MutableList<String>>,

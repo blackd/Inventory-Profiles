@@ -438,6 +438,62 @@
             "playerSideOnly": true
         }
     },
+    "astralsorcery": {
+        "hellfirepvp.astralsorcery.client.screen.container.ScreenContainerAltarRadiance": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                }
+            }
+        },
+        "hellfirepvp.astralsorcery.client.screen.container.ScreenContainerAltarConstellation": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                }
+            }
+        },
+        "hellfirepvp.astralsorcery.client.screen.container.ScreenContainerAltarAttunement": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -2,
+                    "bottom": -15
+                }
+            }
+        },
+        "hellfirepvp.astralsorcery.client.screen.container.ScreenContainerAltarDiscovery": {
+            "playerSideOnly": true
+        }
+    },
     "beyond_earth": {
         "net.mrscauthd.beyond_earth.gui.screens.coalgenerator.CoalGeneratorGuiWindow": {
             "playerSideOnly": true
@@ -535,6 +591,69 @@
     },
     "bonsaitrees3": {
         "com.davenonymous.bonsaitrees3.client.BonsaiPotScreen": {
+            "ignore": true
+        }
+    },
+    "botania": {
+        "vazkii.botania.client.gui.bag.GuiFlowerBag": {
+            "playerSideOnly": true
+        },
+        "vazkii.botania.client.gui.box.GuiBaubleBox": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -37
+                }
+            }
+        }
+    },
+    "botanicalmachinery": {
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenAlfheimMarket": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenIndustrialAgglomerationFactory": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenManaBattery": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenMechanicalApothecary": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.containers.ContainerAlfheimMarket": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenMechanicalBrewery": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.containers.ContainerMechanicalBrewery": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenMechanicalDaisy": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.containers.ContainerMechanicalDaisy": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenMechanicalManaPool": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.containers.ContainerMechanicalManaPool": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.screens.ScreenMechanicalRunicAltar": {
+            "ignore": true
+        },
+        "de.melanx.botanicalmachinery.blocks.containers.ContainerMechanicalRunicAltar": {
             "ignore": true
         }
     },
@@ -671,6 +790,11 @@
             "playerSideOnly": true
         }
     },
+    "chisel": {
+        "team.chisel.client.gui.GuiAutoChisel": {
+            "playerSideOnly": true
+        }
+    },
     "chiselsandbits": {
         "mod.chiselsandbits.client.screens.ModificationTableScreen": {
             "playerSideOnly": true
@@ -778,6 +902,53 @@
                 "SORT_ROWS": {
                     "horizontalOffset": 9,
                     "bottom": 8
+                }
+            }
+        },
+        "com.simibubi.create.content.curiosities.tools.BlueprintScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 4,
+                    "bottom": 7
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 4,
+                    "bottom": 7
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 4,
+                    "bottom": 7
+                }
+            }
+        }
+    },
+    "creativeapiary": {
+        "com.YTrollman.CreativeApiary.gui.CreativeApiaryStorageScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 30
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 30
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 30
+                }
+            }
+        },
+        "com.YTrollman.CreativeApiary.gui.CreativeApiaryBreederScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 26
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 26
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 26
                 }
             }
         }
@@ -951,7 +1122,21 @@
             "playerSideOnly": true
         },
         "com.lothrazar.cyclic.block.dropper.ScreenDropper": {
-            "playerSideOnly": true
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -12
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -24
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -36
+                }
+            }
         },
         "com.lothrazar.cyclic.block.forester.ScreenForester": {
             "playerSideOnly": true
@@ -1088,6 +1273,9 @@
         },
         "com.lothrazar.cyclic.block.tp.ScreenTeleport": {
             "playerSideOnly": true
+        },
+        "com.lothrazar.cyclic.block.generatorpeat.ScreenGeneratorPeat": {
+            "playerSideOnly": true
         }
     },
     "dankstorage": {
@@ -1118,6 +1306,11 @@
             "ignore": true
         }
     },
+    "demagnetize": {
+        "link.infra.demagnetize.blocks.DemagnetizerGui": {
+            "playerSideOnly": true
+        }
+    },
     "dimstorage": {
         "edivad.dimstorage.client.screen.ScreenDimTank": {
             "playerSideOnly": true
@@ -1125,6 +1318,11 @@
     },
     "doggytalents": {
         "doggytalents.client.screen.FoodBowlScreen": {
+            "playerSideOnly": true
+        }
+    },
+    "draconicevolution": {
+        "me.desht.modularrouters.client.gui.GuiItemRouter": {
             "playerSideOnly": true
         }
     },
@@ -1144,6 +1342,17 @@
             "playerSideOnly": true
         },
         "de.maxhenkel.easyvillagers.gui.OutputScreen": {
+            "playerSideOnly": true
+        }
+    },
+    "eidolon": {
+        "elucent.eidolon.gui.WorktableScreen": {
+            "playerSideOnly": true
+        },
+        "elucent.eidolon.gui.SoulEnchanterScreen": {
+            "playerSideOnly": true
+        },
+        "elucent.eidolon.gui.WoodenBrewingStandScreen": {
             "playerSideOnly": true
         }
     },
@@ -1241,6 +1450,9 @@
     },
     "elementalcraft": {
         "sirttas.elementalcraft.block.spelldesk.SpellDeskScreen": {
+            "playerSideOnly": true
+        },
+        "sirttas.elementalcraft.item.spell.book.SpellBookScreen": {
             "playerSideOnly": true
         }
     },
@@ -1465,6 +1677,11 @@
             }
         }
     },
+    "envirocore": {
+        "com.github.thegoldcrayon.tgcropesmod.client.gui.DryingRackScreen": {
+            "playerSideOnly": true
+        }
+    },
     "essentials": {
         "com.Da_Technomancer.essentials.gui.ItemShifterScreen": {
             "playerSideOnly": true
@@ -1480,6 +1697,9 @@
         }
     },
     "evilcraft": {
+        "org.cyclops.evilcraft.client.gui.container.ContainerScreenPrimedPendant": {
+            "playerSideOnly": true
+        },
         "org.cyclops.evilcraft.client.gui.container.ContainerScreenBloodChest": {
             "playerSideOnly": true
         },
@@ -1522,6 +1742,23 @@
                 },
                 "SORT_ROWS": {
                     "horizontalOffset": 29
+                }
+            }
+        },
+        "org.cyclops.evilcraft.client.gui.container.ContainerScreenExaltedCrafter": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -11
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -23
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -35
                 }
             }
         }
@@ -1567,6 +1804,20 @@
         }
     },
     "extrastorage": {
+        "edivad.extrastorage.client.screen.AdvancedCrafterScreenQuark": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 36
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 36
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 36
+                }
+            }
+        },
         "edivad.extrastorage.client.screen.AdvancedExporterScreen": {
             "playerSideOnly": true,
             "buttonHints": {
@@ -1777,6 +2028,23 @@
                     "bottom": -33
                 }
             }
+        },
+        "shadows.hostilenetworks.gui.DeepLearnerScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 40,
+                    "bottom": -12
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 52,
+                    "bottom": -24
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 64,
+                    "bottom": -36
+                }
+            }
         }
     },
     "immersiveengineering": {
@@ -1904,6 +2172,9 @@
             }
         },
         "blusunrize.immersiveengineering.client.gui.ToolboxScreen": {
+            "playerSideOnly": true
+        },
+        "blusunrize.immersiveengineering.client.gui.RevolverScreen": {
             "playerSideOnly": true
         }
     },
@@ -2192,6 +2463,25 @@
             "playerSideOnly": true
         }
     },
+    "integratednbt": {
+        "me.tepis.integratednbt.NBTExtractorScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 390
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 390
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 390
+                },
+                "SHOW_EDITOR": {
+                    "horizontalOffset": 2
+                }
+            }
+        }
+    },
     "inventorio": {
         "me.lizardofoz.inventorio.client.ui.InventorioScreen": {
             "playerSideOnly": true,
@@ -2215,7 +2505,37 @@
             "playerSideOnly": true
         }
     },
+    "ironchest": {
+        "com.progwml6.ironchest.client.screen.IronChestScreen": {
+            "buttonHints": {
+                "MOVE_TO_PLAYER": {
+                    "horizontalOffset": 20
+                },
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        }
+    },
     "ironfurnaces": {
+        "ironfurnaces.gui.BlockMillionFurnaceScreen": {
+            "playerSideOnly": true
+        },
+        "ironfurnaces.gui.BlockUnobtainiumFurnaceScreen": {
+            "playerSideOnly": true
+        },
+        "ironfurnaces.gui.BlockVibraniumFurnaceScreen": {
+            "playerSideOnly": true
+        },
+        "ironfurnaces.gui.BlockAllthemodiumFurnaceScreen": {
+            "playerSideOnly": true
+        },
         "ironfurnaces.gui.furnaces.BlockIronFurnaceScreen": {
             "playerSideOnly": true
         },
@@ -2302,12 +2622,148 @@
             }
         }
     },
+    "lazierae2": {
+        "dev.rlnt.lazierae2.screen.AggregatorScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 30
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 30
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 30
+                }
+            }
+        },
+        "dev.rlnt.lazierae2.screen.CentrifugeScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 30
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 30
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 30
+                }
+            }
+        },
+        "dev.rlnt.lazierae2.screen.EnergizerScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 30
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 30
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 30
+                }
+            }
+        },
+        "dev.rlnt.lazierae2.screen.EtcherScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 30
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 30
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 30
+                }
+            }
+        }
+    },
+    "manga-and-artifice": {
+        "com.ma.gui.block.GuiInscriptionTable": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": -10
+                },
+                "SORT_COLUMNS": {
+                    "bottom": -10
+                },
+                "SORT_ROWS": {
+                    "bottom": -10
+                }
+            }
+        },
+        "com.ma.gui.block.GuiRunescribingTable": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -2,
+                    "bottom": -11
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 10,
+                    "bottom": -23
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 22,
+                    "bottom": -35
+                }
+            }
+        },
+        "com.ma.gui.block.GuiMagiciansWorkbench": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -1,
+                    "bottom": -16
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -1,
+                    "bottom": -16
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -1,
+                    "bottom": -16
+                }
+            }
+        }
+    },
     "manyideas_core": {
         "de.geheimagentnr1.manyideas_core.elements.blocks.dye_crafting_table.DyeCraftingTableScreen": {
             "playerSideOnly": true
         },
         "de.geheimagentnr1.manyideas_core.elements.blocks.table_saws.TableSawScreen": {
             "playerSideOnly": true
+        }
+    },
+    "mekanism": {
+        "mekanism.common.registration.impl.ContainerTypeDeferredRegister$ContainerBuilder$1": {
+            "ignore": true
+        },
+        "mekanism.common.inventory.container.tile.MekanismTileContainer": {
+            "ignore": true
+        },
+        "mekanism.client.gui.machine.GuiDigitalMinerConfig": {
+            "playerSideOnly": true
+        },
+        "mekanism.client.gui.qio.GuiPortableQIODashboard": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -14
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -26
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -38
+                }
+            }
         }
     },
     "mekanismgenerators": {
@@ -2450,6 +2906,26 @@
         },
         "com.github.klikli_dev.occultism.client.gui.storage.StorageRemoteGui": {
             "playerSideOnly": true
+        },
+        "com.github.klikli_dev.occultism.client.gui.storage.SatchelScreen": {
+            "buttonHints": {
+                "MOVE_TO_CONTAINER": {
+                    "horizontalOffset": 17,
+                    "bottom": -15
+                },
+                "MOVE_TO_PLAYER": {
+                    "top": -10
+                },
+                "SORT": {
+                    "top": -10
+                },
+                "SORT_COLUMNS": {
+                    "top": -10
+                },
+                "SORT_ROWS": {
+                    "top": -10
+                }
+            }
         }
     },
     "plaingrinder": {
@@ -2477,6 +2953,252 @@
         }
     },
     "pneumaticcraft": {
+        "me.desht.pneumaticcraft.client.gui.GuiAdvancedAirCompressor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiAdvancedLiquidCompressor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiAerialInterface": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiAirCannon": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiAirCompressor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiAssemblyController": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiChargingStation": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -41,
+                    "bottom": -12
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -29,
+                    "bottom": -24
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -17,
+                    "bottom": -36
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiElectrostaticCompressor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiFluxCompressor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiGasLift": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiKeroseneLamp": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -37
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiLiquidCompressor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiLiquidHopper": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiOmnidirectionalHopper": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiPneumaticDoorBase": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiPneumaticDynamo": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiPressureChamberInterface": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiProgrammableController": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiProgrammer": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 52,
+                    "bottom": -13
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 52,
+                    "bottom": -13
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 52,
+                    "bottom": -13
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiRefineryController": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiSentryTurret": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -12
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -24
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -36
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiThermalCompressor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiThermopneumaticProcessingPlant": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -11
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -23
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -35
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiUniversalSensor": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiUVLightBox": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -10
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -22
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -34
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiVacuumPump": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiEtchingTank": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiReinforcedChest": {
+            "buttonHints": {
+                "MOVE_TO_PLAYER": {
+                    "top": -12
+                },
+                "SORT": {
+                    "top": -12
+                },
+                "SORT_COLUMNS": {
+                    "top": -12
+                },
+                "SORT_ROWS": {
+                    "top": -12
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiTagWorkbench": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiFluidMixer": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -12
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -24
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -36
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiVacuumTrap": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": -12
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -24
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -36
+                }
+            }
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiSpawnerExtractor": {
+            "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.GuiPressurizedSpawner": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
         "me.desht.pneumaticcraft.client.gui.PressurizedSpawnerScreen": {
             "playerSideOnly": true,
             "buttonHints": {
@@ -2757,6 +3479,9 @@
         },
         "me.desht.pneumaticcraft.client.gui.AdvancedAirCompressorScreen": {
             "playerSideOnly": true
+        },
+        "me.desht.pneumaticcraft.client.gui.semiblock.LogisticsRequesterScreen": {
+            "playerSideOnly": true
         }
     },
     "prettypipes": {
@@ -2859,6 +3584,22 @@
             "playerSideOnly": true
         }
     },
+    "psi": {
+        "vazkii.psi.client.gui.GuiCADAssembler": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 39
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 39
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 39
+                }
+            }
+        }
+    },
     "pylons": {
         "net.permutated.pylons.client.gui.InfusionPylonScreen": {
             "playerSideOnly": true
@@ -2904,6 +3645,22 @@
                 "MOVE_TO_CONTAINER": {
                     "horizontalOffset": 13,
                     "bottom": 60
+                }
+            }
+        }
+    },
+    "refinedmods": {
+        "com.refinedmods.refinedstorage.screen.StorageMonitorScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 37
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 37
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 36
                 }
             }
         }
@@ -3069,6 +3826,68 @@
                     "horizontalOffset": 37
                 }
             }
+        },
+        "com.refinedmods.refinedstorage.screen.PriorityScreen": {
+            "ignore": true
+        },
+        "com.refinedmods.refinedstorage.screen.FilterScreen": {
+            "playerSideOnly": true
+        }
+    },
+    "resourcefulbees": {
+        "com.resourcefulbees.resourcefulbees.client.gui.screen.CentrifugeScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 26
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 26
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 26
+                }
+            }
+        },
+        "com.resourcefulbees.resourcefulbees.client.gui.screen.MechanicalCentrifugeScreen": {
+            "playerSideOnly": true
+        },
+        "com.resourcefulbees.resourcefulbees.client.gui.screen.HoneyGeneratorScreen": {
+            "playerSideOnly": true
+        },
+        "com.resourcefulbees.resourcefulbees.client.gui.screen.ApiaryStorageScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 25
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 25
+                }
+            }
+        },
+        "com.resourcefulbees.resourcefulbees.client.gui.screen.ApiaryBreederScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 25
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 25
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 25
+                }
+            }
+        },
+        "com.resourcefulbees.resourcefulbees.client.gui.screen.EnderBeeconScreen": {
+            "playerSideOnly": true
+        },
+        "com.resourcefulbees.resourcefulbees.client.gui.screen.HoneyCongealerScreen": {
+            "playerSideOnly": true
         }
     },
     "rftoolsbase": {
@@ -3251,6 +4070,26 @@
             "ignore": true
         }
     },
+    "rftoolsdim": {
+        "mcjty.rftoolsdim.modules.dimensionbuilder.client.GuiDimensionBuilder": {
+            "ignore": true
+        },
+        "mcjty.rftoolsdim.modules.dimensioneditor.client.GuiDimensionEditor": {
+            "ignore": true
+        },
+        "mcjty.rftoolsdim.modules.enscriber.client.GuiEnscriber": {
+            "ignore": true
+        },
+        "mcjty.rftoolsdim.modules.workbench.client.GuiWorkbench": {
+            "ignore": true
+        },
+        "mcjty.rftoolsdim.modules.workbench.client.GuiHolder": {
+            "ignore": true
+        },
+        "mcjty.rftoolsdim.modules.workbench.client.GuiResearcher": {
+            "ignore": true
+        }
+    },
     "rsrequestify": {
         "com.buuz135.refinedstoragerequestify.proxy.client.GuiCraftingEmitter": {
             "playerSideOnly": true,
@@ -3317,6 +4156,9 @@
             "playerSideOnly": true
         },
         "net.silentchaos512.gear.block.charger.ChargerScreen": {
+            "playerSideOnly": true
+        },
+        "net.silentchaos512.gear.item.blueprint.book.BlueprintBookContainerScreen": {
             "playerSideOnly": true
         }
     },
@@ -3463,6 +4305,26 @@
         }
     },
     "tconstruct": {
+        "slimeknights.tconstruct.tables.client.inventory.table.CraftingStationScreen": {
+            "playerSideOnly": true
+        },
+        "slimeknights.tconstruct.tables.client.inventory.table.TinkerStationScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 50
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 50
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 50
+                }
+            }
+        },
+        "slimeknights.tconstruct.tables.client.inventory.table.PartBuilderScreen": {
+            "playerSideOnly": true
+        },
         "slimeknights.tconstruct.tables.client.inventory.CraftingStationScreen": {
             "playerSideOnly": true
         },
@@ -3761,6 +4623,11 @@
             "playerSideOnly": true
         }
     },
+    "tmechworks": {
+        "slimeknights.tmechworks.client.gui.DrawbridgeScreen": {
+            "playerSideOnly": true
+        }
+    },
     "toolbelt": {
         "dev.gigaherz.toolbelt.common.BeltSlotScreen": {
             "playerSideOnly": true
@@ -3780,6 +4647,27 @@
                     "horizontalOffset": 62
                 }
             }
+        }
+    },
+    "travel_anchors": {
+        "de.castcrafter.travel_anchors.block.ScreenTravelAnchor": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": 32
+                },
+                "SORT_COLUMNS": {
+                    "bottom": 32
+                },
+                "SORT_ROWS": {
+                    "bottom": 32
+                }
+            }
+        }
+    },
+    "usefullbackpacks": {
+        "info.u_team.useful_backpacks.screen.FilterConfiguratorScreen": {
+            "playerSideOnly": true
         }
     },
     "utilitix": {
@@ -3931,9 +4819,42 @@
             }
         }
     },
+    "woot": {
+        "ipsis.woot.modules.infuser.client.InfuserScreen": {
+            "playerSideOnly": true
+        },
+        "ipsis.woot.modules.squeezer.client.DyeSqueezerScreen": {
+            "playerSideOnly": true
+        },
+        "ipsis.woot.modules.squeezer.client.EnchantSqueezerScreen": {
+            "playerSideOnly": true
+        },
+        "ipsis.woot.modules.fluidconvertor.client.FluidConvertorScreen": {
+            "playerSideOnly": true
+        }
+    },
     "wormhole": {
         "com.supermartijn642.wormhole.generator.CoalGeneratorScreen": {
             "playerSideOnly": true
+        }
+    },
+    "zycraft": {
+        "nikita488.zycraft.client.gui.screen.inventory.FabricatorScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 4,
+                    "bottom": 7
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 4,
+                    "bottom": 7
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 4,
+                    "bottom": 7
+                }
+            }
         }
     }
 }

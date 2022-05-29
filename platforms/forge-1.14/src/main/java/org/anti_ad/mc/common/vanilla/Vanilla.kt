@@ -21,6 +21,7 @@
 package org.anti_ad.mc.common.vanilla
 
 import net.minecraft.client.entity.player.ClientPlayerEntity
+import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.vanilla.alias.IntegratedServer
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Screen
@@ -82,4 +83,10 @@ object Vanilla {
     @Suppress("FunctionName")
     fun ClientPlayerEntity.`(sendChatMessage)`(msg: String)  = sendChatMessage(msg)
 
+    val px
+        get() = mc().player?.entity?.posX.orDefault { 0.0 }
+    val py
+        get() = mc().player?.entity?.posY.orDefault { 0.0 }
+    val pz
+        get() = mc().player?.entity?.posZ.orDefault { 0.0 }
 }

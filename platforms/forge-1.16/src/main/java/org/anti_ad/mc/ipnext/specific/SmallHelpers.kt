@@ -26,21 +26,20 @@ import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla.mc
 import org.anti_ad.mc.common.vanilla.alias.SharedConstants
 import org.anti_ad.mc.ipnext.ModInfo
-import org.anti_ad.mc.ipnext.util.sanitized
 
 inline fun serverIdentifier(perServer: Boolean): String = when {
     !perServer -> {
         ""
     }
     mc().isSingleplayer -> {
-        (mc().integratedServer?.serverConfiguration?.worldName ?: "").sanitized()
+        (mc().integratedServer?.serverConfiguration?.worldName ?: "")
     }
     mc().isConnectedToRealms -> {
-        "@relms".sanitized()
+        "@realms"
         //(mc().connection?.networkManager?.remoteAddress?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()
     }
     mc().currentServerData != null -> {
-        (mc().currentServerData?.serverIP?.replace("/","")?.replace(":","&") ?: "").sanitized()
+        (mc().currentServerData?.serverIP?.replace("/","")?.replace(":","&") ?: "")
     }
     else -> {
         ""

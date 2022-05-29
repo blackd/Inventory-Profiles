@@ -33,14 +33,14 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
         ""
     }
     mc().isInSingleplayer -> {
-        (mc().server?.saveProperties?.levelName ?: "").sanitized()
+        (mc().server?.saveProperties?.levelName ?: "")
     }
     mc().isConnectedToRealms -> {
-        "@relms".sanitized()
+        "@realms"
         //(mc().networkHandler?.connection?.address?.toString()?.replace("/","")?.replace(":","&") ?: "").sanitized()
     }
     mc().currentServerEntry != null -> {
-        (mc().currentServerEntry?.address?.replace("/","")?.replace(":","&") ?: "").sanitized()
+        (mc().currentServerEntry?.address?.replace("/","")?.replace(":","&") ?: "")
     }
     else -> {
         ""

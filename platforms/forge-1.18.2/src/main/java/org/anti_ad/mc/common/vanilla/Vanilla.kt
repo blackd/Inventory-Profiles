@@ -21,6 +21,7 @@
 package org.anti_ad.mc.common.vanilla
 
 import net.minecraft.client.player.LocalPlayer
+import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.vanilla.alias.IntegratedServer
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.Screen
@@ -81,5 +82,12 @@ object Vanilla {
 
     @Suppress("FunctionName")
     fun LocalPlayer.`(sendChatMessage)`(msg: String)  = player().chat(msg)
+
+    val px
+        get() = playerNullable()?.x.orDefault { 0.0 }
+    val py
+        get() = playerNullable()?.y.orDefault { 0.0 }
+    val pz
+        get() = playerNullable()?.z.orDefault { 0.0 }
 
 }

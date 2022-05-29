@@ -1,6 +1,6 @@
 /*
  * Inventory Profiles Next
- * 
+ *
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,10 +19,19 @@
 
 package org.anti_ad.mc.ipnext.util
 
+fun String.dashedSanitized(): String {
+    if (this == ".." || this == ".") return "-dot_dot"
+    return if (this.isNotEmpty()) {
+        "-" + this.sanitized()
+    } else {
+        this
+    }
+}
+
 fun String.sanitized(): String {
     if (this == ".." || this == ".") return "-dot_dot"
     return if (this.isNotEmpty()) {
-        "-" + this.replace("/","(slash)")
+        this.replace("/","(slash)")
             .replace("\\","(bslash)")
             .replace(":", "(colon)")
             .replace("<", "(lt)")
