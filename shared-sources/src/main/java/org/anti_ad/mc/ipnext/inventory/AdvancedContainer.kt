@@ -58,7 +58,10 @@ class AdvancedContainer(private val vanillaContainer: Container,
 
     private val slotIdClicks: List<Pair<Int, Int>>
         get() = vanillaSlots.let { slots ->
-            @ThrowsCaught tryOrElse(::handleException) { planner.clicks.map { slots[it.slotIndex].`(id)` to it.button } } ?: listOf()
+            @ThrowsCaught
+            tryOrElse(::handleException) {
+                planner.clicks.map { slots[it.slotIndex].`(id)` to it.button }
+            } ?: listOf()
         }
 
     private fun handleException(e: Throwable): Nothing? {
