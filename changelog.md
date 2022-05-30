@@ -1,4 +1,20 @@
 <!-- latest begin -->
+### 1.5.0
+
+- License was changed to AGPL-3. This was made, so it will be license violation, if in future OverWolf/CurseForge decide to fully cut off third party launchers.
+- There are now about 740 other mod UIs that have custom button positioning.
+- Extended the Modpack Dev tools (see the video). 
+  We now offer a tool that will create a platform containing all blocks that we have detected to open a UI.
+  Modpack Devs can use this to check if there are un/supported UIs and use the editor to move the buttons.
+  Also the player will get all the items that potentially open a UI.
+  The tool doesn't catch every possible UI, but is a good start.
+  <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/STZoofsZBtI?wmode=transparent" height="358" width="638"></iframe>
+  - **NOTE:** this will work only single player with cheats on, or MAY BE on servers also if you have `/op` or `/give`, `/setblock` and `/fill` permissions.
+  - **WARNING:** depending on the modpack and your PC it's highly probably that it will crash the client *AND/OR* the server.
+
+<!-- latest end -->
+
+<!-- rest begin -->
 ### 1.4.0
 
 - Added support for wildcards in custom sort rules. See the [wiki](https://inventory-profiles-next.github.io/custom-rules/add/#wildcards) for more information.
@@ -6,9 +22,7 @@
 - Workaround for [MC-216434](https://bugs.mojang.com/browse/MC-216434) when continuous/auto crafting is enabled. Next release will contain fix for it independent of continuous crafting.
 - Made continuous/auto crafting more stable...
 
-<!-- latest end -->
 
-<!-- rest begin -->
 ### 1.3.7/8
 
 - New release because the last one was bodged by GihHub Action resulting invalid jar files. First forge builds had problems then some fabric builds are not working for some players. As result github actions will no longer be used for releasing.
