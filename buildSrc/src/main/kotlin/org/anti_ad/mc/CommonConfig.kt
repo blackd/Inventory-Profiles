@@ -86,8 +86,36 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
         dependsOn("copyJavadoc")
         dependsOn("packageSources")
         dependsOn("copyJarForPublish")
-        dependsOn("minimizeJar")
+//        dependsOn("minimizeJar")
     }
+    rootAfterEvaluate()
+}
+
+fun Project.rootAfterEvaluate() {
+
+    if (System.getenv("IPNEXT_RELEASE") == null) {
+        val buildTasks = mutableListOf<Task>()
+
+        rootProject.subprojects.filter { subProject ->
+            subProject.name.contains("platforms:")
+        }.forEach {
+            it.tasks["build"]?.let { buildTask ->
+                buildTasks.add(buildTask)
+            }
+        }
+
+        rootProject.subprojects.forEach { p ->
+            p.tasks.forEach {
+                if (it.name == "minimizeJar") {
+                    buildTasks.forEach { buildTask ->
+                        buildTask.dependsOn(it)
+                    }
+                }
+            }
+        }
+    }
+    val depTree = addTaskToDepTree(0,tasks["build"], mutableSetOf<String>())
+    logger.lifecycle(depTree)
 }
 
 fun Project.registerCopyJarForPublishTask(source: Jar, mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any): TaskProvider<Copy> {
@@ -128,9 +156,8 @@ fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, m
         mustRunAfter(proGuardTask)
     }
 
-    val depTree = addTaskToDepTree(0,tasks["build"], mutableSetOf<String>())
-    logger.debug(depTree)
 
+    rootAfterEvaluate()
 }
 
 fun Project.fabricRegisterCommonTasks(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {

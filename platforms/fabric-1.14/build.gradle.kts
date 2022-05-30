@@ -251,11 +251,11 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
             requiredDependency("fabric-api")
             optionalDependency("modmenu")
         })
-
+/*
         afterEvaluate {
             uploadTask.dependsOn("build")
         }
-
+*/
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false

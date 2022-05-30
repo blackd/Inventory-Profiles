@@ -289,7 +289,6 @@ tasks.named<ShadowJar>("shadowJar") {
 registerMinimizeJarTask()
 
 afterEvaluate {
-
     forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 

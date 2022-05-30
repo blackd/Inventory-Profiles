@@ -192,19 +192,20 @@ val remapped = tasks.named<RemapJarTask>("remapJar") {
 }
 
 fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
+registerMinimizeJarTask()
 
 afterEvaluate {
     fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
-registerMinimizeJarTask()
+
 
 tasks.named<DefaultTask>("build") {
     dependsOn(tasks["remapJar"])
     dependsOn("copyJavadoc")
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
-    dependsOn("minimizeJar")
+//    dependsOn("minimizeJar")
 }
 
 

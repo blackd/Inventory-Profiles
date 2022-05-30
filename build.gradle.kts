@@ -18,7 +18,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import org.anti_ad.mc.addTaskToDepTree
 import org.anti_ad.mc.getGitHash
+import org.anti_ad.mc.rootAfterEvaluate
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
@@ -79,6 +81,8 @@ tasks.named<KotlinCompile>("compileKotlin") {
     }
 }
 
+evaluationDependsOnChildren()
+
 allprojects {
     version = versionObj.toString()
     group = "org.anti-ad.mc"
@@ -102,6 +106,7 @@ allprojects {
 tasks.named<Jar>("jar") {
     enabled = false
 }
+
 
 tasks.register("owner-testing-env") {
     onlyIf {
@@ -154,6 +159,7 @@ tasks.register<Copy>("copyPlatformJars") {
     finalizedBy("owner-testing-env")
 }
 
+
 tasks.named<DefaultTask>("build") {
 
     /*
@@ -188,6 +194,7 @@ afterEvaluate {
     }
      */
 }
+
 
 /**
  * Version class that does version stuff.
