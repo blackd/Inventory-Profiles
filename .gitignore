@@ -35,3 +35,6 @@ run
 description/out
 repo
 /common/src/main/gen/
+
+# macOS
+.DS_Store
