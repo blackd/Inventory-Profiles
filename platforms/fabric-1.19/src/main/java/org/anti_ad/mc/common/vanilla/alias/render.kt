@@ -59,6 +59,6 @@ typealias ClickEvent = ClickEvent
 typealias ClickEventAction = ClickEvent.Action
 typealias Formatting = Formatting
 
-fun getTranslatable(s: String, vararg args: Any): Text = Text.translatable(s, args)
+fun getTranslatable(s: String, vararg args: Any): Text = Text.translatable(s, *args)
 
 fun getLiteral(s: String): Text = Text.literal(s)

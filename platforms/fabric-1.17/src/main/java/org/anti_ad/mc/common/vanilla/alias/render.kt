@@ -59,5 +59,5 @@ typealias ClickEvent = ClickEvent
 typealias ClickEventAction = ClickEvent.Action
 typealias Formatting = Formatting
 
-fun getTranslatable(s: String, vararg args: Any): Text = net.minecraft.text.TranslatableText(s, args)
+fun getTranslatable(s: String, vararg args: Any): Text = net.minecraft.text.TranslatableText(s, *args)
 fun getLiteral(s: String): Text = net.minecraft.text.LiteralText(s)

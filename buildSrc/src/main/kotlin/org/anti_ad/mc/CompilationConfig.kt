@@ -58,12 +58,12 @@ fun Project.configureCompilation(is18: Boolean = false) {
         filesMatching(listOf("**/*.json", "**/*.txt", "**/*.toml", "**/*.xml")) {
             filter<org.apache.tools.ant.filters.ReplaceTokens>(
                 "tokens" to mapOf(
-                    "VERSION" to project.version.toString(),
-                    "DESCRIPTION" to project.properties["ipnext.description"],
-                    "WIKI" to project.properties["ipnext.docs"],
-                    "SOURCE" to project.properties["ipnext.scm"],
-                    "ISSUES" to project.properties["ipnext.tracker"],
-                    "LICENSE" to project.properties["ipnext.license"]
+                    "VERSION" to version.toString(),
+                    "DESCRIPTION" to properties["ipnext.description"],
+                    "WIKI" to properties["ipnext.docs"],
+                    "SOURCE" to properties["ipnext.scm"],
+                    "ISSUES" to properties["ipnext.tracker"],
+                    "LICENSE" to properties["ipnext.license"]
                 )
             )
         }

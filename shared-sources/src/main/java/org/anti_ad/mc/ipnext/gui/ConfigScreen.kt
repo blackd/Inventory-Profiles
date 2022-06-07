@@ -65,8 +65,8 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
         if (!ModSettings.FOR_MODPACK_DEVS.booleanValue) toRemove.add(Modpacks)
         val configsToUse = Configs - toRemove
         configsToUse.toMultiConfigList().forEach { multi ->
-                addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
-            }
+            addNavigationButtonWithWidget(I18n.translate(BUTTON_PREFIX + multi.key)) { multi.toListWidget() }
+        }
         selectedIndex = storedSelectedIndex
     }
 

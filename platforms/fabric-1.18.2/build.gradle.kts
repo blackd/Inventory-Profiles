@@ -105,6 +105,9 @@ dependencies {
     //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
     //modRuntimeOnly("curse.maven:inventorio-491073:3553574")
     //modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
+    modRuntimeOnly("curse.maven:ellemes-container-library-530668:3798979")
+    modRuntimeOnly("curse.maven:expanded-storage-317856:3799166")
+    //modRuntimeOnly("curse.maven:mouse-wheelie-317514:3717990")
     //modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
 }
 

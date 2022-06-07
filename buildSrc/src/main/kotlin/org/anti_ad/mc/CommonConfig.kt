@@ -211,7 +211,12 @@ fun Project.fabricRegisterCommonTasks(mod_loader: Any, minecraft_version: Any, m
 
     }
 }
+private var gitVersionString: String = ""
+
 fun Project.getGitHash(): String {
+    if (gitVersionString.isNotEmpty()) {
+        return gitVersionString
+    }
     val stdout = ByteArrayOutputStream()
     val exitCode = exec {
         commandLine = mutableListOf("git", "rev-parse", "--short", "HEAD")
@@ -219,9 +224,12 @@ fun Project.getGitHash(): String {
         this.isIgnoreExitValue = true
     }.exitValue
     return  if (exitCode == 0) {
-        stdout.toString().trim()
+        gitVersionString = stdout.toString().trim()
+        gitVersionString
+
     } else {
-        "not-a-git-repo"
+        gitVersionString = "not-a-git-repo"
+        gitVersionString
     }
 
 }

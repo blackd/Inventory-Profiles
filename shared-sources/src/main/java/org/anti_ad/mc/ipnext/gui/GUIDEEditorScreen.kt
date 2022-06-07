@@ -301,9 +301,8 @@ class GUIDEEditorScreen(private val target: Screen,
 
     }
 
-    override fun tick() {
+    override fun onTick() {
         updateHints()
-        super.tick()
     }
 
     private fun updateHints(threshold: Int = 10) {

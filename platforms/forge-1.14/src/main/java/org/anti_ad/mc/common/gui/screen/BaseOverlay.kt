@@ -70,4 +70,14 @@ open class BaseOverlay : BaseScreen {
                      width,
                      height)
     }
+
+    open fun onTick() {
+
+    }
+
+    override fun tick() {
+        onTick()
+        super.tick()
+    }
+
 }
