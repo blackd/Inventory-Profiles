@@ -34,6 +34,7 @@ import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.common.vanilla.alias.NbtString
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.getLiteral
+import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -47,6 +48,8 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.NbtUtils
+import org.anti_ad.mc.ipnext.item.customName
+import org.anti_ad.mc.ipnext.item.hasCustomName
 import org.anti_ad.mc.ipnext.item.hasPotionName
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isStackable
@@ -97,7 +100,8 @@ object ProfileSwitchHandler: IInputHandler {
                                     ""
                                 }
                             }
-                            add(ProfileItemData(stack.itemType.itemId, potion, mutableListOf<ProfileEnchantmentData>().apply {
+                            val customName = if (EditProfiles.INCLUDE_CUSTOM_NAME.booleanValue) stack.itemType.customName else ""
+                            add(ProfileItemData(stack.itemType.itemId, customName, potion, mutableListOf<ProfileEnchantmentData>().apply {
                                 stack.itemType.tag?.get("Enchantments")?.let { element ->
                                     if (element is AbstractNbtList<*>) {
                                         element.forEach {
@@ -216,6 +220,7 @@ object ProfileSwitchHandler: IInputHandler {
             val p = createProfileFromCurrentState()
             ProfilesLoader.savedProfiles.add(p)
             ProfilesLoader.save()
+            VanillaUtil.chat(getTranslatable("inventoryprofiles.profiles.created_new_saved"))
             Log.trace("\n$p")
             return true
         }
@@ -312,7 +317,12 @@ object ProfileSwitchHandler: IInputHandler {
                     val isPotion = ist.itemType.hasPotionName
                     val enchMatching = !isPotion && to.matchEnchantments(ist)
                     val potionMaching = to.potion != "" && isPotion && to.matchPotion(ist)
-                    res = ist.itemType.itemId == to.itemId && (enchMatching || potionMaching)
+                    val customNameMatch = if (to.customName.isNotBlank()) {
+                        ist.itemType.customName == to.customName
+                    } else {
+                        true
+                    }
+                    res = ist.itemType.itemId == to.itemId && customNameMatch && (enchMatching || potionMaching)
                 }
                 res
             }.sortedWith { i, j ->

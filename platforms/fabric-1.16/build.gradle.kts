@@ -19,6 +19,8 @@
  */
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.matthewprenger.cursegradle.CurseExtension
+import com.matthewprenger.cursegradle.CurseProject
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
 import proguard.gradle.ProGuardTask
@@ -205,13 +207,13 @@ tasks.named<DefaultTask>("build") {
     dependsOn("minimizeJar")
 }
 
-configure<com.matthewprenger.cursegradle.CurseExtension> {
+configure<CurseExtension> {
 
     if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
-    project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+    project(closureOf<CurseProject> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
@@ -222,6 +224,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
             }
         }
         this.addGameVersion("Fabric")
+        this.addGameVersion("Quilt")
         val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         logger.lifecycle("""
@@ -237,11 +240,6 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
             requiredDependency("fabric-api")
             optionalDependency("modmenu")
         })
-
-        afterEvaluate {
-            uploadTask.dependsOn("build")
-        }
-
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
@@ -249,7 +247,6 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         forgeGradleIntegration = mod_loader == "forge"
     })
 }
-
 // ============
 // modrith
 // ============

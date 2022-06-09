@@ -234,6 +234,8 @@ object EditProfiles : ConfigDeclaration {
     val QUICK_SLOT_1_PROFILE                      /**/ by string("")
     val QUICK_SLOT_2_PROFILE                      /**/ by string("")
     val QUICK_SLOT_3_PROFILE                      /**/ by string("")
+        .CATEGORY("$category.still_under_construction")
+    val INCLUDE_CUSTOM_NAME                       /**/ by bool(false)
 
 }
 

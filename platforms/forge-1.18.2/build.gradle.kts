@@ -19,6 +19,8 @@
  */
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.matthewprenger.cursegradle.CurseExtension
+import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
@@ -525,13 +527,13 @@ javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
 
 
 
-configure<com.matthewprenger.cursegradle.CurseExtension> {
+configure<CurseExtension> {
 
     if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
-    project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+    project(closureOf<CurseProject> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")

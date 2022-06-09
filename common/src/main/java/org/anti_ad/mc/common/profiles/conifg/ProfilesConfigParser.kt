@@ -23,6 +23,7 @@ package org.anti_ad.mc.common.profiles.conifg
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.annotation.MayThrow
+import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.gen.ProfilesLexer
 import org.anti_ad.mc.common.gen.ProfilesParser
@@ -92,11 +93,14 @@ private fun ProfilesParser.ScriptContext.toProfileList(): List<ProfileData> {
                     add(ProfileSlot(ProfileSlotId.valueOf(slotDef.slotname().text), mutableListOf<ProfileItemData>().apply {
                         slotDef.itemDef().forEach { itemDef ->
                             val potion: String = itemDef.potion()?.enchantment()?.name()?.NamespacedId()?.text?.removeSurrounding("\"") ?: ""
-                            add(ProfileItemData(itemDef.itemName().text.removeSurrounding("\""), potion, mutableListOf<ProfileEnchantmentData>().apply {
-                                itemDef.enchantments()?.enchantment()?.forEach { ench ->
-                                    add(ProfileEnchantmentData(ench.name().NamespacedId().text.removeSurrounding("\""), ench.level().toNumber()))
-                                }
-                            }))
+                            add(ProfileItemData(itemDef.itemName().NamespacedId().text.removeSurrounding("\""),
+                                                itemDef.itemName().customName()?.STRING()?.text?.removeSurrounding("\"") ?: "",
+                                                potion,
+                                                mutableListOf<ProfileEnchantmentData>().apply {
+                                                    itemDef.enchantments()?.enchantment()?.forEach { ench ->
+                                                        add(ProfileEnchantmentData(ench.name().NamespacedId().text.removeSurrounding("\""), ench.level().toNumber()))
+                                                    }
+                                                }))
                         }
                     }))
                 }
@@ -159,20 +163,28 @@ data class ProfileSlot(val id: ProfileSlotId,
 }
 
 data class ProfileItemData(val itemId: String,
+                           val customName: String,
                            val potion: String,
                            val enchantments: List<ProfileEnchantmentData>) {
 
     override fun toString(): String {
         return when {
             (!enchantments.isEmpty()) -> {
-                "\"$itemId\"" +  " -> \"Enchantments\" : [" + enchantments.joinToString(separator = ",") { it.toString() } + "]"
+                "${itemIdString()} -> \"Enchantments\" : [" + enchantments.joinToString(separator = ",") { it.toString() } + "]"
             }
             (potion != "") -> {
-                "\"$itemId\" -> \"Potion\" : {id:\"$potion\"}"
+                "${itemIdString()} -> \"Potion\" : {id:\"$potion\"}"
             }
             else -> {
-                "\"$itemId\""
+                itemIdString()
             }
+        }
+    }
+    private fun itemIdString(): String {
+        return if (customName.isNotBlank()) {
+            "\"$itemId\"(\"$customName\")"
+        } else {
+            "\"$itemId\""
         }
     }
 }

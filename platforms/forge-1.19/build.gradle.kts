@@ -19,6 +19,8 @@
  */
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.matthewprenger.cursegradle.CurseExtension
+import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
@@ -331,8 +333,7 @@ configurations {
 configure<UserDevExtension> {
     mappings(mapOf(
         "channel" to "official",
-        "version" to "1.18.2"
-                  ))
+        "version" to "1.18.2"))
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(
@@ -343,8 +344,7 @@ configure<UserDevExtension> {
                 "mixin.debug.verbose" to "true",
                 "mixin.debug.export" to "true",
                 "mixin.debug.dumpTargetOnFailure" to "true",
-                "bsl.debug" to "true"
-                            ))
+                "bsl.debug" to "true"))
             arg("--mixin.config=mixins.ipnext.json")
             workingDirectory = project.file("run").canonicalPath
             source(org.anti_ad.mc.FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
@@ -525,13 +525,13 @@ javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
 
 
 
-configure<com.matthewprenger.cursegradle.CurseExtension> {
+configure<CurseExtension> {
 
     if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
-    project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+    project(closureOf<CurseProject> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
@@ -586,36 +586,9 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+
+    this.versionType.set(com.modrinth.minotaur.request.VersionType.BETA.name)
 }
-
-/*
-val publishModrinth by tasks.registering(TaskModrinthUpload::class) {
-
-    onlyIf {
-        System.getenv("MODRINTH_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null
-    }
-    versionType = com.modrinth.minotaur.request.VersionType.RELEASE
-    token = System.getenv("MODRINTH_TOKEN") // An environment property called MODRINTH that is your token, set via Gradle CLI, GitHub Actions, Idea Run Configuration, or other
-
-    projectId = "O7RBXm3n"
-    versionNumber = "$mod_loader-$minecraft_version-$mod_version" // Will fail if Modrinth has this version already
-    // On fabric, use 'remapJar' instead of 'jar'
-    this.changelog
-
-    val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
-    val remappedJarFile = forgeReobfJar.archiveFile
-    uploadFile = remappedJarFile // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-    supported_minecraft_versions.forEach { ver ->
-        addGameVersion(ver) // Call this multiple times to add multiple game versions. There are tools that can help you generate the list of versions
-    }
-    versionName = "IPN $mod_version for $mod_loader $minecraft_version"
-    changelog = project.rootDir.resolve("description/out/pandoc-release_notes.md").readText()
-    addLoader(mod_loader)
-
-}
-*/
-
-
 
 tasks.register<Copy>("copyJavadoc") {
     dependsOn(":common:packageJavadoc")

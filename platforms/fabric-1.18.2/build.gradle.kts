@@ -19,6 +19,8 @@
  */
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.matthewprenger.cursegradle.CurseExtension
+import com.matthewprenger.cursegradle.CurseProject
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.platformsCommonConfig
@@ -213,40 +215,39 @@ tasks.named<DefaultTask>("build") {
 // ============
 // curseforge
 // ============
-
-
-
-configure<com.matthewprenger.cursegradle.CurseExtension> {
+configure<CurseExtension> {
 
     if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
-    project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+    project(closureOf<CurseProject> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            val l = it.toLowerCase()
-            if (!l.contains("pre") && !l.contains("rc")) {
+            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
                 this.addGameVersion(it)
             }
         }
         this.addGameVersion("Fabric")
-        val fabricRemapJar = tasks.named<RemapJarTask>("remapJar").get()
+        this.addGameVersion("Quilt")
+        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
+        logger.lifecycle("""
+            +*************************************************+
+            Will release ${remappedJarFile.path}
+            +*************************************************+
+        """.trimIndent())
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
         })
+
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("fabric-api")
             optionalDependency("modmenu")
         })
-        afterEvaluate {
-            uploadTask.dependsOn("build")
-        }
-
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
@@ -254,7 +255,6 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
         forgeGradleIntegration = mod_loader == "forge"
     })
 }
-
 // ============
 // modrith
 // ============

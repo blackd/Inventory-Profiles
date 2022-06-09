@@ -27,6 +27,8 @@ import org.anti_ad.mc.fabricCommonAfterEvaluate
 import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
 import org.anti_ad.mc.registerMinimizeJarTask
+import com.matthewprenger.cursegradle.CurseExtension
+import com.matthewprenger.cursegradle.CurseProject
 
 val supported_minecraft_versions = listOf("1.14.1", "1.14.2", "1.14.3", "1.14.4")
 val mod_loader = "fabric"
@@ -76,7 +78,7 @@ plugins {
     id("fabric-loom")
     `maven-publish`
     signing
-    id("com.matthewprenger.cursegradle")
+    id("com.matthewprenger.cursegradle") apply(true)
     id("com.modrinth.minotaur")
     id("com.github.johnrengelman.shadow")
 
@@ -219,13 +221,13 @@ tasks.named<DefaultTask>("build") {
     dependsOn("minimizeJar")
 }
 
-configure<com.matthewprenger.cursegradle.CurseExtension> {
+configure<CurseExtension> {
 
     if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
-    project(closureOf<com.matthewprenger.cursegradle.CurseProject> {
+    project(closureOf<CurseProject> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
@@ -236,6 +238,7 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
             }
         }
         this.addGameVersion("Fabric")
+        this.addGameVersion("Quilt")
         val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         logger.lifecycle("""
@@ -251,11 +254,6 @@ configure<com.matthewprenger.cursegradle.CurseExtension> {
             requiredDependency("fabric-api")
             optionalDependency("modmenu")
         })
-/*
-        afterEvaluate {
-            uploadTask.dependsOn("build")
-        }
-*/
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false

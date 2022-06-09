@@ -26,6 +26,8 @@ OFFHAND      : 'OFFHAND';
 COMMA : ',' ;
 //fragment LBRACK : '[';
 //LBrack : WS? LBRACK;
+LPAREN : '(' ;
+RPAREN : ')' ;
 LBRACK : '[' ;
 RBRACK : ']' ;
 LBRACE : '{' ;

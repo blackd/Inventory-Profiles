@@ -245,6 +245,8 @@
     "inventoryprofiles.config.description.quick_slot_1_profile":                   "The name of the Profile that will be accessible with Quick Profile 1 hot key.",
     "inventoryprofiles.config.description.quick_slot_2_profile":                   "The name of the Profile that will be accessible with Quick Profile 2 hot key.",
     "inventoryprofiles.config.description.quick_slot_3_profile":                   "The name of the Profile that will be accessible with Quick Profile 3 hot key.",
+    "inventoryprofiles.config.name.include_custom_name":                           "Include custom names in the 'Saved' profiles",
+    "inventoryprofiles.config.description.include_custom_name":                    "If this is enabled the custom item names will be included in the 'Saved' profiles.\nThis is NOT recommended for general use, but it's useful is some cases like having a profiles with different backpacks or some other type of storage.\n\nWhen it comes to normal gear matching by enchantments is the best approach.",
 
     "inventoryprofiles.gui.config.Hotkeys":                                        "Hotkeys",
     "inventoryprofiles.config.category.hotkeys":                                   "Hotkeys",
@@ -371,5 +373,6 @@
     "inventoryprofiles.gui.editor.name.help.move.keys": "Move The Button",
     "inventoryprofiles.gui.editor.description.help.move.keys": "'W','S','A','D' and the arrow keys will move the selected button",
     "inventoryprofiles.gui.editor.name.help.move.speed": "Move Faster!!!",
-    "inventoryprofiles.gui.editor.description.help.move.speed": "Holding 'Shift' with Move keys will make the button move faster."
+    "inventoryprofiles.gui.editor.description.help.move.speed": "Holding 'Shift' with Move keys will make the button move faster.",
+    "inventoryprofiles.profiles.created_new_saved": "Created new 'Saved' profile..."
 }
