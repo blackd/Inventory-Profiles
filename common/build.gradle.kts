@@ -65,8 +65,8 @@ apply(plugin = "kotlinx-serialization")
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
+    languageVersion = "1.6"
+    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 tasks.named<AntlrTask>("generateGrammarSource").configure {

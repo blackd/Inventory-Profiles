@@ -1,4 +1,20 @@
 <!-- latest begin -->
+
+### 1.5.1
+- Added support for named items in profiles. Example:
+```profiles
+profile NamedTest
+	HOT3
+		"minecraft:netherite_pickaxe"("My Awsome Name") -> "Enchantments" : [{id:"minecraft:fortune",lvl:3}]
+
+```
+Although the example uses netherite pickaxe we don't really recommend it. Names would be useful for items like backpacks or even shulker boxes or other type of items where there is no other meaningful way to distinguish between them. 
+
+
+<!-- latest end -->
+
+<!-- rest begin -->
+
 ### 1.5.0
 
 - License was changed to AGPL-3. This was made, so it will be license violation, if in future OverWolf/CurseForge decide to fully cut off third party launchers.
@@ -12,9 +28,6 @@
   - **NOTE:** this will work only single player with cheats on, or MAY BE on servers also if you have `/op` or `/give`, `/setblock` and `/fill` permissions.
   - **WARNING:** depending on the modpack and your PC it's highly probably that it will crash the client *AND/OR* the server.
 
-<!-- latest end -->
-
-<!-- rest begin -->
 ### 1.4.0
 
 - Added support for wildcards in custom sort rules. See the [wiki](https://inventory-profiles-next.github.io/custom-rules/add/#wildcards) for more information.
