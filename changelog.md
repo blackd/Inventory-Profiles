@@ -1,15 +1,17 @@
 <!-- latest begin -->
 
 ### 1.5.1
-- Added support for named items in profiles. Example:
+- Added support for named items in profiles. 
+
+  Although the example below uses netherite pickaxe we don't really recommend it. Names would be useful for items like backpacks or even shulker boxes or other type of items where there is no other meaningful way to distinguish between them.
 ```profiles
 profile NamedTest
 	HOT3
 		"minecraft:netherite_pickaxe"("My Awsome Name") -> "Enchantments" : [{id:"minecraft:fortune",lvl:3}]
 
 ```
-Although the example uses netherite pickaxe we don't really recommend it. Names would be useful for items like backpacks or even shulker boxes or other type of items where there is no other meaningful way to distinguish between them. 
 
+- config folder structure have been changed, now all files related to a server/world are located in a folder named after the server/world. All old configurations will be updated. However, if you downgrade to old version the configurations will need to be moved manually.
 
 <!-- latest end -->
 
