@@ -198,19 +198,20 @@ object ContainerClicker {
         }
     }
 
-    fun executeSwapClicks(clicks: List<Pair<Int, Int>>,
+    fun executeSwapClicks(clicks: Map<Int, Int>,
                           interval: Int) {
         if (interval == 0) {
             if (Vanilla.container() is CreativeContainer) { // bulk content updates
                 doSendContentUpdates = false
-                clicks.forEach {
-                    swapClick(it.first, it.second)
+                clicks.forEach { (first, second) ->
+                    swapClick(first, second)
                 }
                 sendContentUpdates()
                 doSendContentUpdates = true
             } else {
-                clicks.forEach {
-                    swapClick(it.first, it.second)
+                clicks.forEach { (first, second) ->
+                    LockSlotsHandler.lastMouseClickSlot = Vanilla.container().getSlot(first)
+                    swapClick(first, second)
                 }
             }
         } else {
@@ -237,18 +238,21 @@ object ContainerClicker {
                         highlights.remove(firstHighlight)
                         highlights.remove(secondHighlight)
                         Log.debug("Click cancelled due to screen closed")
+                        LockSlotsHandler.lastMouseClickSlot = null
                         return@timer
                     }
                 }
                 if (iterator.hasNext()) {
                     val slotId = iterator.next()
-                    firstHighlight.id = slotId.first
-                    secondHighlight.id = slotId.second
-                    swapClick(slotId.first, slotId.second)
+                    firstHighlight.id = slotId.key
+                    secondHighlight.id = slotId.value
+                    LockSlotsHandler.lastMouseClickSlot = Vanilla.container().getSlot(slotId.key)
+                    swapClick(slotId.key, slotId.value)
                 } else {
                     cancel()
                     highlights.remove(firstHighlight)
                     highlights.remove(secondHighlight)
+                    LockSlotsHandler.lastMouseClickSlot = null
                     return@timer
                 }
             }

@@ -26,6 +26,7 @@ import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
 import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
 import org.anti_ad.mc.common.vanilla.vanillaInitGlue
+import org.anti_ad.mc.ipnext.access.IPNImpl
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
@@ -42,6 +43,7 @@ private fun initGlues() {
         aliasInitGlue()
         vanillaInitGlue()
         widgetsInitGlue()
+        IPNImpl.init()
         initGlueProc = null
     }
 }

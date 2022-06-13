@@ -26,6 +26,7 @@ import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClientWorld
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipnext.access.IPNImpl
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -56,6 +57,7 @@ object ClientEventHandler: PClientEventHandler {
     private fun onTickInGame() {
         LockedSlotKeeper.onTickInGame()
         ProfileSwitchHandler.onTickInGame()
+        IPNImpl.onTickInGame()
 
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
             ContinuousCraftingHandler.onTickInGame()

@@ -90,7 +90,7 @@ object AutoRefillHandler {
 
     var screenOpening = false
 
-    val profilesSwappedItems = mutableListOf<Int>()
+    val profilesSwappedItems = mutableSetOf<Int>()
 
     fun onTickInGame() {
         if (Vanilla.screen() != null || (AutoRefillSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey)) {
