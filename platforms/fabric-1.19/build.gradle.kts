@@ -111,6 +111,9 @@ dependencies {
     //modRuntimeOnly("curse.maven:inventorio-491073:3553574")
     //modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
     //modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
+
+    modRuntimeOnly("curse.maven:ellemes-container-library-530668:3822944")
+    modRuntimeOnly("curse.maven:expanded-storage-317856:3827318")
 }
 
 loom {

@@ -1,10 +1,15 @@
 <!-- latest begin -->
-### 1.5.2
-- Added interoperability API for use by hotbar swap mods. First mod to use it will probably be https://www.curseforge.com/minecraft/mc-mods/hotbarcycle
+
+### 1.5.3
+- Added highlighting of all items of type:
+  <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/ndef7aenLWg?wmode=transparent" height="358" width="638"></iframe>
 
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.5.2
+- Added interoperability API for use by hotbar swap mods. First mod to use it will probably be https://www.curseforge.com/minecraft/mc-mods/hotbarcycle
 
 ### 1.5.1
 - Added support for named items in profiles. 

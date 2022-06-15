@@ -44,6 +44,7 @@ import org.anti_ad.mc.ipnext.event.blackListChanged
 private const val category = "inventoryprofiles.config.category"
 
 object ModSettings : ConfigDeclaration {
+
     override val builder = createBuilder()
 
         .CATEGORY("§§vgap:3")
@@ -64,6 +65,13 @@ object ModSettings : ConfigDeclaration {
     val ALWAYS_INCLUDE_HOTBAR                     /**/ by bool(false)
     val ALWAYS_MOVE_ALL                           /**/ by bool(false)
     val ALWAYS_THROW_ALL                          /**/ by bool(false)
+
+        .CATEGORY("$category.highlight_focused_items")
+    val HIGHLIGHT_FOUSED_ITEMS                    /**/ by bool(true)
+    val HIGHLIGHT_FOUSED_ITEMS_ANIMATED           /**/ by bool(false)
+    val HIGHLIGHT_FOUSED_ITEMS_FOREGROUND         /**/ by bool(true)
+        .CATEGORY("§§hide")
+    val HIGHLIGHT_FOUSED_WAIT_TICKS               /**/ by int(3, 3, 15)
 
         .CATEGORY("$category.profiles")
     val ENABLE_PROFILES                          /**/ by bool(true)

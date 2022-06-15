@@ -73,6 +73,7 @@ object ClientEventHandler: PClientEventHandler {
         }
 
         LockSlotsHandler.onTickInGame()
+        SlotHighlightHandler.onTickInGame()
     }
 
     fun onJoinWorld() {

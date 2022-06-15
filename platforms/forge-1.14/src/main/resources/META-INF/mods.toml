@@ -37,13 +37,14 @@ license="@LICENSE@"
     logoFile="icon_8.png" #optional
 
     # A text field displayed in the mod UI
-    credits="blackd/mirinimi" #optional
+    credits="Selah (AspieGamer13)" #optional
 
     # A text field displayed in the mod UI
     authors="blackd/mirinimi" #optional
 
     # The description text for the mod (multi line!) (#mandatory)
     description='''
+
 Take controll over you inventory
 '''
 
