@@ -25,6 +25,7 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.alias.getLiteral
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_VanillaUtil_inGame
 import org.anti_ad.mc.common.vanilla.render.glue.__glue_rDepthMask
@@ -42,9 +43,7 @@ private val rScreenSize
                  rScreenHeight)
 
 
-private val dummyScreen = object : Screen(
-    Text.m_237113_("")
-) {}
+private val dummyScreen = object : Screen(getLiteral("")) {}
 
 
 fun initScreenGlue() {

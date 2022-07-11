@@ -71,10 +71,10 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
     dependencies {
 
         "shadedApi"(project(":common"))
-        "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-        "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-        "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-        "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
         "minecraft"("com.mojang:minecraft:$minecraft_version")
         "mappings"("net.fabricmc:yarn:$mappings_version:v2")
@@ -84,5 +84,23 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         modmenu_version?.let {
             "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
         }
+        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.1+kotlin.1.7.0")
+    }
+}
+
+fun Project.forgeCommonDependency(minecraft_version: Any,
+                                  loader_version: Any,
+                                  kotlin_for_forge_version: Any) {
+    dependencies {
+        "shadedApi"(project(":common"))
+        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+        "minecraft"("net.minecraftforge:forge:$minecraft_version-$loader_version")
+        "api"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
+        "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+        "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+        "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")
     }
 }

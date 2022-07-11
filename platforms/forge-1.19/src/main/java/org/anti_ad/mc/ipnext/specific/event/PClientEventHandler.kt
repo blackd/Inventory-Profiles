@@ -31,33 +31,34 @@ import org.anti_ad.mc.common.vanilla.alias.ClickEventAction
 import org.anti_ad.mc.common.vanilla.alias.MutableText
 import org.anti_ad.mc.common.vanilla.alias.Style
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.alias.getLiteral
 
 interface PClientEventHandler {
 
-    fun createChatMessage(new: SemVer): MutableText = Text.m_237113_("")
-        .append(Text.m_237113_("Inventory Profiles Next:")
+    fun createChatMessage(new: SemVer): MutableText = Text.literal("")
+        .append(Text.literal("Inventory Profiles Next:")
                     .apply {
                         style = Style.EMPTY
                             .withBold(true)
                             .withColor(Formatting.AQUA)
                     }
                )
-        .append(Text.m_237113_(I18n.translate("inventoryprofiles.update.version"))
+        .append(Text.literal(I18n.translate("inventoryprofiles.update.version"))
                     .apply {
                         style = Style.EMPTY
                     })
-        .append(Text.m_237113_("'$new'")
+        .append(Text.literal("'$new'")
                     .apply {
                         style = Style.EMPTY
                             .withBold(true)
                             .withColor(Formatting.DARK_GREEN)
                     })
-        .append(Text.m_237113_(I18n.translate("inventoryprofiles.update.available"))
+        .append(Text.literal(I18n.translate("inventoryprofiles.update.available"))
                     .apply {
                         style = Style.EMPTY
                     })
         .append(I18n.translate("inventoryprofiles.update.get"))
-        .append(Text.m_237113_("\"Modrinth\"")
+        .append(Text.literal("\"Modrinth\"")
                     .apply {
                         style = Style.EMPTY
                             .withBold(true)
@@ -66,9 +67,9 @@ interface PClientEventHandler {
                             .withClickEvent(ClickEvent(ClickEventAction.OPEN_URL, "https://modrinth.com/mod/inventory-profiles-next"))
                             .withHoverEvent(createHoverEventText("https://modrinth.com/mod/inventory-profiles-next"))
                     })
-        .append(Text.m_237113_(I18n.translate("inventoryprofiles.update.or"))
+        .append(Text.literal(I18n.translate("inventoryprofiles.update.or"))
                     .apply { style = Style.EMPTY })
-        .append(Text.m_237113_("\"CurseForge\"")
+        .append(Text.literal("\"CurseForge\"")
                     .apply {
                         style = Style.EMPTY
                             .withBold(true)

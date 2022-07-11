@@ -133,8 +133,9 @@ tasks.named<ShadowJar>("shadowJar") {
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-    relocate("kotlin", "org.anti_ad.embedded.kotlin")
-    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    exclude("kotlin/**")
+    exclude("kotlinx/**")
 
     exclude("META-INF/**")
     exclude("**/*.kotlin_metadata")
@@ -246,6 +247,7 @@ configure<CurseExtension> {
 
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("fabric-api")
+            requiredDependency("fabric-language-kotlin")
             optionalDependency("modmenu")
         })
     })
@@ -286,6 +288,7 @@ modrinth {
     dependencies.set(
         mutableListOf(
             ModDependency("P7dR8mSH","required"),
+            ModDependency("Ha28R6CL","required"),
             ModDependency("mOgUt4GM","optional")))
 }
 

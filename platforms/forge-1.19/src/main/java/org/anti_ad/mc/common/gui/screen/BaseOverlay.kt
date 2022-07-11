@@ -76,8 +76,8 @@ open class BaseOverlay : BaseScreen {
 
     }
 
-    override fun m_86600_() {
+    override fun tick() {
         onTick()
-        super.m_86600_()
+        super.tick()
     }
 }

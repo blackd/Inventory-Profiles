@@ -35,14 +35,14 @@ public class CommonForgeEventHandler {
 
     // Keyboard <-> KeyboardListener , onKey <-> onKeyEvent // ref: malilib forge 1.14.4 ForgeInputEventHandler
     @SubscribeEvent
-    public void onKeyLast(InputEvent.KeyInputEvent event) {
+    public void onKeyLast(InputEvent.Key event) {
         if (Vanilla.INSTANCE.screen() == null) { // non null is handled below
             GlobalInputHandler.INSTANCE.onKey(event.getKey(), event.getScanCode(), event.getAction(), event.getModifiers(), true, 0l);
         }
     }
 
     @SubscribeEvent
-    public void onKeyPressed(ScreenEvent.KeyboardKeyPressedEvent.Pre event) {
+    public void onKeyPressed(ScreenEvent.KeyPressed.Pre event) {
         onScreenKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_PRESS, event.getModifiers(), event);
         if (event.isCanceled()) return;
         event.setCanceled(GlobalScreenEventListener.INSTANCE
@@ -50,7 +50,7 @@ public class CommonForgeEventHandler {
     }
 
     @SubscribeEvent
-    public void onKeyRelease(ScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
+    public void onKeyRelease(ScreenEvent.KeyReleased.Pre event) {
         onScreenKey(event.getKeyCode(), event.getScanCode(), GLFW.GLFW_RELEASE, event.getModifiers(), event);
         if (event.isCanceled()) return;
         event.setCanceled(GlobalScreenEventListener.INSTANCE
@@ -58,13 +58,13 @@ public class CommonForgeEventHandler {
     }
 
     @SubscribeEvent
-    public void onKeyPressedPost(ScreenEvent.KeyboardKeyPressedEvent.Post event) {
+    public void onKeyPressedPost(ScreenEvent.KeyPressed.Post event) {
         event.setCanceled(GlobalScreenEventListener.INSTANCE
                 .onKeyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers(), false));
     }
 
     @SubscribeEvent
-    public void onKeyReleasePost(ScreenEvent.KeyboardKeyReleasedEvent.Post event) {
+    public void onKeyReleasePost(ScreenEvent.KeyReleased.Post event) {
         event.setCanceled(GlobalScreenEventListener.INSTANCE
                 .onKeyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers(), false));
     }
@@ -88,14 +88,14 @@ public class CommonForgeEventHandler {
     // ============
 
     @SubscribeEvent
-    public void onMouseButtonLast(InputEvent.MouseInputEvent event) {
+    public void onMouseButtonLast(InputEvent.MouseButton.Post event) {
         if (Vanilla.INSTANCE.screen() == null) { // non null is handled below
             GlobalInputHandler.INSTANCE.onMouseButton(event.getButton(), event.getAction(), event.getModifiers());
         }
     } // fixme occasionally throw npe on Vanilla.mc() (idk why, build/class loading related?)
 
     @SubscribeEvent
-    public void onMouseClicked(ScreenEvent.MouseClickedEvent.Pre event) {
+    public void onMouseClicked(ScreenEvent.MouseButtonPressed.Pre event) {
         onScreenMouseButton(event.getButton(), GLFW.GLFW_PRESS, lastMods, event);
         if (event.isCanceled()) return;
         event.setCanceled(GlobalScreenEventListener.INSTANCE
@@ -103,7 +103,7 @@ public class CommonForgeEventHandler {
     }
 
     @SubscribeEvent
-    public void onMouseReleased(ScreenEvent.MouseReleasedEvent.Pre event) {
+    public void onMouseReleased(ScreenEvent.MouseButtonReleased.Pre event) {
         onScreenMouseButton(event.getButton(), GLFW.GLFW_RELEASE, lastMods, event);
         if (event.isCanceled()) return;
         event.setCanceled(GlobalScreenEventListener.INSTANCE
@@ -111,12 +111,12 @@ public class CommonForgeEventHandler {
     }
 
     @SubscribeEvent
-    public void onMouseClickedPost(ScreenEvent.MouseClickedEvent.Post event) {
+    public void onMouseClickedPost(ScreenEvent.MouseButtonPressed.Post event) {
         GlobalScreenEventListener.INSTANCE.onMouseClicked(event.getMouseX(), event.getMouseY(), event.getButton(), false);
     }
 
     @SubscribeEvent
-    public void onMouseReleasedPost(ScreenEvent.MouseReleasedEvent.Post event) {
+    public void onMouseReleasedPost(ScreenEvent.MouseButtonReleased.Post event) {
         GlobalScreenEventListener.INSTANCE.onMouseReleased(event.getMouseX(), event.getMouseY(), event.getButton(), false);
     }
 
@@ -129,7 +129,7 @@ public class CommonForgeEventHandler {
     private int lastMods = 0;
 
     @SubscribeEvent
-    public void onRawMouse(InputEvent.RawMouseEvent event) {
+    public void onRawMouse(InputEvent.MouseButton.Pre event) {
         lastMods = event.getModifiers();
     }
 

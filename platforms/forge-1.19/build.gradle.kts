@@ -31,14 +31,16 @@ import proguard.gradle.ProGuardTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import org.anti_ad.mc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.forgeCommonDependency
 import org.anti_ad.mc.registerMinimizeJarTask
 
 val supported_minecraft_versions = listOf("1.19")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.19"
-val forge_version = "41.0.1"
+val forge_version = "41.0.92"
 val mod_artefact_version = project.ext["mod_artefact_version"]
+val kotlin_for_forge_version = "3.6.0"
 
 
 logger.lifecycle("""
@@ -126,21 +128,17 @@ repositories {
         }
     }
     gradlePluginPortal()
+    maven {
+        name = "kotlinforforge"
+        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+    }
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
 
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version)
+
 dependencies {
-    "shadedApi"(project(":common"))
-
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-
-    "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    //"implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
-
 //    runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3597547"))
 //    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
 //    runtimeOnly ( fg.deobf("curse.maven:immersive-engineering-231951:3587149"))
@@ -150,9 +148,6 @@ dependencies {
 //    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
     //runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
     //runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
-
-    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
-    "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 afterEvaluate {
@@ -202,8 +197,9 @@ tasks.named<ShadowJar>("shadowJar") {
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-    relocate("kotlin", "org.anti_ad.embedded.kotlin")
-    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    exclude("kotlin/**")
+    exclude("kotlinx/**")
 
     //include("org/anti_ad/mc/**")
 
@@ -250,9 +246,7 @@ tasks.register<Copy>("copyProGuardJar") {
         ******************************
         
     """.trimIndent())
-    from(
-        inName
-        )
+    from(inName)
     rename {
         outName
     }
@@ -289,10 +283,8 @@ val proguard by tasks.registering(ProGuardTask::class) {
 
 }
 
-val customJar by dummyJar( // dummy jar
-    thisJarNam = "",
-    fromJarNam = ""
-                         )
+val customJar by dummyJar(thisJarNam = "",
+                          fromJarNam = "")
 
 fun dummyJar(thisJarNam: String, fromJarNam: String) = tasks.creating(Jar::class) { // dummy jar for reobf
     var shadow = tasks.getByName<ShadowJar>("shadowJar");
@@ -333,7 +325,7 @@ configurations {
 configure<UserDevExtension> {
     mappings(mapOf(
         "channel" to "official",
-        "version" to "1.18.2"))
+        "version" to "1.19"))
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(
@@ -550,7 +542,9 @@ configure<CurseExtension> {
         afterEvaluate {
             uploadTask.dependsOn("build")
         }
-
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("kotlin-for-forge")
+        })
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
@@ -588,6 +582,9 @@ modrinth {
     loaders.add(mod_loader)
 
     this.versionType.set(com.modrinth.minotaur.request.VersionType.BETA.name)
+    dependencies.set(
+        mutableListOf(
+            ModDependency("ordsPcFz", "required")))
 }
 
 tasks.register<Copy>("copyJavadoc") {

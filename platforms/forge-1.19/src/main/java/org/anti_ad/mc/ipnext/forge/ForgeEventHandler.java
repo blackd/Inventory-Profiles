@@ -24,10 +24,10 @@ import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.client.event.ScreenEvent.DrawScreenEvent;
-import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.event.ScreenEvent.Render;
+import net.minecraftforge.client.event.ScreenEvent.Init;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;// RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay ;// ForgeIngameGui;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -73,7 +73,7 @@ public class ForgeEventHandler {
     // ============
 
     @SubscribeEvent
-    public void onInitGuiPost(InitScreenEvent.Post e) { // MixinAbstractContainerScreen.init
+    public void onInitGuiPost(Init.Post e) { // MixinAbstractContainerScreen.init
         ScreenEventHandler.INSTANCE.onScreenInit(e.getScreen(), x -> {
             e.addListener(x);
             return Unit.INSTANCE;
@@ -81,24 +81,24 @@ public class ForgeEventHandler {
     }
 
     @SubscribeEvent
-    public void preScreenRender(ScreenEvent.DrawScreenEvent.Pre event) {
+    public void preScreenRender(ScreenEvent.Render.Pre event) {
         ScreenEventHandler.INSTANCE.preRender();
     }
 
     // fabric GameRenderer.render() = forge updateCameraAndRender()
     // forge line 554
     @SubscribeEvent
-    public void postScreenRender(DrawScreenEvent.Post e) {
+    public void postScreenRender(Render.Post e) {
         ScreenEventHandler.INSTANCE.postRender();
     }
 
     @SubscribeEvent
-    public void onBackgroundRender(ContainerScreenEvent.DrawBackground e) {
+    public void onBackgroundRender(ContainerScreenEvent.Render.Background e) {
         ContainerScreenEventHandler.INSTANCE.onBackgroundRender(e.getPoseStack(), e.getMouseX(), e.getMouseY());
     }
 
     @SubscribeEvent
-    public void onForegroundRender(ContainerScreenEvent.DrawForeground e) {
+    public void onForegroundRender(ContainerScreenEvent.Render.Foreground e) {
         ContainerScreenEventHandler.INSTANCE.onForegroundRender(e.getPoseStack(), e.getMouseX(), e.getMouseY());
     }
 
@@ -107,7 +107,7 @@ public class ForgeEventHandler {
     // ============
 
     @SubscribeEvent
-    public void onGuiKeyPressedPre(ScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
+    public void onGuiKeyPressedPre(ScreenEvent.KeyPressed.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
         if (!IVanillaUtilKt.getVanillaUtil().inGame()) return;
         InputConstants.Key mouseKey = InputConstants.getKey(e.getKeyCode(), e.getScanCode()); //getInputByCode(e.getKeyCode(), e.getScanCode()); // getKey(e.getKeyCode(), e.getScanCode());
         if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
@@ -119,16 +119,16 @@ public class ForgeEventHandler {
 
     // this event is disabled.
     //@SubscribeEvent
-    public void onOverlayLayerPre(RenderGameOverlayEvent.PreLayer event) {
-        if (event.getOverlay() == ForgeIngameGui.HOTBAR_ELEMENT) {
+    public void onOverlayLayerPre(RenderGuiOverlayEvent.Pre event) {
+        if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
             LockSlotsHandler.INSTANCE.preRenderHud();
         }
     }
 
 
     @SubscribeEvent
-    public void onOverlayLayerPost(RenderGameOverlayEvent.PostLayer event) {
-        if (event.getOverlay() == ForgeIngameGui.HOTBAR_ELEMENT) {
+    public void onOverlayLayerPost(RenderGuiOverlayEvent.Post event) {
+        if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
             LockSlotsHandler.INSTANCE.postRenderHud();
         }
     }

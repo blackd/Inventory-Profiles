@@ -32,10 +32,10 @@ import kotlin.reflect.KProperty
 // like observable, but only invoke onChange if value really changed
 inline fun <T> detectable(initialValue: T,
                           crossinline onChange: (oldValue: T, newValue: T) -> Unit) =
-    Delegates.observable(initialValue) { _, oldValue, newValue ->
-        if (oldValue != newValue) onChange(oldValue,
-                                           newValue)
-    }
+        Delegates.observable(initialValue) { _, oldValue, newValue ->
+            if (oldValue != newValue) onChange(oldValue,
+                                               newValue)
+        }
 
 // ============
 // PropertyNameChecker

@@ -22,11 +22,13 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.TaskModrinthUpload
+import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
 import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
 import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.forgeCommonDependency
 import org.anti_ad.mc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
@@ -37,6 +39,7 @@ val mod_version = project.version
 val minecraft_version = "1.15.2"
 val forge_version = "31.2.56"
 val mod_artefact_version = project.ext["mod_artefact_version"]
+val kotlin_for_forge_version = "1.17.0"
 
 
 logger.lifecycle("""
@@ -116,17 +119,16 @@ repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+    maven {
+        name = "kotlinforforge"
+        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+    }
 }
 
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version)
 
 dependencies {
-    "shadedApi"(project(":common"))
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-    "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
+
 }
 
 afterEvaluate {
@@ -152,10 +154,11 @@ tasks.named<ShadowJar>("shadowJar") {
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-    relocate("kotlin", "org.anti_ad.embedded.kotlin")
-    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
 
     //include("org/anti_ad/mc/**")
+
+    exclude("kotlin/**")
+    exclude("kotlinx/**")
 
     //exclude("META-INF/**")
     exclude("**/*.kotlin_metadata")
@@ -418,7 +421,9 @@ configure<CurseExtension> {
         afterEvaluate {
             uploadTask.dependsOn("build")
         }
-
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("kotlin-for-forge")
+        })
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
@@ -454,6 +459,9 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+    dependencies.set(
+        mutableListOf(
+            ModDependency("ordsPcFz", "required")))
 }
 
 

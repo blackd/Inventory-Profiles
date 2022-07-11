@@ -23,15 +23,15 @@ import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
-import net.minecraftforge.gradle.userdev.UserDevExtension
-import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
-import org.anti_ad.mc.configureCommon
-import org.anti_ad.mc.platformsCommonConfig
-import proguard.gradle.ProGuardTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
+import net.minecraftforge.gradle.userdev.UserDevExtension
+import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.forgeCommonDependency
+import org.anti_ad.mc.platformsCommonConfig
 import org.anti_ad.mc.registerMinimizeJarTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.18", "1.18.1")
 val mod_loader = "forge"
@@ -39,6 +39,7 @@ val mod_version = project.version
 val minecraft_version = "1.18.1"
 val forge_version = "39.1.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
+val kotlin_for_forge_version = "3.6.0"
 
 
 logger.lifecycle("""
@@ -84,7 +85,6 @@ apply(plugin = "net.minecraftforge.gradle")
 apply(plugin = "org.spongepowered.mixin")
 
 
-
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -126,21 +126,17 @@ repositories {
         }
     }
     gradlePluginPortal()
+    maven {
+        name = "kotlinforforge"
+        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+    }
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
 
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version)
+
 dependencies {
-    "shadedApi"(project(":common"))
-
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-    "shadedApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-
-    "minecraft"("net.minecraftforge:forge:$minecraft_version-$forge_version")
-    //"implementation"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
-
 //    runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3597547"))
 //    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
 //    runtimeOnly ( fg.deobf("curse.maven:immersive-engineering-231951:3587149"))
@@ -150,9 +146,6 @@ dependencies {
 //    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
     //runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
     //runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
-
-    "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
-    "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
 }
 
 afterEvaluate {
@@ -202,11 +195,11 @@ tasks.named<ShadowJar>("shadowJar") {
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-    relocate("kotlin", "org.anti_ad.embedded.kotlin")
-    relocate("kotlinx", "org.anti_ad.embedded.kotlinx")
+
+    exclude("kotlin/**")
+    exclude("kotlinx/**")
 
     //include("org/anti_ad/mc/**")
-
 
     exclude("**/*.kotlin_metadata")
     exclude("**/*.kotlin_module")
@@ -250,9 +243,7 @@ tasks.register<Copy>("copyProGuardJar") {
         ******************************
         
     """.trimIndent())
-    from(
-        inName
-        )
+    from(inName)
     rename {
         outName
     }
@@ -552,6 +543,9 @@ configure<CurseExtension> {
         afterEvaluate {
             uploadTask.dependsOn("build")
         }
+        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
+            requiredDependency("kotlin-for-forge")
+        })
 
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
@@ -588,6 +582,9 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+    dependencies.set(
+        mutableListOf(
+            ModDependency("ordsPcFz", "required")))
 }
 
 tasks.register<Copy>("copyJavadoc") {

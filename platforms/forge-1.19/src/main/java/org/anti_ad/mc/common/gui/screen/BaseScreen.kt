@@ -39,7 +39,7 @@ import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 // ============
 
 abstract class BaseScreen(text: Text) : Screen(text), IScreenMarker {
-    constructor() : this(Text.m_237113_(""))
+    constructor() : this(Text.literal(""))
 
     var isClosing: Boolean = false
 

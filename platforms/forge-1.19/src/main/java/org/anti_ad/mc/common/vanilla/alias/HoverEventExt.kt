@@ -26,4 +26,4 @@ import net.minecraft.network.chat.HoverEvent
 // direct usage of HoverEventAction.SHOW_TEXT in
 // .withHoverEvent(HoverEvent(HoverEventAction.SHOW_TEXT
 
-fun createHoverEventText(text: String): HoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.m_237113_(text))
+fun createHoverEventText(text: String): HoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, getLiteral(text))

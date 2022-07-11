@@ -31,6 +31,7 @@ import org.anti_ad.mc.common.vanilla.alias.SimpleSoundInstance
 import org.anti_ad.mc.common.vanilla.alias.SoundEvent
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.Util
+import org.anti_ad.mc.common.vanilla.alias.getLiteral
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.__glue_vanillaUtil
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
@@ -101,7 +102,7 @@ private object VanillaUtil: IVanillaUtil {
     override fun configDirectory(modName: String): Path = (configDirectory() / modName).apply { createDirectories() }
 
     override fun getResourceAsString(identifier: String): String? = tryCatch {
-        Vanilla.resourceManager().m_215593_(Identifier(identifier)).m_215507_().reader().readText()
+        Vanilla.resourceManager().getResource(Identifier(identifier)).get().open().reader().readText()
     }
 
     override fun loggingString(path: Path): String = // return ".minecraft/config/file.txt" etc
@@ -124,7 +125,7 @@ private object VanillaUtil: IVanillaUtil {
 
     override fun isValidScreen(ctx: KeybindSettings.Context) = ctx.isValid(Vanilla.screen())
 
-    override fun chat(message: Any) = Vanilla.chatHud().addMessage(if (message is Text) message else Text.m_237113_(message.toString()))
+    override fun chat(message: Any) = Vanilla.chatHud().addMessage(if (message is Text) message else getLiteral(message.toString()))
 }
 
 private fun KeybindSettings.Context.isValid(s: Screen?) = when (this) {

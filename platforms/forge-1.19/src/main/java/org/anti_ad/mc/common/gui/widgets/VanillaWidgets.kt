@@ -30,6 +30,7 @@ import org.anti_ad.mc.common.vanilla.alias.MathHelper
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.Text
 import org.anti_ad.mc.common.vanilla.alias.TextRenderer
+import org.anti_ad.mc.common.vanilla.alias.getLiteral
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawDynamicSizeSprite
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.glue.rVanillaButtonSprite
@@ -57,7 +58,7 @@ open class VanillaWidget<T : AbstractWidget>(val vanilla: T) : Widget() {
         get() = vanilla.message.string //asString()
         //    get() = vanilla.func_230458_i_().unformattedComponentText
         set(value) {
-            vanilla.message = Text.m_237113_(value)
+            vanilla.message = getLiteral(value)
         }
 
     override fun render(mouseX: Int,
@@ -152,7 +153,7 @@ private class CustomVanillaSliderWidget(val minValue: Double,
                                                                                     0,
                                                                                     0,
                                                                                     20,
-                                                                                    Text.m_237113_(""),
+                                                                                    getLiteral(""),
                                                                                     0.5) {
 
     var valueChangedEvent: () -> Unit = { }
@@ -239,7 +240,7 @@ private class CustomTextFieldWidget(textRenderer: TextRenderer,
                            j,
                            k,
                            l,
-                           Text.m_237113_(string)) {
+                           getLiteral(string)) {
     public override fun setFocused(bl: Boolean) {
         super.setFocused(bl)
     }
