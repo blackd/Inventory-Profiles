@@ -114,8 +114,9 @@ fun Project.rootAfterEvaluate() {
             }
         }
     }
-    val depTree = addTaskToDepTree(0,tasks["build"], mutableSetOf<String>())
-    logger.lifecycle(depTree)
+    // one must disable parallel execution for this to work
+    //val depTree = addTaskToDepTree(0,tasks["build"], mutableSetOf<String>())
+    //logger.lifecycle(depTree)
 }
 
 fun Project.registerCopyJarForPublishTask(source: Jar, mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any): TaskProvider<Copy> {

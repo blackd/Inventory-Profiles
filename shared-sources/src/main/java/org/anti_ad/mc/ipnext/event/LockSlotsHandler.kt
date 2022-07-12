@@ -21,6 +21,8 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.detectable
+import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
@@ -130,6 +132,11 @@ object LockSlotsHandler: PLockSlotHandler {
     private val configSpriteLocked = configSprite.down()
 
     fun onBackgroundRender() {
+        Vanilla.screen()?.also { target ->
+            HintsManagerNG.getHints(target.javaClass).ignore.ifTrue {
+                return
+            }
+        }
         if (displayingConfig) return
         if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue) return
         drawSprite(backgroundSprite,
@@ -142,6 +149,11 @@ object LockSlotsHandler: PLockSlotHandler {
     }
 
     override fun drawForeground() {
+        Vanilla.screen()?.also { target ->
+            HintsManagerNG.getHints(target.javaClass).ignore.ifTrue {
+                return
+            }
+        }
         if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
         drawSprite(foregroundSprite,
                    null)

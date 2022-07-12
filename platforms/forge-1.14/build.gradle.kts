@@ -422,14 +422,13 @@ configure<CurseExtension> {
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
         })
-        relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
-            requiredDependency("mixinbootstrap")
-        })
+
         afterEvaluate {
             uploadTask.dependsOn("build")
         }
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("kotlin-for-forge")
+            requiredDependency("mixinbootstrap")
         })
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
