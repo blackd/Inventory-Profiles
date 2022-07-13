@@ -571,8 +571,14 @@ modrinth {
         token.set(System.getenv("MODRINTH_TOKEN"))
     }
 
+    val clasifier = if (System.getenv("IPN_CLASSIFIER") != null) {
+        System.getenv("IPN_CLASSIFIER")
+    } else {
+        ""
+    }
+
     projectId.set("O7RBXm3n")
-    versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
+    versionNumber.set("$mod_loader-$minecraft_version-$mod_version$clasifier") // Will fail if Modrinth has this version already
     val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
     val remappedJarFile = forgeReobfJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
@@ -582,7 +588,7 @@ modrinth {
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-    versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
+    versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
 
