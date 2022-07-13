@@ -16,7 +16,7 @@ python build_release_notes.py
 
 cd ..
 
-./gradlew clean build modrinth curseforge
+./gradlew --max-workers 32 clean build modrinth curseforge 
 
 ls -la build/lib/
 

@@ -24,7 +24,6 @@ import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.UserDevExtension
-import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
 import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.platformsCommonConfig
 import proguard.gradle.ProGuardTask
@@ -38,7 +37,7 @@ val supported_minecraft_versions = listOf("1.19")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.19"
-val forge_version = "41.0.92"
+val forge_version = "41.0.98"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.6.0"
 
@@ -523,6 +522,12 @@ configure<CurseExtension> {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
+    val clasifier = if (System.getenv("IPN_CLASSIFIER") != null) {
+        System.getenv("IPN_CLASSIFIER")
+    } else {
+        ""
+    }
+
     project(closureOf<CurseProject> {
         id = "495267"
         changelogType = "markdown"
@@ -536,7 +541,7 @@ configure<CurseExtension> {
         val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
         val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
+            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version$clasifier"
         })
 
         afterEvaluate {

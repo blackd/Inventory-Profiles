@@ -23,7 +23,7 @@ import net.minecraft.client.Minecraft
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.IExtensionPoint
 import net.minecraftforge.fml.ModLoadingContext
-import net.minecraftforge.client.ConfigGuiHandler
+import net.minecraftforge.client.ConfigScreenHandler
 import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.init as inventoryProfilesInit
@@ -41,8 +41,8 @@ class KotlinClientInit: Runnable {
 
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler())
 
-        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory::class.java) {
-            ConfigGuiHandler.ConfigGuiFactory { minecraft: Minecraft?, screen: net.minecraft.client.gui.screens.Screen? -> ConfigScreen() }
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
+            ConfigScreenHandler.ConfigScreenFactory { minecraft: Minecraft?, screen: net.minecraft.client.gui.screens.Screen? -> ConfigScreen() }
         }
         inventoryProfilesInit()
     }

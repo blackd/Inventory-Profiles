@@ -31,7 +31,7 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay ;// ForgeIngameGu
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.common.vanilla.glue.IVanillaUtilKt;
@@ -57,7 +57,7 @@ public class ForgeEventHandler {
     }
 
     @SubscribeEvent
-    public void joinWorld(WorldEvent.Load event) {
+    public void joinWorld(LevelEvent.Load event) {
         if (IVanillaUtilKt.getVanillaUtil().isOnClientThread()) {
             ClientEventHandler.INSTANCE.onJoinWorld();
         }

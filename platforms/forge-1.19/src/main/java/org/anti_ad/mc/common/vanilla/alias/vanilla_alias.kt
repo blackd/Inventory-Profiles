@@ -67,13 +67,13 @@ typealias SoundEvent = SoundEvent
 
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
-    get() = ForgeRegistries.BLOCK_ENTITIES.keys
+    get() = ForgeRegistries.BLOCK_ENTITY_TYPES.keys
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-BLOCK-IDS)`
     get() = ForgeRegistries.BLOCKS.keys
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-CONTAINER-IDS)`
-    get() = ForgeRegistries.CONTAINERS.keys
+    get() = ForgeRegistries.MENU_TYPES.keys
 @Suppress("ObjectPropertyName", "HasPlatformType")
 inline val `(REGISTRIES-ITEM-IDS)`
     get() = ForgeRegistries.ITEMS.keys
