@@ -37,6 +37,7 @@ data class ButtonPositionHint(var horizontalOffset: Int = 0,
 @Serializable
 data class HintClassData(var ignore: Boolean = false,
                          var playerSideOnly: Boolean = false,
+                         var disableFastSwipe: Boolean = false,
                          val buttonHints: MutableMap<IPNButton, ButtonPositionHint> = mutableMapOf(),
                          var force: Boolean = false) {
 
@@ -73,7 +74,7 @@ data class HintClassData(var ignore: Boolean = false,
     }
 
     fun hasInfo(): Boolean {
-        return playerSideOnly || ignore || force || buttonHints.filterValues { v ->
+        return disableFastSwipe || playerSideOnly || ignore || force || buttonHints.filterValues { v ->
             v.top != 0 || v.horizontalOffset != 0 || v.bottom != 0 || v.hide
         }.isNotEmpty()
     }

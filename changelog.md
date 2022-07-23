@@ -1,14 +1,21 @@
 <!-- latest begin -->
 
+### 1.6.1
+
+- Auto refill now supports buckets and honey bottles
+- Swipe move/throw now can be configured on per UI bases 
+- Forge 1.17.x build now depends on kotlin for forge >=2
+
+<!-- latest end -->
+
+<!-- rest begin -->
+
 ### 1.6.0
 
 - fixed crash on Forge 1.19
 - fixes gui incompatibility with [CC:Tweaked](https://www.curseforge.com/minecraft/mc-mods/cc-tweaked)
 - switched to modern Kotlin support. This means that this mod now requires [Kotlin for Forge](https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge) or [Fabric Language Kotlin](https://www.curseforge.com/minecraft/mc-mods/fabric-language-kotlin)
 
-<!-- latest end -->
-
-<!-- rest begin -->
 
 ### 1.5.3
 - Added highlighting of all items of type:

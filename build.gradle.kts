@@ -22,7 +22,7 @@ import org.anti_ad.mc.getGitHash
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("1", "6", "0",
+val versionObj = Version("1", "6", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 repositories {

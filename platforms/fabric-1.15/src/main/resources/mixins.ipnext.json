@@ -21,7 +21,9 @@
     "MixinPlayerInventory",
     "MixinScreen",
     "MixinInGameHud",
-    "MixinClientPlayerInteractionManager"
+    "MixinClientPlayerInteractionManager",
+    "IMixinBucketItem",
+    "IMixinFluid"
   ],
   "injectors": {
     "defaultRequire": 1

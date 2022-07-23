@@ -35,6 +35,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.showSubTitle
 import org.anti_ad.mc.common.vanilla.*
+import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
@@ -61,6 +62,9 @@ import org.anti_ad.mc.ipnext.item.hasPotionEffects
 import org.anti_ad.mc.ipnext.item.isBucket
 import org.anti_ad.mc.ipnext.item.isDamageable
 import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.isEmptyBucket
+import org.anti_ad.mc.ipnext.item.isFullBucket
+import org.anti_ad.mc.ipnext.item.isHoneyBottle
 import org.anti_ad.mc.ipnext.item.isStew
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.maxDamage
@@ -210,6 +214,10 @@ object AutoRefillHandler {
 
                 if (itemType.isDamageable) notifySuccessfulChange(itemType, foundSlotId)
 
+                if (currentItem.itemType.isEmptyBucket || currentItem.itemType.item == Items.GLASS_BOTTLE) {
+                    ContainerClicker.shiftClick(storedSlotId)
+                }
+
                 if ((storedSlotId - 36) in 0..8) { // use swap
                     //handles hotbar
                     ContainerClicker.swap(foundSlotId,
@@ -229,6 +237,7 @@ object AutoRefillHandler {
         }
 
         var checkingItem = storedItem // use to select
+
         private fun shouldHandleItem(): Boolean {
 
             if (profilesSwappedItems.contains(slotId())) {
@@ -256,13 +265,20 @@ object AutoRefillHandler {
                 }
             }
 
-            if (storedItem.itemType.isBucket) return false
-            // todo potion -> bottle, soup -> bowl etc
-            if (storedItem.itemType.item == Items.POTION && currentItem.itemType.item == Items.GLASS_BOTTLE) return true
-            if (storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL) return true
-            // todo any else?
+            return if (storedItem.itemType.isFullBucket && currentItem.itemType.item == Items.BUCKET) {
+                true
+            } else if (storedItem.itemType.isBucket && storedItem.itemType.isEmptyBucket && currentItem.itemType.isFullBucket) {
+                true
+            } else if (storedItem.itemType.item == Items.POTION && currentItem.itemType.item == Items.GLASS_BOTTLE) {
+                true
+            }  else if (storedItem.itemType.isHoneyBottle && currentItem.itemType.item == Items.GLASS_BOTTLE) {
+                true
+            } else if (storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL) {
+                true
+            } else {
+                false
+            }
 
-            return false
         }
         private fun notifySuccessfulChange(itemType: ItemType,
                                            foundSlotId: Int) {

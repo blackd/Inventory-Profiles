@@ -365,6 +365,8 @@
     "inventoryprofiles.gui.editor.name.screen.player_side": "Player Only",
     "inventoryprofiles.gui.editor.description.screen.player_side": "This will cause Inventory Profiles Next to detect the UI as player inventory only.\nNOTE:\nUsually you want to set this for both Screen and Container. But do try different combinations.",
     "inventoryprofiles.gui.editor.name.screen.force": "Force",
+    "inventoryprofiles.gui.editor.name.screen.disable_fast_swipe": "Disable Fast Swipe",
+    "inventoryprofiles.gui.editor.description.screen.disable_fast_swipe": "If set to true swipe move/throw will try to use slower but more reliable method.\nNOTE: If you have problems with swipe move/throw for one or more but not all GUIs try setting this to true.",
     "inventoryprofiles.gui.editor.description.screen.force": "By default if the mod that provides the UI provides compatibility information Inventory Profiles Next will use it\nThis setting allows you to override the mod.",
     "inventoryprofiles.gui.editor.name.screen.profile": "Show Profile UI",
     "inventoryprofiles.gui.editor.description.screen.profile": "The Profiles Selector UI should be visible only when the Player inventory screen is shown.\nIf for some reason it's visible for any other screen setting this to yes will disable it.",

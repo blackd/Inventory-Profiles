@@ -73,6 +73,10 @@ object ModSettings : ConfigDeclaration {
         .CATEGORY("§§hide")
     val HIGHLIGHT_FOUSED_WAIT_TICKS               /**/ by int(3, 3, 15)
 
+/*
+        .CATEGORY("$category.randomizer")
+    val ENABLE_RANDOMIZER                         /**/ by bool(true)
+*/
         .CATEGORY("$category.profiles")
     val ENABLE_PROFILES                          /**/ by bool(true)
         .CATEGORY("§§hide")

@@ -115,7 +115,7 @@ private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
 
     val overStackedMap = mutableMapOf<Int, ItemStack>()
     val overStacked = this.filterIndexed { index, itemStack ->
-        val keep = itemStack.overstacked
+        val keep = itemStack.overstackedAndNotManageable
         if (keep) overStackedMap[index] = itemStack
         keep
     }

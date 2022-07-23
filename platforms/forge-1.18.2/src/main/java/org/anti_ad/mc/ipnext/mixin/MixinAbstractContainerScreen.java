@@ -25,6 +25,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import org.anti_ad.mc.common.Log;
+import org.anti_ad.mc.common.vanilla.glue.IVanillaUtilKt;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,7 +41,21 @@ public class MixinAbstractContainerScreen<T extends AbstractContainerMenu> {
             method = "slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V",
             cancellable = true)
     protected void slotClicked(Slot slot, int slotId, int p_97780_, ClickType p_97781_, CallbackInfo ci) {
-        Log.INSTANCE.trace("onMouseClick for " + slotId);
+        if (Log.INSTANCE.getShouldTrace().invoke()) {
+            Log.INSTANCE.trace("onMouseClick for id:" + slotId);
+            if (slot != null) {
+
+                Log.INSTANCE.trace(slot.toString());
+                Log.INSTANCE.trace("onMouseClick for getSlotIndex:" + slot.getSlotIndex());
+                Log.INSTANCE.trace("onMouseClick for index:" + slot.index);
+                Log.INSTANCE.trace("onMouseClick for x:" + slot.x);
+                Log.INSTANCE.trace("onMouseClick for y:" + slot.y);
+                Log.INSTANCE.trace("onMouseClick for mouse x:" + IVanillaUtilKt.getVanillaUtil().mouseX());
+                Log.INSTANCE.trace("onMouseClick for mouse y:" + IVanillaUtilKt.getVanillaUtil().mouseY());
+
+            }
+            Log.INSTANCE.trace("from here:", new Throwable());
+        }
         LockSlotsHandler.INSTANCE.setLastMouseClickSlot(slot);
         if (slot != null
                 && LockedSlotsSettings.INSTANCE.getLOCK_SLOTS_DISABLE_USER_INTERACTION().getValue()

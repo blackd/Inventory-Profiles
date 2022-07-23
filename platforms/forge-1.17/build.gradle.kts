@@ -38,7 +38,7 @@ val mod_version = project.version
 val minecraft_version = "1.17.1"
 val forge_version = "37.1.1"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "3.6.0"
+val kotlin_for_forge_version = "2.2.0"
 
 
 

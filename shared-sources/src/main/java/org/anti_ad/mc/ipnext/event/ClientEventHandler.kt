@@ -24,7 +24,6 @@ import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.ClientWorld
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.access.IPNImpl
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -34,6 +33,7 @@ import org.anti_ad.mc.ipnext.config.Tweaks
 import org.anti_ad.mc.ipnext.parser.CustomDataFileLoader
 import org.anti_ad.mc.ipnext.specific.event.PClientEventHandler
 import kotlin.concurrent.timer
+
 
 object ClientEventHandler: PClientEventHandler {
 

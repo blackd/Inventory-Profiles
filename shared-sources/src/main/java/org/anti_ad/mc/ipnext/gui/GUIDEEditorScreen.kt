@@ -154,6 +154,17 @@ class GUIDEEditorScreen(private val target: Screen,
 
         }
 
+        val screenDisableSwipe = EditorConfigBoolean("screen.disable_fast_swipe",
+                                                         isVanillaScreen,
+                                                         false,
+                                                         screenHints.disableFastSwipe) {
+            if (screenHints.disableFastSwipe != it) {
+                screenHints.markAsDirty()
+            }
+            screenHints.disableFastSwipe = it
+
+        }
+
         val screenForceOption = EditorConfigBoolean("screen.force",
                                                     isVanillaScreen,
                                                     false,
@@ -264,6 +275,7 @@ class GUIDEEditorScreen(private val target: Screen,
                 addCategory(I18n.translateOrElse("$CATEGORY_ROOT.screen") { "Screen" })
                 addConfigOption(screenIgnoreOption)
                 addConfigOption(screenPlayerSideOption)
+                addConfigOption(screenDisableSwipe)
                 addConfigOption(screenForceOption)
                 if (types.contains(ContainerType.PLAYER)) {
                     addConfigOption(screenShowProfileSelectorOption)

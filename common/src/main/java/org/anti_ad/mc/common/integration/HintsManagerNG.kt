@@ -208,8 +208,8 @@ object HintsManagerNG {
                 }
 
                 val isIPNPlayerSideOnly = cl.isAnnotationPresent(IPNPlayerSideOnly::class.java)
-                val newVal = if (isIgnored || isIPNPlayerSideOnly || buttonHints.isNotEmpty()) {
-                    HintClassData(isIgnored, isIPNPlayerSideOnly, buttonHints, false)
+                val newVal = if ( isIgnored || isIPNPlayerSideOnly || buttonHints.isNotEmpty()) {
+                    HintClassData(isIgnored, isIPNPlayerSideOnly, false, buttonHints, false)
                 } else {
                     HintClassData()
                 }.also { nv ->
@@ -241,6 +241,10 @@ object HintsManagerNG {
 
     fun isPlayerSideOnly(javaClass: Class<*>?): Boolean {
         return javaClass != null && getHints(javaClass).playerSideOnly
+    }
+
+    fun isFastSwipeDisabled(javaClass: Class<*>?): Boolean {
+        return javaClass != null && getHints(javaClass).disableFastSwipe
     }
 
     fun upgradeOldConfig(oldConfigFile: Path,

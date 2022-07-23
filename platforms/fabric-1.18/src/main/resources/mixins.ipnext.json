@@ -21,7 +21,9 @@
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
         "MixinScreen",
-        "MixinClientPlayerInteractionManager"
+        "MixinClientPlayerInteractionManager",
+        "IMixinBucketItem",
+        "IMixinFluid"
     ],
     "injectors":          {
         "defaultRequire": 1

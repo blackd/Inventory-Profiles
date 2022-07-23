@@ -38,6 +38,8 @@ import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
+import org.anti_ad.mc.ipnext.mixin.IMixinBucketItem
+import org.anti_ad.mc.ipnext.mixin.IMixinFluid
 import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // ============
@@ -134,6 +136,20 @@ inline val ItemType.durability: Int
 
 inline val ItemType.isBucket: Boolean
     get() = item is BucketItem || item is MilkBucketItem || item is FishBucketItem
+
+inline val ItemType.isFullBucket: Boolean
+    get() = item is MilkBucketItem
+            || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
+            || (item is FishBucketItem)
+
+inline val ItemType.isEmptyBucket: Boolean
+    get() {
+        return item is IMixinBucketItem && (item.fluid as IMixinFluid).callIsEmpty()
+    }
+
+inline val ItemType.isHoneyBottle: Boolean
+    get() = item == Items.HONEY_BOTTLE
+
 inline val ItemType.isStew: Boolean
     get() = item is MushroomStewItem || item is SuspiciousStewItem
 //endregion

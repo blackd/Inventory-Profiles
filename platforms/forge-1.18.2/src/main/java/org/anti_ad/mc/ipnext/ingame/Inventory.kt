@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.ingame
 
+import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
@@ -46,6 +47,7 @@ fun vPlayerSlotOf(slot: Slot,
     if (slot.`(inventory)` !is PlayerInventory) return slot
     val id = slot.`(id)`
     val invSlot = slot.`(invSlot)`
+    Log.trace("id: $id, invSlot: $invSlot")
     return when {
         invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar in other tab
         // fabric

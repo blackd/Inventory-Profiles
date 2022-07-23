@@ -37,7 +37,7 @@ val supported_minecraft_versions = listOf("1.18.2")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.18.2"
-val forge_version = "40.1.0"
+val forge_version = "40.1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.6.0"
 
@@ -131,6 +131,11 @@ repositories {
         name = "kotlinforforge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
     }
+
+    maven { // Mantle and JEI
+        name = "DVS1 Maven FS"
+        url = uri("https://dvs1.progwml6.com/files/maven")
+    }
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
@@ -147,6 +152,9 @@ dependencies {
 //    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
     //runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
     //runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
+
+    runtimeOnly(fg.deobf("curse.maven:tinkers-construct-74072:3829979"))
+    runtimeOnly(fg.deobf("slimeknights.mantle:Mantle:${minecraft_version}-1.9.25"))
 }
 
 afterEvaluate {

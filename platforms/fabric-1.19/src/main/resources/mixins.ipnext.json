@@ -9,6 +9,7 @@
         "IMixinContainerScreen",
         "IMixinKeyBinding",
         "IMixinSlot",
+        "MixinClientPlayerInteractionManager",
         "MixinClientPlayNetworkHandler",
         "MixinContainerScreen",
         "MixinCraftingResultSlot",
@@ -19,7 +20,9 @@
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
         "MixinScreen",
-        "MixinClientPlayerInteractionManager"
+        "IMixinBucketItem",
+        "IMixinFluid",
+        "IMixinKeyBinding"
     ],
     "injectors":          {
         "defaultRequire": 1

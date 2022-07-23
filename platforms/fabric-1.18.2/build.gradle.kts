@@ -36,10 +36,10 @@ val supported_minecraft_versions = listOf("1.18.2")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.18.2"
-val mappings_version = "1.18.2+build.1"
-val loader_version = "0.14.3"
+val mappings_version = "1.18.2+build.4"
+val loader_version = "0.14.8"
 val modmenu_version = "3.0.1"
-val fabric_api_version = "0.47.8+1.18.2"
+val fabric_api_version = "0.58.0+1.18.2"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]
 
@@ -107,8 +107,8 @@ dependencies {
     //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
     //modRuntimeOnly("curse.maven:inventorio-491073:3553574")
     //modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
-    modRuntimeOnly("curse.maven:ellemes-container-library-530668:3798979")
-    modRuntimeOnly("curse.maven:expanded-storage-317856:3799166")
+    //modRuntimeOnly("curse.maven:ellemes-container-library-530668:3798979")
+    //modRuntimeOnly("curse.maven:expanded-storage-317856:3799166")
     //modRuntimeOnly("curse.maven:mouse-wheelie-317514:3717990")
     //modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
 }

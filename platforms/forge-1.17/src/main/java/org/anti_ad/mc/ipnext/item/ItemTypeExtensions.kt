@@ -135,6 +135,18 @@ inline val ItemType.durability: Int
 
 inline val ItemType.isBucket: Boolean
     get() = item is BucketItem || item is MilkBucketItem
+
+inline val ItemType.isFullBucket: Boolean
+    get() = (item is BucketItem && item != Items.BUCKET) || item is MilkBucketItem
+
+inline val ItemType.isEmptyBucket: Boolean
+    get() {
+        return item == Items.BUCKET
+    }
+
+inline val ItemType.isHoneyBottle: Boolean
+    get() = item == Items.HONEY_BOTTLE
+
 inline val ItemType.isStew: Boolean
     get() = item is MushroomStewItem || item is SuspiciousStewItem // SoupItem = MushroomStewItem
 //endregion

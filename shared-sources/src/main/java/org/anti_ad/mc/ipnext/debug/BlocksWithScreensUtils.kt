@@ -25,7 +25,7 @@ import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.extensions.plus
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.Vanilla.`(sendChatMessage)`
+import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Modpacks
 import java.lang.Thread.sleep
 
@@ -172,7 +172,7 @@ object ModpackInputHandler: IInputHandler {
 
                 val script = generateCommands(namespaces, blocks, blockEntities, items, true)
                 script.forEach {
-                    Vanilla.player().`(sendChatMessage)`(it)
+                    VanillaUtil.chat(it)
                 }
             }
         }

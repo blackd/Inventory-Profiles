@@ -99,11 +99,11 @@ object ContainerTypes {
             }
         }
         if (innerMap.containsKey(container.javaClass)) {
-            Log.trace("Class: ${container.javaClass.name} is in as top level")
+            //Log.trace("Class: ${container.javaClass.name} is in as top level")
             return container.javaClass
         }
         return innerMap.keys.firstOrNull {
-            Log.trace("Checking inherited class: ${it.name}")
+            //Log.trace("Checking inherited class: ${it.name}")
             it.isInstance(container)
         }
     }
@@ -114,11 +114,11 @@ object ContainerTypes {
         if (container.`(slots)`.isEmpty()) {
             v = nonStorage
         } else {
-            Log.trace("container.slots.size: ${container.`(slots)`.size}")
+            //Log.trace("container.slots.size: ${container.`(slots)`.size}")
             val z: Class<*>? = getRepresentingClass(container)
             val ignoredClass = if (HintsManagerNG.getHints(container.javaClass).ignore) container.javaClass else null
             val playerSideOnly = HintsManagerNG.isPlayerSideOnly(container.javaClass)
-            Log.trace("Representing class: ${z?.name}")
+            //Log.trace("Representing class: ${z?.name}")
             if (z == null) {
                 if (ignoredClass == null) {
                     if (!playerSideOnly) {
