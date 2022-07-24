@@ -5,6 +5,8 @@
 - Auto refill now supports buckets and honey bottles
 - Swipe move/throw now can be configured on per UI bases 
 - Forge 1.17.x build now depends on kotlin for forge >=2
+- on 1.14, 1.15, 1.16 the default value of "Number of Ticks to Wait Before Auto Refill" is now 1 and setting it to 0 is no longer possible.
+
 
 <!-- latest end -->
 
