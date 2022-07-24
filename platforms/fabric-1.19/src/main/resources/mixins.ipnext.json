@@ -22,7 +22,8 @@
         "MixinScreen",
         "IMixinBucketItem",
         "IMixinFluid",
-        "IMixinKeyBinding"
+        "IMixinKeyBinding",
+        "IMixinEntityBucketItem"
     ],
     "injectors":          {
         "defaultRequire": 1

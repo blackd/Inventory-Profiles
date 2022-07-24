@@ -38,6 +38,8 @@ import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.integration.MergePriority
+import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_DEFAULT
+import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
 import org.anti_ad.mc.ipnext.event.blackListChanged
 
@@ -138,8 +140,8 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               0,
                                                               100)
     val THRESHOLD_UNIT                            /**/ by enum(ThresholdUnit.ABSOLUTE)
-    val AUTO_REFILL_WAIT_TICK                     /**/ by int(0,
-                                                              0,
+    val AUTO_REFILL_WAIT_TICK                     /**/ by int(AUTO_REFILL_WAIT_TICK_DEFAULT,
+                                                              AUTO_REFILL_WAIT_TICK_MINIMUM,
                                                               100)
         .CATEGORY("$category.auto-refill.non-enchanted")
     val ALLOW_BREAK_FOR_NON_ENCHANTED             /**/ by bool(false)

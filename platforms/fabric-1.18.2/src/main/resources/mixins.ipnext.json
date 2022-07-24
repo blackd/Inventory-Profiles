@@ -23,7 +23,8 @@
         "MixinScreen",
         "MixinClientPlayerInteractionManager",
         "IMixinBucketItem",
-        "IMixinFluid"
+        "IMixinFluid",
+        "IMixinEntityBucketItem"
     ],
     "injectors":          {
         "defaultRequire": 1

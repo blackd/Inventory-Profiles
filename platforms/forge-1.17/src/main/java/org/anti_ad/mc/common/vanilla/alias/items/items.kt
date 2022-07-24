@@ -32,10 +32,14 @@ import net.minecraft.world.item.ShovelItem
 import net.minecraft.world.item.SuspiciousStewItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.entity.EquipmentSlot
-
+import net.minecraft.world.item.MobBucketItem
+import net.minecraft.world.level.material.Fluids
 
 typealias BucketItem = BucketItem
 typealias MilkBucketItem = MilkBucketItem
+typealias EntityBucketItem = MobBucketItem
+typealias Fluids = Fluids
+
 
 
 typealias MushroomStewItem = BowlFoodItem

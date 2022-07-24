@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item
 
+import net.minecraftforge.common.extensions.IForgeFluid
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
@@ -32,6 +33,8 @@ import org.anti_ad.mc.common.vanilla.alias.Registry
 import org.anti_ad.mc.common.vanilla.alias.StatusEffectInstance
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.items.BucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.EntityBucketItem
+import org.anti_ad.mc.common.vanilla.alias.items.Fluids
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
@@ -143,6 +146,28 @@ inline val ItemType.isEmptyBucket: Boolean
     get() {
         return item == Items.BUCKET
     }
+
+fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
+    val otherItem = other.item
+    Log.trace("isEmpty item: ${item.javaClass}")
+    Log.trace("isEmpty otherItem: ${item.javaClass}")
+    return if (item is MilkBucketItem && otherItem is BucketItem && otherItem.fluid == Fluids.EMPTY) {
+        true
+    } else if (otherItem == Items.BUCKET && item is BucketItem && item.fluid != Fluids.EMPTY) {
+        true
+    } else item is EntityBucketItem && otherItem is BucketItem && otherItem !is EntityBucketItem
+    //item is MilkBucketItem || item is IMixinEntityBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
+}
+
+fun ItemType.isFullComparedTo(other: ItemType): Boolean {
+    val otherItem = other.item
+    Log.trace("isFull item: ${item.javaClass}")
+    Log.trace("isFull otherItem: ${item.javaClass}")
+    return if (item == Items.BUCKET && otherItem is MilkBucketItem) {
+        true
+    } else item !is EntityBucketItem && otherItem is EntityBucketItem
+
+}
 
 inline val ItemType.isHoneyBottle: Boolean
     get() = item == Items.HONEY_BOTTLE

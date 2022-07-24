@@ -63,7 +63,9 @@ import org.anti_ad.mc.ipnext.item.isBucket
 import org.anti_ad.mc.ipnext.item.isDamageable
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isEmptyBucket
+import org.anti_ad.mc.ipnext.item.isEmptyComparedTo
 import org.anti_ad.mc.ipnext.item.isFullBucket
+import org.anti_ad.mc.ipnext.item.isFullComparedTo
 import org.anti_ad.mc.ipnext.item.isHoneyBottle
 import org.anti_ad.mc.ipnext.item.isStew
 import org.anti_ad.mc.ipnext.item.itemId
@@ -266,8 +268,12 @@ object AutoRefillHandler {
             }
 
             return if (storedItem.itemType.isFullBucket && currentItem.itemType.item == Items.BUCKET) {
-                true
+                true //this case is not handled by isEmptyComparedTo
             } else if (storedItem.itemType.isBucket && storedItem.itemType.isEmptyBucket && currentItem.itemType.isFullBucket) {
+                true
+            } else if (storedItem.itemType.isBucket && storedItem.itemType.isEmptyComparedTo(currentItem.itemType)) {
+                true
+            } else if (storedItem.itemType.isBucket && storedItem.itemType.isFullComparedTo(currentItem.itemType)) {
                 true
             } else if (storedItem.itemType.item == Items.POTION && currentItem.itemType.item == Items.GLASS_BOTTLE) {
                 true

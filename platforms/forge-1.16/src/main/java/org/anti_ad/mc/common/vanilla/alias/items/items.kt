@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.common.vanilla.alias.items
 
+import net.minecraft.fluid.Fluids
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.AxeItem
@@ -36,7 +37,10 @@ import net.minecraft.item.ToolItem
 
 typealias BucketItem = BucketItem
 typealias MilkBucketItem = MilkBucketItem
-typealias FishBucketItem = FishBucketItem
+typealias EntityBucketItem = FishBucketItem
+typealias Fluids = Fluids
+
+
 
 typealias MushroomStewItem = SoupItem
 typealias SuspiciousStewItem = SuspiciousStewItem
