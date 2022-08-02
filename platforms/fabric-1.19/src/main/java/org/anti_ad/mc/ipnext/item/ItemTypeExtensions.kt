@@ -145,8 +145,6 @@ inline val ItemType.isFullBucket: Boolean
 
 fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
-    Log.trace("isEmpty item: ${item.javaClass}")
-    Log.trace("isEmpty otherItem: ${item.javaClass}")
     return if (item is MilkBucketItem && otherItem is IMixinBucketItem && (otherItem.fluid as IMixinFluid).callIsEmpty()) {
         true
     } else if (otherItem == Items.BUCKET && item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty()) {
@@ -157,8 +155,6 @@ fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
 
 fun ItemType.isFullComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
-    Log.trace("isFull item: ${item.javaClass}")
-    Log.trace("isFull otherItem: ${item.javaClass}")
     return if (item == Items.BUCKET && otherItem is MilkBucketItem) {
         true
     } else item !is IMixinEntityBucketItem && otherItem is IMixinEntityBucketItem

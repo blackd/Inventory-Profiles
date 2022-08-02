@@ -300,7 +300,6 @@ object ProfileSwitchHandler: IInputHandler {
                                       to - 36)
             } else {
                 //handles offhand and armor slots
-
                 ContainerClicker.leftClick(foundSlotId)
                 ContainerClicker.leftClick(to)
                 if (!vCursorStack().isEmpty()) {

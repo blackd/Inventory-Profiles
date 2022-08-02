@@ -129,6 +129,7 @@ object MiscHandler {
                                  Size(16,
                                       16))
             if (line.intersects(rect)) {
+                /*
                 if (Log.shouldTrace()) {
                     Log.trace("found slot to be: $slot")
                     Log.trace("found slot to be: invSlot: ${slot.`(id)`}, id: ${slot.`(invSlot)`}")
@@ -139,6 +140,8 @@ object MiscHandler {
                     Log.trace("Mouse.x ${VanillaUtil.mouseX()}")
                     Log.trace("Mouse.y ${VanillaUtil.mouseY()}")
                 }
+
+                 */
                 if (slot.`(itemStack)`.isEmpty()) continue
 
 
@@ -147,7 +150,6 @@ object MiscHandler {
                       types)
             }
         }
-        Log.trace("After for", Throwable())
     }
 
     /*
