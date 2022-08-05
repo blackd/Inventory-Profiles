@@ -24,9 +24,10 @@ package org.anti_ad.mc.ipnext.mixin;
 import net.minecraft.world.entity.player.Inventory; //net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.world.item.ItemStack; //net.minecraft.item.ItemStack;
 import net.minecraft.core.NonNullList; //net.minecraft.util.NonNullList;
+import org.anti_ad.mc.ipnext.config.Debugs;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
-import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
+import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -44,16 +45,21 @@ public abstract class MixinPlayerInventory {
             method = "getFreeSlot",
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
-    if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()) {
-        for(int i = 0; i < this.items.size(); ++i) {
-            if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
-                if ((this.items.get(i)).isEmpty()) {
-                    info.setReturnValue(i);
-                    return;
+        if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
+                && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
+            for (int i = 0; i < this.items.size(); ++i) {
+                if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
+                        && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
+                    continue;
+                }
+                if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
+                    if ((this.items.get(i)).isEmpty()) {
+
+                        info.setReturnValue(i);
+                        return;
+                    }
                 }
             }
+            info.setReturnValue(-1);
         }
-        info.setReturnValue(-1);
-        }
-    }
-}
+    }}

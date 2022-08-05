@@ -98,15 +98,23 @@ object AutoRefillHandler {
 
     val profilesSwappedItems = mutableSetOf<Int>()
 
+    var skipTick = false
+
+
     fun onTickInGame() {
-        if (Vanilla.screen() != null || (AutoRefillSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey)) {
-            screenOpening = true
-        } else if (VanillaUtil.inGame()) { //  Vanilla.screen() == null
-            if (screenOpening) {
-                screenOpening = false
-                init() // close screen -> init
+        if (!skipTick) {
+            if (Vanilla.screen() != null || (AutoRefillSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey)) {
+                screenOpening = true
+            } else if (VanillaUtil.inGame()) { //  Vanilla.screen() == null
+                if (screenOpening) {
+                    screenOpening = false
+                    init() // close screen -> init
+                }
+                handleAutoRefill()
             }
-            handleAutoRefill()
+        } else {
+            skipTick = false
+            return
         }
     }
 

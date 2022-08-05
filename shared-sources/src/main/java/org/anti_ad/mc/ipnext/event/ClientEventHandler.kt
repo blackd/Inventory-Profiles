@@ -82,12 +82,13 @@ object ClientEventHandler: PClientEventHandler {
             doCheckVersion()
         }
         GlobalInputHandler.pressedKeys.clear() // sometimes left up not captured
-        if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
-            AutoRefillHandler.onJoinWorld()
-        }
         if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
             LockedSlotKeeper.onJoinWorld()
         }
+        if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
+            AutoRefillHandler.onJoinWorld()
+        }
+
         CustomDataFileLoader.load()
     }
 

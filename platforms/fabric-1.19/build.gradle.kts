@@ -38,7 +38,7 @@ val mod_version = project.version.toString()
 val minecraft_version = "1.19.1"
 val mappings_version = "1.19.1+build.6"
 val loader_version = "0.14.8"
-val modmenu_version = "4.0.1"
+val modmenu_version = "4.0.5"
 val fabric_api_version = "0.58.5+1.19.1"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]

@@ -64,9 +64,15 @@ object LockedSlotKeeper {
             return true
         }
 
+    fun isHotBarSlotEmpty(id: Int): Boolean {
+        return if (id in 0..8) {
+            val hotBarSlot = id + 36
+            emptyNonLockedHotbarSlots.contains(hotBarSlot)
+        } else false
+    }
+
     fun onTickInGame() {
         if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
-
             if (worldJoined) {
                 if (ticksAfterJoin > LockedSlotsSettings.LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS.integerValue) {
                     Log.trace("Initialising because of timeout!")
@@ -96,7 +102,7 @@ object LockedSlotKeeper {
                 screenOpening = true
             } else {
                 if (screenOpening) {
-                     screenOpening = false
+                    screenOpening = false
                     Log.trace("Inventory is NOT empty initialising - 2")
                     init()
                 } else {
@@ -107,42 +113,60 @@ object LockedSlotKeeper {
     }
 
     private fun checkNewItems() {
+        val localEmptyNonLockedSlots = emptyNonLockedSlots.toMutableList()
+
+        processingLockedPickups = true
         this.emptyLockedSlots.forEach {
             val stack = Vanilla.container().`(slots)`[it].`(vanillaStack)`
             if (!stack.isEmpty) {
-                processingLockedPickups = true
+
                 //items changed so do stuff to keep the slot empty!
                 Log.trace("Items were placed int locked slot! $it")
-                if (this.emptyNonLockedSlots.size > 0) {
+                if (localEmptyNonLockedSlots.size > 0) {
 
-                    val targetSlot = emptyNonLockedSlots[0]
+                    val targetSlot = localEmptyNonLockedSlots[0]
+                    AutoRefillHandler.skipTick = true
                     moveItem(it, targetSlot)
-                    this.emptyNonLockedSlots.removeAt(0)
+                    localEmptyNonLockedSlots.removeAt(0)
 
                 } else {
                     Log.trace("Trowing away $it since there no free unlocked slots")
                     ContainerClicker.qClick(it)
                 }
-                processingLockedPickups = false
             }
         }
-        if (LockedSlotsSettings.LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED.booleanValue) {
-            emptyNonLockedHotbarSlots.forEach {
-                val stack = Vanilla.container().`(slots)`[it].`(vanillaStack)`
-                if (!stack.isEmpty) {
-                    processingLockedPickups = true
-                    if (this.emptyNonLockedSlots.size > 0) {
-                        val targetSlot = emptyNonLockedSlots[0]
-                        moveItem(it, targetSlot)
-                        this.emptyNonLockedSlots.removeAt(0)
+        if (LockedSlotsSettings.LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED.booleanValue && this.emptyNonLockedSlots.isNotEmpty()) {
+            fun checkHotbar() {
+                emptyNonLockedHotbarSlots.forEach { slotId ->
+                    val stack = Vanilla.container().`(slots)`[slotId].`(vanillaStack)`
+                    if (!stack.isEmpty) {
+                        if (localEmptyNonLockedSlots.size > 0) {
+                            AutoRefillHandler.skipTick = true
+                            val targetSlot = localEmptyNonLockedSlots[0]
+                            val hotBarSlot = slotId - 36
+                            Log.trace("Fast Swapping $slotId to $targetSlot")
+                            ContainerClicker.swap(targetSlot,
+                                                  hotBarSlot)
+                            localEmptyNonLockedSlots.removeAt(0)
+                        }
                     }
                 }
             }
+
+            checkHotbar()
+            //Yes doing the same thing twice...
+            //sometimes an item is picked up in the just freed slot and it remains in the hotbar.
+            //so we check twice to be sure
+            if (localEmptyNonLockedSlots.isNotEmpty()) {
+                checkHotbar()
+            }
         }
+        emptyNonLockedSlots.clear()
+        emptyNonLockedSlots.addAll(localEmptyNonLockedSlots)
+        processingLockedPickups = false
     }
 
-    private fun moveItem(it: Int,
-                          targetSlot: Int) {
+    private fun moveItem(it: Int, targetSlot: Int) {
         GeneralInventoryActions.cleanCursor()
         if ((it - 36) in 0..8) { // use swap
             //handles hotbar
@@ -158,6 +182,7 @@ object LockedSlotKeeper {
     }
 
     fun init() {
+        if (processingLockedPickups) return
         this.emptyLockedSlots.clear()
         this.emptyNonLockedSlots.clear()
         this.emptyNonLockedHotbarSlots.clear()
