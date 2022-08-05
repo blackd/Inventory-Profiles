@@ -1,4 +1,19 @@
 <!-- latest begin -->
+### 1.6.2
+
+- Picked up items will now go directly into the inventory instead of taking hotbar space. This can be changed in the `Locked Slots` tab of the config.
+- Added localisation for Português Brasileiro
+
+<iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/zj1DzMvXO9Q?wmode=transparent" height="358" width="638"></iframe>
+
+#### NOTE
+
+Switched to modern Kotlin support. This means that this mod now requires [Kotlin for Forge](https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge) or [Fabric Language Kotlin](https://www.curseforge.com/minecraft/mc-mods/fabric-language-kotlin)
+
+
+<!-- latest end -->
+
+<!-- rest begin -->
 
 ### 1.6.1
 
@@ -9,10 +24,6 @@
 
 <iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/eLYY9yKMvAY?wmode=transparent" height="358" width="638"></iframe>
 
-
-<!-- latest end -->
-
-<!-- rest begin -->
 
 ### 1.6.0
 
