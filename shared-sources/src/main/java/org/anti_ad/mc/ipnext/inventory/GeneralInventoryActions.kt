@@ -247,8 +247,7 @@ object GeneralInventoryActions {
         InfoManager.event("doMoveMatchCrafting")
         AdvancedContainer.tracker {
             with(AreaTypes) {
-                val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
-                        lockedSlots
+                val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) - lockedSlots
                 val target = craftingIngredient
                 val source = player.get().asSubTracker
                 val destination = target.get().asSubTracker // source -> destination

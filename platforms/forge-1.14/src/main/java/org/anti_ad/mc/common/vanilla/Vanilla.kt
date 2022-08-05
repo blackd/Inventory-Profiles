@@ -80,9 +80,6 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook
 
-    @Suppress("FunctionName")
-    fun ClientPlayerEntity.`(sendChatMessage)`(msg: String)  = sendChatMessage(msg)
-
     val px
         get() = mc().player?.entity?.posX.orDefault { 0.0 }
     val py

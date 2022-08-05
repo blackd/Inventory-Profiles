@@ -43,11 +43,9 @@ object LockedSlotKeeper {
 
     val emptyLockedSlots = mutableListOf<Int>()
     val emptyNonLockedSlots = mutableListOf<Int>()
+    val emptyNonLockedHotbarSlots = mutableListOf<Int>()
 
     var processingLockedPickups: Boolean = false
-        get() {
-            return field
-        }
         private set
 
     val isWholeInventoryEmpty: Boolean
@@ -117,20 +115,10 @@ object LockedSlotKeeper {
                 Log.trace("Items were placed int locked slot! $it")
                 if (this.emptyNonLockedSlots.size > 0) {
 
-                    GeneralInventoryActions.cleanCursor()
                     val targetSlot = emptyNonLockedSlots[0]
-                    if ((it - 36) in 0..8) { // use swap
-                        //handles hotbar
-                        val hotBarSlot = it - 36
-                        Log.trace("Swapping $it to $targetSlot")
-                        ContainerClicker.swap(targetSlot,
-                                              hotBarSlot)
-                    } else {
-                        Log.trace("moving stack from $it to $targetSlot")
-                        ContainerClicker.leftClick(it)
-                        ContainerClicker.leftClick(targetSlot)
-                    }
+                    moveItem(it, targetSlot)
                     this.emptyNonLockedSlots.removeAt(0)
+
                 } else {
                     Log.trace("Trowing away $it since there no free unlocked slots")
                     ContainerClicker.qClick(it)
@@ -138,13 +126,45 @@ object LockedSlotKeeper {
                 processingLockedPickups = false
             }
         }
+        if (LockedSlotsSettings.LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED.booleanValue) {
+            emptyNonLockedHotbarSlots.forEach {
+                val stack = Vanilla.container().`(slots)`[it].`(vanillaStack)`
+                if (!stack.isEmpty) {
+                    processingLockedPickups = true
+                    if (this.emptyNonLockedSlots.size > 0) {
+                        val targetSlot = emptyNonLockedSlots[0]
+                        moveItem(it, targetSlot)
+                        this.emptyNonLockedSlots.removeAt(0)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun moveItem(it: Int,
+                          targetSlot: Int) {
+        GeneralInventoryActions.cleanCursor()
+        if ((it - 36) in 0..8) { // use swap
+            //handles hotbar
+            val hotBarSlot = it - 36
+            Log.trace("Swapping $it to $targetSlot")
+            ContainerClicker.swap(targetSlot,
+                                  hotBarSlot)
+        } else {
+            Log.trace("moving stack from $it to $targetSlot")
+            ContainerClicker.leftClick(it)
+            ContainerClicker.leftClick(targetSlot)
+        }
     }
 
     fun init() {
         this.emptyLockedSlots.clear()
         this.emptyNonLockedSlots.clear()
+        this.emptyNonLockedHotbarSlots.clear()
+
         val vanillaContainer = Vanilla.container()
         val types = ContainerTypes.getTypes(vanillaContainer)
+
         if (types.contains(ContainerType.CREATIVE)) {
             return
         }
@@ -153,6 +173,7 @@ object LockedSlotKeeper {
             val slots = vanillaContainer.`(slots)`
             val nonLockedSource = nonLocked.getItemArea(vanillaContainer, slots)
             val lockedSource = lockedSlots.getItemArea(vanillaContainer, slots)
+
             lockedSource.slotIndices.forEach {
                 val stack = slots[it].`(vanillaStack)`
                 if (stack.isEmpty) {
@@ -160,12 +181,23 @@ object LockedSlotKeeper {
                 }
             }
             Log.trace("empty locked slots $emptyLockedSlots")
+
             nonLockedSource.slotIndices.forEach {
                 if (slots[it].`(vanillaStack)`.isEmpty) {
                     emptyNonLockedSlots.add(it)
                 }
             }
             Log.trace("empty NON Locked slots $emptyNonLockedSlots")
+
+            if (LockedSlotsSettings.LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED.booleanValue) {
+                val hotbarSource = playerHotbar.getItemArea(vanillaContainer, slots)
+                hotbarSource.slotIndices.forEach {
+                    val stack = slots[it].`(vanillaStack)`
+                    if (stack.isEmpty && !emptyLockedSlots.contains(it)) {
+                        emptyNonLockedHotbarSlots.add(it)
+                    }
+                }
+            }
         }
     }
 

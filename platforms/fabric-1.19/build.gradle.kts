@@ -32,14 +32,14 @@ import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
 import org.anti_ad.mc.registerMinimizeJarTask
 
-val supported_minecraft_versions = listOf("1.19")
+val supported_minecraft_versions = listOf("1.19", "1.19.1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.19.1-rc2"
-val mappings_version = "1.19.1-rc2+build.1"
+val minecraft_version = "1.19.1"
+val mappings_version = "1.19.1+build.6"
 val loader_version = "0.14.8"
 val modmenu_version = "4.0.1"
-val fabric_api_version = "0.58.0+1.19.1"
+val fabric_api_version = "0.58.5+1.19.1"
 
 val mod_artefact_version = project.ext["mod_artefact_version"]
 

@@ -223,6 +223,7 @@
     "inventoryprofiles.config.name.locked_slots_allow_pickup_into_empty":          "Enable Picking Items into Empty Locked Slots",
     "inventoryprofiles.config.name.locked_slots_delay_keeper_reinit_ticks":        "Maximum Ticks to Wait on Dimension Change",
     "inventoryprofiles.config.name.lock_slots_disable_user_interaction":           "Disable all user input on locked slots",
+    "inventoryprofiles.config.name.locked_slots_empty_hotbar_as_semi_locked":      "Pick items directly into the inventory",
     "inventoryprofiles.config.description.lock_slots_switch_config_modifier":      "Config lock slots by \"Config Key\" while holding this key (Default Alt + Left Click to config lock slots)",
     "inventoryprofiles.config.description.lock_slots_config_key":                  "Config lock slots while holding modifier key (Default Alt + Left Click to config lock slots)",
     "inventoryprofiles.config.description.lock_slots_quick_config_key":            "Config lock slots without holding modifier key",
@@ -235,6 +236,7 @@
     "inventoryprofiles.config.description.locked_slots_disable_quick_move_throw":  "In the inventory screen locked slots will be immune to:\n - Shift+Click\n - Ctrl+Q\n - Swipe Shift+Click\n - Swipe Ctrl+Q",
     "inventoryprofiles.config.description.locked_slots_disable_throw_for_non_stackable":  "Disables Drop operations for hotbar locked slots while in game.\nStopping you from throwing your pickaxe in lava.",
     "inventoryprofiles.config.description.locked_slots_allow_pickup_into_empty":   "Should it be possible to pick items from the ground into EMPTY locked slots.\nStackable items will still be picked into locked sots of the same item that have room.\nNOTE: See next setting description for more information!",
+    "inventoryprofiles.config.description.locked_slots_empty_hotbar_as_semi_locked": "This will try to pickup items directly into the inventory instead of taking empty slot from the hotbar.\nNOTE: For this to work \"Enable Picking Items into Empty Locked Slots\" must be set to \"false\"!",
     "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks": "The maximum number of client ticks to wait for the server to send the content of the player inventory. \nIf locked slots get items moved out/thrown away on dimension change you need to increase this value.\nThis often happens on servers under heavy load.\nNOTE: 20 ticks are equivalent of 1 second.\n§l§cWARNING§r: Setting this too high MAY lead to locked slot management not working properly until this timeout expires.",
     "inventoryprofiles.config.description.lock_slots_disable_user_interaction":    "The idea is that any user actions on locked slots will be disabled.\nEssentially you will need to unlock it before moving, or performing any other action on the item.\nAutomated actions, profiles, auto refill and so on, are not affected",
 

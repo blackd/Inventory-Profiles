@@ -33,11 +33,11 @@ import org.anti_ad.mc.forgeCommonAfterEvaluate
 import org.anti_ad.mc.forgeCommonDependency
 import org.anti_ad.mc.registerMinimizeJarTask
 
-val supported_minecraft_versions = listOf("1.19")
+val supported_minecraft_versions = listOf("1.19", "1.19.1")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.19"
-val forge_version = "41.0.98"
+val minecraft_version = "1.19.1"
+val forge_version = "42.0.3"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.6.0"
 

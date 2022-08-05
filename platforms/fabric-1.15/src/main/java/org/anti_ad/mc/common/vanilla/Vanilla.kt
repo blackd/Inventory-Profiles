@@ -80,9 +80,6 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook ?: throw AssertionError("unreachable")
 
-    @Suppress("FunctionName")
-    fun ClientPlayerEntity.`(sendChatMessage)`(msg: String)  = sendChatMessage(msg)
-
     val px
         get() = playerNullable()?.x.orDefault { 0.0 }
     val py

@@ -80,9 +80,6 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook
 
-    @Suppress("FunctionName")
-    fun LocalPlayer.`(sendChatMessage)`(msg: String)  = chat(msg)
-
     val px
         get() = playerNullable()?.x.orDefault { 0.0 }
     val py

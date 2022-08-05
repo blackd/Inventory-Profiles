@@ -186,6 +186,7 @@ object LockedSlotsSettings : ConfigDeclaration {
     val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS          /**/ by int(50,
                                                                     20,
                                                                     400)
+    val LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED        /**/ by bool(true)
 
         .CATEGORY("$category.hotkeys")
     val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("LEFT_ALT",
