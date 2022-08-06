@@ -1,5 +1,5 @@
 <!-- latest begin -->
-### 1.6.2
+### 1.6.2 and 1.6.3
 
 - Picked up items will now go directly into the inventory instead of taking hotbar space. This can be changed in the `Locked Slots` tab of the config.
 - Added localisation for Português Brasileiro

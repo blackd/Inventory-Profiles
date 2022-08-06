@@ -10,6 +10,7 @@
         "IMixinKeyBinding",
         "MixinAbstractContainerScreen",
         "MixinMinecraftClient",
+        "MixinPlayerController",
         "MixinPlayerInventory",
         "MixinScreenHandler"
     ],

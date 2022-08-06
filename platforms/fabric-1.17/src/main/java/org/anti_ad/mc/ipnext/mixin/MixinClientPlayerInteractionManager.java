@@ -22,9 +22,11 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
 import org.anti_ad.mc.common.Log;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
+import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,6 +40,16 @@ public class MixinClientPlayerInteractionManager {
         if (slotId == 0) {
             ClientEventHandler.INSTANCE.onCrafted();
         }
+    }
+
+    @Inject(at = @At("HEAD"), method = "clickCreativeStack(Lnet/minecraft/item/ItemStack;I)V")
+    public void clickCreativeStack(ItemStack stack, int slotId, CallbackInfo ci) {
+        LockedSlotKeeper.INSTANCE.addIgnoredHotbarSlotId(slotId);
+    }
+
+    @Inject(at = @At("HEAD"), method = "pickFromInventory")
+    public void pickFromInventory(int slot, CallbackInfo ci) {
+        LockedSlotKeeper.INSTANCE.ignoredSelectedHotbarSlot();
     }
 
 }

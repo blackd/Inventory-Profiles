@@ -1,19 +1,20 @@
 {
-  "required":           true,
-  "minVersion":         "0.8",
-  "package":            "org.anti_ad.mc.ipnext.mixin",
-  "refmap":             "ipnext.refmap.json",
-  "compatibilityLevel": "JAVA_16",
-  "mixins":             [
-  ],
-  "client":             [
-    "IMixinKeyBinding",
-    "MixinAbstractContainerScreen",
-    "MixinMinecraftClient",
-    "MixinPlayerInventory",
-    "MixinScreenHandler"
-  ],
-  "injectors":          {
-    "defaultRequire": 1
+    "required":           true,
+    "minVersion":         "0.8",
+    "package":            "org.anti_ad.mc.ipnext.mixin",
+    "refmap":             "ipnext.refmap.json",
+    "compatibilityLevel": "JAVA_16",
+    "mixins":             [
+    ],
+    "client":             [
+        "IMixinKeyBinding",
+        "MixinAbstractContainerScreen",
+        "MixinMinecraftClient",
+        "MixinPlayerController",
+        "MixinPlayerInventory",
+        "MixinScreenHandler"
+    ],
+    "injectors":          {
+        "defaultRequire": 1
   }
 }

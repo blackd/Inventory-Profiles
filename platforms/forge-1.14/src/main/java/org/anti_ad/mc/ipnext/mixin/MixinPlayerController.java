@@ -1,8 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,36 +19,24 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.container.SlotActionType;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.item.ItemStack;
-import org.anti_ad.mc.common.Log;
-import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ClientPlayerInteractionManager.class)
-public class MixinClientPlayerInteractionManager {
+@Mixin(PlayerController.class)
+public class MixinPlayerController {
 
-    @Inject(at = @At("TAIL"), method = "method_2906(IIILnet/minecraft/container/SlotActionType;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/item/ItemStack;")
-    public void clickSlot(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> ci) {
-        if (slotId == 0) {
-            ClientEventHandler.INSTANCE.onCrafted();
-        }
-    }
-
-    @Inject(at = @At("HEAD"), method = "clickCreativeStack(Lnet/minecraft/item/ItemStack;I)V")
+    @Inject(at = @At("HEAD"), method = "sendSlotPacket(Lnet/minecraft/item/ItemStack;I)V")
     public void clickCreativeStack(ItemStack stack, int slotId, CallbackInfo ci) {
         LockedSlotKeeper.INSTANCE.addIgnoredHotbarSlotId(slotId);
     }
 
-    @Inject(at = @At("HEAD"), method = "pickFromInventory")
-    public void pickFromInventory(int slot, CallbackInfo ci) {
+    @Inject(at = @At("HEAD"), method = "pickItem(I)V")
+    public void pickItem(int index, CallbackInfo ci) {
         LockedSlotKeeper.INSTANCE.ignoredSelectedHotbarSlot();
     }
 }
