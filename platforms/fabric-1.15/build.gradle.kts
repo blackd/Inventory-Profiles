@@ -21,24 +21,25 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
+import com.modrinth.minotaur.dependencies.ModDependency
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
-import proguard.gradle.ProGuardTask
-import com.modrinth.minotaur.dependencies.ModDependency
 import org.anti_ad.mc.fabricCommonAfterEvaluate
 import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
+import org.anti_ad.mc.platformsCommonConfig
 import org.anti_ad.mc.registerMinimizeJarTask
+import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.15", "1.15.1", "1.15.2")
 val mod_loader = "fabric"
 val mod_version = project.version
 val minecraft_version = "1.15.2"
 val mappings_version = "1.15.2+build.17"
-val mod_artefact_version = project.ext["mod_artefact_version"]
 val loader_version = "0.12.4"
 val modmenu_version = "1.10.6"
 val fabric_api_version = "0.28.5+1.15"
+val mod_artefact_version = project.ext["mod_artefact_version"]
 
 buildscript {
     dependencies {
@@ -53,47 +54,48 @@ logger.lifecycle("""
     loader: $mod_loader
     mod version: $mod_version
     building against MC: $minecraft_version
-    loom version:     $loom_version
+    loom version: $loom_version
+    fabric api version: $fabric_api_version
     ***************************************************
     """.trimIndent())
-
 
 
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     `java-library`
-    id("fabric-loom")
     `maven-publish`
     signing
+    id("fabric-loom")
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
     id("com.github.johnrengelman.shadow")
-
 }
 
 configureCommon(true)
-//platformsCommonConfig()
+platformsCommonConfig()
 
+group = "org.anti-ad.mc"
 
-java {
+configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.6"
+    languageVersion = "1.5"
     jvmTarget = "1.8"
 }
 
-//this is here so we always compile for 1.8
-tasks.withType<JavaCompile> {
-    this.targetCompatibility = "1.8"
-    this.sourceCompatibility = "1.8"
+repositories {
+    maven {
+        url = uri("https://www.cursemaven.com")
+        content {
+            includeGroup ("curse.maven")
+        }
+    }
 }
-
-group = "org.anti-ad.mc"
 
 fabricCommonDependency(minecraft_version,
                        mappings_version,
@@ -101,12 +103,11 @@ fabricCommonDependency(minecraft_version,
                        fabric_api_version,
                        modmenu_version)
 dependencies {
+
 }
 
-
-
 loom {
-    runConfigs["client"].programArgs += listOf("--width=1280", "--height=720", "--username=DEV")
+    runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 }
 
@@ -125,9 +126,6 @@ tasks.named<ShadowJar>("shadowJar") {
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-
-    //include("assets/**")
-    //include("org/anti_ad/mc/**")
 
     exclude("kotlin/**")
     exclude("kotlinx/**")
@@ -156,15 +154,12 @@ tasks.named<ShadowJar>("shadowJar") {
     minimize()
 }
 
-
-
-val proguard by tasks.register<ProGuardTask>("proguard") {
+val proguard by tasks.registering(ProGuardTask::class) {
 
     configuration("../../proguard.txt")
     printmapping {
         project.layout.buildDirectory.file("proguard/mappings.map")
     }
-
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
     val inName = fabricRemapJar.archiveFile.get().asFile.absolutePath
@@ -180,14 +175,14 @@ val proguard by tasks.register<ProGuardTask>("proguard") {
     dependsOn(tasks["shadowJar"])
 }
 
-
-
 val remapped = tasks.named<RemapJarTask>("remapJar") {
     group = "fabric"
     val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
     val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
     dependsOn(proGuardTask)
-    input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    //dependsOn("prepareRemapShadedJar")
+    this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    //input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
     //addDefaultNestedDependencies.set(false)
@@ -203,12 +198,17 @@ afterEvaluate {
 }
 
 tasks.named<DefaultTask>("build") {
-    dependsOn(tasks["remapJar"])
+    dependsOn(remapped)
     dependsOn("copyJavadoc")
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
 //    dependsOn("minimizeJar")
 }
+
+
+// ============
+// curseforge
+// ============
 
 configure<CurseExtension> {
 
@@ -268,7 +268,9 @@ modrinth {
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-    gameVersions.addAll(supported_minecraft_versions)
+    gameVersions.addAll(supported_minecraft_versions.filter {
+        !it.toLowerCase().contains("snapshot")
+    })
     logger.lifecycle("""
         +*************************************************+
         Will release ${remappedJarFile.get().asFile.path}
@@ -277,12 +279,14 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+
     dependencies.set(
         mutableListOf(
-            ModDependency("P7dR8mSH","required"),
-            ModDependency("Ha28R6CL","required"),
-            ModDependency("mOgUt4GM","optional")))
+            ModDependency("P7dR8mSH", "required"),
+            ModDependency("Ha28R6CL", "required"),
+            ModDependency("mOgUt4GM", "optional")))
 
+    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
 }
 
 publishing {
@@ -291,7 +295,6 @@ publishing {
             groupId = "org.anti-ad.mc"
             artifactId = "inventory-profiles-next"
             version = "$mod_loader-$minecraft_version-$mod_artefact_version"
-
             val mainArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version.jar")
             val javadocArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar")
             val sourcesArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-sources.jar")
@@ -303,8 +306,8 @@ publishing {
                 classifier = "sources"
             }
             pom {
-                this.name.set("Inventory Profiles Next")
                 url.set("https://inventory-profiles-next.github.io/")
+                this.name.set("Inventory Profiles Next")
                 description.set("""
                     Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
                 """.trimIndent())

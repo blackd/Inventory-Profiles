@@ -84,7 +84,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         modmenu_version?.let {
             "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
         }
-        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.1+kotlin.1.7.0")
+        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")
     }
 }
 

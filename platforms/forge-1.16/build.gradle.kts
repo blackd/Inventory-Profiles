@@ -23,11 +23,12 @@ import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
+import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
-import net.minecraftforge.gradle.userdev.tasks.RenameJarInPlace
 import org.anti_ad.mc.configureCommon
 import org.anti_ad.mc.forgeCommonAfterEvaluate
 import org.anti_ad.mc.forgeCommonDependency
+import org.anti_ad.mc.platformsCommonConfig
 import org.anti_ad.mc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
@@ -36,9 +37,11 @@ val supported_minecraft_versions = listOf("1.16.2", "1.16.3", "1.16.4", "1.16.5"
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.16.5"
-val forge_version = "36.2.28"
+val forge_version = "36.2.39"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "1.17.0"
+val mappingsMap = mapOf("channel" to "snapshot",
+                        "version" to "20210309-1.16.5")
 
 
 logger.lifecycle("""
@@ -50,8 +53,6 @@ logger.lifecycle("""
     building against MC: $minecraft_version
     ***************************************************
     """.trimIndent())
-
-configureCommon(true)
 
 buildscript {
     repositories {
@@ -68,16 +69,20 @@ buildscript {
     }
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
-        classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT")
+        classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
         classpath("com.guardsquare:proguard-gradle:7.2.1")
     }
 }
 
 
-
+/*
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
 }
+
+ */
+
+apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
 
 //I have no idea why but these MUST be here and not in plugins {}...
 apply(plugin = "net.minecraftforge.gradle")
@@ -89,6 +94,7 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     java
+    idea
     `maven-publish`
     signing
     id("com.matthewprenger.cursegradle")
@@ -96,6 +102,8 @@ plugins {
     id("com.github.johnrengelman.shadow")
 }
 
+configureCommon(true)
+platformsCommonConfig()
 
 
 java {
@@ -105,7 +113,7 @@ java {
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.6"
+    languageVersion = "1.5"
     jvmTarget = "1.8"
 }
 
@@ -116,15 +124,34 @@ repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+
+    maven {
+        url = uri("https://www.cursemaven.com")
+        content {
+            includeGroup ("curse.maven")
+        }
+    }
+    gradlePluginPortal()
     maven {
         name = "kotlinforforge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
     }
 }
 
+val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
+
 forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version)
 
 dependencies {
+//    runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3597547"))
+//    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
+//    runtimeOnly ( fg.deobf("curse.maven:immersive-engineering-231951:3587149"))
+//    runtimeOnly ( fg.deobf("curse.maven:roughly-enough-items-310111:3638569"))
+//    runtimeOnly ( fg.deobf("curse.maven:architectury-forge-419699:3638627"))
+//    runtimeOnly ( fg.deobf("curse.maven:cloth-config-forge-348521:3641133"))
+//    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
+    //runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
+    //runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
 }
 
 afterEvaluate {
@@ -140,6 +167,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
         }
     }
 }
+
 
 
 
@@ -179,7 +207,6 @@ tasks.named<ShadowJar>("shadowJar") {
 
     //include("org/anti_ad/mc/**")
 
-    //exclude("META-INF/**")
     exclude("**/*.kotlin_metadata")
     exclude("**/*.kotlin_module")
     exclude("**/*.kotlin_builtins")
@@ -202,6 +229,7 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("META-INF/services/**")
     exclude("META-INF/LICENSE")
     exclude("META-INF/README")
+
     minimize()
 
     dependsOn("copyMixinMappings")
@@ -209,8 +237,7 @@ tasks.named<ShadowJar>("shadowJar") {
 
 
 tasks.register<Copy>("copyProGuardJar") {
-    val shadow = tasks.getByName<ShadowJar>("shadowJar");
-    val fromJarName = shadow.archiveBaseName.get()
+
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
     val inName = layout.buildDirectory.file("libs/" + fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard"))
     val outName = fabricRemapJar.archiveFileName.get().replace("-shaded", "")
@@ -222,9 +249,7 @@ tasks.register<Copy>("copyProGuardJar") {
         ******************************
         
     """.trimIndent())
-    from(
-        inName
-    )
+    from(inName)
     rename {
         outName
     }
@@ -238,6 +263,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
         project.layout.buildDirectory.file("proguard/mappings.map")
     }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
+
     val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
     val inName = fabricRemapJar.archiveFileName.get().replace("-shaded", "")
     val outName = fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard")
@@ -260,13 +286,10 @@ val proguard by tasks.registering(ProGuardTask::class) {
 
 }
 
-val customJar by dummyJar( // dummy jar
-    thisJarNam = "",
-    fromJarNam = ""
-)
+val customJar by dummyJar()
 
-fun dummyJar(thisJarNam: String, fromJarNam: String) = tasks.creating(Jar::class) { // dummy jar for reobf
-    var shadow = tasks.getByName<ShadowJar>("shadowJar");
+fun dummyJar() = tasks.creating(Jar::class) { // dummy jar for reobf
+    val shadow = tasks.getByName<ShadowJar>("shadowJar")
     val fromJarName = shadow.archiveBaseName
     val thisJarName = shadow.archiveFileName.get()
     archiveFileName.set(shadow.archiveFileName)
@@ -296,11 +319,7 @@ afterEvaluate {
 }
 
 configure<UserDevExtension> {
-    mappings(mapOf(
-            "channel" to "snapshot",
-            "version" to "20210309-1.16.5"
-    ))
-    var rcltName = ""
+    mappings(mappingsMap)
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(
@@ -322,19 +341,17 @@ configure<UserDevExtension> {
                 }
             }
             this.sources.add(sourceSets["assetsFixtemp"])
-
-            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
-            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            if (JavaVersion.current() >= JavaVersion.VERSION_11) {
+                jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+                jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            }
             //taskName = "plamenRunClient"
             this.forceExit = false
         }
-        val action = create("client", runConfig)
-        rcltName = action.taskName
+        create("client", runConfig)
         create("server", runConfig)
         //create("data", runConfig)
     }
-    //tasks[rcltName].dependsOn("injectCommonResources")
-    //tasks[rcltName].finalizedBy("injectCommonResources")
 }
 
 
@@ -350,15 +367,13 @@ tasks.register<Delete>("removeCommonResources") {
     doLast {
         delete(project.layout.buildDirectory.dir("resources/main/assets"))
     }
-    mustRunAfter("runClient")
-}
 
-gradle.buildFinished {
+    mustRunAfter("runClient")
 }
 
 afterEvaluate {
     tasks.forEach {
-        logger.info("******************* found task: {} {} {}", it, it.name, it.group)
+        logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
     }
 
 }
@@ -398,6 +413,12 @@ configure<CurseExtension> {
         apiKey = System.getenv("CURSEFORGE_DEPOY_TOKEN")
     }
 
+    val clasifier = if (System.getenv("IPN_CLASSIFIER") != null) {
+        System.getenv("IPN_CLASSIFIER")
+    } else {
+        ""
+    }
+
     project(closureOf<CurseProject> {
         id = "495267"
         changelogType = "markdown"
@@ -411,7 +432,7 @@ configure<CurseExtension> {
         val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
         val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version"
+            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version$clasifier"
         })
 
         afterEvaluate {
@@ -432,6 +453,7 @@ configure<CurseExtension> {
 // modrith
 // ============
 
+
 modrinth {
 
     this.failSilently.set(true)
@@ -440,8 +462,14 @@ modrinth {
         token.set(System.getenv("MODRINTH_TOKEN"))
     }
 
+    val clasifier = if (System.getenv("IPN_CLASSIFIER") != null) {
+        System.getenv("IPN_CLASSIFIER")
+    } else {
+        ""
+    }
+
     projectId.set("O7RBXm3n")
-    versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
+    versionNumber.set("$mod_loader-$minecraft_version-$mod_version$clasifier") // Will fail if Modrinth has this version already
     val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
     val remappedJarFile = forgeReobfJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
@@ -451,143 +479,10 @@ modrinth {
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-    versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
+    versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
     dependencies.set(
         mutableListOf(
             ModDependency("ordsPcFz", "required")))
-}
-
-
-
-tasks.register<Copy>("copyJavadoc") {
-    dependsOn(":common:packageJavadoc")
-
-    val javadocJar = project(":common").tasks.named<Jar>("packageJavadoc").get()
-    from(javadocJar)
-    into(layout.buildDirectory.dir("publish"))
-    rename {
-        "$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar"
-    }
-    logger.lifecycle("will rename ${javadocJar.archiveFile.get().asFile} to $mod_loader-$minecraft_version-$mod_artefact_version.jar" )
-}
-
-val prepareSourceJar = tasks.register<Copy>("prepareSourceJar") {
-    dependsOn(":common:generateGrammarSource")
-    dependsOn(":common:generateTestGrammarSource")
-    val commonKotlinSources = project(":common").layout.projectDirectory.dir("src/main/java")
-    val commonAntlrSources = project(":common").layout.projectDirectory.dir("src/main/java")
-    val commonGeneratedSources = project(":common").layout.buildDirectory.dir("generated-src/antlr/main")
-    val platformSources = layout.projectDirectory.dir("src/main/java")
-    from(commonKotlinSources) {
-        include("**/*.java")
-        include("**/*.kt")
-    }
-    from(commonGeneratedSources) {
-        include("**/*.java")
-        include("**/*.tokens")
-        include("**/*.interp")
-    }
-    from(commonAntlrSources) {
-        include("**/*.g4")
-    }
-    from(platformSources) {
-        include("**/*.java")
-        include("**/*.kt")
-    }
-    into(layout.buildDirectory.dir("srcJarContent"))
-}
-
-tasks.register<org.gradle.jvm.tasks.Jar>("packageSources") {
-    dependsOn("prepareSourceJar")
-    archiveClassifier.set("sources")
-    archiveBaseName.set("$mod_loader-$minecraft_version-$mod_artefact_version")
-    archiveVersion.set("")
-    destinationDirectory.set(layout.buildDirectory.dir("publish"))
-
-    from(layout.buildDirectory.dir("srcJarContent"))
-
-}
-
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "org.anti-ad.mc"
-            artifactId = "inventory-profiles-next"
-            version = "$mod_loader-$minecraft_version-$mod_artefact_version"
-            val mainArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version.jar")
-            val javadocArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-javadoc.jar")
-            val sourcesArtefact = layout.buildDirectory.file("publish/$mod_loader-$minecraft_version-$mod_artefact_version-sources.jar")
-            artifact(mainArtefact)
-            artifact(javadocArtefact) {
-                classifier = "javadoc"
-            }
-            artifact(sourcesArtefact) {
-                classifier = "sources"
-            }
-            pom {
-                url.set("https://inventory-profiles-next.github.io/")
-                this.name.set("Inventory Profiles Next")
-                description.set("""
-                    Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
-                """.trimIndent())
-                scm {
-                    val connectionURL = "scm:git:https://github.com/blackd/Inventory-Profiles"
-                    connection.set(connectionURL)
-                    developerConnection.set(connectionURL)
-                    url.set("https://github.com/blackd/Inventory-Profiles")
-                }
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://raw.githubusercontent.com/blackd/Inventory-Profiles/all-in-one/LICENSE")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("mirinimi")
-                        name.set("Plamen K. Kosseff")
-                        email.set("plamen@anti-ad.org")
-                    }
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            name = "local"
-            val rloc = rootProject.layout.projectDirectory.dir("repo/releases")
-            val sloc = rootProject.layout.projectDirectory.dir("repo/snapshots")
-
-            setUrl {
-                if (version.toString().endsWith("SNAPSHOT"))
-                    sloc
-                else
-                    rloc
-            }
-        }
-    }
-}
-
-val hasSigningKey = project.hasProperty("signingKeyId") || project.hasProperty("signingKey")
-if(hasSigningKey) {
-    doSign(project)
-}
-
-fun doSign(project: Project) {
-    project.signing {
-        setRequired { project.gradle.taskGraph.hasTask("publish") }
-
-        val signingKeyId: String? = project.findProperty("signingKeyId") as String?
-        val signingKey: String? = project.findProperty("signingKey") as String?
-        val signingPassword: String? = project.findProperty("signingPassword") as String?
-        if (signingKeyId != null) {
-            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-        } else if (signingKey != null) {
-            useInMemoryPgpKeys(signingKey, signingPassword)
-        }
-        sign(publishing.publications.getByName("maven"))
-    }
 }

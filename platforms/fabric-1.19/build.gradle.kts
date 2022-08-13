@@ -21,28 +21,26 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
+import com.modrinth.minotaur.dependencies.ModDependency
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
-import org.anti_ad.mc.platformsCommonConfig
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import proguard.gradle.ProGuardTask
-import com.modrinth.minotaur.dependencies.ModDependency
 import org.anti_ad.mc.fabricCommonAfterEvaluate
 import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
+import org.anti_ad.mc.platformsCommonConfig
 import org.anti_ad.mc.registerMinimizeJarTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.19", "1.19.1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.19.1"
-val mappings_version = "1.19.1+build.6"
-val loader_version = "0.14.8"
-val modmenu_version = "4.0.5"
-val fabric_api_version = "0.58.5+1.19.1"
-
+val minecraft_version = "1.19.2"
+val mappings_version = "1.19.2+build.1"
+val loader_version = "0.14.9"
+val modmenu_version = "4.0.6"
+val fabric_api_version = "0.58.6+1.19.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-
 
 buildscript {
     dependencies {
@@ -69,9 +67,9 @@ plugins {
     `java-library`
     `maven-publish`
     signing
-    id("fabric-loom") //version(loom_version)
-    id("com.matthewprenger.cursegradle") //version "1.4.0"
-    id("com.modrinth.minotaur") //version "2.0.0"
+    id("fabric-loom")
+    id("com.matthewprenger.cursegradle")
+    id("com.modrinth.minotaur")
     id("com.github.johnrengelman.shadow")
 }
 
@@ -87,7 +85,7 @@ configure<JavaPluginExtension> {
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.6"
+    languageVersion = "1.5"
     jvmTarget = "17"
 }
 
@@ -100,20 +98,13 @@ repositories {
     }
 }
 
-
 fabricCommonDependency(minecraft_version,
                        mappings_version,
                        loader_version,
                        fabric_api_version,
                        modmenu_version)
 dependencies {
-    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
-    //modRuntimeOnly("curse.maven:inventorio-491073:3553574")
-    //modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
-    //modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
 
-    modRuntimeOnly("curse.maven:ellemes-container-library-530668:3822944")
-    modRuntimeOnly("curse.maven:expanded-storage-317856:3827318")
 }
 
 loom {
@@ -127,7 +118,6 @@ afterEvaluate {
     }
 }
 
-
 tasks.named<ShadowJar>("shadowJar") {
 
     configurations = listOf(project.configurations["shaded"])
@@ -137,9 +127,6 @@ tasks.named<ShadowJar>("shadowJar") {
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-
-    //include("assets/**")
-    //include("org/anti_ad/mc/**")
 
     exclude("kotlin/**")
     exclude("kotlinx/**")
@@ -189,15 +176,14 @@ val proguard by tasks.registering(ProGuardTask::class) {
     dependsOn(tasks["shadowJar"])
 }
 
-
-
 val remapped = tasks.named<RemapJarTask>("remapJar") {
     group = "fabric"
     val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
     val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
     dependsOn(proGuardTask)
     //dependsOn("prepareRemapShadedJar")
-    input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    //input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
     //addDefaultNestedDependencies.set(false)
@@ -212,10 +198,8 @@ afterEvaluate {
     fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
-
-
 tasks.named<DefaultTask>("build") {
-    dependsOn(tasks["remapJar"])
+    dependsOn(remapped)
     dependsOn("copyJavadoc")
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
@@ -223,10 +207,10 @@ tasks.named<DefaultTask>("build") {
 }
 
 
-
 // ============
 // curseforge
 // ============
+
 configure<CurseExtension> {
 
     if (System.getenv("CURSEFORGE_DEPOY_TOKEN") != null && System.getenv("IPNEXT_RELEASE") != null) {
@@ -286,24 +270,22 @@ modrinth {
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-    supported_minecraft_versions.forEach {
-        if (!it.toLowerCase().contains("snapshot")) {
-            gameVersions.add(it)
-        }
-    }
-    //gameVersions.addAll(supported_minecraft_versions)
+    gameVersions.addAll(supported_minecraft_versions.filter {
+        !it.toLowerCase().contains("snapshot")
+    })
     logger.lifecycle("""
-    +*************************************************+
-    Will release ${remappedJarFile.get().asFile.path}
-    +*************************************************+
+        +*************************************************+
+        Will release ${remappedJarFile.get().asFile.path}
+        +*************************************************+
     """.trimIndent())
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+
     dependencies.set(
         mutableListOf(
             ModDependency("P7dR8mSH", "required"),
-            ModDependency("Ha28R6CL","required"),
+            ModDependency("Ha28R6CL", "required"),
             ModDependency("mOgUt4GM", "optional")))
 
     this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
@@ -329,8 +311,8 @@ publishing {
                 url.set("https://inventory-profiles-next.github.io/")
                 this.name.set("Inventory Profiles Next")
                 description.set("""
-                Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
-            """.trimIndent())
+                    Client side Minecraft MOD that adds multiple features to help you keep your inventory organized. 
+                """.trimIndent())
                 scm {
                     val connectionURL = "scm:git:https://github.com/blackd/Inventory-Profiles"
                     connection.set(connectionURL)
@@ -368,7 +350,6 @@ publishing {
         }
     }
 }
-
 
 val hasSigningKey = project.hasProperty("signingKeyId") || project.hasProperty("signingKey")
 if(hasSigningKey) {

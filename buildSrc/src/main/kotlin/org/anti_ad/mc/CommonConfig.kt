@@ -44,6 +44,7 @@ fun Project.platformsCommonConfig() {
 }
 fun Project.registerMinimizeJarTask() {
     tasks.register<DefaultTask>("minimizeJar") {
+        group = "build"
 
         val isForge = !project.name.startsWith("fabric")
         val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
@@ -83,9 +84,6 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
     registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar").dependsOn("reobfJar")
 
     tasks.named<DefaultTask>("build") {
-        dependsOn("copyJavadoc")
-        dependsOn("packageSources")
-        dependsOn("copyJarForPublish")
 //        dependsOn("minimizeJar")
     }
     rootAfterEvaluate()

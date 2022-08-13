@@ -21,16 +21,16 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
+import com.modrinth.minotaur.dependencies.ModDependency
 import net.fabricmc.loom.task.RemapJarTask
 import org.anti_ad.mc.configureCommon
-import org.anti_ad.mc.platformsCommonConfig
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import proguard.gradle.ProGuardTask
-import com.modrinth.minotaur.dependencies.ModDependency
 import org.anti_ad.mc.fabricCommonAfterEvaluate
 import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
+import org.anti_ad.mc.platformsCommonConfig
 import org.anti_ad.mc.registerMinimizeJarTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.18", "1.18.1")
 val mod_loader = "fabric"
@@ -56,6 +56,7 @@ logger.lifecycle("""
     mod version: $mod_version
     building against MC: $minecraft_version
     loom version: $loom_version
+    fabric api version: $fabric_api_version
     ***************************************************
     """.trimIndent())
 
@@ -103,10 +104,7 @@ fabricCommonDependency(minecraft_version,
                        fabric_api_version,
                        modmenu_version)
 dependencies {
-    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:7.1.357")
-    //modRuntimeOnly("curse.maven:inventorio-491073:3553574")
-    //modRuntimeOnly("curse.maven:iron-furnaces-fabric-318036:3556167")
-    //modRuntimeOnly("net.fabricmc:fabric-language-kotlin:1.7.1+kotlin.1.6.10")
+
 }
 
 loom {
@@ -129,9 +127,6 @@ tasks.named<ShadowJar>("shadowJar") {
 
     relocate("org.antlr", "org.anti_ad.embedded.org.antlr")
     relocate("com.yevdo", "org.anti_ad.embedded.com.yevdo")
-
-    //include("assets/**")
-    //include("org/anti_ad/mc/**")
 
     exclude("kotlin/**")
     exclude("kotlinx/**")
@@ -160,7 +155,6 @@ tasks.named<ShadowJar>("shadowJar") {
     minimize()
 }
 
-
 val proguard by tasks.registering(ProGuardTask::class) {
 
     configuration("../../proguard.txt")
@@ -187,7 +181,9 @@ val remapped = tasks.named<RemapJarTask>("remapJar") {
     val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
     val proGuardTask = tasks.getByName<ProGuardTask>("proguard")
     dependsOn(proGuardTask)
-    input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    //dependsOn("prepareRemapShadedJar")
+    this.inputFile.set(File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    //input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
     archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), ".jar"))
     addNestedDependencies.set(true)
     //addDefaultNestedDependencies.set(false)
@@ -195,16 +191,15 @@ val remapped = tasks.named<RemapJarTask>("remapJar") {
 }
 
 fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
+
 registerMinimizeJarTask()
 
 afterEvaluate {
     fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
-
-
 tasks.named<DefaultTask>("build") {
-    dependsOn(tasks["remapJar"])
+    dependsOn(remapped)
     dependsOn("copyJavadoc")
     dependsOn("packageSources")
     dependsOn("copyJarForPublish")
@@ -275,7 +270,9 @@ modrinth {
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
-    gameVersions.addAll(supported_minecraft_versions)
+    gameVersions.addAll(supported_minecraft_versions.filter {
+        !it.toLowerCase().contains("snapshot")
+    })
     logger.lifecycle("""
         +*************************************************+
         Will release ${remappedJarFile.get().asFile.path}
@@ -284,12 +281,14 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+
     dependencies.set(
         mutableListOf(
-            ModDependency("P7dR8mSH","required"),
-            ModDependency("Ha28R6CL","required"),
-            ModDependency("mOgUt4GM","optional")))
+            ModDependency("P7dR8mSH", "required"),
+            ModDependency("Ha28R6CL", "required"),
+            ModDependency("mOgUt4GM", "optional")))
 
+    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
 }
 
 publishing {
