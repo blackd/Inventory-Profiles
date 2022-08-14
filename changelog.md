@@ -1,10 +1,10 @@
 <!-- latest begin -->
-### 1.6.2 and 1.6.3
+### 1.6.4
 
-- Picked up items will now go directly into the inventory instead of taking hotbar space. This can be changed in the `Locked Slots` tab of the config.
-- Added localisation for Português Brasileiro
-
-<iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/zj1DzMvXO9Q?wmode=transparent" height="358" width="638"></iframe>
+- fixed item select with middle click when pickup to inventory is active
+- fixed mainhand/offhand swap for locked slots and when pickup to inventory is active
+- fixed single player not being able to pickup items in the hotbar at all
+- removed `Add Inventory Buttons to All In Game Screens` from `Gui Settings` It was a temporary workaround for the then missing GUI Hints Manager.
 
 #### NOTE
 
@@ -14,6 +14,14 @@ Switched to modern Kotlin support. This means that this mod now requires [Kotlin
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.6.2 and 1.6.3
+
+- Picked up items will now go directly into the inventory instead of taking hotbar space. This can be changed in the `Locked Slots` tab of the config.
+- Added localisation for Português Brasileiro
+
+<iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/zj1DzMvXO9Q?wmode=transparent" height="358" width="638"></iframe>
+
 
 ### 1.6.1
 
