@@ -369,12 +369,24 @@ object LockedSlotKeeper {
 
     fun ignoredSelectedHotbarSlot(fromSlot: Int) {
         if (pickingItem && isMultiPlayer) {
+            val vanillaContainer = Vanilla.container()
             Log.trace("picked up from slot: $fromSlot")
             val slotId = Vanilla.playerInventory().`(selectedSlot)` + 36
-            Log.trace("ignoring selected hotbar slotId: $slotId")
+
             if (slotId in 36..44) {
-                if (Vanilla.container().`(slots)`[slotId].`(vanillaStack)`.isEmpty) {
+                if (vanillaContainer.`(slots)`[slotId].`(vanillaStack)`.isEmpty) {
+                    Log.trace("ignoring selected hotbar slotId: $slotId")
                     this.ignoredHotbarSlots.add(slotId)
+                } else {
+                    var found: Int = slotId
+                    for (firstEmptySlot in (36..44) - slotId) {
+                        if (vanillaContainer.`(slots)`[firstEmptySlot].`(vanillaStack)`.isEmpty) {
+                            found = firstEmptySlot
+                            break
+                        }
+                    }
+                    Log.trace("ignoring selected hotbar slotId: $found")
+                    this.ignoredHotbarSlots.add(found)
                 }
             }
             if (fromSlot !in 36..44) {
