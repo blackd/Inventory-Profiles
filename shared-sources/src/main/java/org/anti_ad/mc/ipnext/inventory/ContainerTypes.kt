@@ -56,10 +56,10 @@ object ContainerTypes {
 
     private val unknownContainerDefaultTypes : Set<ContainerType>
         get() {
-            if (GuiSettings.TREAT_UNKNOWN_SCREENS_AS_CONTAINERS.booleanValue) {
+            //if (true) {
                 return setOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9)
-            }
-            return nonStorage
+            //}
+            //return nonStorage
         }
 
     fun deregister(containerClass: Class<*>) {
