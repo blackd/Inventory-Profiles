@@ -332,6 +332,7 @@ configure<UserDevExtension> {
                     "mixin.debug.dumpTargetOnFailure" to "true"
             ))
             arg("-mixin.config=mixins.ipnext.json")
+            args("--width=1280", "--height=720", "--username=DEV")
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets["main"])
 

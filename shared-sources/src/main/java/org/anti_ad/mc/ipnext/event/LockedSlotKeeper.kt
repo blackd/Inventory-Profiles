@@ -21,9 +21,10 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
@@ -45,10 +46,20 @@ object LockedSlotKeeper {
     private var worldJoined = false
     private var ticksAfterJoin = 0
 
-    val emptyLockedSlots = mutableListOf<Int>()
-    val emptyNonLockedSlots = mutableListOf<Int>()
-    private val emptyNonLockedHotbarSlots = mutableListOf<Int>()
-    private val ignoredHotbarSlots = mutableListOf<Int>()
+    val emptyLockedSlots = mutableSetOf<Int>()
+    val emptyNonLockedSlots = mutableSetOf<Int>()
+    private val emptyNonLockedHotbarSlots = mutableSetOf<Int>()
+    private val ignoredHotbarSlots = mutableSetOf<Int>()
+    private val skipRemoveEmptyFor = mutableSetOf<Int>()
+
+    private var skipTick: Boolean = false
+
+    var doEverySecondTick = false
+
+    private val isMultiPlayer: Boolean
+        get() {
+            return !Vanilla.isSinglePlayer() || Debugs.FORCE_SERVER_METHOD_FOR_LOCKED_SLOTS.booleanValue
+        }
 
     var processingLockedPickups: Boolean = false
         private set
@@ -69,15 +80,18 @@ object LockedSlotKeeper {
             return true
         }
 
-    fun isHotBarSlotEmpty(id: Int): Boolean {
-        return if (id in 0..8) {
-            val hotBarSlot = id + 36
-            emptyNonLockedHotbarSlots.contains(hotBarSlot)
-        } else false
-    }
 
     fun onTickInGame() {
-        if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
+        if (doEverySecondTick) {
+            if (skipTick) {
+                skipTick = false
+                AutoRefillHandler.skipTick = true
+                return
+            } else {
+                skipTick = true
+            }
+        }
+        if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue && isMultiPlayer) {
             if (worldJoined) {
                 if (ticksAfterJoin > LockedSlotsSettings.LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS.integerValue) {
                     Log.trace("Initialising because of timeout!")
@@ -119,26 +133,24 @@ object LockedSlotKeeper {
 
     private fun checkNewItems() {
         val localEmptyNonLockedSlots = emptyNonLockedSlots.toMutableList()
+        localEmptyNonLockedSlots.sort()
+
+        var someThingChanged = false
 
         processingLockedPickups = true
-        val newlyFilled = mutableListOf<Int>()
+        val newlyFilled = mutableSetOf<Int>()
         this.emptyLockedSlots.forEach {
             val stack = Vanilla.container().`(slots)`[it].`(vanillaStack)`
             if (!stack.isEmpty) {
-                val shouldMove = if (LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue) {
-                    ignoredHotbarSlots.remove(it)
-                    true
-                } else {
-                    !ignoredHotbarSlots.contains(it)
-                }
-                if (shouldMove) {
+                someThingChanged = true
+                if (!ignoredHotbarSlots.contains(it)) {
                     //items changed so do stuff to keep the slot empty!
                     Log.trace("Items were placed int locked slot! $it")
-                    if (localEmptyNonLockedSlots.size > 0) {
-
+                    AutoRefillHandler.skipTick = true
+                    if (localEmptyNonLockedSlots.isNotEmpty()) {
                         val targetSlot = localEmptyNonLockedSlots[0]
-                        AutoRefillHandler.skipTick = true
                         moveItem(it, targetSlot)
+                        emptyNonLockedHotbarSlots.remove(targetSlot)
                         localEmptyNonLockedSlots.removeAt(0)
 
                     } else {
@@ -146,53 +158,84 @@ object LockedSlotKeeper {
                         ContainerClicker.qClick(it)
                     }
                 } else {
+                    Log.trace("Removing ignored: $it in locked slots.")
                     ignoredHotbarSlots.remove(it)
                     newlyFilled.add(it)
                 }
             }
         }
         if (newlyFilled.isNotEmpty()) {
+            Log.trace("WIll skip empty non locked checks")
+            newlyFilled.removeAll(skipRemoveEmptyFor)
+            skipRemoveEmptyFor.clear()
             emptyLockedSlots.removeAll(newlyFilled)
-        }
-        if (LockedSlotsSettings.LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED.booleanValue && this.emptyNonLockedSlots.isNotEmpty()) {
-            fun checkHotbar() {
+
+        } else if (LockedSlotsSettings.LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED.booleanValue
+            && this.emptyNonLockedSlots.isNotEmpty()
+            && emptyNonLockedHotbarSlots.isNotEmpty()) {
+
+            fun checkHotbar(second: Boolean = false) {
+                var localSkipRemoveEmptyFor: MutableSet<Int> = skipRemoveEmptyFor.toMutableSet()
+                val secondString  = if (second) {
+                    "Second run: "
+                } else {
+                    ""
+                }
+
                 newlyFilled.clear()
+                (localEmptyNonLockedSlots - emptyNonLockedHotbarSlots).isEmpty().ifTrue {
+                    return
+                }
                 emptyNonLockedHotbarSlots.forEach { slotId ->
                     val stack = Vanilla.container().`(slots)`[slotId].`(vanillaStack)`
                     if (!stack.isEmpty) {
+                        someThingChanged = true
                         if (!ignoredHotbarSlots.contains(slotId)) {
                             if (localEmptyNonLockedSlots.size > 0) {
                                 AutoRefillHandler.skipTick = true
                                 val targetSlot = localEmptyNonLockedSlots[0]
                                 val hotBarSlot = slotId - 36
-                                Log.trace("Fast Swapping $slotId to $targetSlot")
+                                Log.trace("${secondString}Fast Swapping $slotId to $targetSlot")
                                 ContainerClicker.swap(targetSlot,
                                                       hotBarSlot)
                                 localEmptyNonLockedSlots.removeAt(0)
                             }
                         } else {
-                            Log.trace("Removing $slotId form ignored")
+                            AutoRefillHandler.skipTick = true
+                            Log.trace("${secondString}Removing $slotId form ignored")
                             ignoredHotbarSlots.remove(slotId)
                             newlyFilled.add(slotId)
                         }
                     }
                 }
                 if (newlyFilled.isNotEmpty()) {
+                    Log.trace("Skip remove from empty is: $localSkipRemoveEmptyFor")
+                    newlyFilled.removeAll(localSkipRemoveEmptyFor)
                     emptyNonLockedHotbarSlots.removeAll(newlyFilled)
                 }
             }
-
+            skipRemoveEmptyFor.isNotEmpty().ifTrue {
+                emptyNonLockedHotbarSlots.addAll(skipRemoveEmptyFor)
+            }
             checkHotbar()
+            ignoredHotbarSlots.addAll(skipRemoveEmptyFor)
             //Yes doing the same thing twice...
             //sometimes an item is picked up in the just freed slot and it remains in the hotbar.
             //so we check twice to be sure
             if (localEmptyNonLockedSlots.isNotEmpty()) {
-                checkHotbar()
+                checkHotbar(true)
             }
-
+            skipRemoveEmptyFor.clear()
         }
         emptyNonLockedSlots.clear()
         emptyNonLockedSlots.addAll(localEmptyNonLockedSlots)
+        if (someThingChanged) {
+            Log.trace("empty Non Locked Slots: $emptyNonLockedSlots")
+            Log.trace("empty Locked Slots: $emptyLockedSlots")
+            Log.trace("empty non Locked hotbar Slots: $emptyNonLockedHotbarSlots")
+
+            Log.trace("ignored hotbat Slots: $ignoredHotbarSlots")
+        }
         processingLockedPickups = false
     }
 
@@ -213,6 +256,7 @@ object LockedSlotKeeper {
 
     fun init() {
         if (processingLockedPickups) return
+        if (!isMultiPlayer) return
         this.emptyLockedSlots.clear()
         this.emptyNonLockedSlots.clear()
         this.emptyNonLockedHotbarSlots.clear()
@@ -252,29 +296,127 @@ object LockedSlotKeeper {
                         emptyNonLockedHotbarSlots.add(it)
                     }
                 }
+
+                Log.trace("empty NON Locked hotbar slots $emptyNonLockedHotbarSlots")
             }
         }
     }
 
     fun onJoinWorld() {
-        ticksAfterJoin = 0
-        worldJoined = true
+        if (isMultiPlayer) {
+            ticksAfterJoin = 0
+            worldJoined = true
+        }
     }
 
     fun addIgnoredHotbarSlotId(slotId: Int) {
-        if (pickingItem) {
+        if (pickingItem && isMultiPlayer) {
             Log.trace("Adding $slotId to ignored")
             this.ignoredHotbarSlots.add(slotId)
         }
     }
 
-    fun ignoredSelectedHotbarSlot() {
-        if (pickingItem) {
+    fun ignoreSelectedHotbarSlotForHandSwap() {
+        if (pickingItem && isMultiPlayer) {
+            val slotId = Vanilla.playerInventory().`(selectedSlot)` + 36
+
+            if (slotId in 36..44) {
+                val vanillaContainer = Vanilla.container()
+                val types = ContainerTypes.getTypes(vanillaContainer)
+                if (types.contains(ContainerType.CREATIVE)) {
+                    return
+                }
+
+                val slots = vanillaContainer.`(slots)`
+                val offHandSource = AreaTypes.playerOffhand.getItemArea(vanillaContainer, slots)
+                val lockedSlots = AreaTypes.lockedSlots.getItemArea(vanillaContainer, slots)
+                val slot = offHandSource.slotIndices[0]
+                val vanillaSlot = slots[slot].`(vanillaStack)`
+                Log.trace("Offhand slot id is $slot")
+                Log.trace("Offhand slot is $vanillaSlot")
+                skipTick = false
+                if (!vanillaSlot.isEmpty) {
+                    if (Vanilla.container().`(slots)`[slotId].`(vanillaStack)`.isEmpty) {
+
+                        ignoredHotbarSlots.add(slotId)
+                        Log.trace("ignoring hotbar slotId: $slotId. For offhand swap")
+                        if (LockSlotsHandler.isSlotLocked(slotId)) {
+                            Log.trace("Adding $slotId to empty locked slots")
+                            emptyLockedSlots.add(slotId)
+                        } else if (!emptyLockedSlots.contains(slotId)) {
+                            emptyNonLockedHotbarSlots.add(slotId)
+                        }
+                        skipTick = false
+                    }
+                } else if (!vanillaContainer.`(slots)`[slotId].`(vanillaStack)`.isEmpty) {
+                    if (lockedSlots.slotIndices.contains(slotId)) {
+                        Log.trace("(Empty offhand) Adding $slotId to empty locked slots")
+                        emptyLockedSlots.add(slotId)
+                    }
+                    if (!emptyLockedSlots.contains(slotId)) {
+                        Log.trace("(Empty offhand) Adding $slotId to empty non locked hotbar slots")
+                        emptyNonLockedHotbarSlots.add(slotId)
+                        emptyNonLockedSlots.add(slotId)
+                    }
+                    skipRemoveEmptyFor.add(slotId)
+                    ignoredHotbarSlots.add(slotId)
+                    skipTick = false
+                }
+
+            }
+        }
+    }
+
+    fun ignoredSelectedHotbarSlot(fromSlot: Int) {
+        if (pickingItem && isMultiPlayer) {
+            Log.trace("picked up from slot: $fromSlot")
             val slotId = Vanilla.playerInventory().`(selectedSlot)` + 36
             Log.trace("ignoring selected hotbar slotId: $slotId")
             if (slotId in 36..44) {
-                this.ignoredHotbarSlots.add(slotId)
+                if (Vanilla.container().`(slots)`[slotId].`(vanillaStack)`.isEmpty) {
+                    this.ignoredHotbarSlots.add(slotId)
+                }
+            }
+            if (fromSlot !in 36..44) {
+
+                emptyNonLockedSlots.add(fromSlot)
             }
         }
+    }
+
+    fun isOnlyHotbarFree(): Boolean {
+        val vanillaContainer = Vanilla.container()
+        val types = ContainerTypes.getTypes(vanillaContainer)
+        if (types.contains(ContainerType.CREATIVE)) {
+            return false
+        }
+        val slots = vanillaContainer.`(slots)`
+        val storageSlots = if (LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
+            AreaTypes.playerStorage.getItemArea(vanillaContainer, slots)
+        } else {
+            AreaTypes.playerStorage.getItemArea(vanillaContainer, slots) - AreaTypes.lockedSlots.getItemArea(vanillaContainer, slots)
+        }
+        val filtered = storageSlots.slotIndices.filter {
+            slots[it].`(itemStack)`.isEmpty()
+        }
+        return filtered.isEmpty()
+    }
+
+    fun isHotBarSlotEmpty(id: Int): Boolean {
+        val vanillaContainer = Vanilla.container()
+        val types = ContainerTypes.getTypes(vanillaContainer)
+        if (types.contains(ContainerType.CREATIVE)) {
+            return false
+        }
+        val slots = vanillaContainer.`(slots)`
+        val slotsArea = AreaTypes.playerHotbar.getItemArea(vanillaContainer, slots)
+
+        if (id in 0..8) {
+            val hotBarSlot = id + 36
+            if (slotsArea.slotIndices.contains(hotBarSlot)) {
+                return slots[hotBarSlot].`(itemStack)`.isEmpty()
+            }
+        }
+        return false
     }
 }

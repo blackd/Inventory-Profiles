@@ -21,7 +21,11 @@
 package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerInventory;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
@@ -29,6 +33,8 @@ import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,6 +49,12 @@ public abstract class MixinMinecraftClient {
 
     @Shadow
     public ClientPlayerEntity player;
+
+    @Shadow public GameOptions options;
+
+    @Shadow public Window window;
+
+    @Shadow @Nullable public Screen currentScreen;
 
     @Inject(at = @At("HEAD"), method = "tick()V")
     public void tick(CallbackInfo info) {
@@ -61,18 +73,35 @@ public abstract class MixinMinecraftClient {
 
     @Inject(at = @At("HEAD"),
             method = "handleInputEvents()V")
-    public void handleInputEvents(CallbackInfo info) {
+    public void handleInputEventsPre(CallbackInfo info) {
         if(LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE().getValue()
                 && PlayerInventory.isValidHotbarIndex(this.player.inventory.selectedSlot)
-                && (MinecraftClient.getInstance().options.keyDrop.isPressed() || MinecraftClient.getInstance().options.keyDrop.wasPressed())) {
+                && (options.keyDrop.isPressed() || options.keyDrop.wasPressed())) {
 
             if (!LockSlotsHandler.INSTANCE.isHotbarQMoveActionAllowed(this.player.inventory.selectedSlot + 36, true)) {
-                IMixinKeyBinding drop = (IMixinKeyBinding) MinecraftClient.getInstance().options.keyDrop;
+                IMixinKeyBinding drop = (IMixinKeyBinding) options.keyDrop;
                 drop.setPressed(false);
                 drop.setTimesPressed(0);
             }
         }
+
+        if(LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
+                || ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getBooleanValue()) {
+
+            KeyBinding keySwapHands = options.keySwapHands;
+            IMixinKeyBinding keySwapHandsAccessor = (IMixinKeyBinding) keySwapHands;
+
+            if (this.currentScreen == null
+                    && PlayerInventory.isValidHotbarIndex(this.player.inventory.selectedSlot)
+                    && keySwapHandsAccessor.getTimesPressed() > 0) {
+
+                LockedSlotKeeper.INSTANCE.setPickingItem(true);
+                LockedSlotKeeper.INSTANCE.ignoreSelectedHotbarSlotForHandSwap();
+                LockedSlotKeeper.INSTANCE.setPickingItem(false);
+            }
+        }
     }
+
 
     @Inject(at = @At("HEAD"), method = "doItemPick()V")
     private void doItemPickPre(CallbackInfo ci) {

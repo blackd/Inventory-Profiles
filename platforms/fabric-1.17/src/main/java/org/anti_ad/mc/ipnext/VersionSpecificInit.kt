@@ -1,8 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,28 +17,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.ipnext.mixin;
+package org.anti_ad.mc.ipnext
 
-import net.minecraft.client.options.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(KeyBinding.class)
-public interface IMixinKeyBinding {
+fun specificInit() {
 
-    @Accessor("keyCode")
-    InputUtil.KeyCode getKeyCode();
-
-    @Accessor("pressed")
-    void setPressed(boolean pressed);
-
-    @Accessor
-    void setTimesPressed(int pressed);
-
-    @Accessor
-    int getTimesPressed();
-
-    @Accessor("pressed")
-    boolean getPressed();
 }

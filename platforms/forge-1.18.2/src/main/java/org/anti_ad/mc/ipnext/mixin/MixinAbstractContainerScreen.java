@@ -54,7 +54,7 @@ public class MixinAbstractContainerScreen<T extends AbstractContainerMenu> {
                 Log.INSTANCE.trace("onMouseClick for mouse y:" + IVanillaUtilKt.getVanillaUtil().mouseY());
 
             }
-            Log.INSTANCE.trace("from here:", new Throwable());
+            //Log.INSTANCE.trace("from here:", new Throwable());
         }
         LockSlotsHandler.INSTANCE.setLastMouseClickSlot(slot);
         if (slot != null

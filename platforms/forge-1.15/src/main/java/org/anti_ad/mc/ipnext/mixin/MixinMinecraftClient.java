@@ -23,9 +23,10 @@ package org.anti_ad.mc.ipnext.mixin;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerInventory;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
-import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
 import org.spongepowered.asm.mixin.Final;
@@ -47,6 +48,8 @@ public abstract class MixinMinecraftClient {
     @Shadow @Final
     public GameSettings gameSettings;
 
+    @Shadow public Screen currentScreen;
+
     @Inject(at = @At("HEAD"),
             method = "processKeyBinds()V")
     public void handleInputEvents(CallbackInfo info) {
@@ -59,6 +62,20 @@ public abstract class MixinMinecraftClient {
 
                 drop.setPressed(false);
                 drop.setTimesPressed(0);
+            }
+        }
+
+        if(LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()) {
+            KeyBinding keySwapHands = gameSettings.keyBindSwapHands;
+            IMixinKeyBinding keySwapHandsAccessor = (IMixinKeyBinding) keySwapHands;
+
+            if (this.currentScreen == null
+                    && PlayerInventory.isHotbar(this.player.inventory.currentItem)
+                    && keySwapHandsAccessor.getTimesPressed() > 0) {
+
+                LockedSlotKeeper.INSTANCE.setPickingItem(true);
+                LockedSlotKeeper.INSTANCE.ignoreSelectedHotbarSlotForHandSwap();
+                LockedSlotKeeper.INSTANCE.setPickingItem(false);
             }
         }
     }

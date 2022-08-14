@@ -46,3 +46,7 @@ object KotlinForForgeModEntry {
 
     }
 }
+
+fun specificInit() {
+
+}

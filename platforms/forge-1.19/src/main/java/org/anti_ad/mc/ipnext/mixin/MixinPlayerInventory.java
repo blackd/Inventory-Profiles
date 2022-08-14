@@ -26,7 +26,6 @@ import net.minecraft.world.item.ItemStack; //net.minecraft.item.ItemStack;
 import net.minecraft.core.NonNullList; //net.minecraft.util.NonNullList;
 import org.anti_ad.mc.ipnext.config.Debugs;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
-import org.anti_ad.mc.ipnext.config.Debugs;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
 import org.spongepowered.asm.mixin.Final;
@@ -48,14 +47,16 @@ public abstract class MixinPlayerInventory {
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
         if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
                 && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
+            boolean onlyHotbar = LockedSlotKeeper.INSTANCE.isOnlyHotbarFree();
             for (int i = 0; i < this.items.size(); ++i) {
                 if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
+                        && Inventory.isHotbarSlot(i)
+                        && !onlyHotbar
                         && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
                     continue;
                 }
                 if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
                     if ((this.items.get(i)).isEmpty()) {
-
                         info.setReturnValue(i);
                         return;
                     }

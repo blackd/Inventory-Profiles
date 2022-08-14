@@ -54,6 +54,8 @@ object Vanilla {
 
     fun server(): IntegratedServer? = mc().server
 
+    fun isSinglePlayer() = mc().isIntegratedServerRunning
+
     // ============
     // java objects
     // ============

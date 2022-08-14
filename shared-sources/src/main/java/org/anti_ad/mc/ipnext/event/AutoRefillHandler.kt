@@ -100,7 +100,6 @@ object AutoRefillHandler {
 
     var skipTick = false
 
-
     fun onTickInGame() {
         if (!skipTick) {
             if (Vanilla.screen() != null || (AutoRefillSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey)) {

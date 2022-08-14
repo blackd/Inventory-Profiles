@@ -39,4 +39,7 @@ public interface IMixinKeyBinding {
 
     @Accessor("pressTime")
     void setTimesPressed(int pressed);
+
+    @Accessor("pressed")
+    boolean getPressed();
 }

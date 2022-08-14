@@ -53,6 +53,8 @@ fun init() {
 
     initGlues()
 
+    specificInit()
+
     ClientInitHandler.register {
 
         initInfoManager()

@@ -125,7 +125,7 @@ object Log {
         shouldTrace = shouldTraceOld
     }
 
-    private inline fun getMessageString(message: () -> String): String = " ".repeat(indent * 4) + message()
+    private inline fun getMessageString(message: () -> String): String = Thread.currentThread().id.toString() + ": " + " ".repeat(indent * 4) + message()
 
     fun trace(vararg messages: String) {
         messages.forEach {

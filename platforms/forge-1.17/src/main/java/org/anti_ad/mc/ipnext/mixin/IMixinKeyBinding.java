@@ -39,4 +39,7 @@ public interface IMixinKeyBinding {
 
     @Accessor("clickCount")
     void setTimesPressed(int pressed);
+
+    @Accessor("isDown")
+    boolean getPressed();
 }

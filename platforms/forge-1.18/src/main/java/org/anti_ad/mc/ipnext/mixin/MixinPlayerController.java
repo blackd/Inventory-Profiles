@@ -37,6 +37,6 @@ public class MixinPlayerController {
 
     @Inject(at = @At("HEAD"), method = "handlePickItem(I)V")
     public void pickItem(int index, CallbackInfo ci) {
-        LockedSlotKeeper.INSTANCE.ignoredSelectedHotbarSlot();
+        LockedSlotKeeper.INSTANCE.ignoredSelectedHotbarSlot(index);
     }
 }

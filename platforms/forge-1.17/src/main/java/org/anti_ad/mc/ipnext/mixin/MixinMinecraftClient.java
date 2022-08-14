@@ -20,10 +20,13 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.InventoryMenu;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
@@ -34,6 +37,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import javax.annotation.Nullable;
 
 /**
  * MixinMinecraftClient
@@ -47,6 +52,8 @@ public abstract class MixinMinecraftClient {
     @Shadow @Final
     public Options options;
 
+    @Shadow @Nullable public Screen screen;
+
     @Inject(at = @At("HEAD"),
             method = "handleKeybinds()V")
     public void handleInputEvents(CallbackInfo info) {
@@ -59,6 +66,21 @@ public abstract class MixinMinecraftClient {
 
                 drop.setPressed(false);
                 drop.setTimesPressed(0);
+            }
+        }
+
+        if(LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getBooleanValue()
+                || ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getBooleanValue()) {
+            KeyMapping keySwapHands = this.options.keySwapOffhand;
+            IMixinKeyBinding keySwapHandsAccessor = (IMixinKeyBinding) keySwapHands;
+
+            if (this.screen == null
+                    && Inventory.isHotbarSlot(this.player.getInventory().selected)
+                    && keySwapHandsAccessor.getTimesPressed() > 0) {
+
+                LockedSlotKeeper.INSTANCE.setPickingItem(true);
+                LockedSlotKeeper.INSTANCE.ignoreSelectedHotbarSlotForHandSwap();
+                LockedSlotKeeper.INSTANCE.setPickingItem(false);
             }
         }
     }

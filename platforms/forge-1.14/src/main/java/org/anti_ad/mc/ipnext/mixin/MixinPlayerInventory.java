@@ -46,8 +46,11 @@ public abstract class MixinPlayerInventory {
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
         if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
                 && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
+            boolean onlyHotbar = LockedSlotKeeper.INSTANCE.isOnlyHotbarFree();
             for (int i = 0; i < this.mainInventory.size(); ++i) {
                 if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
+                        && PlayerInventory.isHotbar(i)
+                        && !onlyHotbar
                         && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
                     continue;
                 }

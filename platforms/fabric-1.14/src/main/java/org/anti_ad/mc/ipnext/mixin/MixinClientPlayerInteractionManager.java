@@ -50,6 +50,6 @@ public class MixinClientPlayerInteractionManager {
 
     @Inject(at = @At("HEAD"), method = "pickFromInventory")
     public void pickFromInventory(int slot, CallbackInfo ci) {
-        LockedSlotKeeper.INSTANCE.ignoredSelectedHotbarSlot();
+        LockedSlotKeeper.INSTANCE.ignoredSelectedHotbarSlot(slot);
     }
 }

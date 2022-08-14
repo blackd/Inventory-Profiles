@@ -42,8 +42,8 @@ import org.anti_ad.mc.ipnext.inventory.ContainerType.SORTABLE_STORAGE
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35
-private const val offhandInvSlot = 40
-private val mainhandInvSlot
+const val offhandInvSlot = 40
+val mainhandInvSlot
     get() = Vanilla.playerInventory().`(selectedSlot)`
 
 // ============
