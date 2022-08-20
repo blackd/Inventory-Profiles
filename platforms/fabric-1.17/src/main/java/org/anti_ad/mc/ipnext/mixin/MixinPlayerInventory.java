@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
@@ -44,24 +45,26 @@ public abstract class MixinPlayerInventory {
             method = "getEmptySlot",
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
-        if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
-                && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
-            boolean onlyHotbar = LockedSlotKeeper.INSTANCE.isOnlyHotbarFree();
-            for (int i = 0; i < this.main.size(); ++i) {
-                if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
-                        && PlayerInventory.isValidHotbarIndex(i)
-                        && !onlyHotbar
-                        && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
-                    continue;
-                }
-                if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
-                    if ((this.main.get(i)).isEmpty()) {
-                        info.setReturnValue(i);
-                        return;
+        if (MinecraftClient.getInstance().player != null) {
+            if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
+                    && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
+                boolean onlyHotbar = LockedSlotKeeper.INSTANCE.isOnlyHotbarFree();
+                for (int i = 0; i < this.main.size(); ++i) {
+                    if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
+                            && PlayerInventory.isValidHotbarIndex(i)
+                            && !onlyHotbar
+                            && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
+                        continue;
+                    }
+                    if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
+                        if ((this.main.get(i)).isEmpty()) {
+                            info.setReturnValue(i);
+                            return;
+                        }
                     }
                 }
+                info.setReturnValue(-1);
             }
-            info.setReturnValue(-1);
         }
     }
 }

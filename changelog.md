@@ -1,10 +1,8 @@
 <!-- latest begin -->
-### 1.6.4
 
-- fixed item select with middle click when pickup to inventory is active
-- fixed mainhand/offhand swap for locked slots and when pickup to inventory is active
-- fixed single player not being able to pickup items in the hotbar at all
-- removed `Add Inventory Buttons to All In Game Screens` from `Gui Settings` It was a temporary workaround for the then missing GUI Hints Manager.
+### 1.6.5
+
+- fixed a crash when another mod puts items into the hotbar during world generation before the game has started.  
 
 #### NOTE
 
@@ -14,6 +12,14 @@ Switched to modern Kotlin support. This means that this mod now requires [Kotlin
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.6.4
+
+- fixed item select with middle click when pickup to inventory is active
+- fixed mainhand/offhand swap for locked slots and when pickup to inventory is active
+- fixed single player not being able to pickup items in the hotbar at all
+- removed `Add Inventory Buttons to All In Game Screens` from `Gui Settings` It was a temporary workaround for the then missing GUI Hints Manager.
+
 
 ### 1.6.2 and 1.6.3
 
