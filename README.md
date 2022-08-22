@@ -1,15 +1,15 @@
 
 <div style="align-content: center; display: block; margin: 10px auto; width: 100%;">
-<div style="vertical-align: center; horiz-align: center;">
+<div align="center" style="vertical-align: center; horiz-align: center;">
 
 [![1][1]][2]  [![5][5]][6] [![3][3]][4]
 
 </div>
+<div align="center" style="vertical-align: center; horiz-align: center;">
 
-[![11][11]][12]
+[![11][11]][12] **[![8][8]][7]** [![Javadoc][10]][9]  
 
-**[![8][8]][7]** [![Javadoc][10]][9]  
-
+</div>
 </div>
 
 # Inventory Profiles Next
