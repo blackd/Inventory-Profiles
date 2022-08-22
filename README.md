@@ -1,8 +1,16 @@
-[![1][1]][2]  [![5][5]][6] [![1][3]][4] 
+
+<div style="align-content: center; display: block; margin: 10px auto; width: 100%;">
+<div style="vertical-align: center; horiz-align: center;">
+
+[![1][1]][2]  [![5][5]][6] [![3][3]][4]
+
+</div>
 
 [![11][11]][12]
 
 **[![8][8]][7]** [![Javadoc][10]][9]  
+
+</div>
 
 # Inventory Profiles Next
 **Requirement:** Minecraft 1.16.5 - 1.17, Fabric Loader 0.11.6, Forge 36.1.32
@@ -73,5 +81,5 @@ dependencies {
 [8]: https://img.shields.io/discord/861171785897738240?label=Discord&logo=discord&style=plastic
 [9]: https://javadoc.io/doc/org.anti-ad.mc/inventory-profiles-next/fabric-1.17.1-1.1.0
 [10]: https://javadoc.io/badge2/org.anti-ad.mc/inventory-profiles-next/fabric-1.17.1-1.1.0/javadoc.svg
-[11]: https://img.shields.io/badge/Available%20for-MC%201.14%20to%201.18-c70039
+[11]: https://img.shields.io/badge/Available%20for-MC%201.14%20to%201.19-c70039
 [12]: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next/files
