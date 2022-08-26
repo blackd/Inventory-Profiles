@@ -52,10 +52,12 @@ object InputHandler : IInputHandler {
             if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
                 VanillaScreenUtil.openScreen(ConfigScreen().also { it.dumpWidgetTree() })
             }
-
+            /*
             if (ProfileSwitchHandler.onInput(lastKey, lastAction)) {
                 return true
             }
+
+             */
 
             if (ModpackInputHandler.onInput(lastKey, lastAction)) {
                 return true

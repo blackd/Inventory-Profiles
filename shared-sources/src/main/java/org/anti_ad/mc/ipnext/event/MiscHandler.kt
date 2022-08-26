@@ -45,6 +45,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.r
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
+import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
 import org.anti_ad.mc.ipnext.ingame.`(container)`
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
@@ -70,17 +71,20 @@ object MiscHandler {
         if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
             InfoManager.event("swipeMoving/shift")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
-                if (!LockSlotsHandler.isMappedSlotLocked(s)) {
+                if (!LockSlotsHandler.isMappedSlotLocked(s)
+                    || (!LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.booleanValue
+                            && !LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue)) {
                     LockSlotsHandler.lastMouseClickSlot = s
-                    ContainerClicker.shiftClick(vPlayerSlotOf(s,
-                                                              screen).`(id)`)
+                    ContainerClicker.shiftClick(vPlayerSlotOf(s, screen).`(id)`)
                     LockSlotsHandler.lastMouseClickSlot = null
                 }
             }
         } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
             InfoManager.event("swipeMoving/ctrl+q")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
-                if (!LockSlotsHandler.isMappedSlotLocked(s)) {
+                if (!LockSlotsHandler.isMappedSlotLocked(s)
+                    || (!LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.booleanValue
+                            && !LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue)) {
                     val matchSet = setOf(ContainerType.NO_SORTING_STORAGE,
                                          ContainerType.SORTABLE_STORAGE)
                     if (types.containsAny(matchSet) && !types.contains(ContainerType.CREATIVE)) {

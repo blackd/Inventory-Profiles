@@ -226,10 +226,9 @@ class ItemArea(private val fromSlotLocations: List<Point>) { // vanilla things
 
     companion object {
         private fun plus(left: ItemArea,
-                         right: ItemArea) = ItemArea(
-            left.fromSlotLocations,
-            (left.slotIndices + right.slotIndices).distinct(),
-            left.orderSensitive || right.orderSensitive
+                         right: ItemArea) = ItemArea(left.fromSlotLocations,
+                                                     (left.slotIndices + right.slotIndices).distinct(),
+                                                     left.orderSensitive || right.orderSensitive
         )
 
         private fun minus(left: ItemArea,

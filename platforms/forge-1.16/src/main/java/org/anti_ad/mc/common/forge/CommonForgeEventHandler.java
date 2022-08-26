@@ -30,6 +30,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.anti_ad.mc.common.input.GlobalInputHandler;
 import org.anti_ad.mc.common.input.GlobalScreenEventListener;
+import org.anti_ad.mc.common.input.KeyCodes;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.config.ModSettings;
@@ -138,6 +139,36 @@ public class CommonForgeEventHandler {
     @SubscribeEvent
     public void onRawMouse(InputEvent.RawMouseEvent event) {
         lastMods = event.getMods();
+    }
+
+    @SubscribeEvent
+    public void onMouseScroll(InputEvent.MouseScrollEvent event) {
+        double delta = event.getScrollDelta();
+        if (delta != 0) {
+            event.setCanceled(processScrollEvent(delta));
+        }
+    }
+
+    @SubscribeEvent
+    public void onGuiMouseScroll(GuiScreenEvent.MouseScrollEvent.Pre event) {
+        double delta = event.getScrollDelta();
+        if (delta != 0) {
+            Screen lastScreen = Vanilla.INSTANCE.screen();
+            boolean result = processScrollEvent(delta);
+            event.setCanceled(result || lastScreen != Vanilla.INSTANCE.screen());
+        }
+    }
+
+    private static boolean processScrollEvent(double delta) {
+        int button;
+        if (delta > 0) {
+            button = KeyCodes.MOUSE_SCROLL_UP;
+        } else {
+            button = KeyCodes.MOUSE_SCROLL_DOWN;
+        }
+        boolean result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW.GLFW_PRESS, 0);
+        result = GlobalInputHandler.INSTANCE.onMouseButton(button, GLFW.GLFW_RELEASE, 0) | result;
+        return result;
     }
 
 

@@ -37,6 +37,7 @@ val supported_minecraft_versions = listOf("1.18.2")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.18.2"
+val minecraft_version_string = "1.18.2"
 val forge_version = "40.1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.6.0"
@@ -426,7 +427,6 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
                             line.contains("kotlin")
                         })
                     }
-
                     val clean = f.readLines().filter { line ->
                         !line.contains("InventoryProfilesNext-common")
                     }
@@ -539,7 +539,7 @@ configure<CurseExtension> {
         val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
         val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version-$mod_version$clasifier"
+            displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version_string-$mod_version$clasifier"
         })
 
         afterEvaluate {
@@ -586,7 +586,7 @@ modrinth {
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-    versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version")
+    versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
     dependencies.set(

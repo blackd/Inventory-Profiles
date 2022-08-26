@@ -6,7 +6,10 @@
     "mixins":             [
     ],
     "client":             [
+        "IMixinBucketItem",
         "IMixinContainerScreen",
+        "IMixinEntityBucketItem",
+        "IMixinFluid",
         "IMixinKeyBinding",
         "IMixinSlot",
         "MixinClientPlayerInteractionManager",
@@ -19,11 +22,7 @@
         "MixinMinecraftClient",
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
-        "MixinScreen",
-        "IMixinBucketItem",
-        "IMixinFluid",
-        "IMixinKeyBinding",
-        "IMixinEntityBucketItem"
+        "MixinScreen"
     ],
     "injectors":          {
         "defaultRequire": 1

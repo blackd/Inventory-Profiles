@@ -35,6 +35,7 @@ val supported_minecraft_versions = listOf("1.15", "1.15.1", "1.15.2")
 val mod_loader = "fabric"
 val mod_version = project.version
 val minecraft_version = "1.15.2"
+val minecraft_version_string = "1.15[.1-2]"
 val mappings_version = "1.15.2+build.17"
 val loader_version = "0.12.4"
 val modmenu_version = "1.10.6"
@@ -236,7 +237,7 @@ configure<CurseExtension> {
             +*************************************************+
         """.trimIndent())
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
+            displayName = "Inventory Profiles Next-fabric-$minecraft_version_string-$mod_version"
         })
 
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
@@ -276,7 +277,7 @@ modrinth {
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-    versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
+    versionName.set("IPN $mod_version for $mod_loader $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
 

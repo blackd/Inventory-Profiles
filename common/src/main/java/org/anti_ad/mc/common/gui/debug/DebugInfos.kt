@@ -26,6 +26,10 @@ import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 
 object DebugInfos {
+
+    var scrollHorizontal: Double = 0.0
+    var scrollVertical: Double = 0.0
+
     val width
         get() = glue_rScreenWidth
     val height
@@ -55,6 +59,12 @@ object DebugInfos {
         key = button - 100
     }
 
+    fun onScrollButton(horizontal: Double, vertical: Double): Boolean {
+        scrollHorizontal = horizontal
+        scrollVertical = vertical
+        return true
+    }
+
     val keyText
         get() = KeyCodes.getName(key).let { "$it (${KeyCodes.getFriendlyName(it)})" }
 
@@ -67,6 +77,8 @@ object DebugInfos {
               |onKey: $keys
               |onMouse: $buttons
               |Key: $keyText
+              |SH: $scrollHorizontal
+              |SV: $scrollVertical
               |Pressing keys: $pressingKeysText
               """.trimMargin().lines()
 

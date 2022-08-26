@@ -22,6 +22,7 @@ package org.anti_ad.mc.common.input
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.ifFalse
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.debug.DebugInfos
@@ -45,6 +46,7 @@ object GlobalInputHandler {
     fun isActivated(keyCodes: List<Int>,
                     settings: KeybindSettings): Boolean {
         if (keyCodes.isEmpty()) return false
+
         if (!settings.activateOn.isValid(lastAction)) return false
         if (!VanillaUtil.isValidScreen(settings.context)) return false
         //if (!settings.context.isValid(Vanilla.screen())) return false
@@ -75,9 +77,11 @@ object GlobalInputHandler {
 
         previousPressedKeys = pressedKeys.toSet()
         if (isPress) {
+            //Log.trace("pressed ${KeyCodes.getFriendlyName(key)}")
             pressedKeys.add(key)
         } else {
             pressedKeys.remove(key)
+            //Log.trace("released ${KeyCodes.getFriendlyName(key)}")
         }
         lastKey = key
         lastAction = action
@@ -192,7 +196,7 @@ object GlobalInputHandler {
                                  action,
                                  mods)
         return when (action) {
-            GLFW_PRESS, GLFW_RELEASE -> onKey(button - 100,
+            GLFW_PRESS, GLFW_RELEASE -> onKey(if (button >= 0) button - 100 else button,
                                               action)
             else -> false
         }

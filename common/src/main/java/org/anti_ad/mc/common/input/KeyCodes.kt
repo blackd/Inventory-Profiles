@@ -162,6 +162,15 @@ object KeyCodes {
     const val MOUSE_BUTTON_8 = GLFW.GLFW_MOUSE_BUTTON_8 - 100
     //endregion
 
+    //@formatter:on
+    //endregion
+    //region const val MOUSE_SCROLL_
+    const val MOUSE_SCROLL_UP = -10000
+    const val MOUSE_SCROLL_DOWN = -10001
+    const val MOUSE_SCROLL_LEFT = -10002
+    const val MOUSE_SCROLL_RIGHT = -10003
+    //endregion
+
     fun getName(keyCode: Int): String {
         return MAP_KEY_CODE_TO_NAME.getOrDefault(keyCode,
                                                  "keycode $keyCode")
@@ -201,6 +210,7 @@ object KeyCodes {
     private val MAP_KEY_CODE_TO_NAME = mutableMapOf<Int, String>()
     private val MAP_NAME_TO_KEY_CODE = mutableMapOf<String, Int>()
     private val MAP_NAME_TO_DISPLAY_TEXT = mutableMapOf<String, String>()
+
     private fun addEntry(name: String,
                          displayText: String?,
                          keyCode: Int) {
@@ -615,6 +625,21 @@ object KeyCodes {
         addEntry("BUTTON_8",
                  null,
                  MOUSE_BUTTON_8)
+
+        addEntry("MOUSE_SCROLL_UP",
+                 "Scroll Wheel Up",
+                 MOUSE_SCROLL_UP)
+        addEntry("MOUSE_SCROLL_DOWN",
+                 "Scroll Wheel Down",
+                 MOUSE_SCROLL_DOWN)
+        addEntry("MOUSE_SCROLL_LEFT",
+                 "Scroll Wheel Left",
+                 MOUSE_SCROLL_LEFT)
+        addEntry("MOUSE_SCROLL_RIGHT",
+                 "Scroll Wheel Right",
+                 MOUSE_SCROLL_RIGHT)
+
+
         //@formatter:on
         //endregion
         //@formatter:off

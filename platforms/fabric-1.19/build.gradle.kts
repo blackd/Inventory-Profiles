@@ -29,14 +29,14 @@ import org.anti_ad.mc.fabricCommonDependency
 import org.anti_ad.mc.fabricRegisterCommonTasks
 import org.anti_ad.mc.platformsCommonConfig
 import org.anti_ad.mc.registerMinimizeJarTask
-import org.jetbrains.kotlin.cli.jvm.compiler.setupIdeaStandaloneExecution
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.19", "1.19.1")
+val supported_minecraft_versions = listOf("1.19", "1.19.1, 1.19.2")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.19.2"
+val minecraft_version_string = "1.19[.1-2]"
 val mappings_version = "1.19.2+build.1"
 val loader_version = "0.14.9"
 val modmenu_version = "4.0.6"
@@ -241,7 +241,7 @@ configure<CurseExtension> {
             +*************************************************+
         """.trimIndent())
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-fabric-$minecraft_version-$mod_version"
+            displayName = "Inventory Profiles Next-fabric-$minecraft_version_string-$mod_version"
         })
 
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
@@ -282,7 +282,7 @@ modrinth {
         Will release ${remappedJarFile.get().asFile.path}
         +*************************************************+
     """.trimIndent())
-    versionName.set("IPN $mod_version for $mod_loader $minecraft_version")
+    versionName.set("IPN $mod_version for $mod_loader $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
 

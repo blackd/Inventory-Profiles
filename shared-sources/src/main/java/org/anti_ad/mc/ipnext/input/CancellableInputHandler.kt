@@ -23,12 +23,16 @@ package org.anti_ad.mc.ipnext.input
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
+import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 
 object CancellableInputHandler : IInputHandler {
     override fun onInput(lastKey: Int,
                          lastAction: Int): Boolean {
         return tryCatch(false) {
             if (LockSlotsHandler.onCancellableInput()) {
+                return true
+            }
+            if (ProfileSwitchHandler.onInput(lastKey, lastAction)) {
                 return true
             }
 

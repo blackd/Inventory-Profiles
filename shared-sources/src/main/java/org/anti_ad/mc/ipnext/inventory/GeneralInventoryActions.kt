@@ -33,10 +33,10 @@ import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.Slot
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.PostAction
+import org.anti_ad.mc.ipnext.config.ScrollSettings
 import org.anti_ad.mc.ipnext.config.SortingMethodIndividual
 import org.anti_ad.mc.ipnext.config.rule
 import org.anti_ad.mc.ipnext.ingame.`(id)`
@@ -51,8 +51,11 @@ import org.anti_ad.mc.ipnext.inventory.action.moveAllTo
 import org.anti_ad.mc.ipnext.inventory.action.moveFocusMatchTo
 import org.anti_ad.mc.ipnext.inventory.action.moveMatchCraftingTo
 import org.anti_ad.mc.ipnext.inventory.action.moveMatchTo
+import org.anti_ad.mc.ipnext.inventory.action.refillStacksTo
 import org.anti_ad.mc.ipnext.inventory.action.restockFrom
 import org.anti_ad.mc.ipnext.inventory.action.sort
+import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollDirection
+import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollingUtils
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
@@ -220,11 +223,12 @@ object GeneralInventoryActions {
         val moveAll = // xor
                 ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
         val moveFocusMatch = ModSettings.MOVE_FOCUS_MACH_MODIFIER.isPressing() || !vCursorStack().isEmpty()
+        val moveJustRefill = ModSettings.MOVE_JUST_REFILL_MODIFIER.isPressing()
         InfoManager.event(lazy {if (gui) "gui/" else {""} + "doMoveMatch" + if (moveAll) "/all" else {""} + if (includeHotbar) "/hotbar" else {""} },
                           lazy { "&forceToPlayer=$toPlayer" })
         AdvancedContainer.tracker {
             with(AreaTypes) {
-                val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
+                val player = (if (includeHotbar || (toPlayer && moveJustRefill)) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
                         lockedSlots
                 val container = itemStorage
                 val source = (if (toPlayer) container else player).get().asSubTracker
@@ -234,6 +238,8 @@ object GeneralInventoryActions {
                 } else {
                     if (moveFocusMatch) {
                         source.moveFocusMatchTo(destination)
+                    } else if (moveJustRefill) {
+                        source.refillStacksTo(destination)
                     } else {
                         source.moveMatchTo(destination)
                     }
@@ -243,7 +249,8 @@ object GeneralInventoryActions {
     }
 
     fun doMoveMatchCrafting() {
-        val includeHotbar = VanillaUtil.altDown()
+        //val includeHotbar = VanillaUtil.altDown()
+        val includeHotbar = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()
         InfoManager.event("doMoveMatchCrafting")
         AdvancedContainer.tracker {
             with(AreaTypes) {
@@ -276,7 +283,60 @@ object GeneralInventoryActions {
         InnerActions.cleanTempSlotsForClosing()
     }
 
+    fun scrollToPlayer() {
+        if (ScrollSettings.FULL_STACK.isPressing()) {
+            if (ScrollSettings.THROW.isPressing()) {
+                ScrollingUtils.scrollFullStackThrow()
+            } else if (ScrollSettings.SPREAD.isPressing()) {
+                ScrollingUtils.scrollFullStackSpread(ScrollDirection.TO_PLAYER)
+            } else if (ScrollSettings.LEAVE_LAST.isPressing()) {
+                ScrollingUtils.scrollFullStackLeaveLast(ScrollDirection.TO_PLAYER)
+            } else {
+                ScrollingUtils.scrollFullStack(ScrollDirection.TO_PLAYER)
+            }
+        } else {
+            if (ScrollSettings.THROW.isPressing()) {
+                ScrollingUtils.scrollSingleItemThrow()
+            } else if (ScrollSettings.SPREAD.isPressing()) {
+                ScrollingUtils.scrollSingleSpread(ScrollDirection.TO_PLAYER)
+            } else if (ScrollSettings.LEAVE_LAST.isPressing()) {
+                ScrollingUtils.scrollSingleItemLeaveLast(ScrollDirection.TO_PLAYER)
+            } else {
+                ScrollingUtils.scrollSingleItem(ScrollDirection.TO_PLAYER)
+            }
+        }
+    }
+
+    fun scrollToChest() {
+        if (ScrollSettings.FULL_STACK.isPressing()) {
+            if (ScrollSettings.THROW.isPressing()) {
+                ScrollingUtils.scrollFullStackThrow()
+            } else if (ScrollSettings.SPREAD.isPressing()) {
+                ScrollingUtils.scrollFullStackSpread(ScrollDirection.TO_CHEST)
+            } else if (ScrollSettings.LEAVE_LAST.isPressing()) {
+                ScrollingUtils.scrollFullStackLeaveLast(ScrollDirection.TO_CHEST)
+            } else {
+                ScrollingUtils.scrollFullStack(ScrollDirection.TO_CHEST)
+            }
+        } else {
+            if (ScrollSettings.THROW.isPressing()) {
+                ScrollingUtils.scrollSingleItemThrow()
+            } else if (ScrollSettings.SPREAD.isPressing()) {
+                ScrollingUtils.scrollSingleSpread(ScrollDirection.TO_CHEST)
+            } else if (ScrollSettings.LEAVE_LAST.isPressing()) {
+                ScrollingUtils.scrollSingleItemLeaveLast(ScrollDirection.TO_CHEST)
+            } else {
+                ScrollingUtils.scrollSingleItem(ScrollDirection.TO_CHEST)
+            }
+        }
+    }
+
+
+
+
+
 }
+
 
 private object InnerActions {
 
@@ -324,5 +384,6 @@ private object InnerActions {
             ContainerClicker.shiftClick(0)
         }
     }
+
 
 }

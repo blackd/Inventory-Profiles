@@ -46,6 +46,10 @@ fun ItemStack.isFull(): Boolean {
     }
 }
 
+fun ItemStack.isNotFull(): Boolean {
+    return !isEmpty() && !isFull()
+}
+
 val ItemStack.room
     get() = (itemType.maxCount - count).also {
         if (it < 0) Log.warn("Informal item stack $this")

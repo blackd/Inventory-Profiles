@@ -43,11 +43,25 @@ public class MixinKeyboard {
     private int pressedCount = 0;
     private int releasedCount = 0;
 
-    @Inject(method = "onKey", at = @At(value = "HEAD")) // ref: malilib key hook
+    @Inject(method = "onKey", at = @At(value = "HEAD"), cancellable = true) // ref: malilib key hook
     private void onKeyFirst(long handle, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
+        boolean res = false;
         if (Vanilla.INSTANCE.mc().isOnThread() && handle == Vanilla.INSTANCE.window().getHandle()) {
             pressedCount += action == GLFW_PRESS ? 1 : 0;
             releasedCount += action == GLFW_RELEASE ? 1 : 0;
+            if (Vanilla.INSTANCE.screen() == null) {
+                boolean checkPressing = pressedCount != 0 || releasedCount != 0;
+                if (checkPressing) {
+                    pressedCount = 0;
+                    releasedCount = 0;
+                }
+                res = GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers, checkPressing, handle);
+            } else {
+                res = GlobalScreenEventListener.INSTANCE.onKey(key, scanCode, action, modifiers, repeatEvents, false);
+            }
+        }
+        if (res) {
+            ci.cancel();
         }
     }
 
@@ -56,16 +70,6 @@ public class MixinKeyboard {
         if (Vanilla.INSTANCE.mc().isOnThread() && handle == Vanilla.INSTANCE.window().getHandle()) {
             pressedCount += action == GLFW_PRESS ? -1 : 0;
             releasedCount += action == GLFW_RELEASE ? -1 : 0;
-            if (Vanilla.INSTANCE.screen() == null) { // non null is handled below
-                boolean checkPressing = pressedCount != 0 || releasedCount != 0;
-                if (checkPressing) {
-                    pressedCount = 0;
-                    releasedCount = 0;
-                }
-                GlobalInputHandler.INSTANCE.onKey(key, scanCode, action, modifiers, checkPressing, handle);
-            } else {
-                GlobalScreenEventListener.INSTANCE.onKey(key, scanCode, action, modifiers, repeatEvents, false);
-            }
         }
     }
 

@@ -31,11 +31,13 @@ import org.anti_ad.mc.ipnext.inventory.data.collect
 import org.anti_ad.mc.ipnext.inventory.data.itemTypes
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
+import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.MutableItemStack
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.maxCount
 import org.anti_ad.mc.ipnext.item.rule.Rule
+import org.anti_ad.mc.ipnext.item.transferNTo
 import org.anti_ad.mc.ipnext.item.transferTo
 
 // ============
@@ -85,6 +87,38 @@ fun MutableSubTracker.moveFocusMatchTo(another: MutableSubTracker) {
         toMoveSlot.itemType
     }
     slots.forEach { if (moveType == it.itemType) it.moveTo(anotherSlots) }
+}
+
+fun MutableSubTracker.refillStacksTo(another: MutableSubTracker) {
+    val anotherSlots = another.slots
+    val anotherItemTypes: MutableSet<ItemType> = mutableSetOf()
+    val needRefill = anotherSlots.filter { mItemStack ->
+        if (!mItemStack.isEmpty() || !mItemStack.isFull()) {
+            anotherItemTypes.add(mItemStack.itemType)
+            true
+        } else {
+            false
+        }
+    }
+    slots.forEach {
+        if (it.itemType in anotherItemTypes) {
+            it.refillIfNeeded(needRefill.filter { stackToFilter ->
+                stackToFilter.itemType == it.itemType && !stackToFilter.isEmpty() && !stackToFilter.isFull()
+            })
+        }
+    }
+}
+
+private fun MutableItemStack.refillIfNeeded(destination: List<MutableItemStack>) {
+    if (destination.isNotEmpty()) {
+        destination.forEach { target ->
+            val needs = target.itemType.maxCount - target.count
+            this.transferNTo(target, needs)
+            if (this.count == 0) {
+                return@forEach
+            }
+        }
+    }
 }
 
 fun MutableSubTracker.moveMatchCraftingTo(crafting: MutableSubTracker) {

@@ -47,6 +47,8 @@ object InventoryInputHandler : IInputHandler {
                             || Hotkeys.MOVE_ALL_ITEMS            /**/ run ::doMoveMatch
                             || Hotkeys.THROW_ALL_ITEMS           /**/ run ::doThrowMatch
                             || Hotkeys.DUMP_ITEM_NBT_TO_CHAT     /**/ run ::dumpItemNbt
+                            || Hotkeys.SCROLL_TO_CHEST           /**/ run ::scrollToChest
+                            || Hotkeys.SCROLL_TO_INVENTORY       /**/ run ::scrollToPlayer
                 }
             }
         }
