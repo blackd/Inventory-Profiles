@@ -91,7 +91,7 @@ object ContainerClicker {
 
     fun click(slotId: Int,
               button: Int) { // SlotActionType.PICKUP
-        Log.trace("Click $button on slot $slotId")
+        //Log.trace("Click $button on slot $slotId")
         genericClick(slotId,
                      button,
                      SlotActionType.PICKUP)
@@ -360,7 +360,7 @@ object ContainerClicker {
 
     fun postScreenRender() {
         if (ModSettings.HIGHLIGHT_CLICKING_SLOT.booleanValue) {
-            rStandardGlState()
+            //rStandardGlState()
             rClearDepth()
             drawHighlight()
         }

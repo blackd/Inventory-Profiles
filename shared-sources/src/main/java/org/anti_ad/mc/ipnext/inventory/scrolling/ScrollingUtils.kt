@@ -21,6 +21,7 @@ package org.anti_ad.mc.ipnext.inventory.scrolling
 
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.containsAny
+import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
@@ -77,8 +78,15 @@ object ScrollingUtils {
             val player = (if (includeHotbar) fullPlayer else playerStorage) - lockedSlots
 
             val target = when (direction) {
-                ScrollDirection.TO_CHEST, ScrollDirection.BOTH -> chest
-                else -> player
+                ScrollDirection.TO_PLAYER -> {
+                    player
+                }
+                ScrollDirection.TO_CHEST -> {
+                    chest
+                }
+                ScrollDirection.BOTH -> {
+                    chest
+                }
             }
 
             action(stack, target, slots, player, chest, fullPlayer)
@@ -102,9 +110,15 @@ object ScrollingUtils {
         val vanillaContainer = Vanilla.container()
 
         val source = when(direction) {
-            ScrollDirection.TO_CHEST -> player.getItemArea(vanillaContainer, slots)
-            ScrollDirection.TO_PLAYER -> chest.getItemArea(vanillaContainer, slots)
-            ScrollDirection.BOTH -> (player + chest).getItemArea(vanillaContainer, slots)
+            ScrollDirection.TO_CHEST -> {
+                player.getItemArea(vanillaContainer, slots)
+            }
+            ScrollDirection.TO_PLAYER -> {
+                chest.getItemArea(vanillaContainer, slots)
+            }
+            ScrollDirection.BOTH -> {
+                (player + chest).getItemArea(vanillaContainer, slots)
+            }
         }
 
         val targetArea = target.getItemArea(vanillaContainer, slots)
@@ -223,7 +237,7 @@ object ScrollingUtils {
         withEnvironmentDo(direction) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
-                    val count = slot.`(itemStack)`.count - 1
+                    var count = slot.`(itemStack)`.count - 1
                     var lastSourceId = -1
                     withFocusedItemFullStackDo(direction, slot, target, slots, player, chest) { targetArea, source, itemType, slotIndex ->
                         findSourceAndTargetAndDo(targetArea, source, slots, itemType, doLastSlotIndex = slotIndex,
@@ -237,7 +251,12 @@ object ScrollingUtils {
                                                      }
                                                  },
                                                  targetFindFirst = false,
-                                                 targetEmptyFirst = true) { sourceId, targetId ->
+                                                 targetEmptyFirst = true,
+                                                 sourceCondition = { itemStack ->
+                                                     (itemStack.itemType == itemType).ifTrue {
+                                                         count = itemStack.count
+                                                     }
+                                                 }) { sourceId, targetId ->
 
                             ContainerClicker.leftClick(sourceId)
                             ContainerClicker.rightClick(targetId)
@@ -245,12 +264,19 @@ object ScrollingUtils {
                             //ContainerClicker.leftClick(sourceId)
                         }
                         //val cursorStack = vCursorStack()
-                        (1..count).forEach { _ ->
-                            findTargetSpreadingAndDo(targetArea, slots, itemType) { targetId ->
-                                ContainerClicker.rightClick(targetId)
+                        if (lastSourceId != -1) {
+                            (1 until count).forEach { _ ->
+                                findTargetSpreadingAndDo(targetArea, slots, itemType) { targetId ->
+                                    Log.trace("spreading from $lastSourceId to $targetId")
+                                    //if (!vCursorStack().isEmpty()) {
+                                    ContainerClicker.rightClick(targetId)
+                                    //}
+                                }
+                            }
+                            if (!vCursorStack().isEmpty()) {
+                                ContainerClicker.leftClick(lastSourceId)
                             }
                         }
-                        ContainerClicker.leftClick(lastSourceId)
                     }
                 }
             } else {
@@ -341,7 +367,7 @@ object ScrollingUtils {
                 findTargetAndDo(targetIn.getItemArea(vanillaContainer, slots), slots, stack) { targetId ->
                     ContainerClicker.rightClick(targetId)
                 }
-                if (ScrollSettings.AUTO_PICKUP_NEXT_FOR_SINGLE.booleanValue) {
+                if (ScrollSettings.SCROLL_AUTO_PICKUP_NEXT_FOR_SINGLE.booleanValue) {
                     pickUpNewStackIfEmpty(stack, direction, player, chest, slots)
                 }
             }
@@ -382,7 +408,7 @@ object ScrollingUtils {
                 findTargetAndDo(targetIn.getItemArea(vanillaContainer, slots), slots, stack) { targetId ->
                     ContainerClicker.rightClick(targetId)
                 }
-                if (ScrollSettings.AUTO_PICKUP_NEXT_FOR_SINGLE.booleanValue) {
+                if (ScrollSettings.SCROLL_AUTO_PICKUP_NEXT_FOR_SINGLE.booleanValue) {
                     pickUpNewStackLeaveLastIfEmpty (stack, direction, player, chest, slots)
                 }
             }

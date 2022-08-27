@@ -20,7 +20,6 @@
 
 package org.anti_ad.mc.ipnext.event
 
-import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeyCodes
@@ -33,30 +32,18 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
 import org.anti_ad.mc.common.vanilla.alias.CraftingResultInventory
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
-import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
-import org.anti_ad.mc.common.vanilla.render.b
-import org.anti_ad.mc.common.vanilla.render.g
-import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.r
-import org.anti_ad.mc.common.vanilla.render.rDisableDepth
-import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
-import org.anti_ad.mc.ipnext.ingame.`(container)`
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
-import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
-import org.anti_ad.mc.ipnext.ingame.`(left)`
 import org.anti_ad.mc.ipnext.ingame.`(rawFocusedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
-import org.anti_ad.mc.ipnext.ingame.`(top)`
 import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.vCursorStack
 import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf

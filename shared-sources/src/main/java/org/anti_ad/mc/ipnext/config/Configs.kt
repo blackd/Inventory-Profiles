@@ -64,7 +64,6 @@ object ModSettings : ConfigDeclaration {
                                                                  KeybindSettings.GUI_EXTRA)
     val MOVE_FOCUS_MACH_MODIFIER                  /**/ by hotkey("LEFT_CONTROL",
                                                                  KeybindSettings.GUI_EXTRA)
-
     val MOVE_JUST_REFILL_MODIFIER                 /**/ by hotkey("CAPS_LOCK",
                                                                  KeybindSettings.GUI_EXTRA)
 
@@ -261,16 +260,16 @@ object EditProfiles : ConfigDeclaration {
 object ScrollSettings: ConfigDeclaration {
     override val builder = createBuilder()
         .CATEGORY("$category.scroll.modifiers")
-    val FULL_STACK                                /**/ by hotkey("LEFT_SHIFT",
+    val SCROLL_FULL_STACK                                /**/ by hotkey("LEFT_SHIFT",
                                                                  KeybindSettings.GUI_EXTRA)
-    val LEAVE_LAST                                /**/ by hotkey("LEFT_CTRL",
+    val SCROLL_LEAVE_LAST                                /**/ by hotkey("Z",
                                                                  KeybindSettings.GUI_EXTRA)
-    val SPREAD                                    /**/ by hotkey("C",
+    val SCROLL_SPREAD                                    /**/ by hotkey("X",
                                                                  KeybindSettings.GUI_EXTRA)
-    val THROW                                     /**/ by hotkey("Q",
+    val SCROLL_THROW                                     /**/ by hotkey("C",
                                                                  KeybindSettings.GUI_EXTRA)
         .CATEGORY("$category.scroll.single")
-    val AUTO_PICKUP_NEXT_FOR_SINGLE               /**/ by bool(true)
+    val SCROLL_AUTO_PICKUP_NEXT_FOR_SINGLE               /**/ by bool(true)
 
 }
 
@@ -289,9 +288,9 @@ object Hotkeys : ConfigDeclaration {
                                                                  KeybindSettings.GUI_DEFAULT)
     val SORT_INVENTORY_IN_ROWS                    /**/ by hotkey("",
                                                                  KeybindSettings.GUI_DEFAULT)
-    val MOVE_ALL_ITEMS                            /**/ by hotkey("BUTTON_7",
+    val MOVE_ALL_ITEMS                            /**/ by hotkey("R,T",
                                                                  KeybindSettings.GUI_EXTRA)
-    val THROW_ALL_ITEMS                           /**/ by hotkey("BUTTON_4",
+    val THROW_ALL_ITEMS                           /**/ by hotkey("R,M",
                                                                  KeybindSettings.GUI_EXTRA)
     val SCROLL_TO_CHEST                           /**/ by hotkey("MOUSE_SCROLL_UP",
                                                                  KeybindSettings.GUI_EXTRA)
@@ -300,7 +299,7 @@ object Hotkeys : ConfigDeclaration {
     val OPEN_GUI_EDITOR                           /**/ by hotkey("R,G",
                                                                  KeybindSettings.GUI_DEFAULT)
         .CATEGORY("$category.profiles")
-    val APPLY_PROFILE                             /**/ by hotkey("",
+    val APPLY_PROFILE                             /**/ by hotkey("R,H",
                                                                  KeybindSettings.INGAME_DEFAULT)
     val NEXT_PROFILE                              /**/ by hotkey("R,Z",
                                                                  KeybindSettings.INGAME_DEFAULT)
