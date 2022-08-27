@@ -184,11 +184,17 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             val line1 = if (ALWAYS_MOVE_ALL.booleanValue) "title_move_all" else "title_move_matching"
             val line2 = if (ALWAYS_INCLUDE_HOTBAR.booleanValue) "exclude_hotbar" else "include_hotbar"
             val line3 = if (ALWAYS_MOVE_ALL.booleanValue) "move_matching_only" else "move_all"
-            val key2 = INCLUDE_HOTBAR_MODIFIER.mainKeybind
-            val key3 = MOVE_ALL_MODIFIER.mainKeybind
+            val line4 = "move_focused_only"
+            val line5 = "move_just_refill"
+            val includeHotbarMod = INCLUDE_HOTBAR_MODIFIER.mainKeybind
+            val moveAllMod = MOVE_ALL_MODIFIER.mainKeybind
+            val moveFocused = MOVE_FOCUS_MACH_MODIFIER.mainKeybind
+            val justRefill = MOVE_JUST_REFILL_MODIFIER.mainKeybind
             return@with listOf(line1 to null,
-                               line2 to key2,
-                               line3 to key3)
+                               line2 to includeHotbarMod,
+                               line3 to moveAllMod,
+                               line4 to moveFocused,
+                               line5 to justRefill)
                 .filter {
                         (_, keybind) -> keybind?.keyCodes?.isEmpty() != true
                 }.joinToString("\n") { (suffix, keybind) ->
