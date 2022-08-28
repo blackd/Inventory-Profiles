@@ -270,7 +270,7 @@
     "inventoryprofiles.config.name.scroll_spread":                                 "Spread",
     "inventoryprofiles.config.description.scroll_spread":                          "If you hold this key while using the scroll to chest/player keys All free target slots will be filled with the same or almost the same amount of items",
     "inventoryprofiles.config.name.scroll_throw":                                  "Drop/Throw",
-    "inventoryprofiles.config.description.scroll_throw":                           "If you hold this key while using the scroll to chest/player keys the items will be dropped out of the inventory and opened container.\nNOTE:\nThe directgio is ignored.",
+    "inventoryprofiles.config.description.scroll_throw":                           "If you hold this key while using the scroll to chest/player keys the items will be dropped out of the inventory and opened container.\nNOTE:\nThe direction is ignored.",
     "inventoryprofiles.config.name.scroll_auto_pickup_next_for_single":            "Auto refill cursor",
     "inventoryprofiles.config.description.scroll_auto_pickup_next_for_single":     "If this is true a new stack will be picked up if the current stack in cursor ends while scrolling the cursor items ",
 

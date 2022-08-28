@@ -359,9 +359,9 @@ object ContainerClicker {
     }
 
     fun postScreenRender() {
-        if (ModSettings.HIGHLIGHT_CLICKING_SLOT.booleanValue) {
+        if (ModSettings.HIGHLIGHT_CLICKING_SLOT.booleanValue && highlights.isNotEmpty()) {
             //rStandardGlState()
-            rClearDepth()
+            //rClearDepth()
             drawHighlight()
         }
     }

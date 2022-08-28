@@ -55,11 +55,12 @@ object PostActions {
         val groups = slots.group()
         val slotCountPairList = groups.mapValues { (_, value) -> value.size }.toList()
         val calcResult = if (!inRows) { // transpose
-            GroupInColumnsCalculator(slotCountPairList,
-                                     height,
-                                     width).calc()?.map { (itemType, slotIndices) ->
-                itemType to slotIndices.asIndicesTranspose(height,
-                                                           width)
+            val gc = GroupInColumnsCalculator(slotCountPairList,
+                                              height,
+                                              width).calc()
+                gc?.map { (itemType, slotIndices) ->
+                    itemType to slotIndices.asIndicesTranspose(height,
+                                                               width)
             }
         } else {
             GroupInColumnsCalculator(slotCountPairList,
@@ -69,9 +70,9 @@ object PostActions {
 
         val ans = MutableList(width * height) { MutableItemStack.empty() }
         calcResult.forEach { (itemType, slotIndices) ->
-            val sortedIndices = slotIndices.sorted()
+            //val sortedIndices = slotIndices.sorted()
             groups.getValue(itemType).forEachIndexed { index, (newItemType, newCount) ->
-                val slotIndex = sortedIndices[index]
+                val slotIndex = slotIndices[index]
                 ans[slotIndex].itemType = newItemType
                 ans[slotIndex].count = newCount
             }
@@ -106,11 +107,10 @@ private fun List<Int>.asIndicesTranspose(width: Int,
     }
 
 
-private class GroupInColumnsCalculator(
-    val slotCountPairList: List<Pair<ItemType, Int>>,
-    val width: Int,
-    val height: Int
-) {
+private class GroupInColumnsCalculator(val slotCountPairList: List<Pair<ItemType, Int>>,
+                                       val width: Int,
+                                       val height: Int) {
+
     fun calc(): List<Pair<ItemType, List<Int>>>? { // itemType, slotIndices
         val minRows = slotCountPairList.size
         if (minRows == 0) return null
@@ -130,11 +130,10 @@ private class GroupInColumnsCalculator(
         return ccList.minByOrNull { it.brokenGroups }?.apply()
     }
 
-    class ColumnsCandidate(
-        val slotCountPairList: List<Pair<ItemType, Int>>,
-        val columnWidths: List<Int>,
-        val height: Int
-    ) {
+    class ColumnsCandidate(val slotCountPairList: List<Pair<ItemType, Int>>,
+                           val columnWidths: List<Int>,
+                           val height: Int) {
+
         val width = columnWidths.sum()
         var brokenGroups = 0
         val succeeded: Boolean

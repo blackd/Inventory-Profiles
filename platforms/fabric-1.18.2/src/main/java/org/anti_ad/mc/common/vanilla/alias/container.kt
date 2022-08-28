@@ -142,7 +142,8 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           MerchantContainer::class.java         /**/ to setOf(ContainerType.TRADER),
                                           CraftingTableContainer::class.java    /**/ to setOf(ContainerType.CRAFTING),
 
-                                          HopperContainer::class.java           /**/ to nonStorage, //setOf(ContainerType.NO_SORTING_STORAGE),
+                                          HopperContainer::class.java           /**/ to setOf(ContainerType.NO_SORTING_STORAGE,
+                                                                                              ContainerType.PURE_BACKPACK), //setOf(ContainerType.NO_SORTING_STORAGE),
                                           BrewingStandContainer::class.java     /**/ to nonStorage, //setOf(ContainerType.NO_SORTING_STORAGE),
                                           AbstractFurnaceContainer::class.java  /**/ to nonStorage, //setOf(ContainerType.NO_SORTING_STORAGE),
 

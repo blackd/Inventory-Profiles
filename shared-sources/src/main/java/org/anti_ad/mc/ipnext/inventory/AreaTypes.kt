@@ -37,8 +37,7 @@ import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
-import org.anti_ad.mc.ipnext.inventory.ContainerType.HORSE_STORAGE
-import org.anti_ad.mc.ipnext.inventory.ContainerType.SORTABLE_STORAGE
+import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
 private val hotbarInvSlots = 0..8
 private val storageInvSlots = 9..35
@@ -70,19 +69,37 @@ object AreaTypes {
         AreaType { vanillaContainer, vanillaSlots -> // only non empty for SORTABLE_STORAGE
             val slotIndices = mutableListOf<Int>()
             val types = ContainerTypes.getTypes(vanillaContainer)
-            if (types.contains(SORTABLE_STORAGE)) {
-                val isHorse = types.contains(HORSE_STORAGE)
-                for ((slotIndex, slot) in vanillaSlots.withIndex()) {
-                    if (slot.`(inventory)` is PlayerInventory) continue
-                    // first two slot of horse is not item storage
-                    if (!(isHorse && slot.`(invSlot)` in 0..1)) {
-                        slotIndices.add(slotIndex)
-                    }
-                }
+            if (types.contains(SORTABLE_STORAGE) || types.contains(NO_SORTING_STORAGE)) {
+                fillSlots(types, vanillaSlots, slotIndices)
             }
             return@AreaType ItemArea(vanillaSlots,
                                      slotIndices)
         }
+
+    val sortableItemStorage: AreaType =
+            // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
+            AreaType { vanillaContainer, vanillaSlots -> // only non empty for SORTABLE_STORAGE
+                val slotIndices = mutableListOf<Int>()
+                val types = ContainerTypes.getTypes(vanillaContainer)
+                if (types.contains(SORTABLE_STORAGE)) {
+                    fillSlots(types, vanillaSlots, slotIndices)
+                }
+                return@AreaType ItemArea(vanillaSlots,
+                                         slotIndices)
+            }
+
+    private fun fillSlots(types: Set<ContainerType>,
+                          vanillaSlots: List<Slot>,
+                          slotIndices: MutableList<Int>) {
+        val isHorse = types.contains(HORSE_STORAGE)
+        for ((slotIndex, slot) in vanillaSlots.withIndex()) {
+            if (slot.`(inventory)` is PlayerInventory) continue
+            // first two slot of horse is not item storage
+            if (!(isHorse && slot.`(invSlot)` in 0..1)) {
+                slotIndices.add(slotIndex)
+            }
+        }
+    }
 
     val lockedSlots = AreaType.playerInvSlots { LockSlotsHandler.lockedInvSlots }
 
@@ -245,9 +262,9 @@ class ItemArea(private val fromSlotLocations: List<Point>) { // vanilla things
 }
 
 private fun isRectangular(points: List<Point>): Pair<Size, List<IndexedValue<Point>>>? { // list of point row
+
     if (points.isEmpty()) return null
-    val groupByY: Map<Int, List<IndexedValue<Point>>> =
-        points.indexed().groupBy { it.value.y }
+    val groupByY: Map<Int, List<IndexedValue<Point>>> = points.indexed().groupBy { it.value.y }
     val total = points.size
     val height = groupByY.keys.size
     if (total % height != 0) return null // not a factor

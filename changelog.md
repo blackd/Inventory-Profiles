@@ -1,8 +1,9 @@
 <!-- latest begin -->
+### 1.7.0
 
-### 1.6.5
-
-- fixed a crash when another mod puts items into the hotbar during world generation before the game has started.  
+- Added item scrolling. Mouse wheel up moves from player inventory to the open container. Mouse wheel down does the opposite.
+- Move all/matching can now just top up already existing stacks. By default, it's activated by holding `caps lock` while clicking the button on pressing the hotkey.
+- hoppers are now treated like non sortable storage.
 
 #### NOTE
 
@@ -12,6 +13,11 @@ Switched to modern Kotlin support. This means that this mod now requires [Kotlin
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.6.5
+
+- fixed a crash when another mod puts items into the hotbar during world generation before the game has started.
+
 
 ### 1.6.4
 
