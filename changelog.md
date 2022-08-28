@@ -3,7 +3,8 @@
 
 - Added item scrolling. Mouse wheel up moves from player inventory to the open container. Mouse wheel down does the opposite.
 - Move all/matching can now just top up already existing stacks. By default, it's activated by holding `caps lock` while clicking the button on pressing the hotkey.
-- hoppers are now treated like non sortable storage.
+- Added new button to the overlay for yet another way to open the mod settings. 80% of the questions would be solved if you know how to show the config.
+- Hoppers are now treated like non sortable storage.
 
 #### NOTE
 
