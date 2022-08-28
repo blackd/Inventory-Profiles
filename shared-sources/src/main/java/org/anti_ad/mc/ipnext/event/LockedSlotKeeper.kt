@@ -175,7 +175,7 @@ object LockedSlotKeeper {
             && emptyNonLockedHotbarSlots.isNotEmpty()) {
 
             fun checkHotbar(second: Boolean = false) {
-                var localSkipRemoveEmptyFor: MutableSet<Int> = skipRemoveEmptyFor.toMutableSet()
+                val localSkipRemoveEmptyFor: MutableSet<Int> = skipRemoveEmptyFor.toMutableSet()
                 val secondString  = if (second) {
                     "Second run: "
                 } else {

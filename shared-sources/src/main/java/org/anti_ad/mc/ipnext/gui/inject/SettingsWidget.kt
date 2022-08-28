@@ -1,8 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,8 +17,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.ipnext.gui.inject
+package org.anti_ad.mc.ipnext.gui.inject.base
 
+import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.widget.fillParent
 import org.anti_ad.mc.common.gui.widget.setTopLeft
 import org.anti_ad.mc.common.gui.widgets.Hintable
@@ -28,9 +28,9 @@ import org.anti_ad.mc.common.integration.HintClassData
 import org.anti_ad.mc.common.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
+import org.anti_ad.mc.common.vanilla.glue.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
@@ -38,16 +38,12 @@ import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
-import org.anti_ad.mc.ipnext.gui.GUIDEEditorScreen
-import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
-import org.anti_ad.mc.ipnext.gui.inject.base.ProfileButtonWidget
+import org.anti_ad.mc.ipnext.gui.ConfigScreen
 
-class EditorWidget(override val screen: ContainerScreen<*>,
-                   hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget(), Hintable {
+class SettingsWidget(override val screen: ContainerScreen<*>,
+                     hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget(), Hintable {
 
-    private val targets = mutableListOf<InsertableWidget>()
-
-    override var hints: ButtonPositionHint = hintsData.hintFor(IPNButton.SHOW_EDITOR)
+    override var hints: ButtonPositionHint = hintsData.hintFor(IPNButton.SETTINGS)
 
     override var underManagement: Boolean = false
 
@@ -64,13 +60,13 @@ class EditorWidget(override val screen: ContainerScreen<*>,
         fillParent()
 
         //overflow = Overflow.VISIBLE
-        absoluteBounds = Rectangle( 0,
-                                    0,
-                                    containerWidth,
-                                    containerHeight)
+        absoluteBounds = Rectangle(0,
+                                   0,
+                                   containerWidth,
+                                   containerHeight)
         init()
         rehint()
-        visible = GuiSettings.ENABLE_INVENTORY_EDITOR_BUTTON.value
+        visible = GuiSettings.ENABLE_INVENTORY_SETTINGS_BUTTON.booleanValue
         super.render(mouseX,
                      mouseY,
                      partialTicks)
@@ -88,8 +84,6 @@ class EditorWidget(override val screen: ContainerScreen<*>,
                                       lastFrameDuration: Float) {
 
     }
-
-
 
     var rehint = {}
 
@@ -112,13 +106,13 @@ class EditorWidget(override val screen: ContainerScreen<*>,
     inner class InitWidgets { // todo cleanup code
 
 
-        private val showHideButton = ProfileButtonWidget { -> showEditorScreen() }.apply {
-            tx = 160
-            ty = 40
-            hints = this@EditorWidget.hints
-            this@EditorWidget.addChild(this)
-            visible = GuiSettings.ENABLE_INVENTORY_EDITOR_BUTTON.value
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.editor_toggle")
+        private val showHideButton = ProfileButtonWidget { -> onClick() }.apply {
+            tx = 140
+            ty = 0
+            hints = this@SettingsWidget.hints
+            this@SettingsWidget.addChild(this)
+            visible = GuiSettings.ENABLE_INVENTORY_SETTINGS_BUTTON.booleanValue
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.settings_open")
             zIndex = 0
             hintableList.add(this)
         }
@@ -130,7 +124,7 @@ class EditorWidget(override val screen: ContainerScreen<*>,
             if (hints.horizontalOffset < -10) hints.horizontalOffset = -10
             if (hints.horizontalOffset > containerWidth - 20) hints.horizontalOffset = containerWidth - 20
 
-            showHideButton.setTopLeft(10 + hints.top, 10 + hints.horizontalOffset)
+            showHideButton.setTopLeft(25 + hints.top, 10 + hints.horizontalOffset)
         }
 
         init {
@@ -139,14 +133,12 @@ class EditorWidget(override val screen: ContainerScreen<*>,
 
     }
 
-    fun showEditorScreen() {
-        GUIDEEditorScreen(this.screen,
-                          this.container,
-                          targets).let {
-            VanillaScreenUtil.openDistinctScreenQuiet(it)
+    fun onClick() {
+        tryCatch {
+            VanillaScreenUtil.closeScreenGracefully()
+        }
+        ConfigScreen(true).let {
+            VanillaScreenUtil.openDistinctScreen(it)
         }
     }
-
-    fun addHintable(insertable: InsertableWidget) = targets.add(insertable)
-
 }

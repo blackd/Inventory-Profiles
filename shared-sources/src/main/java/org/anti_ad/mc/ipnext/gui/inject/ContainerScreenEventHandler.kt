@@ -36,6 +36,7 @@ import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.MiscHandler
 import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
+import org.anti_ad.mc.ipnext.gui.inject.base.SettingsWidget
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
@@ -53,12 +54,15 @@ object ContainerScreenEventHandler {
 
         val editor = EditorWidget(target).also { it.addHintable(it) }
 
+        val settings = SettingsWidget(target).also { editor.addHintable(it) }
+
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && !ignore) {
             widgetsToInset.add(SortingButtonCollectionWidget(target).also { editor.addHintable(it) })
         }
         if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hintFor(IPNButton.PROFILE_SELECTOR).hide) {
             widgetsToInset.add(ProfilesUICollectionWidget(target, hints).also { editor.addHintable(it) })
         }
+        widgetsToInset.add(settings)
         widgetsToInset.add(editor)
         if (widgetsToInset.size > 0) {
             currentWidgets = widgetsToInset

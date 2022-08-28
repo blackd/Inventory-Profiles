@@ -61,6 +61,11 @@ private object DummyVanillaScreenUtil: IVanillaScreenUtil {
         Log.glueError("VanillaScreenUtil Not Initialized")
         TODO("Glue Not Initialized! Report an ISSUE")
     }
+
+    override fun closeScreenGracefully() {
+        Log.glueError("VanillaScreenUtil Not Initialized")
+        TODO("Not yet implemented")
+    }
 }
 
 
@@ -76,4 +81,5 @@ interface IVanillaScreenUtil {
     fun openDistinctScreenQuiet(screen: IScreenMarker)
 
     fun openScreenConfigOptionHotkeyDialog(configOption: ConfigHotkey)
+    fun closeScreenGracefully()
 }

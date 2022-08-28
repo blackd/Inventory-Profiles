@@ -215,12 +215,14 @@ object LockedSlotsSettings : ConfigDeclaration {
 object GuiSettings : ConfigDeclaration {
     override val builder = createBuilder()
 
+        .CATEGORY("$category.gui.general")
+    val ENABLE_INVENTORY_EDITOR_BUTTON            /**/ by bool(true)
+    val ENABLE_INVENTORY_SETTINGS_BUTTON          /**/ by bool(true)
         .CATEGORY("$category.profiles")
     val ENABLE_PROFILES_UI                        /**/ by bool(true)
     val ENABLE_PROFILES_ANNOUNCEMENT              /**/ by bool(true)
         .CATEGORY("$category.inventory")
     val ENABLE_INVENTORY_BUTTONS                  /**/ by bool(true)
-    val ENABLE_INVENTORY_EDITOR_BUTTON            /**/ by bool(true)
     //val TREAT_UNKNOWN_SCREENS_AS_CONTAINERS       /**/ by bool(true)
     val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by bool(true)
     val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)

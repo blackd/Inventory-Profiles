@@ -51,6 +51,11 @@ object VanillaScreenUtil: IVanillaScreenUtil {
         openScreen(ConfigOptionHotkeyDialog(configOption))
     }
 
+    override fun closeScreenGracefully() {
+        Vanilla.screen()?.close()
+        Vanilla.mc().setScreen(null)
+    }
+
 }
 
 fun openScreenNullable(screen: Screen?) {

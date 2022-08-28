@@ -67,5 +67,6 @@ public enum IPNButton {
      * in other cases.
      */
     PROFILE_SELECTOR,
-    SHOW_EDITOR;
+    SHOW_EDITOR,
+    SETTINGS;
 }
