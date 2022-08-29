@@ -133,12 +133,11 @@ object AutoRefillSettings : ConfigDeclaration {
 
     override val builder = createBuilder()
         .CATEGORY("§§vgap:3")
-
+        .CATEGORY("$category.auto-refill.general")
     val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
     val IGNORE_LOCKED_SLOTS                       /**/ by bool(true)
     val REFILL_ARMOR                              /**/ by bool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
-    val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
     val AUTOREFILL_BLACKLIST                      /**/ by handledString("", AutoRefillHandler::blackListChanged)
     val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
                                                               0,
@@ -147,6 +146,13 @@ object AutoRefillSettings : ConfigDeclaration {
     val AUTO_REFILL_WAIT_TICK                     /**/ by int(AUTO_REFILL_WAIT_TICK_DEFAULT,
                                                               AUTO_REFILL_WAIT_TICK_MINIMUM,
                                                               100)
+        .CATEGORY("$category.auto-refill.matching")
+    val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
+    val AUTO_REFILL_MATCH_CUSTOM_NAME             /**/ by bool(true)
+    val AUTO_REFILL_MATCH_NBT                     /**/ by bool(true)
+    val AUTO_REFILL_MATCH_NBT_TYPE                /**/ by enum(AutoRefillNbtMatchType.EXACT)
+    val AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS        /**/ by bool(true)
+
         .CATEGORY("$category.auto-refill.non-enchanted")
     val ALLOW_BREAK_FOR_NON_ENCHANTED             /**/ by bool(false)
     val TOOL_MAX_DURABILITY_THRESHOLD             /**/ by int(500,

@@ -36,6 +36,7 @@ import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.showSubTitle
 import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
+import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
@@ -55,9 +56,11 @@ import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.comparablePotionEffects
+import org.anti_ad.mc.ipnext.item.customName
 import org.anti_ad.mc.ipnext.item.customOrTranslatedName
 import org.anti_ad.mc.ipnext.item.durability
 import org.anti_ad.mc.ipnext.item.enchantments
+import org.anti_ad.mc.ipnext.item.hasCustomName
 import org.anti_ad.mc.ipnext.item.hasPotionEffects
 import org.anti_ad.mc.ipnext.item.isBucket
 import org.anti_ad.mc.ipnext.item.isDamageable
@@ -73,10 +76,6 @@ import org.anti_ad.mc.ipnext.item.maxDamage
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.item.rule.natives.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
-
-
-
-
 
 object AutoRefillHandler {
 
@@ -470,7 +469,9 @@ object AutoRefillHandler {
                             filtered = filtered.filter { it.value.itemType.item is ToolItem }
                         }
                         else -> {
-                            filtered = filtered.filter { it.value.itemType.item == itemType.item }
+                            filtered = filtered.filter {
+                                defaultItemMatch(it, itemType)
+                            }
                         }
                     }
                     // find best tool match criteria
@@ -482,7 +483,9 @@ object AutoRefillHandler {
                     }
                 } else {
                     // find item
-                    filtered = filtered.filter { it.value.itemType.item == checkingItem.itemType.item }
+                    filtered = filtered.filter {
+                        defaultItemMatch(it, itemType)
+                    }
                 }
                 filtered = filtered.sortedWith(Comparator<IndexedValue<ItemStack>> { a, b ->
                     val aType = a.value.itemType
@@ -508,6 +511,52 @@ object AutoRefillHandler {
                 index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
                 return index.takeIf { it >= 0 }?.plus(9)
             }
+
+            private fun defaultItemMatch(it: IndexedValue<ItemStack>,
+                                         itemType: ItemType) = if ((itemType.hasCustomName || it.value.itemType.hasCustomName) && AutoRefillSettings.AUTO_REFILL_MATCH_CUSTOM_NAME.booleanValue) {
+
+                it.value.itemType.item == itemType.item && it.value.itemType.customName == itemType.customName && checkNBTIfNeeded(it, itemType)
+            } else {
+                it.value.itemType.item == itemType.item && checkNBTIfNeeded(it, itemType)
+            }
+
+            private fun checkNBTIfNeeded(it: IndexedValue<ItemStack>,
+                                         itemType: ItemType) = if (AutoRefillSettings.AUTO_REFILL_MATCH_NBT.booleanValue) {
+                if (!itemType.isBucket
+                    || (itemType.isBucket && !AutoRefillSettings.AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS.booleanValue)) {
+
+                    when (AutoRefillSettings.AUTO_REFILL_MATCH_NBT_TYPE.value) {
+                        AutoRefillNbtMatchType.CAN_HAVE_EXTRA -> {
+
+                            val tagsIn = itemType.tag
+                            val tagsOut = it.value.itemType.tag
+                            var res = tagsIn == null && tagsOut == null
+                            run earlyFinish@{
+                                if (tagsIn != null && tagsOut != null) {
+                                    res = true
+                                    tagsIn.keys.forEach {
+                                        if (tagsIn[it] != tagsOut.get(it)) {
+                                            res = false
+                                            return@earlyFinish
+                                        }
+                                    }
+                                }
+                            }
+                            res
+                        }
+
+                        AutoRefillNbtMatchType.EXACT          -> {
+                            it.value.itemType.tag == itemType.tag
+                        }
+
+                    }
+                } else {
+                    true
+                }
+            } else {
+                true
+            }
+
 
             private fun getThreshold(itemType: ItemType): Int {
                 if (!itemType.isDamageable) return 0

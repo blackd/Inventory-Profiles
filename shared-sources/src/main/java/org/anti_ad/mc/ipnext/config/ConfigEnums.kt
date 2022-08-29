@@ -110,3 +110,11 @@ enum class DiffCalculatorType {
 //  override fun toString(): String =
 //    I18n.translate("$ENUM.diff_calculator_type.${name.toLowerCase()}")
 }
+
+enum class AutoRefillNbtMatchType {
+    EXACT,
+    CAN_HAVE_EXTRA;
+
+    override fun toString(): String =
+            I18n.translate("$ENUM.auto_refill_nbt_match_type.${name.lowercase()}")
+}
