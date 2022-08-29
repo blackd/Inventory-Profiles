@@ -204,7 +204,7 @@
     "inventoryprofiles.config.description.disable_for_loyalty_items":               "Disable replacement of Loyalty enchanted gear.\nWhen this is true anything that is enchanted with any level of Loyalty\n will not be replaced when thrown or dropped.",
     "inventoryprofiles.config.description.auto_refill_match_custom_name":           "Auto refill will take Custom Names into account when refilling blocks\nFor gear custom names are ignored.",
     "inventoryprofiles.config.description.auto_refill_match_nbt":                   "Auto refill will take NBT into account when refilling blocks\nFor gear NBT is ignored.",
-    "inventoryprofiles.config.description.auto_refill_match_nbt_type":              "This controls how is NBT compared.",
+    "inventoryprofiles.config.description.auto_refill_match_nbt_type":              "This controls how is NBT compared.\n'Exact' means that NBT must fully match.\n'Allow Extra' means that only tags that are the same will be compared.",
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":      "If this is set to false Fish and Axolotl buckets will only refill if they contain the same type of Fish/Axolotl.",
 
     "inventoryprofiles.config.description.autorefill_blacklist":                    "Comma separated list of item types to that will be ignored by Auto refill\nFor example 'minecraft:golden_axe,minecraft:stone'\nWARNING:\nTo avoid performance degradation DO NOT put too many item types in the list!",
