@@ -76,18 +76,7 @@ import org.anti_ad.mc.ipnext.item.rule.parameter.Match
 
 
 
-val blacklist: MutableSet<String> = mutableSetOf()
 
-private fun ItemStack.isBlackListed(): Boolean {
-    return this.itemType.itemId in blacklist
-}
-
-fun blackListChanged() {
-    blacklist.clear()
-    AutoRefillSettings.AUTOREFILL_BLACKLIST.value.split(",").forEach {
-        blacklist.add(it.trim())
-    }
-}
 
 object AutoRefillHandler {
 
@@ -99,6 +88,10 @@ object AutoRefillHandler {
     val profilesSwappedItems = mutableSetOf<Int>()
 
     var skipTick = false
+
+    private val blacklist: MutableSet<String> = mutableSetOf()
+
+    private fun ItemStack.isBlackListed(): Boolean = this.itemType.itemId in blacklist
 
     fun onTickInGame() {
         if (!skipTick) {
@@ -525,5 +518,14 @@ object AutoRefillHandler {
             }
         }
     }
+
+
+    fun blackListChanged() {
+        blacklist.clear()
+        AutoRefillSettings.AUTOREFILL_BLACKLIST.value.split(",").forEach {
+            blacklist.add(it.trim())
+        }
+    }
+
 
 }

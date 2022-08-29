@@ -23,11 +23,13 @@ package org.anti_ad.mc.ipnext.event
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.ItemStack
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
+import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.ingame.`(vanillaStack)`
@@ -37,6 +39,8 @@ import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.itemId
+import org.anti_ad.mc.ipnext.item.namespace
 
 object LockedSlotKeeper {
 
@@ -190,7 +194,11 @@ object LockedSlotKeeper {
                     val stack = Vanilla.container().`(slots)`[slotId].`(vanillaStack)`
                     if (!stack.isEmpty) {
                         someThingChanged = true
-                        if (!ignoredHotbarSlots.contains(slotId)) {
+                        if (isIgnored(stack)) {
+                            newlyFilled.add(slotId)
+                            AutoRefillHandler.skipTick = true
+                            Log.trace("${secondString}Item type: ${stack.`(itemType)`.itemId} is allowed in slot id $slotId")
+                        } else if (!ignoredHotbarSlots.contains(slotId)) {
                             if (localEmptyNonLockedSlots.size > 0) {
                                 AutoRefillHandler.skipTick = true
                                 val targetSlot = localEmptyNonLockedSlots[0]
@@ -238,6 +246,21 @@ object LockedSlotKeeper {
         }
         processingLockedPickups = false
     }
+
+    private val cleanHotbarBlackList: MutableSet<String> = mutableSetOf()
+
+    private fun isIgnored(stack: ItemStack): Boolean = cleanHotbarBlackList.find { s ->
+        s == stack.`(itemType)`.namespace || s == stack.`(itemType)`.itemId
+    } != null
+
+
+    fun updateIgnored() {
+        cleanHotbarBlackList.clear()
+        LockedSlotsSettings.LOCKED_SLOTS_EMPTY_HOTBAR_BLACKLIST.value.split(",").forEach {
+            cleanHotbarBlackList.add(it.trim())
+        }
+    }
+
 
     private fun moveItem(it: Int, targetSlot: Int) {
         GeneralInventoryActions.cleanCursor()
@@ -431,4 +454,5 @@ object LockedSlotKeeper {
         }
         return false
     }
+
 }

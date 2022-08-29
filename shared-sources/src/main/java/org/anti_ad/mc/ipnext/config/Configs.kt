@@ -41,7 +41,8 @@ import org.anti_ad.mc.common.integration.MergePriority
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_DEFAULT
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
-import org.anti_ad.mc.ipnext.event.blackListChanged
+import org.anti_ad.mc.ipnext.event.AutoRefillHandler
+import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
 
 private const val category = "inventoryprofiles.config.category"
 
@@ -138,7 +139,7 @@ object AutoRefillSettings : ConfigDeclaration {
     val REFILL_ARMOR                              /**/ by bool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
     val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
-    val AUTOREFILL_BLACKLIST                      /**/ by handledString("", ::blackListChanged)
+    val AUTOREFILL_BLACKLIST                      /**/ by handledString("", AutoRefillHandler::blackListChanged)
     val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
                                                               0,
                                                               100)
@@ -190,6 +191,7 @@ object LockedSlotsSettings : ConfigDeclaration {
                                                                     20,
                                                                     400)
     val LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED        /**/ by bool(true)
+    val LOCKED_SLOTS_EMPTY_HOTBAR_BLACKLIST             /**/ by handledString("carryon", LockedSlotKeeper::updateIgnored)
 
         .CATEGORY("$category.hotkeys")
     val LOCK_SLOTS_SWITCH_CONFIG_MODIFIER         /**/ by hotkey("LEFT_ALT",

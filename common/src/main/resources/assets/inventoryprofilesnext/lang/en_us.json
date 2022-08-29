@@ -222,6 +222,8 @@
     "inventoryprofiles.config.name.show_locked_slots_background":                  "Show Locked Slots Background",
     "inventoryprofiles.config.name.show_locked_slots_foreground":                  "Show Locked Slots Foreground",
     "inventoryprofiles.config.name.also_show_locked_slots_in_hotbar":              "Also Show Locked Slots in Hotbar",
+    "inventoryprofiles.config.name.locked_slots_empty_hotbar_blacklist":           "Items Allowed in Hotbar",
+    "inventoryprofiles.config.description.locked_slots_empty_hotbar_blacklist":    "A list of item ids that will be allowed to be picked up into the hotbar\n\nThe format is 'namespace:item' so if you want stone to be allowed you need to add 'minecraft:stone'\nif the name doesn't contain ':' it will be considered that the whole namespace is allowed.",
     "inventoryprofiles.config.name.locked_slots_foreground_style":                 "Locked Slots Foreground Style",
     "inventoryprofiles.config.name.locked_slots_disable_quick_move_throw":         "Disable Shift+Click and Ctrl+Q and Q",
     "inventoryprofiles.config.name.locked_slots_disable_throw_for_non_stackable":  "Disable (Q) Drop For Non-Stackable Locked Slots In Game",
