@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import org.anti_ad.mc.ipnext.config.Debugs;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
+import org.anti_ad.mc.ipnext.config.ModSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
 import org.spongepowered.asm.mixin.Final;
@@ -46,7 +47,8 @@ public abstract class MixinPlayerInventory {
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
         if (Minecraft.getInstance().player != null) {
-            if (!LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
+            if (ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getValue() &&
+                    !LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
                     && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
                 boolean onlyHotbar = LockedSlotKeeper.INSTANCE.isOnlyHotbarFree();
                 for (int i = 0; i < this.mainInventory.size(); ++i) {
