@@ -45,6 +45,7 @@ import org.anti_ad.mc.ipnext.ingame.`(equipmentSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(isPressed)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(keyDrop)`
+import org.anti_ad.mc.ipnext.ingame.`(keys)`
 import org.anti_ad.mc.ipnext.ingame.`(options)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.ingame.vCursorStack
@@ -531,10 +532,10 @@ object AutoRefillHandler {
                             val tagsIn = itemType.tag
                             val tagsOut = it.value.itemType.tag
                             var res = tagsIn == null && tagsOut == null
-                            run earlyFinish@{
+                            run earlyFinish@ {
                                 if (tagsIn != null && tagsOut != null) {
                                     res = true
-                                    tagsIn.keys.forEach {
+                                    tagsIn.`(keys)`.forEach {
                                         if (tagsIn[it] != tagsOut.get(it)) {
                                             res = false
                                             return@earlyFinish

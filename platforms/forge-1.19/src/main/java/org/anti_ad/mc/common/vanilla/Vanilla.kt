@@ -82,6 +82,9 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook
 
+    @Suppress("FunctionName")
+    fun LocalPlayer.`(sendCommandMessage)`(msg: String)  = m_242614_(msg.replaceFirst("/", ""))
+
     val px
         get() = playerNullable()?.x.orDefault { 0.0 }
     val py

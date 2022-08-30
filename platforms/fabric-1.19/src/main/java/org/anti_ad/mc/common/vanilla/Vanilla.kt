@@ -82,6 +82,9 @@ object Vanilla {
 
     fun recipeBook() = player().recipeBook ?: throw AssertionError("unreachable")
 
+    @Suppress("FunctionName")
+    fun ClientPlayerEntity.`(sendCommandMessage)`(msg: String)  = sendCommand(msg.replaceFirst("/",""))
+
     val px
         get() = playerNullable()?.x.orDefault { 0.0 }
     val py
