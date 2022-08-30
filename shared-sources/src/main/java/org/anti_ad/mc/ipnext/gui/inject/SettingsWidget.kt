@@ -134,11 +134,13 @@ class SettingsWidget(override val screen: ContainerScreen<*>,
     }
 
     fun onClick() {
-        tryCatch {
-            VanillaScreenUtil.closeScreenGracefully()
-        }
-        ConfigScreen(true).let {
-            VanillaScreenUtil.openDistinctScreen(it)
+        Vanilla.queueForMainThread {
+            tryCatch {
+                VanillaScreenUtil.closeScreenGracefully()
+            }
+            ConfigScreen(true).let {
+                VanillaScreenUtil.openDistinctScreen(it)
+            }
         }
     }
 }

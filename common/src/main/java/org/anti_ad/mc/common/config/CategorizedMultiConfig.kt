@@ -20,8 +20,11 @@
 
 package org.anti_ad.mc.common.config
 
-fun List<IConfigOption>.toMultiConfig(): CategorizedMultiConfig =
-    CategorizedMultiConfig().apply { forEach { addConfigOption(it) } }
+fun List<IConfigOption>.toMultiConfig(): CategorizedMultiConfig = CategorizedMultiConfig().apply {
+    forEach {
+        addConfigOption(it)
+    }
+}
 
 class CategorizedMultiConfig : ConfigOptionBase(), IConfigElementResettableMultiple {
     val categories = mutableListOf<Pair<String, List<IConfigOption>>>()

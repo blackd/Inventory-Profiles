@@ -119,14 +119,11 @@ open class AnchoredListWidget(scrollbarWidth: Int = 6) : Widget() {
             }
         }
 
-        var _visble = true
-
         override var visible: Boolean
             get() {
                 return _visible
             }
             set(value) {
-                this._visble = value
                 super.visible = value
                 container.top = if (value) anchorHeader.height else 0
             }

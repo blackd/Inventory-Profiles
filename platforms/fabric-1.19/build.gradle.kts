@@ -107,6 +107,7 @@ fabricCommonDependency(minecraft_version,
                        modmenu_version)
 dependencies {
 
+    //modRuntimeOnly("curse.maven:tip-the-gui-531749:3943836")
 }
 
 loom {

@@ -109,5 +109,7 @@ fun <T : IConfigOption> ConfigOptionDelegateProvider<T>.CATEGORY(name: String) =
 // ============
 
 fun List<ConfigDeclaration>.toMultiConfig() = toMultiConfigList().toMultiConfig()
-fun List<ConfigDeclaration>.toMultiConfigList(): List<CategorizedMultiConfig> =
-    this.map { it.builder.innerConfig }
+
+fun List<ConfigDeclaration>.toMultiConfigList(): List<CategorizedMultiConfig> = this.map {
+    it.builder.innerConfig
+}

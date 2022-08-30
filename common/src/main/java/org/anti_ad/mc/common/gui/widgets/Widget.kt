@@ -53,7 +53,7 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     val screenLocationChanged = Event<Unit>()
     override var anchor = AnchorStyles.default
 
-    var _visible = true
+    protected var _visible = true
     override var visible: Boolean
         get() {
             return _visible && (this.absoluteBounds.insideOf(parent?.absoluteBounds) || parent?.overflow == Overflow.VISIBLE)
