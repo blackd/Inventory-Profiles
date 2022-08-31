@@ -124,13 +124,16 @@ class EditorWidget(override val screen: ContainerScreen<*>,
         }
 
         fun reHint() {
-            if (hints.top < -10) hints.top = -10
+            val settingsTop = GuiSettings.EDITOR_TOP.integerValue
+            val settingsLeft = GuiSettings.EDITOR_LEFT.integerValue
+            if (hints.top < -settingsTop) hints.top = -settingsTop
             if (hints.top > containerHeight - 20) hints.top = containerHeight - 20
 
-            if (hints.horizontalOffset < -10) hints.horizontalOffset = -10
+            if (hints.horizontalOffset < -settingsLeft) hints.horizontalOffset = -settingsLeft
             if (hints.horizontalOffset > containerWidth - 20) hints.horizontalOffset = containerWidth - 20
 
-            showHideButton.setTopLeft(10 + hints.top, 10 + hints.horizontalOffset)
+            showHideButton.setTopLeft(settingsTop + hints.top,
+                                      settingsLeft + hints.horizontalOffset)
         }
 
         init {

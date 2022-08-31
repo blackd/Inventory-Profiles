@@ -250,6 +250,13 @@ object GuiSettings : ConfigDeclaration {
     val SHOW_MOVE_ALL_BUTTON                      /**/ by bool(true)
     val SHOW_BUTTON_TOOLTIPS                      /**/ by bool(true)
 
+
+        .CATEGORY("§§hide - default button possitions")
+    val SETTINGS_TOP by int(25, Int.MIN_VALUE, Int.MAX_VALUE)
+    val SETTINGS_LEFT by int(10, Int.MIN_VALUE, Int.MAX_VALUE)
+    val EDITOR_TOP by int(10, Int.MIN_VALUE, Int.MAX_VALUE)
+    val EDITOR_LEFT by int(10, Int.MIN_VALUE, Int.MAX_VALUE)
+
 }
 
 object EditProfiles : ConfigDeclaration {
