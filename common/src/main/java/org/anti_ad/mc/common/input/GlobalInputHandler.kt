@@ -163,6 +163,7 @@ object GlobalInputHandler {
               modifiers: Int,
               checkPressing: Boolean,
               handle: Long): Boolean {
+
         DebugInfos.onKey(key,
                          scanCode,
                          action,

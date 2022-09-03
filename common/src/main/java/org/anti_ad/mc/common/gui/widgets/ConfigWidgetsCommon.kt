@@ -107,7 +107,9 @@ class ConfigOptionToggleableButtonWidget(val configOptionToggleable: IConfigOpti
     }
 }
 
+
 class ConfigBooleanWidget(configOption: ConfigBoolean) : ConfigWidgetBase<ConfigBoolean>(configOption) {
+
     var trueText = if (configOption.importance == IConfigOption.Importance.IMPORTANT) {
         I18n.translate("inventoryprofiles.common.gui.config.true")
     } else {

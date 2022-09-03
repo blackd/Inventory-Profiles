@@ -26,7 +26,9 @@ import org.anti_ad.mc.common.config.builder.toMultiConfigList
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
 import org.anti_ad.mc.common.moreinfo.InfoManager
+import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Text
+import org.anti_ad.mc.common.vanilla.alias.TextSerializer
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.ipnext.ModInfo
@@ -41,6 +43,42 @@ import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 private const val BUTTON_PREFIX = "inventoryprofiles.gui.config."
 private const val DISPLAY_NAME_PREFIX = "inventoryprofiles.config.name."
 private const val DESCRIPTION_PREFIX = "inventoryprofiles.config.description."
+
+object ConfigScreeHelper {
+
+    @JvmStatic
+    fun toggleBooleanSettingMessage(value: Boolean,
+                                    key: String) {
+        val message: () -> String = {
+            val newLine = """{"text": " : ", "color": "#FFFFFF"},"""
+            val colour = if (value) {
+                "#1f9716"
+            } else {
+                "#c60926"
+            }
+            val yesNo = if (value) {
+                "inventoryprofiles.common.gui.config.yes"
+            } else {
+                "inventoryprofiles.common.gui.config.no"
+            }
+            val name = DISPLAY_NAME_PREFIX + key
+
+            """[
+             {"translate" : "$name", "color" : "#20fdf6" },
+             $newLine
+             {"translate" : "$yesNo", "color": "$colour"}
+             ]"""
+        }
+
+        Vanilla.inGameHud().setOverlayMessage(TextSerializer.fromJson(message()),
+                                              true)
+    }
+
+    fun finish() {
+        SaveLoadManager.save()
+    }
+}
+
 
 class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTranslatable("inventoryprofiles.gui.config.title",
                                                                                         ModInfo.MOD_VERSION)) {

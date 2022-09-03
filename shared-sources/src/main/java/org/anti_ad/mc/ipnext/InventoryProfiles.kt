@@ -63,6 +63,7 @@ fun init() {
 
 
         // Keybind register
+
         InputHandler.onClientInit()
         InsertWidgetHandler.onClientInit()
 

@@ -21,6 +21,7 @@
 package org.anti_ad.mc.ipnext.input
 
 import org.anti_ad.mc.common.IInputHandler
+import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.debug.DepthTestScreen
 import org.anti_ad.mc.common.gui.debug.SpriteTestScreen
@@ -35,7 +36,6 @@ import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.debug.DebugFunc
 import org.anti_ad.mc.ipnext.debug.ModpackInputHandler
-import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.gui.DebugScreen
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler
@@ -79,6 +79,8 @@ object InputHandler : IInputHandler {
                                               lastAction)) {
                 return true
             }
+
+            ConfigKeyToggleBoolean.checkAll()
 
             if (ModSettings.DEBUG.booleanValue) {
                 when {

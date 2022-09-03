@@ -27,6 +27,7 @@ import org.anti_ad.mc.common.config.options.ConfigBoolean
 import org.anti_ad.mc.common.config.options.ConfigButton
 import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigHotkey
+import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.config.options.HandledConfigString
 import org.anti_ad.mc.common.gui.widgets.glue.ISliderWidget
@@ -39,6 +40,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 //region Widget Providers for Config Options
 
 fun ConfigHotkey.toWidget() = ConfigHotkeyWidget(this)
+fun ConfigKeyToggleBoolean.toWidget() = ConfigKeyToggleBooleanWidget(this)
 
 fun IConfigOptionNumeric<*>.toWidget() = ConfigNumericWidget(this)
 
@@ -49,6 +51,7 @@ fun IConfigOption.toConfigWidget(): ConfigWidgetBase<IConfigOption> = when (this
     is ConfigBoolean -> this.toWidget()
     is IConfigOptionNumeric<*> -> this.toWidget()
     is ConfigEnum<*> -> this.toWidget()
+    is ConfigKeyToggleBoolean -> this.toWidget()
     is ConfigHotkey -> this.toWidget()
     is ConfigString -> this.toWidget()
     is HandledConfigString -> this.toWidget()

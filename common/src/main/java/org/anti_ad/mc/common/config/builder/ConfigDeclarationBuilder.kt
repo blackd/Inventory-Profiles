@@ -37,29 +37,26 @@ import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT
 // ============
 
 // bool, int, hotkey, hotkeyedBool, enum
-fun ConfigDeclaration.bool(defaultValue: Boolean) =
-    ConfigBoolean(defaultValue).addTo(this)
+fun ConfigDeclaration.bool(defaultValue: Boolean) = ConfigBoolean(defaultValue).addTo(this)
+
 
 fun ConfigDeclaration.int(defaultValue: Int,
                           minValue: Int,
-                          maxValue: Int) =
-    ConfigInteger(defaultValue,
-                  minValue,
-                  maxValue).addTo(this)
+                          maxValue: Int) = ConfigInteger(defaultValue,
+                                                         minValue,
+                                                         maxValue).addTo(this)
 
-fun ConfigDeclaration.hotkey(defaultValue: String,
-                             defaultSettings: KeybindSettings = INGAME_DEFAULT) =
+fun ConfigDeclaration.hotkey(defaultValue: String, defaultSettings: KeybindSettings = INGAME_DEFAULT) =
     ConfigHotkey(defaultValue,
                  defaultSettings).addTo(this)
 
-fun ConfigDeclaration.hotkeyedBool(defaultValue: Boolean) =
-    ConfigHotkeyedBoolean(defaultValue).addTo(this)
+fun ConfigDeclaration.keyToggleBool(defaultValue: Boolean,
+                                    defaultSettings: KeybindSettings = INGAME_DEFAULT) = ConfigKeyToggleBoolean(defaultValue,
+                                                                                                                defaultSettings).addTo(this)
 
-fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) =
-    ConfigEnum(defaultValue).addTo(this)
+fun <T : Enum<T>> ConfigDeclaration.enum(defaultValue: T) = ConfigEnum(defaultValue).addTo(this)
 
-fun ConfigDeclaration.string(defaultValue: String) =
-    ConfigString(defaultValue).addTo(this)
+fun ConfigDeclaration.string(defaultValue: String) = ConfigString(defaultValue).addTo(this)
 
 fun ConfigDeclaration.handledString(defaultValue: String, changeHandler: () -> Unit) =
         HandledConfigString(defaultValue, changeHandler).addTo(this)

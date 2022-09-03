@@ -32,7 +32,7 @@ import org.anti_ad.mc.common.config.builder.createBuilder
 import org.anti_ad.mc.common.config.builder.enum
 import org.anti_ad.mc.common.config.builder.handledString
 import org.anti_ad.mc.common.config.builder.hotkey
-import org.anti_ad.mc.common.config.builder.hotkeyedBool
+import org.anti_ad.mc.common.config.builder.keyToggleBool
 import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
@@ -73,8 +73,8 @@ object ModSettings : ConfigDeclaration {
     val ALWAYS_THROW_ALL                          /**/ by bool(false)
 
         .CATEGORY("$category.highlight_focused_items")
-    val HIGHLIGHT_FOUSED_ITEMS                    /**/ by bool(true)
-    val HIGHLIGHT_FOUSED_ITEMS_ANIMATED           /**/ by bool(false)
+    val HIGHLIGHT_FOUSED_ITEMS                    /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val HIGHLIGHT_FOUSED_ITEMS_ANIMATED           /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
     val HIGHLIGHT_FOUSED_ITEMS_FOREGROUND         /**/ by bool(true)
         .CATEGORY("§§hide")
     val HIGHLIGHT_FOUSED_WAIT_TICKS               /**/ by int(3, 3, 15)
@@ -84,17 +84,17 @@ object ModSettings : ConfigDeclaration {
     val ENABLE_RANDOMIZER                         /**/ by bool(true)
 */
         .CATEGORY("$category.profiles")
-    val ENABLE_PROFILES                          /**/ by bool(true)
+    val ENABLE_PROFILES                          /**/ by keyToggleBool(true)
         .CATEGORY("§§hide")
     val PROFILES_PER_SERVER                      /**/ by bool(true)
 
         .CATEGORY("$category.lock_slots")
-    val ENABLE_LOCK_SLOTS                         /**/ by bool(true)
+    val ENABLE_LOCK_SLOTS                         /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val ENABLE_LOCK_SLOTS_PER_SERVER              /**/ by bool(true)
 
 
         .CATEGORY("$category.auto_refill")
-    val ENABLE_AUTO_REFILL                        /**/ by bool(true)
+    val ENABLE_AUTO_REFILL                        /**/ by keyToggleBool(true)
 
 
         .CATEGORY("$category.privacy")
@@ -102,7 +102,7 @@ object ModSettings : ConfigDeclaration {
     val ENABLE_ANALYTICS                          /**/ by bool(false)
 
         .CATEGORY("$category.advanced_options")
-    val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by bool(false)
+    val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
     val INTERVAL_BETWEEN_CLICKS_MS                /**/ by int(10,
                                                               1,
                                                               500)
@@ -113,7 +113,7 @@ object ModSettings : ConfigDeclaration {
                                                               1,
                                                               2)
     val HIGHLIGHT_CLICKING_SLOT                   /**/ by bool(true)
-    val RESTOCK_HOTBAR                            /**/ by bool(false)
+    val RESTOCK_HOTBAR                            /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
     val SORT_AT_CURSOR                            /**/ by bool(false)
     val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)
     val STOP_AT_SCREEN_CLOSE                      /**/ by bool(false)
@@ -134,10 +134,10 @@ object AutoRefillSettings : ConfigDeclaration {
     override val builder = createBuilder()
         .CATEGORY("§§vgap:3")
         .CATEGORY("$category.auto-refill.general")
-    val DISABLE_FOR_DROP_ITEM                     /**/ by bool(false)
+    val DISABLE_FOR_DROP_ITEM                     /**/ by keyToggleBool(false)
     val IGNORE_LOCKED_SLOTS                       /**/ by bool(true)
-    val REFILL_ARMOR                              /**/ by bool(true)
-    val REFILL_BEFORE_TOOL_BREAK                  /**/ by bool(true)
+    val REFILL_ARMOR                              /**/ by keyToggleBool(true)
+    val REFILL_BEFORE_TOOL_BREAK                  /**/ by keyToggleBool(true)
     val AUTOREFILL_BLACKLIST                      /**/ by handledString("", AutoRefillHandler::blackListChanged)
     val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
                                                               0,
@@ -154,25 +154,25 @@ object AutoRefillSettings : ConfigDeclaration {
     val AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS        /**/ by bool(true)
 
         .CATEGORY("$category.auto-refill.non-enchanted")
-    val ALLOW_BREAK_FOR_NON_ENCHANTED             /**/ by bool(false)
+    val ALLOW_BREAK_FOR_NON_ENCHANTED             /**/ by keyToggleBool(false)
     val TOOL_MAX_DURABILITY_THRESHOLD             /**/ by int(500,
                                                               0,
                                                               5000)
         .CATEGORY("$category.auto-refill.notifications")
-    val VISUAL_DURABILITY_NOTIFICATION            /**/ by bool(true)
+    val VISUAL_DURABILITY_NOTIFICATION            /**/ by keyToggleBool(true)
     val TYPE_VISUAL_DURABILITY_NOTIFICATION       /**/ by enum(ToolReplaceVisualNotification.HOTBAR)
-    val AUDIO_DURABILITY_NOTIFICATION             /**/ by bool(true)
+    val AUDIO_DURABILITY_NOTIFICATION             /**/ by keyToggleBool(true)
     val NUMBER_OF_NOTIFICATIONS                   /**/ by int(3,
                                                               1,
                                                               10)
     val NOTIFICATION_STEP                         /**/ by int(5,
                                                               1,
                                                               5)
-    val VISUAL_REPLACE_SUCCESS_NOTIFICATION       /**/ by bool(true)
-    val AUDIO_REPLACE_SUCCESS_NOTIFICATION        /**/ by bool(true)
+    val VISUAL_REPLACE_SUCCESS_NOTIFICATION       /**/ by keyToggleBool(true)
+    val AUDIO_REPLACE_SUCCESS_NOTIFICATION        /**/ by keyToggleBool(true)
     val TYPE_VISUAL_REPLACE_SUCCESS_NOTIFICATION  /**/ by enum(ToolReplaceVisualNotification.HOTBAR)
-    val VISUAL_REPLACE_FAILED_NOTIFICATION        /**/ by bool(true)
-    val AUDIO_REPLACE_FAILED_NOTIFICATION         /**/ by bool(true)
+    val VISUAL_REPLACE_FAILED_NOTIFICATION        /**/ by keyToggleBool(true)
+    val AUDIO_REPLACE_FAILED_NOTIFICATION         /**/ by keyToggleBool(true)
     val TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION   /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
 
 
@@ -189,14 +189,14 @@ object LockedSlotsSettings : ConfigDeclaration {
         .CATEGORY("§§vgap:3")
     val LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW           /**/ by bool(true)
     val LOCKED_SLOTS_DISABLE_THROW_FOR_NON_STACKABLE    /**/ by bool(true)
-    val LOCK_SLOTS_DISABLE_USER_INTERACTION             /**/ by bool(false)
+    val LOCK_SLOTS_DISABLE_USER_INTERACTION             /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
 
         .CATEGORY("$category.lock_slots.empty")
-    val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY            /**/ by bool(false)
+    val LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY            /**/ by keyToggleBool(false)
     val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS          /**/ by int(50,
                                                                     20,
                                                                     400)
-    val LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED        /**/ by bool(true)
+    val LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED        /**/ by keyToggleBool(true)
     val LOCKED_SLOTS_EMPTY_HOTBAR_BLACKLIST             /**/ by handledString("carryon", LockedSlotKeeper::updateIgnored)
 
         .CATEGORY("$category.hotkeys")
@@ -211,9 +211,9 @@ object LockedSlotsSettings : ConfigDeclaration {
     val LOCK_SLOTS_CONFIG_SWITCH_TYPE             /**/ by enum(SwitchType.HOLD)
 
         .CATEGORY("$category.lock_slots.gui")
-    val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by bool(true)
-    val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by bool(true)
-    val ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR          /**/ by bool(true)
+    val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR          /**/ by keyToggleBool(true)
     val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(2,
                                                               1,
                                                               6)
@@ -224,30 +224,30 @@ object GuiSettings : ConfigDeclaration {
     override val builder = createBuilder()
 
         .CATEGORY("$category.gui.general")
-    val ENABLE_INVENTORY_EDITOR_BUTTON            /**/ by bool(true)
-    val ENABLE_INVENTORY_SETTINGS_BUTTON          /**/ by bool(true)
+    val ENABLE_INVENTORY_EDITOR_BUTTON            /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val ENABLE_INVENTORY_SETTINGS_BUTTON          /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
         .CATEGORY("$category.profiles")
-    val ENABLE_PROFILES_UI                        /**/ by bool(true)
+    val ENABLE_PROFILES_UI                        /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val ENABLE_PROFILES_ANNOUNCEMENT              /**/ by bool(true)
         .CATEGORY("$category.inventory")
-    val ENABLE_INVENTORY_BUTTONS                  /**/ by bool(true)
+    val ENABLE_INVENTORY_BUTTONS                  /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     //val TREAT_UNKNOWN_SCREENS_AS_CONTAINERS       /**/ by bool(true)
-    val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by bool(true)
+    val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)
     val CONTINUOUS_CRAFTING_SAVED_VALUE           /**/ by bool(true)
-    val SHOW_REGULAR_SORT_BUTTON                  /**/ by bool(true)
+    val SHOW_REGULAR_SORT_BUTTON                  /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val REGULAR_POST_ACTION                       /**/ by enum(PostAction.NONE)
     val REGULAR_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)
     val REGULAR_CUSTOM_RULE                       /**/ by string("@custom")
-    val SHOW_SORT_IN_COLUMNS_BUTTON               /**/ by bool(true)
+    val SHOW_SORT_IN_COLUMNS_BUTTON               /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val IN_COLUMNS_POST_ACTION                    /**/ by enum(PostAction.GROUP_IN_COLUMNS)
     val IN_COLUMNS_SORT_ORDER                     /**/ by enum(SortingMethodIndividual.GLOBAL)
     val IN_COLUMNS_CUSTOM_RULE                    /**/ by string("@custom")
-    val SHOW_SORT_IN_ROWS_BUTTON                  /**/ by bool(true)
+    val SHOW_SORT_IN_ROWS_BUTTON                  /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val IN_ROWS_POST_ACTION                       /**/ by enum(PostAction.GROUP_IN_ROWS)
     val IN_ROWS_SORT_ORDER                        /**/ by enum(SortingMethodIndividual.GLOBAL)
     val IN_ROWS_CUSTOM_RULE                       /**/ by string("@custom")
-    val SHOW_MOVE_ALL_BUTTON                      /**/ by bool(true)
+    val SHOW_MOVE_ALL_BUTTON                      /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val SHOW_BUTTON_TOOLTIPS                      /**/ by bool(true)
 
 
@@ -342,9 +342,9 @@ object Tweaks : ConfigDeclaration {
         .CATEGORY("$category.client_side_tweaks")
         .CATEGORY("§§vgap:-5")
         .CATEGORY("$category.inventory")
-    val PREVENT_CLOSE_GUI_DROP_ITEM               /**/ by hotkeyedBool(false)
-    val CONTAINER_SWIPE_MOVING_ITEMS              /**/ by hotkeyedBool(true)
-    val SWIPE_MOVE_CRAFTING_RESULT_SLOT           /**/ by hotkeyedBool(false)
+    val PREVENT_CLOSE_GUI_DROP_ITEM               /**/ by keyToggleBool(false)
+    val CONTAINER_SWIPE_MOVING_ITEMS              /**/ by keyToggleBool(true)
+    val SWIPE_MOVE_CRAFTING_RESULT_SLOT           /**/ by keyToggleBool(false)
 
 }
 
