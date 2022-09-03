@@ -20,14 +20,10 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
-import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.gui.widgets.glue.__glue_SliderWidgetContructor
 import org.anti_ad.mc.common.gui.widgets.glue.__glue_TextFieldWidgetContructor
-import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
 
 fun widgetsInitGlue() {
-    ConfigKeyToggleBoolean.toggleNotificationHandler = ConfigScreeHelper::toggleBooleanSettingMessage
-    ConfigKeyToggleBoolean.finish = ConfigScreeHelper::finish
     __glue_SliderWidgetContructor = ::newSliderWidget
     __glue_TextFieldWidgetContructor = ::newTextFieldWidget
 }

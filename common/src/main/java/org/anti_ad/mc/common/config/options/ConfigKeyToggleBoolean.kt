@@ -22,6 +22,7 @@ package org.anti_ad.mc.common.config.options
 
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonPrimitive
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.config.IConfigElementObject
@@ -67,7 +68,11 @@ class ConfigKeyToggleBoolean(override val defaultValue: Boolean,
     }
 
     override fun fromJsonElement(element: JsonElement) {
-        super<ConfigHotkey>.fromJsonElement(element)
+        if (element is JsonPrimitive) {
+            value = element.jsonPrimitive.value(defaultValue)
+        } else if (element is JsonObject) {
+            super<ConfigHotkey>.fromJsonElement(element)
+        }
     }
 
     override fun fromJsonObject(obj: JsonObject)  {

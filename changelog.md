@@ -3,10 +3,12 @@
 
 - fixed fabric 1.16.x build to support Java 8.
 - Most boolean settings can now be assigned hot key to toggle them in game. GUI settings require reopen of the current GUI.
+- Config files created by versions prior 1.1.9 are no longer fully supported. If you are upgrading from v 1.1.8 or lower please first install v1.7.0 start the game once to upgrade the config and then upgrade to 1.7.1 
 - Locked slots enable/disable now has effect in single player too.
 - Fixed modpack arena generation.
 - Auto refill now takes NBT and Custom Names into account. For all the fake items on servers :)
 - Added blacklist for items going in the inventory. By default, "carryon" mod is blacklisted.
+- The configuration file created by v 1.7.1 is not backward compatible.
 
 #### NOTE
 

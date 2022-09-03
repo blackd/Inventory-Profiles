@@ -21,6 +21,7 @@
 package org.anti_ad.mc.ipnext
 
 import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
 import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
@@ -31,6 +32,7 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.ClientInitHandler
+import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
 import org.anti_ad.mc.ipnext.specific.initInfoManager
@@ -39,6 +41,8 @@ var initGlueProc: (() -> Unit)? = ::initGlues;
 
 private fun initGlues() {
     initGlueProc?.also {
+        ConfigKeyToggleBoolean.toggleNotificationHandler = ConfigScreeHelper::toggleBooleanSettingMessage
+        ConfigKeyToggleBoolean.finish = ConfigScreeHelper::finish
         renderInitTheGlue()
         aliasInitGlue()
         vanillaInitGlue()

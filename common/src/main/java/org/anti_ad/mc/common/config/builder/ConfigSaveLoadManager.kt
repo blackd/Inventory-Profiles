@@ -66,8 +66,9 @@ class ConfigSaveLoadManager(private val config: IConfigElement,
     override fun load() {
         try {
             if (!configFile.exists()) return
-            var saveAfterLoad = false
-            var j = configFile.readText().toJsonElement()
+//            var saveAfterLoad = false
+            val j = configFile.readText().toJsonElement()
+            /*
             val jo = j.jsonObject
             if (jo["LockedSlotsSettings"] == null || jo["AutoRefillSettings"] == null) {
                 val ms = jo["ModSettings"]
@@ -87,12 +88,12 @@ class ConfigSaveLoadManager(private val config: IConfigElement,
                 }
 
             }
-
+*/
             //config.oldFromJsonElement(it)
             config.fromJsonElement(j)
-            if(saveAfterLoad) {
-                save()
-            }
+//            if(saveAfterLoad) {
+//                save()
+//            }
 
         } catch (e: IOException) {
             Log.error("Failed to read config file $path")
