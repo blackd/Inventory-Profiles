@@ -39,6 +39,13 @@ This mod will:
 </tr>
 </tbody>
 </table>
+
+## How-To
+
+<div style="width: 100%; height: 100%; child-align: middle;">
+<iframe style="height: 80%; width: 80%;" allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/cv7_vW-GIJU?wmode=transparent" height="358" width="638">
+</iframe>
+</div>
 ## What's new
 
 !include`snippetStart="<!-- latest begin -->", snippetEnd="<!-- latest end -->"` ../changelog.md

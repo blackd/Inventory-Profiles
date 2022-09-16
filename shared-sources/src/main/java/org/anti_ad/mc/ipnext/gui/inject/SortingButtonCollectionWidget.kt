@@ -250,7 +250,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             tx = if (continuousCraftingValue) 80 else 70
             highlightTx = if (continuousCraftingValue) 120 else 70
             this@SortingButtonCollectionWidget.addChild(this)
-            visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue && types.contains(CRAFTING)
+            visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue && (types.contains(CRAFTING) || types.contains(STONECUTTER))
             tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
             highlightTooltip = I18n.translate("inventoryprofiles.tooltip.auto_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
             id = "sort_crafting_checkbox"
@@ -306,13 +306,22 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             }
 
             // checkbox location
-            if (types.contains(PLAYER)) {
-                continuousCraftingCheckbox.setBottomRight(113 + continuousCraftingCheckbox.hints.bottom,
-                                                          31 + continuousCraftingCheckbox.hints.horizontalOffset)
-            } else {
-                continuousCraftingCheckbox.setBottomRight(96 + continuousCraftingCheckbox.hints.bottom,
-                                                          81 + continuousCraftingCheckbox.hints.horizontalOffset)
+
+            when {
+                types.contains(PLAYER) -> {
+                    continuousCraftingCheckbox.setBottomRight(113 + continuousCraftingCheckbox.hints.bottom,
+                                                              31 + continuousCraftingCheckbox.hints.horizontalOffset)
+                }
+                types.contains(STONECUTTER) -> {
+                    continuousCraftingCheckbox.setBottomRight(100 + continuousCraftingCheckbox.hints.bottom,
+                                                              27 + continuousCraftingCheckbox.hints.horizontalOffset)
+                }
+                else -> {
+                    continuousCraftingCheckbox.setBottomRight(96 + continuousCraftingCheckbox.hints.bottom,
+                                                              81 + continuousCraftingCheckbox.hints.horizontalOffset)
+                }
             }
+
         }
     }
 }

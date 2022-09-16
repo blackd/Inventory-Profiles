@@ -53,6 +53,7 @@ import net.minecraft.container.PlayerContainer
 import net.minecraft.container.ShulkerBoxContainer
 import net.minecraft.container.SmokerContainer
 import net.minecraft.container.StonecutterContainer
+import org.anti_ad.mc.common.vanilla.Vanilla
 
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.nonStorage
@@ -127,7 +128,8 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           GrindstoneContainer::class.java       /**/ to nonStorage,
                                           LecternContainer::class.java          /**/ to nonStorage,
                                           LoomContainer::class.java             /**/ to nonStorage,
-                                          StonecutterContainer::class.java      /**/ to nonStorage,
+                                          StonecutterContainer::class.java      /**/ to setOf(ContainerType.PURE_BACKPACK,
+                                                                                              ContainerType.STONECUTTER),
                                           SmokerContainer::class.java           /**/ to nonStorage,
 
                                           MerchantContainer::class.java         /**/ to setOf(ContainerType.TRADER),
@@ -151,3 +153,17 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           Generic3x3Container::class.java       /**/ to setOf(ContainerType.SORTABLE_STORAGE,
                                                                                               ContainerType.RECTANGULAR,
                                                                                               ContainerType.HEIGHT_3)).toTypedArray()
+
+var selectPostAction: () -> Unit = {}
+var selectPreAction: () -> Unit = {}
+
+fun StonecutterContainer.selectRecipe(id: Int) {
+    selectPreAction()
+    Vanilla.queueForMainThread {
+        onButtonClick(Vanilla.player(), id)
+        Vanilla.mc().interactionManager.clickButton(syncId, id)
+        Vanilla.queueForMainThread {
+            selectPostAction()
+        }
+    }
+}

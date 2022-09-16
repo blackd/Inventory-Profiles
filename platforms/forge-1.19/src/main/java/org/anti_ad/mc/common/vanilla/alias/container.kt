@@ -53,6 +53,8 @@ import net.minecraft.world.inventory.SmokerMenu
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.inventory.StonecutterMenu
 import net.minecraft.world.inventory.SmithingMenu
+import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.ipnext.ingame.`(syncId)`
 import net.minecraft.world.inventory.MerchantContainer as VanillaMerchantInventory
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.nonStorage
@@ -130,7 +132,8 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           GrindstoneContainer::class.java       /**/ to nonStorage,
                                           LecternContainer::class.java          /**/ to nonStorage,
                                           LoomContainer::class.java             /**/ to nonStorage,
-                                          StonecutterContainer::class.java      /**/ to nonStorage,
+                                          StonecutterContainer::class.java      /**/ to setOf(ContainerType.PURE_BACKPACK,
+                                                                                              ContainerType.STONECUTTER),
                                           SmithingTableContainer::class.java    /**/ to nonStorage,
                                           SmokerContainer::class.java           /**/ to nonStorage,
 
@@ -155,3 +158,11 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           Generic3x3Container::class.java       /**/ to setOf(ContainerType.SORTABLE_STORAGE,
                                                                                               ContainerType.RECTANGULAR,
                                                                                               ContainerType.HEIGHT_3)).toTypedArray()
+
+var selectPostAction: () -> Unit = {}
+var selectPreAction: () -> Unit = {}
+
+fun StonecutterContainer.selectRecipe(id: Int) {
+    clickMenuButton(Vanilla.player(), id)
+    Vanilla.mc().gameMode?.handleInventoryButtonClick(`(syncId)`, id)
+}

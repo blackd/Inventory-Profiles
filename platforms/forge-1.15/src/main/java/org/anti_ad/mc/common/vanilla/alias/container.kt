@@ -53,6 +53,8 @@ import net.minecraft.inventory.container.Slot
 import net.minecraft.inventory.container.SmokerContainer
 import net.minecraft.inventory.container.StonecutterContainer
 import net.minecraft.inventory.container.WorkbenchContainer
+import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.ipnext.ingame.`(syncId)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.nonStorage
 import org.anti_ad.mc.ipnext.inventory.playerOnly
@@ -126,7 +128,8 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           GrindstoneContainer::class.java       /**/ to nonStorage,
                                           LecternContainer::class.java          /**/ to nonStorage,
                                           LoomContainer::class.java             /**/ to nonStorage,
-                                          StonecutterContainer::class.java      /**/ to nonStorage,
+                                          StonecutterContainer::class.java      /**/ to setOf(ContainerType.PURE_BACKPACK,
+                                                                                              ContainerType.STONECUTTER),
                                           SmokerContainer::class.java           /**/ to nonStorage,
 
                                           MerchantContainer::class.java         /**/ to setOf(ContainerType.TRADER),
@@ -150,3 +153,15 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           Generic3x3Container::class.java       /**/ to setOf(ContainerType.SORTABLE_STORAGE,
                                                                                               ContainerType.RECTANGULAR,
                                                                                               ContainerType.HEIGHT_3)).toTypedArray()
+
+var selectPostAction: () -> Unit = {}
+var selectPreAction: () -> Unit = {}
+
+fun StonecutterContainer.selectRecipe(id: Int) {
+    selectPreAction()
+    Vanilla.queueForMainThread {
+        enchantItem(Vanilla.player(), id)
+        Vanilla.mc().playerController?.sendEnchantPacket(`(syncId)`, id)
+        selectPostAction()
+    }
+}

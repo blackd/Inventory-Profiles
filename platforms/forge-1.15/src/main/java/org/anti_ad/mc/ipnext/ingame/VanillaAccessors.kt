@@ -44,6 +44,7 @@ import org.anti_ad.mc.common.vanilla.alias.Registry
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.alias.SlotActionType
+import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
 import org.anti_ad.mc.common.vanilla.alias.Window
 import org.anti_ad.mc.common.vanilla.alias.items.ArmorItem
 import org.anti_ad.mc.common.vanilla.alias.items.EquipmentSlot
@@ -195,3 +196,6 @@ inline fun PlayerContainer.`(onSlotClick)`(slotIndex: Int, button: Int, actionTy
 
 @Suppress("FunctionName")
 fun PlayerContainer.`(sendContentUpdates)`() = detectAndSendChanges()
+
+val StonecutterContainer.`(selectedRecipe)`: Int
+    get() = selectedRecipe

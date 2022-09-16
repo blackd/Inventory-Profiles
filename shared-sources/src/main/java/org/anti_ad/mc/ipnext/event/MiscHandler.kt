@@ -35,6 +35,7 @@ import org.anti_ad.mc.common.vanilla.alias.CraftingResultInventory
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
+import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
@@ -114,6 +115,10 @@ object MiscHandler {
             if (!Tweaks.SWIPE_MOVE_CRAFTING_RESULT_SLOT.booleanValue) {
                 if (!types.containsAny(matchSet) && slot.`(inventory)` !is PlayerInventory) continue
                 if (slot.`(inventory)` is CraftingInventory || slot.`(inventory)` is CraftingResultInventory) continue
+            } else if (types.contains(ContainerType.STONECUTTER)
+                && (slot.`(inventory)` is CraftingInventory
+                        || slot.`(inventory)` is CraftingResultInventory)) {
+                continue
             }
 
             val rect = Rectangle(topLeft + slot.`(topLeft)`,

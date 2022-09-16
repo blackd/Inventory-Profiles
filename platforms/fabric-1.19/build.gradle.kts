@@ -98,6 +98,8 @@ repositories {
             includeGroup ("curse.maven")
         }
     }
+    maven { url = uri("https://maven.shedaniel.me/") }
+    maven { url = uri("https://storage.googleapis.com/devan-maven/") }
 }
 
 fabricCommonDependency(minecraft_version,
@@ -106,8 +108,13 @@ fabricCommonDependency(minecraft_version,
                        fabric_api_version,
                        modmenu_version)
 dependencies {
+/*
+    modRuntimeOnly("curse.maven:tip-the-gui-515415:3918819")
+    modRuntimeOnly("curse.maven:cloth-config-348521:3972420")
+    include("net.devtech:Stacc:1.3.2")
+    modRuntimeOnly("net.devtech:Stacc:1.3.2")
 
-    //modRuntimeOnly("curse.maven:tip-the-gui-531749:3943836")
+ */
 }
 
 loom {

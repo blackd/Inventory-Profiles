@@ -17,6 +17,8 @@
 -dontwarn javax.annotation.**
 -dontwarn java.awt.**
 
+#-dontusemixedcaseclassnames
+
 -keepattributes *Annotation*
 -verbose
 

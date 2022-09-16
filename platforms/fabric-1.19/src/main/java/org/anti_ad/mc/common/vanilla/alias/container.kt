@@ -46,6 +46,7 @@ import net.minecraft.screen.LoomScreenHandler
 import net.minecraft.screen.MerchantScreenHandler
 import net.minecraft.screen.PlayerScreenHandler
 import net.minecraft.screen.ScreenHandler
+import net.minecraft.screen.ScreenHandlerType
 import net.minecraft.screen.ShulkerBoxScreenHandler
 import net.minecraft.screen.SmithingScreenHandler
 import net.minecraft.screen.SmokerScreenHandler
@@ -54,6 +55,7 @@ import net.minecraft.screen.slot.CraftingResultSlot
 import net.minecraft.screen.slot.Slot
 import net.minecraft.screen.slot.SlotActionType
 import net.minecraft.screen.slot.TradeOutputSlot
+import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.nonStorage
 import org.anti_ad.mc.ipnext.inventory.playerOnly
@@ -97,6 +99,8 @@ typealias CraftingResultSlot = CraftingResultSlot
 
 typealias SlotActionType = SlotActionType
 
+typealias ContainerType<T> = ScreenHandlerType<T>
+
 val vanillaContainers = listOf<Class<*>>(
     AbstractFurnaceScreenHandler::class.java,
     AbstractRecipeScreenHandler::class.java,
@@ -135,7 +139,8 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           GrindstoneContainer::class.java       /**/ to nonStorage,
                                           LecternContainer::class.java          /**/ to nonStorage,
                                           LoomContainer::class.java             /**/ to nonStorage,
-                                          StonecutterContainer::class.java      /**/ to nonStorage,
+                                          StonecutterContainer::class.java      /**/ to setOf(ContainerType.PURE_BACKPACK,
+                                                                                              ContainerType.STONECUTTER),
                                           SmithingTableContainer::class.java    /**/ to nonStorage,
                                           SmokerContainer::class.java           /**/ to nonStorage,
 
@@ -160,3 +165,12 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           Generic3x3Container::class.java       /**/ to setOf(ContainerType.SORTABLE_STORAGE,
                                                                                               ContainerType.RECTANGULAR,
                                                                                               ContainerType.HEIGHT_3)).toTypedArray()
+
+var selectPostAction: () -> Unit = {}
+var selectPreAction: () -> Unit = {}
+
+
+fun StonecutterContainer.selectRecipe(id: Int) {
+    onButtonClick(Vanilla.player(), id)
+    Vanilla.mc().interactionManager?.clickButton(syncId, id)
+}

@@ -161,6 +161,7 @@ enum class ContainerType {
     SORTABLE_STORAGE, // slots that purpose is storing any item (e.g. crafting table / furnace is not the case)
     HORSE_STORAGE, // first two slot is not item storage
     CRAFTING,
+    STONECUTTER,
     TRADER,
 
     RECTANGULAR,

@@ -27,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import org.anti_ad.mc.common.Log;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
+import org.anti_ad.mc.ipnext.event.StoneCutterCraftingHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,10 +37,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayerInteractionManager.class)
 public class MixinClientPlayerInteractionManager {
 
+    @Inject(at = @At("HEAD"),
+            method = "method_2906(IIILnet/minecraft/container/SlotActionType;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/item/ItemStack;",
+            cancellable = true)
+    public void clickSlotPre(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> ci) {
+        if (slotId == 1 && (StoneCutterCraftingHandler.INSTANCE.isRefillTick()
+                || StoneCutterCraftingHandler.INSTANCE.getStillCrafting()
+                || StoneCutterCraftingHandler.INSTANCE.getSkipTick())) {
+            ci.setReturnValue(null);
+            ci.cancel();
+        }
+    }
+
+
     @Inject(at = @At("TAIL"), method = "method_2906(IIILnet/minecraft/container/SlotActionType;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/item/ItemStack;")
     public void clickSlot(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> ci) {
         if (slotId == 0) {
             ClientEventHandler.INSTANCE.onCrafted();
+        } else if (slotId == 1 && !StoneCutterCraftingHandler.INSTANCE.isNewScreen()) {
+            StoneCutterCraftingHandler.INSTANCE.onCrafted();
         }
     }
 
