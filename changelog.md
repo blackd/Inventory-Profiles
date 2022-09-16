@@ -3,6 +3,9 @@
 
 - Continuous/Auto Crafting now supports the Stone Cutter.
 
+<iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/ENpE05awR38?wmode=transparent" height="358" width="638"></iframe>
+
+
 #### NOTE
 
 Switched to modern Kotlin support. This means that this mod now requires [Kotlin for Forge](https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge) or [Fabric Language Kotlin](https://www.curseforge.com/minecraft/mc-mods/fabric-language-kotlin)
