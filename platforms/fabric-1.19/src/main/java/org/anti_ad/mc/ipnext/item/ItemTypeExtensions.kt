@@ -18,9 +18,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package org.anti_ad.mc.ipnext.item
 
 import net.minecraft.fluid.Fluid
+
 import org.anti_ad.mc.common.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
@@ -33,10 +36,9 @@ import org.anti_ad.mc.common.vanilla.alias.Registry
 import org.anti_ad.mc.common.vanilla.alias.StatusEffectInstance
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.items.BucketItem
-import org.anti_ad.mc.common.vanilla.alias.items.EntityBucketItem
-import org.anti_ad.mc.common.vanilla.alias.items.Fluids
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
+import org.anti_ad.mc.common.vanilla.alias.items.PowderSnowBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
@@ -88,6 +90,9 @@ inline val ItemType.identifier: Identifier
 inline val ItemType.namespace: String
     get() = identifier.namespace
 
+inline val ItemType.itemClass
+    get() = item.javaClass
+
 //region ItemType String Relative
 
 inline val ItemType.hasCustomName: Boolean
@@ -138,14 +143,16 @@ inline val ItemType.durability: Int
     get() = maxDamage - damage
 
 inline val ItemType.isBucket: Boolean
-    get() = item is BucketItem || item is MilkBucketItem
+    get() = item is BucketItem || item is MilkBucketItem || item is PowderSnowBucketItem
 
 inline val ItemType.isFullBucket: Boolean
-    get() = item is MilkBucketItem || item is IMixinEntityBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
+    get() = item is MilkBucketItem || item is IMixinEntityBucketItem || item is PowderSnowBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
 
-fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
+inline fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     return if (item is MilkBucketItem && otherItem is IMixinBucketItem && (otherItem.fluid as IMixinFluid).callIsEmpty()) {
+        true
+    } else if (item is PowderSnowBucketItem && otherItem is IMixinBucketItem && (otherItem.fluid as IMixinFluid).callIsEmpty()) {
         true
     } else if (otherItem == Items.BUCKET && item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty()) {
         true
@@ -153,9 +160,11 @@ fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     //item is MilkBucketItem || item is IMixinEntityBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
 }
 
-fun ItemType.isFullComparedTo(other: ItemType): Boolean {
+inline fun ItemType.isFullComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     return if (item == Items.BUCKET && otherItem is MilkBucketItem) {
+        true
+    } else if (item == Items.BUCKET && otherItem is PowderSnowBucketItem) {
         true
     } else item !is IMixinEntityBucketItem && otherItem is IMixinEntityBucketItem
 

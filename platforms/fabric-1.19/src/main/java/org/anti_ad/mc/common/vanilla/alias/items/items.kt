@@ -34,12 +34,13 @@ import net.minecraft.item.ShovelItem
 import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.item.SwordItem
 import net.minecraft.item.ToolItem
+import net.minecraft.item.PowderSnowBucketItem
 
 typealias BucketItem = BucketItem
 typealias MilkBucketItem = MilkBucketItem
 typealias EntityBucketItem = EntityBucketItem
+typealias PowderSnowBucketItem = PowderSnowBucketItem
 typealias Fluids = Fluids
-
 
 typealias MushroomStewItem = StewItem
 typealias SuspiciousStewItem = SuspiciousStewItem

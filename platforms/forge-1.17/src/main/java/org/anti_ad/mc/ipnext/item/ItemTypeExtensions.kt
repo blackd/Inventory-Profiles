@@ -37,6 +37,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.EntityBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.Fluids
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
+import org.anti_ad.mc.common.vanilla.alias.items.PowderSnowBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
@@ -84,6 +85,9 @@ inline val ItemType.identifier: Identifier
 
 inline val ItemType.namespace: String
     get() = identifier.namespace
+
+inline val ItemType.itemClass
+    get() = item.javaClass
 
 //region ItemType String Relative
 
@@ -137,10 +141,10 @@ inline val ItemType.durability: Int
     get() = maxDamage - damage
 
 inline val ItemType.isBucket: Boolean
-    get() = item is BucketItem || item is MilkBucketItem
+    get() = item is BucketItem || item is MilkBucketItem || item is PowderSnowBucketItem
 
 inline val ItemType.isFullBucket: Boolean
-    get() = (item is BucketItem && item != Items.BUCKET) || item is MilkBucketItem
+    get() = (item is BucketItem && item != Items.BUCKET) || item is MilkBucketItem || item is PowderSnowBucketItem
 
 inline val ItemType.isEmptyBucket: Boolean
     get() {
@@ -151,7 +155,7 @@ fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     Log.trace("isEmpty item: ${item.javaClass}")
     Log.trace("isEmpty otherItem: ${item.javaClass}")
-    return if (item is MilkBucketItem && otherItem is BucketItem && otherItem.fluid == Fluids.EMPTY) {
+    return if ((item is MilkBucketItem || item is PowderSnowBucketItem) && otherItem is BucketItem && otherItem.fluid == Fluids.EMPTY) {
         true
     } else if (otherItem == Items.BUCKET && item is BucketItem && item.fluid != Fluids.EMPTY) {
         true
@@ -163,7 +167,7 @@ fun ItemType.isFullComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     Log.trace("isFull item: ${item.javaClass}")
     Log.trace("isFull otherItem: ${item.javaClass}")
-    return if (item == Items.BUCKET && otherItem is MilkBucketItem) {
+    return if (item == Items.BUCKET && (otherItem is MilkBucketItem || otherItem is PowderSnowBucketItem)) {
         true
     } else item !is EntityBucketItem && otherItem is EntityBucketItem
 

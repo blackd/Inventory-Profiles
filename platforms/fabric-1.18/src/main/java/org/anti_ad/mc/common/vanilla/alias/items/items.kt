@@ -21,9 +21,11 @@
 package org.anti_ad.mc.common.vanilla.alias.items
 
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.AxeItem
 import net.minecraft.item.BucketItem
+import net.minecraft.item.EntityBucketItem
 import net.minecraft.item.HoeItem
 import net.minecraft.item.MilkBucketItem
 import net.minecraft.item.StewItem
@@ -32,9 +34,13 @@ import net.minecraft.item.ShovelItem
 import net.minecraft.item.SuspiciousStewItem
 import net.minecraft.item.SwordItem
 import net.minecraft.item.ToolItem
+import net.minecraft.item.PowderSnowBucketItem
 
 typealias BucketItem = BucketItem
 typealias MilkBucketItem = MilkBucketItem
+typealias EntityBucketItem = EntityBucketItem
+typealias PowderSnowBucketItem = PowderSnowBucketItem
+typealias Fluids = Fluids
 
 typealias MushroomStewItem = StewItem
 typealias SuspiciousStewItem = SuspiciousStewItem

@@ -38,6 +38,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.EntityBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.Fluids
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
+import org.anti_ad.mc.common.vanilla.alias.items.PowderSnowBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
@@ -48,7 +49,7 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 // ============
 
 fun ItemType.fullItemInfoAsJson(): String {
-    var res = "{" + "\n\t\"id\" : \"" + this.itemId+ "\",\n"
+    var res = "{" + "\n\t\"id\" : \"" + this.itemId + "\",\n"
     tag?.allKeys?.forEach {
         res += "\t{\n\t\t\"$it\" : ${tag.get(it)}\n},"
     }
@@ -77,14 +78,17 @@ inline val ItemType.vanillaStack: VanillaItemStack
     get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }
 
 fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
-    VanillaItemStack(this.item,
-                     count).apply { tag = this@vanillaStackWithCount.tag }
+        VanillaItemStack(this.item,
+                         count).apply { tag = this@vanillaStackWithCount.tag }
 
 inline val ItemType.identifier: Identifier
     get() = Registry.ITEM.`(getIdentifier)`(item)
 
 inline val ItemType.namespace: String
     get() = identifier.namespace
+
+inline val ItemType.itemClass
+    get() = item.javaClass
 
 //region ItemType String Relative
 
@@ -111,10 +115,10 @@ inline val ItemType.customOrTranslatedName: String
 //region ItemType Number Relative
 
 inline val ItemType.groupIndex: Int
-    get() = item.itemCategory?.id  ?: when { //itemCategory?.id //group?.index
+    get() = item.itemCategory?.id ?: when { //itemCategory?.id //group?.index
         item === Items.ENCHANTED_BOOK -> ItemGroup.TAB_TOOLS.id //TOOLS.index // TAB_TOOLS.id
-        namespace == "minecraft" -> ItemGroup.TAB_MISC.id  //MISC.index // TAB_MISC.id
-        else -> ItemGroup.TABS.size // GROUPS.size // TABS.size
+        namespace == "minecraft"      -> ItemGroup.TAB_MISC.id  //MISC.index // TAB_MISC.id
+        else                          -> ItemGroup.TABS.size // GROUPS.size // TABS.size
     }
 inline val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
@@ -138,10 +142,10 @@ inline val ItemType.durability: Int
     get() = maxDamage - damage
 
 inline val ItemType.isBucket: Boolean
-    get() = item is BucketItem || item is MilkBucketItem
+    get() = item is BucketItem || item is MilkBucketItem || item is PowderSnowBucketItem
 
 inline val ItemType.isFullBucket: Boolean
-    get() = (item is BucketItem && item != Items.BUCKET) || item is MilkBucketItem
+    get() = (item is BucketItem && item != Items.BUCKET) || item is MilkBucketItem || item is PowderSnowBucketItem
 
 inline val ItemType.isEmptyBucket: Boolean
     get() {
@@ -152,7 +156,7 @@ fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     Log.trace("isEmpty item: ${item.javaClass}")
     Log.trace("isEmpty otherItem: ${item.javaClass}")
-    return if (item is MilkBucketItem && otherItem is BucketItem && otherItem.fluid == Fluids.EMPTY) {
+    return if ((item is MilkBucketItem || item is PowderSnowBucketItem) && otherItem is BucketItem && otherItem.fluid == Fluids.EMPTY) {
         true
     } else if (otherItem == Items.BUCKET && item is BucketItem && item.fluid != Fluids.EMPTY) {
         true
@@ -164,7 +168,7 @@ fun ItemType.isFullComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     Log.trace("isFull item: ${item.javaClass}")
     Log.trace("isFull otherItem: ${item.javaClass}")
-    return if (item == Items.BUCKET && otherItem is MilkBucketItem) {
+    return if (item == Items.BUCKET && (otherItem is MilkBucketItem || otherItem is PowderSnowBucketItem)) {
         true
     } else item !is EntityBucketItem && otherItem is EntityBucketItem
 
@@ -174,14 +178,12 @@ inline val ItemType.isHoneyBottle: Boolean
     get() = item == Items.HONEY_BOTTLE
 
 inline val ItemType.isStew: Boolean
-    get() = item is MushroomStewItem || item is SuspiciousStewItem // SoupItem = MushroomStewItem
-//endregion
+    get() = item is MushroomStewItem || item is SuspiciousStewItem
 
 //region ItemType Potion Relative
 
 inline val ItemType.hasPotionName: Boolean
-    get() = tag?.contains("Potion",
-                          8) ?: false
+    get() = tag?.contains("Potion", 8) ?: false
 inline val ItemType.potionName: String
     // getPotionTypeFromNBT().getNamePrefixed() = getPotion().finishTranslationKey()
     get() = if (hasPotionName) PotionUtil.getPotion(tag).getName("") else "" //getPotionTypeFromNBT(tag).getNamePrefixed("") else "" // getPotion(tag).getName("") else ""
@@ -198,17 +200,14 @@ inline val ItemType.comparablePotionEffects: List<PotionEffect>
 
 @Suppress("ObjectPropertyName")
 inline val StatusEffectInstance.`(asComparable)`: PotionEffect
-    get() = PotionEffect(
-        //this.effect.descriptionId
-        ForgeRegistries.MOB_EFFECTS.getKey(this.effect).toString(),
-        ////Registry.MOB_EFFECT.getId(this.effect).toString(), // forge EFFECTS = STATUS_EFFECT  == MOB_EFFECT | effectType = potion = effect
-        this.amplifier,
-        this.duration
-    )
+    get() = PotionEffect(ForgeRegistries.MOB_EFFECTS.getKey(this.effect).toString(),
+                         this.amplifier,
+                         this.duration)
 
 data class PotionEffect(inline val effect: String,
                         inline val amplifier: Int,
                         inline val duration: Int) : Comparable<PotionEffect> {
+
     override fun compareTo(other: PotionEffect): Int { // stronger first
         this.effect.compareTo(other.effect).let { if (it != 0) return it }
         other.amplifier.compareTo(this.amplifier).let { if (it != 0) return it }

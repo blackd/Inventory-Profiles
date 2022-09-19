@@ -63,6 +63,7 @@ import org.anti_ad.mc.ipnext.item.rawId
 import org.anti_ad.mc.ipnext.item.translatedName
 import org.anti_ad.mc.ipnext.item.translationKey
 import org.anti_ad.mc.ipnext.item.maxCount
+import org.anti_ad.mc.ipnext.item.itemClass
 
 class DebugScreen: BaseDebugScreen() {
     inner class PageContainer: Page("Container") {
@@ -74,8 +75,10 @@ class DebugScreen: BaseDebugScreen() {
                 slot ?: return listOf(a)
                 val itemType = itemType
                 val c = "itemType: $itemType"
+
                 val d = itemType.run {
                     listOf(
+                        ::itemClass,
                         ::identifier,
                         ::namespace,
                         ::hasCustomName,
