@@ -25,8 +25,8 @@ import org.anti_ad.mc.common.config.IConfigOptionToggleable
 import org.anti_ad.mc.common.config.options.ConfigBoolean
 import org.anti_ad.mc.common.config.options.ConfigButton
 import org.anti_ad.mc.common.config.options.ConfigEnum
-import org.anti_ad.mc.common.gui.widget.Axis
-import org.anti_ad.mc.common.gui.widget.BiFlex
+import org.anti_ad.mc.common.gui.layout.Axis
+import org.anti_ad.mc.common.gui.layout.BiFlex
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.glue.VanillaSound
 import org.anti_ad.mc.common.vanilla.render.glue.rMeasureText

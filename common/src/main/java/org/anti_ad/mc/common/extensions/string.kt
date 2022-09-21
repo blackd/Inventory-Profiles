@@ -1,7 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.ipnext.util
+package org.anti_ad.mc.common.extensions
 
 fun String.dashedSanitized(): String {
     if (this == ".." || this == ".") return "-dot_dot"

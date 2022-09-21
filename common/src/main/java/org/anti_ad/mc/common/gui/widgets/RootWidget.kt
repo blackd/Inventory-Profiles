@@ -20,14 +20,13 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
-import org.anti_ad.mc.common.extensions.RoutedEvent
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.math2d.Size
 
-private fun <T> RoutedEvent<T>.orInvoke(event: T,
-                                        handled: Boolean) =
-    handled or this.invoke(event,
-                           handled)
+
+
+
+private fun <T> RoutedEvent<T>.orInvoke(event: T, handled: Boolean) = handled or this.invoke(event, handled)
 
 // ============
 // events
@@ -88,13 +87,8 @@ class RootWidget : Widget() {
     val mouseScrolled = RoutedEvent<MouseScrolledEvent>()
     override fun mouseScrolled(x: Int,
                                y: Int,
-                               amount: Double) =
-        mouseScrolled.orInvoke(MouseScrolledEvent(x,
-                                                  y,
-                                                  amount),
-                               super.mouseScrolled(x,
-                                                   y,
-                                                   amount))
+                               amount: Double) = mouseScrolled.orInvoke(MouseScrolledEvent(x, y, amount),
+                                                                        super.mouseScrolled(x, y, amount))
 
     val mouseDragged = RoutedEvent<MouseDraggedEvent>()
     override fun mouseDragged(x: Double,

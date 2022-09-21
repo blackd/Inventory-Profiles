@@ -21,10 +21,10 @@
 package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.gui.Tooltips
+import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.screen.BaseScreen
 import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -33,7 +33,6 @@ import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
-import org.anti_ad.mc.ipnext.event.MiscHandler
 import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SettingsWidget
@@ -117,6 +116,6 @@ object ContainerScreenEventHandler {
         LockSlotsHandler.postRender()
         SlotHighlightHandler.postRender()
         ContainerClicker.postScreenRender()
-        currentWidgets?.forEach {  it.let { Tooltips.renderAll() }}
+        currentWidgets?.forEach {  it.let { TooltipsManager.renderAll() }}
     }
 }

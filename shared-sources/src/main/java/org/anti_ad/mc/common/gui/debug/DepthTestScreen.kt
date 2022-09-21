@@ -21,8 +21,8 @@
 package org.anti_ad.mc.common.gui.debug
 
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.gui.widget.Overflow
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.alpha

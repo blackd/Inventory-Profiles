@@ -24,8 +24,8 @@ import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.mod
 import org.anti_ad.mc.common.extensions.runIf
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.gui.widget.fillParent
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.fillParent
 import org.anti_ad.mc.common.gui.widgets.HudText
 import org.anti_ad.mc.common.gui.widgets.Page
 import org.anti_ad.mc.common.gui.widgets.Widget

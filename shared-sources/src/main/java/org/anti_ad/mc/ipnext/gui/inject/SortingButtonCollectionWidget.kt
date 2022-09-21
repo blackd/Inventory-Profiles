@@ -22,11 +22,11 @@ package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.detectable
-import org.anti_ad.mc.common.gui.widget.Overflow
-import org.anti_ad.mc.common.gui.widget.setBottomRight
-import org.anti_ad.mc.common.gui.widget.setTopRight
+import org.anti_ad.mc.common.gui.layout.Overflow
+import org.anti_ad.mc.common.gui.layout.setBottomRight
+import org.anti_ad.mc.common.gui.layout.setTopRight
 import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
@@ -47,7 +47,6 @@ import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
-import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions

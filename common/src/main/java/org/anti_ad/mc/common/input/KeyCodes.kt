@@ -24,6 +24,7 @@ import org.lwjgl.glfw.GLFW
 
 @Suppress("MemberVisibilityCanBePrivate")
 object KeyCodes {
+
     //region const val KEY_s
     //@formatter:off
     const val KEY_UNKNOWN = GLFW.GLFW_KEY_UNKNOWN
@@ -638,7 +639,6 @@ object KeyCodes {
         addEntry("MOUSE_SCROLL_RIGHT",
                  "Scroll Wheel Right",
                  MOUSE_SCROLL_RIGHT)
-
 
         //@formatter:on
         //endregion

@@ -96,37 +96,3 @@ inline fun <R> tryOrElse(onFailure: (Throwable) -> R,
 // ============
 // Event
 // ============
-
-class Event<T> {
-    private val handlers = mutableSetOf<((data: T) -> Unit)>()
-    operator fun plusAssign(handler: (T) -> Unit) {
-        handlers.add(handler)
-    }
-
-    operator fun minusAssign(handler: (T) -> Unit) {
-        handlers.remove(handler)
-    }
-
-    operator fun invoke(data: T) {
-        handlers.forEach { it(data) }
-    }
-}
-
-class RoutedEvent<T> {
-    private val handlers = mutableSetOf<((data: T, handled: Boolean) -> Boolean)>()
-    operator fun plusAssign(handler: (T, handled: Boolean) -> Boolean) {
-        handlers.add(handler)
-    }
-
-    operator fun minusAssign(handler: (T, handled: Boolean) -> Boolean) {
-        handlers.remove(handler)
-    }
-
-    operator fun invoke(data: T,
-                        handled: Boolean): Boolean {
-        return handlers.map {
-            it(data,
-               handled)
-        }.any { it }
-    }
-}

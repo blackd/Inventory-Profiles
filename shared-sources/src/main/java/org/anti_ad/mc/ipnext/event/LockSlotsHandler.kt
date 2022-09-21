@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.ifTrue
-import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size

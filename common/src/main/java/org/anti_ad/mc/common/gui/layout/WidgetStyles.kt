@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.common.gui.widget
+package org.anti_ad.mc.common.gui.layout
 
 data class AnchorStyles(
     val top: Boolean,

@@ -32,29 +32,24 @@ import org.anti_ad.mc.common.extensions.name
 import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
-import org.anti_ad.mc.common.integration.HintsManagerNG
-import org.anti_ad.mc.common.profiles.conifg.ProfileData
-import org.anti_ad.mc.common.profiles.conifg.ProfilesConfig
-import org.anti_ad.mc.common.profiles.conifg.dump
+import org.anti_ad.mc.ipnext.profiles.config.ProfileData
+import org.anti_ad.mc.ipnext.profiles.config.ProfilesConfig
+import org.anti_ad.mc.ipnext.profiles.config.dump
 import org.anti_ad.mc.common.util.LogicalStringComparator
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.glue.loggingPath
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
-import org.anti_ad.mc.ipnext.inventory.ContainerType
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.specific.serverIdentifier
-import org.anti_ad.mc.ipnext.util.dashedSanitized
-import org.anti_ad.mc.ipnext.util.sanitized
+import org.anti_ad.mc.common.extensions.dashedSanitized
+import org.anti_ad.mc.common.extensions.sanitized
 import java.nio.file.Path
-import kotlin.io.path.createDirectories
-import kotlin.io.path.createDirectory
 import kotlin.io.path.deleteExisting
-import kotlin.io.path.isRegularFile
 import kotlin.io.path.notExists
-
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
 

@@ -21,12 +21,11 @@
 package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.extensions.Event
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.ifFalse
 import org.anti_ad.mc.common.extensions.ifTrue
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.gui.widget.Overflow
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.widgets.glue.IBaseGlueWidget
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -71,18 +70,12 @@ open class Widget : IWidget<Widget>, Iterable<Widget> {
     override var zIndex = 0
 
     //region position
-    override var location by detectable(
-        Point(
-            0,
-            0
-        )
-    ) { oldValue, newValue ->
+    override var location by detectable(Point(0, 0)) { oldValue, newValue ->
         screenLocationChanged()
         locationChanged(LocationChangedEvent(oldValue,
                                              newValue))
     }
-    override var size by detectable(Size(0,
-                                         0)) { oldValue, newValue ->
+    override var size by detectable(Size(0, 0)) { oldValue, newValue ->
         resizeChildren(oldValue,
                        newValue)
         sizeChanged(SizeChangedEvent(oldValue,
@@ -199,19 +192,23 @@ private interface IWidgetPositioning {
     var left: Int
         get() = location.x
         set(value) =
-            if (anchor.right)  // ref: right
+            if (anchor.right)  { // ref: right
                 bounds = bounds.copy(x = value,
                                      width = left + width - value)
-            else
+            }
+            else {
                 location = location.copy(x = value)
+            }
     var top: Int
         get() = location.y
         set(value) =
-            if (anchor.bottom)  // ref: bottom
+            if (anchor.bottom) { // ref: bottom
                 bounds = bounds.copy(y = value,
                                      height = top + height - value)
-            else
+            }
+            else {
                 location = location.copy(y = value)
+            }
     var width: Int
         get() = size.width
         set(value) {
@@ -256,17 +253,21 @@ private interface IWidgetPositioning {
     var right: Int
         get() = containerWidth - left - width
         set(value) =
-            if (anchor.left)
+            if (anchor.left) {
                 size = size.copy(width = containerWidth - left - value)
-            else
+            }
+            else {
                 location = location.copy(x = containerWidth - value - width)
+            }
     var bottom: Int
         get() = containerHeight - top - height
         set(value) =
-            if (anchor.top)
+            if (anchor.top) {
                 size = size.copy(height = containerHeight - top - value)
-            else
+            }
+            else {
                 location = location.copy(y = containerHeight - value - height)
+            }
 
     /*
       setting screenX/screenY/screenLocation does not depend on anchor

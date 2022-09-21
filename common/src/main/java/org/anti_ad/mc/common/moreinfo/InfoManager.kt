@@ -37,7 +37,7 @@ object InfoManager {
     var loader: String = "loader-missing"
 
     private val defaultRequest: Map<String, String> = mapOf("domain" to "ipn-stats.anti-ad.org",
-                                                    "name" to "pageview")
+                                                            "name" to "pageview")
     private val session: MutableMap<String, String> = mutableMapOf()
     private val target = URL("https://p.anti-ad.org/api/event")
 
@@ -112,7 +112,7 @@ object InfoManager {
                 close()
             }
             with(inputStream) {
-                readAllBytes()
+                readBytes()
                 close()
             }
         }

@@ -37,7 +37,7 @@ import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
-import org.anti_ad.mc.common.integration.MergePriority
+import org.anti_ad.mc.ipnext.integration.MergePriority
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_DEFAULT
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson

@@ -22,8 +22,8 @@ package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.config.CategorizedMultiConfig
 import org.anti_ad.mc.common.config.IConfigOption
-import org.anti_ad.mc.common.gui.Tooltips
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
+import org.anti_ad.mc.common.gui.TooltipsManager
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredText
 import kotlin.math.roundToInt
@@ -60,7 +60,7 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
         super.render(mouseX,
                      mouseY,
                      partialTicks)
-        Tooltips.renderAll()
+        TooltipsManager.renderAll()
     }
 
     fun addCategory(categoryName: String) {
@@ -126,10 +126,10 @@ class ConfigListWidget(private val displayNameOf: (String) -> String,
                 && !anchorHeader.contains(mouseX,
                                           mouseY)
             ) {
-                Tooltips.addTooltip(description,
-                                    mouseX,
-                                    mouseY,
-                                    glue_rScreenWidth * 2 / 3)
+                TooltipsManager.addTooltip(description,
+                                           mouseX,
+                                           mouseY,
+                                           glue_rScreenWidth * 2 / 3)
             }
         }
 

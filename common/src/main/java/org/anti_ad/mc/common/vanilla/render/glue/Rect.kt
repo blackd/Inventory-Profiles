@@ -24,7 +24,7 @@ package org.anti_ad.mc.common.vanilla.render.glue
 
 
 import org.anti_ad.mc.common.Log
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 

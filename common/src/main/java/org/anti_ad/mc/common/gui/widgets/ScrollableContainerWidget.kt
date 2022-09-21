@@ -20,8 +20,8 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.gui.widget.Overflow.HIDDEN
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.Overflow.HIDDEN
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect

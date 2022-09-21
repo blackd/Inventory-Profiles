@@ -203,6 +203,21 @@ object GlobalInputHandler {
         }
     }
 
+    fun shiftAnd(vararg keyCodes: Int)  = (pressedKeys.contains(KeyCodes.KEY_LEFT_SHIFT) || pressedKeys.contains(KeyCodes.KEY_RIGHT_SHIFT))
+            && pressedKeys.containsAll(keyCodes.distinct())
+
+    fun altAnd(vararg keyCodes: Int)  = (pressedKeys.contains(KeyCodes.KEY_LEFT_ALT) || pressedKeys.contains(KeyCodes.KEY_RIGHT_ALT))
+            && pressedKeys.containsAll(keyCodes.distinct())
+
+    fun ctrlAnd(vararg keyCodes: Int)  = (pressedKeys.contains(KeyCodes.KEY_LEFT_CONTROL) || pressedKeys.contains(KeyCodes.KEY_RIGHT_CONTROL))
+            && pressedKeys.containsAll(keyCodes.distinct())
+
+    fun superAnd(vararg keyCodes: Int)  = (pressedKeys.contains(KeyCodes.KEY_LEFT_SUPER) || pressedKeys.contains(KeyCodes.KEY_RIGHT_SUPER))
+            && pressedKeys.containsAll(keyCodes.distinct())
+
+    fun arePressed( vararg keyCodes: Int) = pressedKeys.containsAll(keyCodes.distinct())
+
+
     // ============
     // api
     // ============

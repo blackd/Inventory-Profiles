@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.gui.inject.base
 
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.Hintable
-import org.anti_ad.mc.common.integration.ButtonPositionHint
+import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder

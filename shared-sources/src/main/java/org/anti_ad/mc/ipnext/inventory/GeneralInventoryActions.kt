@@ -26,7 +26,7 @@ import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigString
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.tryCatch
-import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.BeaconContainer

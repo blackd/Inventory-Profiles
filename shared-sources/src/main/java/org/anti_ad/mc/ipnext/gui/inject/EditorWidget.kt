@@ -20,12 +20,12 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
-import org.anti_ad.mc.common.gui.widget.fillParent
-import org.anti_ad.mc.common.gui.widget.setTopLeft
+import org.anti_ad.mc.common.gui.layout.fillParent
+import org.anti_ad.mc.common.gui.layout.setTopLeft
 import org.anti_ad.mc.common.gui.widgets.Hintable
-import org.anti_ad.mc.common.integration.ButtonPositionHint
-import org.anti_ad.mc.common.integration.HintClassData
-import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
+import org.anti_ad.mc.ipnext.integration.HintClassData
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil

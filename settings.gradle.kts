@@ -23,6 +23,22 @@ include("common")
 
 
 if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+    /*
+    include("lib:platforms:fabric-1.19")
+    include("lib:platforms:fabric-1.18.2")
+    include("lib:platforms:fabric-1.18")
+    include("lib:platforms:fabric-1.17")
+    include("lib:platforms:fabric-1.16")
+    include("lib:platforms:fabric-1.15")
+    include("lib:platforms:fabric-1.14")
+    include("lib:platforms:forge-1.19")
+    include("lib:platforms:forge-1.18.2")
+    include("lib:platforms:forge-1.18")
+    include("lib:platforms:forge-1.17")
+    include("lib:platforms:forge-1.16")
+    include("lib:platforms:forge-1.15")
+    include("lib:platforms:forge-1.14")
+*/
     include("platforms:fabric-1.19")
     include("platforms:fabric-1.18.2")
     include("platforms:fabric-1.18")
@@ -30,7 +46,6 @@ if (JavaVersion.current() >= JavaVersion.VERSION_16) {
     include("platforms:fabric-1.16")
     include("platforms:fabric-1.15")
     include("platforms:fabric-1.14")
-
     include("platforms:forge-1.19")
     include("platforms:forge-1.18.2")
     include("platforms:forge-1.18")

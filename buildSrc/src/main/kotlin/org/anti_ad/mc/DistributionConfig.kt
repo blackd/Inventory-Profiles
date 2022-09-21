@@ -40,3 +40,18 @@ fun Project.configureDistribution(is18: Boolean) {
     }
 
 }
+
+fun Project.configureDistributionLib(is18: Boolean) {
+    apply(plugin = "java-library")
+    //    apply(plugin = "com.github.johnrengelman.shadow")
+
+
+    extensions.findByType(BasePluginExtension::class.java)?.archivesName?.set("ipn-lib")
+    //convention.getPlugin<BasePluginExtension>().archivesBaseName = project.name
+
+    tasks.named<DefaultTask>("build") {
+        dependsOn(tasks.findByPath(":common:build"))
+        dependsOn(tasks["shadowJar"])
+    }
+
+}

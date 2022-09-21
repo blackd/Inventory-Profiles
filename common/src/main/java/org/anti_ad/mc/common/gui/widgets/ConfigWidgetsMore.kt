@@ -23,8 +23,8 @@ package org.anti_ad.mc.common.gui.widgets
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
-import org.anti_ad.mc.common.gui.Tooltips
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
+import org.anti_ad.mc.common.gui.TooltipsManager
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.IKeybind
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -83,9 +83,9 @@ class ConfigHotkeyWidget(configOption: ConfigHotkey) : ConfigWidgetBase<ConfigHo
         if (iconButton.contains(mouseX,
                                 mouseY)
         ) { // show Advanced Keybind Settings
-            Tooltips.addTooltip(keybindSettingsTooltipText,
-                                mouseX,
-                                mouseY)
+            TooltipsManager.addTooltip(keybindSettingsTooltipText,
+                                       mouseX,
+                                       mouseY)
         }
     }
 
@@ -180,9 +180,9 @@ class ConfigKeyToggleBooleanWidget(configOption: ConfigKeyToggleBoolean) : Confi
                      partialTicks)
         if (iconButton.contains(mouseX, mouseY)) { // show Advanced Keybind Settings
 
-            Tooltips.addTooltip(keybindSettingsTooltipText,
-                                mouseX,
-                                mouseY)
+            TooltipsManager.addTooltip(keybindSettingsTooltipText,
+                                       mouseX,
+                                       mouseY)
         }
     }
 

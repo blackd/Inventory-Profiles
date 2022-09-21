@@ -21,9 +21,9 @@
 package org.anti_ad.mc.common.gui.screen
 
 import org.anti_ad.mc.common.config.options.ConfigHotkey
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.gui.widget.Flex
-import org.anti_ad.mc.common.gui.widget.FlexDirection.TOP_DOWN
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.Flex
+import org.anti_ad.mc.common.gui.layout.FlexDirection.TOP_DOWN
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigHotkeyWidget
 import org.anti_ad.mc.common.gui.widgets.Widget

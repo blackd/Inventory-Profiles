@@ -20,9 +20,9 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
-import org.anti_ad.mc.common.gui.Tooltips
+import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.widgets.Hintable
-import org.anti_ad.mc.common.integration.ButtonPositionHint
+import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
@@ -72,9 +72,9 @@ open class SortButtonWidget : TexturedButtonWidget {
         hintManagementRenderer.renderUnderManagement()
         if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
                                                                       mouseY) && tooltipText.isNotEmpty()) {
-            Tooltips.addTooltip(tooltipText,
-                                mouseX,
-                                mouseY)
+            TooltipsManager.addTooltip(tooltipText,
+                                       mouseX,
+                                       mouseY)
         }
     }
 

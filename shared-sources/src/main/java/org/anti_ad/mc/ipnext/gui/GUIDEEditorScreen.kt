@@ -22,10 +22,10 @@ package org.anti_ad.mc.ipnext.gui
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigBoolean
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
-import org.anti_ad.mc.common.gui.widget.Overflow
-import org.anti_ad.mc.common.gui.widget.fillParent
-import org.anti_ad.mc.common.gui.widget.setBottomLeft
-import org.anti_ad.mc.common.gui.widget.setTopRight
+import org.anti_ad.mc.common.gui.layout.Overflow
+import org.anti_ad.mc.common.gui.layout.fillParent
+import org.anti_ad.mc.common.gui.layout.setBottomLeft
+import org.anti_ad.mc.common.gui.layout.setTopRight
 import org.anti_ad.mc.common.gui.widgets.ConfigListWidget
 import org.anti_ad.mc.common.gui.widgets.Hintable
 import org.anti_ad.mc.common.gui.widgets.HudLabeledText
@@ -41,7 +41,7 @@ import org.anti_ad.mc.common.input.KeyCodes.KEY_UP
 import org.anti_ad.mc.common.input.KeyCodes.KEY_W
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
-import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.Screen

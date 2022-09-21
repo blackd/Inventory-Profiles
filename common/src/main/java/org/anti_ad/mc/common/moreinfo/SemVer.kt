@@ -1,7 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
+ *   Copyright (c) 2017 Eric Li
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify

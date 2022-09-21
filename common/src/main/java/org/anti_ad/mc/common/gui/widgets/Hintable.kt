@@ -21,7 +21,7 @@
 package org.anti_ad.mc.common.gui.widgets
 
 import org.anti_ad.mc.common.extensions.lnot
-import org.anti_ad.mc.common.integration.ButtonPositionHint
+import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.alpha
 import org.anti_ad.mc.common.vanilla.render.asGreen

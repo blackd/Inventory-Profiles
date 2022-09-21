@@ -20,10 +20,10 @@
 
 package org.anti_ad.mc.common.gui.widgets
 
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
-import org.anti_ad.mc.common.gui.widget.Flex
-import org.anti_ad.mc.common.gui.widget.FlexDirection.TOP_DOWN
-import org.anti_ad.mc.common.gui.widget.Overflow.VISIBLE
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
+import org.anti_ad.mc.common.gui.layout.Flex
+import org.anti_ad.mc.common.gui.layout.FlexDirection.TOP_DOWN
+import org.anti_ad.mc.common.gui.layout.Overflow.VISIBLE
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rFillOutline

@@ -22,8 +22,8 @@ package org.anti_ad.mc.common.gui.screen
 
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigHotkey
-import org.anti_ad.mc.common.gui.Tooltips
-import org.anti_ad.mc.common.gui.widget.AnchorStyles
+import org.anti_ad.mc.common.gui.TooltipsManager
+import org.anti_ad.mc.common.gui.layout.AnchorStyles
 import org.anti_ad.mc.common.gui.widgets.TextButtonWidget
 import org.anti_ad.mc.common.gui.widgets.toConfigWidget
 import org.anti_ad.mc.common.input.ConfigKeybindSettings
@@ -72,7 +72,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTr
                                     partialTicks: Float) {
                     super.render(mouseX, mouseY, partialTicks)
                     if (showTooltips && contains(mouseX, mouseY)) {
-                        Tooltips.addTooltip(configOption.description, mouseX, mouseY, glue_rScreenWidth * 2 / 3)
+                        TooltipsManager.addTooltip(configOption.description, mouseX, mouseY, glue_rScreenWidth * 2 / 3)
                     }
                 }
             }.apply {
@@ -90,7 +90,7 @@ class ConfigOptionHotkeyDialog(val configHotkey: ConfigHotkey): BaseDialog(getTr
         super.render(mouseX, mouseY, partialTicks) //    Diffuse disable()
         configHotkey.mainKeybind.settings = keybindSettingElement.settings
         rDrawCenteredText("§l$titleString", dialogWidget.screenX + dialogWidget.width / 2, dialogWidget.screenY + 2 + 6, COLOR_WHITE)
-        Tooltips.renderAll()
+        TooltipsManager.renderAll()
     }
 
 }

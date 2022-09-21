@@ -23,7 +23,7 @@ package org.anti_ad.mc.ipnext.event
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeyCodes
-import org.anti_ad.mc.common.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
@@ -56,7 +56,8 @@ import org.anti_ad.mc.ipnext.item.isEmpty
 object MiscHandler {
 
     fun swipeMoving() {
-        if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
+        //if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
+        if (GlobalInputHandler.shiftAnd(KeyCodes.MOUSE_BUTTON_1)) {
             InfoManager.event("swipeMoving/shift")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)
@@ -67,7 +68,7 @@ object MiscHandler {
                     LockSlotsHandler.lastMouseClickSlot = null
                 }
             }
-        } else if (VanillaUtil.ctrlDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.KEY_Q)) {
+        } else if (GlobalInputHandler.ctrlAnd(KeyCodes.KEY_Q)) {
             InfoManager.event("swipeMoving/ctrl+q")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)

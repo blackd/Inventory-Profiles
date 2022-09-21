@@ -40,7 +40,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.*
 
   total h = (list.size * 10 + 6) w = (8 + maxTextWidth)
  */
-object Tooltips {
+object TooltipsManager {
     const val hMargin = 5 // x minimum 5 away from screen boundary
     const val vMargin = 2 // y minimum 2 away from screen boundary
 

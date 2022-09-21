@@ -39,6 +39,14 @@ fun Project.configureCommon(is18: Boolean = false) {
     version = rootProject.version
 }
 
+fun Project.configureCommonLib(is18: Boolean = false) {
+    configureDependencies()
+    configureCompilation(is18)
+    configureDistributionLib(is18)
+
+    version = rootProject.version
+}
+
 fun Project.platformsCommonConfig() {
     tasks["javadoc"].enabled = false
 }

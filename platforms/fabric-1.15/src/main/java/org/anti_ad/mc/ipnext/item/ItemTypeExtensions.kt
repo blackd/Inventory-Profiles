@@ -86,6 +86,9 @@ inline val ItemType.identifier: Identifier
 inline val ItemType.namespace: String
     get() = identifier.namespace
 
+inline val ItemType.itemClass
+    get() = item.javaClass
+
 //region ItemType String Relative
 
 inline val ItemType.hasCustomName: Boolean
