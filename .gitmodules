@@ -1,0 +1,3 @@
+[submodule "libIPN"]
+	path = libIPN
+	url = git@github.com:blackd/libIPN.git

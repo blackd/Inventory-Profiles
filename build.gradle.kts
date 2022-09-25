@@ -18,12 +18,14 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import org.anti_ad.mc.getGitHash
+import org.anti_ad.mc.ipnext.buildsrc.getGitHash
+import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
 val versionObj = Version("1", "7", "2",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
+
 
 repositories {
     google()
@@ -53,7 +55,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
 
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
-    id("fabric-loom") version(loom_version) apply false
+    id("fabric-loom") version(org.anti_ad.mc.ipnext.buildsrc.loom_version) apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
 }

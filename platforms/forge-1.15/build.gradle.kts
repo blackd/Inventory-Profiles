@@ -25,11 +25,13 @@ import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
-import org.anti_ad.mc.configureCommon
-import org.anti_ad.mc.forgeCommonAfterEvaluate
-import org.anti_ad.mc.forgeCommonDependency
-import org.anti_ad.mc.platformsCommonConfig
-import org.anti_ad.mc.registerMinimizeJarTask
+import org.anti_ad.mc.ipnext.buildsrc.FilteringSourceSet
+import org.anti_ad.mc.ipnext.buildsrc.configureCommon
+import org.anti_ad.mc.ipnext.buildsrc.fgdeobf
+import org.anti_ad.mc.ipnext.buildsrc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.ipnext.buildsrc.forgeCommonDependency
+import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
+import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
@@ -44,6 +46,11 @@ val kotlin_for_forge_version = "1.17.0"
 val mappingsMap = mapOf("channel" to "snapshot",
                         "version" to "20200514-1.15.1")
 
+val libIPN_version = if (project.version.toString().contains("SNAPSHOT")) {
+    "forge-1.15:1.0.0-SNAPSHOT"
+} else {
+    "forge-1.15:1.0.0"
+}
 
 logger.lifecycle("""
     ***************************************************
@@ -144,9 +151,11 @@ repositories {
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
+fgdeobf =  { id ->
+    fg.deobf(id)
+}
 
-forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version,
-                      includeCommon = false)
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
 
 configurations {
     create("embed")
@@ -154,11 +163,6 @@ configurations {
 
 dependencies {
 
-    val antlrVersion = "4.9.3"
-    "antlr"("org.antlr:antlr4:$antlrVersion")
-    "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
-
-    api(fg.deobf("org.anti_ad.mc:libIPN-forge-1.15:1.0.0-SNAPSHOT"))
 }
 
 tasks.named("compileKotlin") {
@@ -377,19 +381,10 @@ configure<UserDevExtension> {
             args("--width=1280", "--height=720", "--username=DEV")
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets["main"])
-
-            if (sourceSets.findByName("assetsFixtemp") == null) {
-                sourceSets.create("assetsFixtemp") {
-                    project(":common").layout.buildDirectory.dir("resources/main")
-                }
-            }
-            this.sources.add(sourceSets["assetsFixtemp"])
-            /*
             if (JavaVersion.current() >= JavaVersion.VERSION_11) {
                 jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
                 jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
             }
-             */
             //taskName = "plamenRunClient"
             this.forceExit = false
         }
@@ -397,23 +392,6 @@ configure<UserDevExtension> {
         create("server", runConfig)
         //create("data", runConfig)
     }
-}
-
-
-tasks.register<Copy>("injectCommonResources") {
-    tasks["prepareRuns"].dependsOn("injectCommonResources")
-    from(project(":common").layout.buildDirectory.dir("resources/main"))
-    include("assets/**")
-    into(project.layout.buildDirectory.dir("resources/main"))
-}
-
-tasks.register<Delete>("removeCommonResources") {
-    tasks["prepareRuns"].finalizedBy("removeCommonResources")
-    doLast {
-        delete(project.layout.buildDirectory.dir("resources/main/assets"))
-    }
-
-    mustRunAfter("runClient")
 }
 
 afterEvaluate {

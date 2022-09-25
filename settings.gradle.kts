@@ -55,12 +55,6 @@ if (JavaVersion.current() >= JavaVersion.VERSION_16) {
     include("platforms:forge-1.14")
 }
 
-
-
-
-
-
-
 pluginManagement {
     repositories {
         maven(url = "https://maven.fabricmc.net") {

@@ -23,12 +23,13 @@ import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.fabricmc.loom.task.RemapJarTask
-import org.anti_ad.mc.configureCommon
-import org.anti_ad.mc.fabricCommonAfterEvaluate
-import org.anti_ad.mc.fabricCommonDependency
-import org.anti_ad.mc.fabricRegisterCommonTasks
-import org.anti_ad.mc.platformsCommonConfig
-import org.anti_ad.mc.registerMinimizeJarTask
+import org.anti_ad.mc.ipnext.buildsrc.configureCommon
+import org.anti_ad.mc.ipnext.buildsrc.fabricCommonAfterEvaluate
+import org.anti_ad.mc.ipnext.buildsrc.fabricCommonDependency
+import org.anti_ad.mc.ipnext.buildsrc.fabricRegisterCommonTasks
+import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
+import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
+import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
@@ -42,6 +43,12 @@ val loader_version = "0.14.3"
 val modmenu_version = "3.0.0"
 val fabric_api_version = "0.46.4+1.18"
 val mod_artefact_version = project.ext["mod_artefact_version"]
+
+val libIPN_version = if (project.version.toString().contains("SNAPSHOT")) {
+    "fabric-1.18:1.0.0-SNAPSHOT"
+} else {
+    "fabric-1.18:1.0.0"
+}
 
 buildscript {
     dependencies {
@@ -69,6 +76,7 @@ plugins {
     `maven-publish`
     antlr
     signing
+    idea
     id("fabric-loom")
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
@@ -92,32 +100,17 @@ compileKotlin.kotlinOptions {
 }
 
 repositories {
-    maven {
-        url = uri("https://www.cursemaven.com")
-        content {
-            includeGroup ("curse.maven")
-        }
-    }
-    maven {
-        url = uri("../../../libIPN/repos/snapshots")
-    }
+
 }
 
 fabricCommonDependency(minecraft_version,
                        mappings_version,
                        loader_version,
                        fabric_api_version,
-                       modmenu_version,
-                       includeCommon = false)
+                       modmenu_version = modmenu_version,
+                       libIPN_version = libIPN_version)
+
 dependencies {
-
-    val antlrVersion = "4.9.3"
-    "antlr"("org.antlr:antlr4:$antlrVersion")
-    "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
-
-    modApi("org.anti_ad.mc:libIPN-fabric-1.18:1.0.0-SNAPSHOT")?.let {
-        include(it)
-    }
 }
 
 tasks.named("compileKotlin") {
@@ -248,10 +241,6 @@ afterEvaluate {
 
 tasks.named<DefaultTask>("build") {
     dependsOn(remapped)
-    dependsOn("copyJavadoc")
-    dependsOn("packageSources")
-    dependsOn("copyJarForPublish")
-//    dependsOn("minimizeJar")
 }
 
 

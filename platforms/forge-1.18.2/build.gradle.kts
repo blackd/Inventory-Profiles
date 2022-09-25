@@ -25,11 +25,13 @@ import com.modrinth.minotaur.dependencies.ModDependency
 import net.minecraftforge.gradle.common.util.RunConfig
 import net.minecraftforge.gradle.userdev.DependencyManagementExtension
 import net.minecraftforge.gradle.userdev.UserDevExtension
-import org.anti_ad.mc.configureCommon
-import org.anti_ad.mc.forgeCommonAfterEvaluate
-import org.anti_ad.mc.forgeCommonDependency
-import org.anti_ad.mc.platformsCommonConfig
-import org.anti_ad.mc.registerMinimizeJarTask
+import org.anti_ad.mc.ipnext.buildsrc.FilteringSourceSet
+import org.anti_ad.mc.ipnext.buildsrc.configureCommon
+import org.anti_ad.mc.ipnext.buildsrc.fgdeobf
+import org.anti_ad.mc.ipnext.buildsrc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.ipnext.buildsrc.forgeCommonDependency
+import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
+import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
@@ -43,6 +45,12 @@ val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.6.0"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.18.2")
+
+val libIPN_version = if (project.version.toString().contains("SNAPSHOT")) {
+    "forge-1.18.2:1.0.0-SNAPSHOT"
+} else {
+    "forge-1.18.2:1.0.0"
+}
 
 logger.lifecycle("""
     ***************************************************
@@ -143,9 +151,11 @@ repositories {
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
+fgdeobf =  { id ->
+    fg.deobf(id)
+}
 
-forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version,
-                      includeCommon = false)
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
 
 configurations {
     create("embed")
@@ -153,11 +163,6 @@ configurations {
 
 dependencies {
 
-    val antlrVersion = "4.9.3"
-    "antlr"("org.antlr:antlr4:$antlrVersion")
-    "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
-
-    implementation(fg.deobf("org.anti_ad.mc:libIPN-forge-1.18:1.0.0-SNAPSHOT"))
 }
 
 tasks.named("compileKotlin") {
@@ -379,7 +384,7 @@ configure<UserDevExtension> {
             arg("--mixin.config=mixins.ipnext.json")
             args("--width=1280", "--height=720", "--username=DEV")
             workingDirectory = project.file("run").canonicalPath
-            source(org.anti_ad.mc.FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
+            source(FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
 
 
             jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
@@ -413,10 +418,7 @@ configure<UserDevExtension> {
 
 
 tasks.register<DefaultTask>("fixRunJvmArgs") {
-    //tasks["prepareRuns"].finalizedBy("fixRunJvmArgs")
 
-    //dependsOn(":common:compileKotlin")
-    //dependsOn(":common:compileJava")
     group = "forgegradle runs"
 
     mustRunAfter("prepareRunClient")
@@ -425,18 +427,6 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
         val ts = tasks.named(rcltName, JavaExec::class)
 
         val newArgs = mutableListOf<String>()
-/*
-        val commonPath = project(":common").buildDir.absolutePath + "/classes/"
-        val javaCommon = commonPath + "java/main"
-        val kotlinCommon = commonPath + "kotlin/main"
-        ts.get().environment["MOD_CLASSES"] = "${ts.get().environment["MOD_CLASSES"]}:$javaCommon"
-        ts.get().environment["MOD_CLASSES"] = "${ts.get().environment["MOD_CLASSES"]}:$kotlinCommon"
-        val newClassPath = project.files()
-        newClassPath.from(File(javaCommon))
-        newClassPath.from(File(kotlinCommon))
-        newClassPath.from(ts.get().classpath)
-        ts.get().classpath = newClassPath
-*/
         logger.lifecycle("Detected JVM Arguments:")
         ts.get().allJvmArgs.forEach {
             logger.lifecycle("\t$it")

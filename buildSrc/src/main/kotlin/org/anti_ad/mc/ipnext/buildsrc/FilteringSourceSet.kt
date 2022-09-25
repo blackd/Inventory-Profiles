@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc
+package org.anti_ad.mc.ipnext.buildsrc
 
 import groovy.lang.Closure
 import org.gradle.api.Action

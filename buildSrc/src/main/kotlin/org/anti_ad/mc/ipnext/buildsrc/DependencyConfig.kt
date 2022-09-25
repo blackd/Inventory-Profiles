@@ -17,10 +17,11 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc
+package org.anti_ad.mc.ipnext.buildsrc
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.artifacts.Dependency
 import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.dependencies
 
@@ -47,6 +48,22 @@ fun Project.configureDependencies() {
     }
 
     repositories {
+
+        maven {
+            name = "libIPN-Snapshots"
+            this.mavenContent {
+                this.snapshotsOnly()
+            }
+            url = uri("../../libIPN/repos/snapshots")
+        }
+        maven {
+            name = "libIPN-Releases"
+            this.mavenContent {
+                this.releasesOnly()
+            }
+            url = uri("../../libIPN/repos/releases")
+        }
+
         gradlePluginPortal()
         mavenCentral()
         maven { url = uri("https://maven.enginehub.org/repo/") }
@@ -58,11 +75,22 @@ fun Project.configureDependencies() {
         maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/releases/") }
         maven { url = uri("https://maven.fabricmc.net/") }
         maven { url = uri("https://maven.shedaniel.me") }
+
+        maven {
+            url = uri("https://www.cursemaven.com")
+            content {
+                includeGroup ("curse.maven")
+            }
+        }
     }
 
     dependencies {
         "api"("org.jetbrains:annotations:20.1.0")
         "shadedApi"("com.yevdo:jwildcard:1.4")
+
+        val antlrVersion = "4.9.3"
+        "antlr"("org.antlr:antlr4:$antlrVersion")
+        "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
     }
 }
 
@@ -70,12 +98,10 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    mappings_version: Any,
                                    loader_version: Any,
                                    fabric_api_version: Any,
-                                   modmenu_version: Any? = null,
-                                   includeCommon: Boolean = true) {
+                                   libIPN_version: Any? = null,
+                                   modmenu_version: Any? = null) {
+
     dependencies {
-        if (includeCommon) {
-            "shadedApi"(project(":common"))
-        }
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
@@ -93,18 +119,38 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         modmenu_version?.let {
             "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
         }
+
+        libIPN_version?.let {
+            "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")?.let {
+                "include"(it)
+            }
+        }
+
         "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")
     }
 }
 
+private fun ___fgdeobf(id: Any): Dependency {
+    TODO()
+}
+
+private var __fgdeobf: (Any) -> Dependency = ::___fgdeobf
+
+var Project.fgdeobf: (Any) -> Dependency
+    get() = __fgdeobf
+    set(value) {
+        __fgdeobf = value
+    }
+
 fun Project.forgeCommonDependency(minecraft_version: Any,
                                   loader_version: Any,
                                   kotlin_for_forge_version: Any,
-                                  includeCommon: Boolean = true) {
+                                  libIPN_version: Any?) {
+
     dependencies {
-        if (includeCommon) {
-            "shadedApi"(project(":common"))
-        }
+
+        "api"(fgdeobf("org.anti_ad.mc:libIPN-$libIPN_version"))
+
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")

@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc
+package org.anti_ad.mc.ipnext.buildsrc
 
 
 import org.gradle.api.DefaultTask
@@ -28,14 +28,9 @@ import org.gradle.kotlin.dsl.*
 
 fun Project.configureDistribution(is18: Boolean) {
     apply(plugin = "java-library")
-//    apply(plugin = "com.github.johnrengelman.shadow")
-
 
     extensions.findByType(BasePluginExtension::class.java)?.archivesName?.set(project.name)
-    //convention.getPlugin<BasePluginExtension>().archivesBaseName = project.name
-
     tasks.named<DefaultTask>("build") {
-        dependsOn(tasks.findByPath(":common:build"))
         dependsOn(tasks["shadowJar"])
     }
 
@@ -43,14 +38,9 @@ fun Project.configureDistribution(is18: Boolean) {
 
 fun Project.configureDistributionLib(is18: Boolean) {
     apply(plugin = "java-library")
-    //    apply(plugin = "com.github.johnrengelman.shadow")
-
 
     extensions.findByType(BasePluginExtension::class.java)?.archivesName?.set("libIPN")
-    //convention.getPlugin<BasePluginExtension>().archivesBaseName = project.name
-
     tasks.named<DefaultTask>("build") {
-        dependsOn(tasks.findByPath(":common:build"))
         dependsOn(tasks["shadowJar"])
     }
 
