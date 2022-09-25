@@ -46,7 +46,7 @@ fun Project.configureDistributionLib(is18: Boolean) {
     //    apply(plugin = "com.github.johnrengelman.shadow")
 
 
-    extensions.findByType(BasePluginExtension::class.java)?.archivesName?.set("ipn-lib")
+    extensions.findByType(BasePluginExtension::class.java)?.archivesName?.set("libIPN")
     //convention.getPlugin<BasePluginExtension>().archivesBaseName = project.name
 
     tasks.named<DefaultTask>("build") {

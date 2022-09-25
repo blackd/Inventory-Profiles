@@ -20,7 +20,8 @@
 
 package org.anti_ad.mc.ipnext.parser
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.LogBase
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.Savable
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.annotation.MayThrow
@@ -58,7 +59,7 @@ private val strCmpLogical = LogicalStringComparator.file()
 object ReloadRuleFileButtonInfoDelegate : ConfigButtonClickHandler() {
 
     override fun onClick(guiClick: () -> Unit) {
-        TellPlayer.listenLog(Log.LogLevel.INFO) {
+        TellPlayer.listenLog(LogBase.LogLevel.INFO) {
             RuleLoader.reload()
         }
         guiClick()

@@ -19,7 +19,7 @@
 
 package org.anti_ad.mc.ipnext.inventory.scrolling
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla

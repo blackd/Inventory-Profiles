@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.common.gui.layout.fillParent
 import org.anti_ad.mc.common.gui.layout.setTopLeft
-import org.anti_ad.mc.common.gui.widgets.Hintable
+import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.ipnext.integration.HintClassData
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG

@@ -26,7 +26,7 @@ import org.anti_ad.mc.common.gui.layout.BiFlex
 import org.anti_ad.mc.common.gui.layout.setBottomLeft
 import org.anti_ad.mc.common.gui.layout.setBottomRight
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
-import org.anti_ad.mc.common.gui.widgets.Hintable
+import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.ipnext.integration.HintClassData

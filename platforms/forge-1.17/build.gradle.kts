@@ -41,7 +41,8 @@ val minecraft_version_string = "1.17[.1]"
 val forge_version = "37.1.1"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "2.2.0"
-
+val mappingsMap = mapOf("channel" to "official",
+                        "version" to "1.17.1")
 
 logger.lifecycle("""
     ***************************************************
@@ -95,6 +96,7 @@ plugins {
     java
     idea
     `maven-publish`
+    antlr
     signing
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
@@ -116,6 +118,7 @@ compileKotlin.kotlinOptions {
     jvmTarget = "16"
 }
 
+
 group = "org.anti-ad.mc"
 
 repositories {
@@ -134,27 +137,68 @@ repositories {
         name = "kotlinforforge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
     }
+    maven {
+        url = uri("../../../libIPN/repos/snapshots")
+    }
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
 
-forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version)
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version,
+                      includeCommon = false)
+
+configurations {
+    create("embed")
+}
 
 dependencies {
-//    runtimeOnly ( fg.deobf("curse.maven:sophisticated-backpacks-422301:3597547"))
-//    runtimeOnly ( fg.deobf("curse.maven:polymorph-388800:3587694"))
-//    runtimeOnly ( fg.deobf("curse.maven:immersive-engineering-231951:3587149"))
-//    runtimeOnly ( fg.deobf("curse.maven:roughly-enough-items-310111:3638569"))
-//    runtimeOnly ( fg.deobf("curse.maven:architectury-forge-419699:3638627"))
-//    runtimeOnly ( fg.deobf("curse.maven:cloth-config-forge-348521:3641133"))
-//    runtimeOnly ( fg.deobf("curse.maven:jsmacros-403185:3602310"))
-    //runtimeOnly ( fg.deobf("curse.maven:travelers-backpack-321117:3667528"))
-    //runtimeOnly ( fg.deobf("curse.maven:curios-309927:3661868"))
+
+    val antlrVersion = "4.9.3"
+    "antlr"("org.antlr:antlr4:$antlrVersion")
+    "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
+
+    implementation(fg.deobf("org.anti_ad.mc:libIPN-forge-1.17:1.0.0-SNAPSHOT"))
+}
+
+tasks.named("compileKotlin") {
+    dependsOn("generateGrammarSource")
+}
+
+tasks.named("compileJava") {
+    dependsOn("generateGrammarSource")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    dependsOn("generateGrammarSource")
+}
+
+plugins.withId("idea") {
+    configure<org.gradle.plugins.ide.idea.model.IdeaModel> {
+        afterEvaluate {
+            module.sourceDirs.add(file("src/shared/antlr"))
+            module.sourceDirs.add(file("build/generated-src/antlr/main"))
+            //module.generatedSourceDirs.add(file("build/generated-src/antlr/main"))
+        }
+    }
+}
+
+
+tasks.named<AntlrTask>("generateGrammarSource").configure {
+    val pkg = "org.anti_ad.mc.common.gen"
+    outputDirectory = file("build/generated-src/antlr/main/${pkg.replace('.', '/')}")
+    arguments = listOf(
+        "-visitor", "-package", pkg,
+        "-Xexact-output-dir"
+                      )
 }
 
 afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
+        this.java.srcDirs("./src/shared/kotlin")
+    }
+    project.sourceSets.getByName("main") {
+        resources.srcDirs("src/shared/resources")
     }
 }
 
@@ -203,11 +247,10 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("kotlin/**")
     exclude("kotlinx/**")
 
-    //include("org/anti_ad/mc/**")
-
-    exclude("**/*.kotlin_metadata")
-    exclude("**/*.kotlin_module")
-    exclude("**/*.kotlin_builtins")
+    //exclude("META-INF/**")
+    //exclude("**/*.kotlin_metadata")
+    //exclude("**/*.kotlin_module")
+    //exclude("**/*.kotlin_builtins")
     //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
     //exclude("**/*_ws$*.class")
     exclude("**/*.stg")
@@ -225,8 +268,8 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("META-INF/com.android.tools/**")
     exclude("META-INF/proguard/**")
     exclude("META-INF/services/**")
-    exclude("META-INF/LICENSE")
-    exclude("META-INF/README")
+    //exclude("META-INF/LICENSE")
+    //exclude("META-INF/README")
 
     minimize()
 }
@@ -321,9 +364,7 @@ configurations {
 }
 
 configure<UserDevExtension> {
-    mappings(mapOf(
-        "channel" to "official",
-        "version" to "1.17.1"))
+    mappings(mappingsMap)
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(
@@ -352,16 +393,18 @@ configure<UserDevExtension> {
 
         create("server", runConfig)
         //create("data", runConfig)
+
         all {
             lazyToken("minecraft_classpath") {
                 project.tasks.findByPath(":platforms:${project.name}:runClient")?.dependsOn("fixRunJvmArgs")
-                configurations["shadedApi"].copyRecursive().resolve().filter {
+                configurations["runHelperApi"].copyRecursive().resolve().filter {
                     it.absolutePath.contains("kotlin")
                 }.joinToString(File.pathSeparator) {
                     it.absolutePath
                 }
             }
         }
+
     }
     afterEvaluate {
 
@@ -369,21 +412,11 @@ configure<UserDevExtension> {
 }
 
 
-tasks.register<Copy>("injectCommonResources") {
-    tasks["prepareRuns"].dependsOn("injectCommonResources")
-    dependsOn(":common:processResources")
-    from(project(":common").layout.buildDirectory.dir("resources/main"))
-    include("assets/**")
-    into(project.layout.buildDirectory.dir("resources/main"))
-}
-
-
-
 tasks.register<DefaultTask>("fixRunJvmArgs") {
     //tasks["prepareRuns"].finalizedBy("fixRunJvmArgs")
 
-    dependsOn(":common:compileKotlin")
-    dependsOn(":common:compileJava")
+    //dependsOn(":common:compileKotlin")
+    //dependsOn(":common:compileJava")
     group = "forgegradle runs"
 
     mustRunAfter("prepareRunClient")
@@ -392,7 +425,7 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
         val ts = tasks.named(rcltName, JavaExec::class)
 
         val newArgs = mutableListOf<String>()
-
+/*
         val commonPath = project(":common").buildDir.absolutePath + "/classes/"
         val javaCommon = commonPath + "java/main"
         val kotlinCommon = commonPath + "kotlin/main"
@@ -403,7 +436,7 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
         newClassPath.from(File(kotlinCommon))
         newClassPath.from(ts.get().classpath)
         ts.get().classpath = newClassPath
-
+*/
         logger.lifecycle("Detected JVM Arguments:")
         ts.get().allJvmArgs.forEach {
             logger.lifecycle("\t$it")
@@ -469,14 +502,6 @@ tasks.register<DefaultTask>("fixRunJvmArgs") {
     }
 }
 
-tasks.register<Delete>("removeCommonResources") {
-    tasks["prepareRuns"].finalizedBy("removeCommonResources")
-    doLast {
-        delete(project.layout.buildDirectory.dir("resources/main/assets"))
-    }
-
-    mustRunAfter("runClient")
-}
 
 afterEvaluate {
     tasks.forEach {

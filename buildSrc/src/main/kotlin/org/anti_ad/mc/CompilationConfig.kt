@@ -30,7 +30,7 @@ import org.gradle.kotlin.dsl.*
 
 import org.gradle.language.jvm.tasks.ProcessResources
 
-fun Project.configureCompilation(is18: Boolean = false) {
+fun Project.configureCompilation(is18: Boolean = false, jarBaseName: String) {
     apply(plugin = "maven-publish")
     apply(plugin = "idea")
 
@@ -69,7 +69,7 @@ fun Project.configureCompilation(is18: Boolean = false) {
         }
     }
     tasks.withType<Jar> {
-        archiveBaseName.set("InventoryProfilesNext-${archiveBaseName.get()}")
+        archiveBaseName.set("$jarBaseName-${archiveBaseName.get()}")
         from("../LICENSE", "../../LICENSE")
     }
 }

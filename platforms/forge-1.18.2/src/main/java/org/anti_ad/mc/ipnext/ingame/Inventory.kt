@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.ipnext.ingame
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory

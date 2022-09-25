@@ -19,15 +19,15 @@
 
 package org.anti_ad.mc.ipnext.event
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
-import org.anti_ad.mc.common.vanilla.alias.selectPostAction
-import org.anti_ad.mc.common.vanilla.alias.selectPreAction
-import org.anti_ad.mc.common.vanilla.alias.selectRecipe
+import org.anti_ad.mc.ipnext.container.selectPostAction
+import org.anti_ad.mc.ipnext.container.selectPreAction
+import org.anti_ad.mc.ipnext.container.selectRecipe
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(container)`

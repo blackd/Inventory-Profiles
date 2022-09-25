@@ -20,7 +20,8 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.common.LogBase
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.config.options.ConfigEnum
 import org.anti_ad.mc.common.config.options.ConfigString
@@ -94,7 +95,7 @@ object GeneralInventoryActions {
                customRule: ConfigString,
                postAction: ConfigEnum<PostAction>) {
 
-        TellPlayer.listenLog(Log.LogLevel.WARN) {
+        TellPlayer.listenLog(LogBase.LogLevel.WARN) {
             InnerActions.doSort(sortOrder.value.rule(customRule.value),
                                 postAction.value)
         }

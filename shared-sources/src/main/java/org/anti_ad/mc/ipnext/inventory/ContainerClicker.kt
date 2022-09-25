@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size

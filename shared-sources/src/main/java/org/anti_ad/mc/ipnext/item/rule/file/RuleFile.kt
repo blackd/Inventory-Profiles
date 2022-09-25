@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item.rule.file
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.annotation.ThrowsCaught
 import org.anti_ad.mc.common.util.IndentedDataFileParser
 import org.anti_ad.mc.ipnext.parser.RuleParser

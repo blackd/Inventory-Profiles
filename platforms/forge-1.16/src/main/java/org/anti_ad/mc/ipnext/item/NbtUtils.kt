@@ -21,7 +21,7 @@
 package org.anti_ad.mc.ipnext.item
 
 import com.mojang.brigadier.StringReader
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.AsComparable
 import org.anti_ad.mc.common.extensions.asComparable
 import org.anti_ad.mc.common.extensions.compareTo

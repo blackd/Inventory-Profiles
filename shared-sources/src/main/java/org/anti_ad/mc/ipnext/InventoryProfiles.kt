@@ -20,13 +20,16 @@
 
 package org.anti_ad.mc.ipnext
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
-import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
+//import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
 import org.anti_ad.mc.common.moreinfo.InfoManager
+/*
 import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
 import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
 import org.anti_ad.mc.common.vanilla.vanillaInitGlue
+
+ */
 import org.anti_ad.mc.ipnext.access.IPNImpl
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -37,25 +40,27 @@ import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
 import org.anti_ad.mc.ipnext.specific.initInfoManager
 
-var initGlueProc: (() -> Unit)? = ::initGlues;
+var initGlueProc: (() -> Unit) = ::initGlues;
 
 private fun initGlues() {
-    initGlueProc?.also {
-        ConfigKeyToggleBoolean.toggleNotificationHandler = ConfigScreeHelper::toggleBooleanSettingMessage
-        ConfigKeyToggleBoolean.finish = ConfigScreeHelper::finish
-        renderInitTheGlue()
-        aliasInitGlue()
-        vanillaInitGlue()
-        widgetsInitGlue()
-        IPNImpl.init()
-        initGlueProc = null
-    }
+
+    ConfigKeyToggleBoolean.toggleNotificationHandler = ConfigScreeHelper::toggleBooleanSettingMessage
+    ConfigKeyToggleBoolean.finish = ConfigScreeHelper::finish
+    //renderInitTheGlue()
+    //aliasInitGlue()
+    //vanillaInitGlue()
+    //widgetsInitGlue()
+    IPNImpl.init()
+    initGlueProc = ::nop
+
 }
+
+fun nop() { }
 
 @Suppress("unused")
 fun init() {
 
-    initGlues()
+    initGlueProc()
 
     specificInit()
 
@@ -75,7 +80,7 @@ fun init() {
         //CustomDataFileLoader.load()
         if (ModSettings.FIRST_RUN.booleanValue) {
             InfoManager.isEnabled = { false }
-            ModSettings.FIRST_RUN.value = false
+            ModSettings.FIRST_RUN. value = false
             SaveLoadManager.save()
         } else {
             InfoManager.isEnabled = { ModSettings.ENABLE_ANALYTICS.value }

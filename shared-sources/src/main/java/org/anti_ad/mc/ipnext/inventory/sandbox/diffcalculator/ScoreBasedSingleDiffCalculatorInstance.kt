@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.ipnext.inventory.sandbox.diffcalculator
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.inventory.data.ItemStat
 import org.anti_ad.mc.ipnext.inventory.data.ItemTracker
 import org.anti_ad.mc.ipnext.inventory.data.stat

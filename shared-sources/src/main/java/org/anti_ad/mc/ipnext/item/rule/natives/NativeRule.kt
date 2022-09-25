@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item.rule.natives
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.asComparable
 import org.anti_ad.mc.common.extensions.compareTo
 import org.anti_ad.mc.common.extensions.letIf

@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.CraftingResultSlot;
-import org.anti_ad.mc.common.Log;
+import org.anti_ad.mc.ipnext.Log;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

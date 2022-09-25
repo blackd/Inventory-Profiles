@@ -21,7 +21,7 @@
 package org.anti_ad.mc.ipnext.item.rule.file
 
 import com.yevdo.jwildcard.JWildcard
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.vanilla.alias.`(REGISTRIES-BLOCK-IDS)`
 import org.anti_ad.mc.common.vanilla.alias.`(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
 

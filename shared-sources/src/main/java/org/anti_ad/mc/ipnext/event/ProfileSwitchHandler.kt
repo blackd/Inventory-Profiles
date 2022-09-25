@@ -20,7 +20,7 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.IInputHandler
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.ipnext.profiles.config.ProfileData
 import org.anti_ad.mc.ipnext.profiles.config.ProfileEnchantmentData

@@ -32,15 +32,11 @@
 #    public static ** valueOf(java.lang.String);
 #}
 
-#-keep class org.anti_ad.mc.** { *; }
-#-keep class org.anti_ad.mc.api.** { *; }
-
-#-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonEncoder* { *; }
-#-keep class org.anti_ad.embedded.kotlinx.serialization.json.JsonDecoder* { *; }
-#-keep class org.anti_ad.embedded.kotlinx.serialization.json.*Serializer* { *; }
 
 #normal build
--keep class !org.anti_ad.embedded.** { *; }
+-keepclassmembers class org.anti_ad.mc.** { *; }
+-keep class org.anti_ad.mc.** { *; }
+
 # min build
 #-keepnames class !org.anti_ad.embedded.** { *; }
 #-keep class org.anti_ad.mc.common.mixin.** { *; }
@@ -57,19 +53,5 @@
 
 
 # https://proandroiddev.com/is-your-kotlin-code-really-obfuscated-a36abf033dde
-
--assumenosideeffects class kotlin.jvm.internal.Intrinsics {
-  public static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
-  public static void checkNotNull(java.lang.Object);
-  public static void checkNotNull(java.lang.Object, java.lang.String);
-  public static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
-  public static void checkNotNullParameter(java.lang.Object, java.lang.String);
-  public static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String);
-  public static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
-  public static void throwUninitializedPropertyAccessException(java.lang.String);
-}
 
 #-assumenosideeffects class kotlin.jvm.internal.Intrinsics { *; }

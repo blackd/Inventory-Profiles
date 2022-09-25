@@ -63,11 +63,13 @@ logger.lifecycle("""
 
 
 plugins {
-    kotlin("jvm") //version "1.6.21"
-    kotlin("plugin.serialization") //version "1.6.21"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
     `java-library`
     `maven-publish`
+    antlr
     signing
+    idea
     id("fabric-loom")
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
@@ -97,25 +99,74 @@ repositories {
             includeGroup ("curse.maven")
         }
     }
+    maven {
+        url = uri("../../../libIPN/repos/snapshots")
+    }
+    maven { url = uri("https://maven.shedaniel.me/") }
+    maven { url = uri("https://storage.googleapis.com/devan-maven/") }
 }
 
 fabricCommonDependency(minecraft_version,
                        mappings_version,
                        loader_version,
                        fabric_api_version,
-                       modmenu_version)
+                       modmenu_version,
+                       includeCommon = false)
 dependencies {
 
+    val antlrVersion = "4.9.3"
+    "antlr"("org.antlr:antlr4:$antlrVersion")
+    "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
+
+    modApi("org.anti_ad.mc:libIPN-fabric-1.18.2:1.0.0-SNAPSHOT")?.let {
+        include(it)
+    }
+}
+
+tasks.named("compileKotlin") {
+    dependsOn("generateGrammarSource")
+}
+
+tasks.named("compileJava") {
+    dependsOn("generateGrammarSource")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    dependsOn("generateGrammarSource")
+}
+
+plugins.withId("idea") {
+    configure<org.gradle.plugins.ide.idea.model.IdeaModel> {
+        afterEvaluate {
+            module.sourceDirs.add(file("src/shared/antlr"))
+            module.sourceDirs.add(file("build/generated-src/antlr/main"))
+            //module.generatedSourceDirs.add(file("build/generated-src/antlr/main"))
+        }
+    }
 }
 
 loom {
+    runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
+}
+
+tasks.named<AntlrTask>("generateGrammarSource").configure {
+    val pkg = "org.anti_ad.mc.common.gen"
+    outputDirectory = file("build/generated-src/antlr/main/${pkg.replace('.', '/')}")
+    arguments = listOf(
+        "-visitor", "-package", pkg,
+        "-Xexact-output-dir"
+                      )
 }
 
 afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
+        this.java.srcDirs("./src/shared/kotlin")
+    }
+    project.sourceSets.getByName("main") {
+        resources.srcDirs("src/shared/resources")
     }
 }
 
@@ -132,10 +183,10 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("kotlin/**")
     exclude("kotlinx/**")
 
-    exclude("META-INF/**")
-    exclude("**/*.kotlin_metadata")
-    exclude("**/*.kotlin_module")
-    exclude("**/*.kotlin_builtins")
+    //exclude("META-INF/**")
+    //exclude("**/*.kotlin_metadata")
+    //exclude("**/*.kotlin_module")
+    //exclude("**/*.kotlin_builtins")
     //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
     //exclude("**/*_ws$*.class")
     exclude("**/*.stg")
@@ -150,8 +201,8 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("io/netty/**")
     //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
-    exclude("META-INF/LICENSE")
-    exclude("META-INF/README")
+    //exclude("META-INF/LICENSE")
+    //exclude("META-INF/README")
 
     minimize()
 }

@@ -41,6 +41,9 @@ fun Project.configureDependencies() {
         val shadedImplementation = create("shadedImplementation")
         shaded.extendsFrom(shadedImplementation)
         getByName("implementation").extendsFrom(shadedImplementation)
+        val runHelperApi = create("runHelperApi")
+        runHelperApi.extendsFrom(getByName("api"))
+        //getByName("modApi").extendsFrom(shadedApi)
     }
 
     repositories {
@@ -67,14 +70,20 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    mappings_version: Any,
                                    loader_version: Any,
                                    fabric_api_version: Any,
-                                   modmenu_version: Any? = null) {
+                                   modmenu_version: Any? = null,
+                                   includeCommon: Boolean = true) {
     dependencies {
-
-        "shadedApi"(project(":common"))
+        if (includeCommon) {
+            "shadedApi"(project(":common"))
+        }
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+
+        "api"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
+
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
         "minecraft"("com.mojang:minecraft:$minecraft_version")
         "mappings"("net.fabricmc:yarn:$mappings_version:v2")
@@ -90,17 +99,33 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
 fun Project.forgeCommonDependency(minecraft_version: Any,
                                   loader_version: Any,
-                                  kotlin_for_forge_version: Any) {
+                                  kotlin_for_forge_version: Any,
+                                  includeCommon: Boolean = true) {
     dependencies {
-        "shadedApi"(project(":common"))
+        if (includeCommon) {
+            "shadedApi"(project(":common"))
+        }
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+        "api"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
+
         "minecraft"("net.minecraftforge:forge:$minecraft_version-$loader_version")
         "api"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
         "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
         "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
         "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")
+
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
+        //these are here, so we add them during the runClient/Server
+        //for some reason they are not added by any of the default api/implementation...
+        "runHelperApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+        "runHelperApi"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
     }
 }

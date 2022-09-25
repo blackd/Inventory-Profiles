@@ -33,7 +33,7 @@ plugins {
 
 }
 
-configureCompilation(true)
+configureCompilation(true, "InventoryProfilesNext")
 configureDependencies()
 
 group = "org.anti-ad.mc"

@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.debug
 
 //import org.anti_ad.mc.common.vanilla.alias.TagGroup
 import net.minecraft.util.registry.RegistryEntryList
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler

@@ -33,7 +33,7 @@ import java.io.ByteArrayOutputStream
 
 fun Project.configureCommon(is18: Boolean = false) {
     configureDependencies()
-    configureCompilation(is18)
+    configureCompilation(is18, "InventoryProfilesNext")
     configureDistribution(is18)
 
     version = rootProject.version
@@ -41,7 +41,7 @@ fun Project.configureCommon(is18: Boolean = false) {
 
 fun Project.configureCommonLib(is18: Boolean = false) {
     configureDependencies()
-    configureCompilation(is18)
+    configureCompilation(is18, "libIPN")
     configureDistributionLib(is18)
 
     version = rootProject.version

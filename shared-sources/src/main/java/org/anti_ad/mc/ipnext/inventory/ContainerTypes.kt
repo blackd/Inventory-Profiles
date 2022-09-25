@@ -20,10 +20,10 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.versionSpecificContainerTypes
+import org.anti_ad.mc.ipnext.container.versionSpecificContainerTypes
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*

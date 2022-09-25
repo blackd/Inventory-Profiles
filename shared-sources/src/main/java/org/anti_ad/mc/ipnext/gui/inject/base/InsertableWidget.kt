@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
-import org.anti_ad.mc.common.gui.widgets.Hintable
+import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen

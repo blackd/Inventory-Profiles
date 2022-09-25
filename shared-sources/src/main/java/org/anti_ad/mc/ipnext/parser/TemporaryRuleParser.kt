@@ -20,7 +20,7 @@
 
 package org.anti_ad.mc.ipnext.parser
 
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.annotation.ThrowsCaught
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.ipnext.item.rule.EmptyRule

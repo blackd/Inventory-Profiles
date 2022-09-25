@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.debug
 
 import net.minecraft.core.HolderSet
 import net.minecraftforge.registries.ForgeRegistries
-import org.anti_ad.mc.common.Log
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.name

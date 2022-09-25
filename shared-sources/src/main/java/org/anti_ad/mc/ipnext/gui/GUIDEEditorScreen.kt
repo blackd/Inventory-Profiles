@@ -27,7 +27,7 @@ import org.anti_ad.mc.common.gui.layout.fillParent
 import org.anti_ad.mc.common.gui.layout.setBottomLeft
 import org.anti_ad.mc.common.gui.layout.setTopRight
 import org.anti_ad.mc.common.gui.widgets.ConfigListWidget
-import org.anti_ad.mc.common.gui.widgets.Hintable
+import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.common.gui.widgets.HudLabeledText
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.input.KeyCodes.KEY_A
