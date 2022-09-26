@@ -31,7 +31,7 @@ sealed class ItemStack {
         get() = count > itemType.maxCount
 
     inline val overstackedAndNotManageable: Boolean
-        get() = count > itemType.maxCount && count > 64
+        get() = count > itemType.maxCount && count >  64
 
 
     final override fun toString() = "${count}x $itemType"

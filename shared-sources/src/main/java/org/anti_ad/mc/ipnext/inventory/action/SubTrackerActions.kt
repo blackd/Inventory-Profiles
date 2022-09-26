@@ -30,6 +30,7 @@ import org.anti_ad.mc.ipnext.inventory.data.MutableSubTracker
 import org.anti_ad.mc.ipnext.inventory.data.collect
 import org.anti_ad.mc.ipnext.inventory.data.itemTypes
 import org.anti_ad.mc.ipnext.item.EMPTY
+import org.anti_ad.mc.ipnext.item.ImmutableItemStack
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.MutableItemStack
@@ -148,12 +149,18 @@ fun MutableSubTracker.sort(sortingRule: Rule,
 private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
 
     val overStackedMap = mutableMapOf<Int, ItemStack>()
+    val overStackedManageableList = mutableListOf<ItemStack>()
     val overStacked = this.filterIndexed { index, itemStack ->
         val keep = itemStack.overstackedAndNotManageable
         if (keep) overStackedMap[index] = itemStack
         keep
     }
-    val bucket = (this - overStacked).collect()
+    val overStackedManageable = this.filterIndexed { index, itemStack ->
+        val keep = itemStack.overstacked
+        if (keep) overStackedManageableList.add(itemStack)
+        keep
+    }
+    val bucket = (this - overStacked - overStackedManageable).collect()
     val sorted =  bucket.elementSet.toList().sortedWith(sortingRule)
         .map { itemType ->
             itemType to pack(bucket.count(itemType),
@@ -164,6 +171,13 @@ private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
 
     overStackedMap.forEach { (i, itemStack) ->
         sorted.add(i, itemStack)
+    }
+
+    overStackedManageableList.forEach { itemStack ->
+        val index = sorted.indexOfLast {
+            it.isEmpty()
+        }
+        sorted[index] = ImmutableItemStack(itemStack.itemType, itemStack.count)
     }
 
     return sorted
