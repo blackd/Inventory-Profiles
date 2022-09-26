@@ -2,9 +2,9 @@
 
 ### 1.8.0
 
-- Introducing [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). The GUI/Config code is now in separate library mod. [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) will be uses in other mods made by me. And there... If are other brave devs.
+- Introducing [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). The GUI/Config code is now in separate library mod. [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) will be used by my other mods. And others?... If there are other brave devs.
 - **Inventory Profiles Next** now depends on [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). This means you will need to install [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) too or **Inventory Profiles Next** will not work
-- There are no user facing changes
+- Added Ukrainian translation. Thanks to **ttrafford7**
 
 <!-- latest end -->
 
