@@ -43,12 +43,7 @@ val loader_version = "0.14.3"
 val modmenu_version = "3.0.0"
 val fabric_api_version = "0.46.4+1.18"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-
-val libIPN_version = if (project.version.toString().contains("SNAPSHOT")) {
-    "fabric-1.18:1.0.0-SNAPSHOT"
-} else {
-    "fabric-1.18:1.0.0"
-}
+val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
 buildscript {
     dependencies {

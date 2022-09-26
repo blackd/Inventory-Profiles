@@ -30,6 +30,6 @@
     "fabric-resource-loader-v0": "*",
     "minecraft": ">=1.14.1 <1.15",
     "fabric-language-kotlin": ">=1.6.0+kotlin.1.5.0",
-    "libipn": ">=0.0.1"
+    "libipn": ">=@LIBIPN_VERSION@"
   }
 }

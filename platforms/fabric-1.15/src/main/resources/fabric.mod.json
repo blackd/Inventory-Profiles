@@ -24,12 +24,12 @@
     ]
   },
   "mixins": [
-    "mixins.common.json",
     "mixins.ipnext.json"
   ],
   "depends": {
     "fabric-resource-loader-v0": "*",
     "minecraft": "~1.15",
-    "fabric-language-kotlin": ">=1.6.0+kotlin.1.5.0"
+    "fabric-language-kotlin": ">=1.6.0+kotlin.1.5.0",
+    "libipn": ">=@LIBIPN_VERSION@"
   }
 }

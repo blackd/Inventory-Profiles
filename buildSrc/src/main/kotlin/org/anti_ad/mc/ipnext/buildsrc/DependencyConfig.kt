@@ -122,7 +122,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
         libIPN_version?.let {
             "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")?.let {
-                "include"(it)
+                //"include"(it)
             }
         }
 

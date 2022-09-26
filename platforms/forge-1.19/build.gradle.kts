@@ -45,12 +45,7 @@ val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.7.1"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.19")
-
-val libIPN_version = if (project.version.toString().contains("SNAPSHOT")) {
-    "forge-1.19:1.0.0-SNAPSHOT"
-} else {
-    "forge-1.19:1.0.0"
-}
+val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
 logger.lifecycle("""
     ***************************************************

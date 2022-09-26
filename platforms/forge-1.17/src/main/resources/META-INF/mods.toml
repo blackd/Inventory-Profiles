@@ -41,6 +41,7 @@ license="@LICENSE@"
 
     # The description text for the mod (multi line!) (#mandatory)
     description='''
+
 Take controll over you inventory
 '''
 
@@ -62,5 +63,12 @@ Take controll over you inventory
     modId="minecraft"
     mandatory=true
     versionRange="[1.17.1,1.18)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.inventoryprofilesnext]]
+    modId="libipn"
+    mandatory=true
+    versionRange="[@LIBIPN_VERSION@,)"
     ordering="NONE"
     side="CLIENT"

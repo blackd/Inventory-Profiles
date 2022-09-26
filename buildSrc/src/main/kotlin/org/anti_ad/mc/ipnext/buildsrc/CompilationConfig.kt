@@ -21,6 +21,7 @@ package org.anti_ad.mc.ipnext.buildsrc
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.bundling.ZipEntryCompression
@@ -63,7 +64,8 @@ fun Project.configureCompilation(is18: Boolean = false, jarBaseName: String) {
                     "WIKI" to properties["ipnext.docs"],
                     "SOURCE" to properties["ipnext.scm"],
                     "ISSUES" to properties["ipnext.tracker"],
-                    "LICENSE" to properties["ipnext.license"]
+                    "LICENSE" to properties["ipnext.license"],
+                    "LIBIPN_VERSION" to (project.extensions["ext"] as ExtraPropertiesExtension)["libIPN_version"]
                 )
             )
         }
