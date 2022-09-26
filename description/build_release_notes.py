@@ -11,6 +11,7 @@ def main():
         "release_notes.md",
         "md",
         format="md",
+        extra_args=["--wrap=preserve"],
         filters=["pandoc-include"]
     )
 
