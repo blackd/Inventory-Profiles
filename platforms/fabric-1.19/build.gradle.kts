@@ -276,6 +276,7 @@ configure<CurseExtension> {
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("fabric-api")
             requiredDependency("fabric-language-kotlin")
+            requiredDependency("libipn")
             optionalDependency("modmenu")
         })
     })
@@ -318,6 +319,7 @@ modrinth {
         mutableListOf(
             ModDependency("P7dR8mSH", "required"),
             ModDependency("Ha28R6CL", "required"),
+            ModDependency("onSQdWhM", "required"),
             ModDependency("mOgUt4GM", "optional")))
 
     this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)

@@ -1,4 +1,15 @@
 <!-- latest begin -->
+
+### 1.8.0
+
+- Introducing [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). The GUI/Config code is now in separate library mod. [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) will be uses in other mods made by me. And there... If are other brave devs.
+- **Inventory Profiles Next** now depends on [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). This means you will need to install [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) too or **Inventory Profiles Next** will not work
+- There are no user facing changes
+
+<!-- latest end -->
+
+<!-- rest begin -->
+
 ### 1.7.2
 
 - Continuous/Auto Crafting now supports the Stone Cutter.
@@ -11,9 +22,6 @@
 Switched to modern Kotlin support. This means that this mod now requires [Kotlin for Forge](https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge) or [Fabric Language Kotlin](https://www.curseforge.com/minecraft/mc-mods/fabric-language-kotlin)
 
 
-<!-- latest end -->
-
-<!-- rest begin -->
 
 ### 1.7.1
 

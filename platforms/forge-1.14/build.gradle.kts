@@ -459,6 +459,7 @@ configure<CurseExtension> {
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("kotlin-for-forge")
             requiredDependency("mixinbootstrap")
+            requiredDependency("libipn")
         })
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
@@ -503,5 +504,6 @@ modrinth {
     loaders.add(mod_loader)
     dependencies.set(
         mutableListOf(
-            ModDependency("ordsPcFz", "required")))
+            ModDependency("ordsPcFz", "required"),
+            ModDependency("onSQdWhM", "required")))
 }
