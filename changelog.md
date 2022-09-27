@@ -1,14 +1,23 @@
 <!-- latest begin -->
 
+### 1.8.1
+
+- fixed mouse wheel events being processed twice in some cases.
+
+### NOTE
+
+- **Inventory Profiles Next** now depends on [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). This means you will need to install [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) too or **Inventory Profiles Next** will not work
+
+<!-- latest end -->
+
+<!-- rest begin -->
+
 ### 1.8.0
 
 - Introducing [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). The GUI/Config code is now in separate library mod. [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) will be used by my other mods. And others?... If there are other brave devs.
 - **Inventory Profiles Next** now depends on [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). This means you will need to install [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) too or **Inventory Profiles Next** will not work
 - Added Ukrainian translation. Thanks to **ttrafford7**
 
-<!-- latest end -->
-
-<!-- rest begin -->
 
 ### 1.7.2
 
