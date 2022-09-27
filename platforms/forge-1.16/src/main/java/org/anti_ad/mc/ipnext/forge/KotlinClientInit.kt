@@ -23,7 +23,6 @@ import net.minecraft.client.Minecraft
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.ExtensionPoint
 import net.minecraftforge.fml.ModLoadingContext
-import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
 import org.anti_ad.mc.ipnext.event.Sounds.Companion.registerAll
@@ -35,7 +34,6 @@ import org.anti_ad.mc.ipnext.init as inventoryProfilesInit
 class KotlinClientInit: Runnable {
 
     override fun run() {
-        MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
 
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler())
 

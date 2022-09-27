@@ -24,7 +24,6 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.IExtensionPoint
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.client.ConfigGuiHandler
-import org.anti_ad.mc.common.forge.CommonForgeEventHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.init as inventoryProfilesInit
 
@@ -36,8 +35,6 @@ class KotlinClientInit: Runnable {
                     remote: String?, isServer: Boolean? -> true
             }
         }
-
-        MinecraftForge.EVENT_BUS.register(CommonForgeEventHandler())
 
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler())
 

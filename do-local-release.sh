@@ -7,7 +7,7 @@ pushd .
 
 cd $(mktemp -d /tmp/ipn-release.XXXX)
 
-git clone git@github.com:blackd/Inventory-Profiles.git IPN
+git clone --recurse-submodules git@github.com:blackd/Inventory-Profiles.git IPN
 
 cd IPN/description
 
