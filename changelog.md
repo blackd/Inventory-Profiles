@@ -1,8 +1,9 @@
 <!-- latest begin -->
 
-### 1.8.1
+### 1.8.2
 
-- fixed mouse wheel events being processed twice in some cases.
+- fixed/added support for fishing rods auto refill.
+- update Ukrainian translation. Thanks to BurrConnie
 
 ### NOTE
 
@@ -11,6 +12,10 @@
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.8.1
+
+- fixed mouse wheel events being processed twice in some cases.
 
 ### 1.8.0
 

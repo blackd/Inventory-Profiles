@@ -141,9 +141,6 @@ repositories {
         name = "kotlinforforge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
     }
-    maven {
-        url = uri("../../../libIPN/repos/snapshots")
-    }
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
