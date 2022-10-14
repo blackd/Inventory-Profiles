@@ -35,6 +35,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.showSubTitle
 import org.anti_ad.mc.common.vanilla.*
+import org.anti_ad.mc.common.vanilla.alias.items.FishingRodItem
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
@@ -468,6 +469,9 @@ object AutoRefillHandler {
                         }
                         is ToolItem -> {
                             filtered = filtered.filter { it.value.itemType.item is ToolItem }
+                        }
+                        is FishingRodItem -> {
+                            filtered = filtered.filter { it.value.itemType.item is FishingRodItem }
                         }
                         else -> {
                             filtered = filtered.filter {

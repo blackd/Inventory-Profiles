@@ -91,6 +91,7 @@ val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
     jvmTarget = "16"
+    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 repositories {

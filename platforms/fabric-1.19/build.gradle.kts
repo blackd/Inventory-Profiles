@@ -92,10 +92,14 @@ val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
     jvmTarget = "17"
+    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 repositories {
-
+    maven {
+        name = "Ladysnake Libs"
+        url = uri("https://ladysnake.jfrog.io/artifactory/mods")
+    }
 }
 
 fabricCommonDependency(minecraft_version,
@@ -106,6 +110,8 @@ fabricCommonDependency(minecraft_version,
                        libIPN_version = libIPN_version)
 
 dependencies {
+    //modRuntimeOnly("dev.emi:trinkets:3.4.0")
+    //modRuntimeOnly("curse.maven:scout-631922:3947029")
 }
 
 tasks.named("compileKotlin") {

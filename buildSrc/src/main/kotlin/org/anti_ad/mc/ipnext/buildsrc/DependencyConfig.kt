@@ -121,9 +121,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         }
 
         libIPN_version?.let {
-            "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")?.let {
-                //"include"(it)
-            }
+            "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")
         }
 
         "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")

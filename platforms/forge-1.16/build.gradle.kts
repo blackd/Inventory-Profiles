@@ -119,6 +119,7 @@ val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
     jvmTarget = "1.8"
+    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 
@@ -157,7 +158,8 @@ configurations {
 }
 
 dependencies {
-
+    //modRuntimeOnly("dev.emi:trinkets:3.4.0")
+    runtimeOnly( fg.deobf("curse.maven:sophisticated-backpacks-422301:3910948"))
 }
 
 tasks.named("compileKotlin") {

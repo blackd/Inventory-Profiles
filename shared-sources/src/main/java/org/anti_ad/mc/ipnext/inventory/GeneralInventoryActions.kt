@@ -92,8 +92,8 @@ object GeneralInventoryActions {
     }
 
     private fun doSort(sortOrder: ConfigEnum<SortingMethodIndividual>,
-               customRule: ConfigString,
-               postAction: ConfigEnum<PostAction>) {
+                       customRule: ConfigString,
+                       postAction: ConfigEnum<PostAction>) {
 
         TellPlayer.listenLog(LogBase.LogLevel.WARN) {
             InnerActions.doSort(sortOrder.value.rule(customRule.value),
@@ -348,8 +348,8 @@ private object InnerActions {
 
     fun doSort(sortingRule: Rule,
                postAction: PostAction) = tryCatch {
-        innerDoSort(sortingRule,
-                    postAction)
+            innerDoSort(sortingRule,
+                        postAction)
     }
 
     fun innerDoSort(sortingRule: Rule,

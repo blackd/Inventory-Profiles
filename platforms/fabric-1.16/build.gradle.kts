@@ -90,6 +90,7 @@ val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     languageVersion = "1.5"
     jvmTarget = "1.8"
+    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 repositories {
@@ -104,6 +105,7 @@ fabricCommonDependency(minecraft_version,
                        libIPN_version = libIPN_version)
 
 dependencies {
+    modRuntimeOnly("curse.maven:carpet-349239:3388185")
 }
 
 tasks.named("compileKotlin") {
