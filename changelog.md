@@ -1,9 +1,12 @@
 <!-- latest begin -->
 
-### 1.8.2
+### 1.8.3
 
-- fixed/added support for fishing rods auto refill.
-- update Ukrainian translation. Thanks to BurrConnie
+- Auto refill can now be configured to use any available food when refilling food slots.
+  
+  **NOTE:** The best available food is chosen i.e. if you have a `notch apple` it will be next :)
+- Added workaround for [Forge bug](https://github.com/MinecraftForge/MinecraftForge/issues/9088) that crashes the game if there is a missing dependency and mixin resolution failed.
+
 
 ### NOTE
 
@@ -12,6 +15,11 @@
 <!-- latest end -->
 
 <!-- rest begin -->
+
+
+
+- fixed/added support for fishing rods auto refill.
+- update Ukrainian translation. Thanks to BurrConnie
 
 ### 1.8.1
 
