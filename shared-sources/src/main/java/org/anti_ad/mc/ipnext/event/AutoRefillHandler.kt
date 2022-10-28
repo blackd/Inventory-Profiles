@@ -18,9 +18,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:Suppress("UnusedImport")
+
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.tryCatch
+import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Enchantments
 import org.anti_ad.mc.common.vanilla.alias.Items
@@ -34,9 +37,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.SwordItem
 import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
 import org.anti_ad.mc.common.vanilla.showSubTitle
-import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.common.vanilla.alias.items.FishingRodItem
-import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
@@ -54,6 +55,7 @@ import org.anti_ad.mc.ipnext.ingame.vMainhandIndex
 import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
+import org.anti_ad.mc.ipnext.item.`(foodComponent)`
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
@@ -69,6 +71,9 @@ import org.anti_ad.mc.ipnext.item.isDamageable
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isEmptyBucket
 import org.anti_ad.mc.ipnext.item.isEmptyComparedTo
+import org.anti_ad.mc.ipnext.item.`(isFood)`
+import org.anti_ad.mc.ipnext.item.`(isHarmful)`
+import org.anti_ad.mc.ipnext.item.`(saturationModifier)`
 import org.anti_ad.mc.ipnext.item.isFullBucket
 import org.anti_ad.mc.ipnext.item.isFullComparedTo
 import org.anti_ad.mc.ipnext.item.isHoneyBottle
@@ -474,9 +479,7 @@ object AutoRefillHandler {
                             filtered = filtered.filter { it.value.itemType.item is FishingRodItem }
                         }
                         else -> {
-                            filtered = filtered.filter {
-                                defaultItemMatch(it, itemType)
-                            }
+                            filtered = defaultItemMatch(filtered, itemType)
                         }
                     }
                     // find best tool match criteria
@@ -488,9 +491,7 @@ object AutoRefillHandler {
                     }
                 } else {
                     // find item
-                    filtered = filtered.filter {
-                        defaultItemMatch(it, itemType)
-                    }
+                    filtered = defaultItemMatch(filtered, itemType)
                 }
                 filtered = filtered.sortedWith(Comparator<IndexedValue<ItemStack>> { a, b ->
                     val aType = a.value.itemType
@@ -508,6 +509,24 @@ object AutoRefillHandler {
                 }.thenComparator { a, b ->
                     val aType = a.value.itemType
                     val bType = b.value.itemType
+                    if (aType.`(isFood)` && bType.`(isFood)`) {
+                        when {
+                            bType.`(foodComponent)`.`(saturationModifier)` == aType.`(foodComponent)`.`(saturationModifier)` -> {
+                                0
+                            }
+                            bType.`(foodComponent)`.`(saturationModifier)` > aType.`(foodComponent)`.`(saturationModifier)` -> {
+                                1
+                            }
+                            else -> {
+                                -1
+                            }
+                        }
+                    } else {
+                        0
+                    }
+                }.thenComparator { a, b ->
+                    val aType = a.value.itemType
+                    val bType = b.value.itemType
                     RuleFileRegister.getCustomRuleOrEmpty("auto_refill_best").compare(aType,
                                                                                       bType)
                 }.thenComparator { a, b ->
@@ -517,13 +536,40 @@ object AutoRefillHandler {
                 return index.takeIf { it >= 0 }?.plus(9)
             }
 
-            private fun defaultItemMatch(it: IndexedValue<ItemStack>,
-                                         itemType: ItemType) = if ((itemType.hasCustomName || it.value.itemType.hasCustomName) && AutoRefillSettings.AUTO_REFILL_MATCH_CUSTOM_NAME.booleanValue) {
+            private fun defaultItemMatch(filtered: Sequence<IndexedValue<ItemStack>>,
+                                         itemType: ItemType) = when {
+                filtered.firstOrNull() { typeItemMatch(it, itemType) } != null            -> {
+                    filtered.filter {
+                        typeItemMatch(it, itemType)
+                    }
+                }
+                filtered.firstOrNull() {
+                    val other = it.value.itemType
+                    val allowHarmful = AutoRefillSettings.AUTO_REFILL_MATCH_HARMFUL_FOOD.booleanValue
+                    val machAnyFood = AutoRefillSettings.AUTO_REFILL_MATCH_ANY_FOOD.booleanValue
 
-                it.value.itemType.item == itemType.item && it.value.itemType.customName == itemType.customName && checkNBTIfNeeded(it, itemType)
-            } else {
-                it.value.itemType.item == itemType.item && checkNBTIfNeeded(it, itemType)
+                    machAnyFood && (itemType.`(isFood)` && other.`(isFood)`) && (!other.`(foodComponent)`.`(isHarmful)` || allowHarmful)
+                } != null -> {
+
+                    filtered.filter {
+                        val other = it.value.itemType
+                        val allowHarmful = AutoRefillSettings.AUTO_REFILL_MATCH_HARMFUL_FOOD.booleanValue
+                        (itemType.`(isFood)` && other.`(isFood)`) && (!other.`(foodComponent)`.`(isHarmful)` || allowHarmful)
+                    }
+                }
+
+                else -> emptySequence()
+
             }
+
+            private fun typeItemMatch(it: IndexedValue<ItemStack>,
+                                      itemType: ItemType) =
+                    if ((itemType.hasCustomName || it.value.itemType.hasCustomName) && AutoRefillSettings.AUTO_REFILL_MATCH_CUSTOM_NAME.booleanValue) {
+                        it.value.itemType.item == itemType.item && it.value.itemType.customName == itemType.customName && checkNBTIfNeeded(it, itemType)
+                    } else {
+                        it.value.itemType.item == itemType.item && checkNBTIfNeeded(it, itemType)
+                    }
+
 
             private fun checkNBTIfNeeded(it: IndexedValue<ItemStack>,
                                          itemType: ItemType) = if (AutoRefillSettings.AUTO_REFILL_MATCH_NBT.booleanValue) {

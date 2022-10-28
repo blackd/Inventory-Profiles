@@ -152,6 +152,8 @@ object AutoRefillSettings : ConfigDeclaration {
     val AUTO_REFILL_MATCH_NBT                     /**/ by bool(true)
     val AUTO_REFILL_MATCH_NBT_TYPE                /**/ by enum(AutoRefillNbtMatchType.EXACT)
     val AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS        /**/ by bool(true)
+    val AUTO_REFILL_MATCH_ANY_FOOD                /**/ by bool(false)
+    val AUTO_REFILL_MATCH_HARMFUL_FOOD            /**/ by bool(false)
 
         .CATEGORY("$category.auto-refill.non-enchanted")
     val ALLOW_BREAK_FOR_NON_ENCHANTED             /**/ by keyToggleBool(false)

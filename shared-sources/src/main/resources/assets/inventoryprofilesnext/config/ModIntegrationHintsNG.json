@@ -88,6 +88,14 @@
             }
         }
     },
+    "ae2additions": {
+        "net.permutated.pylons.client.gui.HarvesterPylonScreen": {
+            "playerSideOnly": true
+        },
+        "net.permutated.pylons.client.gui.InterdictionPylonScreen": {
+            "playerSideOnly": true
+        }
+    },
     "ae2things": {
         "io.github.projectet.ae2things.gui.advancedInscriber.AdvancedInscriberRootPanel": {
             "playerSideOnly": true
@@ -1913,13 +1921,13 @@
             "playerSideOnly": true,
             "buttonHints": {
                 "SORT": {
-                    "horizontalOffset": 60
+                    "horizontalOffset": 67
                 },
                 "SORT_COLUMNS": {
-                    "horizontalOffset": 60
+                    "horizontalOffset": 67
                 },
                 "SORT_ROWS": {
-                    "horizontalOffset": 60
+                    "horizontalOffset": 67
                 }
             }
         },
@@ -2461,6 +2469,9 @@
         },
         "org.cyclops.integrateddynamics.client.gui.container.ContainerScreenVariablestore": {
             "playerSideOnly": true
+        },
+        "org.cyclops.integratedterminals.inventory.container.ContainerTerminalStoragePart": {
+            "ignore": true
         }
     },
     "integratednbt": {
@@ -2739,6 +2750,22 @@
         }
     },
     "mekanism": {
+        "mekanism.client.gui.item.GuiDictionary": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -40
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -28,
+                    "bottom": -12
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -16,
+                    "bottom": -24
+                }
+            }
+        },
         "mekanism.common.registration.impl.ContainerTypeDeferredRegister$ContainerBuilder$1": {
             "ignore": true
         },
@@ -2817,6 +2844,11 @@
         },
         "com.direwolf20.mininggadgets.common.containers.ModificationTableContainer": {
             "ignore": true
+        }
+    },
+    "misticalagricultur": {
+        "com.blakebr0.mysticalagriculture.client.screen.HarvesterScreen": {
+            "playerSideOnly": true
         }
     },
     "modularrouters": {
@@ -3612,16 +3644,20 @@
         "vazkii.quark.addons.oddities.client.screen.CrateScreen": {
             "buttonHints": {
                 "MOVE_TO_PLAYER": {
-                    "horizontalOffset": 40
+                    "horizontalOffset": 40,
+                    "top": -10
                 },
                 "SORT": {
-                    "horizontalOffset": 40
+                    "horizontalOffset": 40,
+                    "top": -10
                 },
                 "SORT_COLUMNS": {
-                    "horizontalOffset": 40
+                    "horizontalOffset": 40,
+                    "top": -10
                 },
                 "SORT_ROWS": {
-                    "horizontalOffset": 40
+                    "horizontalOffset": 40,
+                    "top": -10
                 }
             }
         },
@@ -3647,6 +3683,11 @@
                     "bottom": 60
                 }
             }
+        }
+    },
+    "refined-cooking": {
+        "dev.smolinacadena.refinedcooking.screen.KitchenAccessPointScreen": {
+            "playerSideOnly": true
         }
     },
     "refinedmods": {
@@ -4128,6 +4169,25 @@
             "playerSideOnly": true
         }
     },
+    "sfm": {
+        "ca.teamdman.sfm.client.gui.screen.ManagerScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -42,
+                    "bottom": 1
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -30,
+                    "bottom": -12
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -18,
+                    "bottom": -24
+                }
+            }
+        }
+    },
     "shrink": {
         "net.gigabit101.shrink.client.screen.ShrinkScreen": {
             "ignore": true
@@ -4186,6 +4246,9 @@
                     "bottom": 2
                 }
             }
+        },
+        "net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer": {
+            "ignore": true
         }
     },
     "sophisticatedstorage": {
@@ -4208,6 +4271,9 @@
                     "top": -5
                 }
             }
+        },
+        "net.p3pp3rf1y.sophisticatedstorage.common.gui.StorageContainerMenu": {
+            "ignore": true
         }
     },
     "storagecabinet": {
@@ -4301,6 +4367,23 @@
             "playerSideOnly": true
         },
         "net.mehvahdjukaar.supplementaries.client.gui.SackGui": {
+            "playerSideOnly": true
+        }
+    },
+    "supplimenteries": {
+        "net.mehvahdjukaar.supplementaries.client.screens.PulleyBlockGui": {
+            "playerSideOnly": true
+        },
+        "net.mehvahdjukaar.supplementaries.client.screens.SackGui": {
+            "playerSideOnly": true
+        },
+        "net.mehvahdjukaar.supplementaries.client.screens.NoticeBoardGui": {
+            "playerSideOnly": true
+        },
+        "net.mehvahdjukaar.supplementaries.client.screens.TrappedPresentBlockGui": {
+            "playerSideOnly": true
+        },
+        "net.mehvahdjukaar.supplementaries.client.screens.PresentBlockScreen": {
             "playerSideOnly": true
         }
     },
@@ -4651,6 +4734,22 @@
     },
     "travel_anchors": {
         "de.castcrafter.travel_anchors.block.ScreenTravelAnchor": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": 32
+                },
+                "SORT_COLUMNS": {
+                    "bottom": 32
+                },
+                "SORT_ROWS": {
+                    "bottom": 32
+                }
+            }
+        }
+    },
+    "travelanchors": {
+        "de.castcrafter.travelanchors.block.ScreenTravelAnchor": {
             "playerSideOnly": true,
             "buttonHints": {
                 "SORT": {

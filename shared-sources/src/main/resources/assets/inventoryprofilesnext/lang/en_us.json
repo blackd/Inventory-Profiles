@@ -166,6 +166,8 @@
     "inventoryprofiles.config.name.auto_refill_match_nbt":                          "Differentiate By NBT",
     "inventoryprofiles.config.name.auto_refill_match_nbt_type":                     "NBT Comparison Type",
     "inventoryprofiles.config.name.auto_refill_ignore_nbt_for_buckets":             "Ignore NBT for buckets",
+    "inventoryprofiles.config.name.auto_refill_match_any_food":                     "Refill With Any Food",
+    "inventoryprofiles.config.name.auto_refill_match_harmful_food":                 "Allow refill with harmful foods.",
     "inventoryprofiles.config.name.autorefill_blacklist":                           "Blacklisted item types",
     "inventoryprofiles.config.name.tool_damage_threshold":                          "Damage Threshold",
     "inventoryprofiles.config.name.threshold_unit":                                 "Threshold Units",
@@ -206,6 +208,8 @@
     "inventoryprofiles.config.description.auto_refill_match_nbt":                   "Auto refill will take NBT into account when refilling blocks\nFor gear NBT is ignored.",
     "inventoryprofiles.config.description.auto_refill_match_nbt_type":              "This controls how is NBT compared.\n'Exact' means that NBT must fully match.\n'Allow Extra' means that only tags that are the same will be compared.",
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":      "If this is set to false Fish and Axolotl buckets will only refill if they contain the same type of Fish/Axolotl.",
+    "inventoryprofiles.config.description.auto_refill_match_any_food":              "When this is set to true when a food item stack is depleted any other food item can be used to refill it.\n\nNOTE:\nThis will sort the food items by saturation, i.e. and enchanted golden apple will be the first choice. And so on...",
+    "inventoryprofiles.config.description.auto_refill_match_harmful_food":          "When this and the above are set to true, harmful foods, like 'puffer fish', will also be uset to refill depleted food stacks.",
 
     "inventoryprofiles.config.description.autorefill_blacklist":                    "Comma separated list of item types to that will be ignored by Auto refill\nFor example 'minecraft:golden_axe,minecraft:stone'\nWARNING:\nTo avoid performance degradation DO NOT put too many item types in the list!",
     "inventoryprofiles.config.description.tool_damage_threshold":                   "Controls the durability level that will trigger auto refill.",

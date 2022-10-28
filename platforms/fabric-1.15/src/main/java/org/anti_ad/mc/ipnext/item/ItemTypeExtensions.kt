@@ -20,10 +20,12 @@
 
 package org.anti_ad.mc.ipnext.item
 
+import net.minecraft.entity.effect.StatusEffectType
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
+import org.anti_ad.mc.common.vanilla.alias.FoodComponent
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
 import org.anti_ad.mc.common.vanilla.alias.Items
@@ -119,6 +121,43 @@ inline val ItemType.groupIndex: Int
         namespace == "minecraft" -> ItemGroup.MISC.index
         else -> ItemGroup.GROUPS.size
     }
+
+inline val ItemType.`(group)`: ItemGroup?
+    get() = item.group
+
+
+inline val ItemType.`(foodComponent)`: FoodComponent
+    get() = item.foodComponent ?: error("this shouldn't happen")
+
+inline val ItemType.`(isFood)`: Boolean
+    get() = item.isFood
+
+
+inline val FoodComponent.`(statusEffects)`: List<Pair<StatusEffectInstance, Float>>
+    get() = mutableListOf<Pair<StatusEffectInstance, Float>>().also { ls ->
+        this.statusEffects.forEach {
+            ls.add(Pair(it.left, it.right))
+        }
+    }
+
+inline val FoodComponent.`(isHarmful)`: Boolean
+    get() = run {
+        var res = false
+        run fastEnd@ {
+            this.`(statusEffects)`.forEach {
+                if (it.first.effectType.type  == StatusEffectType.HARMFUL) {
+                    res = true
+                    return@fastEnd
+                }
+            }
+        }
+        res
+
+    }
+
+inline val FoodComponent.`(saturationModifier)`
+    get() = this.saturationModifier
+
 inline val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
 inline val ItemType.damage: Int

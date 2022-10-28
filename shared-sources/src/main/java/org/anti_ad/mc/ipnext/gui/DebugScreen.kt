@@ -87,7 +87,7 @@ class DebugScreen: BaseDebugScreen() {
                         ::translatedName,
                         ::itemId,
                         ::translationKey,
-                        ::groupIndex,
+                        :: groupIndex,
                         ::rawId,
                         ::damage,
                         ::enchantmentsScore,

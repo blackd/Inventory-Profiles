@@ -18,13 +18,17 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:Suppress("ObjectPropertyName")
+
 package org.anti_ad.mc.ipnext.item
 
+import net.minecraft.potion.EffectType
 import net.minecraftforge.common.extensions.IForgeFluid
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
+import org.anti_ad.mc.common.vanilla.alias.FoodComponent
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.ItemGroup
 import org.anti_ad.mc.common.vanilla.alias.Items
@@ -118,6 +122,44 @@ inline val ItemType.groupIndex: Int
         namespace == "minecraft" -> ItemGroup.MISC.index // TAB_MISC.id
         else -> ItemGroup.GROUPS.size // TABS.size
     }
+
+inline val ItemType.`(group)`: ItemGroup?
+    get() = item.group
+
+
+inline val ItemType.`(foodComponent)`: FoodComponent
+    get() = item.food ?: error("this shouldn't happen")
+
+inline val ItemType.`(isFood)`: Boolean
+    get() = item.isFood
+
+
+inline val FoodComponent.`(statusEffects)`: List<Pair<StatusEffectInstance, Float>>
+    get() = mutableListOf<Pair<StatusEffectInstance, Float>>().also { ls ->
+        this.effects.forEach {
+            ls.add(Pair(it.left, it.right))
+        }
+    }
+
+inline val FoodComponent.`(isHarmful)`: Boolean
+    get() = run {
+        var res = false
+        run fastEnd@{
+            this.`(statusEffects)`.forEach {
+                if (it.first.potion.effectType == EffectType.HARMFUL) {
+                    res = true
+                    return@fastEnd
+                }
+
+            }
+        }
+        res
+
+    }
+
+inline val FoodComponent.`(saturationModifier)`
+    get() = this.saturation
+
 inline val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
 inline val ItemType.damage: Int
