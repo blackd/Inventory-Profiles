@@ -166,6 +166,8 @@
     "inventoryprofiles.config.name.auto_refill_match_nbt":                          "按NBT区分",
     "inventoryprofiles.config.name.auto_refill_match_nbt_type":                     "NBT比较类型",
     "inventoryprofiles.config.name.auto_refill_ignore_nbt_for_buckets":             "忽略桶的NBT",
+    "inventoryprofiles.config.name.auto_refill_match_any_food":                     "补充任何食物",
+    "inventoryprofiles.config.name.auto_refill_match_harmful_food":                 "允许补充有害食物。",
     "inventoryprofiles.config.name.autorefill_blacklist":                           "黑名单物品类型",
     "inventoryprofiles.config.name.tool_damage_threshold":                          "耐久阈值",
     "inventoryprofiles.config.name.threshold_unit":                                 "阈值单位",
@@ -206,6 +208,8 @@
     "inventoryprofiles.config.description.auto_refill_match_nbt":                   "重装方块时，自动填充将考虑NBT\n对于装备NBT被忽略。",
     "inventoryprofiles.config.description.auto_refill_match_nbt_type":              "这控制如何比较NBT。\n'精准'表示NBT必须完全匹配。\n'允许附加'表示只比较相同的标签。",
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":      "如果将其设置为关鱼和美西螈桶只有在它们包含相同类型的鱼/美西螈时才会重装",
+    "inventoryprofiles.config.description.auto_refill_match_any_food":              "当此值设置为开时，当一组食物耗尽时，可以使用任何其他食物来补充它。\n\n注意：\n这将按饱和度对食物物品进行排序，即附魔金苹果将是首选。等等...",
+    "inventoryprofiles.config.description.auto_refill_match_harmful_food":          "当此值和上面的选项设置为开时，有害食物，如“河豚”，也将被用来补充耗尽的一组食物。",
 
     "inventoryprofiles.config.description.autorefill_blacklist":                    "将被自动重装忽略的物品种类列表，以逗号进行分隔。\n例如：'minecraft:golden_axe,minecraft:stone'\n警告：\n为了避免性能下降，不要在列表中添加过多的物品种类！",
     "inventoryprofiles.config.description.tool_damage_threshold":                   "控制触发自动重装的耐久等级",
