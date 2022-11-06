@@ -35,6 +35,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Inventory.class)
@@ -42,6 +43,8 @@ public abstract class MixinPlayerInventory {
 
 
     @Shadow @Final public NonNullList<ItemStack> items;
+
+    private ItemStack addedStack = null;
 
     @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/world/entity/player/Inventory;getFreeSlot()I"),
             method = "getFreeSlot",
@@ -51,16 +54,17 @@ public abstract class MixinPlayerInventory {
             if (ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getValue() &&
                     !LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
                     && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
-                boolean onlyHotbar = LockedSlotKeeper.INSTANCE.isOnlyHotbarFree();
                 for (int i = 0; i < this.items.size(); ++i) {
                     if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
                             && Inventory.isHotbarSlot(i)
-                            && !onlyHotbar
+                            && !LockedSlotKeeper.INSTANCE.isOnlyHotbarFree()
+                            && !LockedSlotKeeper.INSTANCE.isIgnored(addedStack)
                             && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
                         continue;
                     }
                     if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
                         if ((this.items.get(i)).isEmpty()) {
+
                             info.setReturnValue(i);
                             return;
                         }
@@ -69,5 +73,17 @@ public abstract class MixinPlayerInventory {
                 info.setReturnValue(-1);
             }
         }
+    }
+
+    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;setPickedItem(Lnet/minecraft/item/ItemStack;)V"),
+            method = "setPickedItem")
+    public void addStackPre(ItemStack stack, CallbackInfo ci) {
+        addedStack = stack;
+    }
+
+    @Inject(at = @At(value = "TAIL", target = "Lnet/minecraft/entity/player/PlayerInventory;setPickedItem(Lnet/minecraft/item/ItemStack;)V"),
+            method = "setPickedItem")
+    public void addStackPost(ItemStack stack, CallbackInfo ci) {
+        addedStack = null;
     }
 }

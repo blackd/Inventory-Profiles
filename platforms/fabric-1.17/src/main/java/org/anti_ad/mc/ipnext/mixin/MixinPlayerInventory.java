@@ -42,6 +42,8 @@ public abstract class MixinPlayerInventory {
 
     @Shadow @Final public DefaultedList<ItemStack> main;
 
+    private ItemStack addedStack = null;
+
     @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;getEmptySlot()I"),
             method = "getEmptySlot",
             cancellable = true)
@@ -50,11 +52,11 @@ public abstract class MixinPlayerInventory {
             if (ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getValue() &&
                     !LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
                     && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
-                boolean onlyHotbar = LockedSlotKeeper.INSTANCE.isOnlyHotbarFree();
                 for (int i = 0; i < this.main.size(); ++i) {
                     if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
                             && PlayerInventory.isValidHotbarIndex(i)
-                            && !onlyHotbar
+                            && !LockedSlotKeeper.INSTANCE.isOnlyHotbarFree()
+                            && !LockedSlotKeeper.INSTANCE.isIgnored(addedStack)
                             && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
                         continue;
                     }
@@ -69,4 +71,18 @@ public abstract class MixinPlayerInventory {
             }
         }
     }
+
+    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;addStack(Lnet/minecraft/item/ItemStack;)I"),
+            method = "addStack(Lnet/minecraft/item/ItemStack;)I")
+    public void addStackPre(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        addedStack = stack;
+    }
+
+    @Inject(at = @At(value = "TAIL", target = "Lnet/minecraft/entity/player/PlayerInventory;addStack(Lnet/minecraft/item/ItemStack;)I"),
+            method = "addStack(Lnet/minecraft/item/ItemStack;)I")
+    public void addStackPost(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+        addedStack = null;
+    }
+
+
 }

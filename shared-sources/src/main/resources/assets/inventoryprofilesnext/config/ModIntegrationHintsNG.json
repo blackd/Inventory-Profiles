@@ -20,6 +20,9 @@
         }
     },
     "ae2": {
+        "appeng.client.gui.implementations.EnergyLevelEmitterScreen": {
+            "playerSideOnly": true
+        },
         "appeng.client.gui.implementations.ChestScreen": {
             "playerSideOnly": true
         },
@@ -89,6 +92,23 @@
         }
     },
     "ae2additions": {
+        "com.the9grounds.aeadditions.client.gui.MEWirelessTransceiverScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -40,
+                    "bottom": 1
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -28,
+                    "bottom": -11
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -16,
+                    "bottom": -23
+                }
+            }
+        },
         "net.permutated.pylons.client.gui.HarvesterPylonScreen": {
             "playerSideOnly": true
         },
@@ -578,6 +598,11 @@
                     "horizontalOffset": 22
                 }
             }
+        }
+    },
+    "biomakeover": {
+        "party.lemons.biomemakeover.crafting.AltarScreen": {
+            "playerSideOnly": true
         }
     },
     "blue_skies": {
@@ -1875,6 +1900,11 @@
             }
         }
     },
+    "fantasyfurniture": {
+        "xyz.apex.forge.fantasyfurniture.client.screen.FurnitureStationMenuScreen": {
+            "playerSideOnly": true
+        }
+    },
     "farmersdelight": {
         "vectorwing.farmersdelight.client.gui.CookingPotScreen": {
             "playerSideOnly": true,
@@ -2053,6 +2083,14 @@
                     "bottom": -36
                 }
             }
+        }
+    },
+    "iammusicplayer": {
+        "dev.felnull.imp.client.gui.screen.CassetteDeckScreen": {
+            "ignore": true
+        },
+        "dev.felnull.imp.client.gui.screen.BoomboxScreen": {
+            "ignore": true
         }
     },
     "immersiveengineering": {
@@ -2958,6 +2996,46 @@
                     "top": -10
                 }
             }
+        }
+    },
+    "packagedauto": {
+        "thelm.packagedauto.client.screen.EncoderScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedauto.client.screen.PackagerScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedauto.client.screen.PackagerExtensionScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedauto.client.screen.UnpackagerScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedauto.client.screen.CrafterScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedauto.client.screen.FluidPackageFillerScreen": {
+            "playerSideOnly": true
+        }
+    },
+    "packagedexcrafting": {
+        "thelm.packagedexcrafting.client.screen.BasicCrafterScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedexcrafting.client.screen.AdvancedCrafterScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedexcrafting.client.screen.EliteCrafterScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedexcrafting.client.screen.UltimateCrafterScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedexcrafting.client.screen.EnderCrafterScreen": {
+            "playerSideOnly": true
+        },
+        "thelm.packagedexcrafting.client.screen.CombinationCrafterScreen": {
+            "playerSideOnly": true
         }
     },
     "plaingrinder": {
@@ -4222,6 +4300,11 @@
             "playerSideOnly": true
         }
     },
+    "simplecorelib": {
+        "mod.alexndr.simplecorelib.client.gui.TestFurnaceScreen": {
+            "playerSideOnly": true
+        }
+    },
     "simpleplanes": {
         "xyz.przemyk.simpleplanes.client.gui.PlaneWorkbenchScreen": {
             "playerSideOnly": true
@@ -4246,9 +4329,6 @@
                     "bottom": 2
                 }
             }
-        },
-        "net.p3pp3rf1y.sophisticatedbackpacks.common.gui.BackpackContainer": {
-            "ignore": true
         }
     },
     "sophisticatedstorage": {
@@ -4271,9 +4351,6 @@
                     "top": -5
                 }
             }
-        },
-        "net.p3pp3rf1y.sophisticatedstorage.common.gui.StorageContainerMenu": {
-            "ignore": true
         }
     },
     "storagecabinet": {
@@ -4430,6 +4507,25 @@
         },
         "slimeknights.tconstruct.tables.client.inventory.PartBuilderScreen": {
             "playerSideOnly": true
+        }
+    },
+    "the_bumblezone": {
+        "com.telepathicgrunt.the_bumblezone.screens.CrystallineFlowerScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": -40,
+                    "bottom": -35
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": -28,
+                    "bottom": -46
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": -16,
+                    "bottom": -57
+                }
+            }
         }
     },
     "thermal": {

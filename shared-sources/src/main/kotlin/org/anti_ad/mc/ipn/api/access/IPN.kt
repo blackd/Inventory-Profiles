@@ -34,9 +34,7 @@ abstract class IPN {
         @JvmStatic
         protected var _IPN: IPN? = null
             @JvmStatic
-            set(value) {
-                field = value
-            }
+            set
 
         @JvmStatic
         val instance: IPN
