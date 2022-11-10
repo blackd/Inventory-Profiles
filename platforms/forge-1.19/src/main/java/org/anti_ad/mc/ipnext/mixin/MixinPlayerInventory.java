@@ -75,15 +75,15 @@ public abstract class MixinPlayerInventory {
         }
     }
 
-    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;setPickedItem(Lnet/minecraft/item/ItemStack;)V"),
-            method = "setPickedItem")
-    public void addStackPre(ItemStack stack, CallbackInfo ci) {
+    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/world/entity/player/Inventory;add(Lnet/minecraft/world/item/ItemStack;)Z"),
+            method = "add(Lnet/minecraft/world/item/ItemStack;)Z")
+    public void addStackPre(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         addedStack = stack;
     }
 
-    @Inject(at = @At(value = "TAIL", target = "Lnet/minecraft/entity/player/PlayerInventory;setPickedItem(Lnet/minecraft/item/ItemStack;)V"),
-            method = "setPickedItem")
-    public void addStackPost(ItemStack stack, CallbackInfo ci) {
+    @Inject(at = @At(value = "TAIL", target = "Lnet/minecraft/world/entity/player/Inventory;add(Lnet/minecraft/world/item/ItemStack;)Z"),
+            method = "add(Lnet/minecraft/world/item/ItemStack;)Z")
+    public void addStackPost(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         addedStack = null;
     }
 }

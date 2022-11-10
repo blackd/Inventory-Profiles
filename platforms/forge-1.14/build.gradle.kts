@@ -374,10 +374,12 @@ configure<UserDevExtension> {
             args("--width=1280", "--height=720", "--username=DEV")
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets["main"])
+            /*
             if (JavaVersion.current() >= JavaVersion.VERSION_11) {
                 jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
                 jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
             }
+             */
             //taskName = "plamenRunClient"
             this.forceExit = false
         }

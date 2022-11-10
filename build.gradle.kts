@@ -23,7 +23,7 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("1", "8", "3",
+val versionObj = Version("1", "8", "4",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -87,7 +87,7 @@ allprojects {
     version = versionObj.toString()
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
-    ext.set("libIPN_version", "1.0.4")
+    ext.set("libIPN_version", "1.0.5")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true

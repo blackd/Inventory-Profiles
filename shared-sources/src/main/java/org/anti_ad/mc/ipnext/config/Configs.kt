@@ -37,6 +37,7 @@ import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
+import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.integration.MergePriority
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_DEFAULT
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
@@ -371,6 +372,7 @@ object Debugs : ConfigDeclaration {
                                                                  KeybindSettings.ANY_DEFAULT)
     val GEN_TAG_VANILLA_TXT                       /**/ by button(GenerateTagVanillaTxtButtonInfo)
     val GEN_RULE_LIST                             /**/ by button(GenerateRuleListButtonInfo)
+    val DO_VERSION_CHECK                          /**/ by button(IPNInfoManager.DoVersionCheckButtonInfo)
 }
 
 object Modpacks : ConfigDeclaration {
