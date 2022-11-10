@@ -1,22 +1,29 @@
 <!-- latest begin -->
 
-### 1.8.3
+### 1.8.4
 
-- Auto refill can now be configured to use any available food when refilling food slots.
-  
-  **NOTE:** The best available food is chosen i.e. if you have a `notch apple` it will be next :)
-- Added workaround for [Forge bug](https://github.com/MinecraftForge/MinecraftForge/issues/9088) that crashes the game if there is a missing dependency and mixin resolution failed.
+- fixed single player hotbar whitelist
+- now depends on libIPN v1.0.5
 
 
 ### NOTE
 
 - **Inventory Profiles Next** now depends on [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). This means you will need to install [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) too or **Inventory Profiles Next** will not work
 
+
 <!-- latest end -->
 
 <!-- rest begin -->
 
+### 1.8.3
 
+- Auto refill can now be configured to use any available food when refilling food slots.
+
+  **NOTE:** The best available food is chosen i.e. if you have a `notch apple` it will be next :)
+- Added workaround for [Forge bug](https://github.com/MinecraftForge/MinecraftForge/issues/9088) that crashes the game if there is a missing dependency and mixin resolution failed.
+
+
+### 1.8.2
 
 - fixed/added support for fishing rods auto refill.
 - update Ukrainian translation. Thanks to BurrConnie
