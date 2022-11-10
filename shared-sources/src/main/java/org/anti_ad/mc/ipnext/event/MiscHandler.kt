@@ -27,7 +27,6 @@ import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
-import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
@@ -37,6 +36,7 @@ import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
@@ -58,7 +58,7 @@ object MiscHandler {
     fun swipeMoving() {
         //if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
         if (GlobalInputHandler.shiftAnd(KeyCodes.MOUSE_BUTTON_1)) {
-            InfoManager.event("swipeMoving/shift")
+            IPNInfoManager.event("swipeMoving/shift")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)
                     || (!LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.booleanValue
@@ -69,7 +69,7 @@ object MiscHandler {
                 }
             }
         } else if (GlobalInputHandler.ctrlAnd(KeyCodes.KEY_Q)) {
-            InfoManager.event("swipeMoving/ctrl+q")
+            IPNInfoManager.event("swipeMoving/ctrl+q")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)
                     || (!LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.booleanValue

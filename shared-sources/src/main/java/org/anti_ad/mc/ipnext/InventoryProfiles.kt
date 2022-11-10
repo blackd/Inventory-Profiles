@@ -23,7 +23,6 @@ package org.anti_ad.mc.ipnext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 //import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
-import org.anti_ad.mc.common.moreinfo.InfoManager
 /*
 import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
 import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
@@ -39,8 +38,11 @@ import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
 import org.anti_ad.mc.ipnext.specific.initInfoManager
+import java.net.URL
 
 var initGlueProc: (() -> Unit) = ::initGlues;
+
+val versionCheckUrl = URL("https://ipn.anti-ad.org/ipn/ipnVersionCheckV3")
 
 private fun initGlues() {
 
@@ -79,13 +81,10 @@ fun init() {
         SaveLoadManager.load()
         //CustomDataFileLoader.load()
         if (ModSettings.FIRST_RUN.booleanValue) {
-            InfoManager.isEnabled = { false }
-            ModSettings.FIRST_RUN. value = false
+            ModSettings.FIRST_RUN.value = false
             SaveLoadManager.save()
-        } else {
-            InfoManager.isEnabled = { ModSettings.ENABLE_ANALYTICS.value }
         }
-        InfoManager.event(lazy {"${InfoManager.loader}/${InfoManager.mcVersion}/${InfoManager.version}/started"})
+        IPNInfoManager.event(lazy {"${IPNInfoManager.loader}/${IPNInfoManager.mcVersion}/${IPNInfoManager.version}/started"})
         //var s: Sounds = Sounds.REFILL_STEP_NOTIFY
     }
 

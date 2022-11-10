@@ -25,12 +25,12 @@ import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.config.builder.toMultiConfigList
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.gui.widgets.toListWidget
-import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
+import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.config.Configs
 import org.anti_ad.mc.ipnext.config.Debugs
@@ -109,7 +109,7 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
     }
 
     override fun closeScreen() {
-        InfoManager.event(if (gui) "gui/" else {""} + "closeConfig")
+        IPNInfoManager.event(if (gui) "gui/" else {""} + "closeConfig")
         storedSelectedIndex = selectedIndex
         SaveLoadManager.save()
         AutoRefillHandler.init() // update

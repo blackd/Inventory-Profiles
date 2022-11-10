@@ -23,12 +23,12 @@ package org.anti_ad.mc.ipnext.event
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
-import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
 import org.anti_ad.mc.common.vanilla.alias.Slot
+import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(id)`
@@ -126,7 +126,7 @@ object ContinuousCraftingHandler {
             if (SHIFT.isPressing() ) {
                 if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
                     //doThrowOfType(whatsCooking)
-                    InfoManager.event("auto-crafting")
+                    IPNInfoManager.event("auto-crafting")
                     submitNextCraft = ModSettings.AUTO_CRAFT_DELAY.integerValue
                 }
             }
@@ -136,7 +136,7 @@ object ContinuousCraftingHandler {
         if (crafted) {
             if (!processingClick && onCraftCount <= 0) {
                 if (monitor.autoRefill()) {
-                    InfoManager.event("cont-crafting")
+                    IPNInfoManager.event("cont-crafting")
                     crafted = false
                     onCraftCount = 0
                     afterRefill = true

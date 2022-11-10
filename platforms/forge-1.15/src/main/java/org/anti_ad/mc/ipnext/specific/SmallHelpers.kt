@@ -22,10 +22,9 @@
 
 package org.anti_ad.mc.ipnext.specific
 
-import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.common.vanilla.Vanilla.mc
 import org.anti_ad.mc.common.vanilla.alias.SharedConstants
-import org.anti_ad.mc.ipnext.ModInfo
+import org.anti_ad.mc.ipnext.IPNInfoManager
 
 inline fun serverIdentifier(perServer: Boolean): String = when {
     !perServer -> {
@@ -47,9 +46,6 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
 }
 
 inline fun initInfoManager() {
-    InfoManager.loader = "forge"
-    InfoManager.modName = ModInfo.MOD_NAME
-    InfoManager.modId = ModInfo.MOD_ID
-    InfoManager.version = ModInfo.getModVersion()
-    InfoManager.mcVersion = SharedConstants.getVersion().releaseTarget
+    IPNInfoManager.loader = "forge"
+    IPNInfoManager.mcVersion = SharedConstants.getVersion().releaseTarget
 }

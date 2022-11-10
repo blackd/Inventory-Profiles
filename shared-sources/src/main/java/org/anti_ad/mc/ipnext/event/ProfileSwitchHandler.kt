@@ -21,7 +21,6 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.ipnext.Log
-import org.anti_ad.mc.common.moreinfo.InfoManager
 import org.anti_ad.mc.ipnext.profiles.config.ProfileData
 import org.anti_ad.mc.ipnext.profiles.config.ProfileEnchantmentData
 import org.anti_ad.mc.ipnext.profiles.config.ProfileItemData
@@ -35,6 +34,7 @@ import org.anti_ad.mc.common.vanilla.alias.NbtString
 import org.anti_ad.mc.common.vanilla.alias.getLiteral
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
@@ -153,7 +153,7 @@ object ProfileSwitchHandler: IInputHandler {
     val monitors: MutableList<ProfileMonitor> = mutableListOf()
 
     fun applyCurrent(gui: Boolean = false) {
-        InfoManager.event(lazy { if (gui) "gui/" else {""} + "applyCurrent" })
+        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "applyCurrent" })
         doApplyProfile = targetProfile.valid
     }
 
@@ -234,14 +234,14 @@ object ProfileSwitchHandler: IInputHandler {
     }
 
     fun prevProfile(gui: Boolean = false) {
-        InfoManager.event(lazy { if (gui) "gui/" else {""} + "prevProfile" })
+        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "prevProfile" })
         if (ProfilesLoader.profiles.isNotEmpty()) {
             init(ProfilesLoader.profiles[nextOrFirst()])
         }
     }
 
     fun nextProfile(gui: Boolean = false) {
-        InfoManager.event(lazy { if (gui) "gui/" else {""} + "nextProfile"})
+        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "nextProfile"})
         if (ProfilesLoader.profiles.isNotEmpty()) {
             init(ProfilesLoader.profiles[prevOrLast()])
         }
