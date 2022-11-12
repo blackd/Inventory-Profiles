@@ -1,10 +1,9 @@
 <!-- latest begin -->
 
-### 1.8.4
+### 1.8.5
 
-- fixed single player hotbar whitelist
-- now depends on libIPN v1.0.5
-
+- fixes crash when in creative mode middle click is used to pick block and the inventory and hotbar are full of other blocks
+- fixes incompatibility/crash with mods that check for free slots in the hotbar
 
 ### NOTE
 
@@ -14,6 +13,12 @@
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.8.4
+
+- fixed single player hotbar whitelist
+- now depends on libIPN v1.0.5
+
 
 ### 1.8.3
 
