@@ -25,6 +25,8 @@ bin/
 run/
 run
 
+run-server
+
 # kotlin
 *.ws.kts
 

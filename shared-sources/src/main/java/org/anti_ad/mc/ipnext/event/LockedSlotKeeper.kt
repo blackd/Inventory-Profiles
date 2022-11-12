@@ -249,9 +249,9 @@ object LockedSlotKeeper {
 
     private val cleanHotbarBlackList: MutableSet<String> = mutableSetOf()
 
-    public fun isIgnored(stack: ItemStack): Boolean = cleanHotbarBlackList.find { s ->
-        s == stack.`(itemType)`.namespace || s == stack.`(itemType)`.itemId
-    } != null
+    fun isIgnored(stack: ItemStack?): Boolean = stack != null && cleanHotbarBlackList.find { s ->
+                s == stack.`(itemType)`.namespace || s == stack.`(itemType)`.itemId
+            } != null
 
 
     fun updateIgnored() {

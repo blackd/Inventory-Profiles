@@ -34,6 +34,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerInventory.class)
@@ -44,30 +45,34 @@ public abstract class MixinPlayerInventory {
 
     private ItemStack addedStack = null;
 
+    private boolean skipChecks = false;
+
     @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;getEmptySlot()I"),
             method = "getEmptySlot",
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
-        if (MinecraftClient.getInstance().player != null) {
-            if (ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getValue() &&
-                    !LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
-                    && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
-                for (int i = 0; i < this.main.size(); ++i) {
-                    if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
-                            && PlayerInventory.isValidHotbarIndex(i)
-                            && !LockedSlotKeeper.INSTANCE.isOnlyHotbarFree()
-                            && !LockedSlotKeeper.INSTANCE.isIgnored(addedStack)
-                            && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
-                        continue;
-                    }
-                    if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
-                        if ((this.main.get(i)).isEmpty()) {
-                            info.setReturnValue(i);
-                            return;
+        if (!skipChecks) {
+            if (MinecraftClient.getInstance().player != null) {
+                if (ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getValue() &&
+                        !LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
+                        && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
+                    for (int i = 0; i < this.main.size(); ++i) {
+                        if (LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED().getValue()
+                                && PlayerInventory.isValidHotbarIndex(i)
+                                && !LockedSlotKeeper.INSTANCE.isOnlyHotbarFree()
+                                && !LockedSlotKeeper.INSTANCE.isIgnored(addedStack)
+                                && LockedSlotKeeper.INSTANCE.isHotBarSlotEmpty(i)) {
+                            continue;
+                        }
+                        if (!LockSlotsHandler.INSTANCE.isSlotLocked(i)) {
+                            if ((this.main.get(i)).isEmpty()) {
+                                info.setReturnValue(i);
+                                return;
+                            }
                         }
                     }
+                    info.setReturnValue(-1);
                 }
-                info.setReturnValue(-1);
             }
         }
     }
@@ -84,5 +89,17 @@ public abstract class MixinPlayerInventory {
         addedStack = null;
     }
 
+
+    @Inject(at = @At(value = "HEAD", target = "Lnet/minecraft/entity/player/PlayerInventory;addPickBlock(Lnet/minecraft/item/ItemStack;)V"),
+            method = "addPickBlock")
+    public void setPickedItemPre(ItemStack stack, CallbackInfo ci) {
+        skipChecks = true;
+    }
+
+    @Inject(at = @At(value = "TAIL", target = "Lnet/minecraft/entity/player/PlayerInventory;addPickBlock(Lnet/minecraft/item/ItemStack;)V"),
+            method = "addPickBlock")
+    public void setPickedItemPost(ItemStack stack, CallbackInfo ci) {
+        skipChecks = false;
+    }
 
 }
