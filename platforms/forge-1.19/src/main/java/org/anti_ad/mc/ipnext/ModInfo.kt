@@ -17,32 +17,33 @@
  * You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+package org.anti_ad.mc.ipnext
 
-package org.anti_ad.mc.ipnext;
-
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fmllegacy.MavenVersionStringHelper;
-
-import java.util.concurrent.atomic.AtomicReference;
+import net.minecraftforge.common.util.MavenVersionStringHelper
+import net.minecraftforge.fml.ModList
+import net.minecraftforge.forgespi.language.IModInfo
+import java.util.concurrent.atomic.*
+import java.util.function.*
 
 /**
  * ModInfo
  */
-public class ModInfo {
+object ModInfo {
 
-    public static final String MOD_ID = "inventoryprofilesnext";
-    public static final String MOD_NAME = "Inventory Profiles Next";
-    public static String MOD_VERSION = "null";
+    const val MOD_ID = "inventoryprofilesnext"
+    const val MOD_NAME = "Inventory Profiles Next"
+    var MOD_VERSION = "null"
 
-    public static String getModVersion() {
-        // see net.minecraftforge.fml.client.gui.GuiModList
-        AtomicReference<String> version = new AtomicReference<>("?");
-        ModList.get().getMods().forEach(x -> {
-            if (x.getModId().equals(MOD_ID)) {
-                version.set(MavenVersionStringHelper.artifactVersionToString(x.getVersion()));
-            }
-        });
-        return version.get();
-    }
-
+    // see net.minecraftforge.fml.client.gui.GuiModList
+    val modVersion: String
+        get() {
+            // see net.minecraftforge.fml.client.gui.GuiModList
+            val version = AtomicReference("?")
+            ModList.get().mods.forEach(Consumer { x: IModInfo ->
+                if (x.modId == MOD_ID) {
+                    version.set(MavenVersionStringHelper.artifactVersionToString(x.version))
+                }
+            })
+            return version.get()
+        }
 }
