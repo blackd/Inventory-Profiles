@@ -311,6 +311,7 @@ object AutoRefillHandler {
                            {"text" : " \"${replacingWith.customOrTranslatedName}\"", "color": "#8484FF"}
                     ]"""
                 }
+                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                 when (AutoRefillSettings.TYPE_VISUAL_REPLACE_SUCCESS_NOTIFICATION.value) {
                     ToolReplaceVisualNotification.SUBTITLE -> {
                         showSubTitle(TextSerializer.fromJson(message(false)));
@@ -347,6 +348,7 @@ object AutoRefillHandler {
                                    {"translate": "inventoryprofiles.config.notification.tool_replace_failed.replacing", "color" : "#E5A50A", "with": ["${itemType.customOrTranslatedName}"]}
                                    ]"""
                             }
+                            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                             when (AutoRefillSettings.TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION.value) {
                                 ToolReplaceVisualNotification.SUBTITLE -> {
                                     showSubTitle(TextSerializer.fromJson(message(false)))
@@ -390,6 +392,7 @@ object AutoRefillHandler {
                         {"translate": "inventoryprofiles.config.notification.tool_replace_ping.replacing", "color" : "#FF4545", "with": ["$threshold"]}
                         ]"""
                     }
+                    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                     when (AutoRefillSettings.TYPE_VISUAL_DURABILITY_NOTIFICATION.value) {
                         ToolReplaceVisualNotification.SUBTITLE -> {
                             showSubTitle(TextSerializer.fromJson(message(false)))
@@ -440,7 +443,6 @@ object AutoRefillHandler {
                                      slots[it].`(itemStack)`)
                     }
                 }.asSequence()
-                var index = -1
                 val itemType = checkingItem.itemType
                 if (itemType.isDamageable) {
                     val threshold = if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
@@ -532,7 +534,7 @@ object AutoRefillHandler {
                 }.thenComparator { a, b ->
                     b.value.count - a.value.count
                 })
-                index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
+                val index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
                 return index.takeIf { it >= 0 }?.plus(9)
             }
 

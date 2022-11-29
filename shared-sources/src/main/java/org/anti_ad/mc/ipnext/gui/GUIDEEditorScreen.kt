@@ -451,7 +451,7 @@ class GUIDEEditorScreen(private val target: Screen,
             }
 
             if (containerId == null) {
-
+                @Suppress("USELESS_ELVIS")
                 containerId = screenId ?: "player-defined"
             }
 

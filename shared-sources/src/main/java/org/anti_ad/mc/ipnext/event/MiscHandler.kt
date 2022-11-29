@@ -59,7 +59,7 @@ object MiscHandler {
         //if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
         if (GlobalInputHandler.shiftAnd(KeyCodes.MOUSE_BUTTON_1)) {
             IPNInfoManager.event("swipeMoving/shift")
-            slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
+            slotAction { s: Slot, screen: Screen, _: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)
                     || (!LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.booleanValue
                             && !LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue)) {

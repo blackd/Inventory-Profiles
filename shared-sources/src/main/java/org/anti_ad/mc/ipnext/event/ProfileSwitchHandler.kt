@@ -127,9 +127,8 @@ object ProfileSwitchHandler: IInputHandler {
             Vanilla.inGameHud().setOverlayMessage(getLiteral(targetProfile.name), false)
         }
         var sourceSlots = allSlots
-        val clicks = mutableListOf<Pair<Int, Int>>()
         monitors.forEach {
-            if (it.findAndSwap(sourceSlots, clicks)) {
+            if (it.findAndSwap(sourceSlots)) {
                 sourceSlots = sourceSlots - it.slot
             }
         }
@@ -138,14 +137,6 @@ object ProfileSwitchHandler: IInputHandler {
             val activate: Int = targetProfile.active.slotId;
             Vanilla.playerInventory().`(selectedSlot)` = activate - 36
         }
-        /* TODO think how to make this work
-        val interval: Int =
-                if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue)
-                    ModSettings.INTERVAL_BETWEEN_CLICKS_MS.integerValue
-                else 0
-        ContainerClicker.executeSwapClicks(clicks, interval)
-
-         */
     }
 
     private var targetProfile: ProfileData = ProfileData("", ProfileSlotId.NONE, emptyList(), false)
@@ -249,8 +240,7 @@ object ProfileSwitchHandler: IInputHandler {
 
     class ProfileMonitor(val slot: Int, private val targetValues: List<ProfileItemData>) {
 
-        fun findAndSwap(sourceSlots: List<Int>,
-                        clicks: MutableList<Pair<Int, Int>>): Boolean {
+        fun findAndSwap(sourceSlots: List<Int>): Boolean {
             val currentItem = Vanilla.playerContainer().`(slots)`[slot].`(itemStack)`
             Log.trace("found ${currentItem.itemType.itemId} in slot $slot")
             if (targetValues.isNotEmpty()) {

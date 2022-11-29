@@ -57,14 +57,14 @@ class IPNMixinPlugin: IMixinConfigPlugin {
                         //logger.error("Found depFile: ${depFile.file.fileName}")
                         shouldLoad = depFile != null
                         if (!shouldLoad) {
-                            logger.info("Inventory Profiles Next dependency resolution failed! Probably missing libIPN.")
+                            logger.info("${ModInfo.MOD_NAME} dependency resolution failed! Probably missing libIPN.")
                             resolved = true
                             return
                         }
                     }
                 }
             } else {
-                logger.info("Inventory Profiles Next dependency resolution failed! Probably missing libIPN.")
+                logger.info("${ModInfo.MOD_NAME} dependency resolution failed! Probably missing libIPN.")
                 shouldLoad = false
             }
             resolved = true

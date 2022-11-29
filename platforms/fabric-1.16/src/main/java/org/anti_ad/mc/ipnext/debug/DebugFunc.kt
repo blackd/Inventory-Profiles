@@ -21,7 +21,10 @@
 package org.anti_ad.mc.ipnext.debug
 
 import net.minecraft.network.NetworkSide
+import net.minecraft.network.NetworkState
 import net.minecraft.network.Packet
+import org.anti_ad.mc.common.extensions.trySwallow
+import org.anti_ad.mc.common.extensions.usefulName
 
 object DebugFunc {
 
@@ -33,10 +36,10 @@ object DebugFunc {
     private fun dump(side: NetworkSide) {
         println(side)
         var packet: Packet<*>
-        //for (i in 0..5000) {
-        //packet = trySwallow { NetworkState.PLAY.getPacketHandler(side, i) } ?: return
-        //println("$i ${packet.javaClass.usefulName}")
-        //}
+        for (i in 0..5000) {
+            packet = trySwallow { NetworkState.PLAY.getPacketHandler(side, i) } ?: return
+            println("$i ${packet.javaClass.usefulName}")
+        }
     }
 
     // see ServerPlayNetworkHandler onClickWindow line 1202

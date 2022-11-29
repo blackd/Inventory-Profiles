@@ -155,7 +155,7 @@ private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
         if (keep) overStackedMap[index] = itemStack
         keep
     }
-    val overStackedManageable = this.filterIndexed { index, itemStack ->
+    val overStackedManageable = this.filterIndexed { _, itemStack ->
         val keep = itemStack.overstacked
         if (keep) overStackedManageableList.add(itemStack)
         keep

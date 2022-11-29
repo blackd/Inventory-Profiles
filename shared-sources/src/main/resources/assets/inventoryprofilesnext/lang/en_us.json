@@ -21,6 +21,7 @@
     "inventoryprofiles.common.enum.context.any":                                   "In-game / Gui",
     "inventoryprofiles.common.enum.modifier_key.differentiate":                    "Diff left/right",
     "inventoryprofiles.common.enum.modifier_key.normal":                           "Normal",
+
     "inventoryprofiles.gui.config.ModSettings":                                    "Mod Settings",
     "inventoryprofiles.config.category.inventory_sorting":                         "Sorting Options",
     "inventoryprofiles.config.category.move_matching_items":                       "General Hot Key Modifiers",
@@ -38,9 +39,17 @@
     "inventoryprofiles.gui.config.button.reload_rule_files":                       "Reload rule.*.txt",
     "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":              "All reloaded!",
     "inventoryprofiles.config.name.sort_order":                                    "Sort Order",
-    "inventoryprofiles.config.name.custom_rule":                                   "Custom Rule",
     "inventoryprofiles.config.description.sort_order":                             "The sorting method used for inventory sorting",
+    "inventoryprofiles.config.name.custom_rule":                                   "Custom Rule",
     "inventoryprofiles.config.description.custom_rule":                            "The rule for custom sorting method",
+    "inventoryprofiles.config.name.creative_sort_order_type":                      "\"Creative Menu\" Order Source",
+    "inventoryprofiles.config.description.creative_sort_order_type":               "Since 1.19.3 \"Creative Menu\" have changed. And there are multiple possible interpretations of: \"Sorted like the Creative Menu\".\n\nIPN now supports 2 way of ordering:\n1. Like in the search tab\n2. You can define category priority.",
+    "inventoryprofiles.config.name.category_priority_list":                        "Category Priority List",
+    "inventoryprofiles.config.description.category_priority_list":                 "Creative Menu categories in order of priority to be used as Order Source for \"Sort Order\" \"Creative Menu\"",
+    "inventoryprofiles.config.name.category_original_order":                       "Default Category Priority",
+    "inventoryprofiles.config.description.category_original_order":                "This is here for convenience. It may change from server to server or world to world.\nThe idea is to copy, examine and reorder this if you want to seth the \"Priority List\" above.",
+
+
     "inventoryprofiles.config.name.include_hotbar_modifier":                       "Include Hotbar Modifier",
     "inventoryprofiles.config.name.move_all_modifier":                             "Include All Modifier",
     "inventoryprofiles.config.name.move_focus_mach_modifier":                      "Only focused Item type",
@@ -388,6 +397,9 @@
     "inventoryprofiles.enum.auto_refill_nbt_match_type.exact":                     "Exact",
     "inventoryprofiles.enum.merge_priority.internal":                              "Internal",
     "inventoryprofiles.enum.merge_priority.external":                              "External",
+    "inventoryprofiles.enum.creative_menu_sort_order.search_tab":                  "Search Tab",
+    "inventoryprofiles.enum.creative_menu_sort_order.category_priority_list":      "Priority List",
+
     "inventoryprofiles.tooltip.sort_button":                                       "Sort Inventory",
     "inventoryprofiles.tooltip.sort_columns_button":                               "Sort Inventory in Columns",
     "inventoryprofiles.tooltip.sort_rows_button":                                  "Sort Inventory in Rows",

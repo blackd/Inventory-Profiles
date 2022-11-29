@@ -245,6 +245,7 @@ enum class ProfileSlotId(val slotId: Int) {
 }
 
 
+@Suppress("UNUSED_PARAMETER")
 fun main(args: Array<String>) {
     val testConfig = """profile Main activate HOT1
 	HOT1

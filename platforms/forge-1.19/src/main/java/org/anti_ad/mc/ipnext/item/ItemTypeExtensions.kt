@@ -85,6 +85,7 @@ fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
         VanillaItemStack(this.item,
                          count).apply { tag = this@vanillaStackWithCount.tag }
 
+@Suppress("DEPRECATION")
 inline val ItemType.identifier: Identifier
     get() = Registry.ITEM.`(getIdentifier)`(item)
 
@@ -129,6 +130,7 @@ inline val ItemType.`(group)`: ItemGroup?
     get() = item.itemCategory
 
 
+@Suppress("DEPRECATION")
 inline val ItemType.`(foodComponent)`: FoodComponent
     get() = item.foodProperties ?: error("this shouldn't happen")
 
@@ -162,6 +164,7 @@ inline val FoodComponent.`(isHarmful)`: Boolean
 inline val FoodComponent.`(saturationModifier)`
     get() = this.saturationModifier
 
+@Suppress("DEPRECATION")
 inline val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
 inline val ItemType.damage: Int
@@ -257,5 +260,16 @@ data class PotionEffect(inline val effect: String,
         return 0
     }
 }
+
+object ItemTypeExtensionsObject {
+    fun priorityListChanged() {
+    }
+    fun makeDefaultList(): String {
+        return ""
+    }
+    fun defaultOrderListChanged() {
+    }
+}
+
 
 //endregion

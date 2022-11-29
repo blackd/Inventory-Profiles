@@ -20,20 +20,27 @@
 
 package org.anti_ad.mc.ipnext.debug
 
+import net.minecraft.network.IPacket
+import net.minecraft.network.PacketDirection
+import net.minecraft.network.ProtocolType
+import org.anti_ad.mc.common.extensions.trySwallow
+import org.anti_ad.mc.common.extensions.usefulName
+
 object DebugFunc {
+
     fun dumpPacketId() {
-//    dump(NetworkSide.SERVERBOUND)
-//    dump(NetworkSide.CLIENTBOUND)
+        dump(PacketDirection.SERVERBOUND)
+        dump(PacketDirection.CLIENTBOUND)
     }
 
-//  private fun dump(side: NetworkSide) {
-//    println(side)
-//    var packet: Packet<*>
-//    for (i in 0..5000) {
-//      packet = trySwallow { NetworkState.PLAY.getPacketHandler(side, i) } ?: return
-//      println("$i ${packet.javaClass.usefulName}")
-//    }
-//  }
+    private fun dump(side: PacketDirection) {
+        println(side)
+        var packet: IPacket<*>
+        for (i in 0..5000) {
+            packet = trySwallow { ProtocolType.PLAY.getPacket(side, i) } ?: return
+            println("$i ${packet.javaClass.usefulName}")
+        }
+    }
 
     // see ServerPlayNetworkHandler onClickWindow line 1202
 }

@@ -53,11 +53,13 @@ object NbtUtils {
     // Vanilla Item
     // ============
     fun getItemFromId(id: Identifier): Item? {
+        @Suppress("DEPRECATION")
         return Registry.ITEM.`(getByIdentifier)`(id)
     }
 
     fun getTagFromId(id: Identifier): List<Item>? {
         var res: List<Item>? = null
+        @Suppress("DEPRECATION")
         Registry.ITEM.tags.forEach {
             if (it.first.location == id) {
                 res = it.second.map { item ->

@@ -29,7 +29,8 @@ import org.anti_ad.mc.common.vanilla.Vanilla.`(sendCommandMessage)`
 import org.anti_ad.mc.ipnext.config.Modpacks
 import java.lang.Thread.sleep
 
-fun generateCommands(namespaces: MutableSet<String>,
+fun generateCommands(@Suppress("UNUSED_PARAMETER")
+                     namespaces: MutableSet<String>,
                      blocks: MutableMap<String, MutableList<String>>,
                      blockEntities: MutableMap<String, MutableList<String>>,
                      items: MutableMap<String, MutableList<String>>,
@@ -101,12 +102,12 @@ private fun genRowScript(x: Long,
                          y: Long,
                          z: Long,
                          script: MutableList<String>,
-                         playerName: String,
+                         @Suppress("UNUSED_PARAMETER") playerName: String,
                          width: Int) {
 //
     script.add("/fill ${x-4} ${y-1} $z ${x-4} ${y+1} ${z-3} minecraft:black_stained_glass")
     script.add("/fill ${x-3} ${y-1} $z ${x-1} ${y-1} ${z-3} minecraft:glass")
-    script.add("/fill ${x} ${y-1} $z ${x + width} ${y-1} ${z-3} minecraft:smooth_stone")
+    script.add("/fill $x ${y-1} $z ${x + width} ${y-1} ${z-3} minecraft:smooth_stone")
     script.add("/fill ${x + width} ${y-1} $z ${x + width + 2} ${y-1} ${z-3} minecraft:glass")
     script.add("/fill ${x + width + 3} ${y-1} $z ${x + width + 3} ${y + 1} ${z-3} minecraft:black_stained_glass")
 }

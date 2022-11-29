@@ -149,7 +149,8 @@ fun interface AreaType {
                            orderSensitive: Boolean = false) =
             playerInvSlots(orderSensitive) { invSlots.asIterable() }
 
-        fun playerInvSlots(orderSensitive: Boolean = false,
+        fun playerInvSlots(@Suppress("UNUSED_PARAMETER")
+                           orderSensitive: Boolean = false,
                            invSlots: () -> Iterable<Int>) = AreaType { _, vanillaSlots ->
             val slotIndexOfInvSlot = mutableMapOf<Int, Int>() // invSlot, slotIndex
             vanillaSlots.forEachIndexed { slotIndex, slot ->

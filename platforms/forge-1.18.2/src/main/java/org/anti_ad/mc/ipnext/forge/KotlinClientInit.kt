@@ -32,14 +32,14 @@ class KotlinClientInit: Runnable {
     override fun run() {
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest::class.java) {
             IExtensionPoint.DisplayTest({ ModLoadingContext.get().activeContainer.modInfo.version.toString() }) {
-                    remote: String?, isServer: Boolean? -> true
+                    _: String?, _: Boolean? -> true
             }
         }
 
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler())
 
         ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory::class.java) {
-            ConfigGuiHandler.ConfigGuiFactory { minecraft: Minecraft?, screen: net.minecraft.client.gui.screens.Screen? -> ConfigScreen() }
+            ConfigGuiHandler.ConfigGuiFactory { _: Minecraft?, _: net.minecraft.client.gui.screens.Screen? -> ConfigScreen() }
         }
         inventoryProfilesInit()
     }

@@ -70,6 +70,7 @@ object ConfigScreeHelper {
              ]"""
         }
 
+        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         Vanilla.inGameHud().setOverlayMessage(TextSerializer.fromJson(message()),
                                               true)
     }

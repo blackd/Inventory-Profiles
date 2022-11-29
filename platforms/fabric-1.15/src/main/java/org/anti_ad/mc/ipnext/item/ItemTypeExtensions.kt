@@ -190,7 +190,7 @@ inline val ItemType.isEmptyBucket: Boolean
         return item is IMixinBucketItem && (item.fluid as IMixinFluid).callIsEmpty()
     }
 
-inline fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
+fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     return if (item is MilkBucketItem && otherItem is IMixinBucketItem && (otherItem.fluid as IMixinFluid).callIsEmpty()) {
         true
@@ -200,7 +200,7 @@ inline fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     //item is MilkBucketItem || item is IMixinEntityBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
 }
 
-inline fun ItemType.isFullComparedTo(other: ItemType): Boolean {
+fun ItemType.isFullComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     return if (item == Items.BUCKET && otherItem is MilkBucketItem) {
         true
@@ -249,5 +249,16 @@ data class PotionEffect(inline val effect: String,
         return 0
     }
 }
+
+object ItemTypeExtensionsObject {
+    fun priorityListChanged() {
+    }
+    fun makeDefaultList(): String {
+        return ""
+    }
+    fun defaultOrderListChanged() {
+    }
+}
+
 
 //endregion

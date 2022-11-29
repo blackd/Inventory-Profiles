@@ -253,4 +253,15 @@ data class PotionEffect(inline val effect: String,
     }
 }
 
+object ItemTypeExtensionsObject {
+    fun priorityListChanged() {
+    }
+    fun makeDefaultList(): String {
+        return ""
+    }
+    fun defaultOrderListChanged() {
+    }
+}
+
+
 //endregion

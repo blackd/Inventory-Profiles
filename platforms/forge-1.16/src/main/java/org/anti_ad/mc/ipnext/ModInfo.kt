@@ -33,18 +33,15 @@ object ModInfo {
     const val MOD_ID = "inventoryprofilesnext"
     const val MOD_NAME = "Inventory Profiles Next"
     var MOD_VERSION = "null"
-    var MINECRAFT_VERSION = 1165
+    const val MINECRAFT_VERSION = 1165
 
-    // see net.minecraftforge.fml.client.gui.GuiModList
     val modVersion: String
         get() {
-            // see net.minecraftforge.fml.client.gui.GuiModList
-            val version = AtomicReference("?")
-            ModList.get().mods.forEach(Consumer { x: ModInfo ->
+            ModList.get().mods.forEach{ x: ModInfo ->
                 if (x.modId == MOD_ID) {
-                    version.set(MavenVersionStringHelper.artifactVersionToString(x.version))
+                    return MavenVersionStringHelper.artifactVersionToString(x.version)
                 }
-            })
-            return version.get()
+            }
+            return "?"
         }
 }

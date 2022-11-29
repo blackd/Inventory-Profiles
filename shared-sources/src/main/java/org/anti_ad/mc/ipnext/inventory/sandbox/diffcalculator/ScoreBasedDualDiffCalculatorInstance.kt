@@ -381,7 +381,7 @@ object SingleType : DiffCalculatorUtil {
 
         fun copyByAddClickRight(slot: Slot,
                                 maxCount: Int): Node? {
-            val rank = slot.rank
+            //val rank = slot.rank
             val (slotAfter, cAfter) = slot.click(c,
                                                  RIGHT,
                                                  maxCount)

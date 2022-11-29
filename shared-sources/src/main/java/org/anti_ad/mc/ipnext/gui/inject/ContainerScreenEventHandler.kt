@@ -44,7 +44,7 @@ object ContainerScreenEventHandler {
 
     // todo do not directly add the widget (for other mod compatibility) (USE_OLD_INSERT_METHOD)
     fun onScreenInit(target: ContainerScreen<*>,
-                     addWidget: (ClickableWidget) -> Unit) {
+                     @Suppress("UNUSED_PARAMETER") addWidget: (ClickableWidget) -> Unit) {
         if (target != Vanilla.screen()) return
         Log.trace("Showing screen of type ${target.javaClass.name}")
         val widgetsToInset = mutableListOf<Widget>()
@@ -92,6 +92,7 @@ object ContainerScreenEventHandler {
         checkValid()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onBackgroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
         currentWidgets?.forEach {
             (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
@@ -102,6 +103,7 @@ object ContainerScreenEventHandler {
         SlotHighlightHandler.onBackgroundRender()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onForegroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
         currentWidgets?.forEach {
             (it as InsertableWidget).postForegroundRender(VanillaUtil.mouseX(),

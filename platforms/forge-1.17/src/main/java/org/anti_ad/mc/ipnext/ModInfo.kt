@@ -22,8 +22,6 @@ package org.anti_ad.mc.ipnext
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fmllegacy.MavenVersionStringHelper
 import net.minecraftforge.forgespi.language.IModInfo
-import java.util.concurrent.atomic.*
-import java.util.function.*
 
 /**
  * ModInfo
@@ -38,13 +36,11 @@ object ModInfo {
     // see net.minecraftforge.fml.client.gui.GuiModList
     val modVersion: String
         get() {
-            // see net.minecraftforge.fml.client.gui.GuiModList
-            val version = AtomicReference("?")
-            ModList.get().mods.forEach(Consumer { x: IModInfo ->
+            ModList.get().mods.forEach { x: IModInfo ->
                 if (x.modId == MOD_ID) {
-                    version.set(MavenVersionStringHelper.artifactVersionToString(x.version))
+                    return  MavenVersionStringHelper.artifactVersionToString(x.version)
                 }
-            })
-            return version.get()
+            }
+            return "?"
         }
 }

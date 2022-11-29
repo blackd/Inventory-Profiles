@@ -118,3 +118,11 @@ enum class AutoRefillNbtMatchType {
     override fun toString(): String =
             I18n.translate("$ENUM.auto_refill_nbt_match_type.${name.lowercase()}")
 }
+
+enum class CreativeMenuSortOrder {
+    SEARCH_TAB,
+    CATEGORY_PRIORITY_LIST;
+
+    override fun toString(): String =
+            I18n.translate("$ENUM.creative_menu_sort_order.${name.lowercase()}")
+}

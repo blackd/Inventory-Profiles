@@ -26,4 +26,5 @@ object ModInfo {
     const val MOD_ID = "inventoryprofilesnext"
     const val MOD_NAME = "Inventory Profiles"
     val MOD_VERSION: String = FabricUtil.getModVersionString(MOD_ID)
+    const val MINECRAFT_VERSION = 1182
 }

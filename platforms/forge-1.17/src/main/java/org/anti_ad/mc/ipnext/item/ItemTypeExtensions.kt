@@ -84,6 +84,7 @@ fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
     VanillaItemStack(this.item,
                      count).apply { tag = this@vanillaStackWithCount.tag }
 
+@Suppress("DEPRECATION")
 inline val ItemType.identifier: Identifier
     get() = Registry.ITEM.`(getIdentifier)`(item)
 
@@ -161,6 +162,7 @@ inline val FoodComponent.`(isHarmful)`: Boolean
 inline val FoodComponent.`(saturationModifier)`
     get() = this.saturationModifier
 
+@Suppress("DEPRECATION")
 inline val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
 inline val ItemType.damage: Int
@@ -241,7 +243,7 @@ inline val ItemType.potionEffects: List<org.anti_ad.mc.common.vanilla.alias.Stat
 inline val ItemType.comparablePotionEffects: List<PotionEffect>
     get() = potionEffects.map { it.`(asComparable)` }
 
-@Suppress("ObjectPropertyName")
+@Suppress("ObjectPropertyName", "DEPRECATION")
 inline val StatusEffectInstance.`(asComparable)`: PotionEffect
     get() = PotionEffect(
         Registry.MOB_EFFECT.getId(this.effect)
@@ -260,5 +262,16 @@ data class PotionEffect(inline val effect: String,
         return 0
     }
 }
+
+object ItemTypeExtensionsObject {
+    fun priorityListChanged() {
+    }
+    fun makeDefaultList(): String {
+        return ""
+    }
+    fun defaultOrderListChanged() {
+    }
+}
+
 
 //endregion

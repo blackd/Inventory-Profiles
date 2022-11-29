@@ -22,8 +22,6 @@ package org.anti_ad.mc.ipnext
 import net.minecraftforge.common.util.MavenVersionStringHelper
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.forgespi.language.IModInfo
-import java.util.concurrent.atomic.*
-import java.util.function.*
 
 /**
  * ModInfo
@@ -33,17 +31,16 @@ object ModInfo {
     const val MOD_ID = "inventoryprofilesnext"
     const val MOD_NAME = "Inventory Profiles Next"
     var MOD_VERSION = "null"
+    const val MINECRAFT_VERSION = 1192
 
     // see net.minecraftforge.fml.client.gui.GuiModList
     val modVersion: String
         get() {
-            // see net.minecraftforge.fml.client.gui.GuiModList
-            val version = AtomicReference("?")
-            ModList.get().mods.forEach(Consumer { x: IModInfo ->
+            ModList.get().mods.forEach { x: IModInfo ->
                 if (x.modId == MOD_ID) {
-                    version.set(MavenVersionStringHelper.artifactVersionToString(x.version))
+                    return  MavenVersionStringHelper.artifactVersionToString(x.version)
                 }
-            })
-            return version.get()
+            }
+            return "?"
         }
 }

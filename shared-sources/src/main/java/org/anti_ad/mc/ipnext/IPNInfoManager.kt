@@ -34,7 +34,7 @@ object IPNInfoManager: InfoManagerBase() {
     override var mcVersion = "game-version-missing"
     override var version: String
         get() = ModInfo.MOD_VERSION
-        set(value) {}
+        set(_) {}
     override var modId = ModInfo.MOD_ID
     override var modName = ModInfo.MOD_NAME
     override var loader: String = "loader-missing"
@@ -53,7 +53,7 @@ object IPNInfoManager: InfoManagerBase() {
             if (player != null && version != "null") {
                 val salt = player.gameProfile.id?.toString() ?: " InvalidName"
                 this.cancel()
-                IPNInfoManager.checkVersion(versionCheckUrl, "IPN", salt) { new, current, isBeta ->
+                checkVersion(versionCheckUrl, "IPN", salt) { new, _, _ ->
                     if (ModSettings.ENABLE_UPDATES_CHECK.value) {
                         timer(name = "versionMessage", initialDelay = 5000, period = 10000) {
                             Vanilla.queueForMainThread {

@@ -40,7 +40,7 @@ val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.19.2"
 val minecraft_version_string = "1.19[.1-2]"
-val forge_version = "43.0.2"
+val forge_version = "43.1.52"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.7.1"
 val mappingsMap = mapOf("channel" to "official",
@@ -156,7 +156,7 @@ configurations {
 }
 
 dependencies {
-
+    runtimeOnly( fg.deobf("curse.maven:iron-furnaces-237664:4009901"))
 }
 
 tasks.named("compileKotlin") {
@@ -390,7 +390,28 @@ configure<UserDevExtension> {
 
         rcltName = action.taskName
 
-        create("server", runConfig)
+        val runConfigServer = Action<RunConfig> {
+            properties(mapOf(
+                //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
+                "forge.logging.console.level" to "debug",
+                "mixin.env.remapRefMap" to "true",
+                "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
+                "mixin.debug.verbose" to "true",
+                "mixin.debug.export" to "true",
+                "mixin.debug.dumpTargetOnFailure" to "true",
+                "bsl.debug" to "true"))
+            arg("--mixin.config=mixins.ipnext.json")
+            workingDirectory = project.file("run-server").canonicalPath
+            source(FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
+
+
+            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            //taskName = "plamenRunClient"
+            this.forceExit = false
+        }
+
+        create("server", runConfigServer)
         //create("data", runConfig)
 
         all {

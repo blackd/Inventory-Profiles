@@ -316,8 +316,8 @@ object ScrollingUtils {
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
 
-                    withFocusedStackSingleItemDo(direction, slot, slots, fullPlayer, targetIn, player, chest) { targetArea, source, slot, slotIndex ->
-                        val itemType = slot.`(itemStack)`.itemType
+                    withFocusedStackSingleItemDo(direction, slot, slots, fullPlayer, targetIn, player, chest) { targetArea, source, slotIn, slotIndex ->
+                        val itemType = slotIn.`(itemStack)`.itemType
                         findSourceAndTargetAndDo(targetArea, source, slots, itemType, doFirstSlotIndex = slotIndex,
                                                  targetNotImportant = true) { sourceId, _ ->
                             ContainerClicker.leftClick(sourceId)
@@ -341,9 +341,9 @@ object ScrollingUtils {
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
                     if (slot.`(itemStack)`.itemType.maxCount > 1) {
-                        withFocusedStackSingleItemDo(direction, slot, slots, fullPlayer, targetIn, player, chest) { target, source, slot, slotIndex ->
-                            val stack = slot.`(itemStack)`.itemType
-                            findSourceAndTargetAndDo(target, source, slots, stack, doFirstSlotIndex = slotIndex) { sourceId, targetId ->
+                        withFocusedStackSingleItemDo(direction, slot, slots, fullPlayer, targetIn, player, chest) { target, source, slotIn, slotIndex ->
+                            val stackIn = slotIn.`(itemStack)`.itemType
+                            findSourceAndTargetAndDo(target, source, slots, stackIn, doFirstSlotIndex = slotIndex) { sourceId, targetId ->
                                 ContainerClicker.leftClick(sourceId)
                                 ContainerClicker.rightClick(targetId)
                                 ContainerClicker.leftClick(sourceId)
@@ -380,8 +380,8 @@ object ScrollingUtils {
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
                     if (slot.`(itemStack)`.itemType.maxCount > 1) {
-                        withFocusedStackSingleItemDo(direction, slot, slots, fullPlayer, targetIn, player, chest) { target, source, slot, slotIndex ->
-                            val itemType = slot.`(itemStack)`.itemType
+                        withFocusedStackSingleItemDo(direction, slot, slots, fullPlayer, targetIn, player, chest) { target, source, slotIn, slotIndex ->
+                            val itemType = slotIn.`(itemStack)`.itemType
                             findSourceAndTargetAndDo(target, source, slots, itemType, doFirstSlotIndex = slotIndex,
                                                      sourceCondition = { stack ->
                                                          stack.count > 1 && stack.itemType == itemType

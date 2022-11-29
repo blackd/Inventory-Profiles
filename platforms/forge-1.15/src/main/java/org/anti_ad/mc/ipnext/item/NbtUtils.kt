@@ -55,6 +55,7 @@ object NbtUtils {
     // Vanilla Item
     // ============
     fun getItemFromId(id: Identifier): Item? {
+        @Suppress("DEPRECATION")
         return Registry.ITEM.`(getByIdentifier)`(id)
     }
 

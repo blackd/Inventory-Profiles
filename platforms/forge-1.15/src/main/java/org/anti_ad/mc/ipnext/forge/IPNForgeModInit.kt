@@ -41,7 +41,7 @@ class IPNForgeModInit {
         }
 
         register {
-            ModInfo.MOD_VERSION = ModInfo.getModVersion()
+            ModInfo.MOD_VERSION = ModInfo.modVersion
         }
 
     }

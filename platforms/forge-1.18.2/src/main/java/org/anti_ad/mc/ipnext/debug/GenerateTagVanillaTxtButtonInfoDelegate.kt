@@ -46,6 +46,7 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
 
         val res = mutableListOf<Identifier>()
         this.forEach {
+            @Suppress("DEPRECATION")
             Registry.ITEM.getKey(it.value()).also { id ->
                 if (id != Registry.ITEM.defaultKey) {
                     res.add(id)
@@ -62,6 +63,7 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
 
         val m = mutableMapOf<Identifier, MutableList<Identifier>>()
 
+        @Suppress("DEPRECATION")
         Registry.ITEM.tags.forEach {
             m[it.first.location] = it.second.toMutableListOf()
         }
@@ -76,6 +78,7 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
         }
 
         Log.traceIf {
+            @Suppress("DEPRECATION")
             Registry.ITEM.tags.forEach {
                 Log.trace {
                     "${it.first.location} ->"

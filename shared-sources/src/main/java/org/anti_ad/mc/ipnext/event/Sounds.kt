@@ -49,7 +49,7 @@ enum class Sounds(private val loc: String, pitch: Float = 1.0F) {
 
     }
 
-    private val soundEvent =  SoundEvent(Identifier(MOD_ID, loc))
+    private val soundEvent = VanillaSound.createSoundEvent(Identifier(MOD_ID, loc))
 
     fun play()  {
         VanillaSound.play(PositionedSoundInstance.master(soundEvent, defaultPitch, .75F))

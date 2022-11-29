@@ -38,6 +38,7 @@ private inline val vPlayerSlots
     get() = Vanilla.playerContainer().`(slots)`
 
 //fun vCursorStack() = Vanilla.playerInventory().carried.`(itemStack)` //itemStack = carried
+@Suppress("UNNECESSARY_SAFE_CALL")
 fun vCursorStack() = Vanilla.playerInventory().player.containerMenu.carried?.`(itemStack)` ?: ItemStack.EMPTY
 
 fun vPlayerSlotOf(slot: Slot,

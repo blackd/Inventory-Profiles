@@ -30,20 +30,23 @@ import org.anti_ad.mc.common.config.builder.bool
 import org.anti_ad.mc.common.config.builder.button
 import org.anti_ad.mc.common.config.builder.createBuilder
 import org.anti_ad.mc.common.config.builder.enum
+import org.anti_ad.mc.common.config.builder.enumForMinMCVersion
 import org.anti_ad.mc.common.config.builder.handledString
+import org.anti_ad.mc.common.config.builder.handledStringForMinMCVersion
 import org.anti_ad.mc.common.config.builder.hotkey
 import org.anti_ad.mc.common.config.builder.keyToggleBool
 import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
-import org.anti_ad.mc.ipnext.IPNInfoManager
+import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.integration.MergePriority
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_DEFAULT
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
 import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
+import org.anti_ad.mc.ipnext.item.ItemTypeExtensionsObject
 
 private const val category = "inventoryprofiles.config.category"
 
@@ -59,6 +62,18 @@ object ModSettings : ConfigDeclaration {
     val SORT_ORDER                                /**/ by enum(SortingMethod.DEFAULT)
     val CUSTOM_RULE                               /**/ by string("@custom")
 
+    val CREATIVE_SORT_ORDER_TYPE                  /**/ by enumForMinMCVersion(1193,
+                                                                              ModInfo.MINECRAFT_VERSION,
+                                                                              CreativeMenuSortOrder.SEARCH_TAB)
+
+    val CATEGORY_PRIORITY_LIST                    /**/ by handledStringForMinMCVersion(1193,
+                                                                                       ModInfo.MINECRAFT_VERSION,
+                                                                                       "itemGroup.tools, itemGroup.combat, itemGroup.redstone, itemGroup.coloredBlocks, itemGroup.functional, itemGroup.natural, itemGroup.buildingBlocks, itemGroup.foodAndDrink, itemGroup.ingredients, itemGroup.spawnEggs",
+                                                                                       ItemTypeExtensionsObject::priorityListChanged)
+    val CATEGORY_ORIGINAL_ORDER                   /**/ by handledStringForMinMCVersion(1193,
+                                                                                       ModInfo.MINECRAFT_VERSION,
+                                                                                       ItemTypeExtensionsObject.makeDefaultList(),
+                                                                                       ItemTypeExtensionsObject::defaultOrderListChanged)
         .CATEGORY("$category.move_matching_items")
     val INCLUDE_HOTBAR_MODIFIER                   /**/ by hotkey("LEFT_ALT",
                                                                  KeybindSettings.GUI_EXTRA)

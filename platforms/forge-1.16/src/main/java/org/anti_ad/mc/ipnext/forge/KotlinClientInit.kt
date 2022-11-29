@@ -40,12 +40,12 @@ class KotlinClientInit: Runnable {
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST) {
             Pair.of(
                 Supplier { "anything. i don't care" },
-                BiPredicate { remoteversionstring: String?, networkbool: Boolean? -> networkbool!! })
+                BiPredicate { _: String?, networkbool: Boolean? -> networkbool!! })
         }
 
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY) {
             BiFunction {
-                    x: Minecraft?, y: Screen? -> ConfigScreen()
+                    _: Minecraft?, _: Screen? -> ConfigScreen()
             }
         }
 
