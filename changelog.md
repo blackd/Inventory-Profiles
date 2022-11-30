@@ -1,9 +1,15 @@
 <!-- latest begin -->
+### 1.8.6
 
-### 1.8.5
+- added Korean translation thanks to @ssolephant. 
+- added support for 1.19.3 snapshots >= pre3.
 
-- fixes crash when in creative mode middle click is used to pick block and the inventory and hotbar are full of other blocks
-- fixes incompatibility/crash with mods that check for free slots in the hotbar
+
+- **NOTE:** There are **two** 1.19 versions one compatible with **1.19-1.19.2** and one compatible with **1.19.3**. Please download the appropriate mod for you version.
+
+### End of Life Announcement:
+
+Minecraft versions 1.14.x, 1.15.x, 1.17.x and 1.18[.1] will no longer receive updates after 1.19.3 is released
 
 ### NOTE
 
@@ -13,7 +19,11 @@
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.8.5
 
+- fixes crash when in creative mode middle click is used to pick block and the inventory and hotbar are full of other blocks
+- fixes incompatibility/crash with mods that check for free slots in the hotbar
+- 
 ### 1.8.4
 
 - fixed single player hotbar whitelist
