@@ -44,6 +44,7 @@ import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(scaledHeight)`
 import org.anti_ad.mc.ipnext.ingame.`(scaledWidth)`
@@ -79,11 +80,13 @@ object LockSlotsHandler: PLockSlotHandler {
     private val slotLocations: Map<Int, Point>
         get() {
             val screen = Vanilla.screen() as? ContainerScreen<*> ?: return mapOf()
-            return Vanilla.container().`(slots)`.mapNotNull { slot ->
+            @Suppress("USELESS_ELVIS")
+            val container = Vanilla.container() ?: return mapOf()
+            return container.`(slots)`.mapNotNull { slot ->
                 val playerSlot = vPlayerSlotOf(slot,
                                                screen)
-                return@mapNotNull if (playerSlot.`(inventory)` is PlayerInventory)
-                    playerSlot.`(invSlot)` to slot.`(topLeft)` else null
+                val inv = playerSlot.`(inventoryOrNull)` ?: return@mapNotNull null
+                return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to slot.`(topLeft)` else null
             }.toMap()
         }
 

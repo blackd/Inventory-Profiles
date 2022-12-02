@@ -22,7 +22,6 @@
 
 package org.anti_ad.mc.ipnext.ingame
 
-import net.minecraft.item.ItemGroups
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.alias.ClientPlayerInteractionManager
@@ -33,7 +32,6 @@ import org.anti_ad.mc.common.vanilla.alias.DefaultedRegistry
 import org.anti_ad.mc.common.vanilla.alias.GameOptions
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Inventory
-import org.anti_ad.mc.common.vanilla.alias.ItemGroup
 import org.anti_ad.mc.common.vanilla.alias.KeyBinding
 import org.anti_ad.mc.common.vanilla.alias.MinecraftClient
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
@@ -93,6 +91,8 @@ inline val Slot.`(vanillaStack)`: VanillaItemStack
 inline val Slot.`(mutableItemStack)`: MutableItemStack
     get() = stack.`(mutableItemStack)`
 inline val Slot.`(inventory)`: Inventory
+    get() = inventory
+inline val Slot.`(inventoryOrNull)`: Inventory?
     get() = inventory
 inline val Slot.`(left)`: Int
     get() = x

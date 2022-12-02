@@ -22,7 +22,6 @@
 
 package org.anti_ad.mc.ipnext.ingame
 
-
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.alias.ClientPlayerInteractionManager
@@ -65,7 +64,6 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // use `()` to avoid potential mapping name collision
 
-
 inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
                      tag,
@@ -94,6 +92,8 @@ inline val Slot.`(vanillaStack)`: VanillaItemStack
 inline val Slot.`(mutableItemStack)`: MutableItemStack
     get() = stack.`(mutableItemStack)`
 inline val Slot.`(inventory)`: Inventory
+    get() = inventory
+inline val Slot.`(inventoryOrNull)`: Inventory?
     get() = inventory
 inline val Slot.`(left)`: Int
     get() = xPosition

@@ -93,6 +93,8 @@ inline val Slot.`(mutableItemStack)`: MutableItemStack
     get() = stack.`(mutableItemStack)`
 inline val Slot.`(inventory)`: Inventory
     get() = inventory
+inline val Slot.`(inventoryOrNull)`: Inventory?
+    get() = inventory
 inline val Slot.`(left)`: Int
     get() = x
 inline val Slot.`(top)`: Int
@@ -137,7 +139,7 @@ inline val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() 
 // ============
 // Registry
 // ============
-fun <T> DefaultedRegistry<T>.`(getIdentifier)`(value: T): Identifier {
+fun <T: Any> DefaultedRegistry<T>.`(getIdentifier)`(value: T): Identifier {
     return getId(value)
 }
 
@@ -149,7 +151,7 @@ fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
     return get(id)
 }
 
-fun <T> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
+fun <T: Any> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
     return getId(value)
 }
 

@@ -62,7 +62,6 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // use `()` to avoid potential mapping name collision
 
-
 inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
                      tag,
@@ -93,6 +92,8 @@ inline val Slot.`(mutableItemStack)`: MutableItemStack
     get() = item.`(mutableItemStack)` //stack
 inline val Slot.`(inventory)`: Inventory
     get() = this.container //inventory
+inline val Slot.`(inventoryOrNull)`: Inventory?
+    get() = container
 inline val Slot.`(left)`: Int
     get() = this.x //xPos
 inline val Slot.`(top)`: Int

@@ -92,6 +92,8 @@ inline val Slot.`(mutableItemStack)`: MutableItemStack
     get() = item.`(mutableItemStack)` //stack
 inline val Slot.`(inventory)`: Inventory
     get() = this.container //inventory
+inline val Slot.`(inventoryOrNull)`: Inventory?
+    get() = container
 inline val Slot.`(left)`: Int
     get() = this.x //xPos
 inline val Slot.`(top)`: Int

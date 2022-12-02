@@ -228,8 +228,10 @@ val ItemType.groupIndex: Int
                 }
             }
         }
-        val grp = grps[result]
-        Log.trace("${this.identifier} - > $result -> ${grp?.displayName}")
+        if (result in 0..(grps.size-1)) {
+            val grp = grps[result]
+            Log.trace("${this.identifier} - > $result -> ${grp?.displayName}")
+        }
         return result
     }
 
