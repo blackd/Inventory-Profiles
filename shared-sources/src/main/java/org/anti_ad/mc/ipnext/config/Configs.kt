@@ -62,6 +62,7 @@ object ModSettings : ConfigDeclaration {
     val SORT_ORDER                                /**/ by enum(SortingMethod.DEFAULT)
     val CUSTOM_RULE                               /**/ by string("@custom")
 
+        .CATEGORY("§§hide")
     val CREATIVE_SORT_ORDER_TYPE                  /**/ by enumForMinMCVersion(1193,
                                                                               ModInfo.MINECRAFT_VERSION,
                                                                               CreativeMenuSortOrder.SEARCH_TAB)

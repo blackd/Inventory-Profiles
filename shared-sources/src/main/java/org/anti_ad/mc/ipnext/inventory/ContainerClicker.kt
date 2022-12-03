@@ -120,6 +120,7 @@ object ContainerClicker {
                      actionType: SlotActionType,
                      contentUpdates: Boolean = true) {
 
+        Log.trace("Clicking: on slot: $slotId with button: $button, and action type: ${actionType.name}")
         if (container is CreativeContainer) {
             // creative menu dont use method_2906
             // simulate the action in CreativeInventoryScreen line 135

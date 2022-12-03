@@ -57,7 +57,7 @@ object SlotHighlightHandler: PLockSlotHandler {
             return Vanilla.container().`(slots)`.mapNotNull { slot ->
                 val playerSlot = vPlayerSlotOf(slot,
                                                screen)
-                return@mapNotNull if (!playerSlot.`(itemStack)`.isEmpty() && playerSlot.`(itemStack)`.itemType == toHighlight) {
+                return@mapNotNull if (!playerSlot.`(itemStack)`.isEmpty() && playerSlot.`(itemStack)`.itemType.copy(ignoreDurability = true) == toHighlight) {
                     playerSlot.`(id)` to slot.`(topLeft)`
                 } else {
                     null
@@ -139,7 +139,7 @@ object SlotHighlightHandler: PLockSlotHandler {
                 if (toHighlight != slot.`(itemStack)`.itemType) {
                     ticksSinceLastFocusChange--
                     if (ticksSinceLastFocusChange < 0) {
-                        toHighlight = slot.`(itemStack)`.itemType
+                        toHighlight = slot.`(itemStack)`.itemType.copy(ignoreDurability = true)
                         ticksSinceLastFocusChange = ModSettings.HIGHLIGHT_FOUSED_WAIT_TICKS.integerValue
                     }
                 } else {

@@ -38,10 +38,10 @@ val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.19.3-rc1"
 val minecraft_version_string = "1.19.3-rc1"
-val mappings_version = "1.19.3-rc1+build.1"
+val mappings_version = "1.19.3-rc1+build.2"
 val loader_version = "0.14.10"
 val modmenu_version = "5.0.0-alpha.4"
-val fabric_api_version = "0.68.0+1.19.3"
+val fabric_api_version = "0.68.1+1.19.3"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
