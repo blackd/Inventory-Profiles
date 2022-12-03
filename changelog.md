@@ -2,7 +2,7 @@
 ### 1.8.6
 
 - added Korean translation thanks to @ssolephant. 
-- added support for 1.19.3 snapshots >= pre3.
+- added support for 1.19.3-rc1 and probably 1.19.3 proper.
 
 
 - **NOTE:** There are **two** 1.19 versions one compatible with **1.19-1.19.2** and one compatible with **1.19.3**. Please download the appropriate mod for you version.
