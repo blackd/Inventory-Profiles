@@ -37,8 +37,7 @@ import org.anti_ad.mc.ipnext.profiles.config.ProfileData
 import org.anti_ad.mc.ipnext.profiles.config.ProfilesConfig
 import org.anti_ad.mc.ipnext.profiles.config.dump
 import org.anti_ad.mc.common.util.LogicalStringComparator
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
-import org.anti_ad.mc.common.vanilla.glue.loggingPath
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
@@ -47,6 +46,7 @@ import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.specific.serverIdentifier
 import org.anti_ad.mc.common.extensions.dashedSanitized
+import org.anti_ad.mc.common.extensions.loggingPath
 import org.anti_ad.mc.common.extensions.sanitized
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting

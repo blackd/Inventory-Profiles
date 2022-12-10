@@ -27,7 +27,7 @@ import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.vanilla.Vanilla
 
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 
 import kotlin.io.path.bufferedWriter
 

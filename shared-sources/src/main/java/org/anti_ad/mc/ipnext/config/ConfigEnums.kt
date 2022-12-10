@@ -46,13 +46,14 @@ enum class SortingMethodIndividual {
     CUSTOM;
 
     override fun toString(): String =
-        if (this == GLOBAL)
-            I18n.translate(
-                "$ENUM.sorting_method.global",
-                ModSettings.SORT_ORDER.value.toString().substringBefore('(').trim()
-            )
-        else
+        if (this == GLOBAL) {
+            val v = ModSettings.SORT_ORDER.value
+            val tostr = v.toString()
+            I18n.translate("$ENUM.sorting_method.global",
+                           tostr.substringBefore('(').trim())
+        } else {
             I18n.translate("$ENUM.sorting_method.${name.lowercase()}")
+        }
 }
 
 enum class PostAction {

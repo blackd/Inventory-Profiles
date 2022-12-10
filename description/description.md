@@ -10,7 +10,7 @@ This mod will:
 - Help you keep your inventory sorted
 - Replace your quasi-broken tool
 - Dump everything in that chest with one click
-- Move the items you have that are also already in the chest
+- Move the items you have that are also already in the chest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 - Lock item slots in place so that sorting ignores them
 - Keep locked slots empty
 - Allow you to press R+C to set your shortcuts
@@ -27,15 +27,48 @@ This mod will:
 </tr>
 </table>
 
-## Like the mod? Consider buying me a coffee. 
+<table>
+<tr> 
+<td colspan="2">
+
+This mod **IS NOT** drop in replacement of **Inventory Teweaks**
+
+- It is not possible to make **Inventory Profiles Next** work as **Inventory Teweaks**
+- If you come from **Inventory Teweaks** you will need to learn how to use **Inventory Profiles Next**
+
+</td>
+</tr>
+</table>
+ 
 <table>
 <tbody>
 <tr>
-<td></td>
-<td style="vertical-align: middle;"><a href="https://www.patreon.com/mirinimi"> <img src="https://nc.anti-ad.org/cgi-bin/test.png" alt="Patreon Logo"/> </a> </td>
-<td style="vertical-align: middle;">
-<iframe class="center" src="https://github.com/sponsors/blackd/button" height="35" width="116"></iframe>
+<td>
+
+## Like the mod? Consider buying me a coffee.
+
 </td>
+</tr>
+<tr>
+<td>
+
+### Become a Patreon
+
+</td>
+<td style="vertical-align: middle;">
+  <a href="https://www.patreon.com/mirinimi">
+    <img src="https://nc.anti-ad.org/cgi-bin/test.png" alt="Patreon Logo"/> 
+  </a>
+</td>
+</tr>
+<tr>
+<td>
+
+### Become a GitHub Sponsor
+
+</td> 
+
+<td style="vertical-align: middle;"><iframe class="center" src="https://github.com/sponsors/blackd/button" height="35" width="116"></iframe></td>
 </tr>
 </tbody>
 </table>
@@ -61,6 +94,6 @@ If you're a Kotlin developer and want to contribute, please see [the source](htt
 
 ## License
 
-This mod is distributed under [MIT license](https://github.com/blackd/Inventory-Profiles/blob/all-in-one/LICENSE)
+This mod is distributed under [AGPL v3 license](https://github.com/blackd/Inventory-Profiles/blob/all-in-one/LICENSE)
 
 <p></p>

@@ -30,7 +30,7 @@ import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.ItemTags
 import org.anti_ad.mc.common.vanilla.alias.Registry
 import org.anti_ad.mc.common.vanilla.alias.TagGroup
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 
 // ============

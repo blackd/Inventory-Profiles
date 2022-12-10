@@ -35,7 +35,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.PickaxeItem
 import org.anti_ad.mc.common.vanilla.alias.items.ShovelItem
 import org.anti_ad.mc.common.vanilla.alias.items.SwordItem
 import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.showSubTitle
 import org.anti_ad.mc.common.vanilla.alias.items.FishingRodItem
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType

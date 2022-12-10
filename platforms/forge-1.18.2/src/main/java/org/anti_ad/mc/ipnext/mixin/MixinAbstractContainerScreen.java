@@ -25,7 +25,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import org.anti_ad.mc.ipnext.Log;
-import org.anti_ad.mc.common.vanilla.glue.IVanillaUtilKt;
+import org.anti_ad.mc.common.vanilla.VanillaUtil;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,8 +50,8 @@ public class MixinAbstractContainerScreen<T extends AbstractContainerMenu> {
                 Log.INSTANCE.trace("onMouseClick for index:" + slot.index);
                 Log.INSTANCE.trace("onMouseClick for x:" + slot.x);
                 Log.INSTANCE.trace("onMouseClick for y:" + slot.y);
-                Log.INSTANCE.trace("onMouseClick for mouse x:" + IVanillaUtilKt.getVanillaUtil().mouseX());
-                Log.INSTANCE.trace("onMouseClick for mouse y:" + IVanillaUtilKt.getVanillaUtil().mouseY());
+                Log.INSTANCE.trace("onMouseClick for mouse x:" + VanillaUtil.INSTANCE.mouseX());
+                Log.INSTANCE.trace("onMouseClick for mouse y:" + VanillaUtil.INSTANCE.mouseY());
 
             }
             //Log.INSTANCE.trace("from here:", new Throwable());

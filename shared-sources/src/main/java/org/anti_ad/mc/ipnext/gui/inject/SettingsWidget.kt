@@ -30,7 +30,7 @@ import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.glue.VanillaScreenUtil
+import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState

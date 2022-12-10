@@ -49,8 +49,8 @@ import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.alias.vanillaContainers
 import org.anti_ad.mc.common.vanilla.alias.vanillaScreens
 import org.anti_ad.mc.common.vanilla.render.COLOR_WHITE
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenHeight
-import org.anti_ad.mc.common.vanilla.render.glue.glue_rScreenWidth
+import org.anti_ad.mc.common.vanilla.render.rScreenHeight
+import org.anti_ad.mc.common.vanilla.render.rScreenWidth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawHorizontalLine
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawVerticalLine
@@ -254,16 +254,16 @@ class GUIDEEditorScreen(private val target: Screen,
         ConfigListWidget({ I18n.translateOrElse("$NAME_ROOT.$it") { it } },
                          { I18n.translateOrEmpty("$DESCRIPTION_ROOT.$it") },
                          3).apply {
-            height = glue_rScreenHeight - nextTop - 5
+            height = rScreenHeight - nextTop - 5
             val targetBounds = (target as ContainerScreen<*>).`(containerBounds)`
-            width = glue_rScreenWidth - targetBounds.width - targetBounds.x - 3
+            width = rScreenWidth - targetBounds.width - targetBounds.x - 3
             this@GUIDEEditorScreen.addWidget(this)
             overflow = Overflow.VISIBLE
 
             rootWidget.sizeChanged += {
                 val bounds = target.`(containerBounds)`
-                height = glue_rScreenHeight - nextTop - 5
-                width = glue_rScreenWidth - bounds.width - bounds.x - 3
+                height = rScreenHeight - nextTop - 5
+                width = rScreenWidth - bounds.width - bounds.x - 3
                 setTopRight(nextTop, 0)
             }
             anchorHeader.visible = false

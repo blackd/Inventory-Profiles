@@ -24,7 +24,7 @@ import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.item.rule.parameter.BooleanArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.EnumArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.NativeParameters

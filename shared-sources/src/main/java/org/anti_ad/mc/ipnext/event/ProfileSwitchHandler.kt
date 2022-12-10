@@ -33,7 +33,7 @@ import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.common.vanilla.alias.NbtString
 import org.anti_ad.mc.common.vanilla.alias.getLiteral
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings

@@ -30,7 +30,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.Registry
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import kotlin.io.path.bufferedWriter
 import kotlin.io.path.name
 

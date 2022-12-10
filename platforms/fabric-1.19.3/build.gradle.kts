@@ -33,14 +33,14 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.19.3-rc1", "1.19-Snapshot")
+val supported_minecraft_versions = listOf("1.19.3")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.19.3-rc1"
-val minecraft_version_string = "1.19.3-rc1"
-val mappings_version = "1.19.3-rc1+build.2"
+val minecraft_version = "1.19.3"
+val minecraft_version_string = "1.19.3"
+val mappings_version = "1.19.3+build.2"
 val loader_version = "0.14.10"
-val modmenu_version = "5.0.0-alpha.4"
+val modmenu_version = "5.0.1"
 val fabric_api_version = "0.68.1+1.19.3"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"

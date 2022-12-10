@@ -34,7 +34,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.anti_ad.mc.common.vanilla.Vanilla;
-import org.anti_ad.mc.common.vanilla.glue.IVanillaUtilKt;
+import org.anti_ad.mc.common.vanilla.VanillaUtil;
 import org.anti_ad.mc.ipnext.config.Tweaks;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
@@ -58,7 +58,7 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void joinWorld(WorldEvent.Load event) {
-        if (IVanillaUtilKt.getVanillaUtil().isOnClientThread()) {
+        if (VanillaUtil.INSTANCE.isOnClientThread()) {
             ClientEventHandler.INSTANCE.onJoinWorld();
         }
     }
@@ -108,7 +108,7 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void onGuiKeyPressedPre(ScreenEvent.KeyboardKeyPressedEvent.Pre e) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
-        if (!IVanillaUtilKt.getVanillaUtil().inGame()) return;
+        if (!VanillaUtil.INSTANCE.inGame()) return;
         InputConstants.Key mouseKey = InputConstants.getKey(e.getKeyCode(), e.getScanCode()); //getInputByCode(e.getKeyCode(), e.getScanCode()); // getKey(e.getKeyCode(), e.getScanCode());
         if (Tweaks.INSTANCE.getPREVENT_CLOSE_GUI_DROP_ITEM().getBooleanValue()
                 && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().options.keyInventory //gameSettings.keyBindInventory // options.keyInventory

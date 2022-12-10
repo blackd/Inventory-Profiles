@@ -21,7 +21,7 @@ package org.anti_ad.mc.ipnext.debug
 
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
-import org.anti_ad.mc.common.vanilla.glue.VanillaUtil
+import org.anti_ad.mc.common.vanilla.VanillaUtil
 import java.io.BufferedWriter
 
 abstract class AbstractBlockScreenScriptGenerator: ConfigButtonInfo() {
