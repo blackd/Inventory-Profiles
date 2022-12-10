@@ -31,9 +31,9 @@ import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.alias.SlotActionType
 import org.anti_ad.mc.common.vanilla.render.alpha
-import org.anti_ad.mc.common.vanilla.render.glue.rClearDepth
+import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.glue.rStandardGlState
+import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.ingame.`(clickSlot)`
