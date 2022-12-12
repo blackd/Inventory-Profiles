@@ -62,7 +62,7 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19,1.20)"
+    versionRange="[1.19.3,1.20)"
     ordering="NONE"
     side="CLIENT"
 

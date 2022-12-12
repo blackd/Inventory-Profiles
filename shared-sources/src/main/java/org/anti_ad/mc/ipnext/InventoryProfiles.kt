@@ -48,10 +48,6 @@ private fun initGlues() {
 
     ConfigKeyToggleBoolean.toggleNotificationHandler = ConfigScreeHelper::toggleBooleanSettingMessage
     ConfigKeyToggleBoolean.finish = ConfigScreeHelper::finish
-    //renderInitTheGlue()
-    //aliasInitGlue()
-    //vanillaInitGlue()
-    //widgetsInitGlue()
     IPNImpl.init()
     initGlueProc = ::nop
 
