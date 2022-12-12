@@ -1,15 +1,30 @@
 <!-- latest begin -->
-### 1.8.6
+### 1.9.0
 
-- added Korean translation thanks to @ssolephant. 
-- added support for 1.19.3-rc1 and probably 1.19.3 proper.
+- added support for 1.19.3 forge
+- finalised support 1.19.3 for fabric
+- fixed toogle settings not working when more then one mod uses libIPN
+
+
+#### Supported Minecraft versions
+- **1.16.x**
+- **1.18.2**
+- **1.19[.1]**
+- **1.19.3**
 
 
 - **NOTE:** There are **two** 1.19 versions one compatible with **1.19-1.19.2** and one compatible with **1.19.3**. Please download the appropriate mod for you version.
 
 ### End of Life Announcement:
 
-Minecraft versions 1.14.x, 1.15.x, 1.17.x and 1.18[.1] will no longer receive updates after 1.19.3 is released
+#### The fallowing Minecraft versions will no longer receive updates:
+
+- 1.14.x
+- 1.15.x
+- 1.17.x
+- 1.18[.1]
+
+Old versions will remain available!
 
 ### NOTE
 
@@ -19,6 +34,13 @@ Minecraft versions 1.14.x, 1.15.x, 1.17.x and 1.18[.1] will no longer receive up
 <!-- latest end -->
 
 <!-- rest begin -->
+### 1.8.6
+
+- added Korean translation thanks to @ssolephant.
+- added support for 1.19.3-rc1 and probably 1.19.3 proper.
+
+
+
 ### 1.8.5
 
 - fixes crash when in creative mode middle click is used to pick block and the inventory and hotbar are full of other blocks

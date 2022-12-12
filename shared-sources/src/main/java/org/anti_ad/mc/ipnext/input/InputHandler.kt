@@ -36,6 +36,7 @@ import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.debug.DebugFunc
 import org.anti_ad.mc.ipnext.debug.ModpackInputHandler
+import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.gui.DebugScreen
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler
@@ -80,7 +81,7 @@ object InputHandler : IInputHandler {
                 return true
             }
 
-            ConfigKeyToggleBoolean.checkAll()
+            ConfigScreeHelper.checkAll()
 
             if (ModSettings.DEBUG.booleanValue) {
                 when {

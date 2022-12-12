@@ -34,7 +34,7 @@ import org.anti_ad.mc.common.config.builder.enumForMinMCVersion
 import org.anti_ad.mc.common.config.builder.handledString
 import org.anti_ad.mc.common.config.builder.handledStringForMinMCVersion
 import org.anti_ad.mc.common.config.builder.hotkey
-import org.anti_ad.mc.common.config.builder.keyToggleBool
+
 import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
@@ -46,6 +46,7 @@ import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
 import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
+import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper.keyToggleBool
 import org.anti_ad.mc.ipnext.item.ItemTypeExtensionsObject
 
 private const val category = "inventoryprofiles.config.category"

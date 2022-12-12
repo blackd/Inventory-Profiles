@@ -22,13 +22,7 @@ package org.anti_ad.mc.ipnext
 
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
-//import org.anti_ad.mc.common.gui.widgets.widgetsInitGlue
-/*
-import org.anti_ad.mc.common.vanilla.alias.aliasInitGlue
-import org.anti_ad.mc.common.vanilla.render.renderInitTheGlue
-import org.anti_ad.mc.common.vanilla.vanillaInitGlue
 
- */
 import org.anti_ad.mc.ipnext.access.IPNImpl
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -45,9 +39,6 @@ var initGlueProc: (() -> Unit) = ::initGlues;
 val versionCheckUrl = URL("https://ipn.anti-ad.org/ipn/ipnVersionCheckV3")
 
 private fun initGlues() {
-
-    ConfigKeyToggleBoolean.toggleNotificationHandler = ConfigScreeHelper::toggleBooleanSettingMessage
-    ConfigKeyToggleBoolean.finish = ConfigScreeHelper::finish
     IPNImpl.init()
     initGlueProc = ::nop
 
