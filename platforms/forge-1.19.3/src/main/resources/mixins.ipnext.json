@@ -13,7 +13,8 @@
         "MixinMultiPlayerGameMode",
         "MixinPlayerController",
         "MixinPlayerInventory",
-        "MixinScreenHandler"
+        "MixinScreenHandler",
+        "MixinItemGroup"
     ],
     "injectors":          {
         "defaultRequire": 1
