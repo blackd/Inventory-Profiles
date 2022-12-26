@@ -2,6 +2,7 @@
 
 ### 1.9.1
 
+- Added translation for Chinese Traditional thanks to 午夜的大叔
 - Fixed hot bar locked slots rendering while in spectator mode.
 - Extended mod compatibility
 
