@@ -73,7 +73,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
-        classpath("com.guardsquare:proguard-gradle:7.2.1")
+        classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
 
@@ -156,7 +156,7 @@ configurations {
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
-    runtimeOnly( fg.deobf("curse.maven:sophisticated-backpacks-422301:3910948"))
+    //runtimeOnly( fg.deobf("curse.maven:sophisticated-backpacks-422301:3910948"))
 }
 
 tasks.named("compileKotlin") {
@@ -388,6 +388,13 @@ configure<UserDevExtension> {
     }
 }
 
+val sourceJar = tasks.create<Jar>("sourcesJar") {
+    from(sourceSets["main"]?.allSource)
+    archiveClassifier.set("sources")
+    exclude("org/anti_ad/mc/common/gen/*.tokens")
+    dependsOn("generateGrammarSource")
+}
+
 afterEvaluate {
     tasks.forEach {
         logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
@@ -395,7 +402,7 @@ afterEvaluate {
 
 }
 
-tasks.register<Jar>("deobfJar") {
+val deobfJar = tasks.register<Jar>("deobfJar") {
     from(sourceSets["main"].output)
     archiveClassifier.set("dev")
     group = "forge"
@@ -421,8 +428,34 @@ javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
     mapToMavenScope("runtime")
 }
 
+publishing {
+    repositories {
+        maven {
+            val releasesRepoUrl = rootProject.layout.projectDirectory.dir("repos/releases")
+            val snapshotsRepoUrl = rootProject.layout.projectDirectory.dir("repos/snapshots")
+            logger.lifecycle("project.ext[\"mod_artefact_is_release\"] = ${project.ext["mod_artefact_is_release"]}")
+            url = uri(if (project.ext["mod_artefact_is_release"] as Boolean) releasesRepoUrl else snapshotsRepoUrl)
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "org.anti_ad.mc"
+            artifactId = "${rootProject.name}-${project.name}"
+            version = mod_artefact_version.toString()
+            artifact(customJar)
+            artifact(sourceJar) {
+                classifier = "sources"
+            }
+        }
+        tasks["publishMavenPublicationToMavenRepository"]
+            ?.dependsOn(customJar)
+            ?.dependsOn(sourceJar)
+        tasks["publishMavenPublicationToMavenLocal"]
+            ?.dependsOn(customJar)
+            ?.dependsOn(sourceJar)
+    }
 
-
+}
 
 configure<CurseExtension> {
 

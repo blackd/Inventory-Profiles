@@ -30,6 +30,7 @@ import org.anti_ad.mc.ipnext.buildsrc.fabricRegisterCommonTasks
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
+import org.anti_ad.mc.ipnext.buildsrc.registerCopyJarForPublishTask
 import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5")
@@ -46,7 +47,7 @@ val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
 buildscript {
     dependencies {
-        classpath("com.guardsquare:proguard-gradle:7.2.1")
+        classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
 
@@ -230,6 +231,12 @@ fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.t
 
 registerMinimizeJarTask()
 
+val sourceJar = tasks.create<Jar>("sourcesJar") {
+    from(sourceSets["main"]?.allSource)
+    exclude("org/anti_ad/mc/common/gen/*.tokens")
+    dependsOn("generateGrammarSource")
+}
+
 afterEvaluate {
     fabricCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
@@ -238,6 +245,46 @@ tasks.named<DefaultTask>("build") {
     dependsOn(remapped)
 }
 
+
+publishing {
+    repositories {
+        maven {
+            val releasesRepoUrl = rootProject.layout.projectDirectory.dir("repos/releases")
+            val snapshotsRepoUrl = rootProject.layout.projectDirectory.dir("repos/snapshots")
+            logger.lifecycle("project.ext[\"mod_artefact_is_release\"] = ${project.ext["mod_artefact_is_release"]}")
+            url = uri(if (project.ext["mod_artefact_is_release"] as Boolean) releasesRepoUrl else snapshotsRepoUrl)
+        }
+    }
+    publications {
+        val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+        create<MavenPublication>("maven") {
+            groupId = "org.anti_ad.mc"
+            artifactId = "${rootProject.name}-${project.name}"
+            version = mod_artefact_version.toString()
+
+            artifact(shadowJar) {
+                classifier = "shaded"
+            }
+            artifact(remapped) {
+                classifier = "remapped"
+            }
+            artifact(sourceJar) {
+                classifier = "sources"
+            }
+            loom {
+                this.disableDeprecatedPomGeneration(this@create)
+            }
+        }
+        tasks["publishMavenPublicationToMavenRepository"]
+            ?.dependsOn(shadowJar)
+            ?.dependsOn(remapped)
+            ?.dependsOn(sourceJar)
+        tasks["publishMavenPublicationToMavenLocal"]
+            ?.dependsOn(shadowJar)
+            ?.dependsOn(remapped)
+            ?.dependsOn(sourceJar)
+    }
+}
 
 // ============
 // curseforge

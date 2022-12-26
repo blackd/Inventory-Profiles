@@ -53,13 +53,14 @@ enum class ScrollDirection {
 
 object ScrollingUtils {
 
-    private fun withEnvironmentDo(direction: ScrollDirection, action: AreaTypes.(stack: ItemType,
-                                                                                        target: AreaType,
-                                                                                        slots: List<Slot>,
-                                                                                        player: AreaType,
-                                                                                        chest: AreaType,
-                                                                                        fullPlayer: AreaType) -> Unit) {
-        val includeHotbar = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()
+    private fun withEnvironmentDo(direction: ScrollDirection,
+                                  includeHotbar: Boolean,
+                                  action: AreaTypes.(stack: ItemType,
+                                                     target: AreaType,
+                                                     slots: List<Slot>,
+                                                     player: AreaType,
+                                                     chest: AreaType,
+                                                     fullPlayer: AreaType) -> Unit) {
         val vanillaContainer = Vanilla.container()
         val types = ContainerTypes.getTypes(vanillaContainer)
         if (types.contains(ContainerType.CREATIVE)) {
@@ -177,9 +178,10 @@ object ScrollingUtils {
 
     }
 
-    fun scrollFullStack(direction: ScrollDirection = ScrollDirection.TO_CHEST) {
+    fun scrollFullStack(direction: ScrollDirection = ScrollDirection.TO_CHEST,
+                        includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
 
-        withEnvironmentDo(direction) {stack, target, slots, player, chest, _ ->
+        withEnvironmentDo(direction, includeHotbar) {stack, target, slots, player, chest, _ ->
 
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
@@ -203,8 +205,9 @@ object ScrollingUtils {
         }
     }
 
-    fun scrollFullStackLeaveLast(direction: ScrollDirection = ScrollDirection.TO_CHEST) {
-        withEnvironmentDo(direction) { stack, target, slots, player, chest, _ ->
+    fun scrollFullStackLeaveLast(direction: ScrollDirection = ScrollDirection.TO_CHEST,
+                                 includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+        withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
 
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
@@ -232,9 +235,10 @@ object ScrollingUtils {
         }
     }
 
-    fun scrollFullStackSpread(direction: ScrollDirection = ScrollDirection.TO_CHEST) {
+    fun scrollFullStackSpread(direction: ScrollDirection = ScrollDirection.TO_CHEST,
+                              includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
         var minCount = 65
-        withEnvironmentDo(direction) { stack, target, slots, player, chest, _ ->
+        withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
                     var count = slot.`(itemStack)`.count - 1
@@ -290,8 +294,9 @@ object ScrollingUtils {
     }
 
 
-    fun scrollFullStackThrow(direction: ScrollDirection = ScrollDirection.BOTH) {
-        withEnvironmentDo(direction) { stack, target, slots, player, chest, _ ->
+    fun scrollFullStackThrow(direction: ScrollDirection = ScrollDirection.BOTH,
+                             includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+        withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
 
@@ -311,8 +316,9 @@ object ScrollingUtils {
         }
     }
 
-    fun scrollSingleItemThrow(direction: ScrollDirection = ScrollDirection.BOTH) {
-        withEnvironmentDo(direction) { stack, targetIn, slots, player, chest, fullPlayer ->
+    fun scrollSingleItemThrow(direction: ScrollDirection = ScrollDirection.BOTH,
+                              includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+        withEnvironmentDo(direction, includeHotbar) { stack, targetIn, slots, player, chest, fullPlayer ->
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
 
@@ -335,8 +341,9 @@ object ScrollingUtils {
     }
 
 
-    fun scrollSingleItem(direction: ScrollDirection = ScrollDirection.TO_CHEST) {
-        withEnvironmentDo(direction) {stack, targetIn, slots, player, chest, fullPlayer ->
+    fun scrollSingleItem(direction: ScrollDirection = ScrollDirection.TO_CHEST,
+                         includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+        withEnvironmentDo(direction, includeHotbar) { stack, targetIn, slots, player, chest, fullPlayer ->
 
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
@@ -374,8 +381,9 @@ object ScrollingUtils {
         }
     }
 
-    fun scrollSingleItemLeaveLast(direction: ScrollDirection = ScrollDirection.TO_CHEST) {
-        withEnvironmentDo(direction) {stack, targetIn, slots, player, chest, fullPlayer ->
+    fun scrollSingleItemLeaveLast(direction: ScrollDirection = ScrollDirection.TO_CHEST,
+                                  includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+        withEnvironmentDo(direction, includeHotbar) {stack, targetIn, slots, player, chest, fullPlayer ->
 
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
@@ -416,9 +424,10 @@ object ScrollingUtils {
 
     }
 
-    fun scrollSingleSpread(direction: ScrollDirection = ScrollDirection.TO_CHEST) {
+    fun scrollSingleSpread(direction: ScrollDirection = ScrollDirection.TO_CHEST,
+                           includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
         var minCount = 65
-        withEnvironmentDo(direction) { stack, target, slots, player, chest, _ ->
+        withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
                     withFocusedItemFullStackDo(direction, slot, target, slots, player, chest) { targetArea, source, itemType, slotIndex ->

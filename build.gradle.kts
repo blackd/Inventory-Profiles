@@ -23,7 +23,7 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("1", "9", "0",
+val versionObj = Version("1", "9", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -87,7 +87,8 @@ allprojects {
     version = versionObj.toString()
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
-    ext.set("libIPN_version", "2.0.0")
+    ext.set("mod_artefact_is_release", versionObj.isRelease())
+    ext.set("libIPN_version", "2.0.1")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -219,4 +220,6 @@ class Version(val major: String, val minor: String, val revision: String, val pr
         else //Only use git hash if it's a prerelease.
             "$major.$minor.$revision-SNAPSHOT"
     }
+
+    fun isRelease() = !preRelease
 }

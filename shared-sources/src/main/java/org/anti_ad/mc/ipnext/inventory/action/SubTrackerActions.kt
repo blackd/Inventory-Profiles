@@ -39,6 +39,7 @@ import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.maxCount
 import org.anti_ad.mc.ipnext.item.rule.Rule
 import org.anti_ad.mc.ipnext.item.transferNTo
+import org.anti_ad.mc.ipnext.item.transferOneTo
 import org.anti_ad.mc.ipnext.item.transferTo
 
 // ============
@@ -107,6 +108,22 @@ fun MutableSubTracker.refillStacksTo(another: MutableSubTracker) {
                 stackToFilter.itemType == it.itemType && !stackToFilter.isEmpty() && !stackToFilter.isFull()
             })
         }
+    }
+}
+
+fun MutableSubTracker.moveSingle(another: MutableSubTracker) {
+    val source: MutableItemStack = if (this.slots.isNotEmpty()) this.slots[0] else return
+    val itemType: ItemType = if (!source.itemType.isEmpty()) this.slots[0].itemType else return
+
+    val anotherSlots = another.slots
+    run {
+        anotherSlots.find { mItemStack ->
+            mItemStack.itemType == itemType && (!mItemStack.isEmpty() && !mItemStack.isFull())
+        } ?: anotherSlots.find { mItemStack ->
+            mItemStack.isEmpty()
+        }
+    }?.let {
+        source.transferOneTo(it)
     }
 }
 

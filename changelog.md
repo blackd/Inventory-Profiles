@@ -1,39 +1,28 @@
 <!-- latest begin -->
-### 1.9.0
 
-- added support for 1.19.3 forge
-- finalised support 1.19.3 for fabric
-- fixed toogle settings not working when more then one mod uses libIPN
+### 1.9.1
 
+- Fixed hot bar locked slots rendering while in spectator mode.
+- Extended mod compatibility
 
 #### Supported Minecraft versions
 - **1.16.x**
 - **1.18.2**
-- **1.19[.1]**
+- **1.19[.1-2]**
 - **1.19.3**
-
-
-- **NOTE:** There are **two** 1.19 versions one compatible with **1.19-1.19.2** and one compatible with **1.19.3**. Please download the appropriate mod for you version.
-
-### End of Life Announcement:
-
-#### The fallowing Minecraft versions will no longer receive updates:
-
-- 1.14.x
-- 1.15.x
-- 1.17.x
-- 1.18[.1]
-
-Old versions will remain available!
-
-### NOTE
-
-- **Inventory Profiles Next** now depends on [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn). This means you will need to install [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn) too or **Inventory Profiles Next** will not work
 
 
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.9.0
+
+- added support for 1.19.3 forge
+- finalised support 1.19.3 for fabric
+- fixed toggle settings not working when more then one mod uses libIPN
+
+
 ### 1.8.6
 
 - added Korean translation thanks to @ssolephant.

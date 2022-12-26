@@ -29,6 +29,7 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+import org.anti_ad.mc.common.vanilla.alias.GameType
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.alias.Slot
@@ -365,7 +366,8 @@ object LockSlotsHandler: PLockSlotHandler {
     }
 
     fun postRenderHud() {
-        if (LockedSlotsSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value) {
+
+        if (LockedSlotsSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value && GameType.SPECTATOR != Vanilla.gameMode()) {
             drawHotSprite()
         }
     }
