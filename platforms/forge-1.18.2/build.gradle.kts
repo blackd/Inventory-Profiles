@@ -529,9 +529,18 @@ javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
 publishing {
     repositories {
         maven {
+            /*
             val releasesRepoUrl = rootProject.layout.projectDirectory.dir("repos/releases")
             val snapshotsRepoUrl = rootProject.layout.projectDirectory.dir("repos/snapshots")
+             */
+            val releasesRepoUrl = "https://maven.ipn-mod.org/releases"
+            val snapshotsRepoUrl = "https://maven.ipn-mod.org/snapshots"
             logger.lifecycle("project.ext[\"mod_artefact_is_release\"] = ${project.ext["mod_artefact_is_release"]}")
+            name = "ipnOfficialRepo"
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
             url = uri(if (project.ext["mod_artefact_is_release"] as Boolean) releasesRepoUrl else snapshotsRepoUrl)
         }
     }
@@ -545,7 +554,7 @@ publishing {
                 classifier = "sources"
             }
         }
-        tasks["publishMavenPublicationToMavenRepository"]
+        tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
             ?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
         tasks["publishMavenPublicationToMavenLocal"]

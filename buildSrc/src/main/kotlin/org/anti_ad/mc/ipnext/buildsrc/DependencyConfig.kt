@@ -54,14 +54,14 @@ fun Project.configureDependencies() {
             this.mavenContent {
                 this.snapshotsOnly()
             }
-            url = uri("../../libIPN/repos/snapshots")
+            url = uri("https://maven.ipn-mod.org/snapshots")
         }
         maven {
             name = "libIPN-Releases"
             this.mavenContent {
                 this.releasesOnly()
             }
-            url = uri("../../libIPN/repos/releases")
+            url = uri("https://maven.ipn-mod.org/releases")
         }
 
         gradlePluginPortal()
