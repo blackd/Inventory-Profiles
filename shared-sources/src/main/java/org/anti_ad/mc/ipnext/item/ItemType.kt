@@ -21,17 +21,26 @@
 package org.anti_ad.mc.ipnext.item
 
 import org.anti_ad.mc.common.vanilla.alias.Item
+import org.anti_ad.mc.common.vanilla.alias.Items
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.ingame.`(keys)`
 
 
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,
-                    val tag: NbtCompound?,
+                    private val aTag: NbtCompound?,
                     val isDamageableFn: (() -> Boolean),
                     var ignoreDurability: Boolean = false,
                     private val isDamageable: Boolean = isDamageableFn()) {
+
+    val tag: NbtCompound?
+
+    init {
+        //if (null == aTag) Log.trace("aTag = NULL here", Exception())
+        tag = if (aTag == null && item != Items.AIR) NbtCompound() else aTag
+    }
 
     override fun toString() = item.toString() + "" + (tag ?: "")
 

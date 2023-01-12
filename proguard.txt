@@ -23,6 +23,7 @@
 
 
 #-dontoptimize
+#-dontobfuscate
 
 # https://stackoverflow.com/questions/33189249/how-to-tell-proguard-to-keep-enum-constants-and-fields
 #-keepclassmembers class * extends java.lang.Enum {

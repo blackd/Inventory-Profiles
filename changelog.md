@@ -1,10 +1,8 @@
 <!-- latest begin -->
 
-### 1.9.1
+### 1.9.2
 
-- Added translation for Chinese Traditional thanks to 午夜的大叔
-- Fixed hot bar locked slots rendering while in spectator mode.
-- Extended mod compatibility
+- workaround for Vault Hunters problem where a stack NBT will sometimes be set to null sometimes to empty CompoundNBT. Witch was breaking auto refill.
 
 #### Supported Minecraft versions
 - **1.16.x**
@@ -16,6 +14,12 @@
 <!-- latest end -->
 
 <!-- rest begin -->
+
+### 1.9.1
+
+- Added translation for Chinese Traditional thanks to 午夜的大叔
+- Fixed hot bar locked slots rendering while in spectator mode.
+- Extended mod compatibility
 
 ### 1.9.0
 

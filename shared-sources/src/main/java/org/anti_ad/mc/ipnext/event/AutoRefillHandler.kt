@@ -141,6 +141,7 @@ object AutoRefillHandler {
 
     // fixed ~.~ [later fun change reminder: see if auto refill fail if item ran out then instantly pick up some items]
     fun handleAutoRefill() {
+        //Log.trace("in handleAutoRefill")
         tryCatch { // just in case (index out of range etc)
             monitors.forEach { it.updateCurrent() }
             monitors.forEach { it.checkShouldHandle() }
@@ -285,11 +286,7 @@ object AutoRefillHandler {
                 true
             }  else if (storedItem.itemType.isHoneyBottle && currentItem.itemType.item == Items.GLASS_BOTTLE) {
                 true
-            } else if (storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL) {
-                true
-            } else {
-                false
-            }
+            } else storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL
 
         }
         private fun notifySuccessfulChange(itemType: ItemType,
@@ -540,12 +537,12 @@ object AutoRefillHandler {
 
             private fun defaultItemMatch(filtered: Sequence<IndexedValue<ItemStack>>,
                                          itemType: ItemType) = when {
-                filtered.firstOrNull() { typeItemMatch(it, itemType) } != null            -> {
+                filtered.firstOrNull { typeItemMatch(it, itemType) } != null            -> {
                     filtered.filter {
                         typeItemMatch(it, itemType)
                     }
                 }
-                filtered.firstOrNull() {
+                filtered.firstOrNull {
                     val other = it.value.itemType
                     val allowHarmful = AutoRefillSettings.AUTO_REFILL_MATCH_HARMFUL_FOOD.booleanValue
                     val machAnyFood = AutoRefillSettings.AUTO_REFILL_MATCH_ANY_FOOD.booleanValue
@@ -599,7 +596,8 @@ object AutoRefillHandler {
                         }
 
                         AutoRefillNbtMatchType.EXACT          -> {
-                            it.value.itemType.tag == itemType.tag
+                            val eq = it.value.itemType.tag == itemType.tag
+                            eq
                         }
 
                     }

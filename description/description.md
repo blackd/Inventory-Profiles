@@ -31,10 +31,12 @@ This mod will:
 <tr> 
 <td colspan="2">
 
-This mod **IS NOT** drop in replacement of **Inventory Teweaks**
+This mod **IS NOT** drop in replacement of **Inventory Tweaks**
 
-- It is not possible to make **Inventory Profiles Next** work as **Inventory Teweaks**
-- If you come from **Inventory Teweaks** you will need to learn how to use **Inventory Profiles Next**
+- It is not possible to make **Inventory Profiles Next** work as **Inventory Tweaks**
+- If you come from **Inventory Tweaks** you will need to learn how to use **Inventory Profiles Next**
+- If you can't do the above you can use [InvTweaks Emu for IPN](https://www.curseforge.com/minecraft/mc-mods/invtweaks-emu-for-ipn) to emulate
+some shortcuts "Inventory Tweaks" used.
 
 </td>
 </tr>
