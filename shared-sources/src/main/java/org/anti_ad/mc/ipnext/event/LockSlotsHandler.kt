@@ -262,9 +262,15 @@ object LockSlotsHandler: PLockSlotHandler {
         if (!enabled) return false
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return false
         when (LockedSlotsSettings.LOCK_SLOTS_CONFIG_SWITCH_TYPE.value) {
-            TOGGLE -> if (LockedSlotsSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isActivated()) displayingConfig =
-                !displayingConfig
-            HOLD -> displayingConfig = LockedSlotsSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isPressing()
+            TOGGLE -> {
+                if (LockedSlotsSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isActivated()) {
+                    displayingConfig = !displayingConfig
+                }
+            }
+            HOLD -> {
+                displayingConfig = LockedSlotsSettings.LOCK_SLOTS_SWITCH_CONFIG_MODIFIER.isPressing()
+                        || LockedSlotsSettings.LOCK_SLOTS_QUICK_CONFIG_KEY.isPressing()
+            }
         }
         val currentClicked = (displayingConfig && LockedSlotsSettings.LOCK_SLOTS_CONFIG_KEY.isPressing())
                 || LockedSlotsSettings.LOCK_SLOTS_QUICK_CONFIG_KEY.isPressing()
