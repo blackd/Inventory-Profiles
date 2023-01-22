@@ -75,7 +75,7 @@ dependencies {
 [2]: https://github.com/blackd/Inventory-Profiles/releases/latest
 [3]: https://cf.way2muchnoise.eu/full_495267_CurseForge%20Downloads_%20.svg
 [4]: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next
-[5]: https://img.shields.io/modrinth/dt/O7RBXm3n?color=00AF5C&label=Modrinth%0aDownloads%20&style=plastic&logo=modrinth
+[5]: https://img.shields.io/badge/dynamic/json?color=00AF5C&label=Modrinth%0aDownloads%20&style=plastic&logo=modrinth&query=downloads&url=https://api.modrinth.com/v2/project/O7RBXm3n
 [6]: https://modrinth.com/mod/inventory-profiles-next
 [7]: https://discord.gg/23YCxmveUM
 [8]: https://img.shields.io/discord/861171785897738240?label=Discord&logo=discord&style=plastic
