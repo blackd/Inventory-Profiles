@@ -16,9 +16,13 @@ python build_release_notes.py
 
 cd ..
 
-./gradlew --max-workers 32 clean build 
+./gradlew --max-workers 32 clean
+./gradlew --max-workers 32 createMcpToSrg
+./gradlew --max-workers 32 build
 
-./gradlew --max-workers 1 clean build modrinth curseforge
+./gradlew --max-workers 32 clean
+./gradlew --max-workers 32 createMcpToSrg
+./gradlew --max-workers 3 build modrinth curseforge
 
 
 ls -la build/lib/
