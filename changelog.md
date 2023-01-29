@@ -8,6 +8,16 @@
 - workaround for MacOS OpenGL strangeness that caused locked slots, swipe move/throw and tooltips mostly not work on forge builds.
 - workaround for [scouts](https://www.curseforge.com/minecraft/mc-mods/scout) differences with vanilla. scout slots will now be ignored.
 
+### WARNING
+
+Due to multiple Quilt specific crashes and one item duplication Quilt support is now defined as fallows:
+
+```
+This mod will work on Quilt using the offered Fabric compatibility.
+Any problems that are not reproducible on Fabric will be addressed with very low priority.
+```
+
+
 #### Supported Minecraft versions
 - **1.16.x**
 - **1.18.2**

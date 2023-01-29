@@ -75,6 +75,16 @@ some shortcuts "Inventory Tweaks" used.
 </tbody>
 </table>
 
+## WARNING
+
+Due to multiple Quilt specific crashes and one item duplication Quilt support is now defined as fallows:
+
+```
+This mod will work on Quilt using the offered Fabric compatibility.
+Any problems that are not reproducible on Fabric will be addressed with very low priority.
+```
+
+
 ## How-To
 
 <div style="width: 100%; height: 100%; child-align: middle;">
