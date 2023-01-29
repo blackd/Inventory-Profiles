@@ -48,6 +48,7 @@ import org.anti_ad.mc.ipnext.specific.serverIdentifier
 import org.anti_ad.mc.common.extensions.dashedSanitized
 import org.anti_ad.mc.common.extensions.loggingPath
 import org.anti_ad.mc.common.extensions.sanitized
+import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting
 import kotlin.io.path.notExists
@@ -79,13 +80,14 @@ private fun getFiles(regex: String) =
 private val definedLoaders: List<Loader> = listOf(LockSlotsLoader,
                                                   ProfilesLoader,
                                                   RuleLoader,
-                                                  HintsLoader)
+                                                  HintsLoader,
+                                                  VillagerBookmarksLoader)
 
 object ProfilesLoader: Loader, Savable {
 
     val file: Path
         get() {
-            val dir = serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue).sanitized()
+            val dir = serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue).sanitized()
             (configFolder / dir ).createDirectories()
             return configFolder / dir / "profiles.txt"
         }
@@ -267,6 +269,33 @@ object HintsLoader: Loader {
         ContainerTypes.reset()
         HintsManagerNG.upgradeOldConfig(configFolder / "ModIntegrationHints.json" , path)
         HintsManagerNG.init(configFolder, path)
+    }
+
+}
+
+object VillagerBookmarksLoader: Loader, Savable {
+
+    private var firstLoad: Boolean = false
+
+    val path: Path
+        get() {
+            val dir = serverIdentifier(true).sanitized()
+            return (configFolder / dir).also { it.createDirectories() }
+        }
+
+    override fun load() {
+        if(!firstLoad) {
+            firstLoad = true
+            reload()
+        }
+    }
+
+    override fun reload() {
+        VillagerDataManager.init(path)
+    }
+
+    override fun save() {
+        VillagerDataManager.saveIfDirty()
     }
 
 }

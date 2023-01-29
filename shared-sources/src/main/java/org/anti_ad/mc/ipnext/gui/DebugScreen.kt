@@ -34,7 +34,7 @@ import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(focusedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
-import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(left)`
 import org.anti_ad.mc.ipnext.ingame.`(rawFocusedSlot)`
@@ -120,7 +120,7 @@ class DebugScreen: BaseDebugScreen() {
                 val b =
                         slot.run {
                             """invSlot: $`(invSlot)` id: $`(id)`
-              |inventory: ${`(inventory)`.javaClass.usefulName}
+              |inventory: ${`(inventoryOrNull)`?.javaClass?.usefulName}
               |x: $`(left)` y: $`(top)`
               |
               """.trimMargin()

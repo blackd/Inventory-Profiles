@@ -28,6 +28,7 @@ import org.anti_ad.mc.ipnext.item.displayName
 import org.anti_ad.mc.ipnext.item.durability
 import org.anti_ad.mc.ipnext.item.enchantmentsScore
 import org.anti_ad.mc.ipnext.item.groupIndex
+import org.anti_ad.mc.ipnext.item.searchTabIndex
 import org.anti_ad.mc.ipnext.item.hasCustomName
 import org.anti_ad.mc.ipnext.item.isDamageable
 import org.anti_ad.mc.ipnext.item.itemId
@@ -52,27 +53,27 @@ import org.anti_ad.mc.ipnext.item.translationKey
 // Some helper functions for creating rules
 // ============
 
-private class TypeBasedRuleProvider<T, R : TypeBasedRule<T>>(
-    supplier: () -> R,
-    valueOf: (Rule.(ItemType) -> T)? = null,
-    val args: MutableList<Pair<Parameter<*>, Any?>> = mutableListOf(),
-    val postActions: MutableList<R.() -> Unit> = mutableListOf()) : ByPropertyName<() -> Rule>({ name ->
-                                   { // return () -> Rule
-                                       supplier().apply {
-                                           valueOf?.let { this.valueOf = it }
-                                           arguments.apply {
-                                               args.forEach { (parameter, value) ->
-                                                   @Suppress("UNCHECKED_CAST")
-                                                   value?.let {
-                                                       defineParameter(parameter as Parameter<Any>,
-                                                                       value)
-                                                   } ?: defineParameter(parameter)
-                                               }
-                                           }
-                                           postActions.forEach { it() }
-                                       }
-                                   }.also { NATIVE_MAP[name] = it } // don't use NativeRules.map (un-init-ed)
-                               }) {
+private class TypeBasedRuleProvider<T, R : TypeBasedRule<T>>(supplier: () -> R,
+                                                             valueOf: (Rule.(ItemType) -> T)? = null,
+                                                             val args: MutableList<Pair<Parameter<*>, Any?>> = mutableListOf(),
+                                                             val postActions: MutableList<R.() -> Unit> = mutableListOf()) : ByPropertyName<() -> Rule>(
+    { name -> { // return () -> Rule
+        supplier().apply {
+            valueOf?.let { this.valueOf = it }
+            arguments.apply {
+                args.forEach { (parameter, value) ->
+                    @Suppress("UNCHECKED_CAST")
+                    value?.let {
+                        defineParameter(parameter as Parameter<Any>,
+                                        value)
+                    } ?: defineParameter(parameter)
+                }
+            }
+            postActions.forEach { it() }
+        }
+    }.also { NATIVE_MAP[name] = it } // don't use NativeRules.map (un-init-ed)
+    }) {
+
     fun <P : Any> param(parameter: Parameter<P>,
                         value: P) = // custom param on specific rule
         this.also { args.add(parameter to value) }
@@ -84,11 +85,9 @@ private class TypeBasedRuleProvider<T, R : TypeBasedRule<T>>(
         this.also { postActions.add(postAction) }
 }
 
-private fun <T, R : TypeBasedRule<T>> type(
-    supplier: () -> R,
-    valueOf: (Rule.(ItemType) -> T)? = null
-) = TypeBasedRuleProvider(supplier,
-                          valueOf)
+private fun <T, R : TypeBasedRule<T>> type(supplier: () -> R,
+                                           valueOf: (Rule.(ItemType) -> T)? = null) = TypeBasedRuleProvider(supplier,
+                                                                                                            valueOf)
 
 private fun <R : Rule> rule(supplier: () -> R) = ByPropertyName<() -> R> { name ->
     supplier.also { NATIVE_MAP[name] = it }
@@ -121,6 +120,7 @@ val potion_name     /**/ by type(::StringBasedRule) { it.potionName }/**/.param(
 // Number Type Rule
 val raw_id                    /**/ by type(::NumberBasedRule) { it.rawId }
 val creative_menu_group_index /**/ by type(::NumberBasedRule) { it.groupIndex }
+val search_tab_index          /**/ by type(::NumberBasedRule) { it.searchTabIndex }
 val damage                    /**/ by type(::NumberBasedRule) { it.damage }
 val max_damage                /**/ by type(::NumberBasedRule) { it.maxDamage }
 val durability                /**/ by type(::NumberBasedRule) { it.durability }

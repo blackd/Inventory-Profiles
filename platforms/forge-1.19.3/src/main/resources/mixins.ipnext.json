@@ -14,7 +14,9 @@
         "MixinPlayerController",
         "MixinPlayerInventory",
         "MixinScreenHandler",
-        "MixinItemGroup"
+        "MixinItemGroup",
+        "MixinServerBoundInteractPacket",
+        "MixinMerchantScreen"
     ],
     "injectors":          {
         "defaultRequire": 1

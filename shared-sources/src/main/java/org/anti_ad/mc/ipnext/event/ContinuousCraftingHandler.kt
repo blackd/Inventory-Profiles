@@ -32,7 +32,7 @@ import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(id)`
-import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.inventory.AdvancedContainer
@@ -190,7 +190,7 @@ object ContinuousCraftingHandler {
 
     private class Monitor(container: Container): IMonitor {
         override val containerSlots = container.`(slots)`
-        override val ingredientSlots = containerSlots.filter { it.`(inventory)` is CraftingInventory }
+        override val ingredientSlots = containerSlots.filter { it.`(inventoryOrNull)` is CraftingInventory }
 
         //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
         override val slotMonitors = ingredientSlots.map { ItemSlotMonitor(it) }
@@ -294,7 +294,7 @@ object ContinuousCraftingHandler {
 
     private class MonitorP(container: Container): IMonitor {
         override val containerSlots = container.`(slots)`
-        override val ingredientSlots = containerSlots.filter { it.`(inventory)` is CraftingInventory }
+        override val ingredientSlots = containerSlots.filter { it.`(inventoryOrNull)` is CraftingInventory }
 
         //    val resultSlot = containerSlots.filterIsInstance<CraftingResultSlot>() // should be 1
         override val slotMonitors = ingredientSlots.map { ItemSlotMonitorP(it) }

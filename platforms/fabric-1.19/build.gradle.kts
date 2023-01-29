@@ -41,7 +41,7 @@ val minecraft_version_string = "1.19[.1-2]"
 val mappings_version = "1.19.2+build.1"
 val loader_version = "0.14.9"
 val modmenu_version = "4.0.6"
-val fabric_api_version = "0.58.6+1.19.2"
+val fabric_api_version = "0.72.0+1.19.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
@@ -111,7 +111,8 @@ fabricCommonDependency(minecraft_version,
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
-    //modRuntimeOnly("curse.maven:scout-631922:3947029")
+    modRuntimeOnly("curse.maven:trinkets-341284:4343755")
+    modRuntimeOnly("curse.maven:scout-631922:4333756")
 }
 
 tasks.named("compileKotlin") {
@@ -140,6 +141,7 @@ loom {
     runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
+    accessWidenerPath.set(file("src/main/resources/ipnext.accesswidener"))
 }
 
 tasks.named<AntlrTask>("generateGrammarSource").configure {

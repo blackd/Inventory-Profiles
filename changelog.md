@@ -3,6 +3,10 @@
 ### 1.9.2
 
 - workaround for Vault Hunters problem where a stack NBT will sometimes be set to null sometimes to empty CompoundNBT. Witch was breaking auto refill.
+- fixed quick locked slot key not saving the locked slots
+- fixed default sort to sort by the order of the search tab of the creative menu. **This will change the default sort.**
+- workaround for MacOS OpenGL strangeness that caused locked slots, swipe move/throw and tooltips mostly not work on forge builds.
+- workaround for [scouts](https://www.curseforge.com/minecraft/mc-mods/scout) differences with vanilla. scout slots will now be ignored.
 
 #### Supported Minecraft versions
 - **1.16.x**

@@ -42,6 +42,7 @@ import org.anti_ad.mc.ipnext.config.Tweaks
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(rawFocusedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
@@ -112,21 +113,22 @@ object MiscHandler {
                              ContainerType.SORTABLE_STORAGE,
                              ContainerType.PURE_BACKPACK)
         for (slot in slots) {
-            // disable for non storage (tmp solution for crafting table result slot)
-            if (!Tweaks.SWIPE_MOVE_CRAFTING_RESULT_SLOT.booleanValue) {
-                if (!types.containsAny(matchSet) && slot.`(inventory)` !is PlayerInventory) continue
-                if (slot.`(inventory)` is CraftingInventory || slot.`(inventory)` is CraftingResultInventory) continue
-            } else if (types.contains(ContainerType.STONECUTTER)
-                && (slot.`(inventory)` is CraftingInventory
-                        || slot.`(inventory)` is CraftingResultInventory)) {
-                continue
-            }
+            if (slot.`(inventoryOrNull)` != null) {
+                // disable for non storage (tmp solution for crafting table result slot)
+                if (!Tweaks.SWIPE_MOVE_CRAFTING_RESULT_SLOT.booleanValue) {
+                    if (!types.containsAny(matchSet) && slot.`(inventory)` !is PlayerInventory) continue
+                    if (slot.`(inventory)` is CraftingInventory || slot.`(inventory)` is CraftingResultInventory) continue
+                } else if (types.contains(ContainerType.STONECUTTER)
+                    && (slot.`(inventory)` is CraftingInventory
+                            || slot.`(inventory)` is CraftingResultInventory)) {
+                    continue
+                }
 
-            val rect = Rectangle(topLeft + slot.`(topLeft)`,
-                                 Size(16,
-                                      16))
-            if (line.intersects(rect)) {
-                /*
+                val rect = Rectangle(topLeft + slot.`(topLeft)`,
+                                     Size(16,
+                                          16))
+                if (line.intersects(rect)) {
+                    /*
                 if (Log.shouldTrace()) {
                     Log.trace("found slot to be: $slot")
                     Log.trace("found slot to be: invSlot: ${slot.`(id)`}, id: ${slot.`(invSlot)`}")
@@ -139,12 +141,13 @@ object MiscHandler {
                 }
 
                  */
-                if (slot.`(itemStack)`.isEmpty()) continue
+                    if (slot.`(itemStack)`.isEmpty()) continue
 
 
-                block(slot,
-                      screen,
-                      types)
+                    block(slot,
+                          screen,
+                          types)
+                }
             }
         }
     }

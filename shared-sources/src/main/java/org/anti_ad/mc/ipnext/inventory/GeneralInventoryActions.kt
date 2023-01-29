@@ -43,6 +43,7 @@ import org.anti_ad.mc.ipnext.config.rule
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.ingame.vCursorStack
@@ -111,7 +112,7 @@ object GeneralInventoryActions {
                                      NO_SORTING_STORAGE,
                                      CRAFTING))) return
         val forceToPlayer = ModSettings.MOVE_ALL_AT_CURSOR.booleanValue &&
-                vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
+                vFocusedSlot()?.let { it.`(inventoryOrNull)` == null || it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
         if (forceToPlayer) {
             doMoveMatch(true) // container to player // non player and player by PlayerInventory
         } else {
@@ -151,7 +152,7 @@ object GeneralInventoryActions {
             return
         }
         val isContainer = ModSettings.MOVE_ALL_AT_CURSOR.booleanValue &&
-                vFocusedSlot()?.let { it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
+                vFocusedSlot()?.let { it.`(inventoryOrNull)` != null && it.`(inventory)` !is PlayerInventory } ?: false // hover slot exist and not player
 
         val includeHotbar = // xor
                 ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
@@ -342,7 +343,7 @@ object GeneralInventoryActions {
 private object InnerActions {
 
     private fun forcePlayerSide(): Boolean { // default container side
-        return (ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.`(inventory)` is PlayerInventory) ||
+        return (ModSettings.SORT_AT_CURSOR.booleanValue && vFocusedSlot()?.`(inventoryOrNull)` is PlayerInventory) ||
                 HintsManagerNG.isPlayerSideOnly(Vanilla.screen()?.javaClass)
     }
 

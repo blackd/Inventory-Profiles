@@ -56,6 +56,18 @@ public abstract class MixinScreen {
         });
     }
 
+    @Inject(at = @At("RETURN"), method = "removed()V")
+    public void removed(CallbackInfo ci) {
+        Screen self = (Screen) (Object) this;
+        ScreenEventHandler.INSTANCE.onScreenRemoved(self);
+    }
+
+    @Inject(at = @At("RETURN"), method = "close()V")
+    public void close(CallbackInfo ci) {
+        Screen self = (Screen) (Object) this;
+        ScreenEventHandler.INSTANCE.onScreenRemoved(self);
+    }
+
     @SuppressWarnings("UnusedReturnValue")
     public <T extends Element & Selectable> T addSelectableChild(T child) {
         this.children.add(child);

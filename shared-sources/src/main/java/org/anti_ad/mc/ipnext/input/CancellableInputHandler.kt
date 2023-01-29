@@ -25,6 +25,7 @@ import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
+import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 
 object CancellableInputHandler : IInputHandler {
     override fun onInput(lastKey: Int,
@@ -34,6 +35,10 @@ object CancellableInputHandler : IInputHandler {
                 return true
             }
             if (ProfileSwitchHandler.onInput(lastKey, lastAction)) {
+                return true
+            }
+
+            if (VillagerTradeManager.onInput(lastKey, lastAction)) {
                 return true
             }
 

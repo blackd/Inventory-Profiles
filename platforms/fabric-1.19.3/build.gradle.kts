@@ -113,6 +113,8 @@ dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
     //modRuntimeOnly("curse.maven:scout-631922:3947029")
     //"modCompileOnly"("com.terraformersmc:modmenu:$modmenu_version")
+    modRuntimeOnly("curse.maven:minihud-244260:4160116")
+    modRuntimeOnly("curse.maven:malilib-303119:4147598")
 }
 
 tasks.named("compileKotlin") {
@@ -141,6 +143,8 @@ loom {
     //runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
+
+    accessWidenerPath.set(file("src/main/resources/ipnext.accesswidener"))
 }
 
 tasks.named<AntlrTask>("generateGrammarSource").configure {

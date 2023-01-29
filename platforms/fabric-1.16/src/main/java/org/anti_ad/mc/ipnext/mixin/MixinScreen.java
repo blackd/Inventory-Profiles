@@ -47,4 +47,16 @@ public abstract class MixinScreen {
             return Unit.INSTANCE;
         });
     }
+
+    @Inject(at = @At("RETURN"), method = "removed()V")
+    public void removed(CallbackInfo ci) {
+        Screen self = (Screen) (Object) this;
+        ScreenEventHandler.INSTANCE.onScreenRemoved(self);
+    }
+
+    @Inject(at = @At("RETURN"), method = "onClose()V")
+    public void close(CallbackInfo ci) {
+        Screen self = (Screen) (Object) this;
+        ScreenEventHandler.INSTANCE.onScreenRemoved(self);
+    }
 }

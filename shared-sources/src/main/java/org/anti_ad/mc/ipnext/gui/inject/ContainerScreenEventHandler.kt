@@ -30,10 +30,14 @@ import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
+import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
+import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
+import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SettingsWidget
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
@@ -42,7 +46,6 @@ object ContainerScreenEventHandler {
 
     var currentWidgets: MutableList<Widget>? = null
 
-    // todo do not directly add the widget (for other mod compatibility) (USE_OLD_INSERT_METHOD)
     fun onScreenInit(target: ContainerScreen<*>,
                      @Suppress("UNUSED_PARAMETER") addWidget: (ClickableWidget) -> Unit) {
         if (target != Vanilla.screen()) return
@@ -60,6 +63,9 @@ object ContainerScreenEventHandler {
         }
         if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hintFor(IPNButton.PROFILE_SELECTOR).hide) {
             widgetsToInset.add(ProfilesUICollectionWidget(target, hints).also { editor.addHintable(it) })
+        }
+        if (ModSettings.ENABLE_VILLAGER_TRADING.booleanValue && !ignore && target is MerchantScreen) {
+            widgetsToInset.add(VillagerOverlayWidget(target, hints).also { editor.addHintable(it) })
         }
         widgetsToInset.add(settings)
         widgetsToInset.add(editor)
@@ -95,8 +101,14 @@ object ContainerScreenEventHandler {
     @Suppress("UNUSED_PARAMETER")
     fun onBackgroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
         currentWidgets?.forEach {
+            /*
             (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
                                                           VanillaUtil.mouseY(),
+                                                          VanillaUtil.lastFrameDuration())
+
+             */
+            (it as InsertableWidget).postBackgroundRender(mouseX,
+                                                          mouseY,
                                                           VanillaUtil.lastFrameDuration())
         }
         LockSlotsHandler.onBackgroundRender()
@@ -106,9 +118,16 @@ object ContainerScreenEventHandler {
     @Suppress("UNUSED_PARAMETER")
     fun onForegroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
         currentWidgets?.forEach {
+            /*
             (it as InsertableWidget).postForegroundRender(VanillaUtil.mouseX(),
                                                           VanillaUtil.mouseY(),
                                                           VanillaUtil.lastFrameDuration())
+
+             */
+            (it as InsertableWidget).postForegroundRender(mouseX,
+                                                          mouseY,
+                                                          VanillaUtil.lastFrameDuration())
+
         }
         LockSlotsHandler.onForegroundRender()
         SlotHighlightHandler.onForegroundRender()
@@ -119,5 +138,11 @@ object ContainerScreenEventHandler {
         SlotHighlightHandler.postRender()
         ContainerClicker.postScreenRender()
         currentWidgets?.forEach {  it.let { TooltipsManager.renderAll() }}
+    }
+
+    fun onScreenRemoved(target: ContainerScreen<*>) {
+        if (target is MerchantScreen) {
+            VillagerTradeManager.currentVillager = null
+        }
     }
 }

@@ -19,11 +19,13 @@
         "MixinGameRenderer",
         "MixinGuiCloseC2SPacket",
         "MixinInGameHud",
+        "MixinItemGroup",
         "MixinMinecraftClient",
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
         "MixinScreen",
-        "MixinItemGroup"
+        "MixinPlayerInteractEntityC2SPacket",
+        "MixinMerchantScreen"
     ],
     "injectors":          {
         "defaultRequire": 1

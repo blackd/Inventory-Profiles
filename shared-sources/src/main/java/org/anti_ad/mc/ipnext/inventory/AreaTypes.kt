@@ -34,6 +34,7 @@ import org.anti_ad.mc.common.vanilla.alias.TradeOutputSlot
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
+import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
@@ -93,7 +94,7 @@ object AreaTypes {
                           slotIndices: MutableList<Int>) {
         val isHorse = types.contains(HORSE_STORAGE)
         for ((slotIndex, slot) in vanillaSlots.withIndex()) {
-            if (slot.`(inventory)` is PlayerInventory) continue
+            if (slot.`(inventoryOrNull)` is PlayerInventory) continue
             // first two slot of horse is not item storage
             if (!(isHorse && slot.`(invSlot)` in 0..1)) {
                 slotIndices.add(slotIndex)
@@ -115,8 +116,8 @@ object AreaTypes {
 //  val playerStorageAndHotbarAndOffhand = AreaType.player(storageInvSlots + hotbarInvSlots + offhandInvSlot)
 
     val craftingIngredient = AreaType.match {
-        it.`(inventory)` is CraftingInventory
-                && it.`(inventory)` !is CraftingResultInventory
+        it.`(inventoryOrNull)` is CraftingInventory
+                && (it.`(inventoryOrNull)` != null && it.`(inventory)` !is CraftingResultInventory)
                 && it !is CraftingResultSlot
                 && it !is TradeOutputSlot
     }
@@ -154,7 +155,7 @@ fun interface AreaType {
                            invSlots: () -> Iterable<Int>) = AreaType { _, vanillaSlots ->
             val slotIndexOfInvSlot = mutableMapOf<Int, Int>() // invSlot, slotIndex
             vanillaSlots.forEachIndexed { slotIndex, slot ->
-                if (slot.`(inventory)` is PlayerInventory) slotIndexOfInvSlot[slot.`(invSlot)`] = slotIndex
+                if (slot.`(inventoryOrNull)` is PlayerInventory) slotIndexOfInvSlot[slot.`(invSlot)`] = slotIndex
             }
             return@AreaType ItemArea(vanillaSlots,
                                      invSlots().mapNotNull { slotIndexOfInvSlot[it] })

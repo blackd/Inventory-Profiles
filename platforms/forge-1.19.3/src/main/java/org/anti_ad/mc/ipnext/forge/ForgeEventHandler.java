@@ -117,6 +117,12 @@ public class ForgeEventHandler {
         }
     }
 
+    @SubscribeEvent
+    public void onScreenClose(ScreenEvent.Closing event) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
+        if (!VanillaUtil.INSTANCE.inGame()) return;
+        ScreenEventHandler.INSTANCE.onScreenRemoved(event.getScreen());
+    }
+
     // this event is disabled.
     //@SubscribeEvent
     public void onOverlayLayerPre(RenderGuiOverlayEvent.Pre event) {

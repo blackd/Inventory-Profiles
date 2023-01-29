@@ -135,6 +135,7 @@ loom {
     runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
+    accessWidenerPath.set(file("src/main/resources/ipnext.accesswidener"))
 }
 
 tasks.named<AntlrTask>("generateGrammarSource").configure {

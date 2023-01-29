@@ -26,6 +26,7 @@ import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.Screen
+import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
 import org.anti_ad.mc.common.vanilla.render.rScreenSize
 
 object ScreenEventHandler {
@@ -34,6 +35,12 @@ object ScreenEventHandler {
         if (target is ContainerScreen<*>) {
             ContainerScreenEventHandler.onScreenInit(target,
                                                      addWidget)
+        }
+    }
+
+    fun onScreenRemoved(target: Screen) {
+        if (target is ContainerScreen<*>) {
+            ContainerScreenEventHandler.onScreenRemoved(target)
         }
     }
 

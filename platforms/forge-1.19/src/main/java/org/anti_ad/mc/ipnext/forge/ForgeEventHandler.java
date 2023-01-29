@@ -117,6 +117,12 @@ public class ForgeEventHandler {
         }
     }
 
+    @SubscribeEvent
+    public void onScreenClose(ScreenEvent.Closing event) {
+        if (!VanillaUtil.INSTANCE.inGame()) return;
+        ScreenEventHandler.INSTANCE.onScreenRemoved(event.getScreen());
+    }
+
     // this event is disabled.
     //@SubscribeEvent
     public void onOverlayLayerPre(RenderGuiOverlayEvent.Pre event) {

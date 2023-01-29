@@ -163,6 +163,10 @@ inline val FoodComponent.`(saturationModifier)`
 
 inline val ItemType.rawId: Int
     get() = Registry.ITEM.`(getRawId)`(item)
+
+inline val ItemType.searchTabIndex: Int
+    get() = rawId
+
 inline val ItemType.damage: Int
     get() = vanillaStack.damage
 inline val ItemType.enchantmentsScore: Double

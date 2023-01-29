@@ -364,6 +364,7 @@ configurations {
 
 configure<UserDevExtension> {
     mappings(mappingsMap)
+    this.accessTransformers("src/main/resources/META-INF/accesstransformer.cfg")
     runs {
         val runConfig = Action<RunConfig> {
             properties(mapOf(

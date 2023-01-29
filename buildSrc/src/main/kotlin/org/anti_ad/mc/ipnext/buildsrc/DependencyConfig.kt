@@ -24,6 +24,7 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.dependencies
+import java.util.concurrent.*
 
 //var shadedApi: Configuration? = null
 
@@ -121,10 +122,17 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         }
 
         libIPN_version?.let {
-            "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")
+            "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")  {
+                this.isChanging = true
+            }
         }
 
         "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")
+    }
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor(0, TimeUnit.SECONDS)
+        }
     }
 }
 

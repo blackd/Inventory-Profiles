@@ -48,6 +48,7 @@ import org.anti_ad.mc.ipnext.config.CreativeMenuSortOrder
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
+import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.mixin.IMixinBucketItem
 import org.anti_ad.mc.ipnext.mixin.IMixinEntityBucketItem
 import org.anti_ad.mc.ipnext.mixin.IMixinFluid
@@ -209,6 +210,14 @@ private fun initGroupIndex(): Boolean {
         false
     }
 }
+
+val ItemType.searchTabIndex: Int
+    get() {
+        initGroupIndex()
+        return ItemGroups.getSearchGroup().searchTabStacks.indexOfFirst { it ->
+            it != null && it.`(itemType)` == this
+        }
+    }
 
 val ItemType.groupIndex: Int
     get() {

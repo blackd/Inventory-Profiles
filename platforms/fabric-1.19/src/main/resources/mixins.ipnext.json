@@ -22,7 +22,9 @@
         "MixinMinecraftClient",
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
-        "MixinScreen"
+        "MixinScreen",
+        "MixinMerchantScreen",
+        "MixinPlayerInteractEntityC2SPacket"
     ],
     "injectors":          {
         "defaultRequire": 1

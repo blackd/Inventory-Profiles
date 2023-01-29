@@ -44,7 +44,6 @@ import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
-import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(scaledHeight)`
@@ -101,7 +100,7 @@ object LockSlotsHandler: PLockSlotHandler {
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return false
         val playerSlot = vPlayerSlotOf(slot,
                                        screen)
-        return if (playerSlot.`(inventory)` is PlayerInventory) {
+        return if (playerSlot.`(inventoryOrNull)` is PlayerInventory) {
             lockedInvSlots.contains(playerSlot.`(invSlot)`)
         } else {
             false

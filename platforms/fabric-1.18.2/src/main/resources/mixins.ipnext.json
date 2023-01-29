@@ -24,7 +24,9 @@
         "MixinClientPlayerInteractionManager",
         "IMixinBucketItem",
         "IMixinFluid",
-        "IMixinEntityBucketItem"
+        "IMixinEntityBucketItem",
+        "MixinPlayerInteractEntityC2SPacket",
+        "MixinMerchantScreen"
     ],
     "injectors":          {
         "defaultRequire": 1

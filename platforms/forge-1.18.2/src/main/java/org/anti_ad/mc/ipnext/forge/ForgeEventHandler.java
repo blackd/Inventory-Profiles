@@ -22,11 +22,14 @@ package org.anti_ad.mc.ipnext.forge;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.ScreenOpenEvent;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -114,6 +117,20 @@ public class ForgeEventHandler {
                 && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().options.keyInventory //gameSettings.keyBindInventory // options.keyInventory
                 .isActiveAndMatches(mouseKey))) {
             GeneralInventoryActions.INSTANCE.handleCloseContainer();
+        }
+    }
+
+    @SubscribeEvent
+    public void onScreenClose(ScreenOpenEvent event) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
+        if (!VanillaUtil.INSTANCE.inGame()) return;
+        Screen newScreen = event.getScreen();
+        Screen oldScreen = Minecraft.getInstance().screen;
+        if (oldScreen != null) {
+            if (newScreen == null) {
+                ScreenEventHandler.INSTANCE.onScreenRemoved(oldScreen);
+            } else if (newScreen != oldScreen) {
+                ScreenEventHandler.INSTANCE.onScreenRemoved(oldScreen);
+            }
         }
     }
 
