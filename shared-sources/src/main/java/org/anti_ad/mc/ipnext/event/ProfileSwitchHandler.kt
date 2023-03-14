@@ -100,13 +100,25 @@ object ProfileSwitchHandler: IInputHandler {
                             }
                             val customName = if (EditProfiles.INCLUDE_CUSTOM_NAME.booleanValue) stack.itemType.customName else ""
                             add(ProfileItemData(stack.itemType.itemId, customName, potion, mutableListOf<ProfileEnchantmentData>().apply {
-                                stack.itemType.tag?.get("Enchantments")?.let { element ->
+                                val nbt = stack.itemType.tag
+                                nbt?.get("Enchantments")?.let { element ->
                                     if (element is AbstractNbtList<*>) {
                                         element.forEach {
                                             if (it is NbtCompound) {
-                                                it["id"]?.`(asString)`?.let { enchId ->
+                                                val enchNBTId = it["id"]
+                                                enchNBTId?.`(asString)`?.let { enchId ->
                                                     it["lvl"]?.`(asString)`?.let { enchLevel ->
-                                                        this.add(ProfileEnchantmentData(enchId, enchLevel.fromEnchantmentLevel()))
+                                                        val realId = if (enchId.contains(":")) {
+                                                            enchId
+                                                        } else {
+                                                            Log.warn("NBT for enchantment $enchId is missing namespace assuming 'minecraft:'")
+                                                            Log.warn("Full item NBT:\n$nbt")
+                                                            if (enchNBTId is NbtString) {
+                                                                Log.warn("direct value access:${enchNBTId.`(asString)`}")
+                                                            }
+                                                            "minecraft:$enchId"
+                                                        }
+                                                        this.add(ProfileEnchantmentData(realId, enchLevel.fromEnchantmentLevel()))
                                                     }
                                                 }
                                             }

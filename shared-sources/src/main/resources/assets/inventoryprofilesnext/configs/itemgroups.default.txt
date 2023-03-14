@@ -112,8 +112,7 @@ ITEMGROUPS/0.1.0
   ::nbt::
 
 @creative_menu
-  @creative_menu_groups
-  @raw_id
+  @search_tab_index
 
 @default
   @custom_name_locale
@@ -125,4 +124,3 @@ ITEMGROUPS/0.1.0
   @potion_name
   @potion_effects
   @nbt
-

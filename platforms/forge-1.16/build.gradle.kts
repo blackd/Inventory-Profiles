@@ -156,7 +156,8 @@ configurations {
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
-    //runtimeOnly( fg.deobf("curse.maven:sophisticated-backpacks-422301:3910948"))
+    api( fg.deobf("curse.maven:mantle-74924:3631982"))
+    api( fg.deobf("curse.maven:tconcept-74072:3695126"))
 }
 
 tasks.named("compileKotlin") {
@@ -382,9 +383,13 @@ configure<UserDevExtension> {
             }
             //taskName = "plamenRunClient"
             this.forceExit = false
+            mods {
+                sources(sourceSets.getByName("main"))
+            }
         }
         create("client", runConfig)
         create("server", runConfig)
+
         //create("data", runConfig)
     }
 }
@@ -456,13 +461,16 @@ publishing {
             artifact(sourceJar) {
                 classifier = "sources"
             }
+            artifact(deobfJar)
         }
         tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
             ?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
+            ?.dependsOn(deobfJar)
         tasks["publishMavenPublicationToMavenLocal"]
             ?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
+            ?.dependsOn(deobfJar)
     }
 
 }

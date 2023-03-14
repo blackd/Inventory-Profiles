@@ -44,8 +44,10 @@ object GenerateTagsAsJson: AbstractBlockScreenScriptGenerator() {
             val blockEntities = mutableMapOf<String, MutableList<String>>()
             val multis = mutableListOf<String>()
             val namespaces: MutableSet<String> = mutableSetOf()
+            val allItemsByNameSpace = mutableMapOf<String, MutableList<String>>()
 
             extractBlockInfo(namespaces, blocks, items, blockEntities, unknowns, multis)
+            extractAllItems(allItemsByNameSpace)
 
             TellPlayer.chat("Generating items-with-screens.txt")
             store(items, fileItems.bufferedWriter())
@@ -55,6 +57,8 @@ object GenerateTagsAsJson: AbstractBlockScreenScriptGenerator() {
             store(blockEntities, fileEntities.bufferedWriter())
             TellPlayer.chat("Generating unknown-screens.txt")
             store(unknowns, fileUnknown.bufferedWriter())
+            TellPlayer.chat("Generating all-items.txt")
+            store(allItemsByNameSpace, fileAllItems.bufferedWriter())
 
             with(fileMulti.bufferedWriter()) {
                 multis.forEach {

@@ -38,10 +38,10 @@ val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.19.3"
 val minecraft_version_string = "1.19.3"
-val mappings_version = "1.19.3+build.2"
-val loader_version = "0.14.10"
+val mappings_version = "1.19.3+build.3"
+val loader_version = "0.14.17"
 val modmenu_version = "5.0.1"
-val fabric_api_version = "0.68.1+1.19.3"
+val fabric_api_version = "0.75.1+1.19.3"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
@@ -140,7 +140,7 @@ plugins.withId("idea") {
 }
 
 loom {
-    //runConfigs["client"].ideConfigGenerated(true)
+    runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 
@@ -238,6 +238,19 @@ val remapped = tasks.named<RemapJarTask>("remapJar") {
     //remapAccessWidener.set(true)
 }
 
+val remapped2 = tasks.create<RemapJarTask>("remapJar2") {
+    group = "fabric"
+    val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+    dependsOn(shadowJar)
+    //dependsOn("prepareRemapShadedJar")
+    this.inputFile.set(File("build/libs/${shadowJar.archiveFileName.get()}"))
+    //input.set( File("build/libs/${shadowJar.archiveBaseName.get()}-all-proguard.jar"))
+    archiveFileName.set(shadowJar.archiveFileName.get().replace(Regex("-shaded\\.jar$"), "-dev.jar"))
+    addNestedDependencies.set(true)
+    //addDefaultNestedDependencies.set(false)
+    //remapAccessWidener.set(true)
+}
+
 fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 
 registerMinimizeJarTask()
@@ -291,6 +304,12 @@ publishing {
             artifact(sourceJar) {
                 classifier = "sources"
             }
+            artifact(remapped) {
+                classifier = "prod"
+            }
+            artifact(remapped2) {
+                classifier = "dev"
+            }
             loom {
                 this.disableDeprecatedPomGeneration(this@create)
             }
@@ -299,10 +318,12 @@ publishing {
             ?.dependsOn(shadowJar)
             ?.dependsOn(remapped)
             ?.dependsOn(sourceJar)
+            ?.dependsOn(remapped2)
         tasks["publishMavenPublicationToMavenLocal"]
             ?.dependsOn(shadowJar)
             ?.dependsOn(remapped)
             ?.dependsOn(sourceJar)
+            ?.dependsOn(remapped2)
     }
 }
 

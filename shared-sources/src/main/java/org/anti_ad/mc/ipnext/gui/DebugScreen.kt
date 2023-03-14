@@ -178,6 +178,7 @@ class DebugScreen: BaseDebugScreen() {
     init {
         val parent = parent
         if (parent is ContainerScreen<*>) {
+
             val page0Plus = addContent(
                 {
                     parent.`(containerBounds)`.run {

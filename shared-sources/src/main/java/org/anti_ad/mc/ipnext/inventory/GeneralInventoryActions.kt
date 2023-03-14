@@ -40,12 +40,14 @@ import org.anti_ad.mc.ipnext.config.PostAction
 import org.anti_ad.mc.ipnext.config.ScrollSettings
 import org.anti_ad.mc.ipnext.config.SortingMethodIndividual
 import org.anti_ad.mc.ipnext.config.rule
+import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.ingame.`(window)`
 import org.anti_ad.mc.ipnext.ingame.vCursorStack
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
@@ -58,9 +60,11 @@ import org.anti_ad.mc.ipnext.inventory.action.restockFrom
 import org.anti_ad.mc.ipnext.inventory.action.sort
 import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollDirection
 import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollingUtils
+import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
+import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.rule.Rule
 
 object GeneralInventoryActions {
@@ -271,6 +275,23 @@ object GeneralInventoryActions {
         val item = stack.itemType.fullItemInfoAsJson()
         Log.info(item)
         TellPlayer.chat("Slot: ${vFocusedSlot()?.`(invSlot)`}, ${vFocusedSlot()?.`(id)`} $item")
+    }
+
+    fun nbtToClipboard() {
+        val stack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
+        if (stack != ItemStack.EMPTY) {
+            val item = "${stack.itemType.itemId}\n${stack.itemType.tag?.`(asString)`}\n"
+            Vanilla.setClipboard(item)
+            TellPlayer.chat("Copy NBT.")
+        }
+    }
+
+    fun idToClipboard() {
+        val stack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
+        if (stack != ItemStack.EMPTY) {
+            Vanilla.setClipboard("${stack.itemType.itemId}\n")
+            TellPlayer.chat("Copy Item ID.")
+        }
     }
 
     fun cleanCursor() {

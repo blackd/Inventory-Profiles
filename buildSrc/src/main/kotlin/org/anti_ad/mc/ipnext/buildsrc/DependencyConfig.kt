@@ -102,6 +102,13 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    libIPN_version: Any? = null,
                                    modmenu_version: Any? = null) {
 
+    configurations.all {
+        resolutionStrategy {
+            force("net.fabricmc:fabric-loader:$loader_version")
+            force("org.anti_ad.mc:libIPN-$libIPN_version")
+        }
+    }
+
     dependencies {
         "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
         "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")

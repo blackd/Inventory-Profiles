@@ -136,7 +136,7 @@ object ModSettings : ConfigDeclaration {
                                                               2)
     val HIGHLIGHT_CLICKING_SLOT                   /**/ by bool(true)
     val RESTOCK_HOTBAR                            /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
-    val SORT_AT_CURSOR                            /**/ by bool(false)
+    val SORT_AT_CURSOR                            /**/ by bool(true)
     val MOVE_ALL_AT_CURSOR                        /**/ by bool(true)
     val STOP_AT_SCREEN_CLOSE                      /**/ by bool(false)
     val IGNORE_DURABILITY                         /**/ by bool(true)
@@ -368,6 +368,15 @@ object Hotkeys : ConfigDeclaration {
         .CATEGORY("$category.misc")
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",
                                                                  KeybindSettings.GUI_DEFAULT)
+
+    val COPY_NBT                                  /**/ by hotkey("LEFT_CONTROL,C",
+                                                                 KeybindSettings.GUI_DEFAULT)
+
+    val COPY_ITEM_ID                              /**/ by hotkey("LEFT_CONTROL,LEFT_SHIFT,C",
+                                                                 KeybindSettings(KeybindSettings.Context.GUI,
+                                                                                 KeybindSettings.KeyAction.PRESS,
+                                                                                 allowExtraKeys = false,
+                                                                                 orderSensitive = false))
 }
 
 object Tweaks : ConfigDeclaration {

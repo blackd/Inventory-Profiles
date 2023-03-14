@@ -16,15 +16,19 @@
   "icon": "assets/inventoryprofilesnext/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       "org.anti_ad.mc.ipnext.InventoryProfilesKt::init"
     ],
     "modmenu": [
       "org.anti_ad.mc.ipnext.compat.ModMenuApiImpl"
     ]
   },
+  "accessWidener": "ipnext.accesswidener",
   "mixins": [
-    "mixins.ipnext.json"
+    {
+      "config": "mixins.ipnext.json",
+      "environment": "client"
+    }
   ],
   "depends": {
     "fabric-resource-loader-v0": "*",

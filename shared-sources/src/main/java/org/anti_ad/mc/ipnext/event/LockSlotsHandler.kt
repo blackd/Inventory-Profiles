@@ -54,6 +54,7 @@ import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.`(window)`
 import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 import org.anti_ad.mc.ipnext.item.maxCount
+
 import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
 import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler
 
@@ -85,8 +86,9 @@ object LockSlotsHandler: PLockSlotHandler {
             return container.`(slots)`.mapNotNull { slot ->
                 val playerSlot = vPlayerSlotOf(slot,
                                                screen)
+                val topLeft =slot.`(topLeft)`
                 val inv = playerSlot.`(inventoryOrNull)` ?: return@mapNotNull null
-                return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to slot.`(topLeft)` else null
+                return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to topLeft else null
             }.toMap()
         }
 

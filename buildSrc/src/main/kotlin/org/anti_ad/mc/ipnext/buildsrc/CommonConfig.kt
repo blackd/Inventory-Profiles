@@ -141,12 +141,12 @@ fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, m
 
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     registerCopyJarForPublishTask(fabricRemapJar,mod_loader, minecraft_version, mod_artefact_version).get().dependsOn(remapped)
-
+/*
     tasks.named<Task>("prepareRemapJar") {
         val proGuardTask = tasks.getByName<Task>("proguard")
         mustRunAfter(proGuardTask)
     }
-
+*/
 
     rootAfterEvaluate()
 }

@@ -26,6 +26,7 @@ import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.extensions.plus
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.Vanilla.`(sendCommandMessage)`
+import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.Modpacks
 import java.lang.Thread.sleep
 
@@ -134,6 +135,7 @@ fun extractBlockInfo(namespaces: MutableSet<String>,
                     mutableListOf()
                 }.add(it.path)
             }
+
             if (inBlockEntities && !inItems && !inBlocks) {
                 blockEntities.getOrPut(it.namespace) {
                     mutableListOf()
@@ -153,30 +155,50 @@ fun extractBlockInfo(namespaces: MutableSet<String>,
     }
 }
 
+fun extractAllItems(items: MutableMap<String, MutableList<String>>) {
+    val tmp: MutableMap<String, MutableList<String>> = mutableMapOf()
+    `(REGISTRIES-ITEM-IDS)`.forEach {
+        tmp.getOrPut(it.namespace) {
+            mutableListOf()
+        }.add(it.path)
+    }
+    tmp.forEach { (key, value) ->
+        value.sort()
+        items[key] = value
+    }
+}
+
 
 object ModpackInputHandler: IInputHandler {
 
     override fun onInput(lastKey: Int,
                          lastAction: Int): Boolean {
-        return Modpacks.GEN_TEST_ARENA.isActivated().ifTrue {
-            Vanilla.mc().execute() {
-                TellPlayer.chat("Generating...")
+        if (ModSettings.FOR_MODPACK_DEVS.value) {
+            Modpacks.GEN_TEST_ARENA.isActivated().ifTrue {
+                Vanilla.mc().execute() {
+                    TellPlayer.chat("Generating...")
 
-                val items = mutableMapOf<String, MutableList<String>>()
-                val blocks = mutableMapOf<String, MutableList<String>>()
-                val unknowns = mutableMapOf<String, MutableList<String>>()
-                val blockEntities = mutableMapOf<String, MutableList<String>>()
-                val multis = mutableListOf<String>()
-                val namespaces: MutableSet<String> = mutableSetOf()
+                    val items = mutableMapOf<String, MutableList<String>>()
+                    val blocks = mutableMapOf<String, MutableList<String>>()
+                    val unknowns = mutableMapOf<String, MutableList<String>>()
+                    val blockEntities = mutableMapOf<String, MutableList<String>>()
+                    val multis = mutableListOf<String>()
+                    val namespaces: MutableSet<String> = mutableSetOf()
 
-                extractBlockInfo(namespaces, blocks, items, blockEntities, unknowns, multis)
+                    extractBlockInfo(namespaces, blocks, items, blockEntities, unknowns, multis)
 
-                val script = generateCommands(namespaces, blocks, blockEntities, items, true)
-                script.forEach {
-                    Vanilla.player().`(sendCommandMessage)`(it)
+                    val script = generateCommands(namespaces, blocks, blockEntities, items, true)
+                    script.forEach {
+                        Vanilla.player().`(sendCommandMessage)`(it)
+                    }
                 }
+                return true
             }
+
+            return false
+
         }
+        return false
     }
 
 }

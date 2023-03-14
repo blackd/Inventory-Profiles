@@ -31,6 +31,7 @@ import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
+import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -111,6 +112,9 @@ object ContainerScreenEventHandler {
                                                           mouseY,
                                                           VanillaUtil.lastFrameDuration())
         }
+        stack?.let {
+            rMatrixStack = stack
+        }
         LockSlotsHandler.onBackgroundRender()
         SlotHighlightHandler.onBackgroundRender()
     }
@@ -128,6 +132,9 @@ object ContainerScreenEventHandler {
                                                           mouseY,
                                                           VanillaUtil.lastFrameDuration())
 
+        }
+        stack?.let {
+            rMatrixStack = stack
         }
         LockSlotsHandler.onForegroundRender()
         SlotHighlightHandler.onForegroundRender()

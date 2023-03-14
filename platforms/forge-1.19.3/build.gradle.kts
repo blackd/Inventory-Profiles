@@ -577,13 +577,16 @@ publishing {
             artifact(sourceJar) {
                 classifier = "sources"
             }
+            artifact(deobfJar)
         }
         tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
             ?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
+            ?.dependsOn(deobfJar)
         tasks["publishMavenPublicationToMavenLocal"]
             ?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
+            ?.dependsOn(deobfJar)
     }
 
 }

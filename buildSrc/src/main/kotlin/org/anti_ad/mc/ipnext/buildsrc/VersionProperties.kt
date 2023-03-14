@@ -20,4 +20,4 @@
 
 package org.anti_ad.mc.ipnext.buildsrc
 
-const val loom_version = "1.0-SNAPSHOT"
+const val loom_version = "1.1-SNAPSHOT"

@@ -29,6 +29,7 @@ abstract class AbstractBlockScreenScriptGenerator: ConfigButtonInfo() {
     val fileEntities = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "blocks-entities-with-screens.txt"
     val fileBlocks = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "blocks-with-screens.txt"
     val fileItems = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "item-with-screens.txt"
+    val fileAllItems = VanillaUtil.configDirectory("inventoryprofilesnext")  / "all-items.txt"
     val fileMulti = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "multi-screens.txt"
     val fileUnknown = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "unknown-screens.txt"
     val fileNamespaces = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "namespaces.txt"
@@ -41,8 +42,9 @@ abstract class AbstractBlockScreenScriptGenerator: ConfigButtonInfo() {
     protected fun store(what: Map<String, List<String>>,
                       where: BufferedWriter) {
         what.forEach { (namespace, ids) ->
+            where.append("\n# $namespace\n")
             ids.forEach {
-                where.append(namespace).append(":").append(it).append("\n")
+                where.append("\t").append(namespace).append(":").append(it).append("\n")
             }
         }
         where.close()

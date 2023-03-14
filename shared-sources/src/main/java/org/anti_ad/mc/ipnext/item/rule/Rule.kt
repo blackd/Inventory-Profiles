@@ -24,15 +24,32 @@ import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.rule.parameter.reverse
 import org.anti_ad.mc.ipnext.item.rule.parameter.sub_rule
 
+
+interface CountSource {
+    fun get(itemType: ItemType): Int
+}
+
+object DefaultCountSource: CountSource {
+
+    override fun get(itemType: ItemType): Int {
+        return 0
+    }
+
+}
+
 interface Rule : Comparator<ItemType> {
     val arguments: ArgumentMap
+    var countSource: CountSource
     override fun compare(itemType1: ItemType,
                          itemType2: ItemType): Int
 } // todo toString()
 
 object EmptyRule : Rule {
+
+
     override val arguments: ArgumentMap
         get() = ArgumentMap()
+    override var countSource: CountSource = DefaultCountSource
 
     override fun compare(itemType1: ItemType,
                          itemType2: ItemType): Int {
@@ -43,6 +60,9 @@ object EmptyRule : Rule {
 class MutableEmptyRule : BaseRule()
 
 abstract class BaseRule : Rule {
+
+    override var countSource: CountSource = DefaultCountSource
+
     final override val arguments = ArgumentMap()
     var comparator: (ItemType, ItemType) -> Int = { _, _ -> 0 }
 
