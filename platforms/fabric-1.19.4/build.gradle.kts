@@ -36,9 +36,9 @@ import proguard.gradle.ProGuardTask
 val supported_minecraft_versions = listOf("1.19.4")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.19.4-rc2"
+val minecraft_version = "1.19.4"
 val minecraft_version_string = "1.19.4"
-val mappings_version = "1.19.4-rc2+build.1"
+val mappings_version = "1.19.4+build.1"
 val loader_version = "0.14.17"
 val modmenu_version = "6.1.0-beta.3"
 val fabric_api_version = "0.75.3+1.19.4"
