@@ -3,6 +3,7 @@
 ### 1.9.4
 
 - Added support for 1.19.4 Forge.
+- New Ukrainian translation thanks to BurrConnie
 - Finalised support for 1.19.4 Fabric.
 - Fabric all versions now requires fabric loaded **0.14.17** or newer.
 - Fabric minimal required version of Fabric Language Kotlin is now **1.9.2+kotlin.1.8.10**
