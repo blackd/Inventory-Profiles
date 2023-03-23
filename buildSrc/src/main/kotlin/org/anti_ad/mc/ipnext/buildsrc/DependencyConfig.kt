@@ -92,6 +92,14 @@ fun Project.configureDependencies() {
         val antlrVersion = "4.9.3"
         "antlr"("org.antlr:antlr4:$antlrVersion")
         "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
+
+
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor(0, TimeUnit.SECONDS)
+        }
     }
 }
 
@@ -110,14 +118,14 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
     }
 
     dependencies {
-        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
-        "api"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
-
-        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+        "api"(kotlin("reflect"))
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 
         "minecraft"("com.mojang:minecraft:$minecraft_version")
         "mappings"("net.fabricmc:yarn:$mappings_version:v2")
@@ -134,13 +142,9 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
             }
         }
 
-        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.8.2+kotlin.1.7.10")
+        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.9.2+kotlin.1.8.10")
     }
-    configurations.all {
-        resolutionStrategy {
-            cacheChangingModulesFor(0, TimeUnit.SECONDS)
-        }
-    }
+
 }
 
 private fun ___fgdeobf(id: Any): Dependency {
@@ -163,28 +167,55 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
     dependencies {
 
         "api"(fgdeobf("org.anti_ad.mc:libIPN-$libIPN_version"))
+        val kffverstr = kotlin_for_forge_version.toString()[0]
 
-        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-        "api"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
+        if (kffverstr == '4' || kffverstr == '3') {
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+            "compileOnlyApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+            "compileOnlyApi"(kotlin("reflect"))
+            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            "compileOnlyApi"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
+        } else if (kffverstr == '1') {
+            "api"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+            "api"(kotlin("reflect"))
+            "api"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+        } else {
+            "api"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+            "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+            "api"(kotlin("reflect"))
+            "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
+
+            "runHelperApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+            "runHelperApi"("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
+        }
 
         "minecraft"("net.minecraftforge:forge:$minecraft_version-$loader_version")
         "api"("org.spongepowered:mixin:0.8.3-SNAPSHOT")
         "annotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
         "testAnnotationProcessor"("org.spongepowered:mixin:0.8.3-SNAPSHOT:processor")
-        "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version")
+        "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version") {
+            this.isChanging = true
+        }
 
-        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
 
         //these are here, so we add them during the runClient/Server
         //for some reason they are not added by any of the default api/implementation...
-        "runHelperApi"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-        "runHelperApi"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-        "runHelperApi"("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
+
+
+
+
     }
 }

@@ -117,9 +117,8 @@ java {
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
+    languageVersion = "1.6"
     jvmTarget = "1.8"
-    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 
@@ -156,8 +155,8 @@ configurations {
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
-    api( fg.deobf("curse.maven:mantle-74924:3631982"))
-    api( fg.deobf("curse.maven:tconcept-74072:3695126"))
+    //api( fg.deobf("curse.maven:mantle-74924:3631982"))
+    //api( fg.deobf("curse.maven:tconcept-74072:3695126"))
 }
 
 tasks.named("compileKotlin") {

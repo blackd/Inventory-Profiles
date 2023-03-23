@@ -40,7 +40,7 @@ val minecraft_version = "1.19.4"
 val minecraft_version_string = "1.19.4"
 val mappings_version = "1.19.4+build.1"
 val loader_version = "0.14.17"
-val modmenu_version = "6.1.0-beta.3"
+val modmenu_version = "6.1.0-rc.4"
 val fabric_api_version = "0.75.3+1.19.4"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
@@ -86,13 +86,6 @@ group = "org.anti-ad.mc"
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-}
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    languageVersion = "1.5"
-    jvmTarget = "17"
-    freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
 }
 
 repositories {

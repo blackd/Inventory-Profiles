@@ -1,12 +1,17 @@
 <!-- latest begin -->
 
-### 1.9.2
+### 1.9.4
 
-- workaround for Vault Hunters problem where a stack NBT will sometimes be set to null sometimes to empty CompoundNBT. Witch was breaking auto refill.
-- fixed quick locked slot key not saving the locked slots
-- fixed default sort to sort by the order of the search tab of the creative menu. **This will change the default sort.**
-- workaround for MacOS OpenGL strangeness that caused locked slots, swipe move/throw and tooltips mostly not work on forge builds.
-- workaround for [scouts](https://www.curseforge.com/minecraft/mc-mods/scout) differences with vanilla. scout slots will now be ignored.
+- Added support for 1.19.4 Forge.
+- Finalised support for 1.19.4 Fabric.
+- Fabric all versions now requires fabric loaded **0.14.17** or newer.
+- Fabric minimal required version of Fabric Language Kotlin is now **1.9.2+kotlin.1.8.10**
+- Forge 1.18.2 and 1.19.1-2 now require Kotlin for Forge 3.11.0 or newer.
+- Forge 1.19.3-4 now require Kotlin for Forge 4.1.0 or newer.
+
+### Note:
+
+This is probably the last version that supports minecraft 1.19.3
 
 ### WARNING
 
@@ -16,6 +21,27 @@ Due to multiple Quilt specific crashes and one item duplication Quilt support is
 This mod will work on Quilt using the offered Fabric compatibility.
 Any problems that are not reproducible on Fabric will be addressed with very low priority.
 ```
+
+#### Supported Minecraft versions
+- **1.16.x**
+- **1.18.2**
+- **1.19[.1-2]**
+- **1.19.3**
+- **1.19.4**
+
+
+### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
+
+<!-- latest end -->
+
+
+### 1.9.2
+
+- workaround for Vault Hunters problem where a stack NBT will sometimes be set to null sometimes to empty CompoundNBT. Witch was breaking auto refill.
+- fixed quick locked slot key not saving the locked slots
+- fixed default sort to sort by the order of the search tab of the creative menu. **This will change the default sort.**
+- workaround for MacOS OpenGL strangeness that caused locked slots, swipe move/throw and tooltips mostly not work on forge builds.
+- workaround for [scouts](https://www.curseforge.com/minecraft/mc-mods/scout) differences with vanilla. scout slots will now be ignored.
 
 
 #### Supported Minecraft versions
