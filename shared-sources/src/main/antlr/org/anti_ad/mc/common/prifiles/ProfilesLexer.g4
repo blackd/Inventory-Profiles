@@ -47,7 +47,9 @@ POTION         : '"Potion" :';
 ARROW : '->';
 
 //Arrow: WS? ARROW ;
+
 fragment ID: [a-zA-Z0-9_\-]+;
+
 
 fragment NUMBER: [0-9]+([a-z])?;
 
@@ -55,7 +57,7 @@ Level: NUMBER;
 
 Id :  ID;
 
-NamespacedId: DQUOTE ID ':' ID DQUOTE;
+NamespacedId: DQUOTE ~ [:" \n\t[\],]+ ':' ~ [:" \n\t[\],]+ DQUOTE;
 
 
 
