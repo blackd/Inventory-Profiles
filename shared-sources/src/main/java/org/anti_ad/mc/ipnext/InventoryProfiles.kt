@@ -28,7 +28,7 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.ClientInitHandler
-import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
+import org.anti_ad.mc.ipnext.compat.integrations.Integrations
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
 import org.anti_ad.mc.ipnext.specific.initInfoManager
@@ -55,10 +55,11 @@ fun init() {
 
     ClientInitHandler.register {
 
+        Integrations.init()
+
         initInfoManager()
         Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
         Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
-
 
         // Keybind register
 

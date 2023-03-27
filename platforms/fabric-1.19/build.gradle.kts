@@ -44,6 +44,7 @@ val modmenu_version = "4.0.6"
 val fabric_api_version = "0.72.0+1.19.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+val carpet_core_version = "1.4.84+v221018"
 
 buildscript {
     dependencies {
@@ -93,6 +94,7 @@ repositories {
         name = "Ladysnake Libs"
         url = uri("https://ladysnake.jfrog.io/artifactory/mods")
     }
+
 }
 
 fabricCommonDependency(minecraft_version,
@@ -100,12 +102,16 @@ fabricCommonDependency(minecraft_version,
                        loader_version,
                        fabric_api_version,
                        modmenu_version = modmenu_version,
-                       libIPN_version = libIPN_version)
+                       libIPN_version = libIPN_version,
+                       carpet_version = carpet_core_version)
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
-    modRuntimeOnly("curse.maven:trinkets-341284:4343755")
-    modRuntimeOnly("curse.maven:scout-631922:4333756")
+    //modRuntimeOnly("curse.maven:trinkets-341284:4343755")
+    //modRuntimeOnly("curse.maven:scout-631922:4333756")
+
+    //modRuntimeOnly("curse.maven:cloth-config-348521:3972420")
+    //modRuntimeOnly("curse.maven:stacker-515415:3918819")
 }
 
 tasks.named("compileKotlin") {
@@ -133,6 +139,9 @@ plugins.withId("idea") {
 loom {
     runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
+
+    runConfigs["server"].runDir = "runServer"
+
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
     accessWidenerPath.set(file("src/main/resources/ipnext.accesswidener"))
 }

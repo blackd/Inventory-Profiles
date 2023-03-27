@@ -44,6 +44,7 @@ val modmenu_version = "1.16.9"
 val fabric_api_version = "0.41.3+1.16"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+val carpet_core_version = "1.4.43+v210706"
 
 buildscript {
     dependencies {
@@ -101,10 +102,11 @@ fabricCommonDependency(minecraft_version,
                        loader_version,
                        fabric_api_version,
                        modmenu_version = modmenu_version,
-                       libIPN_version = libIPN_version)
+                       libIPN_version = libIPN_version,
+                       carpet_version = carpet_core_version)
 
 dependencies {
-    modRuntimeOnly("curse.maven:carpet-349239:3388185")
+    //modRuntimeOnly("curse.maven:carpet-349239:3388185")
 }
 
 tasks.named("compileKotlin") {

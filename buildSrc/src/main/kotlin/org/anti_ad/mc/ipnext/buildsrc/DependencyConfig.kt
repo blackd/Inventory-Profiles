@@ -83,6 +83,11 @@ fun Project.configureDependencies() {
                 includeGroup ("curse.maven")
             }
         }
+
+        maven {
+            url = uri("https://masa.dy.fi/maven")
+            name = "carpet"
+        }
     }
 
     dependencies {
@@ -108,7 +113,8 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    loader_version: Any,
                                    fabric_api_version: Any,
                                    libIPN_version: Any? = null,
-                                   modmenu_version: Any? = null) {
+                                   modmenu_version: Any? = null,
+                                   carpet_version: Any? = null) {
 
     configurations.all {
         resolutionStrategy {
@@ -140,6 +146,9 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
             "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")  {
                 this.isChanging = true
             }
+        }
+        carpet_version?.let {
+            "modImplementation"("carpet:fabric-carpet:$minecraft_version-$carpet_version")
         }
 
         "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.9.2+kotlin.1.8.10")

@@ -166,18 +166,12 @@ fun MutableSubTracker.sort(sortingRule: Rule,
 private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
 
     val overStackedMap = mutableMapOf<Int, ItemStack>()
-    val overStackedManageableList = mutableListOf<ItemStack>()
     val overStacked = this.filterIndexed { index, itemStack ->
-        val keep = itemStack.overstackedAndNotManageable
+        val keep = itemStack.overstacked
         if (keep) overStackedMap[index] = itemStack
         keep
     }
-    val overStackedManageable = this.filterIndexed { _, itemStack ->
-        val keep = itemStack.overstacked
-        if (keep) overStackedManageableList.add(itemStack)
-        keep
-    }
-    val bucket = (this - overStacked - overStackedManageable).collect()
+    val bucket = (this - overStacked).collect()
     val sorted =  bucket.elementSet.toList().sortedWith(sortingRule)
         .map { itemType ->
             itemType to pack(bucket.count(itemType),
@@ -189,14 +183,7 @@ private fun List<ItemStack>.sortItems(sortingRule: Rule): List<ItemStack> {
     overStackedMap.forEach { (i, itemStack) ->
         sorted.add(i, itemStack)
     }
-
-    overStackedManageableList.forEach { itemStack ->
-        val index = sorted.indexOfLast {
-            it.isEmpty()
-        }
-        sorted[index] = ImmutableItemStack(itemStack.itemType, itemStack.count)
-    }
-
+    
     return sorted
 }
 

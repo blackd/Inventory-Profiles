@@ -57,7 +57,7 @@ Level: NUMBER;
 
 Id :  ID;
 
-NamespacedId: DQUOTE ~ [:" \n\t[\],]+ ':' ~ [:" \n\t[\],]+ DQUOTE;
+NamespacedId: DQUOTE ~ [:" \n\t[\],(){}]+ ':' ~ [:" \n\t[\],(){}]+ DQUOTE;
 
 
 

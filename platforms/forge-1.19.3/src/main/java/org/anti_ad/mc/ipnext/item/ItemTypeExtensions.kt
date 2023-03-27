@@ -24,10 +24,12 @@ package org.anti_ad.mc.ipnext.item
 
 import net.minecraft.network.chat.contents.TranslatableContents
 import net.minecraft.world.effect.MobEffectCategory
+import net.minecraft.world.level.block.ShulkerBoxBlock
 import net.minecraftforge.common.extensions.IForgeFluid
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.BlockItem
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
 import org.anti_ad.mc.common.vanilla.alias.FoodComponent
@@ -83,6 +85,15 @@ fun ItemType.isEmpty() : Boolean {
         if (this.tag?.equals(null) == false) Log.warn("Informal item type $this")
     }
 }
+
+inline val ItemType.isShulker: Boolean
+    get() = item is BlockItem && item.block is ShulkerBoxBlock
+
+inline val ItemType.isEmptyShulker: Boolean
+    get() {
+        val iss = isShulker
+        return iss && (tag?.get("BlockEntityTag") == null)
+    }
 
 inline val ItemType.maxCount: Int
     get() = vanillaStack.maxStackSize

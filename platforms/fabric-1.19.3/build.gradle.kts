@@ -44,6 +44,7 @@ val modmenu_version = "5.0.1"
 val fabric_api_version = "0.75.1+1.19.3"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+val carpet_core_version = "1.4.91+v221207"
 
 buildscript {
     dependencies {
@@ -100,7 +101,8 @@ fabricCommonDependency(minecraft_version,
                        loader_version,
                        fabric_api_version,
                        modmenu_version = modmenu_version,
-                       libIPN_version = libIPN_version)
+                       libIPN_version = libIPN_version,
+                       carpet_version = carpet_core_version)
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
@@ -108,6 +110,11 @@ dependencies {
     //"modCompileOnly"("com.terraformersmc:modmenu:$modmenu_version")
     modRuntimeOnly("curse.maven:minihud-244260:4160116")
     modRuntimeOnly("curse.maven:malilib-303119:4147598")
+
+
+//    modRuntimeOnly("curse.maven:carpet-349239:4279344")
+//    modRuntimeOnly("curse.maven:cloth-config-348521:4147098")
+//    modRuntimeOnly("curse.maven:stacker-515415:4367061")
 }
 
 tasks.named("compileKotlin") {
@@ -135,6 +142,7 @@ plugins.withId("idea") {
 loom {
     runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
+    runConfigs["server"].runDir = "runServer"
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 
     accessWidenerPath.set(file("src/main/resources/ipnext.accesswidener"))

@@ -20,9 +20,11 @@
 
 package org.anti_ad.mc.ipnext.item
 
+import net.minecraft.block.ShulkerBoxBlock
 import net.minecraft.entity.effect.StatusEffectType
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.vanilla.alias.BlockItem
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
 import org.anti_ad.mc.common.vanilla.alias.FoodComponent
@@ -38,6 +40,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.FishBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
+import org.anti_ad.mc.ipnext.compat.integrations.Integrations
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
 import org.anti_ad.mc.ipnext.mixin.IMixinBucketItem
@@ -72,8 +75,24 @@ fun ItemType.isEmpty(): Boolean {
     }
 }
 
+inline val ItemType.isShulker: Boolean
+    get() = item is BlockItem && item.block is ShulkerBoxBlock
+
+inline val ItemType.isEmptyShulker: Boolean
+    get() {
+        val iss = isShulker
+        return iss && (tag?.get("BlockEntityTag") == null)
+    }
+
 inline val ItemType.maxCount: Int
-    get() = vanillaStack.maxCount
+    get() {
+        val carpetEmptyShulkersStackSize = Integrations.carpetEmptyShulkersStackSize
+        return if (carpetEmptyShulkersStackSize > 1 && isEmptyShulker) {
+            carpetEmptyShulkersStackSize
+        } else {
+            vanillaStack.maxCount
+        }
+    }
 
 inline val ItemType.vanillaStack: VanillaItemStack
     get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }

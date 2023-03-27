@@ -44,8 +44,9 @@ val modmenu_version = "6.1.0-rc.4"
 val fabric_api_version = "0.75.3+1.19.4"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+val carpet_core_version = "1.4.100+v230314"
 
-buildscript {
+        buildscript {
     dependencies {
         classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
@@ -100,7 +101,8 @@ fabricCommonDependency(minecraft_version,
                        loader_version,
                        fabric_api_version,
                        modmenu_version = modmenu_version,
-                       libIPN_version = libIPN_version)
+                       libIPN_version = libIPN_version,
+                       carpet_version = carpet_core_version)
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
@@ -135,6 +137,7 @@ plugins.withId("idea") {
 loom {
     runConfigs["client"].ideConfigGenerated(true)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
+    runConfigs["server"].runDir = "runServer"
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
 
     accessWidenerPath.set(file("src/main/resources/ipnext.accesswidener"))

@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item
 
+import org.anti_ad.mc.common.vanilla.alias.BlockItem
 import org.anti_ad.mc.common.vanilla.alias.Item
 import org.anti_ad.mc.common.vanilla.alias.Items
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound

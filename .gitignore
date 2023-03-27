@@ -24,7 +24,7 @@ bin/
 
 run/
 run
-
+runServer
 run-server
 
 # kotlin

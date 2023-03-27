@@ -43,7 +43,7 @@ public class MixinMerchantScreen {
     @Shadow
     public MerchantScreen.WidgetButtonPage[] offers;
 
-    @SuppressWarnings("DataFlowIssue")
+    @SuppressWarnings({"DataFlowIssue", "rawtypes"})
     @Inject(method = "render",
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/item/ItemRenderer;zOffset:F", ordinal = 0),
             locals = LocalCapture.CAPTURE_FAILHARD)

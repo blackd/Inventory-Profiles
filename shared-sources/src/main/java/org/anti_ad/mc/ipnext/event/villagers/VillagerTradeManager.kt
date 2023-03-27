@@ -99,6 +99,7 @@ object VillagerTradeManager: IInputHandler {
 
 
 
+    @Suppress("UNUSED_PARAMETER")
     fun drawingButton(screen: MerchantScreen,
                       matrices: MatrixStack,
                       mouseX: Int,
@@ -165,7 +166,6 @@ object VillagerTradeManager: IInputHandler {
     }
 
     private fun NbtCompound?.nullIfEmpty(): NbtCompound? {
-        val self = this
         return if (this == null) {
             null
         } else if (this.isEmpty) {
