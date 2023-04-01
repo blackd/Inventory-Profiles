@@ -31,6 +31,8 @@ enum class SortingMethod(val ruleName: String?) {
     ITEM_NAME("item_name"),
     ITEM_ID("item_id"),
     RAW_ID("raw_id"),
+    ACCUMULATED_COUNT_DESCENDING("accumulated_count_descending"),
+    ACCUMULATED_COUNT_ASCENDING("accumulated_count_ascending"),
     CUSTOM(null);
 
     override fun toString(): String =

@@ -1,5 +1,36 @@
 <!-- latest begin -->
 
+### 1.9.5
+
+- Added support for sorting based on the accumulated count of item type.
+  It can be selected in `Mod Settings -> Sort Order` there are two variants `Item Count Ascending` and `Item Count Descending`.
+  
+  It also can be used in custom rules like this `::accumulated_count(number_order = ascending)`, by default the rule is in descending order.
+- Added full support for [Carpet's](https://www.curseforge.com/minecraft/mc-mods/carpet) stacable empty shulker boxes. Works only in 1.18-1.19.
+  Doesn't support the forge port of Carpet. *You need to have carpet installed on the client.*
+  1.16 is not supported due to limitations in Carpet for that version of minecraft.
+- Other oversized stacks are now always left in their original positions when sorting.
+
+
+### WARNING
+
+Due to multiple Quilt specific crashes and one item duplication Quilt support is now defined as fallows:
+
+```
+This mod will work on Quilt using the offered Fabric compatibility.
+Any problems that are not reproducible on Fabric will be addressed with very low priority.
+```
+
+#### Supported Minecraft versions
+- **1.16.x**
+- **1.18.2**
+- **1.19[.1-2]**
+- **1.19.3**
+- **1.19.4**
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 1.9.4
 
 - Added support for 1.19.4 Forge.
@@ -33,8 +64,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 
 ### Become a [Patreon](https://www.patreon.com/mirinimi/membership) to gain early access
 
-<!-- latest end -->
-
 
 ### 1.9.2
 
@@ -51,10 +80,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.19[.1-2]**
 - **1.19.3**
 
-
-<!-- latest end -->
-
-<!-- rest begin -->
 
 ### 1.9.1
 

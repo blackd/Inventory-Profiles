@@ -88,7 +88,7 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "2.0.5-SNAPSHOT")
+    ext.set("libIPN_version", "2.0.4")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true

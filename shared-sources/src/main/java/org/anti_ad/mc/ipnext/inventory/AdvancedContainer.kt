@@ -100,6 +100,7 @@ class AdvancedContainer(private val vanillaContainer: Container,
 
         val sandboxTracker: ItemTracker
             get() = sandbox.items
+
         val ItemArea.asSubTracker: SubTracker
             get() = sandboxTracker.subTracker(this.slotIndices)
     }
@@ -111,6 +112,7 @@ class AdvancedContainer(private val vanillaContainer: Container,
     }
 
     open inner class AdvancedContainerDsl {
+
         fun AreaType.get(): ItemArea {
             return getItemArea(vanillaContainer,
                                vanillaSlots)
@@ -135,10 +137,12 @@ class AdvancedContainer(private val vanillaContainer: Container,
     companion object {
 
         fun create(): AdvancedContainer {
-            return when (val container = Vanilla.container()) {
-                is CreativeContainer -> Vanilla.playerContainer()
-                else                 -> container
-            }.let { AdvancedContainer(it) }
+            val container = Vanilla.container()
+            return AdvancedContainer(if (container is CreativeContainer) {
+                Vanilla.playerContainer()
+            } else {
+                container
+            })
         }
 
         inline operator fun invoke(instant: Boolean = false,

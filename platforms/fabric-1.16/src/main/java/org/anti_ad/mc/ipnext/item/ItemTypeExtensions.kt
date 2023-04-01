@@ -22,9 +22,9 @@ package org.anti_ad.mc.ipnext.item
 
 import net.minecraft.block.ShulkerBoxBlock
 import net.minecraft.entity.effect.StatusEffectType
+import net.minecraft.item.BlockItem
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
-import org.anti_ad.mc.common.vanilla.alias.BlockItem
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
 import org.anti_ad.mc.common.vanilla.alias.FoodComponent
@@ -87,8 +87,12 @@ inline val ItemType.isEmptyShulker: Boolean
 inline val ItemType.maxCount: Int
     get() {
         val carpetEmptyShulkersStackSize = Integrations.carpetEmptyShulkersStackSize
+        val slot = sourceStack?.sourceSlot
+
         return if (carpetEmptyShulkersStackSize > 1 && isEmptyShulker) {
             carpetEmptyShulkersStackSize
+        } else if (slot != null && Integrations.sophisticatedMaxCount(slot) != -1) {
+            return Integrations.sophisticatedMaxCount(slot)
         } else {
             vanillaStack.maxCount
         }

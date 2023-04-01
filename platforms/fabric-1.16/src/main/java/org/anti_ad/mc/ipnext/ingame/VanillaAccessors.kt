@@ -64,13 +64,18 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 
 // use `()` to avoid potential mapping name collision
 
-inline val VanillaItemStack.`(itemType)`: ItemType
+val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
                      tag,
-                     { isDamageable })
+                     { isDamageable },
+                     stackSource = { v: ItemType ->
+                         ItemStack(v, count)
+                     })
+
 inline val VanillaItemStack.`(itemStack)`: ItemStack
     get() = if (isEmpty) ItemStack.EMPTY else ItemStack(`(itemType)`,
                                                         count)
+
 inline val VanillaItemStack.`(mutableItemStack)`: MutableItemStack
     get() = if (isEmpty) MutableItemStack.empty() else MutableItemStack(`(itemType)`,
                                                                         count)
@@ -86,11 +91,11 @@ inline val Slot.`(id)`
 inline val Slot.`(invSlot)`
     get() = (this as IMixinSlot).invSlot
 inline val Slot.`(itemStack)`: ItemStack
-    get() = stack.`(itemStack)`
+    get() = stack.`(itemStack)`.also { it.sourceSlot = this }
 inline val Slot.`(vanillaStack)`: VanillaItemStack
     get() = this.stack
 inline val Slot.`(mutableItemStack)`: MutableItemStack
-    get() = stack.`(mutableItemStack)`
+    get() = stack.`(mutableItemStack)`.also { it.sourceSlot = this }
 inline val Slot.`(inventory)`: Inventory
     get() = inventory
 inline val Slot.`(inventoryOrNull)`: Inventory?

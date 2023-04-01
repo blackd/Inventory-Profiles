@@ -149,6 +149,9 @@ configurations {
 
 dependencies {
     //runtimeOnly( fg.deobf("curse.maven:iron-furnaces-237664:4009901"))
+    runtimeOnly( fg.deobf("curse.maven:sophisticated-storage-619320:4231388"))
+    runtimeOnly( fg.deobf("curse.maven:sophisticated-core-618298:4329953"))
+    runtimeOnly( fg.deobf("curse.maven:sophisticated-backpacks-422301:4329957"))
 }
 
 tasks.named("compileKotlin") {

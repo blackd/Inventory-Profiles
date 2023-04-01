@@ -370,8 +370,8 @@ private object InnerActions {
 
     fun doSort(sortingRule: Rule,
                postAction: PostAction) = tryCatch {
-            innerDoSort(sortingRule,
-                        postAction)
+        innerDoSort(sortingRule,
+                    postAction)
     }
 
     fun innerDoSort(sortingRule: Rule,

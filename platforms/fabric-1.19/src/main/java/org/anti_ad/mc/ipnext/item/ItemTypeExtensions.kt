@@ -24,9 +24,9 @@ package org.anti_ad.mc.ipnext.item
 
 import net.minecraft.block.ShulkerBoxBlock
 import net.minecraft.entity.effect.StatusEffectCategory
+import net.minecraft.item.BlockItem
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
-import org.anti_ad.mc.common.vanilla.alias.BlockItem
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
 import org.anti_ad.mc.common.vanilla.alias.FoodComponent

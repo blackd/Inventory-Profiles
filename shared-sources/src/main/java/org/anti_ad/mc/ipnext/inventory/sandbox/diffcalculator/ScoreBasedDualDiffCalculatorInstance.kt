@@ -31,6 +31,8 @@ import org.anti_ad.mc.ipnext.inventory.sandbox.toList
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.maxCount
+import org.anti_ad.mc.ipnext.item.rule.CountSink
+import org.anti_ad.mc.ipnext.item.rule.CountSource
 import org.anti_ad.mc.ipnext.util.MutableBucket
 
 class ScoreBasedDualDiffCalculatorInstance(sandbox: ContainerSandbox,
@@ -206,7 +208,7 @@ object SingleType : DiffCalculatorUtil {
     }
 
     data class Slot(val n: Int,
-                    val g: Int) {
+                    val g: Int): CountSink<Slot> {
         val isGoal
             get() = n == g
         val rank
@@ -229,6 +231,9 @@ object SingleType : DiffCalculatorUtil {
                     copy(n = nAfter) to c - (nAfter - n)
                 }
             }
+        }
+
+        override fun setCountSource(source: CountSource<Slot>) {
         }
     }
 

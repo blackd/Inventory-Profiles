@@ -375,6 +375,8 @@
     "inventoryprofiles.enum.sorting_method.item_name":                             "Item Name",
     "inventoryprofiles.enum.sorting_method.item_id":                               "Item ID",
     "inventoryprofiles.enum.sorting_method.raw_id":                                "Item Numerical ID",
+    "inventoryprofiles.enum.sorting_method.accumulated_count_descending":          "Item Count Descending",
+    "inventoryprofiles.enum.sorting_method.accumulated_count_ascending":           "Item Count Ascending",
     "inventoryprofiles.enum.sorting_method.custom":                                "Custom Rule",
     "inventoryprofiles.enum.post_action.none":                                     "None",
     "inventoryprofiles.enum.post_action.group_in_rows":                            "Group In Rows",

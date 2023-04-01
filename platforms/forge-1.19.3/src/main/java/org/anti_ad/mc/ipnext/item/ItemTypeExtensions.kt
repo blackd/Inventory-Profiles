@@ -24,12 +24,12 @@ package org.anti_ad.mc.ipnext.item
 
 import net.minecraft.network.chat.contents.TranslatableContents
 import net.minecraft.world.effect.MobEffectCategory
+import net.minecraft.world.item.BlockItem
 import net.minecraft.world.level.block.ShulkerBoxBlock
 import net.minecraftforge.common.extensions.IForgeFluid
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.BlockItem
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
 import org.anti_ad.mc.common.vanilla.alias.FoodComponent
@@ -110,7 +110,6 @@ fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
         VanillaItemStack(this.item,
                          count).apply { tag = this@vanillaStackWithCount.tag }
 
-@Suppress("DEPRECATION")
 inline val ItemType.identifier: Identifier
     get() = ForgeRegistries.ITEMS.getKey(item)!! // `(getIdentifier)`(item)
 

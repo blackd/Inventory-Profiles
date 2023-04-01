@@ -20,6 +20,7 @@
 package org.anti_ad.mc.ipnext.compat.integrations
 
 import org.anti_ad.mc.common.extensions.trySwallow
+import org.anti_ad.mc.common.vanilla.alias.Slot
 
 object Integrations {
 
@@ -31,9 +32,14 @@ object Integrations {
         }
 
 
+    var ___getSophisticatedMaxCount: (Slot) -> Int = { -1 }
+
+
     fun init() {
         trySwallow {
             CarpetIntegration().init()
         }
     }
+
+    fun sophisticatedMaxCount(sourceSlot: Slot): Int = ___getSophisticatedMaxCount(sourceSlot)
 }

@@ -126,6 +126,9 @@ val max_damage                /**/ by type(::NumberBasedRule) { it.maxDamage }
 val durability                /**/ by type(::NumberBasedRule) { it.durability }
 val enchantments_score        /**/ by type(::NumberBasedRule) { it.enchantmentsScore }.param(number_order,
                                                                                              DESCENDING)
+val accumulated_count         /**/ by type(::NumberBasedRule) {
+    it.accumulatedCount
+}.param(number_order, DESCENDING)
 
 // ============
 // Boolean Type Rule

@@ -30,3 +30,9 @@
 
 @auto_refill_best
     @default_nbt_rule
+
+@accumulated_count_descending
+    ::accumulated_count(number_order = descending)
+
+@accumulated_count_ascending
+    ::accumulated_count(number_order = ascending)

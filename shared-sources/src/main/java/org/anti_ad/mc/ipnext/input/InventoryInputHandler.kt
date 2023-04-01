@@ -34,8 +34,8 @@ object InventoryInputHandler : IInputHandler {
     override fun onInput(lastKey: Int,
                          lastAction: Int): Boolean {
         if (!VanillaUtil.inGame()) return false
-        val scr = Vanilla.screen();
-        val ctr = Vanilla.container();
+        val scr = Vanilla.screen()
+        val ctr = Vanilla.container()
         if (scr != null && scr is ContainerScreen<*> ) {
             val screenHints = HintsManagerNG.getHints(scr.javaClass)
             val containerHints = HintsManagerNG.getHints(ctr.javaClass)

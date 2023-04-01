@@ -20,9 +20,12 @@
 
 package org.anti_ad.mc.ipnext.item
 
+import org.anti_ad.mc.common.vanilla.alias.Slot
+
 sealed class ItemStack {
     abstract val itemType: ItemType
     abstract val count: Int
+    abstract var sourceSlot: Slot?
 
     operator fun component1() = itemType
     operator fun component2() = count
@@ -60,7 +63,8 @@ sealed class ItemStack {
 
     fun copyAsMutable(): MutableItemStack {
         return MutableItemStack(itemType,
-                                count)
+                                count,
+                                sourceSlot)
     }
 
     companion object {
@@ -73,9 +77,17 @@ sealed class ItemStack {
 }
 
 class ImmutableItemStack(override val itemType: ItemType,
-                         override val count: Int) : ItemStack()
+                         override val count: Int,
+                         aSourceSlot: Slot? = null) : ItemStack() {
+
+    override var sourceSlot: Slot? = aSourceSlot
+}
 
 class MutableItemStack(override var itemType: ItemType,
-                       override var count: Int) : ItemStack() {
+                       override var count: Int,
+                       aSourceSlot: Slot? = null) : ItemStack() {
+
+    override var sourceSlot: Slot? = aSourceSlot
+
     companion object
 }

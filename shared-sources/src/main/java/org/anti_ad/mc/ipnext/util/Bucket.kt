@@ -20,9 +20,12 @@
 
 package org.anti_ad.mc.ipnext.util
 
-interface Bucket<T> {
+import org.anti_ad.mc.ipnext.item.rule.CountSink
+import org.anti_ad.mc.ipnext.item.rule.CountSource
+
+interface Bucket<T: CountSink<T>>: CountSource<T> {
     val size: Int
-    fun count(element: T): Int
+    override fun count(element: T): Int
     fun contains(element: T): Boolean
     fun contains(element: T,
                  count: Int): Boolean
@@ -34,7 +37,7 @@ interface Bucket<T> {
     fun isEmpty(): Boolean
 }
 
-open class MutableBucket<T> protected constructor(innerMap: Map<T, Int>) : Bucket<T> { /* : MutableCollection<T> */
+open class MutableBucket<T: CountSink<T>> protected constructor(innerMap: Map<T, Int>) : Bucket<T> { /* : MutableCollection<T> */
     constructor() : this(mapOf())
 
     protected open fun validateEmpty(element: T): Boolean { // determine whether the element can be added to this collection
@@ -57,6 +60,7 @@ open class MutableBucket<T> protected constructor(innerMap: Map<T, Int>) : Bucke
     fun add(element: T,
             count: Int): Boolean {
         if (validateEmpty(element) || count <= 0) return false
+        element.setCountSource(this)
         innerMap[element] = count(element) + count
         return true
     }

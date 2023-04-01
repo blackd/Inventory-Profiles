@@ -79,12 +79,10 @@ open class SimpleDiffCalculatorInstance(sandbox: ContainerSandbox,
     private val CompareSlotDsl.nowMoreThanEqualGoal // = equals || nowMoreThanGoal
         get() = equalsType && now.count >= goal.count
 
-    private inline fun Iterable<CompareSlotDsl>.filtered(
-        skipEquals: Boolean = true, // notice skip equals default to true
-        skipEmptyNow: Boolean = false,
-        skipEmptyGoal: Boolean = false,
-        predicate: CompareSlotDsl.() -> Boolean
-    ): List<CompareSlotDsl> {
+    private inline fun Iterable<CompareSlotDsl>.filtered(skipEquals: Boolean = true, // notice skip equals default to true
+                                                         skipEmptyNow: Boolean = false,
+                                                         skipEmptyGoal: Boolean = false,
+                                                         predicate: CompareSlotDsl.() -> Boolean): List<CompareSlotDsl> {
         return this.filter {
             with(it) {
                 val skip = skipEquals && equals
@@ -186,12 +184,12 @@ open class SimpleDiffCalculatorInstance(sandbox: ContainerSandbox,
                 ?.run { return leftClick() }
             error("should not reach here")
         }
-        candidate.filtered { nowGoalRemaining > 0 }
-            .minByOrNull { it.nowGoalRemaining }
-            ?.run {
-                check(nowGoalRemaining < cursorNow.count)
-                return repeatRightClick(nowGoalRemaining)
-            } // nowGoalRemaining should < cursorNow.count
+        candidate.filtered { nowGoalRemaining > 0 }.minByOrNull {
+            it.nowGoalRemaining
+        }?.run {
+            check(nowGoalRemaining < cursorNow.count)
+            return repeatRightClick(nowGoalRemaining)
+        } // nowGoalRemaining should < cursorNow.count
         error("should not reach here")
     }
 }
