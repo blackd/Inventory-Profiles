@@ -33,11 +33,11 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.19", "1.19.1", "1.19.2")
+val supported_minecraft_versions = listOf("1.19.2")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.19.2"
-val minecraft_version_string = "1.19[.1-2]"
+val minecraft_version_string = "1.19.2"
 val mappings_version = "1.19.2+build.1"
 val loader_version = "0.14.17"
 val modmenu_version = "4.0.6"
@@ -107,7 +107,7 @@ fabricCommonDependency(minecraft_version,
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
-    //modRuntimeOnly("curse.maven:trinkets-341284:4343755")
+    //modRuntimeOnly("curse.maven:exordium-681953:4009906")
     //modRuntimeOnly("curse.maven:scout-631922:4333756")
 
     //modRuntimeOnly("curse.maven:cloth-config-348521:3972420")

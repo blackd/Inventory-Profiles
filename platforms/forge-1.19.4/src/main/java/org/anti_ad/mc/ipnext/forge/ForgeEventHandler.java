@@ -127,7 +127,7 @@ public class ForgeEventHandler {
     //@SubscribeEvent
     public void onOverlayLayerPre(RenderGuiOverlayEvent.Pre event) {
         if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
-            LockSlotsHandler.INSTANCE.preRenderHud();
+            LockSlotsHandler.INSTANCE.preRenderHud(event.getPoseStack());
         }
     }
 
@@ -135,7 +135,7 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public void onOverlayLayerPost(RenderGuiOverlayEvent.Post event) {
         if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
-            LockSlotsHandler.INSTANCE.postRenderHud();
+            LockSlotsHandler.INSTANCE.postRenderHud(event.getPoseStack());
         }
     }
 

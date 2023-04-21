@@ -43,8 +43,9 @@ interface PLockSlotHandler {
         RenderSystem.applyModelViewMatrix()
 
         //gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
-        drawForeground()
         drawConfig()
+        drawForeground()
+
         matrixStack2.pop() //gPopMatrix()
         RenderSystem.applyModelViewMatrix()
     }

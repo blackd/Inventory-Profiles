@@ -28,6 +28,7 @@ import org.anti_ad.mc.common.config.options.BaseConfigKeyToggleBooleanInputHandl
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.config.builder.keyToggleBool as libIPNKeyToggleBool
 import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.common.gui.screen.ScreenInfo
 import org.anti_ad.mc.common.gui.widgets.toListWidget
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.*
@@ -117,6 +118,9 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
             { I18n.translateOrElse(it) { it.substringAfterLast('.') } }
         )
 
+    override val screenInfo: ScreenInfo
+        get() = ScreenInfo.pausing
+
     init {
         openConfigMenuHotkey = Hotkeys.OPEN_CONFIG_MENU
         // hide debugs class
@@ -129,6 +133,7 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
         }
         selectedIndex = storedSelectedIndex
     }
+
 
     override fun closeScreen() {
         IPNInfoManager.event(if (gui) "gui/" else {""} + "closeConfig")

@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.common.extensions.lor
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -26,7 +27,9 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
+import org.anti_ad.mc.common.vanilla.render.alpha
 import org.anti_ad.mc.common.vanilla.render.b
+import org.anti_ad.mc.common.vanilla.render.dropAlpha
 import org.anti_ad.mc.common.vanilla.render.g
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.r
@@ -87,7 +90,19 @@ object SlotHighlightHandler: PLockSlotHandler {
 
     val defaultAlpha: Int
         get() {
-            return if (ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue) 140 else 180
+            return if (ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue) {
+                ModSettings.HIGHLIGHT_FOUSED_ITEMS_COLOR.value.alpha
+            } else {
+                ModSettings.HIGHLIGHT_FOUSED_ITEMS_BG_COLOR.value.alpha
+            }
+        }
+    val color: Int
+        get() {
+            return if (ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue) {
+                ModSettings.HIGHLIGHT_FOUSED_ITEMS_COLOR.value
+            } else {
+                ModSettings.HIGHLIGHT_FOUSED_ITEMS_BG_COLOR.value
+            }
         }
 
     var tick = 0
@@ -121,7 +136,7 @@ object SlotHighlightHandler: PLockSlotHandler {
                                     tl.y,
                                     16,
                                     16),
-                          alphaChannel.r(1).g(0x96).b(0xb))
+                          color.alpha(alphaChannel))
             }
             RenderSystem.disableBlend()
             rEnableDepth()

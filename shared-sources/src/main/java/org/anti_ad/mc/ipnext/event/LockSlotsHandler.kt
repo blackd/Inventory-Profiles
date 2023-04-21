@@ -30,14 +30,18 @@ import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.GameType
+import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
+import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutlineNoCorner
+import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
+import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
@@ -144,7 +148,7 @@ object LockSlotsHandler: PLockSlotHandler {
         }
         if (displayingConfig) return
         if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue) return
-        drawSprite(backgroundSprite,
+        drawSprite(::drawBackgroundSprite,
                    null)
     }
 
@@ -160,38 +164,103 @@ object LockSlotsHandler: PLockSlotHandler {
             }
         }
         if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
-        drawSprite(foregroundSprite,
+        drawSprite(::drawForegroundSprite,
                    null)
     }
 
     override fun drawConfig() {
         if (!displayingConfig) return
-        drawSprite(configSpriteLocked,
-                   configSprite)
+        drawSprite(::drawConfigLocked,
+                   ::drawConfigOpen)
     }
 
-    private fun drawSprite(lockedSprite: Sprite?,
-                           openSprite: Sprite?) {
+    private fun drawBackgroundSprite(topLeft: Point, slotTopLeft: Point) {
+        //rDrawCenteredSprite(backgroundSprite, center)
+        val p = topLeft + slotTopLeft
+        rFillRect(p.x, p.y,
+                  p.x + 16, p.y + 16,
+                  LockedSlotsSettings.SHOW_LOCKED_SLOTS_BG_COLOR.value)
+    }
+
+    private val eightByEight = Point(8,8)
+
+    private fun drawForegroundSprite(topLeft: Point, slotTopLeft: Point) {
+        val center = topLeft + slotTopLeft + eightByEight
+        rDrawCenteredSprite(foregroundSprite, center)
+    }
+
+    private fun drawConfigLocked(topLeft: Point, slotTopLeft: Point) = drawBackgroundSprite(topLeft, slotTopLeft)
+
+    private fun drawConfigOpen(topLeft: Point, slotTopLeft: Point) {
+        val center = topLeft + slotTopLeft + eightByEight
+        rDrawCenteredSprite(configSprite, center)
+    }
+
+    private fun drawSprite(lockedSprite: ((Point, Point) -> Unit)?,
+                           openSprite: ((Point, Point) -> Unit)?) {
         if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
-//    rClearDepth() // use translate or zOffset
+        //    rClearDepth() // use translate or zOffset
         rDisableDepth()
         RenderSystem.enableBlend()
-        val topLeft = screen.`(containerBounds)`.topLeft + Point(8,
-                                                                 8) // slot center offset
+        val topLeft = screen.`(containerBounds)`.topLeft
+
         for ((invSlot, slotTopLeft) in slotLocations) {
             if (invSlot in lockedInvSlotsStoredValue) {
                 lockedSprite?.let {
-                    rDrawCenteredSprite(it, topLeft + slotTopLeft)
+                    it(topLeft, slotTopLeft)
+                    //rDrawCenteredSprite(it, topLeft + slotTopLeft)
                 }
             } else {
                 openSprite?.let {
-                    rDrawCenteredSprite(it, topLeft + slotTopLeft)
+                    it(topLeft, slotTopLeft)
+                    //rDrawCenteredSprite(it, topLeft + slotTopLeft)
                 }
             }
         }
         RenderSystem.disableBlend()
         rEnableDepth()
+    }
+
+    private fun drawHotOutlineLeft(p: Point, color: Int) {
+        //rDrawCenteredSprite(hotOutlineLeft, p)
+        //top
+        rFillRect(p.x-2, p.y-2, p.x + 16, p.y, color)
+        //bottom
+        rFillRect(p.x-2, p.y+16, p.x + 16, p.y+18, color)
+        //left
+        rFillRect(p.x-2, p.y, p.x, p.y + 16, color)
+    }
+
+    private fun drawHotOutlineRight(p: Point, color: Int) {
+        //rDrawCenteredSprite(hotOutlineRight, p)
+        //top
+        rFillRect(p.x, p.y-2, p.x + 16, p.y, color)
+        //bottom
+        rFillRect(p.x, p.y+16, p.x + 16, p.y+18, color)
+        //right
+        rFillRect(p.x+16, p.y-2, p.x+18, p.y + 18, color)
+    }
+
+    private fun drawHotOutlineActive(p: Point, color: Int) {
+       //rDrawCenteredSprite(hotOutlineActive, p)
+        rFillRect(p.x-4, p.y-4, p.x + 20, p.y, color)
+        rFillRect(p.x-4, p.y, p.x, p.y + 16, color)
+        rFillRect(p.x-4, p.y+16, p.x + 20, p.y+20, color)
+        rFillRect(p.x+16, p.y, p.x+20, p.y + 16, color)
+    }
+
+    private fun drawHotOutline(p: Point, color: Int) {
+        //rDrawCenteredSprite(hotOutline, p)
+        //top
+        rFillRect(p.x-2, p.y-2, p.x + 16, p.y, color)
+        //bottom
+        rFillRect(p.x-2, p.y+16, p.x + 16, p.y+18, color)
+        //left
+        rFillRect(p.x-2, p.y, p.x, p.y + 16, color)
+        //right
+        rFillRect(p.x+16, p.y-2, p.x+18, p.y + 18, color)
+
     }
 
     private fun drawHotSprite() {
@@ -204,22 +273,24 @@ object LockSlotsHandler: PLockSlotHandler {
         val i = screenWidth / 2;
         for (j1 in 0..8) {
             if (j1 in lockedInvSlotsStoredValue) {
-                val lockedSprite: Sprite = if (j1 - Vanilla.playerInventory().`(selectedSlot)` == -1) {
-                    hotOutlineLeft
+                val drawLockedSprite = if (j1 - Vanilla.playerInventory().`(selectedSlot)` == -1) {
+                    ::drawHotOutlineLeft
                 } else if (j1 - Vanilla.playerInventory().`(selectedSlot)` == 1) {
-                    hotOutlineRight
+                    ::drawHotOutlineRight
                 } else if (j1 == Vanilla.playerInventory().`(selectedSlot)`) {
-                    hotOutlineActive
+                    ::drawHotOutlineActive
                 } else {
-                    hotOutline
+                    ::drawHotOutline
                 }
                 val k1: Int = i - 90 + j1 * 20 + 2
                 val l1: Int = screenHeight - 16 - 3
-                val topLeft = Point(k1, l1) + Point(8, 8)
+                val topLeft = Point(k1, l1)
+                val topLeftCentered = topLeft + Point(8, 8)
 
-                rDrawCenteredSprite(lockedSprite, 0, topLeft)
+                //rDrawCenteredSprite(lockedSprite, 0, topLeft)
+                drawLockedSprite(topLeft, LockedSlotsSettings.SHOW_LOCKED_SLOTS_HOTBAR_COLOR.value)
                 if (LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) {
-                    rDrawCenteredSprite(foregroundSprite, 0, topLeft)
+                    rDrawCenteredSprite(foregroundSprite, 0, topLeftCentered)
                 }
             }
         }
@@ -343,11 +414,8 @@ object LockSlotsHandler: PLockSlotHandler {
 
     fun isQMoveActionAllowed(slot: Int): Boolean {
         return isQMoveActionAllowedInt(slot) {
-            if (LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.value
-                || LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.value) {
-                return false
-            }
-            return true
+            return !(LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.value
+                    || LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.value)
         }
     }
 
@@ -372,14 +440,13 @@ object LockSlotsHandler: PLockSlotHandler {
         return predicate()
     }
 
-    fun postRenderHud() {
-
+    fun postRenderHud(matrixStack: MatrixStack) {
         if (LockedSlotsSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value && GameType.SPECTATOR != Vanilla.gameMode()) {
+            rMatrixStack = matrixStack
             drawHotSprite()
         }
     }
 
-    fun preRenderHud() {
-        //drawHotSprite(matrixStack)
+    fun preRenderHud(matrixStack: MatrixStack) {
     }
 }

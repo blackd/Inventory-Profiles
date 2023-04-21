@@ -53,6 +53,15 @@ enum class ScrollDirection {
 
 object ScrollingUtils {
 
+    inline val doIncludeHotbar: Boolean
+        get() {
+            return if (ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue) {
+                !ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()
+            } else {
+                ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()
+            }
+        }
+
     private fun withEnvironmentDo(direction: ScrollDirection,
                                   includeHotbar: Boolean,
                                   action: AreaTypes.(stack: ItemType,
@@ -179,24 +188,18 @@ object ScrollingUtils {
     }
 
     fun scrollFullStack(direction: ScrollDirection = ScrollDirection.TO_CHEST,
-                        includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                        includeHotbar: Boolean = doIncludeHotbar) {
 
-        withEnvironmentDo(direction, includeHotbar) {stack, target, slots, player, chest, _ ->
+        withEnvironmentDo(direction, includeHotbar) {stack, targetIn, slots, player, chest, _ ->
 
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
-                    withFocusedItemFullStackDo(direction, slot, target, slots, player, chest) { targetArea, source, itemType, slotIndex ->
-                        findSourceAndTargetAndDo(targetArea, source, slots, itemType, doLastSlotIndex = slotIndex) { sourceId, targetId ->
-                            ContainerClicker.leftClick(sourceId)
-                            ContainerClicker.leftClick(targetId)
-                            ContainerClicker.leftClick(sourceId)
-                        }
-                    }
+                    doDefaultAction(direction, slot, targetIn, slots, player, chest)
                 }
 
             } else {
 
-                findTargetAndDo(target.getItemArea(Vanilla.container(), slots), slots, stack) { targetId ->
+                findTargetAndDo(targetIn.getItemArea(Vanilla.container(), slots), slots, stack) { targetId ->
                     ContainerClicker.leftClick(targetId)
                 }
                 pickUpNewStackIfEmpty(stack, direction, player, chest, slots)
@@ -205,8 +208,23 @@ object ScrollingUtils {
         }
     }
 
+    private inline fun AreaTypes.doDefaultAction(direction: ScrollDirection,
+                                                 slot: Slot,
+                                                 targetIn: AreaType,
+                                                 slots: List<Slot>,
+                                                 player: AreaType,
+                                                 chest: AreaType) {
+        withFocusedItemFullStackDo(direction, slot, targetIn, slots, player, chest) { targetArea, source, itemType, slotIndex ->
+            findSourceAndTargetAndDo(targetArea, source, slots, itemType, doLastSlotIndex = slotIndex) { sourceId, targetId ->
+                ContainerClicker.leftClick(sourceId)
+                ContainerClicker.leftClick(targetId)
+                ContainerClicker.leftClick(sourceId)
+            }
+        }
+    }
+
     fun scrollFullStackLeaveLast(direction: ScrollDirection = ScrollDirection.TO_CHEST,
-                                 includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                                 includeHotbar: Boolean = doIncludeHotbar) {
         withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
 
             if (stack.isEmpty()) {
@@ -236,7 +254,7 @@ object ScrollingUtils {
     }
 
     fun scrollFullStackSpread(direction: ScrollDirection = ScrollDirection.TO_CHEST,
-                              includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                              includeHotbar: Boolean = doIncludeHotbar) {
         var minCount = 65
         withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {
@@ -295,7 +313,7 @@ object ScrollingUtils {
 
 
     fun scrollFullStackThrow(direction: ScrollDirection = ScrollDirection.BOTH,
-                             includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                             includeHotbar: Boolean = doIncludeHotbar) {
         withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
@@ -317,7 +335,7 @@ object ScrollingUtils {
     }
 
     fun scrollSingleItemThrow(direction: ScrollDirection = ScrollDirection.BOTH,
-                              includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                              includeHotbar: Boolean = doIncludeHotbar) {
         withEnvironmentDo(direction, includeHotbar) { stack, targetIn, slots, player, chest, fullPlayer ->
             if (stack.isEmpty()) {
                 vFocusedSlot()?.let { slot ->
@@ -342,7 +360,7 @@ object ScrollingUtils {
 
 
     fun scrollSingleItem(direction: ScrollDirection = ScrollDirection.TO_CHEST,
-                         includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                         includeHotbar: Boolean = doIncludeHotbar) {
         withEnvironmentDo(direction, includeHotbar) { stack, targetIn, slots, player, chest, fullPlayer ->
 
             if (stack.isEmpty()) {
@@ -358,13 +376,7 @@ object ScrollingUtils {
                         }
                     } else {
                         //act like full stack
-                        withFocusedItemFullStackDo(direction, slot, targetIn, slots, player, chest) { targetArea, source, itemType, slotIndex ->
-                            findSourceAndTargetAndDo(targetArea, source, slots, itemType, doLastSlotIndex = slotIndex) { sourceId, targetId ->
-                                ContainerClicker.leftClick(sourceId)
-                                ContainerClicker.leftClick(targetId)
-                                ContainerClicker.leftClick(sourceId)
-                            }
-                        }
+                        doDefaultAction(direction, slot, targetIn, slots, player, chest)
                     }
 
                 }
@@ -382,7 +394,7 @@ object ScrollingUtils {
     }
 
     fun scrollSingleItemLeaveLast(direction: ScrollDirection = ScrollDirection.TO_CHEST,
-                                  includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                                  includeHotbar: Boolean = doIncludeHotbar) {
         withEnvironmentDo(direction, includeHotbar) {stack, targetIn, slots, player, chest, fullPlayer ->
 
             if (stack.isEmpty()) {
@@ -401,14 +413,7 @@ object ScrollingUtils {
                         }
                     } else {
                         //act like full stack
-                        withFocusedItemFullStackDo(direction, slot, targetIn, slots, player, chest) { targetArea, source, itemType, slotIndex ->
-
-                            findSourceAndTargetAndDo(targetArea, source, slots, itemType, doLastSlotIndex = slotIndex) { sourceId, targetId ->
-                                ContainerClicker.leftClick(sourceId)
-                                ContainerClicker.leftClick(targetId)
-                                ContainerClicker.leftClick(sourceId)
-                            }
-                        }
+                        doDefaultAction(direction, slot, targetIn, slots, player, chest)
                     }
                 }
             } else {
@@ -425,7 +430,8 @@ object ScrollingUtils {
     }
 
     fun scrollSingleSpread(direction: ScrollDirection = ScrollDirection.TO_CHEST,
-                           includeHotbar: Boolean = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                           includeHotbar: Boolean = doIncludeHotbar
+                          ) {
         var minCount = 65
         withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {

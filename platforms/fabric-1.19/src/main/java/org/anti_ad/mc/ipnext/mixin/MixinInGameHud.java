@@ -36,7 +36,7 @@ public class MixinInGameHud {
     protected void preRenderHotbar(float tickDelta,
                                    MatrixStack matrices,
                                    CallbackInfo ci) {
-        LockSlotsHandler.INSTANCE.preRenderHud();
+        LockSlotsHandler.INSTANCE.preRenderHud(matrices);
     }
 
 
@@ -45,7 +45,7 @@ public class MixinInGameHud {
     protected void postRenderHotbar(float tickDelta,
                                     MatrixStack matrices,
                                     CallbackInfo ci) {
-        LockSlotsHandler.INSTANCE.postRenderHud();
+        LockSlotsHandler.INSTANCE.postRenderHud(matrices);
 
     }
 }

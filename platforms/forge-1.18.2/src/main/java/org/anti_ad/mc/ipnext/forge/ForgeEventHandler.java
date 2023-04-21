@@ -138,7 +138,7 @@ public class ForgeEventHandler {
     //@SubscribeEvent
     public void onOverlayLayerPre(RenderGameOverlayEvent.PreLayer event) {
         if (event.getOverlay() == ForgeIngameGui.HOTBAR_ELEMENT) {
-            LockSlotsHandler.INSTANCE.preRenderHud();
+            LockSlotsHandler.INSTANCE.preRenderHud(event.getMatrixStack());
         }
     }
 
@@ -146,7 +146,7 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public void onOverlayLayerPost(RenderGameOverlayEvent.PostLayer event) {
         if (event.getOverlay() == ForgeIngameGui.HOTBAR_ELEMENT) {
-            LockSlotsHandler.INSTANCE.postRenderHud();
+            LockSlotsHandler.INSTANCE.postRenderHud(event.getMatrixStack());
         }
     }
 

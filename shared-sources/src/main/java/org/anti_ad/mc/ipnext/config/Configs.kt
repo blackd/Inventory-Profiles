@@ -28,6 +28,7 @@ import org.anti_ad.mc.common.config.builder.ConfigDeclaration
 import org.anti_ad.mc.common.config.builder.ConfigSaveLoadManager
 import org.anti_ad.mc.common.config.builder.bool
 import org.anti_ad.mc.common.config.builder.button
+import org.anti_ad.mc.common.config.builder.color
 import org.anti_ad.mc.common.config.builder.createBuilder
 import org.anti_ad.mc.common.config.builder.enum
 import org.anti_ad.mc.common.config.builder.enumForMinMCVersion
@@ -38,7 +39,15 @@ import org.anti_ad.mc.common.config.builder.hotkey
 import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
+import org.anti_ad.mc.common.extensions.htmlColorToMinecraftColor
 import org.anti_ad.mc.common.input.KeybindSettings
+import org.anti_ad.mc.common.vanilla.render.asAlpha
+import org.anti_ad.mc.common.vanilla.render.b
+import org.anti_ad.mc.common.vanilla.render.blue
+import org.anti_ad.mc.common.vanilla.render.g
+import org.anti_ad.mc.common.vanilla.render.green
+import org.anti_ad.mc.common.vanilla.render.r
+import org.anti_ad.mc.common.vanilla.render.red
 import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.integration.MergePriority
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_DEFAULT
@@ -46,6 +55,7 @@ import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
 import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
+import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper.keyToggleBool
 import org.anti_ad.mc.ipnext.item.ItemTypeExtensionsObject
 
@@ -94,6 +104,8 @@ object ModSettings : ConfigDeclaration {
     val HIGHLIGHT_FOUSED_ITEMS                    /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val HIGHLIGHT_FOUSED_ITEMS_ANIMATED           /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
     val HIGHLIGHT_FOUSED_ITEMS_FOREGROUND         /**/ by bool(true)
+    val HIGHLIGHT_FOUSED_ITEMS_COLOR              /**/ by color(0x70.asAlpha().red(1).green(0xB6).blue(0x0b))
+    val HIGHLIGHT_FOUSED_ITEMS_BG_COLOR           /**/ by color(0xAA.asAlpha().red(1).green(0xB6).blue(0x0b))
         .CATEGORY("§§hide")
     val HIGHLIGHT_FOUSED_WAIT_TICKS               /**/ by int(3, 3, 15)
 
@@ -237,6 +249,8 @@ object LockedSlotsSettings : ConfigDeclaration {
         .CATEGORY("$category.lock_slots.gui")
     val SHOW_LOCKED_SLOTS_BACKGROUND              /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val SHOW_LOCKED_SLOTS_FOREGROUND              /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val SHOW_LOCKED_SLOTS_BG_COLOR                /**/ by color(192.asAlpha().red(255).green(85).blue(85))
+    val SHOW_LOCKED_SLOTS_HOTBAR_COLOR            /**/ by color(94.asAlpha().red(255).green(94).blue(65))
     val ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR          /**/ by keyToggleBool(true)
     val LOCKED_SLOTS_FOREGROUND_STYLE             /**/ by int(2,
                                                               1,

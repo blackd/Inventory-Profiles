@@ -28,6 +28,7 @@ class CarpetIntegration: IPNtoModIntegration {
 
     override fun init(): Boolean {
         return FabricLoader.getInstance().getModContainer("carpet").isPresent.ifTrue {
+            getEmptyShulkerMaxStack()
             Integrations.___getCarpetEmptyShulkersStackSize = {
                 getEmptyShulkerMaxStack()
             }
