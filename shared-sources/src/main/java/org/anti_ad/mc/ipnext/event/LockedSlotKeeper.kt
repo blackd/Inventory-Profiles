@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import com.yevdo.jwildcard.JWildcard
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
@@ -41,6 +42,7 @@ import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.namespace
+
 
 object LockedSlotKeeper {
 
@@ -249,8 +251,14 @@ object LockedSlotKeeper {
 
     private val cleanHotbarBlackList: MutableSet<String> = mutableSetOf()
 
+    private fun String.isWildCard(): Boolean {
+        return contains('*') || contains('?')
+    }
+
+
     fun isIgnored(stack: ItemStack?): Boolean = stack != null && cleanHotbarBlackList.find { s ->
-                s == stack.`(itemType)`.namespace || s == stack.`(itemType)`.itemId
+                s == stack.`(itemType)`.namespace || s == stack.`(itemType)`.itemId ||
+                        s.isWildCard() && JWildcard.matches(s, stack.`(itemType)`.itemId)
             } != null
 
 

@@ -22,7 +22,7 @@ cd ..
 
 ./gradlew --max-workers 32 clean
 ./gradlew --max-workers 32 createMcpToSrg
-./gradlew --max-workers 3 build modrinth curseforge
+./gradlew --max-workers 4 build modrinth curseforge
 
 
 ls -la build/lib/

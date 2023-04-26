@@ -316,13 +316,13 @@ object ScrollSettings: ConfigDeclaration {
     override val builder = createBuilder()
         .CATEGORY("$category.scroll.modifiers")
     val SCROLL_FULL_STACK                                /**/ by hotkey("LEFT_SHIFT",
-                                                                 KeybindSettings.GUI_EXTRA)
+                                                                        KeybindSettings.GUI_EXTRA)
     val SCROLL_LEAVE_LAST                                /**/ by hotkey("Z",
-                                                                 KeybindSettings.GUI_EXTRA)
+                                                                        KeybindSettings.GUI_EXTRA)
     val SCROLL_SPREAD                                    /**/ by hotkey("X",
-                                                                 KeybindSettings.GUI_EXTRA)
+                                                                        KeybindSettings.GUI_EXTRA)
     val SCROLL_THROW                                     /**/ by hotkey("C",
-                                                                 KeybindSettings.GUI_EXTRA)
+                                                                        KeybindSettings.GUI_EXTRA)
         .CATEGORY("$category.scroll.single")
     val SCROLL_AUTO_PICKUP_NEXT_FOR_SINGLE               /**/ by bool(true)
 
