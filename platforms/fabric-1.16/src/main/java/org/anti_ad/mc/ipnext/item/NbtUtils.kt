@@ -21,7 +21,6 @@
 package org.anti_ad.mc.ipnext.item
 
 import com.mojang.brigadier.StringReader
-import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.AsComparable
 import org.anti_ad.mc.common.extensions.asComparable
 import org.anti_ad.mc.common.extensions.compareTo
@@ -42,6 +41,7 @@ import org.anti_ad.mc.common.vanilla.alias.NbtPathArgumentTypeNbtPath
 import org.anti_ad.mc.common.vanilla.alias.Registry
 import org.anti_ad.mc.common.vanilla.alias.StringNbtReader
 import org.anti_ad.mc.common.vanilla.alias.TagTag
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(getByIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(type)`
@@ -51,6 +51,7 @@ import org.anti_ad.mc.ipnext.ingame.`(type)`
 // ============
 
 object NbtUtils {
+
     // ============
     // Vanilla Item
     // ============
@@ -74,8 +75,7 @@ object NbtUtils {
                    b: NbtCompound?): Int {
         val b1 = a == null
         val b2 = b == null
-        if (b1 != b2)
-            return if (b1) -1 else 1 // no nbt = first
+        if (b1 != b2) return if (b1) -1 else 1 // no nbt = first
         if (a == null || b == null) return 0
         val keys1: List<String> = a.keys.sorted()
         val keys2: List<String> = b.keys.sorted()
@@ -98,12 +98,13 @@ object NbtUtils {
         val w1 = WrappedTag(this)
         val w2 = WrappedTag(other)
         return when {
-            w1.isNumber -> if (w2.isNumber) w1.asDouble.compareTo(w2.asDouble) else null
-            w1.isCompound -> if (w2.isCompound) compareNbt(w1.asCompound,
-                                                           w2.asCompound) else null
-            w1.isList -> if (w2.isList) w1.asListComparable.compareTo(w2.asListComparable) else null
-            else -> null
-        } ?: w1.asString.compareTo(w2.asString)
+                   w1.isNumber   -> if (w2.isNumber) w1.asDouble.compareTo(w2.asDouble) else null
+                   w1.isCompound -> if (w2.isCompound) compareNbt(w1.asCompound,
+                                                                  w2.asCompound) else null
+
+                   w1.isList     -> if (w2.isList) w1.asListComparable.compareTo(w2.asListComparable) else null
+                   else          -> null
+               } ?: w1.asString.compareTo(w2.asString)
     }
 
     fun parseNbt(nbt: String): NbtCompound? {
@@ -128,6 +129,7 @@ object NbtUtils {
 
     class NbtPath(val value: NbtPathArgumentTypeNbtPath) { // wrapper class to avoid direct imports to vanilla code
         companion object {
+
             fun of(string: String): NbtPath? {
                 return getNbtPath(string)?.let { NbtPath(it) }
             }
@@ -142,6 +144,7 @@ object NbtUtils {
     }
 
     class WrappedTag(val value: NbtElement) {
+
         val isString: Boolean
             get() = value.`(type)` == 8
         val isNumber: Boolean

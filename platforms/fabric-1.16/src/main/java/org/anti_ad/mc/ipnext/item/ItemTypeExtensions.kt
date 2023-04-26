@@ -23,7 +23,6 @@ package org.anti_ad.mc.ipnext.item
 import net.minecraft.block.ShulkerBoxBlock
 import net.minecraft.entity.effect.StatusEffectType
 import net.minecraft.item.BlockItem
-import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
@@ -40,6 +39,7 @@ import org.anti_ad.mc.common.vanilla.alias.items.FishBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
 import org.anti_ad.mc.common.vanilla.alias.items.MushroomStewItem
 import org.anti_ad.mc.common.vanilla.alias.items.SuspiciousStewItem
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.compat.integrations.Integrations
 import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
@@ -53,7 +53,7 @@ import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
 // ============
 
 fun ItemType.fullItemInfoAsJson(): String {
-    var res = "{" + "\n\t\"id\" : \"" + this.itemId+ "\",\n"
+    var res = "{" + "\n\t\"id\" : \"" + this.itemId + "\",\n"
     tag?.keys?.forEach {
         res += "\t{\n\t\t\"$it\" : ${tag.get(it)}\n},"
     }
@@ -101,9 +101,8 @@ inline val ItemType.maxCount: Int
 inline val ItemType.vanillaStack: VanillaItemStack
     get() = VanillaItemStack(this.item).apply { tag = this@vanillaStack.tag }
 
-fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
-    VanillaItemStack(this.item,
-                     count).apply { tag = this@vanillaStackWithCount.tag }
+fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack = VanillaItemStack(this.item,
+                                                                                    count).apply { tag = this@vanillaStackWithCount.tag }
 
 inline val ItemType.identifier: Identifier
     get() = Registry.ITEM.`(getIdentifier)`(item)
@@ -141,13 +140,12 @@ inline val ItemType.customOrTranslatedName: String
 inline val ItemType.groupIndex: Int
     get() = item.group?.index ?: when {
         item === Items.ENCHANTED_BOOK -> ItemGroup.TOOLS.index
-        namespace == "minecraft" -> ItemGroup.MISC.index
-        else -> ItemGroup.GROUPS.size
+        namespace == "minecraft"      -> ItemGroup.MISC.index
+        else                          -> ItemGroup.GROUPS.size
     }
 
 inline val ItemType.`(group)`: ItemGroup?
     get() = item.group
-
 
 inline val ItemType.`(foodComponent)`: FoodComponent
     get() = item.foodComponent ?: error("this shouldn't happen")
@@ -155,20 +153,20 @@ inline val ItemType.`(foodComponent)`: FoodComponent
 inline val ItemType.`(isFood)`: Boolean
     get() = item.isFood
 
-
 inline val FoodComponent.`(statusEffects)`: List<Pair<StatusEffectInstance, Float>>
     get() = mutableListOf<Pair<StatusEffectInstance, Float>>().also { ls ->
         this.statusEffects.forEach {
-            ls.add(Pair(it.first, it.second))
+            ls.add(Pair(it.first,
+                        it.second))
         }
     }
 
 inline val FoodComponent.`(isHarmful)`: Boolean
     get() = run {
         var res = false
-        run fastEnd@ {
+        run fastEnd@{
             this.`(statusEffects)`.forEach {
-                if (it.first.effectType.type  == StatusEffectType.HARMFUL) {
+                if (it.first.effectType.type == StatusEffectType.HARMFUL) {
                     res = true
                     return@fastEnd
                 }
@@ -185,7 +183,6 @@ inline val ItemType.rawId: Int
 
 inline val ItemType.searchTabIndex: Int
     get() = rawId
-
 
 inline val ItemType.damage: Int
     get() = vanillaStack.damage
@@ -208,9 +205,7 @@ inline val ItemType.isBucket: Boolean
     get() = item is BucketItem || item is MilkBucketItem || item is FishBucketItem
 
 inline val ItemType.isFullBucket: Boolean
-    get() = item is MilkBucketItem
-            || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
-            || (item is FishBucketItem)
+    get() = item is MilkBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty()) || (item is FishBucketItem)
 
 inline val ItemType.isEmptyBucket: Boolean
     get() {
@@ -223,8 +218,7 @@ fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
         true
     } else if (otherItem == Items.BUCKET && item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty()) {
         true
-    } else item is IMixinEntityBucketItem && otherItem is IMixinBucketItem && otherItem !is IMixinEntityBucketItem
-    //item is MilkBucketItem || item is IMixinEntityBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
+    } else item is IMixinEntityBucketItem && otherItem is IMixinBucketItem && otherItem !is IMixinEntityBucketItem //item is MilkBucketItem || item is IMixinEntityBucketItem || (item is IMixinBucketItem && !(item.fluid as IMixinFluid).callIsEmpty())
 }
 
 fun ItemType.isFullComparedTo(other: ItemType): Boolean {
@@ -239,8 +233,7 @@ inline val ItemType.isHoneyBottle: Boolean
     get() = item == Items.HONEY_BOTTLE
 
 inline val ItemType.isStew: Boolean
-    get() = item is MushroomStewItem || item is SuspiciousStewItem
-//endregion
+    get() = item is MushroomStewItem || item is SuspiciousStewItem //endregion
 
 //region ItemType Potion Relative
 
@@ -260,15 +253,14 @@ inline val ItemType.comparablePotionEffects: List<PotionEffect>
 
 @Suppress("ObjectPropertyName")
 inline val StatusEffectInstance.`(asComparable)`: PotionEffect
-    get() = PotionEffect(
-        Registry.STATUS_EFFECT.getId(this.effectType).toString(),
-        this.amplifier,
-        this.duration
-    )
+    get() = PotionEffect(Registry.STATUS_EFFECT.getId(this.effectType).toString(),
+                         this.amplifier,
+                         this.duration)
 
 data class PotionEffect(inline val effect: String,
                         inline val amplifier: Int,
-                        inline val duration: Int) : Comparable<PotionEffect> {
+                        inline val duration: Int): Comparable<PotionEffect> {
+
     override fun compareTo(other: PotionEffect): Int { // stronger first
         this.effect.compareTo(other.effect).let { if (it != 0) return it }
         other.amplifier.compareTo(this.amplifier).let { if (it != 0) return it }
@@ -278,11 +270,14 @@ data class PotionEffect(inline val effect: String,
 }
 
 object ItemTypeExtensionsObject {
+
     fun priorityListChanged() {
     }
+
     fun makeDefaultList(): String {
         return ""
     }
+
     fun defaultOrderListChanged() {
     }
 }

@@ -34,15 +34,18 @@ class CarpetIntegration: IPNtoModIntegration {
         val rule = carpet.CarpetServer.settingsManager.getRule("stackableShulkerBoxes")
         val value = rule.get().toString()
         return when (value.lowercase()) {
-            "true" -> {
+            "true"  -> {
                 64
             }
+
             "false" -> {
                 1
             }
-            else -> {
-                tryOrElse ({ 1 }) {
-                    value.toInt() }
+
+            else    -> {
+                tryOrElse({ 1 }) {
+                    value.toInt()
+                }
             }
 
         }

@@ -69,7 +69,8 @@ val VanillaItemStack.`(itemType)`: ItemType
                      tag,
                      { isDamageable },
                      stackSource = { v: ItemType ->
-                         ItemStack(v, count)
+                         ItemStack(v,
+                                   count)
                      })
 
 inline val VanillaItemStack.`(itemStack)`: ItemStack
@@ -199,13 +200,29 @@ inline val Window.`(scaledHeight)`: Int
 inline val ArmorItem.`(equipmentSlot)`: EquipmentSlot
     get() = slotType
 
-@Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")
-inline fun ClientPlayerInteractionManager.`(clickSlot)`(i: Int, j: Int, k: Int, slotActionType: SlotActionType, playerEntity: PlayerEntity) =
-        this.clickSlot(i, j, k, slotActionType, playerEntity)
+@Suppress("NOTHING_TO_INLINE",
+          "HasPlatformType",
+          "FunctionName")
+inline fun ClientPlayerInteractionManager.`(clickSlot)`(i: Int,
+                                                        j: Int,
+                                                        k: Int,
+                                                        slotActionType: SlotActionType,
+                                                        playerEntity: PlayerEntity) = this.clickSlot(i,
+                                                                                                     j,
+                                                                                                     k,
+                                                                                                     slotActionType,
+                                                                                                     playerEntity)
 
-@Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")
-inline fun PlayerContainer.`(onSlotClick)`(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) =
-        this.onSlotClick(slotIndex, button, actionType, player)
+@Suppress("NOTHING_TO_INLINE",
+          "HasPlatformType",
+          "FunctionName")
+inline fun PlayerContainer.`(onSlotClick)`(slotIndex: Int,
+                                           button: Int,
+                                           actionType: SlotActionType,
+                                           player: PlayerEntity) = this.onSlotClick(slotIndex,
+                                                                                    button,
+                                                                                    actionType,
+                                                                                    player)
 
 @Suppress("FunctionName")
 fun PlayerContainer.`(sendContentUpdates)`() = sendContentUpdates()

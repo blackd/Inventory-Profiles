@@ -45,8 +45,8 @@ fun vPlayerSlotOf(slot: Slot,
     val invSlot = slot.`(invSlot)`
     return when {
         invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar in other tab
-        invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // slot in backpack tab
-        else -> slot
+        invSlot in 0..45 && id == 0           -> vPlayerSlots[invSlot] // slot in backpack tab
+        else                                  -> slot
     }
 }
 
@@ -54,9 +54,7 @@ fun vPlayerSlotOf(slot: Slot,
 // in-game safe
 fun vFocusedSlot(): Slot? = Vanilla.screen()?.`(focusedSlot)`
 
-
-fun vMainhandIndex() =
-    Vanilla.playerInventory().`(selectedSlot)`
+fun vMainhandIndex() = Vanilla.playerInventory().`(selectedSlot)`
 
 //fun vMainHandItem(): ItemStack =
 //  // clientPlayerEntity.getMainHandStack()

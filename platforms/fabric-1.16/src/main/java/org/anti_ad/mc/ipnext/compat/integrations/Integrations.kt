@@ -31,9 +31,7 @@ object Integrations {
             return ___getCarpetEmptyShulkersStackSize();
         }
 
-
     var ___getSophisticatedMaxCount: (Slot) -> Int = { -1 }
-
 
     fun init() {
         trySwallow {
