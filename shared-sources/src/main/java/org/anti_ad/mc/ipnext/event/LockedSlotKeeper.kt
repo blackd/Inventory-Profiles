@@ -26,6 +26,7 @@ import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ItemStack
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.alias.PlayerContainer
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -131,7 +132,9 @@ object LockedSlotKeeper {
                     Log.trace("Inventory is NOT empty initialising - 2")
                     init()
                 } else {
-                    checkNewItems()
+                    if (Vanilla.container() is PlayerContainer) {
+                        checkNewItems()
+                    }
                 }
             }
         }
@@ -193,6 +196,9 @@ object LockedSlotKeeper {
                     return
                 }
                 emptyNonLockedHotbarSlots.forEach { slotId ->
+                    if (Vanilla.container() !is PlayerContainer) {
+                        Log.trace("Current container is: ${Vanilla.container().javaClass.name}" )
+                    }
                     val stack = Vanilla.container().`(slots)`[slotId].`(vanillaStack)`
                     if (!stack.isEmpty) {
                         someThingChanged = true
