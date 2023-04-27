@@ -98,8 +98,20 @@ object AutoRefillHandler {
 
     private fun ItemStack.isBlackListed(): Boolean = this.itemType.itemId in blacklist
 
+    private var ticksAfterUp = 16
+
+    private val tempDisabledForDamageable: Boolean
+        get() {
+            return ticksAfterUp < 15;
+        }
+
     fun onTickInGame() {
         if (!skipTick) {
+            if (AutoRefillSettings.AUTO_REFILL_TEMP_DISABLE_REFILL_FOR_TOOLS.isPressing()) {
+                ticksAfterUp = 0;
+            } else if (ticksAfterUp < 16) {
+                ticksAfterUp++
+            }
             if (Vanilla.screen() != null || (AutoRefillSettings.DISABLE_FOR_DROP_ITEM.booleanValue && pressingDropKey)) {
                 screenOpening = true
             } else if (VanillaUtil.inGame()) { //  Vanilla.screen() == null
@@ -261,7 +273,7 @@ object AutoRefillHandler {
             }
             val itemType = currentItem.itemType
             if (itemType.isDamageable) {
-                if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue) {
+                if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue && !tempDisabledForDamageable) {
                     if (!(AutoRefillSettings.ALLOW_BREAK_FOR_NON_ENCHANTED.value
                                 && itemType.enchantments.isEmpty()
                                 && itemType.maxDamage < AutoRefillSettings.TOOL_MAX_DURABILITY_THRESHOLD.value)) {

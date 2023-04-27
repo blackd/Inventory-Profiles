@@ -176,6 +176,8 @@ object AutoRefillSettings : ConfigDeclaration {
     val AUTO_REFILL_WAIT_TICK                     /**/ by int(AUTO_REFILL_WAIT_TICK_DEFAULT,
                                                               AUTO_REFILL_WAIT_TICK_MINIMUM,
                                                               100)
+    val AUTO_REFILL_TEMP_DISABLE_REFILL_FOR_TOOLS /**/ by hotkey("LEFT_ALT", KeybindSettings.INGAME_DEFAULT.copy(allowExtraKeys = true))
+
         .CATEGORY("$category.auto-refill.matching")
     val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
     val AUTO_REFILL_MATCH_CUSTOM_NAME             /**/ by bool(true)
