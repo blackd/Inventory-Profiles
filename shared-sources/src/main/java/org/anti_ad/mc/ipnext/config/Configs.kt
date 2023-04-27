@@ -39,14 +39,10 @@ import org.anti_ad.mc.common.config.builder.hotkey
 import org.anti_ad.mc.common.config.builder.int
 import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
-import org.anti_ad.mc.common.extensions.htmlColorToMinecraftColor
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.render.asAlpha
-import org.anti_ad.mc.common.vanilla.render.b
 import org.anti_ad.mc.common.vanilla.render.blue
-import org.anti_ad.mc.common.vanilla.render.g
 import org.anti_ad.mc.common.vanilla.render.green
-import org.anti_ad.mc.common.vanilla.render.r
 import org.anti_ad.mc.common.vanilla.render.red
 import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.integration.MergePriority
@@ -55,7 +51,6 @@ import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
 import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
-import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper.keyToggleBool
 import org.anti_ad.mc.ipnext.item.ItemTypeExtensionsObject
 
@@ -170,6 +165,7 @@ object AutoRefillSettings : ConfigDeclaration {
         .CATEGORY("$category.auto-refill.general")
     val DISABLE_FOR_DROP_ITEM                     /**/ by keyToggleBool(false)
     val IGNORE_LOCKED_SLOTS                       /**/ by bool(true)
+    val AUTO_REFILL_PREFER_SMALLER_STACKS         /**/ by bool(false)
     val REFILL_ARMOR                              /**/ by keyToggleBool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by keyToggleBool(true)
     val AUTOREFILL_BLACKLIST                      /**/ by handledString("", AutoRefillHandler::blackListChanged)

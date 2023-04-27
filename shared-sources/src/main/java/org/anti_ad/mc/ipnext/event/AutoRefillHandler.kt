@@ -23,7 +23,6 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.tryCatch
-import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Enchantments
 import org.anti_ad.mc.common.vanilla.alias.Items
@@ -529,7 +528,11 @@ object AutoRefillHandler {
                     RuleFileRegister.getCustomRuleOrEmpty("auto_refill_best").compare(aType,
                                                                                       bType)
                 }.thenComparator { a, b ->
-                    b.value.count - a.value.count
+                    if (AutoRefillSettings.AUTO_REFILL_PREFER_SMALLER_STACKS.booleanValue) {
+                        a.value.count - b.value.count
+                    } else {
+                        b.value.count - a.value.count
+                    }
                 })
                 val index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
                 return index.takeIf { it >= 0 }?.plus(9)
@@ -537,11 +540,16 @@ object AutoRefillHandler {
 
             private fun defaultItemMatch(filtered: Sequence<IndexedValue<ItemStack>>,
                                          itemType: ItemType) = when {
-                filtered.firstOrNull { typeItemMatch(it, itemType) } != null            -> {
+                filtered.firstOrNull {
+                    typeItemMatch(it,
+                                  itemType)
+                } != null -> {
                     filtered.filter {
-                        typeItemMatch(it, itemType)
+                        typeItemMatch(it,
+                                      itemType)
                     }
                 }
+
                 filtered.firstOrNull {
                     val other = it.value.itemType
                     val allowHarmful = AutoRefillSettings.AUTO_REFILL_MATCH_HARMFUL_FOOD.booleanValue
@@ -557,7 +565,7 @@ object AutoRefillHandler {
                     }
                 }
 
-                else -> emptySequence()
+                else      -> emptySequence()
 
             }
 
