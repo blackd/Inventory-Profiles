@@ -23,6 +23,7 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.tryCatch
+import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Enchantments
 import org.anti_ad.mc.common.vanilla.alias.Items
