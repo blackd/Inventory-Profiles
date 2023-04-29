@@ -82,7 +82,6 @@ body:
     attributes:
       label: I have tried to reproduce the problem with only or without "Inventory Profiles Next" and its dependencies installed.
       options:
-        - label: 
-          - I have tested without 'Inventory Profiles Next' and its dependencies
-          - I have tested with only 'Inventory Profiles Next' and its dependencies and no other mods
+        - label: I have tested without 'Inventory Profiles Next' and its dependencies
+        - label: I have tested with only 'Inventory Profiles Next' and its dependencies and no other mods
           required: true
