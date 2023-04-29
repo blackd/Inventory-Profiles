@@ -4,6 +4,7 @@ body:
   - type: markdown
     attributes:
       value: |
+        ## **Check before creating an issue**
         ### **Do you have all dependencies installed?**
           If you don't please do install them.
         ### **Have you asked for help in our [Discord Server](https://discord.gg/23YCxmveUM)**
@@ -85,5 +86,3 @@ body:
       options:
         - label: "I have tested without 'Inventory Profiles Next' and its dependencies"
         - label: "I have tested with only 'Inventory Profiles Next' and its dependencies and no other mods"
-    validations:
-      required: true
