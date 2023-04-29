@@ -27,8 +27,10 @@ body:
   - type: dropdown
     attributes:
       label: Modloader
-      description: If your modloader is Quilt please also test on Fabric
-      multiple: false
+      description: | 
+        If your modloader is Quilt please also test on Fabric.
+        Please Select the only modloades you have tested on.
+      multiple: true
       options:
         - Fabric
         - Forge
@@ -50,7 +52,6 @@ body:
         - Windows
         - macOS
         - Linux
-        - Other
   - type: textarea
     attributes:
       label: List of all other installed mods
@@ -64,10 +65,11 @@ body:
       label: Describe the problem
       description: |
         Just "The game crashes" is not a good description.
-        1. Please try to describe the problem like "Game crashes during startup"
-        2. Add screenshots and/or video
-        2. Don't upload screenshot of the -1 error the launcher shows it's pointless  
-        3. Please include if it's a single player or server and if you know what type of server.
+        1. Please try to describe the problem like "Game crashes during startup".
+        2. Add screenshots and/or video.
+        3. Don't upload screenshot of the -1 error the launcher shows it's pointless.
+        4. Please include if it's a single player or server and if you know what type of server.
+        5. **ATTACH FULL Logs** don't use pastebin services just attach the file here.
     validations:
       required: true
   - type: textarea
