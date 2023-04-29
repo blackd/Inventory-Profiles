@@ -1,16 +1,13 @@
 <!-- latest begin -->
 
-### 1.9.6
+### 1.9.7
 
-- added support for choosing colours for some overlay elements like
-  - locked slots background.
-  - hotbar locked slots highlight.
-  - same item highlight, 2 separate colours for full slot and background only.
-- In single player the settings screen now pauses the game while shown.
-- Minecraft version **1.19.3** is no longer supported.
-- Minecraft versions **1.19 and 1.19.1** are no longer officially supported. 
-
-  But the 1.19.2 version will work with them but if you have problems you are on your own.
+- added support for wildcards in hotbar pickup whitelist.
+- workaround for ClientCommands incompatibility that was crashing the game.
+- added option to make auto refill to prefer smaller stacks when refilling.
+- now you can temporarily disable tool replacement if tou hold **ALT** while the tool is active. 
+- added gui hints for TFC and some new for Create
+- removed the analytics code. The server was down for few months anyway.
 
 ### WARNING
 
@@ -29,6 +26,19 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.9.6
+
+- added support for choosing colours for some overlay elements like
+  - locked slots background.
+  - hotbar locked slots highlight.
+  - same item highlight, 2 separate colours for full slot and background only.
+- In single player the settings screen now pauses the game while shown.
+- Minecraft version **1.19.3** is no longer supported.
+- Minecraft versions **1.19 and 1.19.1** are no longer officially supported.
+
+  But the 1.19.2 version will work with them but if you have problems you are on your own.
+
 
 ### 1.9.5
 
