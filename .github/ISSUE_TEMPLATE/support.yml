@@ -1,0 +1,19 @@
+name: How Do I
+description: I have a question how to use the mod
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## **DO NOT USE THIS TRACKER FOR SUPPORT QUESTIONS**
+        ### **Have you asked for help in our [Discord Server](https://discord.gg/23YCxmveUM)**
+          if the answer is **NO** then go and ask your question.
+  - type: dropdown
+    attributes:
+      label: Have you asked for help in discord?
+      description:
+      multiple: false
+      options:
+        - "NO"
+        - "YES"
+    validations:
+      required: true
