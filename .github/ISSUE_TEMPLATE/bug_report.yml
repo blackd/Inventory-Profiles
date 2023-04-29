@@ -1,0 +1,88 @@
+name: Bug Report
+description: File a bug report
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### **Do you have all dependencies installed?**
+          If you don't please do install them.
+        ### **Have you asked for help in our [Discord Server](https://discord.gg/23YCxmveUM)**
+          if the answer is **NO** then go and ask your question/problem turns out to be bug people there will ask you to file an issue here.
+  - type: dropdown
+    attributes:
+      label: Have you asked for help in discord?
+      description:
+      multiple: false
+      options:
+        - NO
+        - YES
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Minecraft Version/s
+      placeholder: 1.19.4
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Modloader
+      description: If your modloader is Quilt please also test on Fabric
+      multiple: false
+      options:
+        - Fabric
+        - Forge
+        - Quilt
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Modloader Version
+      description: Please note that Fabric Loader and Fabric API are different things.
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Operating System
+      description: If you know this bug occurs on multiple operating systems, select all you have tested.
+      multiple: true
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+  - type: textarea
+    attributes:
+      label: List of all other installed mods
+      description: |
+        We prefer a list of file names as text.
+        But if you can't make that screenshots of the mods folder will be fine.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe the problem
+      description: |
+        Just "The game crashes" is not a good description.
+        1. Please try to describe the problem like "Game crashes during startup"
+        2. Add screenshots and/or video
+        2. Don't upload screenshot of the -1 error the launcher shows it's pointless  
+        3. Please include if it's a single player or server and if you know what type of server.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Please add step by step information on how to reproduce the problem.
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: I have tried to reproduce the problem with only or without "Inventory Profiles Next" and its dependencies installed.
+      options:
+        - label: I have tested without "Inventory Profiles Next" and its dependencies
+          required: true
+        - label: I have tested with only "Inventory Profiles Next" and its dependencies and no other mods
+          required: true
