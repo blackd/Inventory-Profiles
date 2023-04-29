@@ -6,7 +6,7 @@ body:
       value: |
         ## **BEFORE POSTING PLEASE DISCUSS YOUR FEATURE REQUESTS WITH US IN OUT DISCORD SERVER**
         ### **Have you asked about it in our [Discord Server](https://discord.gg/23YCxmveUM)**
-          if the answer is **NO** then go and ask.
+          if the answer is **NO** then go [there](https://discord.gg/23YCxmveUM) and ask.
   - type: dropdown
     attributes:
       label: Have you asked for help in discord?
@@ -17,11 +17,13 @@ body:
         - "YES"
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ### Describe your desired feature.
+          **Be as descriptive as possible.**
+          **Include screenshots or videos if possible**
   - type: textarea
     attributes:
-      label: |
-        Describe your desired feature.
-        **Be as descriptive as possible.**
-        **Include screenshots or videos if possible**
     validations:
       required: true

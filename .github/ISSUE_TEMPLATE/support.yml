@@ -6,7 +6,7 @@ body:
       value: |
         ## **DO NOT USE THIS TRACKER FOR SUPPORT QUESTIONS**
         ### **Have you asked for help in our [Discord Server](https://discord.gg/23YCxmveUM)**
-          if the answer is **NO** then go and ask your question.
+          if the answer is **NO** then go [there](https://discord.gg/23YCxmveUM) and ask your question!
   - type: dropdown
     attributes:
       label: Have you asked for help in discord?
