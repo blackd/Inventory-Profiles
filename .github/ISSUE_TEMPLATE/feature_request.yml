@@ -25,6 +25,6 @@ body:
           **Include screenshots or videos if possible**
   - type: textarea
     attributes:
-      label: ""
+      label: "Describe your desired feature."
     validations:
       required: true
