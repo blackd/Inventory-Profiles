@@ -36,7 +36,6 @@ import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
@@ -59,7 +58,6 @@ object MiscHandler {
     fun swipeMoving() {
         //if (VanillaUtil.shiftDown() && GlobalInputHandler.pressedKeys.contains(KeyCodes.MOUSE_BUTTON_1)) {
         if (GlobalInputHandler.shiftAnd(KeyCodes.MOUSE_BUTTON_1)) {
-            IPNInfoManager.event("swipeMoving/shift")
             slotAction { s: Slot, screen: Screen, _: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)
                     || (!LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.booleanValue
@@ -70,7 +68,6 @@ object MiscHandler {
                 }
             }
         } else if (GlobalInputHandler.ctrlAnd(KeyCodes.KEY_Q)) {
-            IPNInfoManager.event("swipeMoving/ctrl+q")
             slotAction { s: Slot, screen: Screen, types: Set<ContainerType> ->
                 if (!LockSlotsHandler.isMappedSlotLocked(s)
                     || (!LockedSlotsSettings.LOCKED_SLOTS_DISABLE_QUICK_MOVE_THROW.booleanValue

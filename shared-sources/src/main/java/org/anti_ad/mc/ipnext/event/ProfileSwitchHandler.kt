@@ -34,7 +34,6 @@ import org.anti_ad.mc.common.vanilla.alias.NbtString
 import org.anti_ad.mc.common.vanilla.alias.getLiteral
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
@@ -156,7 +155,6 @@ object ProfileSwitchHandler: IInputHandler {
     val monitors: MutableList<ProfileMonitor> = mutableListOf()
 
     fun applyCurrent(gui: Boolean = false) {
-        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "applyCurrent" })
         doApplyProfile = targetProfile.valid
     }
 
@@ -237,14 +235,12 @@ object ProfileSwitchHandler: IInputHandler {
     }
 
     fun prevProfile(gui: Boolean = false) {
-        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "prevProfile" })
         if (ProfilesLoader.profiles.isNotEmpty()) {
             init(ProfilesLoader.profiles[nextOrFirst()])
         }
     }
 
     fun nextProfile(gui: Boolean = false) {
-        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "nextProfile"})
         if (ProfilesLoader.profiles.isNotEmpty()) {
             init(ProfilesLoader.profiles[prevOrLast()])
         }

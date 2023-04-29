@@ -30,7 +30,6 @@ import org.anti_ad.mc.common.vanilla.Vanilla.worldNullable
 import org.anti_ad.mc.common.vanilla.alias.ClientWorld
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -65,7 +64,6 @@ object InputHandler : IInputHandler {
             }
 
             if (Hotkeys.RELOAD_CUSTOM_CONFIGS.isActivated() && VanillaUtil.inGame()) {
-                IPNInfoManager.event("reloadConfigs")
                 val cw: ClientWorld? = worldNullable()
                 if (cw != null) {
                     CustomDataFileLoader.reload()

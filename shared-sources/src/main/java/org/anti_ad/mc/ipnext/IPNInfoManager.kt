@@ -44,7 +44,7 @@ object IPNInfoManager: InfoManagerBase() {
 
     override val target: URL = URL("https://p.anti-ad.org/api/event")
 
-    override var isEnabled: () -> Boolean  = { ModSettings.ENABLE_ANALYTICS.value }
+    override var isEnabled: () -> Boolean  = { false }
 
 
     fun doCheckVersion() {

@@ -40,7 +40,6 @@ import kotlin.concurrent.timer
 object ClientEventHandler: PClientEventHandler {
 
     private var firstJoin = true
-    private var eventSent = false
 
     private val inGame
         get() = VanillaUtil.inGame()
@@ -67,7 +66,6 @@ object ClientEventHandler: PClientEventHandler {
         }
 
         if (ModSettings.ENABLE_AUTO_REFILL.booleanValue) {
-            if (!eventSent) { IPNInfoManager.event("auto-refill") } else { eventSent = true }
             AutoRefillHandler.onTickInGame()
         }
 

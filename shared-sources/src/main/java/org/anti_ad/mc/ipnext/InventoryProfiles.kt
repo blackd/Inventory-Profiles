@@ -72,7 +72,6 @@ fun init() {
             ModSettings.FIRST_RUN.value = false
             SaveLoadManager.save()
         }
-        IPNInfoManager.event(lazy {"${IPNInfoManager.loader}/${IPNInfoManager.mcVersion}/${IPNInfoManager.version}/started"})
         //var s: Sounds = Sounds.REFILL_STEP_NOTIFY
     }
 

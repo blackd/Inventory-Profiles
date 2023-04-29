@@ -35,7 +35,6 @@ import org.anti_ad.mc.common.vanilla.*
 import org.anti_ad.mc.common.vanilla.alias.*
 import org.anti_ad.mc.common.vanilla.alias.getTranslatable
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.config.Configs
 import org.anti_ad.mc.ipnext.config.Debugs
@@ -136,7 +135,6 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
 
 
     override fun closeScreen() {
-        IPNInfoManager.event(if (gui) "gui/" else {""} + "closeConfig")
         storedSelectedIndex = selectedIndex
         SaveLoadManager.save()
         AutoRefillHandler.init() // update

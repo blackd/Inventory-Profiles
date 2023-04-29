@@ -128,7 +128,6 @@ object ModSettings : ConfigDeclaration {
 
         .CATEGORY("$category.privacy")
     val ENABLE_UPDATES_CHECK                      /**/ by bool(true)
-    val ENABLE_ANALYTICS                          /**/ by bool(false)
 
         .CATEGORY("$category.advanced_options")
     val ADD_INTERVAL_BETWEEN_CLICKS               /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)

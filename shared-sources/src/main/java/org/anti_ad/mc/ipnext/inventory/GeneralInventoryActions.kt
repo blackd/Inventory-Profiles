@@ -33,7 +33,6 @@ import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
 import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.Slot
-import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.PostAction
@@ -70,7 +69,6 @@ import org.anti_ad.mc.ipnext.item.rule.Rule
 object GeneralInventoryActions {
 
     fun doSort(gui: Boolean = false) {
-        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "doSort" })
         with(GuiSettings) {
             doSort(REGULAR_SORT_ORDER,
                    REGULAR_CUSTOM_RULE,
@@ -79,7 +77,6 @@ object GeneralInventoryActions {
     }
 
     fun doSortInColumns(gui: Boolean = false) {
-        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "doSortInColumns" })
         with(GuiSettings) {
             doSort(IN_COLUMNS_SORT_ORDER,
                    IN_COLUMNS_CUSTOM_RULE,
@@ -88,7 +85,6 @@ object GeneralInventoryActions {
     }
 
     fun doSortInRows(gui: Boolean = false) {
-        IPNInfoManager.event(lazy { if (gui) "gui/" else {""} + "doSortInRows" })
         with(GuiSettings) {
             doSort(IN_ROWS_SORT_ORDER,
                    IN_ROWS_CUSTOM_RULE,
@@ -162,13 +158,7 @@ object GeneralInventoryActions {
                 ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() != ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue
         val throwAll = // xor
                 ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_THROW_ALL.booleanValue
-        val path = lazy {
-            "doThrowMatch" + if (isContainer) "/container" else {""} + if (throwAll) "/all" else {""} + if (includeHotbar) "/hotbar" else {""}
-        }
-        val params = lazy{
-            "&throwAll=$throwAll&includeHotbar=$includeHotbar&isContainer=$isContainer"
-        }
-        IPNInfoManager.event(path, params)
+
         executeThrow(includeHotbar, vanillaContainer, isContainer, throwAll)
     }
 
@@ -230,8 +220,6 @@ object GeneralInventoryActions {
                 ModSettings.MOVE_ALL_MODIFIER.isPressing() != ModSettings.ALWAYS_MOVE_ALL.booleanValue
         val moveFocusMatch = ModSettings.MOVE_FOCUS_MACH_MODIFIER.isPressing() || !vCursorStack().isEmpty()
         val moveJustRefill = ModSettings.MOVE_JUST_REFILL_MODIFIER.isPressing()
-        IPNInfoManager.event(lazy {if (gui) "gui/" else {""} + "doMoveMatch" + if (moveAll) "/all" else {""} + if (includeHotbar) "/hotbar" else {""} },
-                          lazy { "&forceToPlayer=$toPlayer" })
         AdvancedContainer.tracker {
             with(AreaTypes) {
                 val player = (if (includeHotbar || (toPlayer && moveJustRefill)) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
@@ -257,7 +245,6 @@ object GeneralInventoryActions {
     fun doMoveMatchCrafting() {
         //val includeHotbar = VanillaUtil.altDown()
         val includeHotbar = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()
-        IPNInfoManager.event("doMoveMatchCrafting")
         AdvancedContainer.tracker {
             with(AreaTypes) {
                 val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) - lockedSlots
