@@ -247,53 +247,63 @@ object VillagerTradeManager: IInputHandler {
         screen.`(offers)`.firstOrNull { offer -> offer.`(isHovered)` }?.let { page ->
             val container = screen.`(container)` as MerchantContainer
             val index = page.index + screen.`(indexStartOffset)`
-            val trade = screen.`(recipes)`[index]
-            val tr1 = trade.`(originalFirstBuyItem)`.`(itemType)`.itemId
-            val tr2 = trade.`(secondBuyItem)`?.`(itemType)`?.itemId.nullIfAir()
-            val sellItem = trade.`(sellItem)`.`(itemType)`
-            val sellId = sellItem.identifier.toString()
-            val sellNbt = sellItem.tag.nullIfEmpty()
 
-            return if (doGlobal) {
-                val found = currentGlobalBookmarks.firstOrNull { tradeData ->
-                    tradeData.priceItem1 == tr1 &&
-                            tradeData.priceItem2 == tr2 &&
-                            tradeData.resultItem == sellId &&
-                            tradeData.nbt == sellNbt
-                }
-                val profession = villager.profesion
-                if (found == null) {
-                    VillagerDataManager.addGlobal(profession,
-                                                  VillagerTradeData(sellId, tr1, tr2, sellNbt?.`(asString)`))
-                    currentGlobalBookmarks = VillagerDataManager.getGlobal(profession)
-                    true
-                } else {
-                    VillagerDataManager.removeGlobal(profession,
-                                                     found)
-                    currentGlobalBookmarks = VillagerDataManager.getGlobal(profession)
-                    true
-                }
-            } else {
-                val found = currentVillagerBookmarks.firstOrNull { tradeData ->
-                    tradeData.priceItem1 == tr1 &&
-                            tradeData.priceItem2 == tr2 &&
-                            tradeData.resultItem == sellId &&
-                            tradeData.nbt == sellNbt
-                }
-                val uuid = villager.`(uuidString)`
-                if (found == null) {
-                    VillagerDataManager.addLocal(uuid,
-                                                 VillagerTradeData(sellId, tr1, tr2, sellNbt?.`(asString)`))
-                    currentVillagerBookmarks = VillagerDataManager.getLocal(uuid)
-                    true
-                } else {
-                    VillagerDataManager.removeLocal(uuid,
-                                                    found)
-                    currentVillagerBookmarks = VillagerDataManager.getLocal(uuid)
-                    true
-                }
-            }
+            toggleBookmark(screen,
+                           index,
+                           doGlobal,
+                           villager)
+            return true
         }
         return false
+    }
+
+    fun toggleBookmark(screen: MerchantScreen,
+                       index: Int,
+                       doGlobal: Boolean,
+                       villager: MerchantEntity) {
+        val trade = screen.`(recipes)`[index]
+        val tr1 = trade.`(originalFirstBuyItem)`.`(itemType)`.itemId
+        val tr2 = trade.`(secondBuyItem)`?.`(itemType)`?.itemId.nullIfAir()
+        val sellItem = trade.`(sellItem)`.`(itemType)`
+        val sellId = sellItem.identifier.toString()
+        val sellNbt = sellItem.tag.nullIfEmpty()
+
+        if (doGlobal) {
+            val found = currentGlobalBookmarks.firstOrNull { tradeData ->
+                tradeData.priceItem1 == tr1 && tradeData.priceItem2 == tr2 && tradeData.resultItem == sellId && tradeData.nbt == sellNbt
+            }
+            val profession = villager.profesion
+
+            currentGlobalBookmarks = if (found == null) {
+                VillagerDataManager.addGlobal(profession,
+                                              VillagerTradeData(sellId,
+                                                                tr1,
+                                                                tr2,
+                                                                sellNbt?.`(asString)`))
+                VillagerDataManager.getGlobal(profession)
+            } else {
+                VillagerDataManager.removeGlobal(profession,
+                                                 found)
+                VillagerDataManager.getGlobal(profession)
+            }
+        } else {
+            val found = currentVillagerBookmarks.firstOrNull { tradeData ->
+                tradeData.priceItem1 == tr1 && tradeData.priceItem2 == tr2 && tradeData.resultItem == sellId && tradeData.nbt == sellNbt
+            }
+            val uuid = villager.`(uuidString)`
+
+            currentVillagerBookmarks = if (found == null) {
+                VillagerDataManager.addLocal(uuid,
+                                             VillagerTradeData(sellId,
+                                                               tr1,
+                                                               tr2,
+                                                               sellNbt?.`(asString)`))
+                VillagerDataManager.getLocal(uuid)
+            } else {
+                VillagerDataManager.removeLocal(uuid,
+                                                found)
+                VillagerDataManager.getLocal(uuid)
+            }
+        }
     }
 }

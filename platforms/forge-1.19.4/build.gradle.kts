@@ -40,7 +40,7 @@ val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.19.4"
 val minecraft_version_string = "1.19.4"
-val forge_version = "45.0.22"
+val forge_version = "45.0.49"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "4.1.0"
 val mappingsMap = mapOf("channel" to "official",
@@ -188,6 +188,12 @@ afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
         this.java.srcDirs("./src/shared/kotlin")
+        project.layout.projectDirectory.dir("src/integrations").asFile.walk().maxDepth(1).forEachIndexed() { i, it ->
+            if (i > 0 && it.isDirectory) {
+                this.java.srcDirs(it.path + "/src/main/java")
+                this.java.srcDirs(it.path + "/src/main/kotlin")
+            }
+        }
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")
@@ -600,7 +606,7 @@ configure<CurseExtension> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
-        releaseType = "beta"
+        releaseType = "release"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
                 this.addGameVersion(it)

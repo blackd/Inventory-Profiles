@@ -23,6 +23,7 @@ import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
 import org.anti_ad.mc.ipnext.container.selectPostAction
@@ -42,28 +43,29 @@ import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.identifier
 import org.anti_ad.mc.ipnext.item.isEmpty
 
-object StoneCutterCraftingHandler {
+
+abstract class CutterCraftingHandlerBase<T: Container> {
 
     var skipTick: Boolean = false
         private set
 
-    private var isCraftClick: Boolean = false
+    protected var isCraftClick: Boolean = false
     var stillCrafting: Boolean = false
     var isRefillTick: Boolean = false
     private var lastRecipe: Int = -1
     private var lastInput: ItemStack = ItemStack.EMPTY
     private var recipe: Int = -1
-    private lateinit var input: ItemStack
+    protected lateinit var input: ItemStack
 
     private val enabled
         get() = GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue
     var isNewScreen = true
-        private set
+        protected set
 
     private var currentScreen: ContainerScreen<*>? = null
-    private var currentContainer: StonecutterContainer? = null
+    private var currentContainer: T? = null
 
-    private val SHIFT = MainKeybind("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
+    protected val SHIFT = MainKeybind("LEFT_SHIFT", KeybindSettings.GUI_EXTRA)
 
     init {
         selectPostAction = {
@@ -86,9 +88,20 @@ object StoneCutterCraftingHandler {
                 listOf()
             }
         }
-    
 
-    fun onTickInGame() {
+    abstract fun typeSpecificOnTickInGame(screen: ContainerScreen<*>)
+
+    abstract fun typeSpecificNewContainer(screen: ContainerScreen<*>)
+
+    abstract fun selectRecipe(container: T, recipe: Int);
+
+    abstract fun selectedRecipe(container: T): Int;
+
+    abstract fun selectedRecipeOrNull(container: T?): Int?;
+
+
+
+    fun onTickBase() {
         if (skipTick) {
             return
         }
@@ -98,16 +111,7 @@ object StoneCutterCraftingHandler {
             if (enabled && screen is ContainerScreen<*>) {
                 if (stillCrafting && !isRefillTick) {
                     Log.trace("Still crafting")
-                    val container = screen.`(container)`
-                    if (container is StonecutterContainer) {
-                        isNewScreen = false
-                        init(screen, container)
-                        Log.traceIf {
-                            Log.trace("INCLUDE_HOTBAR_MODIFIER: ${ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()}")
-                            Log.trace("SHIFT: ${SHIFT.isPressing()}")
-                        }
-                        isCraftClick = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() && SHIFT.isPressing() && !input.isEmpty()
-                    }
+                    typeSpecificOnTickInGame(screen)
                     stillCrafting = false
 
                     return
@@ -133,18 +137,14 @@ object StoneCutterCraftingHandler {
                         }
                         val lr = lastRecipe
                         currentContainer?.let {
-                            it.selectRecipe(lr)
+                            selectRecipe(it, lr)
                         }
                     }
                     isRefillTick = false
                     return
                 }
                 if (isNewScreen) {
-                    val container = screen.`(container)`
-                    if (container is StonecutterContainer) {
-                        isNewScreen = false
-                        init(screen, container)
-                    }
+                    typeSpecificNewContainer(screen)
                 } else {
                     checkChanged()
                 }
@@ -158,23 +158,23 @@ object StoneCutterCraftingHandler {
         }
     }
 
-    private fun init(screen: ContainerScreen<*>,
-                     container: StonecutterContainer) {
+    protected fun init(screen: ContainerScreen<*>,
+                       container: T) {
         currentContainer = container
         currentScreen = screen
         input =  container.`(slots)`[0].`(itemStack)`
-        recipe = container.`(selectedRecipe)`
+        recipe = selectedRecipe(container)
     }
 
     private fun checkChanged() {
         lastInput = input
         lastRecipe = recipe
         input =  currentContainer?.`(slots)`?.get(0)?.`(itemStack)` ?: ItemStack.EMPTY
-        recipe = currentContainer?.`(selectedRecipe)` ?: -1
+        recipe = selectedRecipeOrNull(currentContainer) ?: -1
 
     }
 
-    fun onCrafted() {
+    fun onCraftedSink() {
         if (stillCrafting) {
             return
         }
@@ -184,6 +184,95 @@ object StoneCutterCraftingHandler {
         }
         isRefillTick = true
         stillCrafting = true
+    }
+
+}
+
+
+object CuttersDispatcher {
+
+
+
+    private val handlers = mutableListOf<CutterCraftingHandlerBase<*>>()
+
+    val isAnyRefillTick: Boolean
+        get() {
+            return handlers.firstOrNull { it.isRefillTick } != null
+        }
+
+    val isAnySkipTick: Boolean
+        get() {
+            return handlers.firstOrNull { it.skipTick } != null
+        }
+
+    val isAnyStillCrafting: Boolean
+        get() {
+            return handlers.firstOrNull { it.stillCrafting } != null
+        }
+
+    val isAnyOldScreen: Boolean
+        get() {
+            return handlers.firstOrNull { !it.isNewScreen } != null
+        }
+
+    fun addHandler(handler: CutterCraftingHandlerBase<*>) {
+        if (!handlers.contains(StoneCutterCraftingHandler)) {
+            handlers.add(StoneCutterCraftingHandler)
+        }
+        handlers.add(handler)
+    }
+
+    fun onTickInGame() {
+        handlers.forEach {
+            it.onTickBase()
+        }
+    }
+    fun onCrafted() {
+        handlers.forEach {
+            it.onCraftedSink()
+        }
+    }
+
+    init {
+        handlers.add(StoneCutterCraftingHandler)
+    }
+}
+
+object StoneCutterCraftingHandler: CutterCraftingHandlerBase<StonecutterContainer>() {
+
+
+    override fun typeSpecificOnTickInGame(screen: ContainerScreen<*>) {
+        val container = screen.`(container)`
+        if (container is StonecutterContainer) {
+            isNewScreen = false
+            init(screen, container)
+            Log.traceIf {
+                Log.trace("INCLUDE_HOTBAR_MODIFIER: ${ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()}")
+                Log.trace("SHIFT: ${SHIFT.isPressing()}")
+            }
+            isCraftClick = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing() && SHIFT.isPressing() && !input.isEmpty()
+        }
+    }
+
+    override fun typeSpecificNewContainer(screen: ContainerScreen<*>) {
+        val container = screen.`(container)`
+        if (container is StonecutterContainer) {
+            isNewScreen = false
+            init(screen, container)
+        }
+    }
+
+    override fun selectRecipe(container: StonecutterContainer,
+                              recipe: Int) {
+        container.selectRecipe(recipe)
+    }
+
+    override fun selectedRecipe(container: StonecutterContainer): Int {
+        return container.`(selectedRecipe)`
+    }
+
+    override fun selectedRecipeOrNull(container: StonecutterContainer?): Int? {
+        return container?.`(selectedRecipe)`
     }
 
 }

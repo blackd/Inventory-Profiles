@@ -157,6 +157,8 @@ dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
     //api( fg.deobf("curse.maven:mantle-74924:3631982"))
     //api( fg.deobf("curse.maven:tconcept-74072:3695126"))
+    runtimeOnly( fg.deobf("curse.maven:ctm-267602:3137659"))
+    implementation(fg.deobf("curse.maven:chipped-456956:3717506"))
 }
 
 tasks.named("compileKotlin") {
@@ -195,6 +197,12 @@ afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
         this.java.srcDirs("./src/shared/kotlin")
+        project.layout.projectDirectory.dir("src/integrations").asFile.walk().maxDepth(1).forEachIndexed() { i, it ->
+            if (i > 0 && it.isDirectory) {
+                this.java.srcDirs(it.path + "/src/main/java")
+                this.java.srcDirs(it.path + "/src/main/kotlin")
+            }
+        }
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")
@@ -490,7 +498,7 @@ configure<CurseExtension> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
-        releaseType = "beta"
+        releaseType = "release"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
                 this.addGameVersion(it)

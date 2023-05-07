@@ -36,15 +36,28 @@ val playerOnly = setOf(PURE_BACKPACK,
 
 object ContainerTypes {
 
+    fun addContainersSource(source: () -> Array<out Pair<Class<*> ,Set<ContainerType>>>) {
+        sources.add(source)
+    }
+
+    private val sources = mutableListOf<() -> Array<out Pair<Class<*> ,Set<ContainerType>>>>()
+
     private val innerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
     private val outerMap = mutableMapOf<Class<*>, Set<ContainerType>>()
 
     @JvmStatic
     fun init() {
-        register(*versionSpecificContainerTypes)
+        sources.forEach {
+            val s = it()
+            register(*s)
+        }
+        //register(*versionSpecificContainerTypes)
     }
 
     init {
+        addContainersSource {
+            versionSpecificContainerTypes
+        }
         init()
     }
 

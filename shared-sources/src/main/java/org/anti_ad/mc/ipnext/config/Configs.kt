@@ -121,8 +121,8 @@ object ModSettings : ConfigDeclaration {
         .CATEGORY("$category.auto_refill")
     val ENABLE_AUTO_REFILL                        /**/ by keyToggleBool(true)
 
-        //.CATEGORY("$category.villager_trading")
-        .CATEGORY("§§hide")
+        .CATEGORY("$category.villager_trading")
+        //.CATEGORY("§§hide")
     val ENABLE_VILLAGER_TRADING                   /**/ by keyToggleBool(false)
 
 
@@ -365,8 +365,8 @@ object Hotkeys : ConfigDeclaration {
                                                                  KeybindSettings.INGAME_DEFAULT)
     val SAVE_AS_PROFILE                           /**/ by hotkey("R,P",
                                                                  KeybindSettings.GUI_DEFAULT)
-        //.CATEGORY("$category.villager_trading")
-        .CATEGORY("§§hide")
+        .CATEGORY("$category.villager_trading")
+        //.CATEGORY("§§hide")
     val GLOBAL_BOOKMARK_TRADE                     /**/ by hotkey("B",
                                                                  KeybindSettings.GUI_DEFAULT)
     val LOCAL_BOOKMARK_TRADE                      /**/ by hotkey("L",

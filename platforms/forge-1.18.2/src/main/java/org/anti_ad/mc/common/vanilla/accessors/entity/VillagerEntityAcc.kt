@@ -26,6 +26,11 @@ val MerchantScreen.`(indexStartOffset)`: Int
         return this.scrollOff
     }
 
+val MerchantScreen.`(selectedIndex)`: Int
+    get() {
+        return this.shopItem
+    }
+
 val MerchantScreen.`(offers)`
     get() = tradeOfferButtons
 

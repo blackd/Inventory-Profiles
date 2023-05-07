@@ -149,9 +149,12 @@ configurations {
 
 dependencies {
     //runtimeOnly( fg.deobf("curse.maven:iron-furnaces-237664:4009901"))
-    runtimeOnly( fg.deobf("curse.maven:sophisticated-storage-619320:4231388"))
-    runtimeOnly( fg.deobf("curse.maven:sophisticated-core-618298:4329953"))
-    runtimeOnly( fg.deobf("curse.maven:sophisticated-backpacks-422301:4329957"))
+    //runtimeOnly( fg.deobf("curse.maven:sophisticated-storage-619320:4231388"))
+    //runtimeOnly( fg.deobf("curse.maven:sophisticated-core-618298:4329953"))
+    //runtimeOnly( fg.deobf("curse.maven:sophisticated-backpacks-422301:4329957"))
+    runtimeOnly( fg.deobf("curse.maven:ctm-267602:4393695"))
+    runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4378847"))
+    implementation(fg.deobf("curse.maven:chipped-456956:4463479"))
 }
 
 tasks.named("compileKotlin") {
@@ -180,16 +183,20 @@ plugins.withId("idea") {
 tasks.named<AntlrTask>("generateGrammarSource").configure {
     val pkg = "org.anti_ad.mc.common.gen"
     outputDirectory = file("build/generated-src/antlr/main/${pkg.replace('.', '/')}")
-    arguments = listOf(
-        "-visitor", "-package", pkg,
-        "-Xexact-output-dir"
-                      )
+    arguments = listOf("-visitor", "-package", pkg,
+                       "-Xexact-output-dir")
 }
 
 afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
         this.java.srcDirs("./src/shared/kotlin")
+        project.layout.projectDirectory.dir("src/integrations").asFile.walk().maxDepth(1).forEachIndexed() { i, it ->
+            if (i > 0 && it.isDirectory) {
+                this.java.srcDirs(it.path + "/src/main/java")
+                this.java.srcDirs(it.path + "/src/main/kotlin")
+            }
+        }
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")
@@ -600,7 +607,7 @@ configure<CurseExtension> {
         id = "495267"
         changelogType = "markdown"
         changelog = file("../../description/out/pandoc-release_notes.md")
-        releaseType = "beta"
+        releaseType = "release"
         supported_minecraft_versions.forEach {
             if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
                 this.addGameVersion(it)

@@ -91,9 +91,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 <iframe style="height: 80%; width: 80%;" allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/cv7_vW-GIJU?wmode=transparent" height="358" width="638">
 </iframe>
 </div>
-## What's new
-
-!include`snippetStart="<!-- latest begin -->", snippetEnd="<!-- latest end -->"` ../changelog.md
 
 
 ## Contributing

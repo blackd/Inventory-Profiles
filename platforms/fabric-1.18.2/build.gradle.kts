@@ -102,6 +102,8 @@ fabricCommonDependency(minecraft_version,
                        carpet_version = carpet_core_version)
 
 dependencies {
+    modRuntimeOnly("curse.maven:ctm-refabricated-633997:3834064")
+    modImplementation("curse.maven:chipped-456956:4293292")
 }
 
 tasks.named("compileKotlin") {
@@ -146,6 +148,12 @@ afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
         this.java.srcDirs("./src/shared/kotlin")
+        project.layout.projectDirectory.dir("src/integrations").asFile.walk().maxDepth(1).forEachIndexed() { i, it ->
+            if (i > 0 && it.isDirectory) {
+                this.java.srcDirs(it.path + "/src/main/java")
+                this.java.srcDirs(it.path + "/src/main/kotlin")
+            }
+        }
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")

@@ -29,6 +29,11 @@ val MerchantScreen.`(indexStartOffset)`: Int
         return this.field_214139_n
     }
 
+val MerchantScreen.`(selectedIndex)`: Int
+    get() {
+        return this.selectedMerchantRecipe
+    }
+
 val MerchantScreen_WidgetButtonPage.index
     get() = this.func_212937_a()
 

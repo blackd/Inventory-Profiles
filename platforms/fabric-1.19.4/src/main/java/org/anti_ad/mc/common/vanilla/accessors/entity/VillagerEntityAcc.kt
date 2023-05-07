@@ -24,6 +24,10 @@ val MerchantScreen.`(recipes)`
 val MerchantScreen.`(indexStartOffset)`
     get() = indexStartOffset
 
+val MerchantScreen.`(selectedIndex)`
+    get() = selectedIndex
+
+
 val MerchantScreen.`(offers)`
     get() = offers
 

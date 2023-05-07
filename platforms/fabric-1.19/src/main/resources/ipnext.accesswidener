@@ -3,3 +3,4 @@ accessWidener	v1	named
 accessible class net/minecraft/client/gui/screen/ingame/MerchantScreen$WidgetButtonPage
 accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen offers [Lnet/minecraft/client/gui/screen/ingame/MerchantScreen$WidgetButtonPage;
 accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen indexStartOffset I
+accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen selectedIndex I

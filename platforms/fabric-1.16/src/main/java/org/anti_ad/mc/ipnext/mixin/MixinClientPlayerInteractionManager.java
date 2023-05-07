@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
 import org.anti_ad.mc.ipnext.Log;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
+import org.anti_ad.mc.ipnext.event.CuttersDispatcher;
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper;
 import org.anti_ad.mc.ipnext.event.StoneCutterCraftingHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,9 +42,9 @@ public class MixinClientPlayerInteractionManager {
             method = "clickSlot(IIILnet/minecraft/screen/slot/SlotActionType;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/item/ItemStack;",
             cancellable = true)
     public void clickSlotPre(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> ci) {
-        if (slotId == 1 && (StoneCutterCraftingHandler.INSTANCE.isRefillTick()
-                || StoneCutterCraftingHandler.INSTANCE.getStillCrafting()
-                || StoneCutterCraftingHandler.INSTANCE.getSkipTick())) {
+        if (slotId == 1 && (CuttersDispatcher.INSTANCE.isAnyRefillTick()
+                || CuttersDispatcher.INSTANCE.isAnyStillCrafting()
+                || CuttersDispatcher.INSTANCE.isAnySkipTick())) {
             ci.setReturnValue(null);
             ci.cancel();
         }
@@ -53,8 +54,8 @@ public class MixinClientPlayerInteractionManager {
     public void clickSlot(int syncId, int slotId, int clickData, SlotActionType actionType, PlayerEntity player, CallbackInfoReturnable<ItemStack> ci) {
         if (slotId == 0) {
             ClientEventHandler.INSTANCE.onCrafted();
-        } else if (slotId == 1 && !StoneCutterCraftingHandler.INSTANCE.isNewScreen()) {
-            StoneCutterCraftingHandler.INSTANCE.onCrafted();
+        } else if (slotId == 1 && CuttersDispatcher.INSTANCE.isAnyOldScreen()) {
+            CuttersDispatcher.INSTANCE.onCrafted();
         }
     }
 

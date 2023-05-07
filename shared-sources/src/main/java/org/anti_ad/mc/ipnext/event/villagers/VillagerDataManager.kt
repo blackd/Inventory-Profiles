@@ -90,7 +90,7 @@ object VillagerDataManager {
     fun getLocal(uuid: String): List<VillagerTradeData> = get(config.localBookmarks, uuid)
 
     fun init(path: Path) {
-        if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return
+        //if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return
         config.clear()
         this.path = path
         this.configFile = this.path / "villager-trading-config.json"

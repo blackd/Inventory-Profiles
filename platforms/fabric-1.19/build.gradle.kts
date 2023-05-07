@@ -112,6 +112,8 @@ dependencies {
 
     //modRuntimeOnly("curse.maven:cloth-config-348521:3972420")
     //modRuntimeOnly("curse.maven:stacker-515415:3918819")
+    modRuntimeOnly("curse.maven:resourcefullib-570073:4378850")
+    modImplementation("curse.maven:chipped-456956:4463478")
 }
 
 tasks.named("compileKotlin") {
@@ -159,6 +161,13 @@ afterEvaluate {
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
         this.java.srcDirs("./src/shared/kotlin")
+        project.layout.projectDirectory.dir("src/integrations").asFile.walk().maxDepth(1).forEachIndexed() { i, it ->
+            if (i > 0 && it.isDirectory) {
+                this.java.srcDirs(it.path + "/src/main/java")
+                this.java.srcDirs(it.path + "/src/main/kotlin")
+            }
+        }
+        this.java.srcDirs("./src/integrations/kotlin")
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")

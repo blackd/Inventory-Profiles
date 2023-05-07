@@ -19,11 +19,20 @@
 
 package org.anti_ad.mc.ipnext.compat.integrations
 
+import net.minecraftforge.fml.ModList
+
+import org.anti_ad.mc.common.extensions.trySwallow
+
 object Integrations {
 
     val carpetEmptyShulkersStackSize = 1
 
     fun init(): Boolean {
+        trySwallow {
+            if (ModList.get().isLoaded("chipped")) {
+                ChippedIntegration.init()
+            }
+        }
         return false
     }
 }

@@ -24,7 +24,7 @@ import net.minecraft.client.multiplayer.PlayerController;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ClickType;
 import net.minecraft.item.ItemStack;
-import org.anti_ad.mc.ipnext.event.StoneCutterCraftingHandler;
+import org.anti_ad.mc.ipnext.event.CuttersDispatcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,9 +35,9 @@ public class MixinMultiPlayerGameMode {
 
     @Inject(at = @At("HEAD"), method = "Lnet/minecraft/client/multiplayer/PlayerController;windowClick(IIILnet/minecraft/inventory/container/ClickType;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/item/ItemStack;", cancellable = true)
     public void clickSlotPre(int windowId, int slotId, int mouseButton, ClickType type, PlayerEntity player, CallbackInfoReturnable<ItemStack> cir) {
-        if (slotId == 1 && (StoneCutterCraftingHandler.INSTANCE.getStillCrafting()
-                || StoneCutterCraftingHandler.INSTANCE.isRefillTick()
-                || StoneCutterCraftingHandler.INSTANCE.getSkipTick())) {
+        if (slotId == 1 && (CuttersDispatcher.INSTANCE.isAnyStillCrafting()
+                || CuttersDispatcher.INSTANCE.isAnyRefillTick()
+                || CuttersDispatcher.INSTANCE.isAnySkipTick())) {
             cir.setReturnValue(null);
             cir.cancel();
         }
@@ -45,8 +45,8 @@ public class MixinMultiPlayerGameMode {
 
     @Inject(at = @At("TAIL"), method = "Lnet/minecraft/client/multiplayer/PlayerController;windowClick(IIILnet/minecraft/inventory/container/ClickType;Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/item/ItemStack;")
     public void clickSlot(int windowId, int slotId, int mouseButton, ClickType type, PlayerEntity player, CallbackInfoReturnable<ItemStack> cir) {
-        if (slotId == 1 && !StoneCutterCraftingHandler.INSTANCE.isNewScreen()) {
-            StoneCutterCraftingHandler.INSTANCE.onCrafted();
+        if (slotId == 1 && CuttersDispatcher.INSTANCE.isAnyOldScreen()) {
+            CuttersDispatcher.INSTANCE.onCrafted();
         }
     }
 

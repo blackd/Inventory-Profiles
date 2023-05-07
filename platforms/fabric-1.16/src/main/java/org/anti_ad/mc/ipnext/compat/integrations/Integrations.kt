@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.compat.integrations
 
+import net.fabricmc.loader.api.FabricLoader
 import org.anti_ad.mc.common.extensions.trySwallow
 import org.anti_ad.mc.common.vanilla.alias.Slot
 
@@ -36,6 +37,9 @@ object Integrations {
     fun init() {
         trySwallow {
             CarpetIntegration().init()
+        }
+        if (FabricLoader.getInstance().getModContainer("chipped").isPresent) {
+            ChippedIntegration.init()
         }
     }
 

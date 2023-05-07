@@ -23,7 +23,12 @@ val MerchantScreen.`(recipes)`
 
 val MerchantScreen.`(indexStartOffset)`: Int
     get() {
-        return this.scrollOff
+        return this.shopItem
+    }
+
+val MerchantScreen.`(selectedIndex)`: Int
+    get() {
+        return this.shopItem
     }
 
 val MerchantScreen.`(offers)`
