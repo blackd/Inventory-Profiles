@@ -40,7 +40,6 @@ import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
-import org.anti_ad.mc.ipnext.gui.inject.base.CheckBoxWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.VillagerBookmarkButtonWidget
@@ -96,29 +95,33 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
 
         private val hints = HintsManagerNG.getHints(screen.javaClass)
 
-        private val bookmarkButtons: List<SortButtonWidget> = mutableListOf<SortButtonWidget>().also {
-
-        }
-
-        private val doGlobalButton = SortButtonWidget { ->  }.apply {
+        private val doGlobalButton = SortButtonWidget { ->
+            VillagerTradeManager.currentVillager?.let {
+                VillagerTradeManager.doGlobalTrades(screen, it)
+            }
+        }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_GLOBAL_TRADES)
             tx = 60
             ty = 40
             this@VillagerOverlayWidget.addChild(this)
             visible = true
             tooltipText = I18n.translate("inventoryprofiles.tooltip.do_global_trades_button")
-            id = "global_button"
+            id = "do_global_trades_button"
             hintableList.add(this)
         }
 
-        private val doLocalButton = SortButtonWidget { ->  }.apply {
+        private val doLocalButton = SortButtonWidget { ->
+            VillagerTradeManager.currentVillager?.let {
+                VillagerTradeManager.doLocalTrades(screen, it)
+            }
+        }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
             tx = 110
             ty = 40
             this@VillagerOverlayWidget.addChild(this)
             visible = true
             tooltipText = I18n.translate("inventoryprofiles.tooltip.do_local_trades_button")
-            id = "local_button"
+            id = "do_local_trades_button"
             hintableList.add(this)
         }
 
@@ -133,12 +136,12 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
                 }
             }
         }.apply {
-            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_GLOBAL_BOOKMARK)
             tx = 0
             ty = 0
             this@VillagerOverlayWidget.addChild(this)
             visible = screen.`(selectedIndex)` != -1
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.do_local_trades_button")
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.set_local_bookmark")
             id = "localBookmark_button"
             hintableList.add(this)
         }
@@ -151,26 +154,30 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
                 }
             }
         }.apply {
-            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
+            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_GLOBAL_BOOKMARK)
             tx = 0
             ty = 0
             this@VillagerOverlayWidget.addChild(this)
             visible = screen.`(selectedIndex)` != -1
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.do_local_trades_button")
-            id = "localBookmark_button"
-            hintableList.add(this)
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.set_global_bookmark")
+            id = "globalBookmark_button"
+            //hintableList.add(this)
         }
 
+        private val tradeRehintList: List<SortButtonWidget> = listOf(doGlobalButton,
+                                                                 doLocalButton)
+        private val bookmarkRehintList: List<SortButtonWidget> = listOf(globalBookmark,
+                                                                        localBookmark)
 
         init {
             reHint()
         }
 
+
         fun reHint() {
             val top = 5
             var right = 7
-            listOf(doGlobalButton,
-                   doLocalButton).forEach { button ->
+            tradeRehintList.forEach { button ->
                 with(button) {
                     if (visible) {
                         this.setTopRight(top + hints.top,
@@ -181,11 +188,12 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
             }
             val left = - 10
             var top2 = 17 + 20 * (screen.`(selectedIndex)` - screen.`(indexStartOffset)`)
-            listOf(globalBookmark,
-                   localBookmark).forEach { button ->
+            val dif = screen.`(selectedIndex)` - screen.`(indexStartOffset)`
+            val isVisible = dif in 0..6
+
+            bookmarkRehintList.forEach { button ->
                 with(button) {
-                    val dif = screen.`(selectedIndex)` - screen.`(indexStartOffset)`
-                    visible = dif in 0..6
+                    visible = isVisible
                     if (visible) {
                         this.setTopLeft(top2 + hints.top,
                                          left + hints.horizontalOffset)

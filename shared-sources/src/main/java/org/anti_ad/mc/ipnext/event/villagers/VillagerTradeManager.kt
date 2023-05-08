@@ -20,6 +20,7 @@
 package org.anti_ad.mc.ipnext.event.villagers
 
 import org.anti_ad.mc.common.IInputHandler
+import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
@@ -33,8 +34,6 @@ import org.anti_ad.mc.common.vanilla.accessors.entity.`(recipes)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(secondBuyItem)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(sellItem)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(uuidString)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.*
-import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
 import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
@@ -43,7 +42,6 @@ import org.anti_ad.mc.common.vanilla.alias.NbtElement
 import org.anti_ad.mc.common.vanilla.alias.entity.MerchantEntity
 import org.anti_ad.mc.common.vanilla.alias.entity.VillagerEntity
 import org.anti_ad.mc.common.vanilla.alias.village.TradeOffer
-import org.anti_ad.mc.common.vanilla.alias.village.TradeOfferList
 import org.anti_ad.mc.common.vanilla.render.b
 import org.anti_ad.mc.common.vanilla.render.g
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
@@ -54,8 +52,12 @@ import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(container)`
+import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(itemType)`
+import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.item.identifier
+import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.itemId
 
 object VillagerTradeManager: IInputHandler {
@@ -133,10 +135,10 @@ object VillagerTradeManager: IInputHandler {
         rMatrixStack = MatrixStack()
     }
 
-    private inline fun CharSequence?.isNullOrAir(): Boolean {
+    private fun CharSequence?.isNullOrAir(): Boolean {
         return this == null || this == "minecraft:air"
     }
-    private inline fun String?.nullIfAir(): String? {
+    private fun String?.nullIfAir(): String? {
         return if (null != this && this != "minecraft:air") {
             this
         } else {
@@ -200,28 +202,34 @@ object VillagerTradeManager: IInputHandler {
         return when {
             (doLocal || doGlobal) -> handleBookmarkKeys(screen, doGlobal, villager)
             Hotkeys.DO_GLOBAL_TRADE.isActivated() -> {
-                val list = currentGlobalBookmarks.toList()
-                if (list.isNotEmpty()) {
-                    Vanilla.queueForMainThread {
-                        doTrades(screen, villager, currentGlobalBookmarks.toList())
-                    }
-                    true
-                } else {
-                    false
-                }
+                doGlobalTrades(screen, villager)
             }
             Hotkeys.DO_LOCAL_TRADE.isActivated() -> {
-                val list = currentVillagerBookmarks.toList()
-                if (list.isNotEmpty()) {
-                    Vanilla.queueForMainThread {
-                        doTrades(screen, villager, currentVillagerBookmarks.toList())
-                    }
-                    true
-                } else {
-                    false
-                }
+                doLocalTrades(screen, villager)
             }
             else -> false
+        }
+    }
+
+    fun doGlobalTrades(screen: MerchantScreen,
+                       villager: MerchantEntity): Boolean {
+        val list = currentGlobalBookmarks.toList()
+        return checkAndDoTrades(screen, villager, list)
+    }
+
+    fun doLocalTrades(screen: MerchantScreen,
+                      villager: MerchantEntity): Boolean {
+        val list = currentVillagerBookmarks.toList()
+        return checkAndDoTrades(screen, villager, list)
+    }
+
+    private fun checkAndDoTrades(screen: MerchantScreen,
+                                 villager: MerchantEntity,
+                                 list: List<VillagerTradeData>): Boolean {
+        return list.isNotEmpty().ifTrue {
+            Vanilla.queueForMainThread {
+                doTrades(screen, villager, list)
+            }
         }
     }
 
@@ -231,11 +239,26 @@ object VillagerTradeManager: IInputHandler {
         if (Vanilla.screen() === screen) {
             val container: MerchantContainer = screen.`(container)` as MerchantContainer
             if (container === Vanilla.container()) {
-                screen.`(recipes)`.filter {
-                    bookmarks.has(it)
-                }.forEach {
-                    Log.trace("Found offer: $it")
-                    
+                screen.`(recipes)`.mapIndexedNotNull { index, r ->
+                    if (bookmarks.has(r)) {
+                         index
+                    } else {
+                        null
+                    }
+                }.forEach {index ->
+                    Log.trace("Found offer: $index")
+                    if (index >= 0) {
+                        val slot = container.`(slots)`[2]
+                        screen.selectedIndex = index
+                        screen.syncRecipeIndex()
+                        do {
+                            do {
+                                ContainerClicker.shiftClick(2)
+                            } while (!slot.`(itemStack)`.isEmpty())
+                            screen.selectedIndex = index
+                            screen.syncRecipeIndex()
+                        } while (!slot.`(itemStack)`.isEmpty())
+                    }
                 }
             }
         }
