@@ -7,11 +7,12 @@ body:
         ## **Check before creating an issue**
         ### **Do you have all dependencies installed?**
           If you don't please do install them.
-        ### **Have you asked for help in our [Discord Server](https://discord.gg/23YCxmveUM)**
+        ### **Have you asked for help on our [Discord Server](https://discord.gg/23YCxmveUM)**
           if the answer is **NO** then go and ask your question/problem turns out to be bug people there will ask you to file an issue here.
+          If, despite above, you still decide to open an issue there will be high probability that the answer will be "Go ask on Discord!"
   - type: dropdown
     attributes:
-      label: Have you asked for help in discord?
+      label: Have you asked for help on discord?
       description:
       multiple: false
       options:
