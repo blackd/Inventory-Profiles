@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.screen.BaseScreen
@@ -31,7 +32,6 @@ import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
-import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -100,7 +100,7 @@ object ContainerScreenEventHandler {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun onBackgroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
+    fun onBackgroundRender(context: NativeContext, mouseX: Int, mouseY: Int) {
         currentWidgets?.forEach {
             /*
             (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
@@ -108,19 +108,17 @@ object ContainerScreenEventHandler {
                                                           VanillaUtil.lastFrameDuration())
 
              */
-            (it as InsertableWidget).postBackgroundRender(mouseX,
+            (it as InsertableWidget).postBackgroundRender(context,
+                                                          mouseX,
                                                           mouseY,
                                                           VanillaUtil.lastFrameDuration())
         }
-        stack?.let {
-            rMatrixStack = stack
-        }
-        LockSlotsHandler.onBackgroundRender()
-        SlotHighlightHandler.onBackgroundRender()
+
+        LockSlotsHandler.onBackgroundRender(context)
+        SlotHighlightHandler.onBackgroundRender(context)
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun onForegroundRender(stack: MatrixStack?, mouseX: Int, mouseY: Int) {
+    fun onForegroundRender(context: NativeContext, mouseX: Int, mouseY: Int) {
         currentWidgets?.forEach {
             /*
             (it as InsertableWidget).postForegroundRender(VanillaUtil.mouseX(),
@@ -128,23 +126,21 @@ object ContainerScreenEventHandler {
                                                           VanillaUtil.lastFrameDuration())
 
              */
-            (it as InsertableWidget).postForegroundRender(mouseX,
+            (it as InsertableWidget).postForegroundRender(context,
+                                                          mouseX,
                                                           mouseY,
                                                           VanillaUtil.lastFrameDuration())
 
         }
-        stack?.let {
-            rMatrixStack = stack
-        }
-        LockSlotsHandler.onForegroundRender()
-        SlotHighlightHandler.onForegroundRender()
+        LockSlotsHandler.onForegroundRender(context)
+        SlotHighlightHandler.onForegroundRender(context)
     }
 
-    fun postRender() {
-        LockSlotsHandler.postRender()
-        SlotHighlightHandler.postRender()
-        ContainerClicker.postScreenRender()
-        currentWidgets?.forEach {  it.let { TooltipsManager.renderAll() }}
+    fun postRender(context: NativeContext) {
+        LockSlotsHandler.postRender(context)
+        SlotHighlightHandler.postRender(context)
+        ContainerClicker.postScreenRender(context)
+        currentWidgets?.forEach {  it.let { TooltipsManager.renderAll(context) }}
     }
 
     fun onScreenRemoved(target: ContainerScreen<*>) {

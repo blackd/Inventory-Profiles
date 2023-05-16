@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.specific.event
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.render.gPopMatrix
@@ -31,7 +32,7 @@ interface PLockSlotHandler {
 
     val enabled: Boolean
 
-    fun onForegroundRender() {
+    fun onForegroundRender(context: NativeContext) {
         if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         gPushMatrix() // see HandledScreen.render() line 98: RenderSystem.translatef()
@@ -41,11 +42,11 @@ interface PLockSlotHandler {
                     0f)
 
         //gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
-        drawForeground()
-        drawConfig()
+        drawForeground(context)
+        drawConfig(context)
         gPopMatrix()
     }
 
-    fun drawForeground()
-    fun drawConfig()
+    fun drawForeground(context: NativeContext)
+    fun drawConfig(context: NativeContext)
 }

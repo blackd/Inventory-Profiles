@@ -33,6 +33,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.common.vanilla.VanillaUtil;
 import org.anti_ad.mc.ipnext.config.Tweaks;
@@ -82,24 +83,24 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void preScreenRender(ScreenEvent.Render.Pre event) {
-        ScreenEventHandler.INSTANCE.preRender();
+        ScreenEventHandler.INSTANCE.preRender(new NativeContext(event.getPoseStack()));
     }
 
     // fabric GameRenderer.render() = forge updateCameraAndRender()
     // forge line 554
     @SubscribeEvent
     public void postScreenRender(Render.Post e) {
-        ScreenEventHandler.INSTANCE.postRender();
+        ScreenEventHandler.INSTANCE.postRender(new NativeContext(e.getPoseStack()));
     }
 
     @SubscribeEvent
     public void onBackgroundRender(ContainerScreenEvent.Render.Background e) {
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(e.getPoseStack(), e.getMouseX(), e.getMouseY());
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(e.getPoseStack()), e.getMouseX(), e.getMouseY());
     }
 
     @SubscribeEvent
     public void onForegroundRender(ContainerScreenEvent.Render.Foreground e) {
-        ContainerScreenEventHandler.INSTANCE.onForegroundRender(e.getPoseStack(), e.getMouseX(), e.getMouseY());
+        ContainerScreenEventHandler.INSTANCE.onForegroundRender(new NativeContext(e.getPoseStack()), e.getMouseX(), e.getMouseY());
     }
 
     // ============
@@ -127,7 +128,7 @@ public class ForgeEventHandler {
     //@SubscribeEvent
     public void onOverlayLayerPre(RenderGuiOverlayEvent.Pre event) {
         if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
-            LockSlotsHandler.INSTANCE.preRenderHud(event.getPoseStack());
+            LockSlotsHandler.INSTANCE.preRenderHud(new NativeContext(event.getPoseStack()));
         }
     }
 
@@ -135,7 +136,7 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public void onOverlayLayerPost(RenderGuiOverlayEvent.Post event) {
         if (event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
-            LockSlotsHandler.INSTANCE.postRenderHud(event.getPoseStack());
+            LockSlotsHandler.INSTANCE.postRenderHud(new NativeContext(event.getPoseStack()));
         }
     }
 

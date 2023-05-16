@@ -13,7 +13,9 @@
         "MixinMultiPlayerGameMode",
         "MixinPlayerController",
         "MixinPlayerInventory",
-        "MixinScreenHandler"
+        "MixinScreenHandler",
+        "MixinMerchantScreen",
+        "MixinPlayerInteractEntityC2SPacket"
     ],
     "injectors":          {
         "defaultRequire": 1

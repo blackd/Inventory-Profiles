@@ -431,8 +431,10 @@
     "inventoryprofiles.tooltip.apply_profile_button":                                    "Apply selected profile",
     "inventoryprofiles.tooltip.editor_toggle":                                           "Shows configuration screen for Inventory Profiles Next GUI overlay",
     "inventoryprofiles.tooltip.settings_open":                                           "Opens Inventory Profiles Next general configuration",
-
-
+    "inventoryprofiles.tooltip.do_global_trades_button":                                 "Makes all possible globally bookmarked trades.\n\nTrades for all global bookmarks until all\nresources are exhausted or no more trading is possible.\n\n",
+    "inventoryprofiles.tooltip.do_local_trades_button":                                  "Makes all possible locally bookmarked trades.\n\nTrades for all local bookmarks until all\nresources are exhausted or no more trading is possible.",
+    "inventoryprofiles.tooltip.set_local_bookmark":                                      "Adds local bookmark.\n\nBookmarks this trade for this specific Villager/Wandering Trader.",
+    "inventoryprofiles.tooltip.set_global_bookmark":                                     "Adds global bookmark.\n\nBookmarks this trade type for all Villagers.",
     "inventoryprofiles.update.version":                                                  " Version: ",
     "inventoryprofiles.update.available":                                                " is now available.\n",
     "inventoryprofiles.update.get":                                                      "Get it from: ",

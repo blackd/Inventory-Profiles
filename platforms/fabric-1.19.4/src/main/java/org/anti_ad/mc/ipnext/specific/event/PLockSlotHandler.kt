@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.specific.event
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
@@ -30,26 +31,23 @@ interface PLockSlotHandler {
 
     val enabled: Boolean
 
-    fun onForegroundRender() {
+    fun onForegroundRender(context: NativeContext) {
         if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
-        val matrixStack2: MatrixStack = RenderSystem.getModelViewStack()
-        matrixStack2.push()  // see HandledScreen.render()
-        //rMatrixStack = matrixStack2
+        context.native.push()
         val topLeft = screen.`(containerBounds)`.topLeft
-        matrixStack2.translate(-topLeft.x.toDouble(),
-                               -topLeft.y.toDouble(),
-                               0.0)
-        RenderSystem.applyModelViewMatrix()
-
+        context.native.translate(-topLeft.x.toDouble(),
+                                 -topLeft.y.toDouble(),
+                                 0.0)
+        //RenderSystem.applyModelViewMatrix()
         //gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
-        drawConfig()
-        drawForeground()
+        drawConfig(context)
+        drawForeground(context)
 
-        matrixStack2.pop() //gPopMatrix()
-        RenderSystem.applyModelViewMatrix()
+        context.native.pop() //gPopMatrix()
+        //RenderSystem.applyModelViewMatrix()
     }
 
-    fun drawForeground()
-    fun drawConfig()
+    fun drawForeground(context: NativeContext)
+    fun drawConfig(context: NativeContext)
 }

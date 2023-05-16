@@ -24,6 +24,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOfferList;
+import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.Log;
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager;
 import org.spongepowered.asm.mixin.Final;
@@ -49,7 +50,7 @@ public class MixinMerchantScreen {
             locals = LocalCapture.CAPTURE_FAILHARD)
     void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci, TradeOfferList tradeOfferList, int i, int j, int k, int l, int m, Iterator var11, TradeOffer tradeOffer, ItemStack itemStack, ItemStack itemStack2, ItemStack itemStack3, ItemStack itemStack4) {
         MerchantScreen self = (MerchantScreen)((Object)this);
-        VillagerTradeManager.INSTANCE.drawingButton(self, matrices, mouseX, mouseY, tradeOffer, i, j, k, l, m);
+        VillagerTradeManager.INSTANCE.drawingButton(self, new NativeContext(matrices), mouseX, mouseY, tradeOffer, i, j, k, l, m);
     }
 
 

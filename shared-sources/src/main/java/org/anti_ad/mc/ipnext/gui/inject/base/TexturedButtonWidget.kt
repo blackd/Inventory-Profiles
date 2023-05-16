@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
@@ -46,9 +47,11 @@ abstract class TexturedButtonWidget : ButtonWidget, Hintable {
 
     override var underManagement: Boolean = false
 
-    override fun renderButton(hovered: Boolean) {
+    override fun renderButton(context: NativeContext,
+                              hovered: Boolean) {
         val textureLocation = if (hovered) hoveringTexturePt else texturePt
-        rDrawSprite(Sprite(texture,
+        rDrawSprite(context,
+                    Sprite(texture,
                            Rectangle(textureLocation,
                                      size)),
                     screenX,

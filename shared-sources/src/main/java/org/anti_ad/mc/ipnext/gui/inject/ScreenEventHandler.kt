@@ -21,6 +21,7 @@
 package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.common.extensions.detectable
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.input.GlobalScreenEventListener
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
@@ -50,13 +51,13 @@ object ScreenEventHandler {
                                            height)
     }
 
-    fun preRender() {
+    fun preRender(context: NativeContext) {
         InsertWidgetHandler.preScreenRender()
         trackedScreenSize = rScreenSize
         ContainerScreenEventHandler.preRender()
     }
 
-    fun postRender() {
-        ContainerScreenEventHandler.postRender()
+    fun postRender(context: NativeContext) {
+        ContainerScreenEventHandler.postRender(context)
     }
 }

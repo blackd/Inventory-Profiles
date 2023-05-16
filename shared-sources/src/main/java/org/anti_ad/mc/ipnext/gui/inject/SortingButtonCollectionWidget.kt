@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.detectable
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.layout.setBottomRight
 import org.anti_ad.mc.common.gui.layout.setTopRight
@@ -57,32 +58,37 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
     override val container: Container = Vanilla.container()
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
     } // do nothing
 
     // try to render this as late as possible (but need to before tooltips render)
-    override fun postBackgroundRender(mouseX: Int,
+    override fun postBackgroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
         rehint()
         rStandardGlState()
-        rClearDepth()
+        rClearDepth(context)
         overflow = Overflow.VISIBLE
         absoluteBounds = screen.`(containerBounds)`
         init()
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
         if (Debugs.DEBUG_RENDER.booleanValue) {
-            rDrawOutline(absoluteBounds.inflated(1),
+            rDrawOutline(context,
+                         absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
 //    Tooltips.renderAll()
     }
 
-    override fun postForegroundRender(mouseX: Int,
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       lastFrameDuration: Float) {
 
@@ -118,7 +124,8 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                        sortInRowButton)
             }
             val originalVisibles by lazy(LazyThreadSafetyMode.NONE) { buttons.map { it.visible } }
-            override fun render(mouseX: Int,
+            override fun render(context: NativeContext,
+                                mouseX: Int,
                                 mouseY: Int,
                                 partialTicks: Float) {
                 if (screen !is CreativeInventoryScreen) return

@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
@@ -47,11 +48,16 @@ open class VillagerBookmarkButtonWidget: SortButtonWidget {
         this.colorSource = colorSource
     }
 
-    override fun renderButton(hovered: Boolean) {
-        super.renderButton(hovered)
-        rFillRect(absoluteBounds, colorSource())
+    override fun renderButton(context: NativeContext,
+                              hovered: Boolean) {
+        super.renderButton(context,
+                           hovered)
+        rFillRect(context,
+                  absoluteBounds,
+                  colorSource())
         if (checked) {
-            rDrawSprite(Sprite(texture,
+            rDrawSprite(context,
+                        Sprite(texture,
                                Rectangle(checkedPt,
                                          size)),
                         screenX,

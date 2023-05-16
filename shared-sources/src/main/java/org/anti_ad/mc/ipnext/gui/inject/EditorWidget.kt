@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.fillParent
 import org.anti_ad.mc.common.gui.layout.setTopLeft
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
@@ -55,12 +56,13 @@ class EditorWidget(override val screen: ContainerScreen<*>,
 
     override val container = Vanilla.container()
 
-    override fun postBackgroundRender(mouseX: Int,
+    override fun postBackgroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
 
         rStandardGlState()
-        rClearDepth()
+        rClearDepth(context)
         fillParent()
 
         //overflow = Overflow.VISIBLE
@@ -71,19 +73,22 @@ class EditorWidget(override val screen: ContainerScreen<*>,
         init()
         rehint()
         visible = GuiSettings.ENABLE_INVENTORY_EDITOR_BUTTON.value
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
 
-        hintManagementRenderer.renderUnderManagement()
+        hintManagementRenderer.renderUnderManagement(context)
 
         if (Debugs.DEBUG_RENDER.booleanValue) {
-            rDrawOutline(absoluteBounds,
+            rDrawOutline(context,
+                         absoluteBounds,
                          0xffff00.opaque)
         }
     }
 
-    override fun postForegroundRender(mouseX: Int,
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       lastFrameDuration: Float) {
 

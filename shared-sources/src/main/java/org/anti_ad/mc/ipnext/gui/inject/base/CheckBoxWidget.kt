@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.config.ModSettings
 
 class CheckBoxWidget : SortButtonWidget {
@@ -32,7 +33,8 @@ class CheckBoxWidget : SortButtonWidget {
     var highlightTy = 0
     var highlightTooltip: String = ""
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
         val oldTx = tx
@@ -43,7 +45,8 @@ class CheckBoxWidget : SortButtonWidget {
             ty = highlightTy
             tooltipText = highlightTooltip
         }
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
         tx = oldTx

@@ -21,6 +21,7 @@
 package org.anti_ad.mc.ipnext.gui.widgets
 
 import org.anti_ad.mc.common.extensions.lnot
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -38,7 +39,7 @@ interface Hintable {
 
     var hintManagementRenderer: HintManagementRenderer
 
-    fun renderUnderManagement() = hintManagementRenderer.renderUnderManagement()
+    fun renderUnderManagement(context: NativeContext) = hintManagementRenderer.renderUnderManagement(context)
 
     fun moveLeft(step: Int) {
         if (this is Widget) {
@@ -95,7 +96,7 @@ interface Hintable {
 
         var pingStep = 50;
 
-        fun renderUnderManagement() {
+        fun renderUnderManagement(context: NativeContext) {
             if (target.underManagement) {
                 tick++
                 if (tick == 3) {
@@ -104,17 +105,21 @@ interface Hintable {
                     if (alphaChannel >= 150 || alphaChannel <= 0) step = step.lnot()
 
                     if (pingStep > 0) {
-                        rDrawOutline(widget.absoluteBounds.inflated(pingStep),
+                        rDrawOutline(context,
+                                     widget.absoluteBounds.inflated(pingStep),
                                      0x00ff00.opaque)
-                        rDrawOutline(widget.absoluteBounds.inflated(pingStep+2),
+                        rDrawOutline(context,
+                                     widget.absoluteBounds.inflated(pingStep+2),
                                      0x00ff00.opaque)
-                        rDrawOutline(widget.absoluteBounds.inflated(pingStep+4),
+                        rDrawOutline(context,
+                                     widget.absoluteBounds.inflated(pingStep+4),
                                      0x00ff00.opaque)
                         pingStep -= 5
                     }
                 }
                 with(widget) {
-                    rFillRect(Rectangle(absoluteBounds.x,
+                    rFillRect(context,
+                              Rectangle(absoluteBounds.x,
                                         absoluteBounds.y,
                                         absoluteBounds.width,
                                         absoluteBounds.height),

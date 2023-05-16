@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
@@ -63,13 +64,15 @@ open class SortButtonWidget : TexturedButtonWidget {
     override val hoveringTexturePt: Point
         get() = Point(tx, ty + 10)
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
-        hintManagementRenderer.renderUnderManagement()
+        hintManagementRenderer.renderUnderManagement(context)
         if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
                                                                       mouseY) && tooltipText.isNotEmpty()) {
             TooltipsManager.addTooltip(tooltipText,

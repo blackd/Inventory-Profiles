@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -41,7 +42,6 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutlineNoCorner
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
-import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
@@ -140,7 +140,7 @@ object LockSlotsHandler: PLockSlotHandler {
     private val configSprite = backgroundSprite.left()
     private val configSpriteLocked = configSprite.down()
 
-    fun onBackgroundRender() {
+    fun onBackgroundRender(context: NativeContext) {
         Vanilla.screen()?.also { target ->
             HintsManagerNG.getHints(target.javaClass).ignore.ifTrue {
                 return
@@ -148,56 +148,65 @@ object LockSlotsHandler: PLockSlotHandler {
         }
         if (displayingConfig) return
         if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue) return
-        drawSprite(::drawBackgroundSprite,
+        drawSprite(context,
+                   ::drawBackgroundSprite,
                    null)
     }
 
 
 
-    fun postRender() { // display config
+    fun postRender(context: NativeContext) { // display config
     }
 
-    override fun drawForeground() {
+    override fun drawForeground(context: NativeContext) {
         Vanilla.screen()?.also { target ->
             HintsManagerNG.getHints(target.javaClass).ignore.ifTrue {
                 return
             }
         }
         if (!LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) return
-        drawSprite(::drawForegroundSprite,
+        drawSprite(context,
+                   ::drawForegroundSprite,
                    null)
     }
 
-    override fun drawConfig() {
+    override fun drawConfig(context: NativeContext) {
         if (!displayingConfig) return
-        drawSprite(::drawConfigLocked,
+        drawSprite(context,
+                   ::drawConfigLocked,
                    ::drawConfigOpen)
     }
 
-    private fun drawBackgroundSprite(topLeft: Point, slotTopLeft: Point) {
+    private fun drawBackgroundSprite(context: NativeContext,
+                                     topLeft: Point,
+                                     slotTopLeft: Point) {
         //rDrawCenteredSprite(backgroundSprite, center)
         val p = topLeft + slotTopLeft
-        rFillRect(p.x, p.y,
+        rFillRect(context,
+                  p.x, p.y,
                   p.x + 16, p.y + 16,
                   LockedSlotsSettings.SHOW_LOCKED_SLOTS_BG_COLOR.value)
     }
 
     private val eightByEight = Point(8,8)
 
-    private fun drawForegroundSprite(topLeft: Point, slotTopLeft: Point) {
+    private fun drawForegroundSprite(context: NativeContext,
+                                     topLeft: Point,
+                                     slotTopLeft: Point) {
         val center = topLeft + slotTopLeft + eightByEight
-        rDrawCenteredSprite(foregroundSprite, center)
+        rDrawCenteredSprite(context, foregroundSprite, center)
     }
 
-    private fun drawConfigLocked(topLeft: Point, slotTopLeft: Point) = drawBackgroundSprite(topLeft, slotTopLeft)
+    private fun drawConfigLocked(context: NativeContext, topLeft: Point, slotTopLeft: Point) = drawBackgroundSprite(context, topLeft, slotTopLeft)
 
-    private fun drawConfigOpen(topLeft: Point, slotTopLeft: Point) {
+    private fun drawConfigOpen(context: NativeContext, topLeft: Point, slotTopLeft: Point) {
         val center = topLeft + slotTopLeft + eightByEight
-        rDrawCenteredSprite(configSprite, center)
+        rDrawCenteredSprite(context, configSprite, center)
     }
 
-    private fun drawSprite(lockedSprite: ((Point, Point) -> Unit)?,
-                           openSprite: ((Point, Point) -> Unit)?) {
+    private fun drawSprite(context: NativeContext,
+                           lockedSprite: ((NativeContext, Point, Point) -> Unit)?,
+                           openSprite: ((NativeContext, Point, Point) -> Unit)?) {
         if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         //    rClearDepth() // use translate or zOffset
@@ -208,12 +217,12 @@ object LockSlotsHandler: PLockSlotHandler {
         for ((invSlot, slotTopLeft) in slotLocations) {
             if (invSlot in lockedInvSlotsStoredValue) {
                 lockedSprite?.let {
-                    it(topLeft, slotTopLeft)
+                    it(context, topLeft, slotTopLeft)
                     //rDrawCenteredSprite(it, topLeft + slotTopLeft)
                 }
             } else {
                 openSprite?.let {
-                    it(topLeft, slotTopLeft)
+                    it(context, topLeft, slotTopLeft)
                     //rDrawCenteredSprite(it, topLeft + slotTopLeft)
                 }
             }
@@ -222,48 +231,48 @@ object LockSlotsHandler: PLockSlotHandler {
         rEnableDepth()
     }
 
-    private fun drawHotOutlineLeft(p: Point, color: Int) {
+    private fun drawHotOutlineLeft(context: NativeContext, p: Point, color: Int) {
         //rDrawCenteredSprite(hotOutlineLeft, p)
         //top
-        rFillRect(p.x-2, p.y-2, p.x + 16, p.y, color)
+        rFillRect(context, p.x-2, p.y-2, p.x + 16, p.y, color)
         //bottom
-        rFillRect(p.x-2, p.y+16, p.x + 16, p.y+18, color)
+        rFillRect(context, p.x-2, p.y+16, p.x + 16, p.y+18, color)
         //left
-        rFillRect(p.x-2, p.y, p.x, p.y + 16, color)
+        rFillRect(context, p.x-2, p.y, p.x, p.y + 16, color)
     }
 
-    private fun drawHotOutlineRight(p: Point, color: Int) {
+    private fun drawHotOutlineRight(context: NativeContext, p: Point, color: Int) {
         //rDrawCenteredSprite(hotOutlineRight, p)
         //top
-        rFillRect(p.x, p.y-2, p.x + 16, p.y, color)
+        rFillRect(context, p.x, p.y-2, p.x + 16, p.y, color)
         //bottom
-        rFillRect(p.x, p.y+16, p.x + 16, p.y+18, color)
+        rFillRect(context, p.x, p.y+16, p.x + 16, p.y+18, color)
         //right
-        rFillRect(p.x+16, p.y-2, p.x+18, p.y + 18, color)
+        rFillRect(context, p.x+16, p.y-2, p.x+18, p.y + 18, color)
     }
 
-    private fun drawHotOutlineActive(p: Point, color: Int) {
+    private fun drawHotOutlineActive(context: NativeContext, p: Point, color: Int) {
        //rDrawCenteredSprite(hotOutlineActive, p)
-        rFillRect(p.x-4, p.y-4, p.x + 20, p.y, color)
-        rFillRect(p.x-4, p.y, p.x, p.y + 16, color)
-        rFillRect(p.x-4, p.y+16, p.x + 20, p.y+20, color)
-        rFillRect(p.x+16, p.y, p.x+20, p.y + 16, color)
+        rFillRect(context, p.x-4, p.y-4, p.x + 20, p.y, color)
+        rFillRect(context, p.x-4, p.y, p.x, p.y + 16, color)
+        rFillRect(context, p.x-4, p.y+16, p.x + 20, p.y+20, color)
+        rFillRect(context, p.x+16, p.y, p.x+20, p.y + 16, color)
     }
 
-    private fun drawHotOutline(p: Point, color: Int) {
+    private fun drawHotOutline(context: NativeContext, p: Point, color: Int) {
         //rDrawCenteredSprite(hotOutline, p)
         //top
-        rFillRect(p.x-2, p.y-2, p.x + 16, p.y, color)
+        rFillRect(context, p.x-2, p.y-2, p.x + 16, p.y, color)
         //bottom
-        rFillRect(p.x-2, p.y+16, p.x + 16, p.y+18, color)
+        rFillRect(context, p.x-2, p.y+16, p.x + 16, p.y+18, color)
         //left
-        rFillRect(p.x-2, p.y, p.x, p.y + 16, color)
+        rFillRect(context, p.x-2, p.y, p.x, p.y + 16, color)
         //right
-        rFillRect(p.x+16, p.y-2, p.x+18, p.y + 18, color)
+        rFillRect(context, p.x+16, p.y-2, p.x+18, p.y + 18, color)
 
     }
 
-    private fun drawHotSprite() {
+    private fun drawHotSprite(context: NativeContext) {
         if (!enabled) return
         //    rClearDepth() // use translate or zOffset
         rDisableDepth()
@@ -288,9 +297,9 @@ object LockSlotsHandler: PLockSlotHandler {
                 val topLeftCentered = topLeft + Point(8, 8)
 
                 //rDrawCenteredSprite(lockedSprite, 0, topLeft)
-                drawLockedSprite(topLeft, LockedSlotsSettings.SHOW_LOCKED_SLOTS_HOTBAR_COLOR.value)
+                drawLockedSprite(context, topLeft, LockedSlotsSettings.SHOW_LOCKED_SLOTS_HOTBAR_COLOR.value)
                 if (LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) {
-                    rDrawCenteredSprite(foregroundSprite, 0, topLeftCentered)
+                    rDrawCenteredSprite(context, foregroundSprite, 0, topLeftCentered)
                 }
             }
         }
@@ -440,13 +449,12 @@ object LockSlotsHandler: PLockSlotHandler {
         return predicate()
     }
 
-    fun postRenderHud(matrixStack: MatrixStack) {
+    fun postRenderHud(context: NativeContext) {
         if (LockedSlotsSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value && GameType.SPECTATOR != Vanilla.gameMode()) {
-            rMatrixStack = matrixStack
-            drawHotSprite()
+            drawHotSprite(context)
         }
     }
 
-    fun preRenderHud(matrixStack: MatrixStack) {
+    fun preRenderHud(context: NativeContext) {
     }
 }

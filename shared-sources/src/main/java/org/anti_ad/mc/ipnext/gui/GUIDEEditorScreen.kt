@@ -21,6 +21,7 @@ package org.anti_ad.mc.ipnext.gui
 
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigBoolean
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.screen.BaseOverlay
 import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.layout.fillParent
@@ -295,16 +296,19 @@ class GUIDEEditorScreen(private val target: Screen,
                 zIndex = 0
             }
 
-            override fun render(mouseX: Int,
+            override fun render(context: NativeContext,
+                                mouseX: Int,
                                 mouseY: Int,
                                 partialTicks: Float) {
                 fillParent()
                 val color = COLOR_WHITE
-                rDrawVerticalLine(mouseX,
+                rDrawVerticalLine(context,
+                                  mouseX,
                                   1,
                                   height - 2,
                                   color)
-                rDrawHorizontalLine(1,
+                rDrawHorizontalLine(context,
+                                    1,
                                     width - 2,
                                     mouseY,
                                     color)
@@ -431,13 +435,15 @@ class GUIDEEditorScreen(private val target: Screen,
         activeHintable?.underManagement = true
     }
 
-    override fun render(mouseX: Int,
+    override fun render(context: NativeContext,
+                        mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        super.render(mouseX, mouseY, partialTicks)
+        super.render(context, mouseX, mouseY, partialTicks)
 
         if (Debugs.DEBUG_RENDER.booleanValue) {
-            rDrawOutline(rootWidget.absoluteBounds,
+            rDrawOutline(context,
+                         rootWidget.absoluteBounds,
                          0xff00FF.opaque)
         }
     }

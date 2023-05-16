@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.layout.Axis
 import org.anti_ad.mc.common.gui.layout.BiFlex
@@ -63,31 +64,35 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
         visible = types.contains(ContainerType.PLAYER)
     }
 
-    override fun postBackgroundRender(mouseX: Int,
+    override fun postBackgroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
 
         rStandardGlState()
-        rClearDepth()
+        rClearDepth(context)
         //overflow = Overflow.VISIBLE
         val parentBounds = screen.`(containerBounds)`
         absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3 + hints.bottom,
                                            x = parentBounds.x + hints.horizontalOffset,
                                            height = 20)
         init()
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
         if (Debugs.DEBUG_RENDER.booleanValue) {
-            rDrawOutline(absoluteBounds.inflated(1),
+            rDrawOutline(context,
+                         absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
 
-        hintManagementRenderer.renderUnderManagement()
+        hintManagementRenderer.renderUnderManagement(context)
 
     }
 
-    override fun postForegroundRender(mouseX: Int,
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       lastFrameDuration: Float) {
 
@@ -172,10 +177,12 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
             }
             set(_) {}
         var tooltipText: String = ""
-        override fun render(mouseX: Int,
+        override fun render(context: NativeContext,
+                            mouseX: Int,
                             mouseY: Int,
                             partialTicks: Float) {
-            super.render(mouseX,
+            super.render(context,
+                         mouseX,
                          mouseY,
                          partialTicks)
             if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,

@@ -20,6 +20,7 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.common.extensions.lor
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -68,23 +69,23 @@ object SlotHighlightHandler: PLockSlotHandler {
             }.toMap()
         }
 
-    fun onBackgroundRender() {
+    fun onBackgroundRender(context: NativeContext) {
         if (ModSettings.HIGHLIGHT_FOUSED_ITEMS.booleanValue && !ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue) {
-           drawSprite()
+           drawSprite(context)
         }
     }
 
     override val enabled: Boolean
         get() = ModSettings.HIGHLIGHT_FOUSED_ITEMS.booleanValue && ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue
 
-    override fun drawForeground() {
-        drawSprite()
+    override fun drawForeground(context: NativeContext) {
+        drawSprite(context)
     }
 
-    override fun drawConfig() {
+    override fun drawConfig(context: NativeContext) {
     }
 
-    fun postRender() {
+    fun postRender(context: NativeContext) {
 
     }
 
@@ -109,7 +110,7 @@ object SlotHighlightHandler: PLockSlotHandler {
     var alphaChannel = 10
     var step = 10
 
-    private fun drawSprite() {
+    private fun drawSprite(context: NativeContext) {
         //if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         //    rClearDepth() // use translate or zOffset
@@ -132,7 +133,8 @@ object SlotHighlightHandler: PLockSlotHandler {
             val topLeft = screen.`(containerBounds)`.topLeft
             for ((_, slotTopLeft) in localSlotLocations) {
                 val tl = topLeft + slotTopLeft
-                rFillRect(Rectangle(tl.x,
+                rFillRect(context,
+                          Rectangle(tl.x,
                                     tl.y,
                                     16,
                                     16),

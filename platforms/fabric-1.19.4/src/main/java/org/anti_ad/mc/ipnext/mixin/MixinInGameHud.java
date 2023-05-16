@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
+import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +37,7 @@ public class MixinInGameHud {
     protected void preRenderHotbar(float tickDelta,
                                    MatrixStack matrices,
                                    CallbackInfo ci) {
-        LockSlotsHandler.INSTANCE.preRenderHud(matrices);
+        LockSlotsHandler.INSTANCE.preRenderHud(new NativeContext(matrices));
     }
 
 
@@ -45,7 +46,7 @@ public class MixinInGameHud {
     protected void postRenderHotbar(float tickDelta,
                                     MatrixStack matrices,
                                     CallbackInfo ci) {
-        LockSlotsHandler.INSTANCE.postRenderHud(matrices);
+        LockSlotsHandler.INSTANCE.postRenderHud(new NativeContext(matrices));
 
     }
 }

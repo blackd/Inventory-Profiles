@@ -24,15 +24,21 @@ val VillagerEntity.`(villagerData)`
 val MerchantScreen.`(recipes)`
     get() = this.container.offers
 
-val MerchantScreen.`(indexStartOffset)`: Int
-    get() {
-        return this.field_214139_n
+var MerchantScreen.`(indexStartOffset)`: Int
+    get() = this.field_214139_n
+    set(value) {
+        this.field_214139_n = value
     }
 
-val MerchantScreen.`(selectedIndex)`: Int
-    get() {
-        return this.selectedMerchantRecipe
+var MerchantScreen.`(selectedIndex)`: Int
+    get() = this.selectedMerchantRecipe
+    set(value) {
+        this.selectedMerchantRecipe = value
     }
+
+fun MerchantScreen.`(syncRecipeIndex)`() {
+    this.func_195391_j()
+}
 
 val MerchantScreen_WidgetButtonPage.index
     get() = this.func_212937_a()

@@ -23,13 +23,18 @@ val MerchantScreen.`(recipes)`
 
 val MerchantScreen.`(indexStartOffset)`: Int
     get() {
-        return this.shopItem
+        return this.scrollOff
     }
 
-val MerchantScreen.`(selectedIndex)`: Int
-    get() {
-        return this.shopItem
+var MerchantScreen.`(selectedIndex)`: Int
+    get() = this.shopItem
+    set(value) {
+        this.shopItem = value
     }
+
+fun MerchantScreen.`(syncRecipeIndex)`() {
+    this.postButtonClick()
+}
 
 val MerchantScreen.`(offers)`
     get() = tradeOfferButtons

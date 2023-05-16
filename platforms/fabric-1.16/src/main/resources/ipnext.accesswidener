@@ -4,3 +4,4 @@ accessible class net/minecraft/client/gui/screen/ingame/MerchantScreen$WidgetBut
 accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen offers [Lnet/minecraft/client/gui/screen/ingame/MerchantScreen$WidgetButtonPage;
 accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen indexStartOffset I
 accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen selectedIndex I
+accessible method net/minecraft/client/gui/screen/ingame/MerchantScreen syncRecipeIndex ()V

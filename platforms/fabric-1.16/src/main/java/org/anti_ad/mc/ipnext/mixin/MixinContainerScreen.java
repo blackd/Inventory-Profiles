@@ -27,6 +27,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
+import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.Log;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
@@ -49,13 +50,13 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
             "drawBackground(Lnet/minecraft/client/util/math/MatrixStack;FII)V", shift = At.Shift.AFTER), method = "render")
     public void onBackgroundRender(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(matrixStack, i, j);
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(matrixStack), i, j);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
             "drawForeground(Lnet/minecraft/client/util/math/MatrixStack;II)V", shift = At.Shift.AFTER), method = "render")
     public void onForegroundRender(MatrixStack matrixStack, int i, int j, float f, CallbackInfo ci) {
-        ContainerScreenEventHandler.INSTANCE.onForegroundRender(matrixStack, i, j);
+        ContainerScreenEventHandler.INSTANCE.onForegroundRender(new NativeContext(matrixStack), i, j);
     }
 
     @Inject(at = @At(value = "HEAD",

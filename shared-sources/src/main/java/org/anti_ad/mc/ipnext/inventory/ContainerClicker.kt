@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -347,23 +348,24 @@ object ContainerClicker {
 
     private val highlights: MutableSet<Highlight> = ConcurrentHashMap.newKeySet()
 
-    private fun drawHighlight() {
+    private fun drawHighlight(context: NativeContext) {
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         val topLeft = screen.`(containerBounds)`.topLeft
         val slotLocations = slotLocations
         highlights.mapNotNull { slotLocations[it.id] }.forEach {
-            rFillRect(Rectangle(topLeft + it,
+            rFillRect(context,
+                      Rectangle(topLeft + it,
                                 Size(16,
                                      16)),
                       (-1).alpha(0.5f))
         }
     }
 
-    fun postScreenRender() {
+    fun postScreenRender(context: NativeContext) {
         if (ModSettings.HIGHLIGHT_CLICKING_SLOT.booleanValue && highlights.isNotEmpty()) {
             //rStandardGlState()
             //rClearDepth()
-            drawHighlight()
+            drawHighlight(context)
         }
     }
 }

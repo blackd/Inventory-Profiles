@@ -24,9 +24,15 @@ val MerchantScreen.`(recipes)`
 val MerchantScreen.`(indexStartOffset)`
     get() = indexStartOffset
 
-val MerchantScreen.`(selectedIndex)`
+var MerchantScreen.`(selectedIndex)`: Int
     get() = selectedIndex
+    set(value) {
+        selectedIndex = value
+    }
 
+fun MerchantScreen.`(syncRecipeIndex)`() {
+    this.syncRecipeIndex()
+}
 
 val MerchantScreen.`(offers)`
     get() = offers

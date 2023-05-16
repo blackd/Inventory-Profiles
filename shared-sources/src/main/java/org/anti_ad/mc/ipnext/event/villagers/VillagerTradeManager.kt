@@ -21,9 +21,11 @@ package org.anti_ad.mc.ipnext.event.villagers
 
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.accessors.entity.*
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(indexStartOffset)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(isHovered)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(offers)`
@@ -32,7 +34,9 @@ import org.anti_ad.mc.common.vanilla.accessors.entity.`(profession)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(professionId)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(recipes)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(secondBuyItem)`
+import org.anti_ad.mc.common.vanilla.accessors.entity.`(selectedIndex)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(sellItem)`
+import org.anti_ad.mc.common.vanilla.accessors.entity.`(syncRecipeIndex)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(uuidString)`
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
@@ -46,7 +50,6 @@ import org.anti_ad.mc.common.vanilla.render.b
 import org.anti_ad.mc.common.vanilla.render.g
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.r
-import org.anti_ad.mc.common.vanilla.render.rMatrixStack
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -103,7 +106,7 @@ object VillagerTradeManager: IInputHandler {
 
     @Suppress("UNUSED_PARAMETER")
     fun drawingButton(screen: MerchantScreen,
-                      matrices: MatrixStack,
+                      context: NativeContext,
                       mouseX: Int,
                       mouseY: Int,
                       tradeOffer: TradeOffer,
@@ -114,25 +117,25 @@ object VillagerTradeManager: IInputHandler {
                       m: Int) {
 
         if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return
-        rMatrixStack = matrices
         val global = currentGlobalBookmarks.has(tradeOffer)
         val local = currentVillagerBookmarks.has(tradeOffer)
 
         if (global) {
-            rFillRect(Rectangle(l - 4,
+            rFillRect(context,
+                      Rectangle(l - 4,
                                 k + 2,
                                 86,
                                 18),
                       130.r(1).g(0x96).b(0xb))
         }
         if (local) {
-            rFillRect(Rectangle(l - 4,
+            rFillRect(context,
+                      Rectangle(l - 4,
                                 k + 2,
                                 86,
                                 18),
                       130.r(0x96).g(1).b(0xb))
         }
-        rMatrixStack = MatrixStack()
     }
 
     private fun CharSequence?.isNullOrAir(): Boolean {
@@ -249,14 +252,14 @@ object VillagerTradeManager: IInputHandler {
                     Log.trace("Found offer: $index")
                     if (index >= 0) {
                         val slot = container.`(slots)`[2]
-                        screen.selectedIndex = index
-                        screen.syncRecipeIndex()
+                        screen.`(selectedIndex)` = index
+                        screen.`(syncRecipeIndex)`()
                         do {
                             do {
                                 ContainerClicker.shiftClick(2)
                             } while (!slot.`(itemStack)`.isEmpty())
-                            screen.selectedIndex = index
-                            screen.syncRecipeIndex()
+                            screen.`(selectedIndex)` = index
+                            screen.`(syncRecipeIndex)`()
                         } while (!slot.`(itemStack)`.isEmpty())
                     }
                 }

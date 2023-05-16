@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.layout.setTopLeft
 import org.anti_ad.mc.common.gui.layout.setTopRight
@@ -66,26 +67,30 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         InitWidgets().also { rehint = it::reHint }
     }
 
-    override fun postBackgroundRender(mouseX: Int,
+    override fun postBackgroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
         rehint()
         rStandardGlState()
-        rClearDepth()
+        rClearDepth(context)
         overflow = Overflow.VISIBLE
         absoluteBounds = screen.`(containerBounds)`
         init()
-        super.render(mouseX,
+        super.render(context,
+                     mouseX,
                      mouseY,
                      partialTicks)
         if (Debugs.DEBUG_RENDER.booleanValue) {
-            rDrawOutline(absoluteBounds.inflated(1),
+            rDrawOutline(context,
+                         absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
         //    Tooltips.renderAll()
     }
 
-    override fun postForegroundRender(mouseX: Int,
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
                                       mouseY: Int,
                                       lastFrameDuration: Float) {
 

@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler
 
@@ -27,12 +28,12 @@ object Randomizer: PLockSlotHandler {
     override val enabled: Boolean
         get() = false //ModSettings.ENABLE_RANDOMIZER.booleanValue
 
-    override fun drawForeground() {
+    override fun drawForeground(context: NativeContext) {
         if (enabled) {
 
         }
     }
 
-    override fun drawConfig() {
+    override fun drawConfig(context: NativeContext) {
     }
 }
