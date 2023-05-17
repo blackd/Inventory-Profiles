@@ -28,15 +28,20 @@ import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 
 open class VillagerBookmarkButtonWidget: SortButtonWidget {
 
+    var visibleOverride: ((Boolean) -> Boolean) = { it }
+
     val colorSource: () -> Int
 
-    open var checked: Boolean = false
+    var ctx: Int = 0
+    var cty: Int = 0
+
+    open var checked = { false }
 
     override val hoveringTexturePt: Point
         get() = Point(tx, ty)
 
     open val checkedPt: Point
-        get() = Point(tx + 20, ty + 90)
+        get() = Point(ctx, cty)
 
     constructor(colorSource: () -> Int, clickEvent: (button: Int) -> Unit) : super(clickEvent) {
         this.colorSource = colorSource
@@ -55,7 +60,7 @@ open class VillagerBookmarkButtonWidget: SortButtonWidget {
         rFillRect(context,
                   absoluteBounds,
                   colorSource())
-        if (checked) {
+        if (checked()) {
             rDrawSprite(context,
                         Sprite(texture,
                                Rectangle(checkedPt,

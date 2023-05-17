@@ -193,6 +193,7 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("org/jline/**")
     exclude("net/minecraftforge/**")
     exclude("io/netty/**")
+    exclude("com/grimbo/**")
     //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
     //exclude("META-INF/LICENSE")
@@ -215,10 +216,10 @@ val proguard by tasks.registering(ProGuardTask::class) {
     outjars("build/libs/${fabricRemapJar.archiveBaseName.get()}-all-proguard.jar")
 
     doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files.filter {
-            !it.name.contains("InventoryProfilesNext-common")
-        })
+        val classpath = configurations.runtimeClasspath.get().files + configurations.compileClasspath.get().files
+        libraryjars( classpath)
     }
+
     dependsOn(tasks["shadowJar"])
 }
 

@@ -220,10 +220,10 @@ val proguard by tasks.registering(ProGuardTask::class) {
     outjars("build/libs/${fabricRemapJar.archiveBaseName.get()}-all-proguard.jar")
 
     doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files.filter {
-            !it.name.contains("InventoryProfilesNext-common")
-        })
+        val classpath = configurations.runtimeClasspath.get().files + configurations.compileClasspath.get().files
+        libraryjars( classpath)
     }
+
     dependsOn(tasks["shadowJar"])
 }
 

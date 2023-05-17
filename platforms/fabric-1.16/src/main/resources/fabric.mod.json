@@ -35,6 +35,6 @@
     "fabricloader": ">=0.11.6",
     "minecraft": "~1.16",
     "fabric-language-kotlin": ">=1.9.2+kotlin.1.8.10",
-    "libipn": ">=@LIBIPN_VERSION@ <3.0.0"
+    "libipn": ">=@LIBIPN_VERSION@ <4.0.0"
   }
 }

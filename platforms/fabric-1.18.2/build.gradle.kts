@@ -103,7 +103,7 @@ fabricCommonDependency(minecraft_version,
 
 dependencies {
     modRuntimeOnly("curse.maven:ctm-refabricated-633997:3834064")
-    modImplementation("curse.maven:chipped-456956:4293292")
+    modCompileOnly("curse.maven:chipped-456956:4293292")
 }
 
 tasks.named("compileKotlin") {
@@ -211,9 +211,8 @@ val proguard by tasks.registering(ProGuardTask::class) {
     outjars("build/libs/${fabricRemapJar.archiveBaseName.get()}-all-proguard.jar")
 
     doFirst {
-        libraryjars( configurations.runtimeClasspath.get().files.filter {
-            !it.name.contains("InventoryProfilesNext-common")
-        })
+        val classpath = configurations.runtimeClasspath.get().files + configurations.compileClasspath.get().files
+        libraryjars( classpath)
     }
     dependsOn(tasks["shadowJar"])
 }

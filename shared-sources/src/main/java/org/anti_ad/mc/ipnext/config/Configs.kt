@@ -41,8 +41,11 @@ import org.anti_ad.mc.common.config.builder.string
 import org.anti_ad.mc.common.config.builder.toMultiConfig
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.vanilla.render.asAlpha
+import org.anti_ad.mc.common.vanilla.render.b
 import org.anti_ad.mc.common.vanilla.render.blue
+import org.anti_ad.mc.common.vanilla.render.g
 import org.anti_ad.mc.common.vanilla.render.green
+import org.anti_ad.mc.common.vanilla.render.r
 import org.anti_ad.mc.common.vanilla.render.red
 import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.integration.MergePriority
@@ -124,6 +127,9 @@ object ModSettings : ConfigDeclaration {
         .CATEGORY("$category.villager_trading")
         //.CATEGORY("§§hide")
     val ENABLE_VILLAGER_TRADING                   /**/ by keyToggleBool(false)
+
+    val VILLAGER_TRADING_LOCAL_COLOR              /**/ by color(130.r(0x96).g(1).b(0xb))
+    val VILLAGER_TRADING_GLOBAL_COLOR             /**/ by color(130.r(1).g(0x96).b(0xb))
 
 
         .CATEGORY("$category.privacy")

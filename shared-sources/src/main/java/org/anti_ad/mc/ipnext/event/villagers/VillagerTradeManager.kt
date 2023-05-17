@@ -48,6 +48,7 @@ import org.anti_ad.mc.common.vanilla.alias.entity.VillagerEntity
 import org.anti_ad.mc.common.vanilla.alias.village.TradeOffer
 import org.anti_ad.mc.common.vanilla.render.b
 import org.anti_ad.mc.common.vanilla.render.g
+import org.anti_ad.mc.common.vanilla.render.glue.rFillGradient
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.r
 import org.anti_ad.mc.ipnext.Log
@@ -62,6 +63,7 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.item.identifier
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.itemId
+import kotlin.math.roundToInt
 
 object VillagerTradeManager: IInputHandler {
 
@@ -120,21 +122,28 @@ object VillagerTradeManager: IInputHandler {
         val global = currentGlobalBookmarks.has(tradeOffer)
         val local = currentVillagerBookmarks.has(tradeOffer)
 
-        if (global) {
+        if (local && global) {
+            rFillGradient(context,
+                          Rectangle(l - 4,
+                                    k + 2,
+                                    86,
+                                    18),
+                          ModSettings.VILLAGER_TRADING_GLOBAL_COLOR.value,
+                          ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value)
+        } else if (global) {
             rFillRect(context,
                       Rectangle(l - 4,
                                 k + 2,
                                 86,
                                 18),
-                      130.r(1).g(0x96).b(0xb))
-        }
-        if (local) {
+                      ModSettings.VILLAGER_TRADING_GLOBAL_COLOR.value)
+        } else if (local) {
             rFillRect(context,
                       Rectangle(l - 4,
                                 k + 2,
                                 86,
                                 18),
-                      130.r(0x96).g(1).b(0xb))
+                      ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value)
         }
     }
 
@@ -243,7 +252,7 @@ object VillagerTradeManager: IInputHandler {
             val container: MerchantContainer = screen.`(container)` as MerchantContainer
             if (container === Vanilla.container()) {
                 screen.`(recipes)`.mapIndexedNotNull { index, r ->
-                    if (bookmarks.has(r)) {
+                    if (!r.isDisabled && bookmarks.has(r)) {
                          index
                     } else {
                         null
