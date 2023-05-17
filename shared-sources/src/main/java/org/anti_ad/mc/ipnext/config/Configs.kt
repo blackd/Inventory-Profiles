@@ -126,7 +126,7 @@ object ModSettings : ConfigDeclaration {
 
         .CATEGORY("$category.villager_trading")
         //.CATEGORY("§§hide")
-    val ENABLE_VILLAGER_TRADING                   /**/ by keyToggleBool(false)
+    val ENABLE_VILLAGER_TRADING                   /**/ by keyToggleBool(true)
 
     val VILLAGER_TRADING_LOCAL_COLOR              /**/ by color(130.r(0x96).g(1).b(0xb))
     val VILLAGER_TRADING_GLOBAL_COLOR             /**/ by color(130.r(1).g(0x96).b(0xb))

@@ -25,6 +25,7 @@ import org.anti_ad.mc.common.gui.layout.setTopLeft
 import org.anti_ad.mc.common.gui.layout.setTopRight
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.accessors.entity.*
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(indexStartOffset)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(isHovered)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(offers)`
@@ -107,9 +108,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         } ?: 17
 
         private val doGlobalButton = VillagerBookmarkButtonWidget( { ModSettings.VILLAGER_TRADING_GLOBAL_COLOR.value } ) { ->
-            VillagerTradeManager.currentVillager?.let {
-                VillagerTradeManager.doGlobalTrades(screen, it)
-            }
+            VillagerTradeManager.doGlobalTrades(screen)
         }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_GLOBAL_TRADES)
             size = Size(30, 10)
@@ -126,9 +125,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         }
 
         private val doLocalButton = VillagerBookmarkButtonWidget ({ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value}) { ->
-            VillagerTradeManager.currentVillager?.let {
-                VillagerTradeManager.doLocalTrades(screen, it)
-            }
+            VillagerTradeManager.doLocalTrades(screen)
         }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
             size = Size(30, 10)
@@ -205,8 +202,8 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
             reHint()
         }
 
-        var selectedTrade = 0;
-        var lastSelectChange = java.time.InstantSource.system().millis()
+        private var selectedTrade = 0;
+        private var lastSelectChange = System.currentTimeMillis()
 
         fun reHint() {
             var top = 5
@@ -220,12 +217,12 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
                     }
                 }
             }
-            if (java.time.InstantSource.system().millis() - lastSelectChange > 250) {
+            if (System.currentTimeMillis() - lastSelectChange > 250) {
                 screen.`(offers)`.firstOrNull { offer -> offer.`(isHovered)` }?.let { page ->
                     val container = screen.`(container)` as MerchantContainer
                     selectedTrade = page.index + screen.`(indexStartOffset)`
                 }
-                lastSelectChange = java.time.InstantSource.system().millis()
+                lastSelectChange = System.currentTimeMillis()
             }
             val left = - 10
             var top2 = bookmarksTop + 20 * (selectedTrade - screen.`(indexStartOffset)`)

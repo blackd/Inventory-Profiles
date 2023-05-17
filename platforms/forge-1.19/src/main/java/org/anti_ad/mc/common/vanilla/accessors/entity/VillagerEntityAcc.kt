@@ -51,6 +51,9 @@ val TradeOffer.`(secondBuyItem)`: ItemStack?
 val TradeOffer.`(sellItem)`
     get() = result
 
+val TradeOffer.`(isDisabled)`
+    get() = isOutOfStock
+
 val VillagerProfession.`(id)`
     get() = name
 

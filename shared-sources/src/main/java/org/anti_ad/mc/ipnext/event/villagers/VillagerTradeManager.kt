@@ -159,7 +159,7 @@ object VillagerTradeManager: IInputHandler {
     }
 
 
-    private fun List<VillagerTradeData>.has(offer: TradeOffer): Boolean {
+    fun List<VillagerTradeData>.has(offer: TradeOffer): Boolean {
         val cost1 = offer.`(originalFirstBuyItem)`.`(itemType)`
         val second = offer.`(secondBuyItem)`
         val cost2 = second?.`(itemType)`
@@ -214,50 +214,48 @@ object VillagerTradeManager: IInputHandler {
         return when {
             (doLocal || doGlobal) -> handleBookmarkKeys(screen, doGlobal, villager)
             Hotkeys.DO_GLOBAL_TRADE.isActivated() -> {
-                doGlobalTrades(screen, villager)
+                doGlobalTrades(screen)
             }
             Hotkeys.DO_LOCAL_TRADE.isActivated() -> {
-                doLocalTrades(screen, villager)
+                doLocalTrades(screen)
             }
             else -> false
         }
     }
 
-    fun doGlobalTrades(screen: MerchantScreen,
-                       villager: MerchantEntity): Boolean {
+    fun doGlobalTrades(screen: MerchantScreen): Boolean {
         val list = currentGlobalBookmarks.toList()
-        return checkAndDoTrades(screen, villager, list)
+        return checkAndDoTrades(screen, list)
     }
 
-    fun doLocalTrades(screen: MerchantScreen,
-                      villager: MerchantEntity): Boolean {
+    fun doLocalTrades(screen: MerchantScreen): Boolean {
         val list = currentVillagerBookmarks.toList()
-        return checkAndDoTrades(screen, villager, list)
+        return checkAndDoTrades(screen, list)
     }
 
     private fun checkAndDoTrades(screen: MerchantScreen,
-                                 villager: MerchantEntity,
                                  list: List<VillagerTradeData>): Boolean {
         return list.isNotEmpty().ifTrue {
             Vanilla.queueForMainThread {
-                doTrades(screen, villager, list)
+                doTrades(screen, list)
             }
         }
     }
 
-    private fun doTrades(screen: MerchantScreen,
-                         villager: MerchantEntity,
-                         bookmarks: List<VillagerTradeData>) {
+    var doTrades: (MerchantScreen, List<VillagerTradeData>) -> Unit = this::doTradesReal
+
+    private fun doTradesReal(screen: MerchantScreen,
+                             bookmarks: List<VillagerTradeData>) {
         if (Vanilla.screen() === screen) {
             val container: MerchantContainer = screen.`(container)` as MerchantContainer
             if (container === Vanilla.container()) {
                 screen.`(recipes)`.mapIndexedNotNull { index, r ->
-                    if (!r.isDisabled && bookmarks.has(r)) {
+                    if (!r.`(isDisabled)` && bookmarks.has(r)) {
                          index
                     } else {
                         null
                     }
-                }.forEach {index ->
+                }.forEach { index ->
                     Log.trace("Found offer: $index")
                     if (index >= 0) {
                         val slot = container.`(slots)`[2]
@@ -276,11 +274,31 @@ object VillagerTradeManager: IInputHandler {
         }
     }
 
+    fun doTrades116(screen: MerchantScreen,
+                    bookmarks: List<VillagerTradeData>) {
+        if (Vanilla.screen() === screen) {
+            val container: MerchantContainer = screen.`(container)` as MerchantContainer
+            if (container === Vanilla.container()) {
+                val trades = screen.`(recipes)`.mapIndexedNotNull { index, r ->
+                    if (!r.`(isDisabled)` && bookmarks.has(r)) {
+                        index
+                    } else {
+                        null
+                    }
+                }
+                VillageTrader(trades,
+                              screen,
+                              container
+                             ).run()
+            }
+        }
+    }
+
+
     private fun handleBookmarkKeys(screen: MerchantScreen,
                                    doGlobal: Boolean,
                                    villager: MerchantEntity): Boolean {
         screen.`(offers)`.firstOrNull { offer -> offer.`(isHovered)` }?.let { page ->
-            val container = screen.`(container)` as MerchantContainer
             val index = page.index + screen.`(indexStartOffset)`
 
             toggleBookmark(screen,
@@ -341,4 +359,43 @@ object VillagerTradeManager: IInputHandler {
             }
         }
     }
+
+    class VillageTrader(private val indexes: List<Int>,
+                        private val screen: MerchantScreen,
+                        private val container: MerchantContainer): Runnable {
+
+        private var atIndex = 0
+        private var changeIndex = false
+        private var doTrade = false
+
+        override fun run() {
+            if (Vanilla.screen() !== screen || container !== Vanilla.container()) {
+                return
+            }
+            if (changeIndex) {
+                atIndex++
+                if (atIndex >= indexes.size) {
+                    return
+                }
+                changeIndex = false
+            } else {
+                val slot = container.`(slots)`[2]
+                if (doTrade) {
+                    ContainerClicker.shiftClick(2)
+                    if (slot.`(itemStack)`.isEmpty()) {
+                        doTrade = false
+                    }
+                } else {
+                    doTrade = true
+                    screen.`(selectedIndex)` = indexes[atIndex]
+                    screen.`(syncRecipeIndex)`()
+                    if (slot.`(itemStack)`.isEmpty()) {
+                        changeIndex = true
+                    }
+                }
+            }
+            Vanilla.queueForMainThread(this)
+        }
+    }
+
 }

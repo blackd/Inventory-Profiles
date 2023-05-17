@@ -26,6 +26,7 @@ import net.minecraftforge.fml.ModLoadingContext
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
 import org.anti_ad.mc.ipnext.event.Sounds.Companion.registerAll
+import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.apache.commons.lang3.tuple.Pair
 import java.util.function.*
@@ -51,6 +52,7 @@ class KotlinClientInit: Runnable {
 
 
         LockedSlotKeeper.doEverySecondTick = true
+        VillagerTradeManager.doTrades = VillagerTradeManager::doTrades116
         inventoryProfilesInit()
         registerAll()
     }

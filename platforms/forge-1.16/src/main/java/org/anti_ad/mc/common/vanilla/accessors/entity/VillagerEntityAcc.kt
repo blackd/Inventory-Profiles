@@ -58,6 +58,9 @@ val TradeOffer.`(secondBuyItem)`: ItemStack?
 val TradeOffer.`(sellItem)`
     get() = sellingStack
 
+val TradeOffer.`(isDisabled)`
+    get() = hasNoUsesLeft()
+
 val VillagerProfession.`(id)`
     get() = toString()
 

@@ -49,6 +49,9 @@ val TradeOffer.`(secondBuyItem)`
 val TradeOffer.`(sellItem)`
     get() = sellItem
 
+val TradeOffer.`(isDisabled)`
+    get() = isDisabled
+
 val VillagerProfession.`(id)`
     get() = toString()
 

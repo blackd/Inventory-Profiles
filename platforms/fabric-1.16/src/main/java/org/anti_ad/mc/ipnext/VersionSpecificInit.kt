@@ -20,7 +20,9 @@
 package org.anti_ad.mc.ipnext
 
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
+import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 
 fun specificInit() {
     LockedSlotKeeper.doEverySecondTick = true
+    VillagerTradeManager.doTrades = VillagerTradeManager::doTrades116
 }
