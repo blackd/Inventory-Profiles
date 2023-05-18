@@ -33,7 +33,7 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.20-pre1", "1.20-pre2", "1.20-snapshot")
+val supported_minecraft_versions = listOf("1.20-pre1", "1.20-pre2", "1.20-Snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.20-pre2"
@@ -147,10 +147,8 @@ loom {
 tasks.named<AntlrTask>("generateGrammarSource").configure {
     val pkg = "org.anti_ad.mc.common.gen"
     outputDirectory = file("build/generated-src/antlr/main/${pkg.replace('.', '/')}")
-    arguments = listOf(
-        "-visitor", "-package", pkg,
-        "-Xexact-output-dir"
-                      )
+    arguments = listOf("-visitor", "-package", pkg,
+                       "-Xexact-output-dir")
 }
 
 afterEvaluate {
@@ -346,7 +344,7 @@ configure<CurseExtension> {
         changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+            if (!it.toLowerCase().contains("pre")) {
                 this.addGameVersion(it)
             }
         }
