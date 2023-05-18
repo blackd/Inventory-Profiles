@@ -29,7 +29,6 @@ import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
 import org.anti_ad.mc.ipn.api.IPNButton
@@ -37,7 +36,6 @@ import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
-import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SettingsWidget
@@ -65,7 +63,7 @@ object ContainerScreenEventHandler {
         if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hintFor(IPNButton.PROFILE_SELECTOR).hide) {
             widgetsToInset.add(ProfilesUICollectionWidget(target, hints).also { editor.addHintable(it) })
         }
-        if (ModSettings.ENABLE_VILLAGER_TRADING.booleanValue && !ignore && target is MerchantScreen) {
+        if (ModSettings.VILLAGER_TRADING_ENABLE.booleanValue && !ignore && target is MerchantScreen) {
             widgetsToInset.add(VillagerOverlayWidget(target, hints).also { editor.addHintable(it) })
         }
         widgetsToInset.add(settings)

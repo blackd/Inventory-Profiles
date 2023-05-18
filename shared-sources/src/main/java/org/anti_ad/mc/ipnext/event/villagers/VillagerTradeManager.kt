@@ -38,7 +38,6 @@ import org.anti_ad.mc.common.vanilla.accessors.entity.`(selectedIndex)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(sellItem)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(syncRecipeIndex)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(uuidString)`
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
 import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
 import org.anti_ad.mc.common.vanilla.alias.NbtCompound
@@ -46,11 +45,8 @@ import org.anti_ad.mc.common.vanilla.alias.NbtElement
 import org.anti_ad.mc.common.vanilla.alias.entity.MerchantEntity
 import org.anti_ad.mc.common.vanilla.alias.entity.VillagerEntity
 import org.anti_ad.mc.common.vanilla.alias.village.TradeOffer
-import org.anti_ad.mc.common.vanilla.render.b
-import org.anti_ad.mc.common.vanilla.render.g
 import org.anti_ad.mc.common.vanilla.render.glue.rFillGradient
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.r
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -63,7 +59,6 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.item.identifier
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.itemId
-import kotlin.math.roundToInt
 
 object VillagerTradeManager: IInputHandler {
 
@@ -71,7 +66,7 @@ object VillagerTradeManager: IInputHandler {
 
     var currentVillager: MerchantEntity? = null
         set(value) {
-            if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return
+            if (!ModSettings.VILLAGER_TRADING_ENABLE.booleanValue) return
             field = value
             if (value != null) {
                 currentVillagerBookmarks = VillagerDataManager.getLocal(value.`(uuidString)`)
@@ -118,7 +113,7 @@ object VillagerTradeManager: IInputHandler {
                       l: Int,
                       m: Int) {
 
-        if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return
+        if (!ModSettings.VILLAGER_TRADING_ENABLE.booleanValue) return
         val global = currentGlobalBookmarks.has(tradeOffer)
         val local = currentVillagerBookmarks.has(tradeOffer)
 
@@ -201,7 +196,7 @@ object VillagerTradeManager: IInputHandler {
     override fun onInput(lastKey: Int,
                          lastAction: Int): Boolean {
 
-        if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return false
+        if (!ModSettings.VILLAGER_TRADING_ENABLE.booleanValue) return false
         if (!VanillaUtil.inGame()) return false
         val screen = Vanilla.screen() ?: return false
         if (screen !is MerchantScreen) return false

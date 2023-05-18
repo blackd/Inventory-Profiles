@@ -29,6 +29,7 @@
     "inventoryprofiles.config.category.profiles":                                        "Profiles",
     "inventoryprofiles.config.category.lock_slots":                                      "Lock Slots",
     "inventoryprofiles.config.category.auto_refill":                                     "Auto Refill",
+    "inventoryprofiles.config.category.villager_trading":                                "Villager Trading",
     "inventoryprofiles.config.category.privacy":                                         "Privacy",
     "inventoryprofiles.config.category.advanced_options":                                "Advanced Options",
     "inventoryprofiles.config.name.open_config_folder":                                  "§aOpen Config Folder",
@@ -84,6 +85,14 @@
     "inventoryprofiles.config.description.enable_lock_slots_per_server":                 "If enabled every server and uniquely named world will have their own locked slots.\nNotice:\n1. If you tend to name all your worlds \"New World\" they will all share the same locked slots.\n2. Servers behind bungee cord/velocity proxies will share locked slots.",
 
     "inventoryprofiles.config.name.enable_auto_refill":                                  "Enable Auto Refill",
+
+    "inventoryprofiles.config.name.villager_trading_enable":                             "Enable Villager Trading",
+    "inventoryprofiles.config.description.villager_trading_enable":                      "Toggles villager trading enhancements.\n\nThis allows you to bookmark one or more type of trades.\nAnd do all possible trades for these types\nwith a single click.\n\nThere are 2 types of bookmarks Global and Local.\n - Global select the trade type for all villagers with the same profession.\n - Local select the trade for the active villager only.\n\nBookmarks also work for Wandering Traders but they only have Global type.",
+    "inventoryprofiles.config.name.villager_trading_local_color":                        "Local Bookmarks Color",
+    "inventoryprofiles.config.description.villager_trading_local_color":                 "The color used to highlight the locally bookmarked trades.",
+    "inventoryprofiles.config.name.villager_trading_global_color":                       "Global Bookmarks Colo.",
+    "inventoryprofiles.config.description.villager_trading_global_color":                "The color used to highlight the globally bookmarked trades.",
+
     "inventoryprofiles.config.name.enable_updates_check":                                "Enable Update Checks",
     "inventoryprofiles.config.name.enable_analytics":                                    "Enable Analytics",
 
@@ -433,8 +442,8 @@
     "inventoryprofiles.tooltip.settings_open":                                           "Opens Inventory Profiles Next general configuration",
     "inventoryprofiles.tooltip.do_global_trades_button":                                 "Makes all possible globally bookmarked trades.\n\nTrades for all global bookmarks until all\nresources are exhausted or no more trading is possible.\n\n",
     "inventoryprofiles.tooltip.do_local_trades_button":                                  "Makes all possible locally bookmarked trades.\n\nTrades for all local bookmarks until all\nresources are exhausted or no more trading is possible.",
-    "inventoryprofiles.tooltip.set_local_bookmark":                                      "Adds local bookmark.\n\nBookmarks this trade for this specific Villager/Wandering Trader.",
-    "inventoryprofiles.tooltip.set_global_bookmark":                                     "Adds global bookmark.\n\nBookmarks this trade type for all Villagers.",
+    "inventoryprofiles.tooltip.set_local_bookmark":                                      "Adds local bookmark.\n\nBookmarks this trade for this specific Villager.",
+    "inventoryprofiles.tooltip.set_global_bookmark":                                     "Adds global bookmark.\n\nBookmarks this trade type for all Villagers of that profession,\nor to all Wandering Traders.",
     "inventoryprofiles.update.version":                                                  " Version: ",
     "inventoryprofiles.update.available":                                                " is now available.\n",
     "inventoryprofiles.update.get":                                                      "Get it from: ",

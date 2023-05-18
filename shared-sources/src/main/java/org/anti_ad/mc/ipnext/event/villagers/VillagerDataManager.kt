@@ -130,7 +130,7 @@ object VillagerDataManager {
     }
 
     fun saveIfDirty() {
-        if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return
+        if (!ModSettings.VILLAGER_TRADING_ENABLE.booleanValue) return
         if (config.isDirty) {
             save()
         }

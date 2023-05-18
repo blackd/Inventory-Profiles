@@ -22,6 +22,7 @@ rootProject.name = "InventoryProfilesNext"
 
 
 if (JavaVersion.current() >= JavaVersion.VERSION_16) {
+    include("platforms:fabric-1.20")
     include("platforms:fabric-1.19.4")
     include("platforms:fabric-1.19")
     include("platforms:fabric-1.18.2")
