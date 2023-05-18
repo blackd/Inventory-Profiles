@@ -1,6 +1,6 @@
 <!-- latest begin -->
 
-### 1.10.0
+### 1.10.0/1
 
 - Adds support for 1.20-pre1/2 and probably 1.20 proper.
 - Adds support for [Chipped](https://legacy.curseforge.com/minecraft/mc-mods/chipped) Stone Cutter like crafting tables.  
