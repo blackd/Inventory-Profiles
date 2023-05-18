@@ -1,13 +1,15 @@
 <!-- latest begin -->
 
-### 1.9.7
+### 1.10.0
 
-- added support for wildcards in hotbar pickup whitelist.
-- workaround for ClientCommands incompatibility that was crashing the game.
-- added option to make auto refill to prefer smaller stacks when refilling.
-- now you can temporarily disable tool replacement if tou hold **ALT** while the tool is active. 
-- added gui hints for TFC and some new for Create
-- removed the analytics code. The server was down for few months anyway.
+- Adds support for 1.20-pre1/2 and probably 1.20 proper.
+- Adds support for [Chipped](https://legacy.curseforge.com/minecraft/mc-mods/chipped) Stone Cutter like crafting tables.  
+  * Supported are Forge and Fabric 1.16.5, 1.18.2, 1.19.2
+  * Support for newer Chipped versions will be added when they become available.
+- Added **Villager/Wandering Trader** trading enhancements.
+  * The GUI is self-explanatory but you chan check this [video](https://youtu.be/wY2I7t4UztE) for more information.
+  * Shortcuts can be assigned to all actions so you don't need to use the GUI.
+  * Currently, the GUI can't be disabled without disabling the whole feature. This will be addressed in the next release.
 
 ### WARNING
 
@@ -23,9 +25,19 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.18.2**
 - **1.19.2**
 - **1.19.4**
+- **1.20-pre1/2**
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.9.7
+
+- added support for wildcards in hotbar pickup whitelist.
+- workaround for ClientCommands incompatibility that was crashing the game.
+- added option to make auto refill to prefer smaller stacks when refilling.
+- now you can temporarily disable tool replacement if tou hold **ALT** while the tool is active.
+- added gui hints for TFC and some new for Create
+- removed the analytics code. The server was down for few months anyway.
 
 ### 1.9.6
 

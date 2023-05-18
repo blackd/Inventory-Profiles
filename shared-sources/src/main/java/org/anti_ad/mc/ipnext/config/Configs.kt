@@ -378,9 +378,9 @@ object Hotkeys : ConfigDeclaration {
     val LOCAL_BOOKMARK_TRADE                      /**/ by hotkey("L",
                                                                  KeybindSettings.GUI_DEFAULT)
 
-    val DO_LOCAL_TRADE                            /**/ by hotkey("LEFT_SHIFT,SPACE",
+    val DO_LOCAL_TRADE                            /**/ by hotkey("LEFT_SHIFT,T",
                                                                  KeybindSettings.GUI_DEFAULT)
-    val DO_GLOBAL_TRADE                           /**/ by hotkey("SPACE",
+    val DO_GLOBAL_TRADE                           /**/ by hotkey("T",
                                                                  KeybindSettings.GUI_DEFAULT)
         .CATEGORY("$category.misc")
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",
