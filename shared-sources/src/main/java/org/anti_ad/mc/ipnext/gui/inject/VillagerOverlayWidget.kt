@@ -146,7 +146,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val localBookmark = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value}) { ->
             VillagerTradeManager.currentVillager?.let {
                 val selected = selectedTrade
-                if (selected in 0 .. 7) {
+                if (selected in 0 .. 8) {
                     VillagerTradeManager.toggleBookmark(screen,
                                                         selected,
                                                         false,
@@ -170,7 +170,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val globalBookmark = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_GLOBAL_COLOR.value}) { ->
             VillagerTradeManager.currentVillager?.let {
                 val selected = selectedTrade
-                if (selected in 0 .. 7) {
+                if (selected in 0 .. 8) {
                     VillagerTradeManager.toggleBookmark(screen, selected, true, it)
                 }
             }
