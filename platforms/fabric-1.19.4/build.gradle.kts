@@ -44,7 +44,7 @@ val modmenu_version = "6.1.0-rc.4"
 val fabric_api_version = "0.75.3+1.19.4"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
-val carpet_core_version = "1.4.100+v230314"
+val carpet_core_version = "1.19.4-1.4.100+v230314"
 
 buildscript {
     dependencies {

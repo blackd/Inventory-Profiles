@@ -27,19 +27,26 @@ data class Config(val globalBookmarks: MutableMap<String, MutableList<VillagerTr
                   val localBookmarks: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf()) {
 
     @Transient
+    val sync = Any()
+
+    @Transient
     var isDirty: Boolean = false
         private set
 
     fun copyFrom(other: Config) {
-        globalBookmarks.clear()
-        localBookmarks.clear()
-        globalBookmarks.putAll(other.globalBookmarks)
-        localBookmarks.putAll(other.localBookmarks)
+        synchronized(sync) {
+            globalBookmarks.clear()
+            localBookmarks.clear()
+            globalBookmarks.putAll(other.globalBookmarks)
+            localBookmarks.putAll(other.localBookmarks)
+        }
     }
 
     fun clear() {
-        globalBookmarks.clear()
-        localBookmarks.clear()
+        synchronized(sync) {
+            globalBookmarks.clear()
+            localBookmarks.clear()
+        }
     }
 
     fun markDirty() {
@@ -51,9 +58,14 @@ data class Config(val globalBookmarks: MutableMap<String, MutableList<VillagerTr
     }
 
     fun asSanitized(): Config {
-        val newLocal = localBookmarks.filter {
-            it.value.isNotEmpty()
-        }.toMutableMap()
-        return Config(globalBookmarks.toMutableMap(), newLocal)
+        synchronized(sync) {
+            val newLocal = localBookmarks.filter {
+                it.value.isNotEmpty()
+            }.toMutableMap()
+            val cfg = Config(globalBookmarks.toMutableMap(),
+                             newLocal)
+            cfg.isDirty = this.isDirty
+            return cfg
+        }
     }
 }

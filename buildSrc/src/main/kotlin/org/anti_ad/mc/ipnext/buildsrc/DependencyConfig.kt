@@ -148,7 +148,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
             }
         }
         carpet_version?.let {
-            "modImplementation"("carpet:fabric-carpet:$minecraft_version-$carpet_version")
+            "modImplementation"("carpet:fabric-carpet:$carpet_version")
         }
 
         "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.9.2+kotlin.1.8.10")

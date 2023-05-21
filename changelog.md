@@ -1,15 +1,10 @@
 <!-- latest begin -->
 
-### 1.10.0/1
+### 1.10.2
 
-- Adds support for 1.20-pre1/2 and probably 1.20 proper.
-- Adds support for [Chipped](https://legacy.curseforge.com/minecraft/mc-mods/chipped) Stone Cutter like crafting tables.  
-  * Supported are Forge and Fabric 1.16.5, 1.18.2, 1.19.2
-  * Support for newer Chipped versions will be added when they become available.
-- Added **Villager/Wandering Trader** trading enhancements.
-  * The GUI is self-explanatory but you chan check this [video](https://youtu.be/wY2I7t4UztE) for more information.
-  * Shortcuts can be assigned to all actions so you don't need to use the GUI.
-  * Currently, the GUI can't be disabled without disabling the whole feature. This will be addressed in the next release.
+- Fixed a problem where the bookmark buttons didn't work last 1 or 2 trades.
+- Fixed random crash some players are experiencing while trading or switching villagers.
+- IPN + OptiFabric-v1.13.24 will cause the game to crash. No fix or workaround is possible at this time.   
 
 ### WARNING
 
@@ -25,10 +20,22 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.18.2**
 - **1.19.2**
 - **1.19.4**
-- **1.20-pre1/2**
+- **1.20-pre1/2/3/4**
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.10.0/1
+
+- Adds support for 1.20-pre1/2 and probably 1.20 proper.
+- Adds support for [Chipped](https://legacy.curseforge.com/minecraft/mc-mods/chipped) Stone Cutter like crafting tables.
+  * Supported are Forge and Fabric 1.16.5, 1.18.2, 1.19.2
+  * Support for newer Chipped versions will be added when they become available.
+- Added **Villager/Wandering Trader** trading enhancements.
+  * The GUI is self-explanatory but you chan check this [video](https://youtu.be/wY2I7t4UztE) for more information.
+  * Shortcuts can be assigned to all actions so you don't need to use the GUI.
+  * Currently, the GUI can't be disabled without disabling the whole feature. This will be addressed in the next release.
+
 
 ### 1.9.7
 

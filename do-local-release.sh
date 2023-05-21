@@ -16,12 +16,9 @@ python build_release_notes.py
 
 cd ..
 
-./gradlew --max-workers 32 clean
 ./gradlew --max-workers 32 createMcpToSrg
-./gradlew --max-workers 32 build
+./gradlew --max-workers 32 compileKotlin compileJava
 
-./gradlew --max-workers 32 clean
-./gradlew --max-workers 32 createMcpToSrg
 ./gradlew --max-workers 4 build modrinth curseforge
 
 

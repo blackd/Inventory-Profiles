@@ -23,11 +23,16 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import org.anti_ad.mc.common.extensions.exists
+import org.anti_ad.mc.common.extensions.trySwallow
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(id)`
 import org.anti_ad.mc.common.vanilla.alias.village.VillagerProfession
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.ModSettings
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.timer
 import kotlin.io.path.div
 import kotlin.io.path.inputStream
 import kotlin.io.path.moveTo
@@ -126,22 +131,67 @@ object VillagerDataManager {
         config.globalBookmarks[VillagerProfession.NITWIT.`(id)`] = mutableListOf()
         config.globalBookmarks[VillagerProfession.NONE.`(id)`] = mutableListOf()
         config.markDirty()
-        save()
+        saveIfDirty()
     }
+
+    var saveTimer: Timer? = null
 
     fun saveIfDirty() {
         if (!ModSettings.VILLAGER_TRADING_ENABLE.booleanValue) return
-        if (config.isDirty) {
-            save()
+        val task = object: (TimerTask) -> Unit {
+
+            val maxTimesEmpty = 15
+
+            var timesEmpty = 0
+
+            private fun cancel() {
+                synchronized(timerSync) {
+                    saveTimer?.cancel()
+                    saveTimer = null
+                }
+            }
+
+            override fun invoke(timerTask: TimerTask) {
+                if (ModSettings.VILLAGER_TRADING_ENABLE.booleanValue) {
+                    val cfg = config.asSanitized()
+                    if (cfg.isDirty) {
+                        save(cfg)
+                    } else if (++timesEmpty > maxTimesEmpty) {
+                        cancel()
+                    }
+                } else {
+                    cancel()
+                }
+            }
+        }
+        synchronized(timerSync) {
+            if (config.isDirty && saveTimer == null) {
+                val timer = timer("IPN VillagerDataManager",
+                                  daemon = false,
+                                  initialDelay = 100,
+                                  period = 250,
+                                  task)
+                saveTimer = timer
+            }
         }
     }
 
-    private fun save() {
+    private val timerSync = Any()
+
+    private fun save(cfg: Config) {
         if (configFile.exists()) {
-            configFile.moveTo(this.path / "prev-villager-trading-config.json", StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)
+            try {
+                configFile.moveTo(this.path / "prev-villager-trading-config.json",
+                                  StandardCopyOption.ATOMIC_MOVE,
+                                  StandardCopyOption.REPLACE_EXISTING)
+            } catch (t: Throwable) {
+                Log.error("Backup of villagers data failed! This not a real problem but it will be very helpful if you can report it.", t)
+            }
         }
         with(configFile.outputStream()) {
-            json.encodeToStream(Config.serializer(), config.asSanitized(), this)
+            json.encodeToStream(Config.serializer(),
+                                cfg,
+                                this)
         }
         config.cleanDirty()
     }

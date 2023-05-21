@@ -33,18 +33,18 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.20-pre1", "1.20-pre2", "1.20-Snapshot")
+val supported_minecraft_versions = listOf("1.20-pre1", "1.20-pre2", "1.20-pre3", "1.20-pre4", "1.20-Snapshot")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.20-pre2"
+val minecraft_version = "1.20-pre4"
 val minecraft_version_string = "1.20"
-val mappings_version = "1.20-pre2+build.1"
+val mappings_version = "1.20-pre4+build.3"
 val loader_version = "0.14.19"
 val modmenu_version = "7.0.0-beta.2"
 val fabric_api_version = "0.81.2+1.20"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
-val carpet_core_version = "1.4.109+v230516"
+val carpet_core_version = "1.20-pre2-1.4.109+v230516"
 
 buildscript {
     dependencies {
