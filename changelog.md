@@ -2,6 +2,7 @@
 
 ### 1.10.2
 
+- Sorry for the torrent of updates but somehow the last released end up build from 1.10.1 sources
 - Fixed a problem where the bookmark buttons didn't work last 1 or 2 trades.
 - Fixed random crash some players are experiencing while trading or switching villagers.
 - IPN + OptiFabric-v1.13.24 will cause the game to crash. No fix or workaround is possible at this time.   
