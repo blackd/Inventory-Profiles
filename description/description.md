@@ -75,6 +75,20 @@ some shortcuts "Inventory Tweaks" used.
 </tbody>
 </table>
 
+## Dependencies
+
+### Fabric
+* [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
+* [Fabric Language Kotlin](https://www.curseforge.com/minecraft/mc-mods/fabric-language-kotlin)
+* [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn)
+* [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu)
+
+### Forge
+* [Kotlin For Forge](https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge)
+* [libIPN](https://www.curseforge.com/minecraft/mc-mods/libipn)
+
+
+
 ## WARNING
 
 Due to multiple Quilt specific crashes and one item duplication Quilt support is now defined as fallows:

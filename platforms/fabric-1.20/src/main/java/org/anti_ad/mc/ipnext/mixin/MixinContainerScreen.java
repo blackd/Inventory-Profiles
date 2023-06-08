@@ -54,10 +54,14 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
         ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext), i, j);
     }
 
+
+
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
             "drawForeground(Lnet/minecraft/client/gui/DrawContext;II)V", shift = At.Shift.AFTER), method = "render")
     public void onForegroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
-        ContainerScreenEventHandler.INSTANCE.onForegroundRender(new NativeContext(drawContext), i, j);
+        var context = new NativeContext(drawContext);
+        context.setOverlay(true);
+        ContainerScreenEventHandler.INSTANCE.onForegroundRender(context, i, j);
     }
 
     @Inject(at = @At(value = "HEAD",

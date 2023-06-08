@@ -1,11 +1,9 @@
 <!-- latest begin -->
 
-### 1.10.2
+### 1.10.3
 
-- Sorry for the torrent of updates but somehow the last released end up build from 1.10.1 sources
+- Support for 1.20 Fabric. The pre1/2 version does work but has some GUI glitches.
 - Fixed a problem where the bookmark buttons didn't work last 1 or 2 trades.
-- Fixed random crash some players are experiencing while trading or switching villagers.
-- IPN + OptiFabric-v1.13.24 will cause the game to crash. No fix or workaround is possible at this time.   
 
 ### WARNING
 
@@ -25,6 +23,14 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.10.2
+
+- Sorry for the torrent of updates but somehow the last released end up build from 1.10.1 sources
+- Fixed a problem where the bookmark buttons didn't work last 1 or 2 trades.
+- Fixed random crash some players are experiencing while trading or switching villagers.
+- IPN + OptiFabric-v1.13.24 will cause the game to crash. No fix or workaround is possible at this time.
+
 
 ### 1.10.0/1
 
