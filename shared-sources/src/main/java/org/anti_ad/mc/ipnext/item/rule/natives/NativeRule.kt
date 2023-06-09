@@ -109,8 +109,10 @@ class NumberBasedRule : TypeBasedRule<Number>() {
         arguments.defineParameter(number_order,
                                   NumberOrder.ASCENDING)
         comparator = { a, b ->
-            compareNumber(valueOf(a),
-                          valueOf(b))
+            val valueA = valueOf(a)
+            val valueB = valueOf(b)
+            compareNumber(valueA,
+                          valueB)
         }
     }
 

@@ -3,6 +3,7 @@
 ### 1.10.3
 
 - Support for 1.20 Fabric. The pre1/2 version does work but has some GUI glitches.
+- Fixed default sort rule for 1.19.4 and 1.20 to really use the Creative search tab index.
 - Fixed a problem where the bookmark buttons didn't work last 1 or 2 trades.
 
 ### WARNING

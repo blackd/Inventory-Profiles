@@ -26,8 +26,10 @@ import net.minecraft.block.ShulkerBoxBlock
 import net.minecraft.entity.effect.StatusEffectCategory
 import net.minecraft.item.BlockItem
 import net.minecraft.text.TranslatableTextContent
+import org.anti_ad.mc.common.extensions.ifIt
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.ifTrue
+import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Enchantment
 import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
@@ -236,9 +238,13 @@ private fun initGroupIndex(): Boolean {
 val ItemType.searchTabIndex: Int
     get() {
         initGroupIndex()
-        return ItemGroups.getSearchGroup().searchTabStacks.indexOfFirst { it ->
-            it != null && it.`(itemType)` == this
+        val index = ItemGroups.getSearchGroup().searchTabStacks.indexOfFirst { it ->
+            it != null && it.`(itemType)`.item == this.item
         }
+        if (index == -1) {
+            Log.warn("Item ${this.itemId} not present in the Creative Inventory Search Tab!")
+        }
+        return index
     }
 
 val ItemType.groupIndex: Int

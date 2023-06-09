@@ -33,7 +33,7 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.20", "1.20")
+val supported_minecraft_versions = listOf("1.20")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.20"

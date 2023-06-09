@@ -216,9 +216,14 @@ private fun initGroupIndex(): Boolean {
 val ItemType.searchTabIndex: Int
     get() {
         initGroupIndex()
-        return ItemGroups.searchTab().searchTabDisplayItems.indexOfFirst { it ->
-            it != null && it.`(itemType)` == this
+
+        val index = ItemGroups.searchTab().searchTabDisplayItems.indexOfFirst { it ->
+            it != null && it.`(itemType)`.item == this.item
         }
+        if (index == -1) {
+            Log.warn("Item ${this.itemId} not present in the Creative Inventory Search Tab!")
+        }
+        return index
     }
 
 val ItemType.groupIndex: Int
