@@ -5,7 +5,7 @@
 # Find more information on toml format here:  https://github.com/toml-lang/toml
 
 modLoader="kotlinforforge"
-loaderVersion="[4.1,)" # Require at least 3
+loaderVersion="[4.3,)" # Require at least 3
 
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/blackd/Inventory-Profiles/issues" #optional
@@ -52,7 +52,7 @@ Take controll over you inventory
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[45.0.1,46)" #mandatory
+    versionRange="[46,47)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -62,7 +62,7 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.4,1.20)"
+    versionRange="[1.20,1.21)"
     ordering="NONE"
     side="CLIENT"
 

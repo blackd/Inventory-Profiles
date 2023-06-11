@@ -42,7 +42,7 @@ val minecraft_version = "1.20"
 val minecraft_version_string = "1.20"
 val forge_version = "46.0.1"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "4.2.0"
+val kotlin_for_forge_version = "4.3.0"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.20")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
@@ -114,8 +114,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-
-group = "org.anti-ad.mc"
 
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }

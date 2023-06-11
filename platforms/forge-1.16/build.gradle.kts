@@ -121,9 +121,6 @@ compileKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
 
-
-group = "org.anti-ad.mc"
-
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()

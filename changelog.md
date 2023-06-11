@@ -20,7 +20,7 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.18.2**
 - **1.19.2**
 - **1.19.4**
-- **1.20-pre1/2/3/4**
+- **1.20**
 
 <!-- latest end -->
 <!-- rest begin -->

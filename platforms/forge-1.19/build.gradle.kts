@@ -115,8 +115,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-group = "org.anti-ad.mc"
-
 repositories {
     maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()

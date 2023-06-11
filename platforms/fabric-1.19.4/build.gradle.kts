@@ -82,8 +82,6 @@ plugins {
 configureCommon()
 platformsCommonConfig()
 
-group = "org.anti-ad.mc"
-
 configure<JavaPluginExtension> {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
