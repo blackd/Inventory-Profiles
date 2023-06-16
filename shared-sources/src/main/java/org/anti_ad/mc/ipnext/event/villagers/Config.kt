@@ -44,17 +44,22 @@ data class Config(val globalBookmarks: MutableMap<String, MutableList<VillagerTr
 
     fun clear() {
         synchronized(sync) {
+            isDirty = globalBookmarks.isNotEmpty() || localBookmarks.isNotEmpty()
             globalBookmarks.clear()
             localBookmarks.clear()
         }
     }
 
     fun markDirty() {
-        this.isDirty = true
+        synchronized(sync) {
+            this.isDirty = true
+        }
     }
 
     fun cleanDirty() {
-        this.isDirty = false
+        synchronized(sync) {
+            this.isDirty = false
+        }
     }
 
     fun asSanitized(): Config {

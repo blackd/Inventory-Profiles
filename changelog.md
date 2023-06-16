@@ -1,10 +1,9 @@
 <!-- latest begin -->
 
-### 1.10.3
+### 1.10.4
 
-- Support for 1.20 Fabric. The pre1/2 version does work but has some GUI glitches.
-- Fixed default sort rule for 1.19.4 and 1.20 to really use the Creative search tab index.
-- Fixed a problem where the bookmark buttons didn't work last 1 or 2 trades.
+- "Disable all input user for locked slots" now disables and swap buttons (1-9)
+- Forge 1.20.1 support
 
 ### WARNING
 
@@ -21,9 +20,16 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.19.2**
 - **1.19.4**
 - **1.20**
+- **1.20.1**
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.10.3
+
+- Support for 1.20 Fabric. The pre1/2 version does work but has some GUI glitches.
+- Fixed default sort rule for 1.19.4 and 1.20 to really use the Creative search tab index.
+- Fixed a problem where the bookmark buttons didn't work last 1 or 2 trades.
 
 ### 1.10.2
 

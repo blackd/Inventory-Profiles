@@ -42,12 +42,13 @@ public class MixinAbstractContainerScreen<T extends AbstractContainerMenu> {
     protected void slotClicked(Slot slot, int slotId, int p_97780_, ClickType p_97781_, CallbackInfo ci) {
         Log.INSTANCE.trace("onMouseClick for " + slotId);
         LockSlotsHandler.INSTANCE.setLastMouseClickSlot(slot);
-        if (slot != null
-                && LockedSlotsSettings.INSTANCE.getLOCK_SLOTS_DISABLE_USER_INTERACTION().getValue()
-                && LockSlotsHandler.INSTANCE.isMappedSlotLocked(slot)) {
+        if (slot != null && LockedSlotsSettings.INSTANCE.getLOCK_SLOTS_DISABLE_USER_INTERACTION().getValue()) {
+            if (LockSlotsHandler.INSTANCE.isMappedSlotLocked(slot) ||
+                    (p_97781_ == ClickType.SWAP && LockSlotsHandler.INSTANCE.isSlotLocked(p_97780_))) {
             Log.INSTANCE.trace("cancel for " + slotId);
             ci.cancel();
         }
+    }
     }
 
     @Inject(at = @At(value = "TAIL",
