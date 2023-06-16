@@ -66,11 +66,12 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
     public void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType, CallbackInfo ci) {
         Log.INSTANCE.trace("onMouseClick for " + slotId);
         LockSlotsHandler.INSTANCE.setLastMouseClickSlot(slot);
-        if (slot != null
-                && LockedSlotsSettings.INSTANCE.getLOCK_SLOTS_DISABLE_USER_INTERACTION().getValue()
-                && LockSlotsHandler.INSTANCE.isMappedSlotLocked(slot)) {
-            Log.INSTANCE.trace("cancel for " + slotId);
-            ci.cancel();
+        if (slot != null && LockedSlotsSettings.INSTANCE.getLOCK_SLOTS_DISABLE_USER_INTERACTION().getValue()) {
+            if (LockSlotsHandler.INSTANCE.isMappedSlotLocked(slot) ||
+                    (actionType == SlotActionType.SWAP && LockSlotsHandler.INSTANCE.isSlotLocked(button))) {
+                Log.INSTANCE.trace("cancel for " + slotId);
+                ci.cancel();
+            }
         }
     }
 

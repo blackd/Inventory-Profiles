@@ -57,8 +57,8 @@ object VillagerDataManager {
     private lateinit var configFile: Path;
 
     private fun add(target: MutableMap<String, MutableList<VillagerTradeData>>,
-            key: String,
-            data: VillagerTradeData) {
+                    key: String,
+                    data: VillagerTradeData) {
         target.getOrPut(key) {
             mutableListOf()
         }.add(data)
@@ -156,6 +156,7 @@ object VillagerDataManager {
                     val cfg = config.asSanitized()
                     if (cfg.isDirty) {
                         save(cfg)
+                        config.cleanDirty()
                     } else if (++timesEmpty > maxTimesEmpty) {
                         cancel()
                     }
@@ -192,8 +193,10 @@ object VillagerDataManager {
             json.encodeToStream(Config.serializer(),
                                 cfg,
                                 this)
+            this.flush()
+            this.close()
         }
-        config.cleanDirty()
+
     }
 
 

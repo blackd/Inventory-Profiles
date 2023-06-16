@@ -47,6 +47,7 @@ import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
+import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
@@ -57,6 +58,7 @@ import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.`(window)`
 import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
+import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.item.maxCount
 
 import org.anti_ad.mc.ipnext.parser.LockSlotsLoader

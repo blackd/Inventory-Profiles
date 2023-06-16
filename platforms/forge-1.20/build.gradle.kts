@@ -35,16 +35,16 @@ import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.20")
+val supported_minecraft_versions = listOf("1.20.1")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.20"
-val minecraft_version_string = "1.20"
-val forge_version = "46.0.12"
+val minecraft_version = "1.20.1"
+val minecraft_version_string = "1.20.1"
+val forge_version = "47.0.1"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "4.3.0"
 val mappingsMap = mapOf("channel" to "official",
-                        "version" to "1.20")
+                        "version" to "1.20.1")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
 logger.lifecycle("""
