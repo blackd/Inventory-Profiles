@@ -256,13 +256,15 @@ object VillagerTradeManager: IInputHandler {
                         val slot = container.`(slots)`[2]
                         screen.`(selectedIndex)` = index
                         screen.`(syncRecipeIndex)`()
+                        var iterations = 0
                         do {
                             do {
                                 ContainerClicker.shiftClick(2)
-                            } while (!slot.`(itemStack)`.isEmpty())
+                                iterations++
+                            } while (iterations <= 200 && !slot.`(itemStack)`.isEmpty())
                             screen.`(selectedIndex)` = index
                             screen.`(syncRecipeIndex)`()
-                        } while (!slot.`(itemStack)`.isEmpty())
+                        } while (iterations <= 400 && !slot.`(itemStack)`.isEmpty())
                     }
                 }
             }
@@ -363,7 +365,11 @@ object VillagerTradeManager: IInputHandler {
         private var changeIndex = false
         private var doTrade = false
 
+        private var iterations = 0;
+
         override fun run() {
+            iterations++
+            if (iterations > 500) return
             if (Vanilla.screen() !== screen || container !== Vanilla.container()) {
                 return
             }
