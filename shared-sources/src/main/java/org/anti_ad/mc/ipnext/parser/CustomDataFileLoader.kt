@@ -275,8 +275,6 @@ object HintsLoader: Loader {
 
 object VillagerBookmarksLoader: Loader, Savable {
 
-    private var firstLoad: Boolean = false
-
     val path: Path
         get() {
             val dir = serverIdentifier(true).sanitized()
@@ -284,10 +282,7 @@ object VillagerBookmarksLoader: Loader, Savable {
         }
 
     override fun load() {
-        if(!firstLoad) {
-            firstLoad = true
-            reload()
-        }
+        reload()
     }
 
     override fun reload() {
