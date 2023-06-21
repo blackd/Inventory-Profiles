@@ -1,9 +1,10 @@
 <!-- latest begin -->
+### 1.10.5
 
-### 1.10.4
-
-- "Disable all input user for locked slots" now disables and swap buttons (1-9)
-- Forge 1.20.1 support
+- Fixed crash when the FTB Quest screen is opened from the inventory screen and closed.
+- Fixed game hanging when the inventory is full and fast trading is used.
+- Fixed villager trades data not being stored properly on servers.
+- Added workaround for Optifabric incompatibility introduced with the support for 1.20. Any future optifabric incompatibilities will be resolved with adding optifabric as incompatible mod in the mod description.
 
 ### WARNING
 
@@ -24,6 +25,11 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.10.4
+
+- "Disable all input user for locked slots" now disables and swap buttons (1-9)
+- Forge 1.20.1 support
 
 ### 1.10.3
 
