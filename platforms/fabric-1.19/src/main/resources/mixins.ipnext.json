@@ -28,5 +28,6 @@
     ],
     "injectors":          {
         "defaultRequire": 1
-  }
+    },
+    "plugin": "org.anti_ad.mc.ipnext.mixinhelpers.IPNOptiFabricMixinPlugin"
 }
