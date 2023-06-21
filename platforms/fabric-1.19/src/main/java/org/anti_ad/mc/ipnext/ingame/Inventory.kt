@@ -25,6 +25,7 @@ import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
 import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.Slot
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 
@@ -37,16 +38,24 @@ private inline val vPlayerSlots
 
 fun vCursorStack() = Vanilla.playerInventory().player.currentScreenHandler.cursorStack?.`(itemStack)` ?: ItemStack.EMPTY
 
+val sync = Any()
+
 fun vPlayerSlotOf(slot: Slot,
                   screen: Screen?): Slot { // creative slot to survival slot
     if (screen !is CreativeInventoryScreen) return slot
-    if (slot.`(inventory)` !is PlayerInventory) return slot
+    val inventory = slot.`(inventoryOrNull)` ?: return slot
+    if (inventory !is PlayerInventory) return slot
     val id = slot.`(id)`
     val invSlot = slot.`(invSlot)`
     return when {
-        invSlot in 0..8 && id == 45 + invSlot -> vPlayerSlots[36 + invSlot] // hotbar in other tab
-        invSlot in 0..45 && id == 0 -> vPlayerSlots[invSlot] // slot in backpack tab
-        else -> slot
+        invSlot in 0..8 && id == 45 + invSlot -> {
+            vPlayerSlots[36 + invSlot] // hotbar in other tab
+        }
+
+        invSlot in 0..45 && id == 0           -> {
+            vPlayerSlots[invSlot] // slot in backpack tab
+        }
+        else                                  -> slot
     }
 }
 

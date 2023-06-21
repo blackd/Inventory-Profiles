@@ -45,8 +45,8 @@ fun vCursorStack() = Vanilla.playerInventory().player.containerMenu.carried?.`(i
 fun vPlayerSlotOf(slot: Slot,
                   screen: Screen?): Slot { // creative slot to survival slot
     if (screen !is CreativeInventoryScreen) return slot
-    val inventory = slot.`(inventoryOrNull)`
-    if (inventory != null && inventory !is PlayerInventory) return slot
+    val inventory = slot.`(inventoryOrNull)` ?: return slot
+    if (inventory !is PlayerInventory) return slot
     val id = slot.`(id)`
     val invSlot = slot.`(invSlot)`
     Log.trace("id: $id, invSlot: $invSlot")
