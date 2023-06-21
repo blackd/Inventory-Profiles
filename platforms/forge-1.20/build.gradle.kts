@@ -35,7 +35,7 @@ import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.20.1")
+val supported_minecraft_versions = listOf("1.20", "1.20.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.20.1"
@@ -147,7 +147,7 @@ configurations {
 
 dependencies {
     //runtimeOnly( fg.deobf("curse.maven:iron-furnaces-237664:4009901"))
-
+    implementation(fg.deobf("curse.maven:easy-villagers-400514:4584220"))
 }
 
 tasks.named("compileKotlin") {
