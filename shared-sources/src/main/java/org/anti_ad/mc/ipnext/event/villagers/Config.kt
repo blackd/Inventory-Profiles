@@ -24,7 +24,11 @@ import kotlinx.serialization.Transient
 
 @Serializable
 data class Config(val globalBookmarks: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf(),
-                  val localBookmarks: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf()) {
+                  val localBookmarks: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf(),
+                  val globalBookmarks1: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf(),
+                  val localBookmarks1: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf(),
+                  val globalBookmarks2: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf(),
+                  val localBookmarks2: MutableMap<String, MutableList<VillagerTradeData>> = mutableMapOf()) {
 
     @Transient
     val sync = Any()
@@ -39,14 +43,28 @@ data class Config(val globalBookmarks: MutableMap<String, MutableList<VillagerTr
             localBookmarks.clear()
             globalBookmarks.putAll(other.globalBookmarks)
             localBookmarks.putAll(other.localBookmarks)
+            globalBookmarks1.clear()
+            localBookmarks1.clear()
+            globalBookmarks1.putAll(other.globalBookmarks1)
+            localBookmarks1.putAll(other.localBookmarks1)
+            globalBookmarks2.clear()
+            localBookmarks2.clear()
+            globalBookmarks2.putAll(other.globalBookmarks2)
+            localBookmarks2.putAll(other.localBookmarks2)
         }
     }
 
     fun clear() {
         synchronized(sync) {
             isDirty = globalBookmarks.isNotEmpty() || localBookmarks.isNotEmpty()
+                      || globalBookmarks1.isNotEmpty() || localBookmarks1.isNotEmpty()
+                      || globalBookmarks2.isNotEmpty() || localBookmarks2.isNotEmpty()
             globalBookmarks.clear()
             localBookmarks.clear()
+            globalBookmarks1.clear()
+            localBookmarks1.clear()
+            globalBookmarks2.clear()
+            localBookmarks2.clear()
         }
     }
 
@@ -67,8 +85,18 @@ data class Config(val globalBookmarks: MutableMap<String, MutableList<VillagerTr
             val newLocal = localBookmarks.filter {
                 it.value.isNotEmpty()
             }.toMutableMap()
+            val newLocal1 = localBookmarks1.filter {
+                it.value.isNotEmpty()
+            }.toMutableMap()
+            val newLocal2 = localBookmarks2.filter {
+                it.value.isNotEmpty()
+            }.toMutableMap()
             val cfg = Config(globalBookmarks.toMutableMap(),
-                             newLocal)
+                             newLocal,
+                             globalBookmarks1.toMutableMap(),
+                             newLocal1,
+                             globalBookmarks2.toMutableMap(),
+                             newLocal2)
             cfg.isDirty = this.isDirty
             return cfg
         }

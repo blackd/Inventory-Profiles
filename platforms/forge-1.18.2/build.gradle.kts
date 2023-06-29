@@ -151,6 +151,11 @@ dependencies {
         runtimeOnly(fg.deobf("curse.maven:ctm-267602:3933537"))
         compileOnly(fg.deobf("curse.maven:chipped-456956:4293291"))
     }
+    //needed for Easy Villagers
+    run {
+        implementation(fg.deobf("curse.maven:easy-villagers-400514:3887794"))
+    }
+
 }
 
 tasks.named("compileKotlin") {
@@ -179,10 +184,8 @@ plugins.withId("idea") {
 tasks.named<AntlrTask>("generateGrammarSource").configure {
     val pkg = "org.anti_ad.mc.common.gen"
     outputDirectory = file("build/generated-src/antlr/main/${pkg.replace('.', '/')}")
-    arguments = listOf(
-        "-visitor", "-package", pkg,
-        "-Xexact-output-dir"
-                      )
+    arguments = listOf("-visitor", "-package", pkg,
+                       "-Xexact-output-dir")
 }
 
 afterEvaluate {
@@ -390,7 +393,28 @@ configure<UserDevExtension> {
 
         rcltName = action.taskName
 
-        create("server", runConfig)
+        val runConfigServer = Action<RunConfig> {
+            properties(mapOf(
+                //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
+                "forge.logging.console.level" to "debug",
+                "mixin.env.remapRefMap" to "true",
+                "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
+                "mixin.debug.verbose" to "true",
+                "mixin.debug.export" to "true",
+                "mixin.debug.dumpTargetOnFailure" to "true",
+                "bsl.debug" to "true"))
+            arg("--mixin.config=mixins.ipnext.json")
+            workingDirectory = project.file("run-server").canonicalPath
+            source(FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
+
+
+            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            //taskName = "plamenRunClient"
+            this.forceExit = false
+        }
+
+        create("server", runConfigServer)
         //create("data", runConfig)
 
         all {

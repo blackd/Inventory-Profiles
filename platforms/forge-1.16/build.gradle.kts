@@ -156,6 +156,10 @@ dependencies {
     //api( fg.deobf("curse.maven:tconcept-74072:3695126"))
     runtimeOnly( fg.deobf("curse.maven:ctm-267602:3137659"))
     implementation(fg.deobf("curse.maven:chipped-456956:3717506"))
+
+    implementation(fg.deobf("curse.maven:easy-villagers-400514:3637981"))
+
+
 }
 
 tasks.named("compileKotlin") {
@@ -184,10 +188,8 @@ plugins.withId("idea") {
 tasks.named<AntlrTask>("generateGrammarSource").configure {
     val pkg = "org.anti_ad.mc.common.gen"
     outputDirectory = file("build/generated-src/antlr/main/${pkg.replace('.', '/')}")
-    arguments = listOf(
-        "-visitor", "-package", pkg,
-        "-Xexact-output-dir"
-                      )
+    arguments = listOf("-visitor", "-package", pkg,
+                       "-Xexact-output-dir")
 }
 
 afterEvaluate {
@@ -377,7 +379,7 @@ configure<UserDevExtension> {
                     "mixin.debug.dumpTargetOnFailure" to "true"
             ))
             arg("-mixin.config=mixins.ipnext.json")
-            args("--width=1280", "--height=720", "--username=DEV")
+            args("--width=1280", "--height=720", "--username=DEV2")
             workingDirectory = project.file("run").canonicalPath
             source(sourceSets["main"])
             if (JavaVersion.current() >= JavaVersion.VERSION_11) {
@@ -390,8 +392,30 @@ configure<UserDevExtension> {
                 sources(sourceSets.getByName("main"))
             }
         }
+
         create("client", runConfig)
-        create("server", runConfig)
+
+        val runConfigServer = Action<RunConfig> {
+            properties(mapOf(
+                //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
+                "forge.logging.console.level" to "debug",
+                "mixin.env.remapRefMap" to "true",
+                "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
+                "mixin.debug.verbose" to "true",
+                "mixin.debug.export" to "true",
+                "mixin.debug.dumpTargetOnFailure" to "true",
+                "bsl.debug" to "true"))
+            arg("--mixin.config=mixins.ipnext.json")
+            workingDirectory = project.file("run-server").canonicalPath
+            source(FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
+
+
+            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            //taskName = "plamenRunClient"
+            this.forceExit = false
+        }
+        create("server", runConfigServer)
 
         //create("data", runConfig)
     }

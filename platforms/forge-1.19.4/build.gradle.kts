@@ -147,7 +147,8 @@ configurations {
 
 dependencies {
     //runtimeOnly( fg.deobf("curse.maven:iron-furnaces-237664:4009901"))
-
+        //runtimeOnly( fg.deobf("curse.maven:iron-furnaces-237664:4009901"))
+    implementation(fg.deobf("curse.maven:easy-villagers-400514:4502611"))
 }
 
 tasks.named("compileKotlin") {

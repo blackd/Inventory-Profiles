@@ -126,10 +126,20 @@ object ModSettings : ConfigDeclaration {
 
         .CATEGORY("$category.villager_trading")
         //.CATEGORY("§§hide")
-    val VILLAGER_TRADING_ENABLE                   /**/ by keyToggleBool(true)
+    val VILLAGER_TRADING_ENABLE                   /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val VILLAGER_TRADING_GROUP_1                  /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
+    val VILLAGER_TRADING_GROUP_2                  /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
 
     val VILLAGER_TRADING_LOCAL_COLOR              /**/ by color(130.r(0x96).g(1).b(0xb))
     val VILLAGER_TRADING_GLOBAL_COLOR             /**/ by color(130.r(1).g(0x96).b(0xb))
+        .CATEGORY("§§vgap:5")
+    val VILLAGER_TRADING_LOCAL_COLOR1             /**/ by color(130.r(0x35).g(0x3f).b(0xA2))
+    val VILLAGER_TRADING_GLOBAL_COLOR1            /**/ by color(130.r(0xff).g(0x76).b(0x3d))
+        .CATEGORY("§§vgap:5")
+    val VILLAGER_TRADING_LOCAL_COLOR2             /**/ by color(130.r(0xf6).g(0xDF).b(0x65))
+    val VILLAGER_TRADING_GLOBAL_COLOR2            /**/ by color(130.r(0xd7).g(0x74).b(0xeb))
+
+
 
 
         .CATEGORY("$category.privacy")
@@ -380,6 +390,24 @@ object Hotkeys : ConfigDeclaration {
     val DO_GLOBAL_TRADE                           /**/ by hotkey("T",
                                                                  KeybindSettings.GUI_DEFAULT)
     val DO_LOCAL_TRADE                            /**/ by hotkey("LEFT_SHIFT,T",
+                                                                 KeybindSettings.GUI_DEFAULT)
+
+    val GLOBAL_BOOKMARK_TRADE1                    /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
+    val LOCAL_BOOKMARK_TRADE1                     /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
+    val DO_GLOBAL_TRADE1                          /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
+    val DO_LOCAL_TRADE1                           /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
+
+    val GLOBAL_BOOKMARK_TRADE2                     /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
+    val LOCAL_BOOKMARK_TRADE2                      /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
+    val DO_GLOBAL_TRADE2                           /**/ by hotkey("",
+                                                                 KeybindSettings.GUI_DEFAULT)
+    val DO_LOCAL_TRADE2                            /**/ by hotkey("",
                                                                  KeybindSettings.GUI_DEFAULT)
 
         .CATEGORY("$category.misc")

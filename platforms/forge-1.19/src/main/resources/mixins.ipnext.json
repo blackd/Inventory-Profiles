@@ -15,7 +15,8 @@
         "MixinPlayerInventory",
         "MixinScreenHandler",
         "MixinMerchantScreen",
-        "MixinServerBoundInteractPacket"
+        "MixinServerBoundInteractPacket",
+        "MixinTraderTileEntityBase"
     ],
     "injectors":          {
         "defaultRequire": 1

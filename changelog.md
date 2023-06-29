@@ -1,10 +1,19 @@
 <!-- latest begin -->
-### 1.10.5
 
-- Fixed crash when the FTB Quest screen is opened from the inventory screen and closed.
-- Fixed game hanging when the inventory is full and fast trading is used.
-- Fixed villager trades data not being stored properly on servers.
-- Added workaround for Optifabric incompatibility introduced with the support for 1.20. Any future optifabric incompatibilities will be resolved with adding optifabric as incompatible mod in the mod description.
+### 1.10.6
+
+- Added 2 more villager trading bookmark groups. 
+  * The new groups are disabled by default and can be enabled in `Mod Settings`
+  * You can also assign shortcuts in `Hotkeys`
+- Added support for **Easy Villagers**.
+  * All forge versions now support the trading blocks of **Easy Villagers** 
+
+### End of Life Notice
+
+- This is the last version that supports `Minecraft 1.16` both Forge and Fabric
+- This is the last version that supports `Minecraft 1.19.4` both Forge and Fabric
+
+**Bugs might get a fix depending on the severity.**
 
 ### WARNING
 
@@ -25,6 +34,14 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.10.5
+
+- Fixed crash when the FTB Quest screen is opened from the inventory screen and closed.
+- Fixed game hanging when the inventory is full and fast trading is used.
+- Fixed villager trades data not being stored properly on servers.
+- Added workaround for Optifabric incompatibility introduced with the support for 1.20. Any future optifabric incompatibilities will be resolved with adding optifabric as incompatible mod in the mod description.
+
 
 ### 1.10.4
 

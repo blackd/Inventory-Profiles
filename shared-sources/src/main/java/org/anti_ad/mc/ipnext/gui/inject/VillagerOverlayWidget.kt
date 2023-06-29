@@ -25,10 +25,10 @@ import org.anti_ad.mc.common.gui.layout.setTopLeft
 import org.anti_ad.mc.common.gui.layout.setTopRight
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.accessors.entity.*
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(indexStartOffset)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(isHovered)`
 import org.anti_ad.mc.common.vanilla.accessors.entity.`(offers)`
+import org.anti_ad.mc.common.vanilla.accessors.entity.*
 import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
 import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
 import org.anti_ad.mc.common.vanilla.alias.entity.VillagerEntity
@@ -42,7 +42,6 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
-import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.VillagerBookmarkButtonWidget
 import org.anti_ad.mc.ipnext.ingame.`(container)`
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
@@ -124,6 +123,46 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
             hintableList.add(this)
         }
 
+        private val doGlobalButton1 = VillagerBookmarkButtonWidget( { ModSettings.VILLAGER_TRADING_GLOBAL_COLOR1.value } ) { ->
+            VillagerTradeManager.doGlobalTrades1(screen)
+        }.apply {
+            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_GLOBAL_TRADES1)
+            size = Size(30, 10)
+            tx = 150
+            ty = 0
+            ctx = 150
+            cty = 10
+            checked = {true}
+            this@VillagerOverlayWidget.addChild(this)
+            visible = true
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.do_global_trades_button1")
+            id = "do_global_trades_button"
+            hintableList.add(this)
+            visibleOverride = { _ ->
+                ModSettings.VILLAGER_TRADING_GROUP_1.booleanValue
+            }
+        }
+
+        private val doGlobalButton2 = VillagerBookmarkButtonWidget( { ModSettings.VILLAGER_TRADING_GLOBAL_COLOR2.value } ) { ->
+            VillagerTradeManager.doGlobalTrades2(screen)
+        }.apply {
+            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_GLOBAL_TRADES2)
+            size = Size(30, 10)
+            tx = 150
+            ty = 0
+            ctx = 150
+            cty = 10
+            checked = {true}
+            this@VillagerOverlayWidget.addChild(this)
+            visible = true
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.do_global_trades_button2")
+            id = "do_global_trades_button"
+            hintableList.add(this)
+            visibleOverride = { _ ->
+                ModSettings.VILLAGER_TRADING_GROUP_2.booleanValue
+            }
+        }
+
         private val doLocalButton = VillagerBookmarkButtonWidget ({ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value}) { ->
             VillagerTradeManager.doLocalTrades(screen)
         }.apply {
@@ -143,6 +182,50 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
             hintableList.add(this)
         }
 
+        private val doLocalButton1 = VillagerBookmarkButtonWidget ({ModSettings.VILLAGER_TRADING_LOCAL_COLOR1.value}) { ->
+            VillagerTradeManager.doLocalTrades1(screen)
+        }.apply {
+            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
+            size = Size(30, 10)
+            tx = 150
+            ty = 0
+            ctx = 150
+            cty = 10
+            checked = {true}
+            this@VillagerOverlayWidget.addChild(this)
+            visible = VillagerTradeManager.currentVillager?.let {
+                it is VillagerEntity
+            } ?: false
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.do_local_trades_button1")
+            id = "do_local_trades_button"
+            hintableList.add(this)
+            visibleOverride = { _ ->
+                ModSettings.VILLAGER_TRADING_GROUP_1.booleanValue
+            }
+        }
+
+        private val doLocalButton2 = VillagerBookmarkButtonWidget ({ModSettings.VILLAGER_TRADING_LOCAL_COLOR2.value}) { ->
+            VillagerTradeManager.doLocalTrades2(screen)
+        }.apply {
+            hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
+            size = Size(30, 10)
+            tx = 150
+            ty = 0
+            ctx = 150
+            cty = 10
+            checked = {true}
+            this@VillagerOverlayWidget.addChild(this)
+            visible = VillagerTradeManager.currentVillager?.let {
+                it is VillagerEntity
+            } ?: false
+            tooltipText = I18n.translate("inventoryprofiles.tooltip.do_local_trades_button2")
+            id = "do_local_trades_button"
+            hintableList.add(this)
+            visibleOverride = { _ ->
+                ModSettings.VILLAGER_TRADING_GROUP_2.booleanValue
+            }
+        }
+
         private val localBookmark = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value}) { ->
             VillagerTradeManager.currentVillager?.let {
                 val selected = selectedTrade
@@ -150,7 +233,8 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
                     VillagerTradeManager.toggleBookmark(screen,
                                                         selected,
                                                         false,
-                                                        it)
+                                                        it,
+                                                        0)
                 }
             }
         }.apply {
@@ -167,18 +251,115 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
             hintableList.add(this)
         }
 
+        private val localBookmark1 = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_LOCAL_COLOR1.value}) { ->
+            VillagerTradeManager.currentVillager?.let {
+                val selected = selectedTrade
+                if (selected >= 0) {
+                    VillagerTradeManager.toggleBookmark(screen,
+                                                        selected,
+                                                        false,
+                                                        it,
+                                                        1)
+                }
+            }
+        }.apply {
+            this.init("inventoryprofiles.tooltip.set_local_bookmark1",
+                      "localBookmark_button")
+            visible = VillagerTradeManager.currentVillager?.let {
+                it is VillagerEntity
+            } ?: false
+            visibleOverride = { default ->
+                val activeVillager = VillagerTradeManager.currentVillager
+                ModSettings.VILLAGER_TRADING_GROUP_1.booleanValue
+                && (activeVillager == null || activeVillager is VillagerEntity)
+                && default
+
+            }
+            hintableList.add(this)
+        }
+
+        private val localBookmark2 = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_LOCAL_COLOR2.value}) { ->
+            VillagerTradeManager.currentVillager?.let {
+                val selected = selectedTrade
+                if (selected >= 0) {
+                    VillagerTradeManager.toggleBookmark(screen,
+                                                        selected,
+                                                        false,
+                                                        it,
+                                                        2)
+                }
+            }
+        }.apply {
+            this.init("inventoryprofiles.tooltip.set_local_bookmark2",
+                      "localBookmark_button")
+            visible = VillagerTradeManager.currentVillager?.let {
+                it is VillagerEntity
+            } ?: false
+            visibleOverride = { default ->
+                val activeVillager = VillagerTradeManager.currentVillager
+                ModSettings.VILLAGER_TRADING_GROUP_2.booleanValue
+                && (activeVillager == null || activeVillager is VillagerEntity)
+                && default
+
+            }
+            hintableList.add(this)
+        }
+
         private val globalBookmark = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_GLOBAL_COLOR.value}) { ->
             VillagerTradeManager.currentVillager?.let {
                 val selected = selectedTrade
                 if (selected >= 0) {
-                    VillagerTradeManager.toggleBookmark(screen, selected, true, it)
+                    VillagerTradeManager.toggleBookmark(screen,
+                                                        selected,
+                                                        true,
+                                                        it,
+                                                        0)
                 }
             }
         }.apply {
             this.init("inventoryprofiles.tooltip.set_global_bookmark",
                       "globalBookmark_button")
-            //hintableList.add(this)
         }
+
+        private val globalBookmark1 = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_GLOBAL_COLOR1.value}) { ->
+            VillagerTradeManager.currentVillager?.let {
+                val selected = selectedTrade
+                if (selected >= 0) {
+                    VillagerTradeManager.toggleBookmark(screen,
+                                                        selected,
+                                                        true,
+                                                        it,
+                                                        1)
+                }
+            }
+        }.apply {
+            this.init("inventoryprofiles.tooltip.set_global_bookmark1",
+                      "globalBookmark_button")
+            visibleOverride = { _ ->
+                ModSettings.VILLAGER_TRADING_GROUP_1.booleanValue
+            }
+        }
+
+        private val globalBookmark2 = VillagerBookmarkButtonWidget({ModSettings.VILLAGER_TRADING_GLOBAL_COLOR2.value}) { ->
+            VillagerTradeManager.currentVillager?.let {
+                val selected = selectedTrade
+                if (selected >= 0) {
+                    VillagerTradeManager.toggleBookmark(screen,
+                                                        selected,
+                                                        true,
+                                                        it,
+                                                        2)
+                }
+            }
+        }.apply {
+            this.init("inventoryprofiles.tooltip.set_global_bookmark2",
+                      "globalBookmark_button")
+            visibleOverride = { _ ->
+                ModSettings.VILLAGER_TRADING_GROUP_2.booleanValue
+            }
+        }
+
+
 
         private fun VillagerBookmarkButtonWidget.init(tooltipId: String,
                                                   id: String) {
@@ -193,10 +374,19 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
             this.id = id
         }
 
-        private val tradeRehintList: List<SortButtonWidget> = listOf(doGlobalButton,
-                                                                 doLocalButton)
+        private val tradeRehintList: List<VillagerBookmarkButtonWidget> = listOf(doGlobalButton,
+                                                                                 doLocalButton,
+                                                                                 doGlobalButton1,
+                                                                                 doLocalButton1,
+                                                                                 doGlobalButton2,
+                                                                                 doLocalButton2)
+
         private val bookmarkRehintList: List<VillagerBookmarkButtonWidget> = listOf(globalBookmark,
                                                                                     localBookmark)
+        private val bookmarkRehintList1: List<VillagerBookmarkButtonWidget> = listOf(globalBookmark1,
+                                                                                     localBookmark1)
+        private val bookmarkRehintList2: List<VillagerBookmarkButtonWidget> = listOf(globalBookmark2,
+                                                                                     localBookmark2)
 
         init {
             reHint()
@@ -207,9 +397,10 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
 
         fun reHint() {
             var top = 5
-            val right = 7
+            val right = 4
             tradeRehintList.forEach { button ->
                 with(button) {
+                    visible = visibleOverride(true)
                     if (visible) {
                         this.setTopRight(top + hints.top,
                                          right + hints.horizontalOffset)
@@ -224,17 +415,49 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
                 }
                 lastSelectChange = System.currentTimeMillis()
             }
-            val left = - 10
+            var left = - 10
             var top2 = bookmarksTop + 20 * (selectedTrade - screen.`(indexStartOffset)`)
             val dif = selectedTrade - screen.`(indexStartOffset)`
             val isVisible = dif in 0..6
-
+            var hasVisible = false
             bookmarkRehintList.forEach { button ->
                 with(button) {
                     visible = visibleOverride(isVisible)
                     if (visible) {
                         this.setTopLeft(top2 + hints.top,
                                          left + hints.horizontalOffset)
+                        top2 += 12
+                        hasVisible = true
+                    }
+                }
+            }
+            if (hasVisible) {
+                left -= 12
+                hasVisible = false
+            }
+            top2 = bookmarksTop + 20 * (selectedTrade - screen.`(indexStartOffset)`)
+            bookmarkRehintList1.forEach { button ->
+                with(button) {
+                    visible = visibleOverride(isVisible)
+                    if (visible) {
+                        this.setTopLeft(top2 + hints.top,
+                                        left + hints.horizontalOffset)
+                        top2 += 12
+                        hasVisible = true
+                    }
+                }
+            }
+            if (hasVisible) {
+                left -= 12
+                hasVisible = false
+            }
+            top2 = bookmarksTop + 20 * (selectedTrade - screen.`(indexStartOffset)`)
+            bookmarkRehintList2.forEach { button ->
+                with(button) {
+                    visible = visibleOverride(isVisible)
+                    if (visible) {
+                        this.setTopLeft(top2 + hints.top,
+                                        left + hints.horizontalOffset)
                         top2 += 12
                     }
                 }

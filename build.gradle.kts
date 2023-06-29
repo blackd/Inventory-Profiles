@@ -23,7 +23,7 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("1", "10", "5",
+val versionObj = Version("1", "10", "6",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -81,11 +81,13 @@ tasks.named<KotlinCompile>("compileKotlin") {
     }
 }
 
+//group = "org.anti-ad.mc"
+
 evaluationDependsOnChildren()
 
 allprojects {
     version = versionObj.toCleanString()
-    group = "org.anti-ad.mc"
+//    group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
     ext.set("libIPN_version", "3.0.2")
@@ -135,6 +137,7 @@ tasks.register<Copy>("copyPlatformJars") {
         val isForge = it.name.startsWith("forge")
         isFabric || isForge
     }.forEach {
+        //group = "org.anti-ad.mc.platforms"
         val isForge = !it.name.startsWith("fabric")
         val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
         val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)

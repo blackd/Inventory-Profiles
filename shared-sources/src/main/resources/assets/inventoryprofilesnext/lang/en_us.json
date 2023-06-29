@@ -93,6 +93,21 @@
     "inventoryprofiles.config.name.villager_trading_global_color":                       "Global Bookmarks Color",
     "inventoryprofiles.config.description.villager_trading_global_color":                "The color used to highlight the globally bookmarked trades.",
 
+    "inventoryprofiles.config.name.villager_trading_group_1":                            "Enable Second Bookmarks Group",
+    "inventoryprofiles.config.description.villager_trading_group_1":                     "Enables second Global/Local group of bookmarks",
+    "inventoryprofiles.config.name.villager_trading_local_color1":                       "Second Group Local Color",
+    "inventoryprofiles.config.description.villager_trading_local_color1":                "The color used to highlight the second local group of bookmarked trades.",
+    "inventoryprofiles.config.name.villager_trading_global_color1":                      "Second Group Global Color",
+    "inventoryprofiles.config.description.villager_trading_global_color1":               "The color used to highlight the second global group of bookmarked trades.",
+
+    "inventoryprofiles.config.name.villager_trading_group_2":                            "Enable Third Bookmarks Group",
+    "inventoryprofiles.config.description.villager_trading_group_2":                     "Enables third Global/Local group of bookmarks",
+    "inventoryprofiles.config.name.villager_trading_local_color2":                       "Third Group Local Color",
+    "inventoryprofiles.config.description.villager_trading_local_color2":                "The color used to highlight the third local group of bookmarked trades.",
+    "inventoryprofiles.config.name.villager_trading_global_color2":                      "Third Group Global Color",
+    "inventoryprofiles.config.description.villager_trading_global_color2":               "The color used to highlight the third global group of bookmarked trades.",
+
+
     "inventoryprofiles.config.name.enable_updates_check":                                "Enable Update Checks",
     "inventoryprofiles.config.name.enable_analytics":                                    "Enable Analytics",
 
@@ -353,6 +368,26 @@
     "inventoryprofiles.config.description.local_bookmark_trade":                         "Adds the trade under the mouse cursor as a local bookmark.",
     "inventoryprofiles.config.description.do_global_trade":                              "Executes all possible globally bookmarked trades.",
     "inventoryprofiles.config.description.do_local_trade":                               "Executes all possible locally bookmarked trades.",
+
+    "inventoryprofiles.config.name.global_bookmark_trade1":                              "Add Group 2 Global Bookmark",
+    "inventoryprofiles.config.name.local_bookmark_trade1":                               "Add Group 2 Local Bookmark",
+    "inventoryprofiles.config.name.do_global_trade1":                                    "Do Group 2 Global Trades",
+    "inventoryprofiles.config.name.do_local_trade1":                                     "Do Group 2 Local Trades",
+    "inventoryprofiles.config.description.global_bookmark_trade1":                       "Adds the trade under the mouse cursor as a global bookmark in group 2.",
+    "inventoryprofiles.config.description.local_bookmark_trade1":                        "Adds the trade under the mouse cursor as a local bookmark in group 2.",
+    "inventoryprofiles.config.description.do_global_trade1":                             "Executes all possible globally bookmarked trades from group 2.",
+    "inventoryprofiles.config.description.do_local_trade1":                              "Executes all possible locally bookmarked trades from group 2..",
+
+    "inventoryprofiles.config.name.global_bookmark_trade2":                              "Add Group 3 Global Bookmark",
+    "inventoryprofiles.config.name.local_bookmark_trade2":                               "Add Group 3 Local Bookmark",
+    "inventoryprofiles.config.name.do_global_trade2":                                    "Do Group 3 Global Trades",
+    "inventoryprofiles.config.name.do_local_trade2":                                     "Do Group 3 Local Trades",
+    "inventoryprofiles.config.description.global_bookmark_trade2":                       "Adds the trade under the mouse cursor as a global bookmark in group 3.",
+    "inventoryprofiles.config.description.local_bookmark_trade2":                        "Adds the trade under the mouse cursor as a local bookmark in group 3.",
+    "inventoryprofiles.config.description.do_global_trade2":                             "Executes all possible globally bookmarked trades from group 3.",
+    "inventoryprofiles.config.description.do_local_trade2":                              "Executes all possible locally bookmarked trades from group 3.",
+
+
     "inventoryprofiles.config.description.save_as_profile":                              "This hotkey saves the current equipment set as a Profile named \"Saved\".\nYou can use the Saved profiles to build your own profiles.\n\n§l§cNOTE§r:\nEVERY TIME you press it a new Profile named \"Saved\" is created.\nThe \"Saved\" profiles will not be part of the next/previous rotation and cannot be assigned to Quick Profiles.",
     "inventoryprofiles.config.description.next_profile":                                 "Hotkey for changing to the next profile.",
     "inventoryprofiles.config.description.prev_profile":                                 "Hotkey for changing to the previous profile.",
@@ -450,8 +485,23 @@
     "inventoryprofiles.tooltip.settings_open":                                           "Opens Inventory Profiles Next general configuration",
     "inventoryprofiles.tooltip.do_global_trades_button":                                 "Makes all possible globally bookmarked trades.\n\nTrades for all global bookmarks until all\nresources are exhausted or no more trading is possible.\n\n",
     "inventoryprofiles.tooltip.do_local_trades_button":                                  "Makes all possible locally bookmarked trades.\n\nTrades for all local bookmarks until all\nresources are exhausted or no more trading is possible.",
+
+    "inventoryprofiles.tooltip.do_global_trades_button1":                                "Makes all possible globally bookmarked trades from group 2.",
+    "inventoryprofiles.tooltip.do_local_trades_button1":                                 "Makes all possible locally bookmarked trades from group 2.",
+
+    "inventoryprofiles.tooltip.do_global_trades_button2":                                "Makes all possible globally bookmarked trades from group 3.",
+    "inventoryprofiles.tooltip.do_local_trades_button2":                                 "Makes all possible locally bookmarked trades from group 3.",
+
     "inventoryprofiles.tooltip.set_local_bookmark":                                      "Adds local bookmark.\n\nBookmarks this trade for this specific Villager.",
     "inventoryprofiles.tooltip.set_global_bookmark":                                     "Adds global bookmark.\n\nBookmarks this trade type for all Villagers of that profession,\nor to all Wandering Traders.",
+
+    "inventoryprofiles.tooltip.set_local_bookmark1":                                     "Adds local bookmark to group 2.",
+    "inventoryprofiles.tooltip.set_global_bookmark1":                                    "Adds global bookmark to group 2.",
+
+    "inventoryprofiles.tooltip.set_local_bookmark2":                                     "Adds local bookmark to group 3",
+    "inventoryprofiles.tooltip.set_global_bookmark2":                                    "Adds global bookmark to group 3.",
+
+
     "inventoryprofiles.update.version":                                                  " Version: ",
     "inventoryprofiles.update.available":                                                " is now available.\n",
     "inventoryprofiles.update.get":                                                      "Get it from: ",

@@ -71,15 +71,28 @@ object VillagerTradeManager: IInputHandler {
             if (value != null) {
                 currentVillagerBookmarks = VillagerDataManager.getLocal(value.`(uuidString)`)
                 currentGlobalBookmarks = VillagerDataManager.getGlobal(value.profesion)
+                currentVillagerBookmarks1 = VillagerDataManager.getLocal1(value.`(uuidString)`)
+                currentGlobalBookmarks1 = VillagerDataManager.getGlobal1(value.profesion)
+                currentVillagerBookmarks2 = VillagerDataManager.getLocal2(value.`(uuidString)`)
+                currentGlobalBookmarks2 = VillagerDataManager.getGlobal2(value.profesion)
             } else {
                 VillagerDataManager.saveIfDirty()
                 currentGlobalBookmarks = defaultEmpty
                 currentVillagerBookmarks = defaultEmpty
+                currentGlobalBookmarks1 = defaultEmpty
+                currentVillagerBookmarks1 = defaultEmpty
+                currentGlobalBookmarks2 = defaultEmpty
+                currentVillagerBookmarks2 = defaultEmpty
             }
         }
 
     var currentVillagerBookmarks: List<VillagerTradeData> = defaultEmpty
+    var currentVillagerBookmarks1: List<VillagerTradeData> = defaultEmpty
+    var currentVillagerBookmarks2: List<VillagerTradeData> = defaultEmpty
+
     var currentGlobalBookmarks: List<VillagerTradeData> = defaultEmpty
+    var currentGlobalBookmarks1: List<VillagerTradeData> = defaultEmpty
+    var currentGlobalBookmarks2: List<VillagerTradeData> = defaultEmpty
 
 
 
@@ -99,7 +112,11 @@ object VillagerTradeManager: IInputHandler {
         }
 
 
-
+    fun MutableList<Pair<Int?, Int?>>.addColors(c1: Int?, c2: Int?) {
+        if (c1 != null || c2 != null) {
+            add(Pair(c1, c2))
+        }
+    }
 
     @Suppress("UNUSED_PARAMETER")
     fun drawingButton(screen: MerchantScreen,
@@ -114,9 +131,51 @@ object VillagerTradeManager: IInputHandler {
                       m: Int) {
 
         if (!ModSettings.VILLAGER_TRADING_ENABLE.booleanValue) return
-        val global = currentGlobalBookmarks.has(tradeOffer)
-        val local = currentVillagerBookmarks.has(tradeOffer)
+        var colors = mutableListOf<Pair<Int?,Int?>>()
 
+        colors.addColors(if (currentGlobalBookmarks.has(tradeOffer)) ModSettings.VILLAGER_TRADING_GLOBAL_COLOR.value else null,
+                         if (currentVillagerBookmarks.has(tradeOffer)) ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value else null )
+
+        if (ModSettings.VILLAGER_TRADING_GROUP_1.value) {
+            colors.addColors(if (currentGlobalBookmarks1.has(tradeOffer)) ModSettings.VILLAGER_TRADING_GLOBAL_COLOR1.value else null,
+                             if (currentVillagerBookmarks1.has(tradeOffer)) ModSettings.VILLAGER_TRADING_LOCAL_COLOR1.value else null )
+        }
+
+        if (ModSettings.VILLAGER_TRADING_GROUP_2.value) {
+            colors.addColors(if (currentGlobalBookmarks2.has(tradeOffer)) ModSettings.VILLAGER_TRADING_GLOBAL_COLOR2.value else null,
+                             if (currentVillagerBookmarks2.has(tradeOffer)) ModSettings.VILLAGER_TRADING_LOCAL_COLOR2.value else null )
+        }
+
+
+        val colorCount = colors.size
+        if (colorCount == 0) return
+        val partWidth: Int = if (colorCount == 1) 86 else 86 / colorCount
+        var addToFirst = if (partWidth * colorCount < 86) 86 - partWidth * colorCount else 0
+        var nextX = 0
+        colors.forEachIndexed { index, (c1, c2) ->
+            if (c1 != null && c2 != null) {
+                rFillGradient(context,
+                              Rectangle(l - 4 + nextX,
+                                        k + 2,
+                                        partWidth + addToFirst,
+                                        18),
+                              c1,
+                              c2)
+                nextX += partWidth + addToFirst
+                addToFirst = 0
+            } else {
+                val c = c1 ?: c2!!
+                rFillRect(context,
+                          Rectangle(l - 4 + nextX,
+                                    k + 2,
+                                    partWidth + addToFirst,
+                                    18),
+                          c)
+                nextX += partWidth + addToFirst
+                addToFirst = 0
+            }
+        }
+/*
         if (local && global) {
             rFillGradient(context,
                           Rectangle(l - 4,
@@ -140,6 +199,7 @@ object VillagerTradeManager: IInputHandler {
                                 18),
                       ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value)
         }
+ */
     }
 
     private fun CharSequence?.isNullOrAir(): Boolean {
@@ -202,18 +262,32 @@ object VillagerTradeManager: IInputHandler {
         if (screen !is MerchantScreen) return false
         val villager = currentVillager ?: return false
 
-        val doLocal = villager.isLocalAvailable && Hotkeys.LOCAL_BOOKMARK_TRADE.isActivated()
+        val isLocalAvailable = villager.isLocalAvailable
+
+        val doLocal = isLocalAvailable && Hotkeys.LOCAL_BOOKMARK_TRADE.isActivated()
         val doGlobal = Hotkeys.GLOBAL_BOOKMARK_TRADE.isActivated()
+
+        val doLocal1 = isLocalAvailable && Hotkeys.LOCAL_BOOKMARK_TRADE1.isActivated()
+        val doGlobal1 = Hotkeys.GLOBAL_BOOKMARK_TRADE1.isActivated()
+
+        val doLocal2 = isLocalAvailable && Hotkeys.LOCAL_BOOKMARK_TRADE2.isActivated()
+        val doGlobal2 = Hotkeys.GLOBAL_BOOKMARK_TRADE2.isActivated()
 
 
         return when {
-            (doLocal || doGlobal) -> handleBookmarkKeys(screen, doGlobal, villager)
-            Hotkeys.DO_GLOBAL_TRADE.isActivated() -> {
-                doGlobalTrades(screen)
-            }
-            Hotkeys.DO_LOCAL_TRADE.isActivated() -> {
-                doLocalTrades(screen)
-            }
+            (doLocal || doGlobal) -> handleBookmarkKeys(screen, doGlobal, villager, 0)
+            (doLocal1 || doGlobal1) -> handleBookmarkKeys(screen, doGlobal1, villager, 1)
+            (doLocal2 || doGlobal2) -> handleBookmarkKeys(screen, doGlobal2, villager, 2)
+
+            Hotkeys.DO_GLOBAL_TRADE.isActivated() -> doGlobalTrades(screen)
+            isLocalAvailable && Hotkeys.DO_LOCAL_TRADE.isActivated() -> doLocalTrades(screen)
+
+            Hotkeys.DO_GLOBAL_TRADE1.isActivated() -> doGlobalTrades1(screen)
+            isLocalAvailable && Hotkeys.DO_LOCAL_TRADE1.isActivated() -> doLocalTrades1(screen)
+
+            Hotkeys.DO_GLOBAL_TRADE2.isActivated() -> doGlobalTrades2(screen)
+            isLocalAvailable && Hotkeys.DO_LOCAL_TRADE2.isActivated() -> doLocalTrades2(screen)
+
             else -> false
         }
     }
@@ -223,8 +297,28 @@ object VillagerTradeManager: IInputHandler {
         return checkAndDoTrades(screen, list)
     }
 
+    fun doGlobalTrades1(screen: MerchantScreen): Boolean {
+        val list = currentGlobalBookmarks1.toList()
+        return checkAndDoTrades(screen, list)
+    }
+
+    fun doGlobalTrades2(screen: MerchantScreen): Boolean {
+        val list = currentGlobalBookmarks2.toList()
+        return checkAndDoTrades(screen, list)
+    }
+
     fun doLocalTrades(screen: MerchantScreen): Boolean {
         val list = currentVillagerBookmarks.toList()
+        return checkAndDoTrades(screen, list)
+    }
+
+    fun doLocalTrades1(screen: MerchantScreen): Boolean {
+        val list = currentVillagerBookmarks1.toList()
+        return checkAndDoTrades(screen, list)
+    }
+
+    fun doLocalTrades2(screen: MerchantScreen): Boolean {
+        val list = currentVillagerBookmarks2.toList()
         return checkAndDoTrades(screen, list)
     }
 
@@ -294,14 +388,16 @@ object VillagerTradeManager: IInputHandler {
 
     private fun handleBookmarkKeys(screen: MerchantScreen,
                                    doGlobal: Boolean,
-                                   villager: MerchantEntity): Boolean {
+                                   villager: MerchantEntity,
+                                   group: Int): Boolean {
         screen.`(offers)`.firstOrNull { offer -> offer.`(isHovered)` }?.let { page ->
             val index = page.index + screen.`(indexStartOffset)`
 
             toggleBookmark(screen,
                            index,
                            doGlobal,
-                           villager)
+                           villager,
+                           group)
             return true
         }
         return false
@@ -310,14 +406,43 @@ object VillagerTradeManager: IInputHandler {
     fun toggleBookmark(screen: MerchantScreen,
                        index: Int,
                        doGlobal: Boolean,
-                       villager: MerchantEntity) {
+                       villager: MerchantEntity,
+                       group: Int) {
         val trade = screen.`(recipes)`[index]
         val tr1 = trade.`(originalFirstBuyItem)`.`(itemType)`.itemId
         val tr2 = trade.`(secondBuyItem)`?.`(itemType)`?.itemId.nullIfAir()
         val sellItem = trade.`(sellItem)`.`(itemType)`
         val sellId = sellItem.identifier.toString()
         val sellNbt = sellItem.tag.nullIfEmpty()
+        when (group) {
+            0 -> doToggle(doGlobal,
+                          tr1,
+                          tr2,
+                          sellId,
+                          sellNbt,
+                          villager)
+            1 -> doToggle1(doGlobal,
+                           tr1,
+                           tr2,
+                           sellId,
+                           sellNbt,
+                           villager)
+            2 -> doToggle2(doGlobal,
+                           tr1,
+                           tr2,
+                           sellId,
+                           sellNbt,
+                           villager)
+        }
 
+    }
+
+    private fun doToggle(doGlobal: Boolean,
+                         tr1: String,
+                         tr2: String?,
+                         sellId: String,
+                         sellNbt: NbtCompound?,
+                         villager: MerchantEntity) {
         if (doGlobal) {
             val found = currentGlobalBookmarks.firstOrNull { tradeData ->
                 tradeData.priceItem1 == tr1 && tradeData.priceItem2 == tr2 && tradeData.resultItem == sellId && tradeData.nbt == sellNbt
@@ -353,6 +478,96 @@ object VillagerTradeManager: IInputHandler {
                 VillagerDataManager.removeLocal(uuid,
                                                 found)
                 VillagerDataManager.getLocal(uuid)
+            }
+        }
+    }
+
+    private fun doToggle1(doGlobal: Boolean,
+                          tr1: String,
+                          tr2: String?,
+                          sellId: String,
+                          sellNbt: NbtCompound?,
+                          villager: MerchantEntity) {
+        if (doGlobal) {
+            val found = currentGlobalBookmarks1.firstOrNull { tradeData ->
+                tradeData.priceItem1 == tr1 && tradeData.priceItem2 == tr2 && tradeData.resultItem == sellId && tradeData.nbt == sellNbt
+            }
+            val profession = villager.profesion
+
+            currentGlobalBookmarks1 = if (found == null) {
+                VillagerDataManager.addGlobal1(profession,
+                                              VillagerTradeData(sellId,
+                                                                tr1,
+                                                                tr2,
+                                                                sellNbt?.`(asString)`))
+                VillagerDataManager.getGlobal1(profession)
+            } else {
+                VillagerDataManager.removeGlobal1(profession,
+                                                  found)
+                VillagerDataManager.getGlobal1(profession)
+            }
+        } else {
+            val found = currentVillagerBookmarks1.firstOrNull { tradeData ->
+                tradeData.priceItem1 == tr1 && tradeData.priceItem2 == tr2 && tradeData.resultItem == sellId && tradeData.nbt == sellNbt
+            }
+            val uuid = villager.`(uuidString)`
+
+            currentVillagerBookmarks1 = if (found == null) {
+                VillagerDataManager.addLocal1(uuid,
+                                             VillagerTradeData(sellId,
+                                                               tr1,
+                                                               tr2,
+                                                               sellNbt?.`(asString)`))
+                VillagerDataManager.getLocal1(uuid)
+            } else {
+                VillagerDataManager.removeLocal1(uuid,
+                                                 found)
+                VillagerDataManager.getLocal1(uuid)
+            }
+        }
+    }
+
+    private fun doToggle2(doGlobal: Boolean,
+                         tr1: String,
+                         tr2: String?,
+                         sellId: String,
+                         sellNbt: NbtCompound?,
+                         villager: MerchantEntity) {
+        if (doGlobal) {
+            val found = currentGlobalBookmarks2.firstOrNull { tradeData ->
+                tradeData.priceItem1 == tr1 && tradeData.priceItem2 == tr2 && tradeData.resultItem == sellId && tradeData.nbt == sellNbt
+            }
+            val profession = villager.profesion
+
+            currentGlobalBookmarks2 = if (found == null) {
+                VillagerDataManager.addGlobal2(profession,
+                                               VillagerTradeData(sellId,
+                                                                 tr1,
+                                                                 tr2,
+                                                                 sellNbt?.`(asString)`))
+                VillagerDataManager.getGlobal2(profession)
+            } else {
+                VillagerDataManager.removeGlobal2(profession,
+                                                  found)
+                VillagerDataManager.getGlobal2(profession)
+            }
+        } else {
+            val found = currentVillagerBookmarks2.firstOrNull { tradeData ->
+                tradeData.priceItem1 == tr1 && tradeData.priceItem2 == tr2 && tradeData.resultItem == sellId && tradeData.nbt == sellNbt
+            }
+            val uuid = villager.`(uuidString)`
+
+            currentVillagerBookmarks2 = if (found == null) {
+                VillagerDataManager.addLocal2(uuid,
+                                              VillagerTradeData(sellId,
+                                                                tr1,
+                                                                tr2,
+                                                                sellNbt?.`(asString)`))
+                VillagerDataManager.getLocal2(uuid)
+            } else {
+                VillagerDataManager.removeLocal2(uuid,
+                                                found)
+                VillagerDataManager.getLocal2(uuid)
             }
         }
     }

@@ -18,7 +18,7 @@
  */
 
 
-rootProject.name = "InventoryProfilesNext"
+//rootProject.name = "InventoryProfilesNext"
 
 
 include("platforms:fabric-1.20")

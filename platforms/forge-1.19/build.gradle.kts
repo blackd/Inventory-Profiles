@@ -153,6 +153,8 @@ dependencies {
     runtimeOnly( fg.deobf("curse.maven:ctm-267602:4393695"))
     runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4378847"))
     implementation(fg.deobf("curse.maven:chipped-456956:4463479"))
+
+    implementation(fg.deobf("curse.maven:easy-villagers-400514:4502586"))
 }
 
 tasks.named("compileKotlin") {

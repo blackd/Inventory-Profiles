@@ -86,13 +86,43 @@ object VillagerDataManager {
     fun removeLocal(uuid: String?,
                     villagerTradeData: VillagerTradeData) = remove(config.localBookmarks, uuid, villagerTradeData)
 
+    fun removeGlobal1(professionId: String?,
+                      villagerTradeData: VillagerTradeData) = remove(config.globalBookmarks1, professionId, villagerTradeData)
+
+    fun removeLocal1(uuid: String?,
+                     villagerTradeData: VillagerTradeData) = remove(config.localBookmarks1, uuid, villagerTradeData)
+
+    fun removeGlobal2(professionId: String?,
+                      villagerTradeData: VillagerTradeData) = remove(config.globalBookmarks2, professionId, villagerTradeData)
+
+    fun removeLocal2(uuid: String?,
+                     villagerTradeData: VillagerTradeData) = remove(config.localBookmarks2, uuid, villagerTradeData)
+
     fun addGlobal(type: String, data: VillagerTradeData) = add(config.globalBookmarks, type, data)
 
     fun getGlobal(type: String): List<VillagerTradeData> = get(config.globalBookmarks, type)
 
+    fun addGlobal1(type: String, data: VillagerTradeData) = add(config.globalBookmarks1, type, data)
+
+    fun getGlobal1(type: String): List<VillagerTradeData> = get(config.globalBookmarks1, type)
+
+    fun addGlobal2(type: String, data: VillagerTradeData) = add(config.globalBookmarks2, type, data)
+
+    fun getGlobal2(type: String): List<VillagerTradeData> = get(config.globalBookmarks2, type)
+
+
     fun addLocal(uuid: String, data: VillagerTradeData) = add(config.localBookmarks, uuid, data)
 
     fun getLocal(uuid: String): List<VillagerTradeData> = get(config.localBookmarks, uuid)
+
+    fun addLocal1(uuid: String, data: VillagerTradeData) = add(config.localBookmarks1, uuid, data)
+
+    fun getLocal1(uuid: String): List<VillagerTradeData> = get(config.localBookmarks1, uuid)
+
+    fun addLocal2(uuid: String, data: VillagerTradeData) = add(config.localBookmarks2, uuid, data)
+
+    fun getLocal2(uuid: String): List<VillagerTradeData> = get(config.localBookmarks2, uuid)
+
 
     fun init(path: Path) {
         //if (!ModSettings.ENABLE_VILLAGER_TRADING.booleanValue) return
@@ -130,6 +160,38 @@ object VillagerDataManager {
         config.globalBookmarks[VillagerProfession.WEAPONSMITH.`(id)`] = mutableListOf()
         config.globalBookmarks[VillagerProfession.NITWIT.`(id)`] = mutableListOf()
         config.globalBookmarks[VillagerProfession.NONE.`(id)`] = mutableListOf()
+
+        config.globalBookmarks1[VillagerProfession.ARMORER.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.BUTCHER.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.CARTOGRAPHER.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.CLERIC.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.FARMER.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.FISHERMAN.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.FLETCHER.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.LEATHERWORKER.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.LIBRARIAN.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.MASON.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.SHEPHERD.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.TOOLSMITH.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.WEAPONSMITH.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.NITWIT.`(id)`] = mutableListOf()
+        config.globalBookmarks1[VillagerProfession.NONE.`(id)`] = mutableListOf()
+
+        config.globalBookmarks2[VillagerProfession.ARMORER.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.BUTCHER.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.CARTOGRAPHER.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.CLERIC.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.FARMER.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.FISHERMAN.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.FLETCHER.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.LEATHERWORKER.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.LIBRARIAN.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.MASON.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.SHEPHERD.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.TOOLSMITH.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.WEAPONSMITH.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.NITWIT.`(id)`] = mutableListOf()
+        config.globalBookmarks2[VillagerProfession.NONE.`(id)`] = mutableListOf()
         config.markDirty()
         saveIfDirty()
     }
