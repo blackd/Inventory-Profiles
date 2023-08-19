@@ -123,12 +123,14 @@ object InsertWidgetHandler : ScreenEventListener {
 
     override fun mouseScrolled(x: Double,
                                y: Double,
-                               amount: Double): Boolean {
+                               horizontal: Double,
+                               vertical: Double): Boolean {
         var r = false
         currentWidgets.forEach {
             r = r || it.mouseScrolled(x.toInt(),
                                       y.toInt(),
-                                      amount)
+                                      horizontal,
+                                      vertical)
         }
         return r
     }

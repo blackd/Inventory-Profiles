@@ -108,6 +108,9 @@ dependencies {
     //"modCompileOnly"("com.terraformersmc:modmenu:$modmenu_version")
     //modRuntimeOnly("curse.maven:minihud-244260:4160116")
     //modRuntimeOnly("curse.maven:malilib-303119:4147598")
+    modRuntimeOnly("curse.maven:athena-841890:4686261")
+    modRuntimeOnly("curse.maven:resourcefullib-570073:4681832")
+    modImplementation("curse.maven:chipped-456956:4634858")
 }
 
 tasks.named("compileKotlin") {

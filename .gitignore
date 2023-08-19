@@ -8,6 +8,7 @@ classes/
 # idea
 
 .idea/
+.idea.*
 *.iml
 *.ipr
 *.iws
@@ -37,6 +38,7 @@ run-server
 description/out
 repo
 /common/src/main/gen/
+gen
 
 # macOS
 .DS_Store

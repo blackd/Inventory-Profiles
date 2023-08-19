@@ -26,7 +26,7 @@ import org.anti_ad.mc.common.gui.layout.Axis
 import org.anti_ad.mc.common.gui.layout.BiFlex
 import org.anti_ad.mc.common.gui.layout.setBottomLeft
 import org.anti_ad.mc.common.gui.layout.setBottomRight
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
+import org.anti_ad.mc.common.gui.widgets.CustomButtonWidget
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
@@ -170,12 +170,15 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
 
     }
 
-    inner class ActiveProfileButtonWidget(onClick: () -> Unit): ButtonWidget(onClick) {
+    inner class ActiveProfileButtonWidget(onClick: () -> Unit): CustomButtonWidget(onClick) {
         override var text: String
             get() {
                 return getCurrentProfileName()
             }
             set(_) {}
+
+        var vText: String = ""
+
         var tooltipText: String = ""
         override fun render(context: NativeContext,
                             mouseX: Int,
@@ -185,6 +188,11 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
                          mouseX,
                          mouseY,
                          partialTicks)
+            val p = getCurrentProfileName()
+            if (vText != p) {
+                vText = p
+                vanillaMessage = p
+            }
             if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
                                                                           mouseY) && tooltipText.isNotEmpty()) {
                 TooltipsManager.addTooltip(tooltipText,

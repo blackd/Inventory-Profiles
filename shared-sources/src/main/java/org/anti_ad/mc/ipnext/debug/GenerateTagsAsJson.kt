@@ -24,7 +24,7 @@ import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.createDirectories
 import org.anti_ad.mc.common.extensions.div
 
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
+import org.anti_ad.mc.common.gui.widgets.CustomButtonWidget
 import org.anti_ad.mc.common.vanilla.Vanilla
 
 import org.anti_ad.mc.common.vanilla.VanillaUtil
@@ -33,7 +33,7 @@ import kotlin.io.path.bufferedWriter
 
 object GenerateTagsAsJson: AbstractBlockScreenScriptGenerator() {
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(widget: CustomButtonWidget) {
         (VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens").createDirectories()
         Vanilla.mc().execute() {
             TellPlayer.chat("Generating...")

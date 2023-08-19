@@ -146,6 +146,11 @@ configurations {
 }
 
 dependencies {
+
+    runtimeOnly( fg.deobf("curse.maven:athena-841890:4686264"))
+    runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4681831"))
+    implementation(fg.deobf("curse.maven:chipped-456956:4634856"))
+
     //runtimeOnly( fg.deobf("curse.maven:iron-furnaces-237664:4009901"))
     implementation(fg.deobf("curse.maven:easy-villagers-400514:4584220"))
 }

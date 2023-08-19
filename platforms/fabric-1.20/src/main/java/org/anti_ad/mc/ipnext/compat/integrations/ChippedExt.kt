@@ -19,27 +19,13 @@
 
 package org.anti_ad.mc.ipnext.compat.integrations
 
-import net.fabricmc.loader.api.FabricLoader
-import org.anti_ad.mc.common.extensions.trySwallow
+import earth.terrarium.chipped.common.menu.ChippedMenu
+import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.ipnext.ingame.`(syncId)`
 
-object Integrations {
+typealias ChippedMenu = ChippedMenu
 
-    var ___getCarpetEmptyShulkersStackSize: () -> Int = { 1 }
-
-    val carpetEmptyShulkersStackSize: Int
-        get() {
-            return ___getCarpetEmptyShulkersStackSize();
-        }
-
-
-    fun init() {
-        trySwallow {
-            CarpetIntegration().init()
-        }
-        trySwallow {
-            if (FabricLoader.getInstance().getModContainer("chipped").isPresent) {
-                ChippedIntegration.init()
-            }
-        }
-    }
+fun ChippedMenu.`(selectRecipe)`(id: Int) {
+    onButtonClick(Vanilla.player(), id)
+    Vanilla.mc().interactionManager?.clickButton(syncId, id)
 }

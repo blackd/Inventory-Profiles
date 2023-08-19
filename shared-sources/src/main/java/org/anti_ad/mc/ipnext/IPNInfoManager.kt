@@ -20,8 +20,8 @@
 package org.anti_ad.mc.ipnext
 
 import org.anti_ad.mc.common.TellPlayer
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
+import org.anti_ad.mc.common.gui.widgets.CustomButtonWidget
 import org.anti_ad.mc.common.moreinfo.InfoManagerBase
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
@@ -72,7 +72,7 @@ object IPNInfoManager: InfoManagerBase() {
         override val buttonText: String
             get() = I18n.translate("inventoryprofiles.gui.config.button.do_version_check")
 
-        override fun onClick(widget: ButtonWidget) {
+        override fun onClick(widget: CustomButtonWidget) {
             doCheckVersion()
         }
     }

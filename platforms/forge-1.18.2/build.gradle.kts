@@ -149,7 +149,7 @@ dependencies {
     //needed for chipped
     run {
         runtimeOnly(fg.deobf("curse.maven:ctm-267602:3933537"))
-        compileOnly(fg.deobf("curse.maven:chipped-456956:4293291"))
+        implementation(fg.deobf("curse.maven:chipped-456956:4293291"))
     }
     //needed for Easy Villagers
     run {

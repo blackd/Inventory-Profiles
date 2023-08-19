@@ -21,7 +21,7 @@
 package org.anti_ad.mc.ipnext.config
 
 import org.anti_ad.mc.common.TellPlayer
-import org.anti_ad.mc.common.gui.widgets.ButtonWidget
+import org.anti_ad.mc.common.gui.widgets.CustomButtonWidget
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
@@ -46,7 +46,7 @@ class ExportHints(val asInternal: Boolean): ConfigButtonInfo() {
     override val buttonText: String
         get() = "Export Hints Data ${if (asInternal) "for integration" else "as separate files"}"
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(widget: CustomButtonWidget) {
         if (asInternal) {
             TellPlayer.chat("Generating ModIntegrationExport.json")
             HintsManagerNG.saveAllAsIntegrated(Modpacks.DIFF_CALCULATOR_PRIORITY.value)
@@ -58,7 +58,7 @@ class ExportHints(val asInternal: Boolean): ConfigButtonInfo() {
 
 open class DefaultDelegatedConfigButtonInfo: ConfigButtonInfo() {
     open var delegate: ConfigButtonClickHandler? = null
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(widget: CustomButtonWidget) {
         delegate?.onClick {}
     }
 }
@@ -68,7 +68,7 @@ object ReloadRuleFileButtonInfo : ConfigButtonInfo() {
     override val buttonText: String
         get() = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files")
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(widget: CustomButtonWidget) {
         delegate?.onClick {
             widget.active = false
             widget.text = I18n.translate("inventoryprofiles.gui.config.button.reload_rule_files.reloaded")
@@ -97,7 +97,7 @@ object OpenConfigFolderButtonInfo : ConfigButtonInfo() {
     override val buttonText: String
         get() = I18n.translate("inventoryprofiles.gui.config.button.open_config_folder")
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(widget: CustomButtonWidget) {
         VanillaUtil.open(configFolder.toFile())
     }
 }
@@ -106,7 +106,7 @@ object OpenProfilesHelpButtonInfo : ConfigButtonInfo() {
     override val buttonText: String
         get() = I18n.translate("inventoryprofiles.gui.config.profiles_help_button")
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(widget: CustomButtonWidget) {
         VanillaUtil.open(URL("https://inventory-profiles-next.github.io/profiles/"))
     }
 }
@@ -115,7 +115,7 @@ object OpenProfilesConfigButtonInfo : ConfigButtonInfo() {
     override val buttonText: String
         get() = I18n.translate("inventoryprofiles.gui.config.profiles_config_button")
 
-    override fun onClick(widget: ButtonWidget) {
+    override fun onClick(widget: CustomButtonWidget) {
         if (VanillaUtil.inGame()) {
             VanillaUtil.open(profileFilePath.toFile())
         }

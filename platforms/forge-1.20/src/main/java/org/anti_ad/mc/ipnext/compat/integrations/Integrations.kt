@@ -19,11 +19,16 @@
 
 package org.anti_ad.mc.ipnext.compat.integrations
 
+import org.anti_ad.mc.common.extensions.trySwallow
+
 object Integrations {
 
     val carpetEmptyShulkersStackSize = 1
 
     fun init(): Boolean {
+        trySwallow {
+            ChippedIntegration.init()
+        }
         return false
     }
 }
