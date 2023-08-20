@@ -240,7 +240,7 @@
     "inventoryprofiles.config.description.enable_auto_refill":                           "Ricarica l'oggetto attivo quando la pila si esaurisce.",
     "inventoryprofiles.config.description.disable_for_drop_item":                        "Disabilita \"Ricarica automatica\" per gli oggetti lasciati",
     "inventoryprofiles.config.description.ignore_locked_slots":                          "Consenti Ricarica automatica per utilizzare gli oggetti dagli slot bloccati.",
-    "inventoryprofiles.config.description.auto_refill_prefer_smaller_stacks":            "Per impostazione predefinita, la pila con la maggior parte degli elementi verrà utilizzata per il riempimento automatico. Se questo è impostato su "true", verrà utilizzato per primo il più piccolo disponibile.",
+    "inventoryprofiles.config.description.auto_refill_prefer_smaller_stacks":            "Per impostazione predefinita, la pila con la maggior parte degli elementi verrà utilizzata per il riempimento automatico. Se questo è impostato su 'vero', verrà utilizzato per primo il più piccolo disponibile.",
     "inventoryprofiles.config.description.refill_armor":                                 "Riempi gli slot dell'armatura se gli oggetti stanno per rompersi",
     "inventoryprofiles.config.description.refill_before_tool_break":                     "Ricarica strumenti e armature prima che si rompano.\nVedi \"Soglia di danno\" per maggiori informazioni.",
     "inventoryprofiles.config.description.disable_for_loyalty_items":                    "Disabilita la sostituzione dell'equipaggiamento incantato Lealtà.\nQuando questo è vero, tutto ciò che è incantato con qualsiasi livello di Lealtà\n non verrà sostituito quando lanciato o lasciato cadere.",
@@ -249,14 +249,14 @@
     "inventoryprofiles.config.description.auto_refill_match_nbt_type":                   "Questo controlla come viene confrontato NBT.\n'Esatto' significa che NBT deve corrispondere completamente.\n'Consenti extra' significa che verranno confrontati solo i tag uguali.",
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":           "Se questo è impostato su falso, i secchi di pesci e Axolotl si riempiranno solo se contengono lo stesso tipo di pesci/Axolotl.",
     "inventoryprofiles.config.description.auto_refill_match_any_food":                   "Quando questo è impostato su vero quando una pila di cibo è esaurita, qualsiasi altro cibo può essere usato per riempirlo.\n\nNOTA:\nQuesto ordinerà gli alimenti per saturazione, cioè e la mela d'oro incantata sarà la prima scelta. E così via...",
-    "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "Quando questo e quanto sopra sono impostati su true, anche gli alimenti dannosi, come il "pesce palla", verranno utilizzati per riempire le pile di cibo esaurite.",
+    "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "Quando questo e quanto sopra sono impostati su true, anche gli alimenti dannosi, come il 'pesce palla', verranno utilizzati per riempire le pile di cibo esaurite.",
 
     "inventoryprofiles.config.description.autorefill_blacklist":                         "Elenco separato da virgole di tipi di elementi che verranno ignorati da Ricarica automatica\nAd esempio 'minecraft:golden_axe,minecraft:stone'\nATTENZIONE:\nPer evitare il degrado delle prestazioni NON inserire troppi tipi di elementi nell'elenco!",
     "inventoryprofiles.config.description.tool_damage_threshold":                        "Controlla il livello di durabilità che attiverà il riempimento automatico.",
     "inventoryprofiles.config.description.threshold_unit":                               "Imposta l'unità per \"Soglia di danno\".\nSono supportati il valore assoluto e la percentuale (%%).",
     "inventoryprofiles.config.description.auto_refill_wait_tick":                        "La ricarica automatica attenderà questo numero di tick prima di eseguire lo scambio. \nQuesto potrebbe essere utile su alcuni durante un elevato ritardo del server. \nTuttavia, a seconda del valore \"Damage Threshold\", lo strumento potrebbe rompersi prima che venga avviato uno scambio.",
     "inventoryprofiles.config.description.auto_refill_temp_disable_refill_for_tools":    "Tenere premuto questo tasto disabiliterà il riempimento automatico per gli strumenti, questo ti consentirà di rompere gli strumenti se lo desideri.",
-    "inventoryprofiles.config.description.allow_break_for_non_enchanted":                "Non cercare di salvare oggetti non incantati.\Questo ha una durabilità massima inferiore all'impostazione sottostante.",
+    "inventoryprofiles.config.description.allow_break_for_non_enchanted":                "Non cercare di salvare oggetti non incantati.\nQuesto ha una durabilità massima inferiore all'impostazione sottostante.",
     "inventoryprofiles.config.description.tool_max_durability_threshold":                "Gli strumenti con durata massima al di sotto di questo valore potranno rompersi se l'impostazione sopra è vera.\nL'idea che la maggior parte dei giocatori non vuole davvero tenere gli strumenti di pietra,\n ma sarà infastidita se ne rompono uno di diamante.",
     "inventoryprofiles.config.notification.tool_replace_ping.ipn":                       "IPN ",
     "inventoryprofiles.config.notification.tool_replace_ping.warning":                   "ATTENZIONE ",
@@ -300,7 +300,7 @@
     "inventoryprofiles.config.description.also_show_locked_slots_in_hotbar":             "Quando abilitato, gli slot bloccati vengono visualizzati anche nell'HUD della barra di scelta rapida",
     "inventoryprofiles.config.description.locked_slots_foreground_style":                "Seleziona lo stile di primo piano dal predefinito\n\nPuoi creare la tua texture e inserirla in\nresourcepacks/§o[pack_name]§r/assets/inventoryprofilesnext/textures/gui/overlay.png",
     "inventoryprofiles.config.description.locked_slots_disable_quick_move_throw":        "Nella schermata dell'inventario gli slot bloccati saranno immuni a:\n - Maiusc+clic\n - Ctrl+Q\n - Scorri Maiusc+clic\n - Scorri Ctrl+Q",
-    "inventoryprofiles.config.description.locked_slots_disable_throw_for_non_stackable": "Operazioni di rilascio disabilitate per gli slot bloccati della hotbar durante il gioco.\Impedisci di lanciare il tuo piccone nella lava.",
+    "inventoryprofiles.config.description.locked_slots_disable_throw_for_non_stackable": "Operazioni di rilascio disabilitate per gli slot bloccati della hotbar durante il gioco.\nImpedisci di lanciare il tuo piccone nella lava.",
     "inventoryprofiles.config.description.locked_slots_allow_pickup_into_empty":         "Dovrebbe essere possibile raccogliere gli oggetti da terra negli slot bloccati VUOTI.\nGli oggetti impilabili verranno comunque raccolti nei sot bloccati dello stesso oggetto che hanno spazio.\nNOTA: vedi la descrizione dell'impostazione successiva per maggiori informazioni!",
     "inventoryprofiles.config.description.locked_slots_empty_hotbar_as_semi_locked":     "Questo cercherà di raccogliere gli oggetti direttamente nell'inventario invece di prendere gli slot vuoti dalla hotbar.\nNOTA: Perché funzioni \"Abilita la raccolta degli oggetti negli slot bloccati vuoti\" deve essere impostato su \"false\"!",
     "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks":       "Il numero massimo di tick del client per attendere che il server invii il contenuto dell'inventario del giocatore. \nSe gli slot bloccati fanno spostare/buttare via gli elementi al cambio di dimensione, è necessario aumentare questo valore.\nCiò accade spesso sui server sotto carico pesante.\nNOTA: 20 tick equivalgono a 1 secondo.\n§l§cAVVISO§r : L'impostazione di un valore troppo elevato PUÒ comportare il mancato funzionamento corretto della gestione degli slot bloccati fino alla scadenza di questo timeout.",
@@ -320,8 +320,8 @@
     "inventoryprofiles.config.description.quick_slot_1_profile":                         "Il nome del profilo che sarà accessibile con il tasto di scelta rapida Profilo rapido 1.",
     "inventoryprofiles.config.description.quick_slot_2_profile":                         "Il nome del profilo che sarà accessibile con il tasto di scelta rapida Profilo rapido 2.",
     "inventoryprofiles.config.description.quick_slot_3_profile":                         "Il nome del profilo che sarà accessibile con il tasto di scelta rapida Profilo rapido 3.",
-    "inventoryprofiles.config.name.include_custom_name":                                 "Includi nomi personalizzati nei profili "Salvati".",
-    "inventoryprofiles.config.description.include_custom_name":                          "Se questa opzione è abilitata, i nomi degli elementi personalizzati verranno inclusi nei profili "Salvati".\nQuesto NON è consigliato per l'uso generale, ma è utile in alcuni casi come avere un profilo con zaini diversi o qualche altro tipo di spazio di archiviazione.\n\ nQuando si tratta di equipaggiamento normale, l'abbinamento tramite incantesimi è l'approccio migliore.",
+    "inventoryprofiles.config.name.include_custom_name":                                 "Includi nomi personalizzati nei profili 'Salvati'.",
+    "inventoryprofiles.config.description.include_custom_name":                          "Se questa opzione è abilitata, i nomi degli elementi personalizzati verranno inclusi nei profili 'Salvati'.\nQuesto NON è consigliato per l'uso generale, ma è utile in alcuni casi come avere un profilo con zaini diversi o qualche altro tipo di spazio di archiviazione.\n\ nQuando si tratta di equipaggiamento normale, l'abbinamento tramite incantesimi è l'approccio migliore.",
 
 
     "inventoryprofiles.gui.config.ScrollSettings":                                       "Scorrimento degli elementi",
@@ -379,7 +379,7 @@
     "inventoryprofiles.config.description.do_local_trade1":                              "Esegue tutte le possibili operazioni con segnalibri locali dal gruppo 2..",
 
     "inventoryprofiles.config.name.global_bookmark_trade2":                              "Aggiungi segnalibro globale del gruppo 3",
-    "inventoryprofiles.config.name.local_bookmark_trade2":                               Aggiungi segnalibro locale del gruppo 3",
+    "inventoryprofiles.config.name.local_bookmark_trade2":                               "Aggiungi segnalibro locale del gruppo 3",
     "inventoryprofiles.config.name.do_global_trade2":                                    "Fai scambi globali del gruppo 3",
     "inventoryprofiles.config.name.do_local_trade2":                                     "Fai scambi locali del gruppo 3",
     "inventoryprofiles.config.description.global_bookmark_trade2":                       "Aggiunge lo scambio sotto il cursore del mouse come segnalibro globale nel gruppo 3.",
@@ -492,7 +492,7 @@
     "inventoryprofiles.tooltip.do_global_trades_button2":                                "Rende tutte le possibili operazioni con segnalibro a livello globale dal gruppo 3.",
     "inventoryprofiles.tooltip.do_local_trades_button2":                                 "Rende tutte le possibili operazioni con segnalibri locali dal gruppo 3.",
 
-    "inventoryprofiles.tooltip.set_local_bookmark":                                      "Aggiunge un segnalibro locale.\in\Segnalibri questo scambio per questo specifico villico.",
+    "inventoryprofiles.tooltip.set_local_bookmark":                                      "Aggiunge un segnalibro locale.\nin\nSegnalibri questo scambio per questo specifico villico.",
     "inventoryprofiles.tooltip.set_global_bookmark":                                     "Aggiunge un segnalibro globale.\n\nSegnalibro per questo tipo di commercio per tutti i villici di quella professione,\né per tutti i commercianti erranti.",
 
     "inventoryprofiles.tooltip.set_local_bookmark1":                                     "Aggiunge segnalibro locale al gruppo 2.",
@@ -529,6 +529,6 @@
     "inventoryprofiles.gui.editor.name.help.move.keys":                                  "Sposta il pulsante",
     "inventoryprofiles.gui.editor.description.help.move.keys":                           "'W','S','A','D' ed i tasti freccia spostano il pulsante selezionato",
     "inventoryprofiles.gui.editor.name.help.move.speed":                                 "Muoviti più veloce!!!",
-    "inventoryprofiles.gui.editor.description.help.move.speed":                          "Tenendo premuto "Maiusc" con i tasti Sposta, il pulsante si sposterà più velocemente.",
-    "inventoryprofiles.profiles.created_new_saved":                                      "Creato un nuovo profilo "Salvato"..."
+    "inventoryprofiles.gui.editor.description.help.move.speed":                          "Tenendo premuto 'Maiusc' con i tasti Sposta, il pulsante si sposterà più velocemente.",
+    "inventoryprofiles.profiles.created_new_saved":                                      "Creato un nuovo profilo 'Salvato'..."
 }
