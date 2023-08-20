@@ -187,11 +187,13 @@ object ContainerClicker {
                     }
                 }
                 if (iterator.hasNext()) {
-                    val slotId = iterator.next()
-                    highlight.id = slotId.key
-                    LockSlotsHandler.lastMouseClickSlot = slotId.value
-                    qClick(slotId.key)
-                    LockSlotsHandler.lastMouseClickSlot = null
+                    Vanilla.mc().execute {
+                        val slotId = iterator.next()
+                        highlight.id = slotId.key
+                        LockSlotsHandler.lastMouseClickSlot = slotId.value
+                        qClick(slotId.key)
+                        LockSlotsHandler.lastMouseClickSlot = null
+                    }
                 } else {
                     cancel()
                     highlights.remove(highlight)
@@ -246,11 +248,14 @@ object ContainerClicker {
                     }
                 }
                 if (iterator.hasNext()) {
-                    val slotId = iterator.next()
-                    firstHighlight.id = slotId.key
-                    secondHighlight.id = slotId.value
-                    LockSlotsHandler.lastMouseClickSlot = Vanilla.container().getSlot(slotId.key)
-                    swapClick(slotId.key, slotId.value)
+                    Vanilla.mc().execute {
+                        val slotId = iterator.next()
+                        firstHighlight.id = slotId.key
+                        secondHighlight.id = slotId.value
+                        LockSlotsHandler.lastMouseClickSlot = Vanilla.container().getSlot(slotId.key)
+                        swapClick(slotId.key,
+                                  slotId.value)
+                    }
                 } else {
                     cancel()
                     highlights.remove(firstHighlight)
@@ -312,9 +317,11 @@ object ContainerClicker {
                 }
                 if (iterator.hasNext()) {
                     val (slotId, button) = iterator.next()
-                    highlight.id = slotId
-                    click(slotId,
-                          button)
+                    Vanilla.mc().execute {
+                        highlight.id = slotId
+                        click(slotId,
+                              button)
+                    }
                 } else {
                     cancel()
                     highlights.remove(highlight)
