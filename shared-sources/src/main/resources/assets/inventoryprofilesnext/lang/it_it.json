@@ -321,7 +321,7 @@
     "inventoryprofiles.config.description.quick_slot_2_profile":                         "Il nome del profilo che sarà accessibile con il tasto di scelta rapida Profilo rapido 2.",
     "inventoryprofiles.config.description.quick_slot_3_profile":                         "Il nome del profilo che sarà accessibile con il tasto di scelta rapida Profilo rapido 3.",
     "inventoryprofiles.config.name.include_custom_name":                                 "Includi nomi personalizzati nei profili 'Salvati'.",
-    "inventoryprofiles.config.description.include_custom_name":                          "Se questa opzione è abilitata, i nomi degli elementi personalizzati verranno inclusi nei profili 'Salvati'.\nQuesto NON è consigliato per l'uso generale, ma è utile in alcuni casi come avere un profilo con zaini diversi o qualche altro tipo di spazio di archiviazione.\n\ nQuando si tratta di equipaggiamento normale, l'abbinamento tramite incantesimi è l'approccio migliore.",
+    "inventoryprofiles.config.description.include_custom_name":                          "Se questa opzione è abilitata, i nomi degli elementi personalizzati verranno inclusi nei profili 'Salvati'.\nQuesto NON è consigliato per l'uso generale, ma è utile in alcuni casi come avere un profilo con zaini diversi o qualche altro tipo di spazio di archiviazione.\n\nQuando si tratta di equipaggiamento normale, l'abbinamento tramite incantesimi è l'approccio migliore.",
 
 
     "inventoryprofiles.gui.config.ScrollSettings":                                       "Scorrimento degli elementi",
