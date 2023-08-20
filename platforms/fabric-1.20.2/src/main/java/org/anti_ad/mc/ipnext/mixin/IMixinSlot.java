@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,39 +18,19 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.ipnext.mixin;
 
-//rootProject.name = "InventoryProfilesNext"
+import net.minecraft.screen.slot.Slot;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-include("platforms:fabric-1.20.2")
-include("platforms:fabric-1.20")
-include("platforms:fabric-1.19")
-include("platforms:fabric-1.18.2")
+/**
+ * IMixinSlot
+ */
+@Mixin(Slot.class)
+public interface IMixinSlot {
 
+    @Accessor("index")
+    int getInvSlot();
 
-include("platforms:forge-1.20")
-include("platforms:forge-1.19")
-include("platforms:forge-1.18.2")
-
-
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
-        }
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
-}
-
-plugins {
-    id("com.gradle.enterprise") version "3.4.1"
-}
-
-gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-    }
 }

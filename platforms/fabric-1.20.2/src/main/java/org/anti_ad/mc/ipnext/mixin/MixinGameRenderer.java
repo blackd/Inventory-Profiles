@@ -43,15 +43,13 @@ public class MixinGameRenderer {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V"),
             method = "render",
             locals = LocalCapture.CAPTURE_FAILHARD)
-    public void preScreenRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci, int i, int j, Window window, Matrix4f matrix4f, MatrixStack matrixStack, DrawContext drawContext) {
+    public void preScreenRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci, boolean bl, int i, int j, Window window, Matrix4f matrix4f, MatrixStack matrixStack, DrawContext drawContext) {
         ScreenEventHandler.INSTANCE.preRender(new NativeContext(drawContext));
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V",
-            shift = At.Shift.AFTER),
-            method = "render",
-            locals = LocalCapture.CAPTURE_FAILHARD)
-    public void postScreenRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci, int i, int j, Window window, Matrix4f matrix4f, MatrixStack matrixStack, DrawContext drawContext) {
+            shift = At.Shift.AFTER), method = "render", locals = LocalCapture.CAPTURE_FAILHARD)
+    public void postScreenRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci, boolean bl, int i, int j, Window window, Matrix4f matrix4f, MatrixStack matrixStack, DrawContext drawContext) {
         ScreenEventHandler.INSTANCE.postRender(new NativeContext(drawContext));
     }
 }
