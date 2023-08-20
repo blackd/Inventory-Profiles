@@ -624,6 +624,8 @@ configure<CurseExtension> {
             requiredDependency("kotlin-for-forge")
             requiredDependency("libipn")
         })
+        addGameVersion("NeoForge")
+        addGameVersion("Forge")
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
@@ -665,6 +667,7 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+    loaders.add("NeoForge")
     dependencies.set(
         mutableListOf(
             ModDependency("ordsPcFz", "required"),

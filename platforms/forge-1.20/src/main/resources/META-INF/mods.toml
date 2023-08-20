@@ -62,13 +62,13 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20,1.21)"
+    versionRange="[1.20,1.20.2)"
     ordering="NONE"
     side="CLIENT"
 
 [[dependencies.inventoryprofilesnext]]
     modId="libipn"
     mandatory=true
-    versionRange="[@LIBIPN_VERSION@,4)"
+    versionRange="[@LIBIPN_VERSION@,5)"
     ordering="NONE"
     side="CLIENT"

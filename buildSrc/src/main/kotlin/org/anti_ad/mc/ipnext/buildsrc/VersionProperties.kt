@@ -20,4 +20,10 @@
 
 package org.anti_ad.mc.ipnext.buildsrc
 
+
+enum class Loaders {
+    MODRINTH,
+    CURSEFORGE
+}
+
 const val loom_version = "1.1-SNAPSHOT"

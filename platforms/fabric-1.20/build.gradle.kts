@@ -359,7 +359,7 @@ configure<CurseExtension> {
         +*************************************************+
     """.trimIndent())
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
-            displayName = "Inventory Profiles Next-fabric-$minecraft_version_string-$mod_version"
+            displayName = "IPN-$mod_version [fabric-$minecraft_version_string]"
         })
 
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
@@ -403,7 +403,7 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
-
+    loaders.add("Quilt")
     dependencies.set(
         mutableListOf(
             ModDependency("P7dR8mSH", "required"),
@@ -411,5 +411,5 @@ modrinth {
             ModDependency("onSQdWhM", "required"),
             ModDependency("mOgUt4GM", "optional")))
 
-    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
+    this.versionType.set(masecla.modrinth4j.model.version.ProjectVersion.VersionType.RELEASE.name)
 }

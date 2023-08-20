@@ -1,19 +1,12 @@
 <!-- latest begin -->
 
-### 1.10.6
+### 1.10.7
 
-- Added 2 more villager trading bookmark groups. 
-  * The new groups are disabled by default and can be enabled in `Mod Settings`
-  * You can also assign shortcuts in `Hotkeys`
-- Added support for **Easy Villagers**.
-  * All forge versions now support the trading blocks of **Easy Villagers** 
-
-### End of Life Notice
-
-- This is the last version that supports `Minecraft 1.16` both Forge and Fabric
-- This is the last version that supports `Minecraft 1.19.4` both Forge and Fabric
-
-**Bugs might get a fix depending on the severity.**
+- added support for 1.20.2 snapshots
+- horizontal mouse wheel (tilting the wheel left or right) can now be used as inputs in 1.20.2 snapshots
+- Minecraft 1.16 and 1.19.4 are no longer supported.
+- NeoForge is supported.
+- May be fixed crash on macOS when dropping lots of items.
 
 ### WARNING
 
@@ -25,15 +18,30 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 ```
 
 #### Supported Minecraft versions
-- **1.16.x**
 - **1.18.2**
 - **1.19.2**
-- **1.19.4**
 - **1.20**
 - **1.20.1**
+- **23w33a**
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.10.6
+
+- Added 2 more villager trading bookmark groups.
+  * The new groups are disabled by default and can be enabled in `Mod Settings`
+  * You can also assign shortcuts in `Hotkeys`
+- Added support for **Easy Villagers**.
+  * All forge versions now support the trading blocks of **Easy Villagers**
+
+### End of Life Notice
+
+- This is the last version that supports `Minecraft 1.16` both Forge and Fabric
+- This is the last version that supports `Minecraft 1.19.4` both Forge and Fabric
+
+**Bugs might get a fix depending on the severity.**
+
 
 ### 1.10.5
 
