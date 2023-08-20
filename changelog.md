@@ -7,6 +7,7 @@
 - Minecraft 1.16 and 1.19.4 are no longer supported.
 - NeoForge is supported.
 - May be fixed crash on macOS when dropping lots of items.
+- All versions now support auto-crafting with Chipped crafting tables.
 
 ### WARNING
 
