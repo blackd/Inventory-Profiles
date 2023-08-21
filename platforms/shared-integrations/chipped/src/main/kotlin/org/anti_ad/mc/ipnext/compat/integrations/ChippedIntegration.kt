@@ -32,6 +32,8 @@ import org.anti_ad.mc.ipnext.item.isEmpty
 object ChippedIntegration: CutterCraftingHandlerBase<ChippedMenu>() {
 
     fun init() {
+        val cl = ChippedMenu::class.java
+        Log.trace("found ChippedMenu ${cl.canonicalName}")
         ContainerTypes.addContainersSource {
             setOf(ChippedMenu::class.java to setOf(ContainerType.PURE_BACKPACK,
                                                    ContainerType.STONECUTTER)).toTypedArray()
