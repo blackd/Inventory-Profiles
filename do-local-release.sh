@@ -2,7 +2,7 @@
 
 . ~/.config/secrets/modrinth.sh
 . ~/.config/secrets/curseforge.sh
-. ~/.config/secrets/setup-env.sh
+. ~/.config/secrets/env-setup.sh
 
 
 IPN_CLASSIFIER=.cf-1

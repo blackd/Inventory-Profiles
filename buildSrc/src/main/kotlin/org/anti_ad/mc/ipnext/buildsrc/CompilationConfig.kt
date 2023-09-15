@@ -24,9 +24,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.Jar
-import org.gradle.api.tasks.bundling.ZipEntryCompression
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.api.tasks.javadoc.Javadoc
 import org.gradle.kotlin.dsl.*
 
 import org.gradle.language.jvm.tasks.ProcessResources
@@ -56,10 +54,15 @@ fun Project.configureCompilation(is18: Boolean = false, jarBaseName: String) {
 
     tasks.withType<ProcessResources> {
         include("**/*")
+        val classifier = if (System.getenv("IPN_CLASSIFIER") != null) {
+            System.getenv("IPN_CLASSIFIER")
+        } else {
+            ""
+        }
         filesMatching(listOf("**/*.json", "**/*.txt", "**/*.toml", "**/*.xml")) {
             filter<org.apache.tools.ant.filters.ReplaceTokens>(
                 "tokens" to mapOf(
-                    "VERSION" to version.toString(),
+                    "VERSION" to "${version.toString()}$classifier",
                     "DESCRIPTION" to properties["ipnext.description"],
                     "WIKI" to properties["ipnext.docs"],
                     "SOURCE" to properties["ipnext.scm"],
