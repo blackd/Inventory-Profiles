@@ -1,3 +1,10 @@
+<!-- latest end -->
+
+### 1.10.6.cf-1
+
+- fixed critical bug that prevented the villager bookmarks saving on forge 1.16.5
+
+
 <!-- latest begin -->
 
 ### 1.10.6
@@ -32,7 +39,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.20**
 - **1.20.1**
 
-<!-- latest end -->
 <!-- rest begin -->
 
 ### 1.10.5
