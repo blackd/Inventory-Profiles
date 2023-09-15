@@ -21,8 +21,11 @@
 package org.anti_ad.mc.ipnext.forge;
 
 import kotlin.Unit;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.event.GuiContainerEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
@@ -115,6 +118,20 @@ public class ForgeEventHandler {
                 && (e.getKeyCode() == 256 || Vanilla.INSTANCE.mc().gameSettings.keyBindInventory // options.keyInventory
                 .isActiveAndMatches(mouseKey))) {
             GeneralInventoryActions.INSTANCE.handleCloseContainer();
+        }
+    }
+
+    @SubscribeEvent
+    public void onScreenClose(GuiOpenEvent event) { // Tweaks.PREVENT_CLOSE_GUI_DROP_ITEM
+        if (!VanillaUtil.INSTANCE.inGame()) return;
+        Screen newScreen = event.getGui();
+        Screen oldScreen = Minecraft.getInstance().currentScreen;
+        if (oldScreen != null) {
+            if (newScreen == null) {
+                ScreenEventHandler.INSTANCE.onScreenRemoved(oldScreen);
+            } else if (newScreen != oldScreen) {
+                ScreenEventHandler.INSTANCE.onScreenRemoved(oldScreen);
+            }
         }
     }
 
