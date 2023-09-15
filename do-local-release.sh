@@ -27,11 +27,12 @@ python build_release_notes.py
 cd ..
 
 ./gradlew --max-workers 32 createMcpToSrg
-./gradlew --max-workers 32 compileKotlin compileJava
+
 
 cd platforms/forge-1.16
 
-../../gradlew --max-workers 4 build #modrinth curseforge
+../../gradlew --max-workers 32 compileKotlin compileJava
+../../gradlew --max-workers 4 build modrinth curseforge
 
 
 ls -la build/lib/
