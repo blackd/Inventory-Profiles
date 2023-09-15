@@ -529,6 +529,6 @@
     "inventoryprofiles.gui.editor.name.help.move.keys":                                  "Butonu Taşı",
     "inventoryprofiles.gui.editor.description.help.move.keys":                           "'W','S','A','D' ve yön tuşları seçili butonu taşıyacak",
     "inventoryprofiles.gui.editor.name.help.move.speed":                                 "Daha hızlı taşı!!!",
-    "inventoryprofiles.gui.editor.description.help.move.speed":                          "Taşıma tuslari ile 'Shift'e basılı tutmak daha hızlı taşınmasini saglayacak.",
-    "inventoryprofiles.profiles.created_new_saved":                                      "Yeni 'Kaydedilmiş' profil yaratildi..."
+    "inventoryprofiles.gui.editor.description.help.move.speed":                          "Taşıma tuşları ile 'Shift'e basılı tutmak daha hızlı taşınmasini saglayacak.",
+    "inventoryprofiles.profiles.created_new_saved":                                      "Yeni 'Kaydedilmiş' profil yaratıldı..."
 }
