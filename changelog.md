@@ -1,13 +1,9 @@
 <!-- latest begin -->
 
-### 1.10.7
+### 1.10.8
 
-- added support for 1.20.2 snapshots
-- horizontal mouse wheel (tilting the wheel left or right) can now be used as inputs in 1.20.2 snapshots
-- Minecraft 1.16 and 1.19.4 are no longer supported.
-- NeoForge is supported.
-- May be fixed crash on macOS when dropping lots of items.
-- All versions now support auto-crafting with Chipped crafting tables.
+- added support for forge 1.20.2
+- added support for bulk rename in the Anvil GUI 
 
 ### WARNING
 
@@ -21,12 +17,20 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 #### Supported Minecraft versions
 - **1.18.2**
 - **1.19.2**
-- **1.20**
-- **1.20.1**
-- **23w33a**
+- **1.20/.1**
+- **1.20.2**
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 1.10.7
+
+- added support for 1.20.2 snapshots
+- horizontal mouse wheel (tilting the wheel left or right) can now be used as inputs in 1.20.2 snapshots
+- Minecraft 1.16 and 1.19.4 are no longer supported.
+- NeoForge is supported.
+- May be fixed crash on macOS when dropping lots of items.
+- All versions now support auto-crafting with Chipped crafting tables.
 
 ### 1.10.6
 
