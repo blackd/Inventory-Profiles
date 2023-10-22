@@ -86,6 +86,15 @@ import org.anti_ad.mc.ipnext.item.rule.parameter.Match
 
 object AutoRefillHandler {
 
+    data class AutoRefillWatchIds(val mainHandOffset: Int = 36,
+                                         val offHand: Int = 45,
+                                         val head: Int = 5,
+                                         val chest: Int = 6,
+                                         val legs: Int = 7,
+                                         val feet: Int = 8)
+
+    var watchIds: AutoRefillWatchIds = AutoRefillWatchIds()
+
     private inline val pressingDropKey: Boolean
         get() = Vanilla.mc().`(options)`.`(keyDrop)`.`(isPressed)`
 
@@ -134,13 +143,13 @@ object AutoRefillHandler {
 
     fun init() {
         monitors.clear()
-        val list = listOf(ItemSlotMonitor { 36 + vMainhandIndex() }, // main hand inv 0-8
-                          ItemSlotMonitor(45) // offhand inv 40
+        val list = listOf(ItemSlotMonitor { watchIds.mainHandOffset + vMainhandIndex() }, // main hand inv 0-8
+                          ItemSlotMonitor(watchIds.offHand) // offhand inv 40
         ) + if (!AutoRefillSettings.REFILL_ARMOR.booleanValue) listOf() else
-            listOf(ItemSlotMonitor(5), // head inv 39
-                   ItemSlotMonitor(6), // chest inv 38
-                   ItemSlotMonitor(7), // legs inv 37
-                   ItemSlotMonitor(8), // feet inv 36
+            listOf(ItemSlotMonitor(watchIds.head), // head inv 39
+                   ItemSlotMonitor(watchIds.chest), // chest inv 38
+                   ItemSlotMonitor(watchIds.legs), // legs inv 37
+                   ItemSlotMonitor(watchIds.feet), // feet inv 36
             )
         list[0].anothers += list[1]
         list[0].anothers += list.drop(2) // + armor to main hand
@@ -239,10 +248,10 @@ object AutoRefillHandler {
                     ContainerClicker.shiftClick(storedSlotId)
                 }
 
-                if ((storedSlotId - 36) in 0..8) { // use swap
+                if ((storedSlotId - watchIds.mainHandOffset) in  0..8) { // use swap
                     //handles hotbar
                     ContainerClicker.swap(foundSlotId,
-                                          storedSlotId - 36)
+                                          storedSlotId - watchIds.mainHandOffset)
                 } else {
                     //handles offhand and armor slots
                     ContainerClicker.leftClick(foundSlotId)

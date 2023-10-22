@@ -173,9 +173,18 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
                                   kotlin_for_forge_version: Any,
                                   libIPN_version: Any?) {
 
+
+/*    configurations.all {
+        resolutionStrategy {
+            force(fgdeobf("org.anti_ad.mc:libIPN-$libIPN_version"))
+        }
+    }*/
+
+
     dependencies {
 
         "api"(fgdeobf("org.anti_ad.mc:libIPN-$libIPN_version"))
+
         val kffverstr = kotlin_for_forge_version.toString()[0]
 
         if (kffverstr == '4' || kffverstr == '3') {

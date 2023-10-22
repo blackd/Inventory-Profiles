@@ -6,3 +6,7 @@ accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen indexStar
 accessible field net/minecraft/client/gui/screen/ingame/MerchantScreen selectedIndex I
 accessible method net/minecraft/client/gui/screen/ingame/MerchantScreen syncRecipeIndex ()V
 accessible field net/minecraft/nbt/NbtString value Ljava/lang/String;
+accessible field net/minecraft/client/gui/screen/ingame/AnvilScreen nameField Lnet/minecraft/client/gui/widget/TextFieldWidget;
+accessible field net/minecraft/screen/ForgingScreenHandler input Lnet/minecraft/inventory/Inventory;
+accessible field net/minecraft/screen/ForgingScreenHandler inputSlotIndices Ljava/util/List;
+accessible field net/minecraft/screen/ForgingScreenHandler resultSlotIndex I

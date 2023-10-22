@@ -8,6 +8,7 @@
     ],
     "client":             [
         "IMixinKeyBinding",
+        "MixinAnvilMenu",
         "MixinAbstractContainerScreen",
         "MixinMinecraftClient",
         "MixinMultiPlayerGameMode",

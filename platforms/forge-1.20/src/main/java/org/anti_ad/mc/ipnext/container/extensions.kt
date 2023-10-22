@@ -31,7 +31,8 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                                                                               ContainerType.CREATIVE),
 
                                           EnchantingTableContainer::class.java  /**/ to nonStorage,
-                                          AnvilContainer::class.java            /**/ to nonStorage,
+                                          AnvilContainer::class.java            /**/ to setOf(ContainerType.PURE_BACKPACK,
+                                                                                              ContainerType.ANVIL),
                                           BeaconContainer::class.java           /**/ to nonStorage,
                                           BlastFurnaceContainer::class.java     /**/ to nonStorage,
                                           CartographyTableContainer::class.java /**/ to nonStorage,

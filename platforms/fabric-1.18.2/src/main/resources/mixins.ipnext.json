@@ -10,6 +10,7 @@
         "IMixinContainerScreen",
         "IMixinKeyBinding",
         "IMixinSlot",
+        "MixinAnvilScreenHandler",
         "MixinClientPlayerEntity",
         "MixinClientPlayNetworkHandler",
         "MixinContainerScreen",

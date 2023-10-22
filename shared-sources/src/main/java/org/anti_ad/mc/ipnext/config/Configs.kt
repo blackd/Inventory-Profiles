@@ -245,7 +245,7 @@ object LockedSlotsSettings : ConfigDeclaration {
     val LOCKED_SLOTS_DELAY_KEEPER_REINIT_TICKS          /**/ by int(50,
                                                                     20,
                                                                     400)
-    val LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED        /**/ by keyToggleBool(true)
+    val LOCKED_SLOTS_EMPTY_HOTBAR_AS_SEMI_LOCKED        /**/ by keyToggleBool(false)
     val LOCKED_SLOTS_EMPTY_HOTBAR_BLACKLIST             /**/ by handledString("carryon", LockedSlotKeeper::updateIgnored)
 
         .CATEGORY("$category.hotkeys")
@@ -283,6 +283,9 @@ object GuiSettings : ConfigDeclaration {
         .CATEGORY("$category.inventory")
     val ENABLE_INVENTORY_BUTTONS                  /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     //val TREAT_UNKNOWN_SCREENS_AS_CONTAINERS       /**/ by bool(true)
+    val SHOW_FAST_RENAME_CHECKBOX                 /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val FAST_RENAME_CHECKBOX_VALUE                /**/ by enum(ContinuousCraftingCheckboxValue.UNCHECKED)
+    val FAST_RENAME_SAVED_VALUE                   /**/ by bool(false)
     val SHOW_CONTINUOUS_CRAFTING_CHECKBOX         /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val CONTINUOUS_CRAFTING_CHECKBOX_VALUE        /**/ by enum(ContinuousCraftingCheckboxValue.REMEMBER)
     val CONTINUOUS_CRAFTING_SAVED_VALUE           /**/ by bool(true)

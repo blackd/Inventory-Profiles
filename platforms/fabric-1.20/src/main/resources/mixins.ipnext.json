@@ -25,7 +25,8 @@
         "MixinPlayerInventory",
         "MixinScreen",
         "MixinPlayerInteractEntityC2SPacket",
-        "MixinMerchantScreen"
+        "MixinMerchantScreen",
+        "MixinAnvilScreenHandler"
     ],
     "injectors":          {
         "defaultRequire": 1

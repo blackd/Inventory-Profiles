@@ -32,25 +32,33 @@ class CheckBoxWidget : SortButtonWidget {
     var highlightTx = 0
     var highlightTy = 0
     var highlightTooltip: String = ""
+    var highlightEnabled: Boolean = true
 
     override fun render(context: NativeContext,
                         mouseX: Int,
                         mouseY: Int,
                         partialTicks: Float) {
-        val oldTx = tx
-        val oldTy = ty
-        val oldTooltipText = tooltipText
-        if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
-            tx = highlightTx
-            ty = highlightTy
-            tooltipText = highlightTooltip
+        if (highlightEnabled) {
+            val oldTx = tx
+            val oldTy = ty
+            val oldTooltipText = tooltipText
+            if (ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()) {
+                tx = highlightTx
+                ty = highlightTy
+                tooltipText = highlightTooltip
+            }
+            super.render(context,
+                         mouseX,
+                         mouseY,
+                         partialTicks)
+            tx = oldTx
+            ty = oldTy
+            tooltipText = oldTooltipText
+        } else {
+            super.render(context,
+                         mouseX,
+                         mouseY,
+                         partialTicks)
         }
-        super.render(context,
-                     mouseX,
-                     mouseY,
-                     partialTicks)
-        tx = oldTx
-        ty = oldTy
-        tooltipText = oldTooltipText
     }
 }

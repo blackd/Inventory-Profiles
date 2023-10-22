@@ -100,7 +100,9 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void onForegroundRender(ContainerScreenEvent.Render.Foreground e) {
-        ContainerScreenEventHandler.INSTANCE.onForegroundRender(new NativeContext(e.getGuiGraphics()), e.getMouseX(), e.getMouseY());
+        var context = new NativeContext(e.getGuiGraphics());
+        context.setOverlay(true);
+        ContainerScreenEventHandler.INSTANCE.onForegroundRender(context, e.getMouseX(), e.getMouseY());
     }
 
     // ============
