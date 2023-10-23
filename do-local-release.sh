@@ -2,6 +2,7 @@
 
 . ~/.config/secrets/modrinth.sh
 . ~/.config/secrets/curseforge.sh
+. ~/.config/secrets/env-setup.sh
 
 pushd . 
 

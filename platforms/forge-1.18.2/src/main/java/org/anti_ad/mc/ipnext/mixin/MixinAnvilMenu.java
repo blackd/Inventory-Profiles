@@ -30,7 +30,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AnvilMenu.class)
-
 public class MixinAnvilMenu {
     @Inject(at = @At("HEAD"), method = "Lnet/minecraft/world/inventory/AnvilMenu;onTake(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;)V")
     public void onTakeOutputPre(Player p_150474_, ItemStack p_150475_, CallbackInfo ci) {

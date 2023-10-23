@@ -1,9 +1,10 @@
 <!-- latest begin -->
 
-### 1.10.8
+### 1.10.9
 
 - added support for forge 1.20.2
-- added support for bulk rename in the Anvil GUI 
+- added support for bulk rename in the Anvil GUI
+- "Locked Slots->Pick Items Directly into the Inventory" now has default value of False
 
 ### WARNING
 

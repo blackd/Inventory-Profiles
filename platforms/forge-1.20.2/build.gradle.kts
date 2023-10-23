@@ -75,6 +75,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
+        //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7.+" )
         classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
