@@ -77,6 +77,7 @@ import org.anti_ad.mc.ipnext.item.`(saturationModifier)`
 import org.anti_ad.mc.ipnext.item.isFullBucket
 import org.anti_ad.mc.ipnext.item.isFullComparedTo
 import org.anti_ad.mc.ipnext.item.isHoneyBottle
+import org.anti_ad.mc.ipnext.item.isStackable
 import org.anti_ad.mc.ipnext.item.isStew
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.maxDamage
@@ -280,6 +281,8 @@ object AutoRefillHandler {
             if (storedItem.isEmpty()) return false // nothing become anything
             if (currentItem.isEmpty()) {
                 return !(AutoRefillSettings.DISABLE_FOR_LOYALTY_ITEMS.value && storedItem.itemType.enchantments[Enchantments.LOYALTY] != null)
+            } else if (currentItem.itemType.isStackable && currentItem.count <= AutoRefillSettings.STACKABLE_THRESHOLD.integerValue) {
+                return true
             }
             val itemType = currentItem.itemType
             if (itemType.isDamageable) {
@@ -512,6 +515,11 @@ object AutoRefillHandler {
                 } else {
                     // find item
                     filtered = defaultItemMatch(filtered, itemType)
+                    if (checkingItem.count > 1) {
+                        filtered = filtered.filter {
+                            it.value.count > checkingItem.count
+                        }
+                    }
                 }
                 filtered = filtered.sortedWith(Comparator<IndexedValue<ItemStack>> { a, b ->
                     val aType = a.value.itemType
