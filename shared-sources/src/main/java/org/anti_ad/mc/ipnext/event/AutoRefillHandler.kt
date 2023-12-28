@@ -281,8 +281,6 @@ object AutoRefillHandler {
             if (storedItem.isEmpty()) return false // nothing become anything
             if (currentItem.isEmpty()) {
                 return !(AutoRefillSettings.DISABLE_FOR_LOYALTY_ITEMS.value && storedItem.itemType.enchantments[Enchantments.LOYALTY] != null)
-            } else if (currentItem.itemType.isStackable && currentItem.count <= AutoRefillSettings.STACKABLE_THRESHOLD.integerValue) {
-                return true
             }
             val itemType = currentItem.itemType
             if (itemType.isDamageable) {
@@ -310,7 +308,9 @@ object AutoRefillHandler {
                 true
             }  else if (storedItem.itemType.isHoneyBottle && currentItem.itemType.item == Items.GLASS_BOTTLE) {
                 true
-            } else storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL
+            } else if (storedItem.itemType.isStew && currentItem.itemType.item == Items.BOWL) {
+                true
+            } else currentItem.itemType.isStackable && currentItem.count <= AutoRefillSettings.STACKABLE_THRESHOLD.integerValue
 
         }
         private fun notifySuccessfulChange(itemType: ItemType,
