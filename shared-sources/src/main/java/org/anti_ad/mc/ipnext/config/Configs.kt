@@ -184,6 +184,9 @@ object AutoRefillSettings : ConfigDeclaration {
     val REFILL_ARMOR                              /**/ by keyToggleBool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by keyToggleBool(true)
     val AUTOREFILL_BLACKLIST                      /**/ by handledString("", AutoRefillHandler::blackListChanged)
+    val STACKABLE_THRESHOLD                     /**/ by int(0,
+                                                              0,
+                                                              64)
     val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
                                                               0,
                                                               100)
