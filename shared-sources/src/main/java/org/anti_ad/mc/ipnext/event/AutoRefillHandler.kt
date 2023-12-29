@@ -247,6 +247,10 @@ object AutoRefillHandler {
 
                 if (currentItem.itemType.isEmptyBucket || currentItem.itemType.item == Items.GLASS_BOTTLE) {
                     ContainerClicker.shiftClick(storedSlotId)
+                } else if (checkingItem.itemType.isStackable
+                    && checkingItem.itemType.item == currentItem.itemType.item
+                    && Vanilla.playerContainer().`(slots)`[foundSlotId].`(itemStack)`.count <= currentItem.count) {
+                    return
                 }
 
                 if ((storedSlotId - watchIds.mainHandOffset) in  0..8) { // use swap
@@ -515,11 +519,6 @@ object AutoRefillHandler {
                 } else {
                     // find item
                     filtered = defaultItemMatch(filtered, itemType)
-                    if (checkingItem.count > 1) {
-                        filtered = filtered.filter {
-                            it.value.count > checkingItem.count
-                        }
-                    }
                 }
                 filtered = filtered.sortedWith(Comparator<IndexedValue<ItemStack>> { a, b ->
                     val aType = a.value.itemType
