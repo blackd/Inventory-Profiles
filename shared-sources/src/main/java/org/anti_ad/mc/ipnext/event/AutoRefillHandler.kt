@@ -240,17 +240,13 @@ object AutoRefillHandler {
             // find same type with stored item in backpack
             GeneralInventoryActions.cleanCursor()
             val itemType = checkingItem.itemType
-            val foundSlotId = findCorrespondingSlot(checkingItem)
+            val foundSlotId = findCorrespondingSlot(checkingItem, currentItem)
             if (foundSlotId != null) {
 
                 if (itemType.isDamageable) notifySuccessfulChange(itemType, foundSlotId)
 
-                if (currentItem.itemType.isEmptyBucket || currentItem.itemType.item == Items.GLASS_BOTTLE) {
+                if (currentItem.itemType.isStackable) {
                     ContainerClicker.shiftClick(storedSlotId)
-                } else if (checkingItem.itemType.isStackable
-                    && checkingItem.itemType.item == currentItem.itemType.item
-                    && Vanilla.playerContainer().`(slots)`[foundSlotId].`(itemStack)`.count <= currentItem.count) {
-                    return
                 }
 
                 if ((storedSlotId - watchIds.mainHandOffset) in  0..8) { // use swap
@@ -453,7 +449,7 @@ object AutoRefillHandler {
         }
 
         companion object {
-            private fun findCorrespondingSlot(checkingItem: ItemStack): Int? { // for stored item
+            private fun findCorrespondingSlot(checkingItem: ItemStack, currentItem: ItemStack): Int? { // for stored item
                 var filtered = Vanilla.playerContainer().let { playerContainer ->
                     val slots = playerContainer.`(slots)`
                     with(AreaTypes) {
@@ -519,6 +515,11 @@ object AutoRefillHandler {
                 } else {
                     // find item
                     filtered = defaultItemMatch(filtered, itemType)
+                    if (checkingItem.itemType.isStackable && checkingItem.itemType.item == currentItem.itemType.item) {
+                        filtered = filtered.filter {
+                            it.value.count > currentItem.count
+                        }
+                    }
                 }
                 filtered = filtered.sortedWith(Comparator<IndexedValue<ItemStack>> { a, b ->
                     val aType = a.value.itemType
