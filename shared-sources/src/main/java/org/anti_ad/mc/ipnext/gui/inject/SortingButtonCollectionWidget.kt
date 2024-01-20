@@ -145,6 +145,9 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 it
             }
         }
+        private val isCrafting = types.contains(CRAFTING)
+        private val isStoneCutter = types.contains(STONECUTTER)
+        private val isAnvil = types.contains(ANVIL)
         private val addChestSide = types.contains(SORTABLE_STORAGE)
         private val addNonChestSide = types.contains(PURE_BACKPACK)
         private val shouldAdd = addChestSide || addNonChestSide
@@ -232,15 +235,25 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         // ============
         // continuous crafting
         // ============
-        private fun updateConfigValue(newValue: Boolean) {
+        private fun updateCraftingConfigValue(newValue: Boolean) {
             GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.value = newValue
+            SaveLoadManager.save() // todo save when onClose instead of every time check box value change
+        }
+
+        private fun updateFastRenameConfigValue(newValue: Boolean) {
+            GuiSettings.FAST_RENAME_SAVED_VALUE.value = newValue
             SaveLoadManager.save() // todo save when onClose instead of every time check box value change
         }
 
         var continuousCraftingValue
                 by detectable(GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.booleanValue) { _, newValue ->
-                    updateConfigValue(newValue)
+                    updateCraftingConfigValue(newValue)
                 }
+        var fastRenameValue
+                by detectable(GuiSettings.FAST_RENAME_SAVED_VALUE.booleanValue) { _, newValue ->
+                    updateFastRenameConfigValue(newValue)
+                }
+
 
         init {
             continuousCraftingValue = when (GuiSettings.CONTINUOUS_CRAFTING_CHECKBOX_VALUE.value) {
@@ -248,26 +261,65 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 CHECKED -> true
                 UNCHECKED -> false
             }
+            fastRenameValue = when (GuiSettings.FAST_RENAME_CHECKBOX_VALUE.value) {
+                REMEMBER -> GuiSettings.FAST_RENAME_SAVED_VALUE.booleanValue
+                CHECKED -> true
+                UNCHECKED -> false
+            }
         }
 
-        private val continuousCraftingCheckbox = CheckBoxWidget { -> switchContinuousCraftingValue() }.apply {
+
+
+        private val continuousCraftingCheckbox = CheckBoxWidget { -> switchCheckBoxValues() }.apply {
 //      tx = 70 or 80
             hints = this@InitWidgets.hints.hintFor(IPNButton.CONTINUOUS_CRAFTING)
-            tx = if (continuousCraftingValue) 80 else 70
-            highlightTx = if (continuousCraftingValue) 120 else 70
+
             this@SortingButtonCollectionWidget.addChild(this)
-            visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue && (types.contains(CRAFTING) || types.contains(STONECUTTER))
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
-            highlightTooltip = I18n.translate("inventoryprofiles.tooltip.auto_crafting_checkbox", ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
+
+
+            when {
+                isAnvil -> {
+                    tx = if (fastRenameValue) 80 else 70
+                    highlightTx = if (fastRenameValue) 120 else 70
+                    visible = GuiSettings.SHOW_FAST_RENAME_CHECKBOX.booleanValue
+                    tooltipText = I18n.translate("inventoryprofiles.tooltip.fast_rename")
+                    highlightEnabled = false
+                }
+                isCrafting || isStoneCutter -> {
+                    tx = if (continuousCraftingValue) 80 else 70
+                    highlightTx = if (continuousCraftingValue) 120 else 70
+                    visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue
+                    tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox",
+                                                 ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
+                    highlightTooltip = I18n.translate("inventoryprofiles.tooltip.auto_crafting_checkbox",
+                                                      ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
+                }
+                else -> {
+                    visible = false
+                }
+            }
+
             id = "sort_crafting_checkbox"
             hintableList.add(this)
         }
 
-        private fun switchContinuousCraftingValue() {
-            continuousCraftingValue = !continuousCraftingValue
-            continuousCraftingCheckbox.tx = if (continuousCraftingValue) 80 else 70
-            continuousCraftingCheckbox.highlightTx = if (continuousCraftingValue) 120 else 70
+        private fun switchCheckBoxValues() {
+            when {
+                isAnvil -> {
+                    fastRenameValue = !fastRenameValue
+                    continuousCraftingCheckbox.tx = if (fastRenameValue) 80 else 70
+                }
+                isCrafting || isStoneCutter -> {
+                    continuousCraftingValue = !continuousCraftingValue
+                    continuousCraftingCheckbox.tx = if (continuousCraftingValue) 80 else 70
+                    continuousCraftingCheckbox.highlightTx = if (continuousCraftingValue) 120 else 70
+                }
+                else -> {
+
+                }
+            }
         }
+
         init {
             reHint()
         }
@@ -321,6 +373,10 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 types.contains(STONECUTTER) -> {
                     continuousCraftingCheckbox.setBottomRight(100 + continuousCraftingCheckbox.hints.bottom,
                                                               27 + continuousCraftingCheckbox.hints.horizontalOffset)
+                }
+                types.contains(ANVIL) -> {
+                    continuousCraftingCheckbox.setBottomRight(110 + continuousCraftingCheckbox.hints.bottom,
+                                                              13 + continuousCraftingCheckbox.hints.horizontalOffset)
                 }
                 else -> {
                     continuousCraftingCheckbox.setBottomRight(96 + continuousCraftingCheckbox.hints.bottom,

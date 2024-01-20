@@ -40,17 +40,33 @@ import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
-private val hotbarInvSlots = 0..8
-private val storageInvSlots = 9..35
-const val offhandInvSlot = 40
-val mainhandInvSlot
-    get() = Vanilla.playerInventory().`(selectedSlot)`
+data class PlayerSlotIds(val hotbarInvSlots: IntRange = 0..8,
+                         val storageInvSlots: IntRange = 9..35,
+                         val offhandInvSlot: Int = 40,
+                         val mainhandInvSlot: () -> Int = {Vanilla.playerInventory().`(selectedSlot)`} )
+
 
 // ============
 // AreaTypes
 // ============
 
 object AreaTypes {
+
+    var playerSlotIds: PlayerSlotIds = PlayerSlotIds()
+
+    private val hotbarInvSlots
+        get() = playerSlotIds.hotbarInvSlots
+
+    private val storageInvSlots
+        get() = playerSlotIds.storageInvSlots
+
+    private val offhandInvSlot
+        get() = playerSlotIds.offhandInvSlot
+
+    private val mainhandInvSlot
+        get() = playerSlotIds.mainhandInvSlot()
+
+
     val focusedSlot = AreaType.inSlots { listOfNotNull(vFocusedSlot()) }
 
     val playerStorage = AreaType.playerInvSlots { storageInvSlots }

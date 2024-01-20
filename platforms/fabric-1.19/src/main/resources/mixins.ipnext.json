@@ -12,6 +12,7 @@
         "IMixinFluid",
         "IMixinKeyBinding",
         "IMixinSlot",
+        "MixinAnvilScreenHandler",
         "MixinClientPlayerInteractionManager",
         "MixinClientPlayNetworkHandler",
         "MixinContainerScreen",

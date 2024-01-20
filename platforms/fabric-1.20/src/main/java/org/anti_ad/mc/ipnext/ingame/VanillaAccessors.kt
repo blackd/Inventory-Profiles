@@ -208,3 +208,5 @@ fun PlayerContainer.`(sendContentUpdates)`() = sendContentUpdates()
 
 val StonecutterContainer.`(selectedRecipe)`: Int
     get() = selectedRecipe
+
+fun MinecraftClient.`(send)`(runnable: Runnable) = send(runnable)

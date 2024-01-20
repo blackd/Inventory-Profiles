@@ -176,6 +176,7 @@ enum class ContainerType {
     CRAFTING,
     STONECUTTER,
     TRADER,
+    ANVIL,
 
     RECTANGULAR,
     WIDTH_9,

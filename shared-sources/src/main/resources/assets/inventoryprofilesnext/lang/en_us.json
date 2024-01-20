@@ -478,6 +478,7 @@
 
     "inventoryprofiles.tooltip.continuous_crafting_checkbox":                            "Continuous Crafting\n§6Hold §o%s§r§6: for Auto Crafting",
     "inventoryprofiles.tooltip.auto_crafting_checkbox":                                  "Auto Crafting\n§6Stop holding §o%s§r§6: for Continuous Crafting",
+    "inventoryprofiles.tooltip.fast_rename":                                             "Bulk Rename",
     "inventoryprofiles.tooltip.next_profile_button":                                     "Select and apply next profile",
     "inventoryprofiles.tooltip.prev_profile_button":                                     "Select and apply previous profile",
     "inventoryprofiles.tooltip.apply_profile_button":                                    "Apply selected profile",

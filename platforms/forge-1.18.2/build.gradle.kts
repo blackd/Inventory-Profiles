@@ -73,6 +73,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
+        //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7.+" )
         classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
@@ -217,8 +218,10 @@ if ("true" == System.getProperty("idea.sync.active")) {
 
 tasks.register<Copy>("copyMixinMappings") {
     dependsOn("compileJava")
+    mustRunAfter("compileJava")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
+    this.
     from(inName)
     into(outName)
     rename {
@@ -363,6 +366,12 @@ var rcltName = ""
 configurations {
     implementation.get().extendsFrom(this.findByName("shadedApi"))
 }
+
+
+/*configure<MixinExtension> {
+    add(sourceSets.getByName("main"), "mixins.ipnext.refmap.json")
+    config("mixins.ipnext.json")
+}*/
 
 configure<UserDevExtension> {
     mappings(mappingsMap)

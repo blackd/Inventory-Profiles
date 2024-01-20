@@ -40,7 +40,7 @@ val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.20.1"
 val minecraft_version_string = "1.20.1"
-val forge_version = "47.0.1"
+val forge_version = "47.1.0"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "4.3.0"
 val mappingsMap = mapOf("channel" to "official",
@@ -73,6 +73,7 @@ buildscript {
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
+        //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7.+" )
         classpath("com.guardsquare:proguard-gradle:7.2.2")
     }
 }
