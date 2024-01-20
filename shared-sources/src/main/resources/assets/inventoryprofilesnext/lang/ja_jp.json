@@ -290,7 +290,7 @@
     "inventoryprofiles.config.name.locked_slots_empty_hotbar_as_semi_locked":            "拾ったアイテムを直接インベントリに配置する",
     "inventoryprofiles.config.description.lock_slots_switch_config_modifier":            "このキーと「設定キー」を同時に押すと、スロットをロックします(デフォルトでは左クリック)",
     "inventoryprofiles.config.description.lock_slots_config_key":                        "このキーと「ロック設定の切替キー」を同時に押すと、スロットをロックします。(デフォルトではAlt)",
-    "inventoryprofiles.config.description.lock_slots_quick_config_key":                  "「ロック設定の切替キー」を使用せずにスロットをロkkうします。",
+    "inventoryprofiles.config.description.lock_slots_quick_config_key":                  "「ロック設定の切替キー」を使用せずにスロットをロックします。",
     "inventoryprofiles.config.description.lock_slots_quick_disable":                     "このキーが押されている間、スロットのロックは無効になります。",
     "inventoryprofiles.config.description.lock_slots_config_switch_type":                "キーを押している間ONにするか、押すたびにON/OFF切り替えるかを選択します。",
     "inventoryprofiles.config.description.show_locked_slots_background":                 "ロックされたスロットの背景を表示します。",
