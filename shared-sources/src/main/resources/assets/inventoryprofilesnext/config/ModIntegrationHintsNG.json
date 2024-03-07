@@ -44,16 +44,31 @@
         "appeng.client.gui.implementations.PatternProviderScreen": {
             "playerSideOnly": true
         },
+        "appeng.client.gui.implementations.SpatialIOPortScreen": {
+            "playerSideOnly": true
+        },
         "appeng.client.gui.implementations.SpatialAnchorScreen": {
             "ignore": true
         },
         "appeng.menu.implementations.SpatialAnchorMenu": {
             "ignore": true
         },
+        "appeng.client.gui.me.crafting.CraftAmountScreen": {
+            "ignore": true
+        },
+        "appeng.client.gui.me.items.SetProcessingPatternAmountScreen": {
+            "ignore": true
+        },
+        "appeng.client.gui.me.crafting.SetStockAmountScreen": {
+            "ignore": true
+        },
         "appeng.client.gui.implementations.VibrationChamberScreen": {
             "playerSideOnly": true
         },
         "appeng.client.gui.implementations.QNBScreen": {
+            "playerSideOnly": true
+        },
+        "appeng.client.gui.implementations.FormationPlaneScreen": {
             "playerSideOnly": true
         },
         "appeng.client.gui.me.common.MEStorageScreen": {
@@ -69,6 +84,51 @@
                     "horizontalOffset": 20
                 }
             }
+        },
+        "appeng.client.gui.me.items.CraftingTermScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "appeng.client.gui.me.items.PatternEncodingTermScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "appeng.client.gui.me.patternaccess.PatternAccessTermScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "appeng.client.gui.implementations.StorageBusScreen": {
+            "playerSideOnly": true
         },
         "appeng.client.gui.implementations.IOBusScreen": {
             "playerSideOnly": true
@@ -122,6 +182,84 @@
         },
         "io.github.projectet.ae2things.gui.crystalGrowth.CrystalGrowthRootPanel": {
             "playerSideOnly": true
+        }
+    },
+    "ae2wtlib": {
+        "de.mari_023.ae2wtlib.wct.WCTScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "de.mari_023.ae2wtlib.wet.WETScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "de.mari_023.ae2wtlib.wat.WATScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                }
+            }
+        },
+        "de.mari_023.ae2wtlib.wct.magnet_card.config.MagnetScreen": {
+            "playerSideOnly": true,
+            "buttonHints": {
+                "SORT": {
+                    "bottom": -1
+                },
+                "SORT_COLUMNS": {
+                    "bottom": -1
+                },
+                "SORT_ROWS": {
+                    "bottom": -1
+                }
+            }
+        },
+        "de.mari_023.ae2wtlib.wct.TrashScreen": {
+            "buttonHints": {
+                "SORT": {
+                    "horizontalOffset": 20
+                },
+                "SORT_COLUMNS": {
+                    "horizontalOffset": 20
+                },
+                "SORT_ROWS": {
+                    "horizontalOffset": 20
+                },
+                "MOVE_TO_CONTAINER":   {
+                    "horizontalOffset": 20,
+                    "bottom": 29
+                },
+                "MOVE_TO_PLAYER":      {
+                    "horizontalOffset": 20
+                }
+            }
         }
     },
     "agap": {
