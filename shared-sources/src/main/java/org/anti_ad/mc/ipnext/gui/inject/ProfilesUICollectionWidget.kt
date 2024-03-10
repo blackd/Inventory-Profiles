@@ -100,10 +100,12 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
 
     override fun moveUp(step: Int) {
         hints.bottom = hints.bottom - step
+        hints.dirty = true
     }
 
     override fun moveDown(step: Int) {
         hints.bottom = hints.bottom + step
+        hints.dirty = true
     }
 
     private fun getCurrentProfileName(): String {

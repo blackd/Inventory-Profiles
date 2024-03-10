@@ -27,6 +27,7 @@ import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.layout.setBottomRight
 import org.anti_ad.mc.common.gui.layout.setTopRight
 import org.anti_ad.mc.common.gui.widgets.Widget
+import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.Container
@@ -154,12 +155,30 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
 
 
-        private val sortButton = SortButtonWidget { -> GeneralInventoryActions.doSort(true) }.apply {
+        private val sortButton = SortButtonWidget { button ->
+            when (button) {
+                0                          -> {
+                    GeneralInventoryActions.doSort(true)
+                }
+                KeyCodes.MOUSE_SCROLL_UP   -> {
+                    ModSettings.SORT_ORDER.togglePrevious();
+                }
+                KeyCodes.MOUSE_SCROLL_DOWN -> {
+                    ModSettings.SORT_ORDER.toggleNext();
+                }
+            }
+        }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.SORT)
             tx = 10
             this@SortingButtonCollectionWidget.addChild(this)
             visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_button")
+            tooltipTextSource = {
+                StringBuilder()
+                    .append(I18n.translate("inventoryprofiles.tooltip.sort_button"))
+                    .append(I18n.translate("inventoryprofiles.tooltip.sort_button.current_order", I18n.translate(ModSettings.SORT_ORDER.value.toString())))
+                    .append(I18n.translate("inventoryprofiles.tooltip.sort_button.key_help"))
+                    .toString()
+            }
             id = "sort_button"
             hintableList.add(this)
         }

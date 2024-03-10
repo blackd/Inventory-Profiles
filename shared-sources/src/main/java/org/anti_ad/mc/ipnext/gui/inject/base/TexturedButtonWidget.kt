@@ -22,13 +22,17 @@ package org.anti_ad.mc.ipnext.gui.inject.base
 
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.IPNButtonWidget
-import org.anti_ad.mc.ipnext.gui.widgets.Hintable
-import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
+import org.anti_ad.mc.common.input.GlobalInputHandler.onMouseButton
+import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
+import org.anti_ad.mc.ipnext.gui.widgets.Hintable
+import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
+import org.lwjgl.glfw.GLFW.GLFW_PRESS
+import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 
 abstract class TexturedButtonWidget : IPNButtonWidget, Hintable {
     constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
@@ -38,6 +42,8 @@ abstract class TexturedButtonWidget : IPNButtonWidget, Hintable {
     abstract val texture: IdentifierHolder
     abstract val texturePt: Point
     abstract val hoveringTexturePt: Point
+
+    open var tooltipTextSource = { tooltipText }
 
     open var tx = 0
     open var ty = 0
@@ -62,6 +68,24 @@ abstract class TexturedButtonWidget : IPNButtonWidget, Hintable {
                               y: Int,
                               button: Int): Boolean {
         return super.mouseClicked(x,y,button) && visible
+    }
+
+    override fun mouseScrolled(x: Int,
+                               y: Int,
+                               horizontal: Double,
+                               vertical: Double): Boolean {
+        if (active) {
+            if (horizontal != 0.0) {
+                if (horizontal > 0) onClick(KeyCodes.MOUSE_SCROLL_LEFT) else onClick(KeyCodes.MOUSE_SCROLL_RIGHT)
+            }
+            if (vertical != 0.0) {
+                if (vertical > 0) onClick(KeyCodes.MOUSE_SCROLL_UP) else onClick(KeyCodes.MOUSE_SCROLL_DOWN)
+            }
+        }
+        return super.mouseScrolled(x,
+                                   y,
+                                   horizontal,
+                                   vertical) && visible
     }
 
 }

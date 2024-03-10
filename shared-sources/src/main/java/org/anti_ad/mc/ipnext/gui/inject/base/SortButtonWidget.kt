@@ -74,8 +74,8 @@ open class SortButtonWidget : TexturedButtonWidget {
                      partialTicks)
         hintManagementRenderer.renderUnderManagement(context)
         if (GuiSettings.SHOW_BUTTON_TOOLTIPS.booleanValue && contains(mouseX,
-                                                                      mouseY) && tooltipText.isNotEmpty()) {
-            TooltipsManager.addTooltip(tooltipText,
+                                                                      mouseY) && tooltipTextSource().isNotEmpty()) {
+            TooltipsManager.addTooltip(tooltipTextSource(),
                                        mouseX,
                                        mouseY)
         }
