@@ -36,19 +36,19 @@ import proguard.gradle.ProGuardTask
 val supported_minecraft_versions = listOf("1.20","1.20.1")
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.20"
-val minecraft_version_string = "1.20"
-val mappings_version = "1.20+build.1"
-val loader_version = "0.14.21"
+val minecraft_version = "1.20.1"
+val minecraft_version_string = "1.20.1"
+val mappings_version = "1.20.1+build.10"
+val loader_version = "0.15.7"
 val modmenu_version = "7.0.0-beta.2"
-val fabric_api_version = "0.83.0+1.20"
+val fabric_api_version = "0.92.0+1.20.1"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
-val carpet_core_version = "1.20-pre2-1.4.109+v230516"
+val carpet_core_version = "1.20-1.4.112+v230608"
 
 buildscript {
     dependencies {
-        classpath("com.guardsquare:proguard-gradle:7.2.2")
+        classpath("com.guardsquare:proguard-gradle:7.+")
     }
 }
 
@@ -162,6 +162,7 @@ afterEvaluate {
                 this.java.srcDirs(it.path + "/src/main/kotlin")
             }
         }
+        this.java.srcDirs("./src/integrations/kotlin")
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")
@@ -345,7 +346,7 @@ configure<CurseExtension> {
         changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+            if (!it.lowercase().contains("pre") && !it.lowercase().contains("shanpshot")) {
                 this.addGameVersion(it)
             }
         }
@@ -393,7 +394,7 @@ modrinth {
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions.filter {
-        !it.toLowerCase().contains("snapshot")
+        !it.lowercase().contains("snapshot")
     })
     logger.lifecycle("""
     +*************************************************+

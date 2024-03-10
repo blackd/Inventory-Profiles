@@ -23,7 +23,7 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("1", "10", "9",
+val versionObj = Version("1", "10", "10",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -43,8 +43,8 @@ repositories {
 
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.8.10"
-    kotlin("plugin.serialization") version "1.8.10"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.10"
 
 
     idea
@@ -52,7 +52,7 @@ plugins {
     `maven-publish`
     signing
     antlr
-    id("com.github.johnrengelman.shadow") version "7.1.2" apply false
+    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
 
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
     id("fabric-loom") version(org.anti_ad.mc.ipnext.buildsrc.loom_version) apply false
@@ -90,7 +90,7 @@ allprojects {
 //    group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "4.0.1")
+    ext.set("libIPN_version", "4.0.2-SNAPSHOT")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true

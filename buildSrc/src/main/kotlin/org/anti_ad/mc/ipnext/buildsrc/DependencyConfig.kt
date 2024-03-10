@@ -125,11 +125,9 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
     dependencies {
 
-        "api"("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-common:1.8.10")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10")
-        "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
+        "api"(kotlin("stdlib"))
         "api"(kotlin("reflect"))
+
         "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
         "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.0")
 
@@ -151,7 +149,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
             "modImplementation"("carpet:fabric-carpet:$carpet_version")
         }
 
-        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.9.2+kotlin.1.8.10")
+        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.10.17+kotlin.1.9.22")
     }
 
 }

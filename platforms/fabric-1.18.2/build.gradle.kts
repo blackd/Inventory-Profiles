@@ -39,7 +39,7 @@ val mod_version = project.version.toString()
 val minecraft_version = "1.18.2"
 val minecraft_version_string = "1.18.2"
 val mappings_version = "1.18.2+build.4"
-val loader_version = "0.14.17"
+val loader_version = "0.14.24"
 val modmenu_version = "3.0.1"
 val fabric_api_version = "0.58.0+1.18.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
@@ -48,7 +48,7 @@ val carpet_core_version = "1.18.2-1.4.69+v220331"
 
 buildscript {
     dependencies {
-        classpath("com.guardsquare:proguard-gradle:7.2.2")
+        classpath("com.guardsquare:proguard-gradle:7.+")
     }
 }
 
@@ -334,7 +334,7 @@ configure<CurseExtension> {
         changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+            if (!it.lowercase().contains("pre") && !it.lowercase().contains("shanpshot")) {
                 this.addGameVersion(it)
             }
         }
@@ -382,7 +382,7 @@ modrinth {
     val remappedJarFile = fabricRemapJar.archiveFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions.filter {
-        !it.toLowerCase().contains("snapshot")
+        !it.lowercase().contains("snapshot")
     })
     logger.lifecycle("""
         +*************************************************+
@@ -400,5 +400,5 @@ modrinth {
             ModDependency("onSQdWhM", "required"),
             ModDependency("mOgUt4GM", "optional")))
 
-    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
+    this.versionType.set("release")
 }

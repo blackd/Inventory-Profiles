@@ -33,18 +33,15 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
+    implementation(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "17"
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }

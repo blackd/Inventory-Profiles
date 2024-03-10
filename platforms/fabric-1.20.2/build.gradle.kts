@@ -34,8 +34,8 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("23w33a"),
-                                         CURSEFORGE to listOf("1.20.2-Snapshot"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.20.2"),
+                                         CURSEFORGE to listOf("1.20.2"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.20.2"
@@ -50,7 +50,7 @@ val carpet_core_version = "1.20.2-pre4-1.4.117+v230914"
 
 buildscript {
     dependencies {
-        classpath("com.guardsquare:proguard-gradle:7.2.2")
+        classpath("com.guardsquare:proguard-gradle:7.+")
     }
 }
 

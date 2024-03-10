@@ -71,10 +71,10 @@ buildscript {
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
-        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.+")
-        classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
-        //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7.+" )
-        classpath("com.guardsquare:proguard-gradle:7.2.2")
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "6.+")
+        //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
+        classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7.+" )
+        classpath("com.guardsquare:proguard-gradle:7.+")
     }
 }
 
@@ -396,7 +396,7 @@ configure<UserDevExtension> {
             jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
             jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
             //taskName = "plamenRunClient"
-            this.forceExit = false
+            //this.forceexit = false
         }
         val action = create("client", runConfig)
 
@@ -420,7 +420,7 @@ configure<UserDevExtension> {
             jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
             jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
             //taskName = "plamenRunClient"
-            this.forceExit = false
+            //this.forceexit = false
         }
 
         create("server", runConfigServer)
@@ -428,7 +428,7 @@ configure<UserDevExtension> {
 
         all {
             lazyToken("minecraft_classpath") {
-                project.tasks.findByPath(":platforms:${project.name}:runClient")?.dependsOn("fixRunJvmArgs")
+                //project.tasks.findByPath(":platforms:${project.name}:runClient")?.dependsOn("fixRunJvmArgs")
                 configurations["runHelperApi"].copyRecursive().resolve().filter {
                     it.absolutePath.contains("kotlin")
                 }.joinToString(File.pathSeparator) {
@@ -618,7 +618,7 @@ configure<CurseExtension> {
         changelog = file("../../description/out/pandoc-release_notes.md")
         releaseType = "release"
         supported_minecraft_versions.forEach {
-            if (!it.toLowerCase().contains("pre") && !it.toLowerCase().contains("shanpshot")) {
+            if (!it.lowercase().contains("pre") && !it.lowercase().contains("shanpshot")) {
                 this.addGameVersion(it)
             }
         }
