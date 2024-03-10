@@ -184,7 +184,7 @@ object AutoRefillSettings : ConfigDeclaration {
     val REFILL_ARMOR                              /**/ by keyToggleBool(true)
     val REFILL_BEFORE_TOOL_BREAK                  /**/ by keyToggleBool(true)
     val AUTOREFILL_BLACKLIST                      /**/ by handledString("", AutoRefillHandler::blackListChanged)
-    val STACKABLE_THRESHOLD                     /**/ by int(0,
+    val STACKABLE_THRESHOLD                       /**/ by int(0,
                                                               0,
                                                               64)
     val TOOL_DAMAGE_THRESHOLD                     /**/ by int(10,
@@ -341,6 +341,8 @@ object ScrollSettings: ConfigDeclaration {
     val SCROLL_SPREAD                                    /**/ by hotkey("X",
                                                                         KeybindSettings.GUI_EXTRA)
     val SCROLL_THROW                                     /**/ by hotkey("C",
+                                                                        KeybindSettings.GUI_EXTRA)
+    val TEMP_DISABLE                                     /**/ by hotkey("LEFT_CONTROL",
                                                                         KeybindSettings.GUI_EXTRA)
         .CATEGORY("$category.scroll.single")
     val SCROLL_AUTO_PICKUP_NEXT_FOR_SINGLE               /**/ by bool(true)

@@ -294,49 +294,53 @@ object GeneralInventoryActions {
     }
 
     fun scrollToPlayer() {
-        if (ScrollSettings.SCROLL_FULL_STACK.isPressing()) {
-            if (ScrollSettings.SCROLL_THROW.isPressing()) {
-                ScrollingUtils.scrollFullStackThrow()
-            } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
-                ScrollingUtils.scrollFullStackSpread(ScrollDirection.TO_PLAYER)
-            } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
-                ScrollingUtils.scrollFullStackLeaveLast(ScrollDirection.TO_PLAYER)
+        if (!ScrollSettings.TEMP_DISABLE.isPressing()) {
+            if (ScrollSettings.SCROLL_FULL_STACK.isPressing()) {
+                if (ScrollSettings.SCROLL_THROW.isPressing()) {
+                    ScrollingUtils.scrollFullStackThrow()
+                } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
+                    ScrollingUtils.scrollFullStackSpread(ScrollDirection.TO_PLAYER)
+                } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
+                    ScrollingUtils.scrollFullStackLeaveLast(ScrollDirection.TO_PLAYER)
+                } else {
+                    ScrollingUtils.scrollFullStack(ScrollDirection.TO_PLAYER)
+                }
             } else {
-                ScrollingUtils.scrollFullStack(ScrollDirection.TO_PLAYER)
-            }
-        } else {
-            if (ScrollSettings.SCROLL_THROW.isPressing()) {
-                ScrollingUtils.scrollSingleItemThrow()
-            } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
-                ScrollingUtils.scrollSingleSpread(ScrollDirection.TO_PLAYER)
-            } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
-                ScrollingUtils.scrollSingleItemLeaveLast(ScrollDirection.TO_PLAYER)
-            } else {
-                ScrollingUtils.scrollSingleItem(ScrollDirection.TO_PLAYER)
+                if (ScrollSettings.SCROLL_THROW.isPressing()) {
+                    ScrollingUtils.scrollSingleItemThrow()
+                } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
+                    ScrollingUtils.scrollSingleSpread(ScrollDirection.TO_PLAYER)
+                } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
+                    ScrollingUtils.scrollSingleItemLeaveLast(ScrollDirection.TO_PLAYER)
+                } else {
+                    ScrollingUtils.scrollSingleItem(ScrollDirection.TO_PLAYER)
+                }
             }
         }
     }
 
     fun scrollToChest() {
-        if (ScrollSettings.SCROLL_FULL_STACK.isPressing()) {
-            if (ScrollSettings.SCROLL_THROW.isPressing()) {
-                ScrollingUtils.scrollFullStackThrow()
-            } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
-                ScrollingUtils.scrollFullStackSpread(ScrollDirection.TO_CHEST)
-            } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
-                ScrollingUtils.scrollFullStackLeaveLast(ScrollDirection.TO_CHEST)
+        if (!ScrollSettings.TEMP_DISABLE.isPressing()) {
+            if (ScrollSettings.SCROLL_FULL_STACK.isPressing()) {
+                if (ScrollSettings.SCROLL_THROW.isPressing()) {
+                    ScrollingUtils.scrollFullStackThrow()
+                } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
+                    ScrollingUtils.scrollFullStackSpread(ScrollDirection.TO_CHEST)
+                } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
+                    ScrollingUtils.scrollFullStackLeaveLast(ScrollDirection.TO_CHEST)
+                } else {
+                    ScrollingUtils.scrollFullStack(ScrollDirection.TO_CHEST)
+                }
             } else {
-                ScrollingUtils.scrollFullStack(ScrollDirection.TO_CHEST)
-            }
-        } else {
-            if (ScrollSettings.SCROLL_THROW.isPressing()) {
-                ScrollingUtils.scrollSingleItemThrow()
-            } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
-                ScrollingUtils.scrollSingleSpread(ScrollDirection.TO_CHEST)
-            } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
-                ScrollingUtils.scrollSingleItemLeaveLast(ScrollDirection.TO_CHEST)
-            } else {
-                ScrollingUtils.scrollSingleItem(ScrollDirection.TO_CHEST)
+                if (ScrollSettings.SCROLL_THROW.isPressing()) {
+                    ScrollingUtils.scrollSingleItemThrow()
+                } else if (ScrollSettings.SCROLL_SPREAD.isPressing()) {
+                    ScrollingUtils.scrollSingleSpread(ScrollDirection.TO_CHEST)
+                } else if (ScrollSettings.SCROLL_LEAVE_LAST.isPressing()) {
+                    ScrollingUtils.scrollSingleItemLeaveLast(ScrollDirection.TO_CHEST)
+                } else {
+                    ScrollingUtils.scrollSingleItem(ScrollDirection.TO_CHEST)
+                }
             }
         }
     }
