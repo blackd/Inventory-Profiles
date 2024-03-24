@@ -1,5 +1,30 @@
 <!-- latest begin -->
 
+### 1.10.10
+
+- Added auto refill threshold. Now you can configure at what number of items the active stack will be refilled.
+- Added way to easily switch the sort order. Use the mouse wheel over the sort button. 
+- Fixed some translations.
+- Added large number of integration hits for the GUI overlay
+
+### WARNING
+
+Due to multiple Quilt specific crashes and one item duplication Quilt support is now defined as fallows:
+
+```
+This mod will work on Quilt using the offered Fabric compatibility.
+Any problems that are not reproducible on Fabric will be addressed with very low priority.
+```
+
+#### Supported Minecraft versions
+- **1.18.2**
+- **1.19.2**
+- **1.20/.1-4**
+
+
+<!-- latest end -->
+
+
 ### 1.10.9
 
 - added support for forge 1.20.2
@@ -21,7 +46,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.20/.1**
 - **1.20.2**
 
-<!-- latest end -->
 <!-- rest begin -->
 
 ### 1.10.7

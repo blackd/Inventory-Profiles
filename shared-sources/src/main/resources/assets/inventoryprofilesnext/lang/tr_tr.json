@@ -82,7 +82,7 @@
     "inventoryprofiles.config.name.enable_lock_slots":                                   "Kilitli slotları etkinleştir",
     "inventoryprofiles.config.name.enable_lock_slots_per_server":                        "Dünyaya/Sunucuya özel kilitli slotları etkinleştir",
     "inventoryprofiles.config.description.enable_lock_slots":                            "Kilitli Slotlar şunlar için görmezden gelinir: sıralama, hepsini taşı, imleci temizle, sürekli üretim malzeme depoları, malzeme depolarını kendi kendine doldurma (kendi kendine doldurma gözetleyen slotlar etkilenmez). \nDikkat:\nSütun/satır sıralama sadece geri kalan kilitli olmayan slotlar dikdörtgen ise çalışır.",
-    "inventoryprofiles.config.description.enable_lock_slots_per_server":                 "Eğer etkinleştirilmişse her sunucu ve her özgün isimli dünyanın kendine özel kilitli slotları olacak.\Dikkat:\n1. Eğer ki tüm dünyalarınızı \"New World\" olarak isimlendirmek gibi bir alışkanlığınız varsa hepsinin kilitli slotları aynı olacak.\n2. Bungee cord/velocity proxyleri arkasında olan sunucular kilitli slotları paylaşırlar.",
+    "inventoryprofiles.config.description.enable_lock_slots_per_server":                 "Eğer etkinleştirilmişse her sunucu ve her özgün isimli dünyanın kendine özel kilitli slotları olacak.\nDikkat:\n1. Eğer ki tüm dünyalarınızı \"New World\" olarak isimlendirmek gibi bir alışkanlığınız varsa hepsinin kilitli slotları aynı olacak.\n2. Bungee cord/velocity proxyleri arkasında olan sunucular kilitli slotları paylaşırlar.",
 
     "inventoryprofiles.config.name.enable_auto_refill":                                  "Kendi kendine doldurmayı etkinleştir.",
 
@@ -251,7 +251,7 @@
     "inventoryprofiles.config.description.auto_refill_match_any_food":                   "Bu doğru olarak ayarlandığında bir gıda stacki bittiğinde herhangi bir başka gıda itemı ile yeniden doldurulabilir.\n\nNOT:\nBu itemları doyum seviyesine göre sıralar, örneğin bir büyülü altın elma ilk seçim olacak. Ve böyle devam edecek...",
     "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "Bu ve üstündeki seçenek doğru olarak ayarlandığında, zararlı gıdalar da, mesela 'balon balığı', biten gıdaları doldurmak için kullanılır.",
 
-    "inventoryprofiles.config.description.autorefill_blacklist":                         "Virgülle ayrılmış item tipi listesi Kendi Kendine Doldurma için kullanılmayacak.\nMesela 'minecraft:golden_axe,minecraft:stone'\UYARI:\nPerformansı çok etkilediği için bu listeye ÇOK FAZLA ITEM TIPI koymayın!",
+    "inventoryprofiles.config.description.autorefill_blacklist":                         "Virgülle ayrılmış item tipi listesi Kendi Kendine Doldurma için kullanılmayacak.\nMesela 'minecraft:golden_axe,minecraft:stone'\nUYARI:\nPerformansı çok etkilediği için bu listeye ÇOK FAZLA ITEM TIPI koymayın!",
     "inventoryprofiles.config.description.tool_damage_threshold":                        "Yeniden Doldurma'yi dayanıklılık seviyesi kontrol eder",
     "inventoryprofiles.config.description.threshold_unit":                               "\"Zarar Eşiği\" birimini ayarla.\nTam birim ve yüzde (%%) kullanabilirsiniz.",
     "inventoryprofiles.config.description.auto_refill_wait_tick":                        "Kendi kendine doldurma değişim yapmadan önce bu kadar tick bekleyecek. \nYüksek sunucu lag'i varsa bu yardımcı olabilir. \nFakat \"Damage Threshold\" değerine bağlı olarak, değişim gerçeklenmesinden önce eşya kırılabilir.",

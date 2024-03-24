@@ -137,16 +137,16 @@ object ScrollingUtils {
     }
 
     private fun AreaTypes.withFocusedStackSingleItemDo(direction: ScrollDirection,
-                                                              slot: Slot,
-                                                              slots: List<Slot>,
-                                                              fullPlayer: AreaType,
-                                                              targetIn: AreaType,
-                                                              player: AreaType,
-                                                              chest: AreaType,
-                                                              action: (target: ItemArea,
-                                                                       source: ItemArea,
-                                                                       slot: Slot,
-                                                                       slotIndex: Int) -> Unit) {
+                                                       slot: Slot,
+                                                       slots: List<Slot>,
+                                                       fullPlayer: AreaType,
+                                                       targetIn: AreaType,
+                                                       player: AreaType,
+                                                       chest: AreaType,
+                                                       action: (target: ItemArea,
+                                                                source: ItemArea,
+                                                                slot: Slot,
+                                                                slotIndex: Int) -> Unit) {
         val vanillaContainer = Vanilla.container()
         val slotIndex = slots.indexOf(slot)
 

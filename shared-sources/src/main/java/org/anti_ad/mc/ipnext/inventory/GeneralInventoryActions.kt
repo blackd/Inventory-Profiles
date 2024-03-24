@@ -68,6 +68,7 @@ import org.anti_ad.mc.ipnext.item.rule.Rule
 
 object GeneralInventoryActions {
 
+    @Suppress("UNUSED_PARAMETER")
     fun doSort(gui: Boolean = false) {
         with(GuiSettings) {
             doSort(REGULAR_SORT_ORDER,
