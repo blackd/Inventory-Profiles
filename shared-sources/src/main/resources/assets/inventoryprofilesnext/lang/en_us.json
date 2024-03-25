@@ -241,7 +241,7 @@
     "inventoryprofiles.config.description.enable_auto_refill":                           "Refill the active item when the stack runs out.",
     "inventoryprofiles.config.description.disable_for_drop_item":                        "Disable \"Auto Refill\" for dropped items",
     "inventoryprofiles.config.description.ignore_locked_slots":                          "Allow Auto Refill to use items from locked slots.",
-    "inventoryprofiles.config.description.auto_refill_prefer_smaller_stacks":            "Be default the stack with most items in it will be used for auto refill. If this is set to `true` the smallest available will be used first.",
+    "inventoryprofiles.config.description.auto_refill_prefer_smaller_stacks":            "By default the stack with most items in it will be used for auto refill. If this is set to `true` the smallest available will be used first.",
     "inventoryprofiles.config.description.refill_armor":                                 "Refill armor slots if items are about to break",
     "inventoryprofiles.config.description.refill_before_tool_break":                     "Refill tools and armor before they break.\nSee \"Damage Threshold\" for more information.",
     "inventoryprofiles.config.description.disable_for_loyalty_items":                    "Disable replacement of Loyalty enchanted gear.\nWhen this is true anything that is enchanted with any level of Loyalty\n will not be replaced when thrown or dropped.",
