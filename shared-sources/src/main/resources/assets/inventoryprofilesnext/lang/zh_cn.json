@@ -21,6 +21,7 @@
     "inventoryprofiles.common.enum.context.any":                                         "游戏内 / Gui",
     "inventoryprofiles.common.enum.modifier_key.differentiate":                          "区分左右",
     "inventoryprofiles.common.enum.modifier_key.normal":                                 "正常",
+
     "inventoryprofiles.gui.config.ModSettings":                                          "Mod 设置",
     "inventoryprofiles.config.category.inventory_sorting":                               "整理选项",
     "inventoryprofiles.config.category.move_matching_items":                             "移动相符物品",
@@ -28,6 +29,7 @@
     "inventoryprofiles.config.category.profiles":                                        "档案",
     "inventoryprofiles.config.category.lock_slots":                                      "槽位锁定",
     "inventoryprofiles.config.category.auto_refill":                                     "自动重装",
+    "inventoryprofiles.config.category.villager_trading":                                "村民贸易",
     "inventoryprofiles.config.category.privacy":                                         "隐私",
     "inventoryprofiles.config.category.advanced_options":                                "高级选项",
     "inventoryprofiles.config.name.open_config_folder":                                  "§a打开配置文件夹",
@@ -47,6 +49,8 @@
     "inventoryprofiles.config.description.category_priority_list":                       "按优先级排列的创造菜单类别，用作“整理顺序”、“创意菜单”的订单源。",
     "inventoryprofiles.config.name.category_original_order":                             "默认分类优先级",
     "inventoryprofiles.config.description.category_original_order":                      "这里是为了方便。它可能因服务器或世界的不同而改变。\n这个想法是复制、检查和重新排序，如果你想对上面的“优先级列表”进行修改。",
+
+
     "inventoryprofiles.config.name.include_hotbar_modifier":                             "包含快捷栏物品",
     "inventoryprofiles.config.name.move_all_modifier":                                   "移动全部物品",
     "inventoryprofiles.config.name.move_focus_mach_modifier":                            "移动指向物品",
@@ -79,9 +83,34 @@
     "inventoryprofiles.config.name.enable_lock_slots_per_server":                        "开启世界/服务器独立的槽位锁定",
     "inventoryprofiles.config.description.enable_lock_slots":                            "锁定槽位将被以下操作忽略：整理，移动全部，关闭GUI时收回手中物品，\n连续合成以及自动重装(自动重装所监视的槽位不受影响)。\n注意：按列/行分组仅在剩余未锁定槽位为矩形时才会工作。",
     "inventoryprofiles.config.description.enable_lock_slots_per_server":                 "如果启用，每个服务器和唯一命名的世界将拥有独立的锁定槽位。\n注意：\n1.如果你把所有的世界都命名为\"新的世界\"，它们将共享同一个锁定槽位。\n2.bungeecord/velocity代理的服务器将共享锁定槽位。",
+
     "inventoryprofiles.config.name.enable_auto_refill":                                  "开启自动重装",
+
+    "inventoryprofiles.config.name.villager_trading_enable":                             "启用村民交易",
+    "inventoryprofiles.config.description.villager_trading_enable":                      "切换村民交易增强功能。\n\n这允许你收藏一个或多个交易类型。\n并通过单击一次执行这些类型的所有可能交易。\n\n有两种类型的收藏：全局（Global）和本地（Local）。\n - 全局选择相同职业的所有村民的交易类型。\n - 本地选择仅对活动村民的交易。\n\n收藏也适用于流浪商人，但它们只有全局类型。",
+    "inventoryprofiles.config.name.villager_trading_local_color":                        "本地收藏颜色",
+    "inventoryprofiles.config.description.villager_trading_local_color":                 "用于突出显示本地收藏交易的颜色。",
+    "inventoryprofiles.config.name.villager_trading_global_color":                       "全局收藏颜色",
+    "inventoryprofiles.config.description.villager_trading_global_color":                "用于突出显示全局收藏交易的颜色。",
+
+    "inventoryprofiles.config.name.villager_trading_group_1":                            "启用第二个收藏组",
+    "inventoryprofiles.config.description.villager_trading_group_1":                     "启用第二个全局/本地收藏组。",
+    "inventoryprofiles.config.name.villager_trading_local_color1":                       "第二组本地颜色",
+    "inventoryprofiles.config.description.villager_trading_local_color1":                "用于突出显示第二个本地收藏交易组的颜色。",
+    "inventoryprofiles.config.name.villager_trading_global_color1":                      "第二组全局颜色",
+    "inventoryprofiles.config.description.villager_trading_global_color1":               "用于突出显示第二个全局收藏交易组的颜色。",
+
+    "inventoryprofiles.config.name.villager_trading_group_2":                            "启用第三个收藏组",
+    "inventoryprofiles.config.description.villager_trading_group_2":                     "启用第三个全局/本地收藏组。",
+    "inventoryprofiles.config.name.villager_trading_local_color2":                       "第三组本地颜色",
+    "inventoryprofiles.config.description.villager_trading_local_color2":                "用于突出显示第三个本地收藏交易组的颜色。",
+    "inventoryprofiles.config.name.villager_trading_global_color2":                      "第三组全局颜色",
+    "inventoryprofiles.config.description.villager_trading_global_color2":               "用于突出显示第三个全局收藏交易组的颜色。",
+
+
     "inventoryprofiles.config.name.enable_updates_check":                                "开启更新检查",
     "inventoryprofiles.config.name.enable_analytics":                                    "开启分析",
+
     "inventoryprofiles.config.description.enable_updates_check":                         "当模组有新版本可用时，会向你显示信息。为了进行检查，会向服务器发送以下信息:\n\tMinecraft版本，Fabric或是Forge，Inventory Profiles Next版本。\n你的IP地址没有被保存!",
     "inventoryprofiles.config.description.enable_analytics":                             "只有关于mod和已开启的功能的信息会被收集。\n不会发送个人信息。你的IP地址也没有被保存。\n收集的信息不会被共享、出售或转让给任何人!",
     "inventoryprofiles.config.name.add_interval_between_clicks":                         "增加点击间隔",
@@ -107,6 +136,7 @@
     "inventoryprofiles.config.description.ignore_durability":                            "当此选项开启时，移动相符物品和扔出相符物品的操作将会忽略物品耐久。",
     "inventoryprofiles.config.name.debug_logs":                                          "调试日志",
     "inventoryprofiles.config.description.debug_logs":                                   "输出调试信息",
+
     "inventoryprofiles.gui.config.GuiSettings":                                          "Gui 设置",
     "inventoryprofiles.config.category.gui.general":                                     "常规GUI设置",
     "inventoryprofiles.config.category.inventory":                                       "物品栏",
@@ -157,13 +187,16 @@
     "inventoryprofiles.config.description.in_rows_custom_rule":                          "设置 \"按行整理\" 按钮的自定义规则操作",
     "inventoryprofiles.config.description.show_move_all_button":                         "在容器/玩家Gui中显示 \"移动全部\" 按钮",
     "inventoryprofiles.config.description.show_button_tooltips":                         "显示按钮的提示",
+
     "inventoryprofiles.gui.config.AutoRefillSettings":                                   "自动重装",
+
     "inventoryprofiles.config.category.auto-refill.general":                             "常规",
     "inventoryprofiles.config.category.auto-refill.non-enchanted":                       "无附魔物品",
     "inventoryprofiles.config.category.auto-refill.matching":                            "物品匹配",
     "inventoryprofiles.config.category.auto-refill.notifications":                       "通知",
     "inventoryprofiles.config.name.disable_for_drop_item":                               "对扔出物品禁用",
     "inventoryprofiles.config.name.ignore_locked_slots":                                 "调用锁定槽位",
+    "inventoryprofiles.config.name.auto_refill_prefer_smaller_stacks":                   "Refill with smallest available stack",
     "inventoryprofiles.config.name.refill_armor":                                        "在损坏前重装护甲",
     "inventoryprofiles.config.name.refill_before_tool_break":                            "在损坏前重装工具",
     "inventoryprofiles.config.name.disable_for_loyalty_items":                           "对忠诚装备禁用",
@@ -174,9 +207,11 @@
     "inventoryprofiles.config.name.auto_refill_match_any_food":                          "补充任何食物",
     "inventoryprofiles.config.name.auto_refill_match_harmful_food":                      "允许补充有害食物。",
     "inventoryprofiles.config.name.autorefill_blacklist":                                "黑名单物品类型",
+    "inventoryprofiles.config.name.stackable_threshold":                                 "Stackable Threshold",
     "inventoryprofiles.config.name.tool_damage_threshold":                               "耐久阈值",
     "inventoryprofiles.config.name.threshold_unit":                                      "阈值单位",
     "inventoryprofiles.config.name.auto_refill_wait_tick":                               "自动重装前等待时间(Ticks)",
+    "inventoryprofiles.config.name.auto_refill_temp_disable_refill_for_tools":           "Disable Refill for Tools While Holding",
     "inventoryprofiles.config.name.allow_break_for_non_enchanted":                       "允许无附魔装备损坏",
     "inventoryprofiles.config.name.tool_max_durability_threshold":                       "最大耐久阈值",
     "inventoryprofiles.config.name.visual_durability_notification":                      "工具切换前视觉提示",
@@ -187,12 +222,14 @@
     "inventoryprofiles.config.name.visual_replace_success_notification":                 "替换成功视觉提示",
     "inventoryprofiles.config.name.audio_replace_success_notification":                  "替换成功声音提示",
     "inventoryprofiles.config.name.type_visual_replace_success_notification":            "视觉提示类型",
+
     "inventoryprofiles.config.name.visual_replace_failed_notification":                  "替换失败视觉提示",
     "inventoryprofiles.config.name.audio_replace_failed_notification":                   "替换失败声音提示",
     "inventoryprofiles.config.name.type_visual_replace_failed_notification":             "视觉提示类型",
     "inventoryprofiles.config.description.type_visual_replace_failed_notification":      "控制工具替换失败时的视觉提示类型",
     "inventoryprofiles.config.description.audio_replace_failed_notification":            "如果开启，当工具替换失败时你将收到声音提示。",
     "inventoryprofiles.config.description.visual_replace_failed_notification":           "如果开启，当工具替换失败时你将收到视觉提示。",
+
     "inventoryprofiles.config.description.type_visual_replace_success_notification":     "控制工具替换成功时的视觉提示类型",
     "inventoryprofiles.config.description.audio_replace_success_notification":           "如果开启，当工具因耐久不足替换成功时你将收到声音提示。",
     "inventoryprofiles.config.description.visual_replace_success_notification":          "如果开启，当工具因耐久不足替换成功时你将收到视觉提示。",
@@ -204,6 +241,7 @@
     "inventoryprofiles.config.description.enable_auto_refill":                           "当物品用尽时重装手中物品",
     "inventoryprofiles.config.description.disable_for_drop_item":                        "对扔出物品禁用 \"自动重装\"",
     "inventoryprofiles.config.description.ignore_locked_slots":                          "允许自动重装使用锁定槽位中的物品",
+    "inventoryprofiles.config.description.auto_refill_prefer_smaller_stacks":            "Be default the stack with most items in it will be used for auto refill. If this is set to `true` the smallest available will be used first.",
     "inventoryprofiles.config.description.refill_armor":                                 "当护甲即将损坏时重装护甲栏",
     "inventoryprofiles.config.description.refill_before_tool_break":                     "在工具和护甲损坏前自动重装\n更多信息参见 \"耐久阈值\"",
     "inventoryprofiles.config.description.disable_for_loyalty_items":                    "取消对忠诚附魔装备的替换。\n当此选项开启时，任何有忠诚附魔的装备在抛出或扔出时不会被替换。",
@@ -213,10 +251,13 @@
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":           "如果将其设置为关鱼和美西螈桶只有在它们包含相同类型的鱼/美西螈时才会重装",
     "inventoryprofiles.config.description.auto_refill_match_any_food":                   "当此值设置为开时，当一组食物耗尽时，可以使用任何其他食物来补充它。\n\n注意：\n这将按饱和度对食物物品进行排序，即附魔金苹果将是首选。等等...",
     "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "当此值和上面的选项设置为开时，有害食物，如“河豚”，也将被用来补充耗尽的一组食物。",
+
     "inventoryprofiles.config.description.autorefill_blacklist":                         "将被自动重装忽略的物品种类列表，以逗号进行分隔。\n例如：'minecraft:golden_axe,minecraft:stone'\n警告：\n为了避免性能下降，不要在列表中添加过多的物品种类！",
+    "inventoryprofiles.config.description.stackable_threshold":                          "Controls the quantity in a stackable item that will trigger auto refill.",
     "inventoryprofiles.config.description.tool_damage_threshold":                        "控制触发自动重装的耐久等级",
     "inventoryprofiles.config.description.threshold_unit":                               "设置 \"耐久阈值\" 的单位\n支持绝对值和百分比(%%)",
     "inventoryprofiles.config.description.auto_refill_wait_tick":                        "自动重装在交换前将等待的时间(ticks)\n这可能在一些高卡顿的服务器中有用。\n然而，根据 \"耐久阈值\" 的值，工具可能在交换开始之前就发生损坏。",
+    "inventoryprofiles.config.description.auto_refill_temp_disable_refill_for_tools":    "Holding this key will disable auto refill for tools this allows you to break tools if you want to.",
     "inventoryprofiles.config.description.allow_break_for_non_enchanted":                "不再尝试保存无附魔物品。\n最大耐久值低于下方的设置的物品将不再保存。",
     "inventoryprofiles.config.description.tool_max_durability_threshold":                "当上方的设置开启时，最大耐久低于此值的工具将允许被破坏\n这个选项是因为大多数玩家并不像保存石制工具，而在钻石工具损坏时又会感到懊恼。",
     "inventoryprofiles.config.notification.tool_replace_ping.ipn":                       "IPN ",
@@ -225,6 +266,8 @@
     "inventoryprofiles.config.notification.tool_replace_ping.replacing":                 "替换耐久：%s",
     "inventoryprofiles.config.notification.tool_replace_failed.replacing":               "\"%s\" 替换失败",
     "inventoryprofiles.config.notification.tool_replace_success":                        "替换为",
+
+
     "inventoryprofiles.gui.config.LockedSlotsSettings":                                  "槽位锁定",
     "inventoryprofiles.config.category.lock_slots.gui":                                  "GUI显示",
     "inventoryprofiles.config.category.lock_slots.empty":                                "空锁定槽位处理",
@@ -264,6 +307,7 @@
     "inventoryprofiles.config.description.locked_slots_empty_hotbar_as_semi_locked":     "这将尝试将物品直接拾取到物品栏中而不是从快捷栏中取出空槽。\n注意：为了这能工作\"开启锁定槽位拾取物品\"必须为\"关\"!",
     "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks":       "等待服务器发送玩家物品栏内容的最大客户端时间(ticks)\n如果锁定槽位在维度改变时物品被移出/丢出，则需要增大这个值。\n这种情况经常发生在负载过重的服务器上。\n注意：20 ticks相当于1秒。\n§l§c警告§r：设置过高的值可能会导致锁定槽位无法正常工作，直到超时。",
     "inventoryprofiles.config.description.lock_slots_disable_user_interaction":          "意思是，任何对锁定槽位的用户操作都将被无效。\n基本上，你需要在移动物品或执行任何其他操作之前进行解锁。\n自动操作、profiles、自动重装等不受影响。",
+
     "inventoryprofiles.gui.config.EditProfiles":                                         "档案编辑",
     "inventoryprofiles.gui.config.profiles_help_button":                                 "打开wiki",
     "inventoryprofiles.gui.config.profiles_config_button":                               "档案设置",
@@ -280,6 +324,8 @@
     "inventoryprofiles.config.description.quick_slot_3_profile":                         "可通过快捷档案 3 热键访问的档案的名称",
     "inventoryprofiles.config.name.include_custom_name":                                 "'Saved'档案中包含自定义名称",
     "inventoryprofiles.config.description.include_custom_name":                          "如果启用，保存的档案中将会包含自定义物品名称。\n一般情况下不推荐使用，但在一些情况下(档案中有不同的背包或其他类型的存储空间)，它能发挥作用。\n对于普通的装备来说，通过附魔进行匹配是最好的方法。",
+
+
     "inventoryprofiles.gui.config.ScrollSettings":                                       "物品滚动",
     "inventoryprofiles.config.category.scroll.modifiers":                                "滚动热键修饰符",
     "inventoryprofiles.config.category.scroll.single":                                   "滚动光标物品",
@@ -291,8 +337,13 @@
     "inventoryprofiles.config.description.scroll_spread":                                "如果你在使用滚动到箱子/玩家时按住此键，所有空闲的目标位置都将被相同或几乎相同数量的物品填充",
     "inventoryprofiles.config.name.scroll_throw":                                        "扔出",
     "inventoryprofiles.config.description.scroll_throw":                                 "如果你在使用滚动到箱子/玩家时按住此键，物品将从物品栏中扔出并打开容器\n注意:\n方向被忽略。",
+    "inventoryprofiles.config.name.temp_disable":                                        "Temporary Disable Scrolling",
+    "inventoryprofiles.config.description.temp_disable":                                 "Disables item scrolling while this key is pressed.",
+
     "inventoryprofiles.config.name.scroll_auto_pickup_next_for_single":                  "自动填充光标",
     "inventoryprofiles.config.description.scroll_auto_pickup_next_for_single":           "如果为开，光标中的一组物品用完时将会捡起新的一组自动填充光标",
+
+
     "inventoryprofiles.gui.config.Hotkeys":                                              "热键",
     "inventoryprofiles.config.category.hotkeys":                                         "热键",
     "inventoryprofiles.config.category.misc":                                            "杂项",
@@ -314,6 +365,34 @@
     "inventoryprofiles.config.name.save_as_profile":                                     "保存当前状态为 \"Saved\" 档案",
     "inventoryprofiles.config.name.scroll_to_chest":                                     "将物品从玩家滚动到箱子",
     "inventoryprofiles.config.name.scroll_to_inventory":                                 "将物品从箱子滚动到玩家",
+    "inventoryprofiles.config.name.global_bookmark_trade":                               "Add Global Bookmark",
+    "inventoryprofiles.config.name.local_bookmark_trade":                                "Add Local Bookmark",
+    "inventoryprofiles.config.name.do_global_trade":                                     "Do Global Trades",
+    "inventoryprofiles.config.name.do_local_trade":                                      "Do Local Trades",
+    "inventoryprofiles.config.description.global_bookmark_trade":                        "Adds the trade under the mouse cursor as a global bookmark.",
+    "inventoryprofiles.config.description.local_bookmark_trade":                         "Adds the trade under the mouse cursor as a local bookmark.",
+    "inventoryprofiles.config.description.do_global_trade":                              "Executes all possible globally bookmarked trades.",
+    "inventoryprofiles.config.description.do_local_trade":                               "Executes all possible locally bookmarked trades.",
+
+    "inventoryprofiles.config.name.global_bookmark_trade1":                              "Add Group 2 Global Bookmark",
+    "inventoryprofiles.config.name.local_bookmark_trade1":                               "Add Group 2 Local Bookmark",
+    "inventoryprofiles.config.name.do_global_trade1":                                    "Do Group 2 Global Trades",
+    "inventoryprofiles.config.name.do_local_trade1":                                     "Do Group 2 Local Trades",
+    "inventoryprofiles.config.description.global_bookmark_trade1":                       "Adds the trade under the mouse cursor as a global bookmark in group 2.",
+    "inventoryprofiles.config.description.local_bookmark_trade1":                        "Adds the trade under the mouse cursor as a local bookmark in group 2.",
+    "inventoryprofiles.config.description.do_global_trade1":                             "Executes all possible globally bookmarked trades from group 2.",
+    "inventoryprofiles.config.description.do_local_trade1":                              "Executes all possible locally bookmarked trades from group 2..",
+
+    "inventoryprofiles.config.name.global_bookmark_trade2":                              "Add Group 3 Global Bookmark",
+    "inventoryprofiles.config.name.local_bookmark_trade2":                               "Add Group 3 Local Bookmark",
+    "inventoryprofiles.config.name.do_global_trade2":                                    "Do Group 3 Global Trades",
+    "inventoryprofiles.config.name.do_local_trade2":                                     "Do Group 3 Local Trades",
+    "inventoryprofiles.config.description.global_bookmark_trade2":                       "Adds the trade under the mouse cursor as a global bookmark in group 3.",
+    "inventoryprofiles.config.description.local_bookmark_trade2":                        "Adds the trade under the mouse cursor as a local bookmark in group 3.",
+    "inventoryprofiles.config.description.do_global_trade2":                             "Executes all possible globally bookmarked trades from group 3.",
+    "inventoryprofiles.config.description.do_local_trade2":                              "Executes all possible locally bookmarked trades from group 3.",
+
+
     "inventoryprofiles.config.description.save_as_profile":                              "此快捷键将保存当前装备套装为名为\"Saved\"的档案\n你可以使用这个档案来构筑你自己的档案\n\n§l§c注意：§r\n每一次你按下这个按键时都将创建一个新的名为\"Saved\"的档案。\n\"Saved\"档案不能通过下一个/上一个档案进行转换，不能被设置为快捷档案。",
     "inventoryprofiles.config.description.next_profile":                                 "切换到下一档案的快捷键",
     "inventoryprofiles.config.description.prev_profile":                                 "切换到上一档案的快捷键",
@@ -331,6 +410,8 @@
     "inventoryprofiles.config.description.reload_custom_configs":                        "当你定义新的自定义规则时，这个快捷键可以用于快速重载配置。\n在任何情况下，建议保持为未设置状态。\n重载配置不会是你希望经常做的事。",
     "inventoryprofiles.config.description.scroll_to_chest":                              "当你在光标所指的非空的槽位时按住此键或者你在光标中有一组物品或一个物品将被转移到打开的容器中。",
     "inventoryprofiles.config.description.scroll_to_inventory":                          "当你在光标所指的非空的槽位时按住此键或者你在光标中有一组物品或一个物品将被转移到玩家物品栏中。",
+
+
     "inventoryprofiles.gui.config.Tweaks":                                               "调整",
     "inventoryprofiles.config.category.client_side_tweaks":                              "客户端调整",
     "inventoryprofiles.config.name.prevent_close_gui_drop_item":                         "防止丢出手持物品",
@@ -339,10 +420,12 @@
     "inventoryprofiles.config.description.prevent_close_gui_drop_item":                  "关闭GUI时不会丢出鼠标所持的物品",
     "inventoryprofiles.config.description.container_swipe_moving_items":                 "允许你通过 按住shift和左键 来移动鼠标所指的物品",
     "inventoryprofiles.config.description.swipe_move_crafting_result_slot":              "在合成输出栏开启 \"划动移动物品\"",
+
     "inventoryprofiles.gui.config.Debugs":                                               "调试",
     "inventoryprofiles.config.category.debugs":                                          "调试",
     "inventoryprofiles.config.name.debug_screen":                                        "调试界面",
     "inventoryprofiles.config.description.debug_screen":                                 "打开调试界面",
+
     "inventoryprofiles.gui.config.Modpacks":                                             "整合包开发",
     "inventoryprofiles.config.category.modpacks":                                        "你必须处于单人游戏，否则游戏将会崩溃",
     "inventoryprofiles.config.name.make_block_screen_generator_script":                  "具有UI的方块(UI Capable Block)",
@@ -353,6 +436,7 @@
     "inventoryprofiles.config.description.diff_calculator_priority":                     "这决定了在使用导出按钮时，在构建中内部与外部提示何者具有优先级。\n\n注意：如果你的整合包没有自定义的方块/物品，你不需要使用这个选项。\n可以到我们的 discord 服务器寻求帮助 :)",
     "inventoryprofiles.config.description.export_hints":                                 "这将生成json文件，包含当前所有加载的提示。此格式只适用于嵌入到本mod。\n\n注意：如果你的整合包没有自定义的方块/物品，你不需要使用这个选项。\n可以到我们的 discord 服务器寻求帮助 :)",
     "inventoryprofiles.config.description.make_block_screen_generator_script":           "这个按钮生成一个 /chat命令 的脚本，它将：\n - 尝试找到所有具有Gui的方块\n - 创建一个很棒的平台\n - 以mod进行分组存放每个方块\n\n注意：如果你的整合包没有自定义的方块/物品，你不需要使用这个选项。\n如果你需要，可以到我们的 discord 服务器寻求帮助 :)\n\n警告：这需要单人世界！",
+
     "inventoryprofiles.enum.sorting_method.global":                                      "全局 (%s)",
     "inventoryprofiles.enum.sorting_method.default":                                     "默认 (创造物品栏)",
     "inventoryprofiles.enum.sorting_method.item_name":                                   "物品名称",
@@ -384,7 +468,10 @@
     "inventoryprofiles.enum.merge_priority.external":                                    "外部",
     "inventoryprofiles.enum.creative_menu_sort_order.search_tab":                        "搜索选项卡",
     "inventoryprofiles.enum.creative_menu_sort_order.category_priority_list":            "优先级列表",
+
     "inventoryprofiles.tooltip.sort_button":                                             "整理物品栏",
+    "inventoryprofiles.tooltip.sort_button.current_order":                               "§5Sort Order: §o%s§r\n",
+    "inventoryprofiles.tooltip.sort_button.key_help":                                    "\n§6 - Use scroll wheel over this button\n§6to change the sort order.",
     "inventoryprofiles.tooltip.sort_columns_button":                                     "按列整理物品栏",
     "inventoryprofiles.tooltip.sort_rows_button":                                        "按行整理物品栏",
     "inventoryprofiles.tooltip.move_all_button.title_move_matching":                     "移动相符物品",
@@ -395,17 +482,39 @@
     "inventoryprofiles.tooltip.move_all_button.move_matching_only":                      "§6按住 §o%s§r\n§6 - 仅移动相符物品",
     "inventoryprofiles.tooltip.move_all_button.move_focused_only":                       "§5按住 §o%s§r\n§6 - 仅移动相同类型的物品\n§6如光标下或者\n§6光标中的一组。",
     "inventoryprofiles.tooltip.move_all_button.move_just_refill":                        "§5按住 §o%s§r\n§6 - 仅移动足够的物品\n§6以填充现有组.",
+
     "inventoryprofiles.tooltip.continuous_crafting_checkbox":                            "连续合成\n§6按住 §o%s§r§6：自动合成",
     "inventoryprofiles.tooltip.auto_crafting_checkbox":                                  "自动合成\n§6停止按住 §o%s§r§6：连续合成",
+    "inventoryprofiles.tooltip.fast_rename":                                             "Bulk Rename",
     "inventoryprofiles.tooltip.next_profile_button":                                     "选中并应用下一档案",
     "inventoryprofiles.tooltip.prev_profile_button":                                     "选中并应用上一档案",
     "inventoryprofiles.tooltip.apply_profile_button":                                    "应用选中档案",
     "inventoryprofiles.tooltip.editor_toggle":                                           "显示Inventory Profiles Next的Gui覆盖的配置界面",
     "inventoryprofiles.tooltip.settings_open":                                           "打开Inventory Profiles Next常规配置",
+    "inventoryprofiles.tooltip.do_global_trades_button":                                 "执行所有可能的全局收藏交易。\n\n对所有全局收藏执行交易，直到所有资源耗尽或无法进行更多交易为止。\n\n",
+    "inventoryprofiles.tooltip.do_local_trades_button":                                  "执行所有可能的本地收藏交易。\n\n对所有本地收藏执行交易，直到所有资源耗尽或无法进行更多交易为止。",
+
+    "inventoryprofiles.tooltip.do_global_trades_button1":                                "执行第二组全局收藏的所有可能交易。",
+    "inventoryprofiles.tooltip.do_local_trades_button1":                                 "执行第二组本地收藏的所有可能交易。",
+
+    "inventoryprofiles.tooltip.do_global_trades_button2":                                "执行第三组全局收藏的所有可能交易。",
+    "inventoryprofiles.tooltip.do_local_trades_button2":                                 "执行第三组本地收藏的所有可能交易。",
+
+    "inventoryprofiles.tooltip.set_local_bookmark":                                      "添加本地收藏。\n\n为此特定村民的此交易添加收藏。",
+    "inventoryprofiles.tooltip.set_global_bookmark":                                     "添加全局收藏。\n\n为该职业所有村民或所有流浪商人添加该交易类型的收藏。",
+
+    "inventoryprofiles.tooltip.set_local_bookmark1":                                     "将本地收藏添加到第二组。",
+    "inventoryprofiles.tooltip.set_global_bookmark1":                                    "将全局收藏添加到第二组。",
+
+    "inventoryprofiles.tooltip.set_local_bookmark2":                                     "将本地收藏添加到第三组。",
+    "inventoryprofiles.tooltip.set_global_bookmark2":                                    "将全局收藏添加到第三组。",
+
+
     "inventoryprofiles.update.version":                                                  " 版本：",
     "inventoryprofiles.update.available":                                                " 已更新。\n",
     "inventoryprofiles.update.get":                                                      "下载链接：",
     "inventoryprofiles.update.or":                                                       " 或 ",
+
     "inventoryprofiles.gui.editor.name.screen.ignore":                                   "忽略",
     "inventoryprofiles.gui.editor.description.screen.ignore":                            "这将导致Inventory Profiles Next不在此UI中添加按钮，并禁用此容器的任何管理功能。\n注意：\n通常情况下，容器和界面都需要设置为是。",
     "inventoryprofiles.gui.editor.name.screen.player_side":                              "仅玩家",
@@ -420,6 +529,7 @@
     "inventoryprofiles.gui.editor.category.container":                                   "容器",
     "inventoryprofiles.gui.editor.name.class.screen":                                    "界面",
     "inventoryprofiles.gui.editor.name.class.container":                                 "容器",
+
     "inventoryprofiles.gui.editor.name.help.select.next":                                "选中下一按钮",
     "inventoryprofiles.gui.editor.description.help.select.next":                         "按下 '空格' 来选中下一按钮",
     "inventoryprofiles.gui.editor.name.help.select.prev":                                "选中上一按钮",
@@ -428,36 +538,5 @@
     "inventoryprofiles.gui.editor.description.help.move.keys":                           "'W','S','A','D' 和方向键将会移动选中的按钮",
     "inventoryprofiles.gui.editor.name.help.move.speed":                                 "快速移动按钮!!!",
     "inventoryprofiles.gui.editor.description.help.move.speed":                          "按住 'Shift' 和移动键将会快速移动按钮",
-    "inventoryprofiles.profiles.created_new_saved":                                      "已创建新的'Saved'档案...",
-    "inventoryprofiles.config.category.villager_trading":                                "村民贸易",
-    "inventoryprofiles.config.name.villager_trading_enable":                             "启用村民交易",
-    "inventoryprofiles.config.description.villager_trading_enable":                      "切换村民交易增强功能。\n\n这允许你收藏一个或多个交易类型。\n并通过单击一次执行这些类型的所有可能交易。\n\n有两种类型的收藏：全局（Global）和本地（Local）。\n - 全局选择相同职业的所有村民的交易类型。\n - 本地选择仅对活动村民的交易。\n\n收藏也适用于流浪商人，但它们只有全局类型。",
-    "inventoryprofiles.config.name.villager_trading_local_color":                        "本地收藏颜色",
-    "inventoryprofiles.config.description.villager_trading_local_color":                 "用于突出显示本地收藏交易的颜色。",
-    "inventoryprofiles.config.name.villager_trading_global_color":                       "全局收藏颜色",
-    "inventoryprofiles.config.description.villager_trading_global_color":                "用于突出显示全局收藏交易的颜色。",
-    "inventoryprofiles.config.name.villager_trading_group_1":                            "启用第二个收藏组",
-    "inventoryprofiles.config.description.villager_trading_group_1":                     "启用第二个全局/本地收藏组。",
-    "inventoryprofiles.config.name.villager_trading_local_color1":                       "第二组本地颜色",
-    "inventoryprofiles.config.description.villager_trading_local_color1":                "用于突出显示第二个本地收藏交易组的颜色。",
-    "inventoryprofiles.config.name.villager_trading_global_color1":                      "第二组全局颜色",
-    "inventoryprofiles.config.description.villager_trading_global_color1":               "用于突出显示第二个全局收藏交易组的颜色。",
-    "inventoryprofiles.config.name.villager_trading_group_2":                            "启用第三个收藏组",
-    "inventoryprofiles.config.description.villager_trading_group_2":                     "启用第三个全局/本地收藏组。",
-    "inventoryprofiles.config.name.villager_trading_local_color2":                       "第三组本地颜色",
-    "inventoryprofiles.config.description.villager_trading_local_color2":                "用于突出显示第三个本地收藏交易组的颜色。",
-    "inventoryprofiles.config.name.villager_trading_global_color2":                      "第三组全局颜色",
-    "inventoryprofiles.config.description.villager_trading_global_color2":               "用于突出显示第三个全局收藏交易组的颜色。",
-    "inventoryprofiles.tooltip.do_global_trades_button":                                 "执行所有可能的全局收藏交易。\n\n对所有全局收藏执行交易，直到所有资源耗尽或无法进行更多交易为止。\n\n",
-    "inventoryprofiles.tooltip.do_local_trades_button":                                  "执行所有可能的本地收藏交易。\n\n对所有本地收藏执行交易，直到所有资源耗尽或无法进行更多交易为止。",
-    "inventoryprofiles.tooltip.do_global_trades_button1":                                "执行第二组全局收藏的所有可能交易。",
-    "inventoryprofiles.tooltip.do_local_trades_button1":                                 "执行第二组本地收藏的所有可能交易。",
-    "inventoryprofiles.tooltip.do_global_trades_button2":                                "执行第三组全局收藏的所有可能交易。",
-    "inventoryprofiles.tooltip.do_local_trades_button2":                                 "执行第三组本地收藏的所有可能交易。",
-    "inventoryprofiles.tooltip.set_local_bookmark":                                      "添加本地收藏。\n\n为此特定村民的此交易添加收藏。",
-    "inventoryprofiles.tooltip.set_global_bookmark":                                     "添加全局收藏。\n\n为该职业所有村民或所有流浪商人添加该交易类型的收藏。",
-    "inventoryprofiles.tooltip.set_local_bookmark1":                                     "将本地收藏添加到第二组。",
-    "inventoryprofiles.tooltip.set_global_bookmark1":                                    "将全局收藏添加到第二组。",
-    "inventoryprofiles.tooltip.set_local_bookmark2":                                     "将本地收藏添加到第三组。",
-    "inventoryprofiles.tooltip.set_global_bookmark2":                                    "将全局收藏添加到第三组。"
+    "inventoryprofiles.profiles.created_new_saved":                                      "已创建新的'Saved'档案..."
 }
