@@ -4,6 +4,13 @@ body:
   - type: markdown
     attributes:
       value: |
+        # **1.20.5/6 SUPPORT**
+        ## There will be no 1.20.5/6 support.
+        ## Next release will be for 1.21 fater it comes out.
+
+  - type: markdown
+    attributes:
+      value: |
         ## **BEFORE POSTING PLEASE DISCUSS YOUR FEATURE REQUESTS WITH US IN OUT DISCORD SERVER**
         ### **Have you asked about it in our [Discord Server](https://discord.gg/23YCxmveUM)**
           if the answer is **NO** then go [there](https://discord.gg/23YCxmveUM) and ask.
