@@ -6,7 +6,7 @@ body:
       value: |
         # **1.20.5/6 SUPPORT**
         ## There will be no 1.20.5/6 support.
-        ## Next release will be for 1.21 fater it comes out.
+        ## Next release will be for 1.21 after it comes out.
 
   - type: markdown
     attributes:
