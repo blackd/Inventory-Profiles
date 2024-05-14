@@ -87,7 +87,7 @@ evaluationDependsOnChildren()
 
 allprojects {
     version = versionObj.toCleanString()
-//    group = "org.anti-ad.mc"
+    group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
     ext.set("libIPN_version", "4.0.2")

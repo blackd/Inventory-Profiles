@@ -218,10 +218,8 @@ if ("true" == System.getProperty("idea.sync.active")) {
 
 tasks.register<Copy>("copyMixinMappings") {
     dependsOn("compileJava")
-    mustRunAfter("compileJava")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
-    this.
     from(inName)
     into(outName)
     rename {

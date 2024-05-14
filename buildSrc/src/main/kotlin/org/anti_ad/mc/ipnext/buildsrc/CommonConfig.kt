@@ -51,7 +51,7 @@ fun Project.platformsCommonConfig() {
     tasks["javadoc"].enabled = false
 }
 fun Project.registerMinimizeJarTask() {
-    tasks.register<DefaultTask>("minimizeJar") {
+    val minTask = tasks.register<DefaultTask>("minimizeJar") {
         group = "build"
 
         val isForge = !project.name.startsWith("fabric")
@@ -74,6 +74,7 @@ fun Project.registerMinimizeJarTask() {
             }
         }
     }
+    tasks.named("build").get().dependsOn(minTask)
 }
 
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {

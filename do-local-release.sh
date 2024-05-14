@@ -2,7 +2,7 @@
 
 . ~/.config/secrets/modrinth.sh
 . ~/.config/secrets/curseforge.sh
-. ~/.config/secrets/env-setup.sh
+#. ~/.config/secrets/env-setup.sh
 
 pushd . 
 
@@ -17,10 +17,10 @@ python build_release_notes.py
 
 cd ..
 
-./gradlew --max-workers 32 createMcpToSrg
+#./gradlew --max-workers 32 createMcpToSrg
 ./gradlew --max-workers 32 compileKotlin compileJava
 
-./gradlew --max-workers 4 build modrinth curseforge publishAllPublicationsToIpnOfficialRepoRepository
+./gradlew --max-workers 4 modrinth curseforge publishAllPublicationsToIpnOfficialRepoRepository
 
 
 ls -la build/lib/
