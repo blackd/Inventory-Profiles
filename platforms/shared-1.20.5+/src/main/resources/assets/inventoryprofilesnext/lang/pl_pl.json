@@ -37,9 +37,9 @@
     "inventoryprofiles.config.name.open_config_folder":                        "§aOtwórz folder konfiguracji",
     "inventoryprofiles.config.name.reload_rule_files":                         "§aPrzeładuj pliki z regułami",
     "inventoryprofiles.config.description.open_config_folder":                 "Otwórz folder .minecraft/config/inventoryprofilesnext",
-    "inventoryprofiles.config.description.reload_rule_files":                  "Przeładuj plik rule.*.txt w folderu kofiguracji",
+    "inventoryprofiles.config.description.reload_rule_files":                  "Przeładuj plik rules-v2.*.txt w folderu kofiguracji",
     "inventoryprofiles.gui.config.button.open_config_folder":                  "config/inventoryprofilesnext",
-    "inventoryprofiles.gui.config.button.reload_rule_files":                   "Przeładuj plik rule.*.txt",
+    "inventoryprofiles.gui.config.button.reload_rule_files":                   "Przeładuj plik rules-v2.*.txt",
     "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":          "Wszystko przeładowane!",
 
     "inventoryprofiles.config.name.sort_order":                                "Kolejność sortowania",

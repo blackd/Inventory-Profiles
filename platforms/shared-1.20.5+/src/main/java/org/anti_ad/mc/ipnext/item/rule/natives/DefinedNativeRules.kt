@@ -27,14 +27,14 @@ import org.anti_ad.mc.ipnext.item.damage
 import org.anti_ad.mc.ipnext.item.displayName
 import org.anti_ad.mc.ipnext.item.durability
 import org.anti_ad.mc.ipnext.item.`(enchantmentsScore)`
-import org.anti_ad.mc.ipnext.item.`(groupIndex)`
-import org.anti_ad.mc.ipnext.item.`(searchTabIndex)`
+import org.anti_ad.mc.ipnext.item.groupIndex
+import org.anti_ad.mc.ipnext.item.searchTabIndex
 import org.anti_ad.mc.ipnext.item.hasCustomName
 import org.anti_ad.mc.ipnext.item.isDamageable
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.maxDamage
 import org.anti_ad.mc.ipnext.item.potionName
-import org.anti_ad.mc.ipnext.item.`(rawId)`
+import org.anti_ad.mc.ipnext.item.rawId
 import org.anti_ad.mc.ipnext.item.rule.MutableEmptyRule
 import org.anti_ad.mc.ipnext.item.rule.Parameter
 import org.anti_ad.mc.ipnext.item.rule.Rule
@@ -118,35 +118,40 @@ val potion_name     /**/ by type(::StringBasedRule) { it.potionName }/**/.param(
 
 // ============
 // Number Type Rule
-val raw_id                    /**/ by type(::NumberBasedRule) { it.`(rawId)` }
-val creative_menu_group_index /**/ by type(::NumberBasedRule) { it.`(groupIndex)` }
-val search_tab_index          /**/ by type(::NumberBasedRule) { it.`(searchTabIndex)` }
+val raw_id                    /**/ by type(::NumberBasedRule) { it.rawId }
+val creative_menu_group_index /**/ by type(::NumberBasedRule) { it.groupIndex }
+val search_tab_index          /**/ by type(::NumberBasedRule) { it.searchTabIndex }
 val damage                    /**/ by type(::NumberBasedRule) { it.damage }
 val max_damage                /**/ by type(::NumberBasedRule) { it.maxDamage }
 val durability                /**/ by type(::NumberBasedRule) { it.durability }
 val enchantments_score        /**/ by type(::NumberBasedRule) { it.`(enchantmentsScore)` }.param(number_order,
                                                                                                  DESCENDING)
-val accumulated_count         /**/ by type(::NumberBasedRule) {
-    it.accumulatedCount
-}.param(number_order, DESCENDING)
+val accumulated_count         /**/ by type(::NumberBasedRule) { it.accumulatedCount }.param(number_order, DESCENDING)
 
 // ============
 // Boolean Type Rule
 val has_custom_name           /**/ by type(::BooleanBasedRule) { it.hasCustomName }
 val is_damageable             /**/ by type(::BooleanBasedRule) { it.isDamageable }
-val match_nbt                 /**/ by rule(::MatchNbtRule)
+val component_match_nbt       /**/ by rule(::MatchNbtRule)
 val is_tag                    /**/ by type(::MatchNbtRule).param(tag_name).param(require_nbt,
                                                                                  NOT_REQUIRED)
     .post { andValue { arguments[require_nbt].match(it) && arguments[tag_name].match(it) } }
-val is_item                   /**/ by type(::MatchNbtRule).param(item_name).param(require_nbt,
-                                                                                  NOT_REQUIRED)
-    .post { andValue { arguments[require_nbt].match(it) && arguments[item_name].match(it) } }
+
+val is_item                   /**/ by type(::SimpleParameterBasedRule).param(item_name).param(require_nbt,
+                                                                                               NOT_REQUIRED)
+    .post { andValue {
+        val itemId = arguments[item_name]
+        val rqMatch = arguments[require_nbt].match(it)
+        val typeMatch = itemId.match(it)
+        rqMatch && typeMatch
+    } }
+
 //val has_custom_potion_effects /**/ by type(::BooleanBasedRule) { it.hasCustomPotionEffects }
 //val has_potion_effects        /**/ by type(::BooleanBasedRule) { it.hasPotionEffects }
 
 // ============
 // Other
-val by_nbt                /**/ by rule(::ByNbtRule)
-val nbt_comparator        /**/ by rule(::NbtComparatorRule)
-val potion_effect         /**/ by rule(::PotionEffectRule)
-val component_comparator  /**/ by rule(::AllComponentsRule)
+val component_by_nbt         /**/ by rule(::ByNbtRule)
+val component_nbt_comparator /**/ by rule(::NbtComparatorRule)
+val potion_effect            /**/ by rule(::PotionEffectRule)
+val components_comparator    /**/ by rule(::AllComponentsRule)

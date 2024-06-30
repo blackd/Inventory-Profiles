@@ -41,6 +41,7 @@ private inline fun <reified T : Enum<T>> enum() = param(
     )
 )
 
+private val any_identifier     /**/ = param(IdentifierArgumentType)
 private val any_string     /**/ = param(StringArgumentType)
 private val type_boolean   /**/ = param(BooleanArgumentType)
 private val any_nbt        /**/ = param(NbtArgumentType)
@@ -80,6 +81,8 @@ val item_name                /**/ by any_item_name
 
 val nbt_path                 /**/ by any_nbt_path
 val not_found                /**/ by param(match.argumentType)
+
+val component_id                   /**/ by any_identifier
 
 enum class StringCompare(val comparator: Comparator<in String>?) {
     UNICODE(naturalOrder()),

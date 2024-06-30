@@ -44,7 +44,7 @@ class SubRuleDefinition(
     @MayThrow // may throws (no need to cache this)
     fun toRule(): Rule {
         val rule = when (prefix) {
-            "@" -> RuleFileRegister.getCustomRule(name)
+            "@" -> RuleFileRegister.getCustomRule(name, false)
             "::" -> RuleFileRegister.getNativeRule(name)
             else -> null
         }

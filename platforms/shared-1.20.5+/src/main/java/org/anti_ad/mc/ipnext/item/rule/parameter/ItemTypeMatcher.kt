@@ -20,16 +20,19 @@
 
 package org.anti_ad.mc.ipnext.item.rule.parameter
 
+import org.anti_ad.mc.alias.util.Identifier
+import org.anti_ad.mc.alias.util.IdentifierOf
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.trySwallow
-import org.anti_ad.mc.common.vanilla.alias.Identifier
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.NbtUtils
 
 sealed class ItemTypeMatcher {
     abstract fun match(itemType: ItemType): Boolean
 
-    class IsTag(val identifier: Identifier) : ItemTypeMatcher() { // lazy
+    abstract val identifier: Identifier
+
+    class IsTag(override val identifier: Identifier) : ItemTypeMatcher() { // lazy
         val tag by lazy { NbtUtils.getTagFromId(identifier) }
 
         override fun match(itemType: ItemType): Boolean {
@@ -39,7 +42,7 @@ sealed class ItemTypeMatcher {
         }
     }
 
-    class IsItem(val identifier: Identifier) : ItemTypeMatcher() { // lazy
+    class IsItem(override val identifier: Identifier) : ItemTypeMatcher() { // lazy
         val item by lazy { NbtUtils.getItemFromId(identifier) }
 
         override fun match(itemType: ItemType): Boolean {
@@ -51,15 +54,16 @@ sealed class ItemTypeMatcher {
 
     companion object {
         fun forTag(id: String): ItemTypeMatcher? {
-            val identifier = trySwallow { Identifier(id) }
+            val identifier = trySwallow { IdentifierOf(id) }
             identifier ?: return null
             return IsTag(identifier)
         }
 
         fun forItem(id: String): ItemTypeMatcher? {
-            val identifier = trySwallow { Identifier(id) }
+            val identifier = trySwallow { IdentifierOf(id) }
             identifier ?: return null
             return IsItem(identifier)
         }
+
     }
 }

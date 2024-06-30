@@ -20,25 +20,32 @@
 
 package org.anti_ad.mc.ipnext.item
 
-import org.anti_ad.mc.common.vanilla.alias.Item
-import org.anti_ad.mc.common.vanilla.alias.Items
-import org.anti_ad.mc.common.vanilla.alias.NbtCompound
-import org.anti_ad.mc.common.vanilla.alias.ComponentMap
-import org.anti_ad.mc.ipnext.ingame.`(keys)`
+import org.anti_ad.mc.alias.component.ComponentChanges
+import org.anti_ad.mc.alias.component.ComponentMap
+import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.item.Item
+import org.anti_ad.mc.alias.item.Items
+
 import org.anti_ad.mc.ipnext.item.rule.CountSink
 import org.anti_ad.mc.ipnext.item.rule.CountSource
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,
-                    private val aTag: ComponentMap?,
+                    private val aTag: ComponentMapImpl?,
+                    private val aChanges: ComponentChanges?,
                     val isDamageableFn: (() -> Boolean),
                     var ignoreDurability: Boolean = false,
                     private val isDamageable: Boolean = isDamageableFn(),
                     private var stackSource: (ItemType) -> ItemStack? = { null }): CountSink<ItemType> {
 
+
+    private val EMPTY_COMPONENT_MAP = ComponentMapImpl(ComponentMap.EMPTY)
+
     val sourceStack: ItemStack? = stackSource(this)
 
-    val tag: ComponentMap?
+    val tag: ComponentMapImpl?
+
+    val changes: ComponentChanges
 
     val accumulatedCount: Int
         get() {
@@ -48,7 +55,13 @@ data class ItemType(val item: Item,
 
     init {
         //if (null == aTag) Log.trace("aTag = NULL here", Exception())
-        tag = if (aTag == null && item != Items.AIR) ComponentMap.EMPTY else aTag
+        if (aTag == null && item != Items.AIR) {
+            tag = EMPTY_COMPONENT_MAP
+            changes = ComponentChanges.EMPTY
+        } else {
+            tag = aTag
+            changes = aChanges ?: ComponentChanges.EMPTY
+        }
     }
 
     override fun toString() = item.toString() + "" + (tag ?: "")

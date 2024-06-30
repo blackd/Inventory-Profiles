@@ -23,6 +23,7 @@ package org.anti_ad.mc.ipnext.event
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.Vanilla.mc
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.IPNInfoManager
 import org.anti_ad.mc.ipnext.ModInfo
@@ -78,10 +79,10 @@ object ClientEventHandler: PClientEventHandler {
     }
 
     fun onJoinWorld() {
-        if (firstJoin) {
-            firstJoin = false
-            IPNInfoManager.doCheckVersion()
-        }
+
+
+        CustomDataFileLoader.load()
+
         GlobalInputHandler.pressedKeys.clear() // sometimes left up not captured
         if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {
             LockedSlotKeeper.onJoinWorld()
@@ -90,7 +91,7 @@ object ClientEventHandler: PClientEventHandler {
             AutoRefillHandler.onJoinWorld()
         }
 
-        CustomDataFileLoader.load()
+
     }
 
     // ============
@@ -101,6 +102,15 @@ object ClientEventHandler: PClientEventHandler {
     fun onCrafted() {
         if (!VanillaUtil.isOnClientThread()) return
         ContinuousCraftingHandler.onCrafted()
+    }
+
+    fun onJoinGame() {
+        onJoinWorld();
+        if (firstJoin) {
+            firstJoin = false
+            IPNInfoManager.doCheckVersion()
+            CustomDataFileLoader.doSanityCheck()
+        }
     }
 
 }

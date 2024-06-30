@@ -54,10 +54,6 @@ val TradeOffer.`(sellItem)`
 val TradeOffer.`(isDisabled)`
     get() = isOutOfStock
 
-
-val VillagerProfession.`(id)`
-    get() = name
-
 fun StringNbtReader_parse(s: String): NbtElement? {
     return StringNbtReader.parseTag(s)
 }

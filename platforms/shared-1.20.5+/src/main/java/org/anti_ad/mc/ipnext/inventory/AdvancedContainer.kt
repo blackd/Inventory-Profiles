@@ -20,13 +20,13 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeContainer
+import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.annotation.ThrowsCaught
 import org.anti_ad.mc.common.extensions.tryOrElse
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings

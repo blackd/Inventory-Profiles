@@ -19,8 +19,10 @@
 
 package org.anti_ad.mc.ipnext.container
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeContainer
+import org.anti_ad.mc.alias.screen.*
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.*
+
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.nonStorage
 import org.anti_ad.mc.ipnext.inventory.playerOnly
@@ -46,6 +48,7 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
 
                                           MerchantContainer::class.java         /**/ to setOf(ContainerType.TRADER),
                                           CraftingTableContainer::class.java    /**/ to setOf(ContainerType.CRAFTING),
+                                          CrafterContainer::class.java          /**/ to nonStorage,
 
                                           HopperContainer::class.java           /**/ to setOf(ContainerType.NO_SORTING_STORAGE,
                                                                                               ContainerType.PURE_BACKPACK), //setOf(ContainerType.NO_SORTING_STORAGE),

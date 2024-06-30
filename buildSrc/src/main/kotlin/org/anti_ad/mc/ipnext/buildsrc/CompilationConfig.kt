@@ -31,18 +31,13 @@ import org.gradle.kotlin.dsl.*
 
 import org.gradle.language.jvm.tasks.ProcessResources
 
-fun Project.configureCompilation(is18: Boolean = false, jarBaseName: String) {
+fun Project.configureCompilation(jarBaseName: String) {
     apply(plugin = "maven-publish")
     apply(plugin = "idea")
 
     configure<JavaPluginExtension> {
-        if (is18) {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        } else {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
-        }
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     tasks.withType<JavaCompile> {

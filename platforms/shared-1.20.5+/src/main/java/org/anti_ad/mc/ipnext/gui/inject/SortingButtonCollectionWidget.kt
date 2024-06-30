@@ -20,6 +20,10 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.alias.client.gui.screen.Screen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeInventoryScreen
+import org.anti_ad.mc.alias.screen.Container
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.gui.NativeContext
@@ -30,15 +34,13 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.ContinuousCraftingCheckboxValue.*
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
@@ -156,15 +158,26 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
 
         private val sortButton = SortButtonWidget { button ->
-            when (button) {
-                0                          -> {
-                    GeneralInventoryActions.doSort(true)
-                }
-                KeyCodes.MOUSE_SCROLL_UP   -> {
-                    ModSettings.SORT_ORDER.togglePrevious();
-                }
-                KeyCodes.MOUSE_SCROLL_DOWN -> {
-                    ModSettings.SORT_ORDER.toggleNext();
+            val scr = Vanilla.screen()
+            if (scr != null && scr === screen) {
+                when (button) {
+                    0                          -> {
+                        GeneralInventoryActions.doSort(true)
+                    }
+
+                    KeyCodes.MOUSE_SCROLL_UP   -> {
+                        if (Vanilla.screen() == null) {
+                            Log.trace("Received scroll event with no active screen", Exception())
+                        }
+                        ModSettings.SORT_ORDER.togglePrevious();
+                    }
+
+                    KeyCodes.MOUSE_SCROLL_DOWN -> {
+                        if (Vanilla.screen() == null) {
+                            Log.trace("Received scroll event with no active screen", Exception())
+                        }
+                        ModSettings.SORT_ORDER.toggleNext();
+                    }
                 }
             }
         }.apply {

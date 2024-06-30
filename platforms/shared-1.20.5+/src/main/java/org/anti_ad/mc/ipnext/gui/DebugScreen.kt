@@ -20,15 +20,15 @@
 
 package org.anti_ad.mc.ipnext.gui
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.gui.debug.BaseDebugScreen
 import org.anti_ad.mc.common.gui.debug.DebugInfos
 import org.anti_ad.mc.common.gui.widgets.Page
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.ipnext.ingame.`(container)`
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(focusedSlot)`
@@ -47,7 +47,7 @@ import org.anti_ad.mc.ipnext.item.damage
 import org.anti_ad.mc.ipnext.item.displayName
 import org.anti_ad.mc.ipnext.item.durability
 import org.anti_ad.mc.ipnext.item.`(enchantmentsScore)`
-import org.anti_ad.mc.ipnext.item.`(groupIndex)`
+import org.anti_ad.mc.ipnext.item.groupIndex
 import org.anti_ad.mc.ipnext.item.hasCustomName
 import org.anti_ad.mc.ipnext.item.hasCustomPotionEffects
 import org.anti_ad.mc.ipnext.item.hasPotionEffects
@@ -59,7 +59,7 @@ import org.anti_ad.mc.ipnext.item.maxDamage
 import org.anti_ad.mc.ipnext.item.namespace
 import org.anti_ad.mc.ipnext.item.potionEffects
 import org.anti_ad.mc.ipnext.item.potionName
-import org.anti_ad.mc.ipnext.item.`(rawId)`
+import org.anti_ad.mc.ipnext.item.rawId
 import org.anti_ad.mc.ipnext.item.translatedName
 import org.anti_ad.mc.ipnext.item.translationKey
 import org.anti_ad.mc.ipnext.item.maxCount
@@ -87,8 +87,8 @@ class DebugScreen: BaseDebugScreen() {
                             ::translatedName,
                             ::itemId,
                             ::translationKey,
-                            :: `(groupIndex)`,
-                            ::`(rawId)`,
+                            ::groupIndex,
+                            ::rawId,
                             ::damage,
                             ::`(enchantmentsScore)`,
                             ::hasPotionEffects,

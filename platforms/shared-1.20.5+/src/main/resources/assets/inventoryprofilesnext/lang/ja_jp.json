@@ -37,7 +37,7 @@
     "inventoryprofiles.config.description.open_config_folder":                           ".minecraft/config/inventoryprofilesnext フォルダを開く",
     "inventoryprofiles.config.description.reload_rule_files":                            "設定フォルダからすべての rule*.txt ファイルを再読み込み",
     "inventoryprofiles.gui.config.button.open_config_folder":                            "config/inventoryprofilesnext",
-    "inventoryprofiles.gui.config.button.reload_rule_files":                             "rule.*.txtを再読み込み",
+    "inventoryprofiles.gui.config.button.reload_rule_files":                             "rules-v2.*.txtを再読み込み",
     "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":                    "全て再読み込みされました！",
     "inventoryprofiles.config.name.sort_order":                                          "並び替え",
     "inventoryprofiles.config.description.sort_order":                                   "インベントリの並べ替えに使用されるソート方法",

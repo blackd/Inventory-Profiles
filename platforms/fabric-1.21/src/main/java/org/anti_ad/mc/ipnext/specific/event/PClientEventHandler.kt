@@ -20,16 +20,16 @@
 
 package org.anti_ad.mc.ipnext.specific.event
 
-import net.minecraft.text.Text
+import org.anti_ad.mc.alias.text.ClickEvent
+import org.anti_ad.mc.alias.text.ClickEventAction
+import org.anti_ad.mc.alias.text.MutableText
+import org.anti_ad.mc.alias.text.Style
+import org.anti_ad.mc.alias.text.Text
+import org.anti_ad.mc.alias.text.createHoverEventText
+import org.anti_ad.mc.alias.util.Formatting
 import org.anti_ad.mc.common.moreinfo.SemVer
 
-import org.anti_ad.mc.common.vanilla.alias.Formatting
-import org.anti_ad.mc.common.vanilla.alias.createHoverEventText
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.alias.ClickEvent
-import org.anti_ad.mc.common.vanilla.alias.ClickEventAction
-import org.anti_ad.mc.common.vanilla.alias.MutableText
-import org.anti_ad.mc.common.vanilla.alias.Style
 
 interface PClientEventHandler {
 

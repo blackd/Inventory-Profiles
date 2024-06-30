@@ -20,11 +20,17 @@
 package org.anti_ad.mc.ipnext.profiles.config
 
 
+import org.anti_ad.mc.alias.nbt.NbtElement
+import org.anti_ad.mc.alias.nbt.NbtHelper
+import org.anti_ad.mc.ipnext.specific.*
+import org.anti_ad.mc.alias.util.Identifier
+import org.anti_ad.mc.alias.util.IdentifierOf
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.annotation.MayThrow
 import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.gen.ProfilesLexer
 import org.anti_ad.mc.common.gen.ProfilesParser
+import org.anti_ad.mc.ipnext.item.NbtUtils
 import org.anti_ad.mc.ipnext.parser.parseBy
 
 object ProfilesConfig {
@@ -80,6 +86,11 @@ fun List<ProfileData>.dump() {
     Log.clearIndent()
 }
 
+val String.`(asIdentifier)`: Identifier
+    get() = IdentifierOf(this)
+
+
+
 private fun ProfilesParser.ScriptContext.toProfileList(): List<ProfileData> {
     return mutableListOf<ProfileData>().apply {
         profile().forEach { profile ->
@@ -90,9 +101,13 @@ private fun ProfilesParser.ScriptContext.toProfileList(): List<ProfileData> {
                             add(ProfileItemData(itemDef.itemName().NamespacedId().text.removeSurrounding("\""),
                                                 itemDef.itemName().customName()?.STRING()?.text?.removeSurrounding("\"") ?: "",
                                                 itemDef.components()?.component()?.map {
-                                                    val id = it.name().NamespacedId().toString()
-                                                    val nbtString = it.STRING()?.text?.removeSurrounding("\"")?.replace("\\\"", "\"") ?: ""
-                                                    ProfileComponentData(id, nbtString)
+                                                    val id = it.NamespacedId().toString().removeSurrounding("\"").`(asIdentifier)`
+                                                    var step1 = it.customName().STRING()?.text
+                                                    var step2 = step1?.removeSurrounding("\"")
+                                                    var step3 = step2?.replace("\\\"", "\"")
+                                                    var nbtString = step3 ?: ""
+                                                    //val nbtString = it.customName().STRING()?.text?.removeSurrounding("\"")?.replace("\\\"", "\"") ?: ""
+                                                    ProfileComponentData(id, NbtUtils.parseNbtOrEmpty(nbtString))
                                                 }))
                         }
                     }))
@@ -141,11 +156,11 @@ data class ProfileSlot(val id: ProfileSlotId,
 
 }
 
-data class ProfileComponentData(val id: String,
-                                val componentNbtString: String) {
+data class ProfileComponentData(val id: Identifier,
+                                val componentNbt: NbtElement) {
 
     override fun toString(): String {
-        return "$id : ${componentNbtString.replace("\"", "\\\"")}"
+        return "\"$id\"(\"${componentNbt.asString.replace("\"", "\\\"")}\")"
     }
 }
 
@@ -156,7 +171,7 @@ data class ProfileItemData(val itemId: String,
     override fun toString(): String {
         return when {
             !components.isNullOrEmpty() -> {
-                itemIdString() + " -> ( " + components.joinToString(separator = ",") + " )"
+                itemIdString() + " -> [ " + components.joinToString(separator = ", ") + " ]"
             }
             else -> {
                 itemIdString()

@@ -15,7 +15,7 @@ itemDef : itemName ('->' components )?;
 itemName : NamespacedId ( customName )?;
 customName: '(' STRING ')';
 components: '[' component (',' component)* ']';
-component: name ':' STRING;
+component:  NamespacedId customName;
 name: 'id' ':' NamespacedId;
 
 slotname : (HOT1|HOT2|HOT3|HOT4|HOT5|HOT6|HOT7|HOT8|HOT9|CHESTPLATE|LEGS|FEET|HEAD|OFFHAND);

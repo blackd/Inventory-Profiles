@@ -74,7 +74,6 @@ buildscript {
     }
     dependencies {
         classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "6.+")
-        //classpath(group = "org.spongepowered", name = "mixingradle", version = "0.8.1-SNAPSHOT" )
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7.+" )
         classpath("com.guardsquare:proguard-gradle:7.+")
     }
@@ -106,7 +105,7 @@ plugins {
     signing
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
-    id("com.github.johnrengelman.shadow")
+    id("io.github.goooler.shadow")
 }
 
 configureCommon()
@@ -142,7 +141,8 @@ fgdeobf =  { id ->
     fg.deobf(id)
 }
 
-forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
+//forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, "forge-1.20.2:4.0.2")
 
 configurations {
     create("embed")

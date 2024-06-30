@@ -24,37 +24,31 @@ package org.anti_ad.mc.ipnext.item
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.block.ShulkerBoxBlock
-import net.minecraft.component.ComponentType
-import net.minecraft.entity.effect.StatusEffectCategory
-import net.minecraft.item.BlockItem
-import net.minecraft.nbt.NbtOps
-import net.minecraft.potion.Potion
-import net.minecraft.registry.entry.RegistryEntry
-import net.minecraft.registry.tag.EnchantmentTags
-import net.minecraft.text.TranslatableTextContent
+import org.anti_ad.mc.alias.block.ShulkerBoxBlock
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Component
-import org.anti_ad.mc.common.vanilla.alias.ComponentChanges
-import org.anti_ad.mc.common.vanilla.alias.ComponentMapImpl
-import org.anti_ad.mc.common.vanilla.alias.ContainerComponent
-import org.anti_ad.mc.common.vanilla.alias.DataComponentType
-import org.anti_ad.mc.common.vanilla.alias.DataComponentTypes
-import org.anti_ad.mc.common.vanilla.alias.Enchantment
-import org.anti_ad.mc.common.vanilla.alias.EnchantmentHelper
-import org.anti_ad.mc.common.vanilla.alias.FoodComponent
-import org.anti_ad.mc.common.vanilla.alias.Identifier
-import org.anti_ad.mc.common.vanilla.alias.ItemGroup
-import org.anti_ad.mc.common.vanilla.alias.ItemGroupType
-import org.anti_ad.mc.common.vanilla.alias.ItemGroups
-import org.anti_ad.mc.common.vanilla.alias.Items
-import org.anti_ad.mc.common.vanilla.alias.NbtElement
-import org.anti_ad.mc.common.vanilla.alias.Registries
-import org.anti_ad.mc.common.vanilla.alias.StatusEffectInstance
+import org.anti_ad.mc.alias.component.*
+import org.anti_ad.mc.alias.component.type.*
+import org.anti_ad.mc.alias.enchantment.Enchantment
+import org.anti_ad.mc.alias.enchantment.EnchantmentHelper
+import org.anti_ad.mc.alias.entity.effect.StatusEffectCategory
+import org.anti_ad.mc.alias.entity.effect.StatusEffectInstance
+import org.anti_ad.mc.alias.item.BlockItem
+import org.anti_ad.mc.alias.item.BucketItem
+import org.anti_ad.mc.alias.item.ItemGroup
+import org.anti_ad.mc.alias.item.ItemGroupType
+import org.anti_ad.mc.alias.item.ItemGroups
+import org.anti_ad.mc.alias.item.Items
+import org.anti_ad.mc.alias.item.MilkBucketItem
+import org.anti_ad.mc.alias.item.PowderSnowBucketItem
+import org.anti_ad.mc.alias.nbt.NbtElement
+import org.anti_ad.mc.alias.nbt.NbtOps
+import org.anti_ad.mc.alias.potion.Potion
+import org.anti_ad.mc.alias.registry.Registries
+import org.anti_ad.mc.alias.registry.RegistryKey
+import org.anti_ad.mc.alias.registry.tag.EnchantmentTags
+import org.anti_ad.mc.alias.text.TranslatableTextContent
+import org.anti_ad.mc.alias.util.Identifier
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.alias.items.BucketItem
-import org.anti_ad.mc.common.vanilla.alias.items.MilkBucketItem
-import org.anti_ad.mc.common.vanilla.alias.items.PowderSnowBucketItem
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.compat.integrations.Integrations
 import org.anti_ad.mc.ipnext.config.CreativeMenuSortOrder
@@ -67,7 +61,7 @@ import org.anti_ad.mc.ipnext.mixin.IMixinEntityBucketItem
 import org.anti_ad.mc.ipnext.mixin.IMixinFluid
 import org.anti_ad.mc.ipnext.mixinhelpers.IMixinItemGroup
 import java.util.*
-import org.anti_ad.mc.common.vanilla.alias.ItemStack as VanillaItemStack
+import org.anti_ad.mc.alias.item.ItemStack as VanillaItemStack
 
 // ============
 // vanillamapping code depends on mappings
@@ -89,6 +83,7 @@ fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with
 inline val ItemType.Companion.EMPTY
     get() = ItemType(Items.AIR,
                      ComponentMapImpl(Items.AIR.components),
+                     ComponentChanges.EMPTY,
                      { false })
 
 fun ItemType.isEmpty(): Boolean {
@@ -125,7 +120,7 @@ inline val ItemType.searchItemStack: VanillaItemStack
     }
 
 inline val ItemType.vanillaStack: VanillaItemStack
-    get() = VanillaItemStack(this.item, 1, this@vanillaStack.tag as ComponentMapImpl?) // nbt was tag
+    get() = VanillaItemStack(this.item, 1, this@vanillaStack.tag) // nbt was tag
 
 fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
     VanillaItemStack(this.item,
@@ -247,7 +242,7 @@ private fun initGroupIndex(): Boolean {
     }
 }
 
-val ItemType.`(searchTabIndex)`: Int
+val ItemType.searchTabIndex: Int
     get() {
         initGroupIndex()
         val index = ItemGroups.getSearchGroup().searchTabStacks.indexOfFirst { it ->
@@ -259,7 +254,7 @@ val ItemType.`(searchTabIndex)`: Int
         return index
     }
 
-val ItemType.`(groupIndex)`: Int
+val ItemType.groupIndex: Int
     get() {
         val stack = this.searchItemStack
         initGroupIndex()
@@ -329,31 +324,38 @@ val COMPONENTS_CHANGES_CODEC: Codec<VanillaItemStack> = Codec.lazyInitialized {
     }
 }
 
-inline val VanillaItemStack.`(componentsToNbt)`: NbtElement?
+fun VanillaItemStack.`(componentsToCodecList)`(): MutableList<Codec<*>> {
+    //PairCodec<ComponentType<*>, Optional<*>>
+    val res = mutableListOf<Codec<*>>()
+    if (!this.componentChanges.isEmpty) {
+        this.componentChanges.entrySet().forEach {
+            res.add(it.key.codecOrThrow)
+        }
+    }
+    return res
+}
+
+
+inline val ItemType.`(componentsToNbt)`: NbtElement?
     get() = if (!this.isEmpty()) {
-        COMPONENTS_CHANGES_CODEC.encodeStart(Vanilla.world().registryManager.getOps(NbtOps.INSTANCE), this).getOrThrow();
+        COMPONENTS_CHANGES_CODEC.encodeStart(Vanilla.world().registryManager.getOps(NbtOps.INSTANCE), this.vanillaStack).getOrThrow();
     } else {
         null
     }
 
-
-
-inline val ItemType.`(componentsToNbt)`: NbtElement?
-    get() = if (vanillaStack.componentChanges.isEmpty) null else vanillaStack.`(componentsToNbt)`
-
-inline val ItemType.`(rawId)`: Int
+inline val ItemType.rawId: Int
     get() = Registries.ITEM.`(getRawId)`(item)
 inline val ItemType.damage: Int
     get() = vanillaStack.damage
 
 inline val ItemType.`(enchantmentsScore)`: Double
-    get() = EnchantmentHelper.getEnchantments(vanillaStack).enchantmentsMap.toList().fold(0.0) { acc, (enchantment, level) ->
+    get() = EnchantmentHelper.getEnchantments(vanillaStack).enchantmentEntries.fold(0.0) { acc, (enchantment, level) ->
         acc + if (enchantment.isIn(EnchantmentTags.CURSE)) -0.001 else level.toDouble() / enchantment.value().maxLevel
     } // cursed enchantments +0 scores
 
-inline val ItemType.`(enchantments)`: MutableMap<RegistryEntry<Enchantment>, Int>
-    get() = EnchantmentHelper.getEnchantments(vanillaStack).enchantmentsMap.associateTo(mutableMapOf()) {
-        it.key to it.intValue
+inline val ItemType.`(enchantments)`: MutableMap<RegistryKey<Enchantment>, Int>
+    get() = EnchantmentHelper.getEnchantments(vanillaStack).enchantmentEntries.associateTo (mutableMapOf()) {
+        it.key.key.get() to it.intValue
     }
 
 inline val ItemType.isDamageable: Boolean
@@ -409,14 +411,19 @@ inline val ItemType.isStew: Boolean
 
 inline val ItemType.hasPotionName: Boolean
     get() = tag?.contains(DataComponentTypes.POTION_CONTENTS) ?: false
+
 inline val ItemType.potionName: String
     get() = if (tag != null && hasPotionName) Potion.finishTranslationKey(tag.get(DataComponentTypes.POTION_CONTENTS)?.potion ?: Optional.empty(), "") else ""
+
 inline val ItemType.hasPotionEffects: Boolean
     get() = tag?.get(DataComponentTypes.POTION_CONTENTS)?.hasEffects() ?: false
+
 inline val ItemType.hasCustomPotionEffects: Boolean
     get() = tag?.get(DataComponentTypes.POTION_CONTENTS)?.customEffects?.isNotEmpty() ?: false
+
 inline val ItemType.potionEffects: List<StatusEffectInstance>
     get() = tag?.get(DataComponentTypes.POTION_CONTENTS)?.effects?.toList() ?: listOf()
+
 inline val ItemType.comparablePotionEffects: List<PotionEffect>
     get() = potionEffects.map { it.`(asComparable)` }
 

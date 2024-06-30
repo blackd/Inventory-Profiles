@@ -20,14 +20,13 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.alias.client.gui.screen.Screen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.client.gui.widget.ClickableWidget
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.input.GlobalScreenEventListener
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.Screen
-import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
 import org.anti_ad.mc.common.vanilla.render.rScreenSize
 
 object ScreenEventHandler {

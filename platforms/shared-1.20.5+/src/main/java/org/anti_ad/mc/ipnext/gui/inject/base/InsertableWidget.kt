@@ -20,11 +20,11 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.screen.Container
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.common.gui.widgets.Widget
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 
 abstract class InsertableWidget: Widget() {
 

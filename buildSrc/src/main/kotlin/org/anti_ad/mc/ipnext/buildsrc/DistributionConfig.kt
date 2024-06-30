@@ -26,20 +26,10 @@ import org.gradle.api.plugins.BasePluginExtension
 
 import org.gradle.kotlin.dsl.*
 
-fun Project.configureDistribution(is18: Boolean) {
+fun Project.configureDistribution() {
     apply(plugin = "java-library")
 
     extensions.findByType(BasePluginExtension::class.java)?.archivesName?.set(project.name)
-    tasks.named<DefaultTask>("build") {
-        dependsOn(tasks["shadowJar"])
-    }
-
-}
-
-fun Project.configureDistributionLib(is18: Boolean) {
-    apply(plugin = "java-library")
-
-    extensions.findByType(BasePluginExtension::class.java)?.archivesName?.set("libIPN")
     tasks.named<DefaultTask>("build") {
         dependsOn(tasks["shadowJar"])
     }

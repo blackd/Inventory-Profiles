@@ -22,22 +22,23 @@
 
 package org.anti_ad.mc.ipnext.event
 
-import net.minecraft.registry.entry.RegistryEntry
+import org.anti_ad.mc.alias.component.`(types)`
+import org.anti_ad.mc.alias.enchantment.Enchantments
+import org.anti_ad.mc.alias.item.ArmorItem
+import org.anti_ad.mc.alias.item.AxeItem
+import org.anti_ad.mc.alias.item.FishingRodItem
+import org.anti_ad.mc.alias.item.HoeItem
+import org.anti_ad.mc.alias.item.Items
+import org.anti_ad.mc.alias.item.PickaxeItem
+import org.anti_ad.mc.alias.item.ShovelItem
+import org.anti_ad.mc.alias.item.SwordItem
+import org.anti_ad.mc.alias.item.ToolItem
+import org.anti_ad.mc.alias.text.fromSerializedJson
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Enchantments
-import org.anti_ad.mc.common.vanilla.alias.Items
 import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.common.vanilla.alias.items.ArmorItem
-import org.anti_ad.mc.common.vanilla.alias.items.AxeItem
-import org.anti_ad.mc.common.vanilla.alias.items.HoeItem
-import org.anti_ad.mc.common.vanilla.alias.items.PickaxeItem
-import org.anti_ad.mc.common.vanilla.alias.items.ShovelItem
-import org.anti_ad.mc.common.vanilla.alias.items.SwordItem
-import org.anti_ad.mc.common.vanilla.alias.items.ToolItem
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.common.vanilla.showSubTitle
-import org.anti_ad.mc.common.vanilla.alias.items.FishingRodItem
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
@@ -279,7 +280,7 @@ object AutoRefillHandler {
             if (storedItem.isBlackListed()) return false
             if (storedItem.isEmpty()) return false // nothing become anything
             if (currentItem.isEmpty()) {
-                return !(AutoRefillSettings.DISABLE_FOR_LOYALTY_ITEMS.value && storedItem.itemType.`(enchantments)`[Enchantments.LOYALTY as RegistryEntry<*>] != null)
+                return !(AutoRefillSettings.DISABLE_FOR_LOYALTY_ITEMS.value && storedItem.itemType.`(enchantments)`[Enchantments.LOYALTY] != null)
             }
             val itemType = currentItem.itemType
             if (itemType.isDamageable) {
@@ -621,7 +622,7 @@ object AutoRefillHandler {
                             run earlyFinish@ {
                                 if (tagsIn != null && tagsOut != null) {
                                     res = true
-                                    tagsIn.types.forEach {
+                                    tagsIn.`(types)`.forEach {
                                         if (tagsIn[it] != tagsOut.get(it)) {
                                             res = false
                                             return@earlyFinish

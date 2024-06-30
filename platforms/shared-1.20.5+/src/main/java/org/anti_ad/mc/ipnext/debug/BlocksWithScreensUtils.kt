@@ -19,6 +19,10 @@
 
 package org.anti_ad.mc.ipnext.debug
 
+import org.anti_ad.mc.alias.registry.`(REGISTRIES-BLOCK-IDS)`
+import org.anti_ad.mc.alias.registry.`(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
+import org.anti_ad.mc.alias.registry.`(REGISTRIES-CONTAINER-IDS)`
+import org.anti_ad.mc.alias.registry.`(REGISTRIES-ITEM-IDS)`
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.ifTrue

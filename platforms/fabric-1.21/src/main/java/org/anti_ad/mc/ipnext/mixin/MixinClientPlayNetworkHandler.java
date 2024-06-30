@@ -42,7 +42,7 @@ public abstract class MixinClientPlayNetworkHandler
 
     @Inject(method = "onGameJoin", at = @At("RETURN"))
     private void onPostGameJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
-        ClientEventHandler.INSTANCE.onJoinWorld();
+        ClientEventHandler.INSTANCE.onJoinGame();
     }
 
     @Inject(method = "onInventory", at = @At("RETURN"))

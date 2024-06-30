@@ -27,13 +27,11 @@ import org.anti_ad.mc.common.gui.debug.DepthTestScreen
 import org.anti_ad.mc.common.gui.debug.SpriteTestScreen
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.vanilla.Vanilla.worldNullable
-import org.anti_ad.mc.common.vanilla.alias.ClientWorld
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
-import org.anti_ad.mc.ipnext.debug.DebugFunc
 import org.anti_ad.mc.ipnext.debug.ModpackInputHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
@@ -64,9 +62,9 @@ object InputHandler : IInputHandler {
             }
 
             if (Hotkeys.RELOAD_CUSTOM_CONFIGS.isActivated() && VanillaUtil.inGame()) {
-                val cw: ClientWorld? = worldNullable()
+                val cw = worldNullable()
                 if (cw != null) {
-                    CustomDataFileLoader.reload()
+                    CustomDataFileLoader.reload(true)
                 }
             }
             if (Hotkeys.OPEN_GUI_EDITOR.isActivated()) {
@@ -92,7 +90,6 @@ object InputHandler : IInputHandler {
                 if (Debugs.CLEAN_CURSOR.isActivated()) {
                     GeneralInventoryActions.cleanCursor()
                 }
-                if (Debugs.DUMP_PACKET_IDS.isActivated()) DebugFunc.dumpPacketId()
             }
 
             return false

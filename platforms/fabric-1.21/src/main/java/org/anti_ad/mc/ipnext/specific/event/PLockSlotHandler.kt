@@ -20,9 +20,10 @@
 
 package org.anti_ad.mc.ipnext.specific.event
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+
 import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`

@@ -21,10 +21,10 @@
 package org.anti_ad.mc.ipnext.ingame
 
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.CreativeInventoryScreen
-import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
-import org.anti_ad.mc.common.vanilla.alias.Screen
-import org.anti_ad.mc.common.vanilla.alias.Slot
+import org.anti_ad.mc.alias.client.gui.screen.Screen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeInventoryScreen
+import org.anti_ad.mc.alias.inventory.PlayerInventory
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 

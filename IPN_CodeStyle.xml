@@ -1,0 +1,71 @@
+<!--
+  ~ Inventory Profiles Next
+  ~
+  ~   Copyright (c) 2024 Plamen K. Kosseff <p.kosseff@gmail.com>
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<code_scheme name="IPN CodeStyle" version="173">
+  <JSON>
+    <option name="PROPERTY_ALIGNMENT" value="1" />
+  </JSON>
+  <JetCodeStyleSettings>
+    <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+      <value>
+        <package name="java.util" alias="false" withSubpackages="true" />
+        <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
+        <package name="io.ktor" alias="false" withSubpackages="true" />
+      </value>
+    </option>
+    <option name="SPACE_AROUND_RANGE" value="true" />
+    <option name="SPACE_BEFORE_EXTEND_COLON" value="false" />
+    <option name="ALIGN_IN_COLUMNS_CASE_BRANCH" value="true" />
+    <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="2147483647" />
+    <option name="CONTINUATION_INDENT_IN_IF_CONDITIONS" value="true" />
+    <option name="CONTINUATION_INDENT_IN_ELVIS" value="true" />
+    <option name="WRAP_EXPRESSION_BODY_FUNCTIONS" value="0" />
+    <option name="WRAP_ELVIS_EXPRESSIONS" value="0" />
+    <option name="IF_RPAREN_ON_NEW_LINE" value="false" />
+  </JetCodeStyleSettings>
+  <codeStyleSettings language="JSON">
+    <option name="RIGHT_MARGIN" value="0" />
+    <option name="KEEP_BLANK_LINES_IN_CODE" value="2" />
+    <indentOptions>
+      <option name="INDENT_SIZE" value="4" />
+    </indentOptions>
+  </codeStyleSettings>
+  <codeStyleSettings language="kotlin">
+    <option name="RIGHT_MARGIN" value="150" />
+    <option name="KEEP_LINE_BREAKS" value="false" />
+    <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
+    <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
+    <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+    <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="1" />
+    <option name="BLANK_LINES_AFTER_CLASS_HEADER" value="1" />
+    <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+    <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
+    <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+    <option name="ALIGN_MULTILINE_METHOD_BRACKETS" value="true" />
+    <option name="CALL_PARAMETERS_LPAREN_ON_NEXT_LINE" value="false" />
+    <option name="CALL_PARAMETERS_RPAREN_ON_NEXT_LINE" value="false" />
+    <option name="METHOD_PARAMETERS_LPAREN_ON_NEXT_LINE" value="false" />
+    <option name="METHOD_PARAMETERS_RPAREN_ON_NEXT_LINE" value="false" />
+    <option name="EXTENDS_LIST_WRAP" value="2" />
+    <option name="METHOD_CALL_CHAIN_WRAP" value="5" />
+    <option name="ASSIGNMENT_WRAP" value="5" />
+    <option name="VARIABLE_ANNOTATION_WRAP" value="2" />
+    <option name="ENUM_CONSTANTS_WRAP" value="5" />
+  </codeStyleSettings>
+</code_scheme>

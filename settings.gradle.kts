@@ -20,7 +20,11 @@
 
 //rootProject.name = "InventoryProfilesNext"
 include("platforms:fabric-1.21")
-/*include("platforms:fabric-1.20.3")
+include("platforms:forge-1.21")
+
+
+/*
+include("platforms:fabric-1.20.3")
 
 include("platforms:fabric-1.20.2")
 include("platforms:fabric-1.20")
@@ -30,7 +34,8 @@ include("platforms:fabric-1.18.2")
 include("platforms:forge-1.20.2")
 include("platforms:forge-1.20")
 include("platforms:forge-1.19")
-include("platforms:forge-1.18.2")*/
+include("platforms:forge-1.18.2")
+*/
 
 
 
@@ -49,6 +54,7 @@ pluginManagement {
 
 plugins {
     id("com.gradle.enterprise") version "3.4.1"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
 gradleEnterprise {

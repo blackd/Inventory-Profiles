@@ -20,6 +20,12 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.alias.client.gui.screen.Screen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.inventory.CraftingInventory
+import org.anti_ad.mc.alias.inventory.CraftingResultInventory
+import org.anti_ad.mc.alias.inventory.PlayerInventory
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.input.KeyCodes
@@ -28,14 +34,6 @@ import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
-import org.anti_ad.mc.common.vanilla.alias.CraftingResultInventory
-import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
-import org.anti_ad.mc.common.vanilla.alias.Screen
-import org.anti_ad.mc.common.vanilla.alias.Slot
-import org.anti_ad.mc.common.vanilla.alias.StonecutterContainer
-import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`

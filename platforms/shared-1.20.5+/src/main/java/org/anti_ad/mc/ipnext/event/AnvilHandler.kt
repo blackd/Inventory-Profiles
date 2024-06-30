@@ -19,12 +19,11 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(nameFieldText)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.AnvilScreen
+import org.anti_ad.mc.alias.screen.`(inputSlotIndices)`
+import org.anti_ad.mc.alias.screen.AnvilContainer
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.accessors.menu.`(inputSlotIndices)`
-import org.anti_ad.mc.common.vanilla.accessors.menu.`(nameField)`
-import org.anti_ad.mc.common.vanilla.accessors.menu.`(nameFieldText)`
-import org.anti_ad.mc.common.vanilla.alias.AnvilContainer
-import org.anti_ad.mc.common.vanilla.alias.AnvilScreen
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
@@ -67,7 +66,8 @@ object AnvilHandler {
     fun onTakeOutPost(container: AnvilContainer) {
         if (!enabled) return
         if (afterPre && this.container === container) {
-            Vanilla.screen()?.let { screen ->
+            val scr = Vanilla.screen()
+            scr?.let { screen ->
                 if (screen is AnvilScreen) {
                     restoreState(screen, container, lastText, slots.toList())
                 }

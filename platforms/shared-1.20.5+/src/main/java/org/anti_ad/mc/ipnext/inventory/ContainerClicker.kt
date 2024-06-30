@@ -20,21 +20,19 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeContainer
+import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.slot.Slot
+import org.anti_ad.mc.alias.screen.slot.SlotActionType
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.CreativeContainer
-import org.anti_ad.mc.common.vanilla.alias.Slot
-import org.anti_ad.mc.common.vanilla.alias.SlotActionType
 import org.anti_ad.mc.common.vanilla.render.alpha
-import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.ingame.`(clickSlot)`

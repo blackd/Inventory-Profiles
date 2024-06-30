@@ -20,6 +20,9 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.MerchantScreen
+import org.anti_ad.mc.alias.client.gui.widget.ClickableWidget
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.gui.TooltipsManager
@@ -27,10 +30,7 @@ import org.anti_ad.mc.common.gui.screen.BaseScreen
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.ClickableWidget
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -97,8 +97,7 @@ object ContainerScreenEventHandler {
         checkValid()
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun onBackgroundRender(context: NativeContext, mouseX: Int, mouseY: Int) {
+    fun onBackgroundRender(context: NativeContext, mouseX: Int, mouseY: Int, f: Float) {
         currentWidgets?.forEach {
             /*
             (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
@@ -109,14 +108,14 @@ object ContainerScreenEventHandler {
             (it as InsertableWidget).postBackgroundRender(context,
                                                           mouseX,
                                                           mouseY,
-                                                          VanillaUtil.lastFrameDuration())
+                                                          f)
         }
 
         LockSlotsHandler.onBackgroundRender(context)
         SlotHighlightHandler.onBackgroundRender(context)
     }
 
-    fun onForegroundRender(context: NativeContext, mouseX: Int, mouseY: Int) {
+    fun onForegroundRender(context: NativeContext, mouseX: Int, mouseY: Int, f: Float) {
         currentWidgets?.forEach {
             /*
             (it as InsertableWidget).postForegroundRender(VanillaUtil.mouseX(),
@@ -127,7 +126,7 @@ object ContainerScreenEventHandler {
             (it as InsertableWidget).postForegroundRender(context,
                                                           mouseX,
                                                           mouseY,
-                                                          VanillaUtil.lastFrameDuration())
+                                                          f)
 
         }
         LockSlotsHandler.onForegroundRender(context)
@@ -145,5 +144,6 @@ object ContainerScreenEventHandler {
         if (target is MerchantScreen) {
             VillagerTradeManager.currentVillager = null
         }
+        currentWidgets?.clear()
     }
 }

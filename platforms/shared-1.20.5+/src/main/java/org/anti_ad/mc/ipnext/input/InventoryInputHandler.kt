@@ -20,11 +20,11 @@
 
 package org.anti_ad.mc.ipnext.input
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
@@ -47,7 +47,7 @@ object InventoryInputHandler : IInputHandler {
                             || Hotkeys.MOVE_ALL_ITEMS            /**/ run ::doMoveMatch
                             || Hotkeys.THROW_ALL_ITEMS           /**/ run ::doThrowMatch
                             || Hotkeys.DUMP_ITEM_NBT_TO_CHAT     /**/ run ::dumpItemNbt
-                            || Hotkeys.COPY_NBT                  /**/ run ::nbtToClipboard
+                            || Hotkeys.COPY_COMPONENTS           /**/ run ::nbtToClipboard
                             || Hotkeys.COPY_ITEM_ID              /**/ run ::idToClipboard
                             || Hotkeys.SCROLL_TO_CHEST           /**/ run ::scrollToChest
                             || Hotkeys.SCROLL_TO_INVENTORY       /**/ run ::scrollToPlayer

@@ -81,20 +81,20 @@ object HintsManagerNG {
         }
     }
 
-    fun init(root: Path, external: Path) {
+    fun init(root: Path, external: Path, fromUserInput: Boolean) {
         reset()
         configRoot = root
         externalHintsPath = external
-        doInit()
+        doInit(fromUserInput)
     }
 
-    private fun doInit() {
+    private fun doInit(fromUserInput: Boolean) {
         if (externalHintsPath.isDirectory()) {
             Files.find(externalHintsPath, 1, { p, a ->
                 a.isRegularFile && p.fileName.toString().endsWith(".json") && p.fileName.toString() != "exampleIntegrationHints.json"
             }, FileVisitOption.FOLLOW_LINKS).forEach { f ->
                 val id = f.name.substringBeforeLast(".json")
-                tryLog(id, ::logError) {
+                tryLog(id, fromUserInput, ::logError) {
                     val data = processConfig(f.inputStream())
                     data.forEach { v ->
                         externalConfigs[v.key] = v.value.also {
@@ -108,11 +108,11 @@ object HintsManagerNG {
         val overrideFile = configRoot / integratedOverride
         if (overrideFile.exists()) {
             overrideFile.inputStream().use { input ->
-                readInternalConfig(input)
+                readInternalConfig(input, fromUserInput)
             }
         } else {
             HintsManagerNG::class.java.classLoader.getResourceAsStream(builtInHintsResource)?.use { input ->
-                readInternalConfig(input)
+                readInternalConfig(input, fromUserInput)
             }
         }
         Log.info("Loaded ${externalConfigs.size} external GUI hints")
@@ -123,11 +123,14 @@ object HintsManagerNG {
         internalConfigs.forEach { (name, hintClassData) ->
             effectiveHints.putIfAbsent(name, hintClassData)
         }
+        if (fromUserInput) {
+            TellPlayer.chat("Found ${effectiveHints.size} hints. ${internalConfigs.size} internal and ${externalConfigs.size} external")
+        }
         Log.info("Effective GUI hints after merge: ${effectiveHints.size}")
     }
 
-    private fun readInternalConfig(input: InputStream) {
-        tryLog("", ::logError) {
+    private fun readInternalConfig(input: InputStream, fromUserInput: Boolean) {
+        tryLog("", fromUserInput, ::logError) {
             val data: MutableMap<String, Map<String, HintClassData>> = json.decodeFromStream<MutableMap<String, Map<String, HintClassData>>>(
                 input).also {
                 trySwallow { input.close() }
@@ -290,7 +293,7 @@ object HintsManagerNG {
             saveFile(containerHints.readId()!!, getAllById(containerHints.readId()!!))
         }
         reset()
-        doInit()
+        doInit(false)
     }
 
     private fun saveFile(readId: String,
@@ -307,17 +310,22 @@ object HintsManagerNG {
 }
 
 private fun logError(th: Throwable,
-                     id: String) {
+                     id: String,
+                     fromUserInput: Boolean) {
+    if (fromUserInput) {
+        TellPlayer.chat("Error parsing hint file: '$id'. Error: '${th.message}'")
+    }
     Log.error("Unable to parse hint file: '$id'. Error: ${th.message}", th)
 }
 
 private inline fun <R> tryLog(id: String,
-                              onFailure: (Throwable, String) -> R,
+                              fromUserInput: Boolean,
+                              onFailure: (Throwable, String, Boolean) -> R,
                               tryToRun: () -> R): R {
     return try {
         tryToRun()
     } catch (e: Throwable) {
-        onFailure(e, id)
+        onFailure(e, id, fromUserInput)
     }
 }
 

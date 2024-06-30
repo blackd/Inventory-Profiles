@@ -19,6 +19,11 @@
 
 package org.anti_ad.mc.ipnext.gui
 
+import org.anti_ad.mc.alias.client.gui.screen.Screen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.vanillaScreens
+import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.vanillaContainers
 import org.anti_ad.mc.common.config.IConfigOption
 import org.anti_ad.mc.common.config.options.ConfigBoolean
 import org.anti_ad.mc.common.gui.NativeContext
@@ -43,12 +48,7 @@ import org.anti_ad.mc.common.input.KeyCodes.KEY_W
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.Screen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.alias.vanillaContainers
-import org.anti_ad.mc.common.vanilla.alias.vanillaScreens
 import org.anti_ad.mc.common.vanilla.render.COLOR_WHITE
 import org.anti_ad.mc.common.vanilla.render.rScreenHeight
 import org.anti_ad.mc.common.vanilla.render.rScreenWidth

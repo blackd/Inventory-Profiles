@@ -19,7 +19,11 @@
 
 package org.anti_ad.mc.ipnext.compat.integrations
 
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
+
+
+
+
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.CutterCraftingHandlerBase

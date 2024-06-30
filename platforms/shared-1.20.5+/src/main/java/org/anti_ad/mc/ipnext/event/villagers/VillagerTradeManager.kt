@@ -19,32 +19,32 @@
 
 package org.anti_ad.mc.ipnext.event.villagers
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(indexStartOffset)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(offers)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(recipes)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(selectedIndex)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(syncRecipeIndex)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.MerchantScreen
+import org.anti_ad.mc.alias.client.gui.widget.`(isHovered)`
+import org.anti_ad.mc.alias.entity.`(uuidString)`
+import org.anti_ad.mc.alias.entity.passive.`(profession)`
+import org.anti_ad.mc.alias.entity.passive.MerchantEntity
+import org.anti_ad.mc.alias.entity.passive.VillagerEntity
+import org.anti_ad.mc.alias.nbt.NbtCompound
+import org.anti_ad.mc.alias.nbt.NbtElement
+import org.anti_ad.mc.alias.screen.MerchantContainer
+import org.anti_ad.mc.alias.village.`(isDisabled)`
+import org.anti_ad.mc.alias.village.`(originalFirstBuyItem)`
+import org.anti_ad.mc.alias.village.`(professionId)`
+import org.anti_ad.mc.alias.village.`(secondBuyItem)`
+import org.anti_ad.mc.alias.village.`(sellItem)`
+import org.anti_ad.mc.alias.village.TradeOffer
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.common.vanilla.accessors.entity.*
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(indexStartOffset)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(isHovered)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(offers)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(originalFirstBuyItem)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(profession)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(professionId)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(recipes)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(secondBuyItem)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(selectedIndex)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(sellItem)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(syncRecipeIndex)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(uuidString)`
-import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
-import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
-import org.anti_ad.mc.common.vanilla.alias.NbtCompound
-import org.anti_ad.mc.common.vanilla.alias.NbtElement
-import org.anti_ad.mc.common.vanilla.alias.entity.MerchantEntity
-import org.anti_ad.mc.common.vanilla.alias.entity.VillagerEntity
-import org.anti_ad.mc.common.vanilla.alias.village.TradeOffer
 import org.anti_ad.mc.common.vanilla.render.glue.rFillGradient
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.ipnext.Log
@@ -154,7 +154,7 @@ object VillagerTradeManager: IInputHandler {
         val partWidth: Int = if (colorCount == 1) 86 else 86 / colorCount
         var addToFirst = if (partWidth * colorCount < 86) 86 - partWidth * colorCount else 0
         var nextX = 0
-        colors.forEachIndexed { index, (c1, c2) ->
+        colors.forEach { (c1, c2) ->
             if (c1 != null && c2 != null) {
                 rFillGradient(context,
                               Rectangle(l - 4 + nextX,
@@ -217,7 +217,7 @@ object VillagerTradeManager: IInputHandler {
 
 
     fun List<VillagerTradeData>.has(offer: TradeOffer): Boolean {
-        val cost1 = offer.`(originalFirstBuyItem)`.`(itemType)`
+        val cost1 = offer.`(originalFirstBuyItem)`.itemStack.`(itemType)`
         val second = offer.`(secondBuyItem)`?.itemStack
         val cost2 = second?.`(itemType)`
         val buy = offer.`(sellItem)`.`(itemType)`
@@ -411,7 +411,7 @@ object VillagerTradeManager: IInputHandler {
                        villager: MerchantEntity,
                        group: Int) {
         val trade = screen.`(recipes)`[index]
-        val tr1 = trade.`(originalFirstBuyItem)`.`(itemType)`.itemId
+        val tr1 = trade.`(originalFirstBuyItem)`.itemStack.`(itemType)`.itemId
         val tr2 = trade.`(secondBuyItem)`?.itemStack?.`(itemType)`?.itemId.nullIfAir()
         val sellItem = trade.`(sellItem)`.`(itemType)`
         val sellId = sellItem.identifier.toString()

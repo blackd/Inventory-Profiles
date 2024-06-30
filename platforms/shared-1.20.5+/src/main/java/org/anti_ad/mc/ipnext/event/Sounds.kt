@@ -20,11 +20,11 @@
 
 package org.anti_ad.mc.ipnext.event
 
-import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.alias.client.PositionedSoundInstance
+import org.anti_ad.mc.alias.client.PositionedSoundInstance_Master
+import org.anti_ad.mc.alias.util.Identifier
+import org.anti_ad.mc.alias.util.*
 import org.anti_ad.mc.common.vanilla.VanillaSound
-import org.anti_ad.mc.common.vanilla.alias.*
-import org.anti_ad.mc.common.vanilla.*
-import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.ModInfo.MOD_ID
 
 enum class Sounds(private val loc: String, pitch: Float = 1.0F) {
@@ -49,15 +49,15 @@ enum class Sounds(private val loc: String, pitch: Float = 1.0F) {
 
     }
 
-    private val soundEvent = VanillaSound.createSoundEvent(Identifier(MOD_ID, loc))
+    private val soundEvent = VanillaSound.createSoundEvent(IdentifierOf(MOD_ID, loc))
 
     fun play()  {
-        VanillaSound.play(PositionedSoundInstance.master(soundEvent, defaultPitch, .75F))
+        VanillaSound.play(PositionedSoundInstance_Master(soundEvent, defaultPitch, .75F))
     }
 
-    fun play(pitch: Float) = VanillaSound.play(PositionedSoundInstance.master(soundEvent, pitch, .75f))
+    fun play(pitch: Float) = VanillaSound.play(PositionedSoundInstance_Master(soundEvent, pitch, .75f))
 
-    fun play(pitch: Float, delay: Int) = VanillaSound.play(PositionedSoundInstance.master(soundEvent, pitch, .75f), delay)
+    fun play(pitch: Float, delay: Int) = VanillaSound.play(PositionedSoundInstance_Master(soundEvent, pitch, .75f), delay)
 
 
     companion object {

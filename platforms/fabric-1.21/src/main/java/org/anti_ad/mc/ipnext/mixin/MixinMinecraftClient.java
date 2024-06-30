@@ -69,7 +69,9 @@ public abstract class MixinMinecraftClient {
     }
     @Inject(at = @At("RETURN"), method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/client/gui/screen/DownloadingTerrainScreen$WorldEntryReason;)V")
     public void joinWorld(ClientWorld world, DownloadingTerrainScreen.WorldEntryReason worldEntryReason, CallbackInfo ci) {
-        ClientEventHandler.INSTANCE.onJoinWorld();
+        if (MinecraftClient.getInstance().getCurrentServerEntry() != null) {
+            ClientEventHandler.INSTANCE.onJoinWorld();
+        }
     }
 
     @Inject(at = @At("HEAD"),

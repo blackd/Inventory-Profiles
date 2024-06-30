@@ -23,7 +23,7 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("1", "10", "10",
+val versionObj = Version("2", "0", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -40,11 +40,14 @@ repositories {
 
 }
 
+dependencies {
+    antlr("org.antlr:antlr4:4+") // use ANTLR version 4
+}
 
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.9.10"
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("jvm") version "2.0.0"
+    kotlin("plugin.serialization") version "2.0.0"
 
 
     idea
@@ -52,10 +55,9 @@ plugins {
     `maven-publish`
     signing
     antlr
-    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
-
+    id("io.github.goooler.shadow") version "8+" apply false
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
-    id("fabric-loom") version(org.anti_ad.mc.ipnext.buildsrc.loom_version) apply false
+    id("fabric-loom") version("1.6-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
 }
@@ -90,7 +92,7 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "4.0.2")
+    ext.set("libIPN_version", "5.0.1-SNAPSHOT")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -100,7 +102,7 @@ allprojects {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             languageVersion = "1.8"
-            jvmTarget = "17"
+            jvmTarget = "21"
             freeCompilerArgs = mutableListOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn") + freeCompilerArgs
         }
         this.incremental = true
@@ -131,41 +133,55 @@ tasks.register("owner-testing-env") {
     }
 }
 
-tasks.register<Copy>("copyPlatformJars") {
-    subprojects.filter {
-        val isFabric = it.name.startsWith("fabric")
-        val isForge = it.name.startsWith("forge")
-        isFabric || isForge
-    }.forEach {
-        //group = "org.anti-ad.mc.platforms"
-        val isForge = !it.name.startsWith("fabric")
-        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
-        val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
-        dependsOn(jarTask)
-        if (isForge) {
-            val endTask = it.tasks.named("reobfJar")
-            dependsOn(endTask)
-        }
-        val jarFile = jarTask.get()
-        val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
-        logger.debug("""
+afterEvaluate {
+    tasks.register<Copy>("copyPlatformJars") {
+        subprojects.filter {
+            val isFabric = it.name.startsWith("fabric")
+            val isForge = it.name.startsWith("forge")
+            isFabric || isForge
+        }.forEach { //group = "org.anti-ad.mc.platforms"
+            val isForge = !it.name.startsWith("fabric")
+            val taskName = if (isForge) {
+                "shadowJar"
+            } else {
+                "remapJar"
+            }
+            val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+            dependsOn(jarTask)
+            if (isForge) {
+                var endTask = it.tasks.named("deobfJar")
+                dependsOn(endTask)
+                endTask = it.tasks.named("jar")
+                dependsOn(endTask)
+                endTask = it.tasks.named("customJar")
+                dependsOn(endTask)
+                endTask = it.tasks.named("copyProGuardJar")
+                dependsOn(endTask)
+
+
+            }
+            val jarFile = jarTask.get()
+            val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
+            logger.debug(
+                """
             *************************
               ${it.path} finalized mod jar is ${jarPath.get().asFile.absoluteFile}
             *************************
-        """.trimIndent())
-        from(jarPath)
-    }
-
-    into(layout.buildDirectory.dir("libs"))
-
-    subprojects.forEach {
-        it.getTasksByName("minimizeJar", false).forEach { t ->
-            dependsOn(t)
+        """.trimIndent()
+                        )
+            from(jarPath)
         }
-    }
-    finalizedBy("owner-testing-env")
-}
 
+        into(layout.buildDirectory.dir("libs"))
+
+        subprojects.forEach {
+            it.getTasksByName("minimizeJar", false).forEach { t ->
+                dependsOn(t)
+            }
+        }
+        finalizedBy("owner-testing-env")
+    }
+}
 
 tasks.named<DefaultTask>("build") {
 

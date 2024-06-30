@@ -21,16 +21,15 @@
 package org.anti_ad.mc.ipnext.debug
 
 //import org.anti_ad.mc.common.vanilla.alias.TagGroup
-import net.minecraft.registry.entry.RegistryEntryList
+import org.anti_ad.mc.alias.item.Item
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Identifier
-import org.anti_ad.mc.common.vanilla.alias.Item
-import org.anti_ad.mc.common.vanilla.alias.Registries
-import org.anti_ad.mc.common.vanilla.alias.Registry
+import org.anti_ad.mc.alias.registry.Registries
+import org.anti_ad.mc.alias.registry.entry.RegistryEntryListNamed
+import org.anti_ad.mc.alias.util.Identifier
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import kotlin.io.path.bufferedWriter
 import kotlin.io.path.name
@@ -42,7 +41,7 @@ import kotlin.io.path.name
 object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
     val fileDatapack = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.combined.txt"
 
-    private fun RegistryEntryList.Named<Item>.toMutableListOf(): MutableList<Identifier> {
+    private fun RegistryEntryListNamed<Item>.toMutableListOf(): MutableList<Identifier> {
 
         val res = mutableListOf<Identifier>()
         this.forEach {

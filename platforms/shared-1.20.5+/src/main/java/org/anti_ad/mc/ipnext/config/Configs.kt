@@ -422,7 +422,7 @@ object Hotkeys : ConfigDeclaration {
     val DUMP_ITEM_NBT_TO_CHAT                     /**/ by hotkey("",
                                                                  KeybindSettings.GUI_DEFAULT)
 
-    val COPY_NBT                                  /**/ by hotkey("LEFT_CONTROL,C",
+    val COPY_COMPONENTS                           /**/ by hotkey("LEFT_CONTROL,C",
                                                                  KeybindSettings.GUI_DEFAULT)
 
     val COPY_ITEM_ID                              /**/ by hotkey("LEFT_CONTROL,LEFT_SHIFT,C",
@@ -461,8 +461,6 @@ object Debugs : ConfigDeclaration {
                                                                  KeybindSettings.ANY_DEFAULT)
     val CLEAN_CURSOR                              /**/ by hotkey("X,1",
                                                                  KeybindSettings.GUI_DEFAULT)
-    val DUMP_PACKET_IDS                           /**/ by hotkey("X,2",
-                                                                 KeybindSettings.ANY_DEFAULT)
     val GEN_TAG_VANILLA_TXT                       /**/ by button(GenerateTagVanillaTxtButtonInfo)
     val GEN_RULE_LIST                             /**/ by button(GenerateRuleListButtonInfo)
     //val DO_VERSION_CHECK                          /**/ by button(IPNInfoManager.DoVersionCheckButtonInfo)

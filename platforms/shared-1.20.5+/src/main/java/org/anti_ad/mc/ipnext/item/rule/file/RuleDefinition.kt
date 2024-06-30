@@ -45,7 +45,7 @@ class RuleDefinition(val ruleName: String,
     var status = Status.LAZY
         private set
 
-    @get:MayThrow // may throws
+    @get:MayThrow // may throw
     var ruleList: List<Rule>? = null // by subRules
         get() {
             if (status == Status.INITIALIZING) {

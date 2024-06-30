@@ -31,18 +31,10 @@ import org.gradle.kotlin.dsl.*
 import java.io.ByteArrayOutputStream
 
 
-fun Project.configureCommon(is18: Boolean = false) {
+fun Project.configureCommon() {
     configureDependencies()
-    configureCompilation(is18, "InventoryProfilesNext")
-    configureDistribution(is18)
-
-    version = rootProject.version
-}
-
-fun Project.configureCommonLib(is18: Boolean = false) {
-    configureDependencies()
-    configureCompilation(is18, "libIPN")
-    configureDistributionLib(is18)
+    configureCompilation("InventoryProfilesNext")
+    configureDistribution()
 
     version = rootProject.version
 }
@@ -59,8 +51,11 @@ fun Project.registerMinimizeJarTask() {
         val jarTask = project.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
         dependsOn(jarTask)
         if (isForge) {
-            val endTask = project.tasks.named("reobfJar")
+            var endTask = project.tasks.named("proguard")
             dependsOn(endTask)
+            endTask = project.tasks.named("customJar")
+            dependsOn(endTask)
+
         }
         val jarFile = jarTask.get()
         val jarPath = project.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
@@ -78,6 +73,7 @@ fun Project.registerMinimizeJarTask() {
 }
 
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
+/*
     tasks.named<Task>("reobfJar") {
         val shadow = tasks.getByName("customJar");
         dependsOn(shadow)
@@ -88,9 +84,10 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
         val shadow = tasks.getByName<Task>("shadowJar");
         dependsOn(shadow)
     }
+*/
 
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
-    registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar").dependsOn("reobfJar")
+    registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar") //.dependsOn("reobfJar")
 
     tasks.named<DefaultTask>("build") {
 //        dependsOn("minimizeJar")

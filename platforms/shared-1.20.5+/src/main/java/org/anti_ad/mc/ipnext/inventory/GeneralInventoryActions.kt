@@ -20,6 +20,12 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.alias.inventory.PlayerInventory
+import org.anti_ad.mc.alias.nbt.NbtHelper
+import org.anti_ad.mc.alias.nbt.NbtHelper_toFormattedString
+import org.anti_ad.mc.alias.screen.BeaconContainer
+import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.common.LogBase
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.TellPlayer
@@ -29,24 +35,18 @@ import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.BeaconContainer
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.PostAction
 import org.anti_ad.mc.ipnext.config.ScrollSettings
 import org.anti_ad.mc.ipnext.config.SortingMethodIndividual
 import org.anti_ad.mc.ipnext.config.rule
-import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
-import org.anti_ad.mc.ipnext.ingame.`(window)`
 import org.anti_ad.mc.ipnext.ingame.vCursorStack
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
@@ -59,12 +59,14 @@ import org.anti_ad.mc.ipnext.inventory.action.restockFrom
 import org.anti_ad.mc.ipnext.inventory.action.sort
 import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollDirection
 import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollingUtils
+import org.anti_ad.mc.ipnext.item.ComponentUtils.toFullNbtOrNull
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.rule.Rule
+import org.anti_ad.mc.ipnext.item.vanillaStack
 
 object GeneralInventoryActions {
 
@@ -268,9 +270,19 @@ object GeneralInventoryActions {
     fun nbtToClipboard() {
         val stack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
         if (stack != ItemStack.EMPTY) {
-            val item = "${stack.itemType.itemId}\n${stack.itemType.tag?.toString()}\n"
+            var item = "${stack.itemType.itemId} => [\n"
+            stack.itemType.changes.entrySet().forEach { (type, value) ->
+                type.toFullNbtOrNull(value)?.let {
+                    val tString = "$type ->\n"
+                    item += "\t" + tString
+                    val sep = "\t" + " ".repeat(tString.length) + "\t"
+                    val tx = NbtHelper_toFormattedString(it, true).lineSequence().joinToString(separator = "\n$sep", prefix = sep)
+                    item += tx
+                }
+            }
+            item += "]\n"
             Vanilla.setClipboard(item)
-            TellPlayer.chat("Copy NBT.")
+            TellPlayer.chat("Copy Components.")
         }
     }
 

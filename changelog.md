@@ -1,9 +1,32 @@
 <!-- latest begin -->
+### 2.0.0
+
+- Added 1.21 compatibility.
+- Requires libIPN v5.0.0+
+- Lots of incompatible changes. You can thank Mojang for that. The mod will warn you that you need to update your configs.
+  * Profiles
+    * Format have changed and now relies on components not just enchantments.
+    * The config file name is now `profiles-v2.txt`.
+    * You are better off creating totally new profiles then trying to translate the old file.
+  * Villager trading bookmarks
+    * Format have changed.
+    * The config file name is now `villager-trading-config-v2.json`
+    * You will have to make all of your bookmarks.
+    * Don't just copy the old file to the new name it will appear to load but it won't work.
+  * Custom sort rules
+    * Format have changed.
+    * The file names are now `*.rules-v2.txt`
+    * If you don't have NBT in your rules you are lucky and can just rename the files.
+    * For the unlucky people all NBT rules now have a new required argument `component_id`.
+    * Try ctrl+c over an item in your inventory... you can thank me latter.
+- In other news versions of Minecraft bellow 1.21 will no longer receive updates.
+
+<!-- latest end -->
 
 ### 1.10.10
 
 - Added auto refill threshold. Now you can configure at what number of items the active stack will be refilled.
-- Added way to easily switch the sort order. Use the mouse wheel over the sort button. 
+- Added way to easily switch the sort order. Use the mouse wheel over the sort button.
 - Fixed some translations.
 - Added large number of integration hits for the GUI overlay
 
@@ -20,9 +43,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.18.2**
 - **1.19.2**
 - **1.20/.1-4**
-
-
-<!-- latest end -->
 
 
 ### 1.10.9

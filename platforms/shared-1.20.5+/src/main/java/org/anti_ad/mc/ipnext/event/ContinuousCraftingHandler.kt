@@ -20,14 +20,14 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.inventory.CraftingInventory
+import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.MainKeybind
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(id)`

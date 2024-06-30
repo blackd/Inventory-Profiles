@@ -35,7 +35,7 @@
     "inventoryprofiles.config.name.open_config_folder": "§aMở thư mục cấu hình",
     "inventoryprofiles.config.name.reload_rule_files": "§aTải lại tệp quy tắc",
     "inventoryprofiles.config.description.open_config_folder": "Mở thư mục .minecraft/config/inventoryprofilesnext",
-    "inventoryprofiles.config.description.reload_rule_files": "Tải lại tất cả các tệp rule.*.txt từ thư mục cấu hình",
+    "inventoryprofiles.config.description.reload_rule_files": "Tải lại tất cả các tệp rules-v2.*.txt từ thư mục cấu hình",
     "inventoryprofiles.gui.config.button.open_config_folder": "config/inventoryprofilesnext",
     "inventoryprofiles.gui.config.button.reload_rule_files": "Tải lại quy tắc.*.txt",
     "inventoryprofiles.gui.config.button.reload_rule_files.reloaded": "Đã tải lại tất cả!",

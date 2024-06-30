@@ -19,19 +19,18 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(indexStartOffset)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.`(offers)`
+import org.anti_ad.mc.alias.client.gui.screen.ingame.MerchantScreen
+import org.anti_ad.mc.alias.client.gui.widget.`(isHovered)`
+import org.anti_ad.mc.alias.entity.passive.VillagerEntity
+import org.anti_ad.mc.alias.screen.MerchantContainer
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.Overflow
 import org.anti_ad.mc.common.gui.layout.setTopLeft
 import org.anti_ad.mc.common.gui.layout.setTopRight
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(indexStartOffset)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(isHovered)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.`(offers)`
-import org.anti_ad.mc.common.vanilla.accessors.entity.*
-import org.anti_ad.mc.common.vanilla.alias.MerchantContainer
-import org.anti_ad.mc.common.vanilla.alias.MerchantScreen
-import org.anti_ad.mc.common.vanilla.alias.entity.VillagerEntity
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.opaque

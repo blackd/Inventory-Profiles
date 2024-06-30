@@ -20,14 +20,22 @@
 
 package org.anti_ad.mc.ipnext.item.rule.parameter
 
+import org.anti_ad.mc.alias.nbt.NbtElement
+import org.anti_ad.mc.alias.util.Identifier
+import org.anti_ad.mc.alias.util.IdentifierOf
 import org.anti_ad.mc.common.extensions.trySwallow
 import org.anti_ad.mc.common.extensions.usefulName
-import org.anti_ad.mc.common.vanilla.alias.NbtCompound
+
 import org.anti_ad.mc.ipnext.item.NbtUtils
 import org.anti_ad.mc.ipnext.item.rule.ArgumentType
 import org.anti_ad.mc.ipnext.item.rule.Rule
 import org.anti_ad.mc.ipnext.parser.TemporaryRuleParser
 
+
+object IdentifierArgumentType: ArgumentType<Identifier> {
+    override fun toString(value: Identifier) = "${value.namespace}:${value.path}"
+    override fun parse(argument: String) = IdentifierOf(argument)
+}
 object StringArgumentType : ArgumentType<String> {
     override fun toString(value: String) = value
     override fun parse(argument: String) = argument
@@ -48,9 +56,9 @@ class EnumArgumentType<T : Enum<T>>(val enumClass: Class<T>) : ArgumentType<T> {
         }
 }
 
-object NbtArgumentType : ArgumentType<NbtCompound> {
-    override fun toString(value: NbtCompound) = value.toString()
-    override fun parse(argument: String) = NbtUtils.parseNbt(argument)
+object NbtArgumentType : ArgumentType<NbtElement> {
+    override fun toString(value: NbtElement) = value.toString()
+    override fun parse(argument: String) = NbtUtils.parseNbtOrEmpty(argument)
 }
 
 object RuleArgumentType : ArgumentType<Rule> {

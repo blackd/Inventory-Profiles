@@ -19,11 +19,11 @@
 
 package org.anti_ad.mc.ipnext.inventory.scrolling
 
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.containsAny
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.ScrollSettings

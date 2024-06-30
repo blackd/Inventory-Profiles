@@ -33,7 +33,7 @@
     "inventoryprofiles.config.name.open_config_folder":                                  "§aOuvrir le dossier de Configuration",
     "inventoryprofiles.config.name.reload_rule_files":                                   "§aRecharger les fichiers de règles",
     "inventoryprofiles.config.description.open_config_folder":                           "Ouvrir le dossier .minecraft/config/inventoryprofilesnext",
-    "inventoryprofiles.config.description.reload_rule_files":                            "Recharger tous les fichiers rule.*.txt depuis le dossier de configuration",
+    "inventoryprofiles.config.description.reload_rule_files":                            "Recharger tous les fichiers rule-v2.*.txt depuis le dossier de configuration",
     "inventoryprofiles.gui.config.button.open_config_folder":                            "configuration/inventoryprofilesnext",
     "inventoryprofiles.gui.config.button.reload_rule_files":                             "Rechargement des règles.*.txt",
     "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":                    "Tout est rechargé !",

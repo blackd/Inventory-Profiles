@@ -20,6 +20,10 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.inventory.PlayerInventory
+import org.anti_ad.mc.alias.screen.slot.Slot
+import org.anti_ad.mc.alias.world.GameType
 import org.anti_ad.mc.common.extensions.detectable
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.gui.NativeContext
@@ -29,16 +33,11 @@ import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
-import org.anti_ad.mc.common.vanilla.alias.GameType
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
-import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
+
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
-import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutlineNoCorner
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
@@ -47,7 +46,6 @@ import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
-import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`

@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,7 +36,7 @@ public class MixinInGameHud {
     @Inject(at = @At("HEAD"),
             method = "renderHotbar")
     protected void preRenderHotbar(DrawContext drawContext,
-                                   float tickDelta,
+                                   RenderTickCounter tickCounter,
                                    CallbackInfo ci) {
         LockSlotsHandler.INSTANCE.preRenderHud(new NativeContext(drawContext));
     }
@@ -44,7 +45,7 @@ public class MixinInGameHud {
     @Inject(at = @At("TAIL"),
             method = "renderHotbar")
     protected void postRenderHotbar(DrawContext drawContext,
-                                    float tickDelta,
+                                    RenderTickCounter tickCounter,
                                     CallbackInfo ci) {
         LockSlotsHandler.INSTANCE.postRenderHud(new NativeContext(drawContext));
 

@@ -20,17 +20,20 @@
 
 package org.anti_ad.mc.ipnext.item.rule.natives
 
+import org.anti_ad.mc.alias.nbt.NbtCompound
+import org.anti_ad.mc.alias.nbt.NbtElement
+import org.anti_ad.mc.alias.registry.Registries
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.asComparable
 import org.anti_ad.mc.common.extensions.compareTo
 import org.anti_ad.mc.common.extensions.letIf
 import org.anti_ad.mc.common.util.LogicalStringComparator
-import org.anti_ad.mc.common.vanilla.alias.NbtCompound
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.common.vanilla.alias.DataComponentTypes
 import org.anti_ad.mc.ipnext.item.ComponentUtils
+import org.anti_ad.mc.ipnext.item.ComponentUtils.toFilteredNbtOrNull
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.NbtUtils
+import org.anti_ad.mc.ipnext.item.NbtUtils.compareTo
 import org.anti_ad.mc.ipnext.item.comparablePotionEffects
 import org.anti_ad.mc.ipnext.item.rule.BaseRule
 import org.anti_ad.mc.ipnext.item.rule.EmptyRule
@@ -41,6 +44,7 @@ import org.anti_ad.mc.ipnext.item.rule.parameter.Strength
 import org.anti_ad.mc.ipnext.item.rule.parameter.StringCompare
 import org.anti_ad.mc.ipnext.item.rule.parameter.allow_extra
 import org.anti_ad.mc.ipnext.item.rule.parameter.blank_string
+import org.anti_ad.mc.ipnext.item.rule.parameter.component_id
 import org.anti_ad.mc.ipnext.item.rule.parameter.locale
 import org.anti_ad.mc.ipnext.item.rule.parameter.logical
 import org.anti_ad.mc.ipnext.item.rule.parameter.match
@@ -52,8 +56,10 @@ import org.anti_ad.mc.ipnext.item.rule.parameter.strength
 import org.anti_ad.mc.ipnext.item.rule.parameter.string_compare
 import org.anti_ad.mc.ipnext.item.rule.parameter.sub_rule_match
 import org.anti_ad.mc.ipnext.item.rule.parameter.sub_rule_not_match
+import org.anti_ad.mc.ipnext.profiles.config.`(asIdentifier)`
 import java.text.Collator
 import java.util.*
+import kotlin.Comparator
 
 abstract class NativeRule : BaseRule()
 
@@ -154,21 +160,48 @@ open class BooleanBasedRule : TypeBasedRule<Boolean>() {
     }
 }
 
-class MatchNbtRule : BooleanBasedRule() {
+class SimpleParameterBasedRule: BooleanBasedRule() {
     init {
         arguments.apply {
+            defineParameter(component_id, "ipn:none".`(asIdentifier)`)
             defineParameter(nbt,
                             NbtCompound())
             defineParameter(allow_extra,
                             true)
         }
         valueOf = {
+            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val nbtValue = type?.toFilteredNbtOrNull(Optional.ofNullable(it.tag?.get(type))) ?: NbtCompound()
             if (arguments[allow_extra]) {
                 NbtUtils.matchNbt(arguments[nbt],
-                                  it.tag?.get(DataComponentTypes.ENTITY_DATA)?.copyNbt())
+                                  nbtValue)
             } else {
                 NbtUtils.matchNbtNoExtra(arguments[nbt],
-                                         it.tag?.get(DataComponentTypes.ENTITY_DATA)?.copyNbt())
+                                         nbtValue)
+            }
+        }
+    }
+
+}
+
+class MatchNbtRule : BooleanBasedRule() {
+    init {
+        arguments.apply {
+            defineParameter(component_id)
+            defineParameter(nbt,
+                            NbtCompound())
+            defineParameter(allow_extra,
+                            true)
+        }
+        valueOf = {
+            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val nbtValue = type?.toFilteredNbtOrNull(Optional.ofNullable(it.tag?.get(type)))
+            if (arguments[allow_extra]) {
+                NbtUtils.matchNbt(arguments[nbt],
+                                  nbtValue)
+            } else {
+                NbtUtils.matchNbtNoExtra(arguments[nbt],
+                                         nbtValue)
             }
         }
     }
@@ -189,7 +222,7 @@ inline fun <T> compareByMatch(value1: T,
     }
 }
 
-inline fun <T> compareByMatchSeparate(value1: T,
+fun <T> compareByMatchSeparate(value1: T,
                                       value2: T,
                                       matchBy: (T) -> Boolean,
                                       match: Match,
@@ -205,7 +238,7 @@ inline fun <T> compareByMatchSeparate(value1: T,
                                   notMatchCompare)
 }
 
-inline fun <T> compareByMatchSeparate(value1: T,
+fun <T> compareByMatchSeparate(value1: T,
                                       value2: T,
                                       b1: Boolean,
                                       b2: Boolean,
@@ -213,14 +246,18 @@ inline fun <T> compareByMatchSeparate(value1: T,
                                       matchCompare: (T, T) -> Int = { _, _ -> 0 }, // both match
                                       notMatchCompare: (T, T) -> Int = { _, _ -> 0 } // both not match
 ): Int {
-    return if (b1 == b2) {
-        if (b1) matchCompare(value1,
-                             value2)
-        else notMatchCompare(value1,
-                             value2)
+    var res:Int
+    if (b1 == b2) {
+        if (b1) {
+            res = matchCompare(value1, value2)
+        }
+        else {
+            res = notMatchCompare(value1, value2)
+        }
     } else { // b1 != b2
-        match.multiplier * if (b1) -1 else 1
+        res = match.multiplier * if (b1) -1 else 1
     }
+    return res
 }
 
 // ============
@@ -234,6 +271,7 @@ class ByNbtRule : NativeRule() {
 
     init {
         arguments.apply {
+            defineParameter(component_id)
             defineParameter(nbt_path)
             defineParameter(not_found,
                             Match.LAST)
@@ -261,8 +299,9 @@ class ByNbtRule : NativeRule() {
     inner class ByNbtPathComparator(val itemType1: ItemType,
                                     val itemType2: ItemType) {
         fun compare(): Int {
-            val tags1 = arguments[nbt_path].getTags(itemType1)
-            val tags2 = arguments[nbt_path].getTags(itemType2)
+            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val tags1 = arguments[nbt_path].getTags(itemType1, type)
+            val tags2 = arguments[nbt_path].getTags(itemType2, type)
             if (tags1.size > 1 || tags2.size > 1)
                 Log.warn("given nbt path produce more than one result. currently support only the first result")
             val tag1 = tags1.firstOrNull()
@@ -320,9 +359,17 @@ class ByNbtRule : NativeRule() {
 
 class NbtComparatorRule : NativeRule() {
     init {
-        comparator = { a, b -> // compare a.tag and b.tag
-            NbtUtils.compareNbt(a.tag?.get(DataComponentTypes.ENTITY_DATA)?.copyNbt(),
-                                b.tag?.get(DataComponentTypes.ENTITY_DATA)?.copyNbt())
+        arguments.apply {
+            defineParameter(component_id)
+        }
+        comparator = { a: ItemType, b: ItemType -> // compare a.tag and b.tag
+            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val nbtValueA = type?.toFilteredNbtOrNull(Optional.ofNullable(a.tag?.get(type)))
+            val nbtValueB = type?.toFilteredNbtOrNull(Optional.ofNullable(b.tag?.get(type)))
+            val cpr: Comparator<NbtElement?> =  nullsLast { e1, e2 ->
+                e1.compareTo(e2)
+            }
+            cpr.compare(nbtValueA, nbtValueB)
         }
     }
 }

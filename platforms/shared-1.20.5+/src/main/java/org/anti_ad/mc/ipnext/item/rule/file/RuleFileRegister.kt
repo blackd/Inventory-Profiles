@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item.rule.file
 
+import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.annotation.ThrowsCaught
 import org.anti_ad.mc.common.annotation.WontThrow
@@ -45,16 +46,21 @@ object RuleFileRegister {
     private val ruleFiles = mutableListOf<RuleFile>()
     private val cachedRules = mutableMapOf<String, RuleDefinition?>() // store RuleDefinition of SUCCESS
 
-    fun reloadRuleFiles(ruleFiles: List<RuleFile>) {
+    fun reloadRuleFiles(ruleFiles: List<RuleFile>, fromUserInput: Boolean) {
         Log.trace("[-] Rule file parsing...")
         Log.trace("    step: (1) parse indent -> (2) parse rule -> syntax ok")
         Log.indent()
-        ruleFiles.forEach { it.parseContent() }
+        ruleFiles.forEach {
+            if (fromUserInput) {
+                TellPlayer.chat("Parsing custom rules file ${it.fileName}")
+            }
+            it.parseContent()
+        }
         Log.unindent()
         clear()
         this.ruleFiles.addAll(ruleFiles)
-        checkOverrides()
-        validateRules()
+        checkOverrides(fromUserInput)
+        validateRules(fromUserInput)
     }
 
     private fun clear() {
@@ -65,11 +71,14 @@ object RuleFileRegister {
     }
 
     private val names = mutableSetOf<String>()
-    private fun checkOverrides() { // and log
+    private fun checkOverrides(fromUserInput: Boolean) { // and log
         Log.trace("[-] Check overrides...")
         for (ruleFile in ruleFiles) {
             for (name in ruleFile.rulesMap.keys) {
                 if (name in names) {
+                    if (fromUserInput) {
+                        TellPlayer.chat("Rule @$name already defined in another file. Overriding with file ${ruleFile.fileName}")
+                    }
                     Log.info("Rule @$name overrode by file ${ruleFile.fileName}")
                 }
                 names.add(name)
@@ -77,29 +86,34 @@ object RuleFileRegister {
         }
     }
 
-    private fun validateRules() {
+    private fun validateRules(fromUserInput: Boolean) {
         Log.trace("[-] Validate rules...")
         Log.indent()
         for (name in names) {
             Log.trace("[-] Validating rule @$name")
             Log.indent()
-            getCustomRule(name) ?: Log.debug("rule @$name failed to parse")
+            getCustomRule(name, fromUserInput) ?: {
+                if (fromUserInput) {
+                    TellPlayer.chat("Failed to process Rule '@$name'")
+                }
+                Log.debug("rule @$name failed to parse")
+            }
             Log.unindent()
         }
         Log.unindent()
     }
 
     fun getCustomRuleOrEmpty(ruleName: String): Rule =
-        getCustomRule(ruleName) ?: EmptyRule
+        getCustomRule(ruleName,false) ?: EmptyRule
             .also { Log.warn("Rule @$ruleName not found") }
 
 
     // ============
     // ~.~ methods
     // ============
-    fun getCustomRule(ruleName: String): CustomRule? {
+    fun getCustomRule(ruleName: String, fromUserInput: Boolean): CustomRule? {
         val ruleDefinition =
-            if (cachedRules.containsKey(ruleName)) cachedRules.getValue(ruleName) else searchAndPutCustomRule(ruleName)
+            if (cachedRules.containsKey(ruleName)) cachedRules.getValue(ruleName) else searchAndPutCustomRule(ruleName, fromUserInput)
         @WontThrow
         return ruleDefinition?.createCustomRule() // should not throw
     }
@@ -113,10 +127,10 @@ object RuleFileRegister {
     // ============
     // private
     // ============
-    private fun searchAndPutCustomRule(ruleName: String): RuleDefinition? {
+    private fun searchAndPutCustomRule(ruleName: String, fromUserInput: Boolean): RuleDefinition? {
         Log.trace("[-] Searching rule @$ruleName...")
         Log.indent()
-        val ruleDefinition = RuleFinder(ruleName).searchCustomRule()
+        val ruleDefinition = RuleFinder(ruleName, fromUserInput).searchCustomRule()
         Log.unindent()
         if (cachedRules.containsKey(ruleName)) {
             Log.trace(">> rule $ruleName already exist in cached map... skip putting")
@@ -128,7 +142,7 @@ object RuleFileRegister {
         return ruleDefinition
     }
 
-    private class RuleFinder(val ruleName: String) {
+    private class RuleFinder(val ruleName: String, val fromUserInput: Boolean) {
         fun searchCustomRule(): RuleDefinition? {
             for (ruleFile in ruleFiles.reversed()) { // asReversed here might cause no such element (list update)
                 val rulesMap = ruleFile.rulesMap
@@ -169,6 +183,10 @@ object RuleFileRegister {
                     }
                     Log.error("interesting rule @$ruleName#$count (at file $fileName)") // shouldn't go here
                 } catch (e: Exception) {
+                    if (fromUserInput) {
+                        TellPlayer.chat("Failed to process Rule '@$ruleName'")
+                        TellPlayer.chat("  > ${e.javaClass.usefulName}: ${e.message}")
+                    }
                     Log.warn("Error in ${count.ordinalName} '@$ruleName' (at file $fileName)")
                     Log.warn("  > ${e.javaClass.usefulName}: ${e.message}")
                     when (e) {

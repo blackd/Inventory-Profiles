@@ -22,8 +22,8 @@
 
 package org.anti_ad.mc.ipnext.specific
 
+import org.anti_ad.mc.alias.SharedConstants
 import org.anti_ad.mc.common.vanilla.Vanilla.mc
-import org.anti_ad.mc.common.vanilla.alias.SharedConstants
 import org.anti_ad.mc.ipnext.IPNInfoManager
 
 inline fun serverIdentifier(perServer: Boolean): String = when {

@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.Window;
 import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
@@ -43,8 +44,7 @@ public class MixinGameRenderer {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V"),
             method = "render",
             locals = LocalCapture.CAPTURE_FAILHARD)
-    public void preScreenRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci,
-                                float f,
+    public void preScreenRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci,
                                 boolean bl,
                                 int i,
                                 int j,
@@ -57,8 +57,7 @@ public class MixinGameRenderer {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V",
             shift = At.Shift.AFTER), method = "render", locals = LocalCapture.CAPTURE_FAILHARD)
-    public void postScreenRender(float tickDelta, long startTime, boolean tick, CallbackInfo ci,
-                                 float f,
+    public void postScreenRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci,
                                  boolean bl,
                                  int i,
                                  int j,

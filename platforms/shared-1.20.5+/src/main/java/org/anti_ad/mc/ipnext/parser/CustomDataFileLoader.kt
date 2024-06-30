@@ -46,8 +46,11 @@ import org.anti_ad.mc.ipnext.item.rule.file.RuleFile
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.specific.serverIdentifier
 import org.anti_ad.mc.common.extensions.dashedSanitized
+import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.extensions.loggingPath
 import org.anti_ad.mc.common.extensions.sanitized
+import org.anti_ad.mc.ipnext.NotificationManager
+import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting
@@ -61,11 +64,9 @@ object ReloadRuleFileButtonInfoDelegate : ConfigButtonClickHandler() {
 
     override fun onClick(guiClick: () -> Unit) {
         TellPlayer.listenLog(LogBase.LogLevel.INFO) {
-            RuleLoader.reload()
+            RuleLoader.reload(true)
         }
         guiClick()
-        val fileNames = RuleFileRegister.loadedFileNames.filter { it != RuleLoader.internalFileDisplayName }
-        TellPlayer.chat("Reloaded ${fileNames.size} files: $fileNames")
     }
 }
 
@@ -89,11 +90,14 @@ object ProfilesLoader: Loader, Savable {
         get() {
             val dir = serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue).sanitized()
             (configFolder / dir ).createDirectories()
-            return configFolder / dir / "profiles.txt"
+            return configFolder / dir / "profiles-V2.txt"
         }
-    private val fileOld: Path
+
+    val oldfile: Path
         get() {
-            return configFolder / "profiles${serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue).dashedSanitized()}.txt"
+            val dir = serverIdentifier(ModSettings.PROFILES_PER_SERVER.booleanValue).sanitized()
+            (configFolder / dir ).createDirectories()
+            return configFolder / dir / "profiles.txt"
         }
 
     val profiles = mutableListOf<ProfileData>()
@@ -104,28 +108,40 @@ object ProfilesLoader: Loader, Savable {
         file.writeText(ProfilesConfig.asString(profiles) + "\n\n\n\n" + ProfilesConfig.asString(savedProfiles))
     }
 
-    override fun load() {
-        reload()
+    override fun load() = reload(false)
+
+
+    override fun doSanityCheck(): Boolean {
+        return oldfile.exists().ifTrue {
+            NotificationManager.addNotification("[IPN] - Found incompatible Profiles configuration")
+            Log.error("Found old profiles config at:")
+            Log.error("\t\t$oldfile.absolutePathString()")
+        }
     }
 
-    override fun reload() {
+    override fun reload(fromUserInput: Boolean) {
         profiles.clear()
         savedProfiles.clear()
         val temp = mutableListOf<ProfileData>()
-        if (fileOld.exists() && file.notExists()) {
-            val content = fileOld.readText()
-            content.writeToFile(file)
-            fileOld.deleteExisting()
+        if (fromUserInput) {
+            TellPlayer.chat("Loafing profiles...")
         }
         if (file.exists()) {
             tryOrPrint({msg->
                            Log.warn(msg)
                            TellPlayer.chat("Loading Profile settings failed: $msg")}) {
                 temp.addAll(ProfilesConfig.getProfiles(file.readText()).also { it.dump() })
+                if (fromUserInput) {
+                    TellPlayer.chat("Found ${temp.size} profiles")
+                }
             }
         }
         savedProfiles.addAll(temp.filter { it.name.uppercase() == "SAVED" })
         profiles.addAll(temp.filter { it.name.uppercase() != "SAVED" })
+        if (fromUserInput) {
+            TellPlayer.chat("")
+        }
+        ProfileSwitchHandler.reloadActiveProfile()
     }
 }
 
@@ -135,7 +151,8 @@ object ProfilesLoader: Loader, Savable {
 
 interface Loader {
     fun load()
-    fun reload()
+    fun reload(fromUserInput: Boolean)
+    fun doSanityCheck(): Boolean
 }
 
 object CustomDataFileLoader {
@@ -145,8 +162,26 @@ object CustomDataFileLoader {
         loaders.forEach { it.load() }
     }
 
-    fun reload() {
-        loaders.forEach { it.reload() }
+    fun reload(fromUserInput: Boolean) {
+        if (fromUserInput) {
+            TellPlayer.chat("IPN - Reloading configuration...\n")
+        }
+        loaders.forEach { it.reload(fromUserInput) }
+    }
+
+    fun doSanityCheck(): Boolean {
+        var res = false
+        loaders.forEach {
+            if (it.doSanityCheck()) {
+                res = true
+            }
+        }
+        if (res) {
+            NotificationManager.addNotification("[IPN] - Check the logs for file locations.\n" +
+                                                "         This message will appear as long old config files exist.\n" +
+                                                "         It's safe to delete them. The new files have different name.")
+        }
+        return res
     }
 
     init {
@@ -186,9 +221,13 @@ object LockSlotsLoader : Loader, Savable {
         }
     }
 
-    override fun load() = reload()
+    override fun load() = reload(false)
 
-    private fun internalLoad() {
+    override fun doSanityCheck(): Boolean {
+        return false
+    }
+
+    private fun internalLoad(fromUserInput: Boolean) {
         cachedValue = listOf()
         try {
             if (fileOld.exists() && file.notExists()) {
@@ -208,12 +247,15 @@ object LockSlotsLoader : Loader, Savable {
             }
             cachedValue = slotIndices
         } catch (e: Exception) {
+            if (fromUserInput) {
+                TellPlayer.chat("Loading stored 'Locked Slots' failed: $e")
+            }
             Log.error("Failed to read file ${file.loggingPath}")
         }
     }
 
-    override fun reload() {
-        internalLoad()
+    override fun reload(fromUserInput: Boolean) {
+        internalLoad(fromUserInput)
     }
 }
 
@@ -225,31 +267,54 @@ object RuleLoader : Loader {
     private val internalRulesTxtContent
         get() = VanillaUtil.getResourceAsString("inventoryprofilesnext:config/rules.txt") ?: ""
             .also { Log.error("Failed to load in-jar file inventoryprofilesnext:config/rules.txt") }
-    private const val regex = "^rules\\.(?:.*\\.)?txt\$"
+    private const val regex = "^rules-v2\\.(?:.*\\.)?txt\$"
+    private const val regexOld = "^rules\\.(?:.*\\.)?txt\$"
 
-    override fun load() = reload()
+    override fun doSanityCheck(): Boolean {
+        val files = getFiles(regexOld)
+        return files.isNotEmpty().ifTrue {
+            NotificationManager.addNotification("[IPM] - Found incompatible custom sorting rules configuration/s.")
+            Log.error("Found old custom sorting rule configuration/s:")
+            files.forEach {
+                Log.error("\t\t${it.toAbsolutePath()}")
+            }
+        }
+    }
 
-    override fun reload() {
+    override fun load() = reload(false)
+
+    override fun reload(fromUserInput: Boolean) {
         Log.clearIndent()
         Log.trace("[-] Rule reloading...")
+        if (fromUserInput) {
+            TellPlayer.chat("Loading custom sort rules...")
+        }
         val files = getFiles(regex)
         val ruleFiles = mutableListOf(RuleFile(internalFileDisplayName,
-                                               internalRulesTxtContent))
+                                               internalRulesTxtContent,
+                                               fromUserInput))
         for (file in files) {
             try {
                 Log.trace("    Trying to read file ${file.name}")
+
                 val content = file.readText()
                 ruleFiles.add(RuleFile(file.name,
-                                       content))
+                                       content,
+                                       fromUserInput))
             } catch (e: Exception) {
                 Log.error("Failed to read file ${file.loggingPath}")
             }
         }
         Log.trace("[-] Total ${ruleFiles.size} rule files (including <internal>)")
-        RuleFileRegister.reloadRuleFiles(ruleFiles)
+
+        RuleFileRegister.reloadRuleFiles(ruleFiles, fromUserInput)
         Log.trace("Rule reload end")
 
         TemporaryRuleParser.onReload()
+        if (fromUserInput) {
+            TellPlayer.chat("")
+        }
+
     }
 }
 
@@ -260,15 +325,25 @@ object HintsLoader: Loader {
     override fun load() {
         if(!firstLoad) {
             firstLoad = true
-            reload()
+            reload(false)
         }
     }
 
-    override fun reload() {
+    override fun doSanityCheck(): Boolean {
+        return false
+    }
+
+    override fun reload(fromUserInput: Boolean) {
+        if (fromUserInput) {
+            TellPlayer.chat("Loading GUI Hints configs...")
+        }
         val path = (configFolder / "integrationHints").also { it.createDirectories() }
         ContainerTypes.reset()
         HintsManagerNG.upgradeOldConfig(configFolder / "ModIntegrationHints.json" , path)
-        HintsManagerNG.init(configFolder, path)
+        HintsManagerNG.init(configFolder, path, fromUserInput)
+        if (fromUserInput) {
+            TellPlayer.chat("")
+        }
     }
 
 }
@@ -282,11 +357,21 @@ object VillagerBookmarksLoader: Loader, Savable {
         }
 
     override fun load() {
-        reload()
+        reload(false)
     }
 
-    override fun reload() {
-        VillagerDataManager.init(path)
+    override fun doSanityCheck(): Boolean {
+        return VillagerDataManager.checkOldConfig()
+    }
+
+    override fun reload(fromUserInput: Boolean) {
+        if (fromUserInput) {
+            TellPlayer.chat("Loading Villager trading config...")
+        }
+        VillagerDataManager.init(path, fromUserInput)
+        if (fromUserInput) {
+            TellPlayer.chat("")
+        }
     }
 
     override fun save() {

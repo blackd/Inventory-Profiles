@@ -19,9 +19,9 @@
 
 package org.anti_ad.mc.ipnext.access
 
+import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Slot
 import org.anti_ad.mc.ipn.api.access.IContainerClicker
 import org.anti_ad.mc.ipn.api.access.IPN
 import org.anti_ad.mc.ipnext.config.ModSettings

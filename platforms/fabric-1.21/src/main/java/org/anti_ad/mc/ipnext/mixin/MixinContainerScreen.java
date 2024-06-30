@@ -52,7 +52,7 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;disableDepthTest()V",
             shift = At.Shift.BEFORE), method = "render")
     public void onBackgroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext), i, j);
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext), i, j, f);
     }
 
 
@@ -63,7 +63,7 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
     public void onForegroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
         var context = new NativeContext(drawContext);
         context.setOverlay(true);
-        ContainerScreenEventHandler.INSTANCE.onForegroundRender(context, i, j);
+        ContainerScreenEventHandler.INSTANCE.onForegroundRender(context, i, j, f);
     }
 
     @Inject(at = @At(value = "HEAD",

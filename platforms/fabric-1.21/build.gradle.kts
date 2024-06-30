@@ -34,19 +34,19 @@ import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21", "1.21"),
-                                         CURSEFORGE to listOf("1.21", "1.21"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21"),
+                                         CURSEFORGE to listOf("1.21"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "24w19b"
-val minecraft_version_string = "1.21.5"
-val mappings_version = "24w19b+build.3"
+val minecraft_version = "1.21"
+val minecraft_version_string = "1.21"
+val mappings_version = "1.21+build.2"
 val loader_version = "0.15.11"
-val modmenu_version = "10.0.0-beta.1"
-val fabric_api_version = "0.98.1+1.21"
+val modmenu_version = "11.0.0-beta.1"
+val fabric_api_version = "0.100.3+1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
-val carpet_core_version = "24w18a-1.4.142+v240504"
+val carpet_core_version = "1.21-pre3-1.4.146+v240605"
 
 buildscript {
     dependencies {
@@ -78,15 +78,15 @@ plugins {
     id("fabric-loom")
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
-    id("com.github.johnrengelman.shadow")
+    id("io.github.goooler.shadow")
 }
 
 configureCommon()
 platformsCommonConfig()
 
 configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -369,7 +369,7 @@ configure<CurseExtension> {
             this.addGameVersion(it)
         }
         this.addGameVersion("Fabric")
-        this.addGameVersion("Quilt")
+        //this.addGameVersion("Quilt")
         val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
         val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
         logger.lifecycle("""
@@ -420,7 +420,7 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
-    loaders.add("quilt")
+    //loaders.add("quilt")
     dependencies.set(
         mutableListOf(
             ModDependency("P7dR8mSH", "required"),
@@ -428,5 +428,5 @@ modrinth {
             ModDependency("onSQdWhM", "required"),
             ModDependency("mOgUt4GM", "optional")))
 
-    this.versionType.set(com.modrinth.minotaur.request.VersionType.RELEASE.name)
+    this.versionType.set(masecla.modrinth4j.model.version.ProjectVersion.VersionType.RELEASE.name)
 }

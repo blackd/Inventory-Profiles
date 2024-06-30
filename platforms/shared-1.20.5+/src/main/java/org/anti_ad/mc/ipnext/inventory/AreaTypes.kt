@@ -20,17 +20,17 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.alias.inventory.CraftingInventory
+import org.anti_ad.mc.alias.inventory.CraftingResultInventory
+import org.anti_ad.mc.alias.inventory.PlayerInventory
+import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.slot.CraftingResultSlot
+import org.anti_ad.mc.alias.screen.slot.Slot
+import org.anti_ad.mc.alias.screen.slot.TradeOutputSlot
 import org.anti_ad.mc.common.extensions.indexed
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.Container
-import org.anti_ad.mc.common.vanilla.alias.CraftingInventory
-import org.anti_ad.mc.common.vanilla.alias.CraftingResultInventory
-import org.anti_ad.mc.common.vanilla.alias.CraftingResultSlot
-import org.anti_ad.mc.common.vanilla.alias.PlayerInventory
-import org.anti_ad.mc.common.vanilla.alias.Slot
-import org.anti_ad.mc.common.vanilla.alias.TradeOutputSlot
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`

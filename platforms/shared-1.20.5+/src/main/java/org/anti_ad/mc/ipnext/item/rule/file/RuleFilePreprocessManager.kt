@@ -21,11 +21,10 @@
 package org.anti_ad.mc.ipnext.item.rule.file
 
 import com.yevdo.jwildcard.JWildcard
+import org.anti_ad.mc.alias.registry.`(REGISTRIES-BLOCK-IDS)`
+import org.anti_ad.mc.alias.registry.`(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
+import org.anti_ad.mc.alias.registry.`(REGISTRIES-ITEM-IDS)`
 import org.anti_ad.mc.ipnext.Log
-import org.anti_ad.mc.common.vanilla.alias.`(REGISTRIES-BLOCK-IDS)`
-import org.anti_ad.mc.common.vanilla.alias.`(REGISTRIES-BLOCK_ENTITY_TYPES-IDS)`
-
-import org.anti_ad.mc.common.vanilla.alias.`(REGISTRIES-ITEM-IDS)`
 import java.util.*
 
 private val WHITESPACE = "\\s+".toRegex()

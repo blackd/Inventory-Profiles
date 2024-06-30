@@ -1,20 +1,49 @@
+/*
+ * Inventory Profiles Next
+ *
+ *   Copyright (c) 2024 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package org.anti_ad.mc.ipnext.item
 
-import net.minecraft.entity.effect.StatusEffectCategory
-import net.minecraft.registry.tag.EnchantmentTags
-import org.anti_ad.mc.common.vanilla.alias.ChargedProjectilesComponent
-import org.anti_ad.mc.common.vanilla.alias.DataComponentType
-import org.anti_ad.mc.common.vanilla.alias.DataComponentTypes
-import org.anti_ad.mc.common.vanilla.alias.DyedColorComponent
-import org.anti_ad.mc.common.vanilla.alias.ItemEnchantmentsComponent
-import org.anti_ad.mc.common.vanilla.alias.MapColorComponent
-import org.anti_ad.mc.common.vanilla.alias.MapIdComponent
-import org.anti_ad.mc.common.vanilla.alias.MapPostProcessingComponent
-import org.anti_ad.mc.common.vanilla.alias.NbtElement
-import org.anti_ad.mc.common.vanilla.alias.PotionContentsComponent
-import org.anti_ad.mc.common.vanilla.alias.Text
+import com.mojang.serialization.Codec
+import org.anti_ad.mc.alias.component.ComponentType
+import org.anti_ad.mc.alias.component.DataComponentTypes
+import org.anti_ad.mc.alias.component.type.DyedColorComponent
+import org.anti_ad.mc.alias.component.type.ItemEnchantmentsComponent
+import org.anti_ad.mc.alias.component.type.MapColorComponent
+import org.anti_ad.mc.alias.component.type.MapIdComponent
+import org.anti_ad.mc.alias.component.type.MapPostProcessingComponent
+import org.anti_ad.mc.alias.component.type.PotionContentsComponent
+import org.anti_ad.mc.alias.component.type.*
+import org.anti_ad.mc.alias.entity.effect.StatusEffectCategory
+import org.anti_ad.mc.alias.nbt.NbtCompound
+import org.anti_ad.mc.alias.nbt.NbtElement
+import org.anti_ad.mc.alias.nbt.NbtList
+import org.anti_ad.mc.alias.nbt.NbtOps
+import org.anti_ad.mc.alias.nbt.NbtString
+import org.anti_ad.mc.alias.registry.tag.EnchantmentTags
+import org.anti_ad.mc.alias.text.Text
+import org.anti_ad.mc.common.vanilla.Vanilla
+
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.item.NbtUtils.compareTo
+import java.util.*
+import kotlin.Comparator
 
 @Suppress("UNCHECKED_CAST")
 object ComponentUtils {
@@ -23,7 +52,7 @@ object ComponentUtils {
 
     private val ItemEnchantmentsComponent.score: Double
         get() {
-            return -1 * this.enchantmentsMap.toList().fold(0.0) { acc, (enchantment, level) ->
+            return -1 * this.enchantmentEntries.fold(0.0) { acc, (enchantment, level) ->
                 acc + if (enchantment.isIn(EnchantmentTags.CURSE)) -0.001 else level.toDouble() / enchantment.value().maxLevel
             }
         }
@@ -57,8 +86,8 @@ object ComponentUtils {
         0
     }
 
-    private val nbtComparator: Comparator<NbtElement?> = nullsLast { a: NbtElement, b: NbtElement ->
-        a.compareTo(b)
+    private val nbtComparator: Comparator<NbtComponent?> = nullsLast { a: NbtComponent, b: NbtComponent ->
+        a.copyNbt().compareTo(b.copyNbt())
     }.apply {
         registry[DataComponentTypes.BLOCK_ENTITY_DATA.toString()] = this as Comparator<Any?>
         registry[DataComponentTypes.CUSTOM_DATA.toString()] = this as Comparator<Any?>
@@ -91,13 +120,15 @@ object ComponentUtils {
         registry[DataComponentTypes.DYED_COLOR.toString()] = this as Comparator<Any?>
     }
 
-    private val mapIdComparator = nullsLast( compareBy<MapIdComponent> { it.id }).apply {
+    private val mapIdComparator = nullsLast( compareBy<MapIdComponent> {
+        it.id
+    }).apply {
         registry[DataComponentTypes.MAP_ID.toString()] = this as Comparator<Any?>
     }
 
     private val mapMapPostProcessingComponentComparator = nullsLast( compareBy<MapPostProcessingComponent> { it.id })
         .apply {
-            registry[DataComponentTypes.MAP_ID.toString()] = this as Comparator<Any?>
+            registry[DataComponentTypes.MAP_POST_PROCESSING.toString()] = this as Comparator<Any?>
         }
 
     val itemTypeComparator = nullsLast ( compareBy<ItemType> { itemType -> itemType.itemId }
@@ -132,7 +163,7 @@ object ComponentUtils {
 
 
 
-    fun DataComponentType<*>?.comparatorFor(): Comparator<Any?> {
+    fun ComponentType<*>?.comparatorFor(): Comparator<Any?> {
         registry[this.toString()]?.let {
             return it
         }
@@ -156,11 +187,66 @@ object ComponentUtils {
             it in list1
         }
         matching.forEach {
-           it?.comparatorFor()?.compare(tag[it], tag1[it])?.let { cmp ->
-               if (cmp != 0) return cmp
-           }
+            val c1 = tag[it]
+            val c2 = tag1[it]
+            Log.trace("c1: ${c1?.javaClass}, c2: ${c2?.javaClass}")
+            val comparator = it?.comparatorFor()
+            comparator?.compare(c1, c2)?.let { cmp ->
+                if (cmp != 0) return cmp
+            }
         }
         return tag.size().compareTo(tag1.size())
     }
 
+    fun ComponentType<*>.toFilteredNbtOrNull(value: Optional<*>): NbtElement? {
+        if (value.isEmpty) return null
+        val codecAny: Codec<Any> = this.codecOrThrow as Codec<Any>
+        val realValue = value.get()
+        if (realValue != null && realValue is NbtElement) return realValue.copy()
+        val opt = codecAny.encodeStart(Vanilla.world().registryManager.getOps(NbtOps.INSTANCE),
+                                       value.get()).resultOrPartial()
+        return if (opt.isPresent) {
+            when (this) {
+                DataComponentTypes.ENCHANTMENTS -> {
+                    (opt.get() as NbtCompound).sanitizeEnchantments()
+                }
+
+                DataComponentTypes.DAMAGE       -> {
+                    null
+                }
+
+                DataComponentTypes.CUSTOM_NAME  -> {
+                    null
+                }
+
+                else                            -> {
+                    opt.get()
+                }
+            }
+        } else null
+    }
+
+    fun ComponentType<*>.toFullNbtOrNull(value: Optional<*>): NbtElement? {
+        if (value.isEmpty) return null
+        val codecAny: Codec<Any> = this.codecOrThrow as Codec<Any>
+        val realValue = value.get()
+        if (realValue != null && realValue is NbtElement) return realValue.copy()
+        val opt = codecAny.encodeStart(Vanilla.world().registryManager.getOps(NbtOps.INSTANCE),
+                                       value.get()).resultOrPartial()
+        return if (opt.isPresent) {
+            opt.get()
+        } else null
+    }
+
+
+    private fun NbtCompound.sanitizeEnchantments(): NbtElement {
+        val levels = this["levels"] as NbtCompound
+        val newLevels = NbtList()
+        levels.keys.forEach { it ->
+            Log.trace("found level $it")
+            newLevels.add(NbtString.of(it))
+        }
+
+        return newLevels
+    }
 }

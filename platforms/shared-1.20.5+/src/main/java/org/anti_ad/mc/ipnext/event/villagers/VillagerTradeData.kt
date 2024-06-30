@@ -21,10 +21,9 @@ package org.anti_ad.mc.ipnext.event.villagers
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import org.anti_ad.mc.common.vanilla.alias.NbtElement
-import org.anti_ad.mc.common.vanilla.alias.StringNbtReader
+import org.anti_ad.mc.alias.nbt.NbtElement
 
-import org.anti_ad.mc.common.vanilla.accessors.entity.StringNbtReader_parse
+import org.anti_ad.mc.ipnext.item.NbtUtils
 
 @Serializable
 data class VillagerTradeData(val resultItem: String,
@@ -32,5 +31,5 @@ data class VillagerTradeData(val resultItem: String,
                              val priceItem2: String? = null,
                              val resultItemNBT: String? = null) {
     @Transient
-    val nbt: NbtElement? = resultItemNBT?.let { StringNbtReader_parse(it) }
+    val nbt: NbtElement? = resultItemNBT?.let { NbtUtils.parseNbt(it) }
 }

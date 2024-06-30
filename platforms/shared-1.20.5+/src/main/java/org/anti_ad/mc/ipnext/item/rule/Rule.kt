@@ -92,7 +92,7 @@ abstract class BaseRule : Rule {
 
     final override fun compare(itemType1: ItemType,
                                itemType2: ItemType): Int {
-        return lazyCompare(itemType1,
-                           itemType2)
+        var result = lazyCompare(itemType1, itemType2)
+        return result
     }
 }

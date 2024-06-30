@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.fillParent
 import org.anti_ad.mc.common.gui.layout.setTopLeft
@@ -30,7 +31,6 @@ import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
-import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline

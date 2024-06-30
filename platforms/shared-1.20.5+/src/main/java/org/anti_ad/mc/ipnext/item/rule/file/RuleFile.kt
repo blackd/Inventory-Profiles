@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item.rule.file
 
+import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.annotation.ThrowsCaught
 import org.anti_ad.mc.common.util.IndentedDataFileParser
@@ -32,7 +33,8 @@ import org.anti_ad.mc.ipnext.parser.SyntaxErrorException
   get [RuleDefinition]: fail -> log and remove
  */
 class RuleFile(val fileName: String,
-               private val content: String) {
+               private val content: String,
+               private val fromUserInput: Boolean) {
     // for same name definition, later overrides former
     val rulesMap = mutableMapOf<String, MutableList<RuleDefinition>>()
 
@@ -49,6 +51,11 @@ class RuleFile(val fileName: String,
                 // then add to rules
                 rulesMap.getOrPut(definition.ruleName) { mutableListOf() }.add(definition)
             } catch (e: SyntaxErrorException) {
+                TellPlayer.chat("Loading sort rules failed!")
+                TellPlayer.chat("Syntax error in '$fileName' (${subData.text})")
+                TellPlayer.chat("  > at: ${e.line}:${e.pos} ${e.msg}")
+                TellPlayer.chat("")
+                TellPlayer.chat("For more information see logs.")
                 Log.warn("Syntax error in '$fileName' (${subData.text})")
                 Log.warn("  > at: ${e.line}:${e.pos} ${e.msg}")
             } catch (e: Exception) {
