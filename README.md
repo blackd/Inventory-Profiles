@@ -13,7 +13,7 @@
 </div>
 
 # Inventory Profiles Next
-**Requirement:** Minecraft 1.16.5 - 1.17, Fabric Loader 0.11.6, Forge 36.1.32
+**Requirement:** Minecraft 1.16.5 - 1.21, Fabric Loader 0.11.6, Forge 36.1.32
 ## Mod download
 
 **Modrinth**: https://modrinth.com/mod/inventory-profiles-next
@@ -22,18 +22,39 @@
 
 # Other MODs integration
 
-The artefacts are available on Maven Central.
-The Javadoc is available here [![Javadoc][10]][9]. If your screen is not an inventory use ```@IPNIgnore``` annotation. If your screen is inventory but IPN buttons are not aligned properly look at ```@IPNGuiHint```.
-
 ## gradle:
 Gradle examples are in kotlin DSL. 
 Although currently there is no difference between fabric and forge APIs this is not a guarantee, we advise you to add dependency on the proper loader version.
+
+### Repository
+
+```kotlin
+repositories {
+    maven {
+        name = "IPN-Releases"
+        mavenContent {
+            releasesOnly()
+        }
+        content {
+            includeGroup("org.anti_ad.mc")
+            includeGroup("ca.solo-studios")
+        }
+        url = uri("https://maven.ipn-mod.org/releases")
+    }
+}
+```
+
 ### Fabric
 ```kotlin
 dependencies {
     compileOnly(group = "org.anti-ad.mc",
-                name = "inventory-profiles-next",
-                version = "fabric-1.17.1-1.1.0")
+                name = "InventoryProfilesNext-fabric-1.21",
+                version = "2.0.1")
+    // for libIPN usually you don't need it
+    compileOnly(group = "org.anti-ad.mc",
+                name = "libIPN-fabric-1.21",
+                version = "5.0.1",
+                classifier = "dev")
 }
 ```
 
@@ -41,29 +62,19 @@ dependencies {
 ```kotlin
 dependencies {
     compileOnly(group = "org.anti-ad.mc",
-                name = "inventory-profiles-next",
-                version = "forge-1.17.1-1.1.0")
+                name = "InventoryProfilesNext-forge-1.21",
+                version = "2.0.1")
+    // for libIPN usually you don't need it
+    compileOnly(group = "org.anti-ad.mc",
+                name = "libIPN-forge-1.21",
+                version = "5.0.1",
+                classifier = "dev")
 }
 ```
 
 ### Maven
-### Fabric
-```xml
-<dependency>
-    <groupId>org.anti-ad.mc</groupId>
-    <artifactId>inventory-profiles-next</artifactId>
-    <version>fabric-1.17.1-1.1.0</version>
-</dependency>
-```
 
-### Forge
-```xml
-<dependency>
-    <groupId>org.anti-ad.mc</groupId>
-    <artifactId>inventory-profiles-next</artifactId>
-    <version>forge-1.17.1-1.1.0</version>
-</dependency>
-```
+Who uses maven still :D
 
 
 ### TODO
@@ -81,5 +92,5 @@ dependencies {
 [8]: https://img.shields.io/discord/861171785897738240?label=Discord&logo=discord&style=plastic
 [9]: https://javadoc.io/doc/org.anti-ad.mc/inventory-profiles-next/fabric-1.17.1-1.1.0
 [10]: https://javadoc.io/badge2/org.anti-ad.mc/inventory-profiles-next/fabric-1.17.1-1.1.0/javadoc.svg
-[11]: https://img.shields.io/badge/Available%20for-MC%201.14%20to%201.19-c70039
+[11]: https://img.shields.io/badge/Available%20for-MC%201.14%20to%201.21-c70039
 [12]: https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next/files

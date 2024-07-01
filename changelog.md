@@ -1,4 +1,27 @@
 <!-- latest begin -->
+### 2.0.1
+
+- Support for Forge 1.21
+- Fixed locked slots not loading properly on joining servers
+- Fixed exception while sorting fish buckets, axolotl buckets, treasure maps, and other items that have `Custom Data` component.
+- Fixed Profiles requiring all enchantments to be specified in the config and other item matching problems.
+- Workaround for strange behaviour on some Windows systems where the mouse cursor appears to be moving while hidden and events were sent to the overlay buttons.
+
+#### Forge
+- The forge build is still unstable and the gui overlay of the hotbar is currently missing.
+
+#### Quilt
+
+As usual the mod will run on Quilt, but I don't have time for full testing and debugging eventual problems will require too much time to setup.
+
+**Use at your own risk**
+
+#### NeoForge
+
+I intend to start working on port, but no promises!
+
+<!-- latest end -->
+
 ### 2.0.0
 
 - Added 1.21 compatibility.
@@ -21,7 +44,6 @@
     * Try ctrl+c over an item in your inventory... you can thank me latter.
 - In other news versions of Minecraft bellow 1.21 will no longer receive updates.
 
-<!-- latest end -->
 
 ### 1.10.10
 

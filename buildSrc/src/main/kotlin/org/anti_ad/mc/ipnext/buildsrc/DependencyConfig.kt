@@ -52,15 +52,23 @@ fun Project.configureDependencies() {
 
         maven {
             name = "libIPN-Snapshots"
-            this.mavenContent {
-                this.snapshotsOnly()
+            mavenContent {
+                snapshotsOnly()
+            }
+            content {
+                includeGroup ("org.anti_ad.mc")
+                includeGroup ("ca.solo-studios")
             }
             url = uri("https://maven.ipn-mod.org/snapshots")
         }
         maven {
             name = "libIPN-Releases"
-            this.mavenContent {
-                this.releasesOnly()
+            mavenContent {
+                releasesOnly()
+            }
+            content {
+                includeGroup ("org.anti_ad.mc")
+                includeGroup ("ca.solo-studios")
             }
             url = uri("https://maven.ipn-mod.org/releases")
         }

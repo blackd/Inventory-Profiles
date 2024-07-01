@@ -23,11 +23,23 @@
 . ~/.config/secrets/curseforge.sh
 #. ~/.config/secrets/env-setup.sh
 
-pushd . 
+pushd .
 
-cd $(mktemp -d /tmp/ipn-release.XXXX)
+mkdir /tmp/IPN
+cd $(mktemp -d /tmp/IPN/IPN-release.XXXX)
 
-git clone --recurse-submodules git@github.com:blackd/Inventory-Profiles.git IPN
+git clone --recurse-submodules git@gitea.lan:Inventory-Profiles-Next/IPN.git IPN
+
+if [[ ! -e ../venv ]]; then
+  python -m venv ../venv
+  . ../venv/bin/activate
+  pip install pandoc
+  pip install pypandoc
+  pip install premailer
+  pip install pandoc_include
+else
+  . ../venv/bin/activate
+fi
 
 cd IPN/description
 
@@ -39,7 +51,7 @@ cd ..
 #./gradlew --max-workers 32 createMcpToSrg
 ./gradlew --max-workers 32 compileKotlin compileJava
 
-./gradlew --max-workers 4 modrinth curseforge publishAllPublicationsToIpnOfficialRepoRepository
+#./gradlew --max-workers 4 modrinth curseforge publishAllPublicationsToIpnOfficialRepoRepository
 
 
 ls -la build/lib/
