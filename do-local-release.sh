@@ -48,10 +48,15 @@ python build_release_notes.py
 
 cd ..
 
-#./gradlew --max-workers 32 createMcpToSrg
 ./gradlew --max-workers 32 compileKotlin compileJava
 
-#./gradlew --max-workers 4 modrinth curseforge publishAllPublicationsToIpnOfficialRepoRepository
+GRADLE_ARG="build"
+
+if [[ n$IPNEXT_RELEASE != "n" ]]; then
+  GRADLE_ARG="--max-workers 4 $GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge"
+fi
+
+./gradlew $GRADLE_ARG
 
 
 ls -la build/lib/
