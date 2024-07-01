@@ -21,7 +21,6 @@
     "inventoryprofiles.common.enum.context.any":                                         "ゲーム内/GUI",
     "inventoryprofiles.common.enum.modifier_key.differentiate":                          "左右の差",
     "inventoryprofiles.common.enum.modifier_key.normal":                                 "通常",
-
     "inventoryprofiles.gui.config.ModSettings":                                          "Mod設定",
     "inventoryprofiles.config.category.inventory_sorting":                               "並べ替えオプション",
     "inventoryprofiles.config.category.move_matching_items":                             "一般的なホットキーの設定",
@@ -49,8 +48,6 @@
     "inventoryprofiles.config.description.category_priority_list":                       "「並び替え」「クリエイティブインベントリ順」の並び替え時のクリエイティブインベントリでの並び順",
     "inventoryprofiles.config.name.category_original_order":                             "デフォルトのカテゴリ優先順序",
     "inventoryprofiles.config.description.category_original_order":                      "これは利便性のために用意されています。カテゴリの順序はサーバごと、ワールドごとに違うことでしょう。\n上気の「優先順位リスト」を設定したい場合、この項目コピーして調査し、並べ変えることが可能です。",
-
-
     "inventoryprofiles.config.name.include_hotbar_modifier":                             "ホットバーの変更を含める",
     "inventoryprofiles.config.name.move_all_modifier":                                   "すべての変更を含める",
     "inventoryprofiles.config.name.move_focus_mach_modifier":                            "選択されたアイテムの種類のみ",
@@ -83,34 +80,27 @@
     "inventoryprofiles.config.name.enable_lock_slots_per_server":                        "サーバー・ワールドごとに固有のスロットをロックできるようにする。",
     "inventoryprofiles.config.description.enable_lock_slots":                            "並び替え、全アイテム移動、選択中のスロットのクリア、ストレージに材料がある限りのクラフト継続、ストレージからの自動補充(自動補充を監視しているスロットには影響しません)の間、ロックされたスロットを無視します。\n注意:\n縦横での並び替えは、ロックされないままのスロットが長方形に残っている場合にのみ機能します。",
     "inventoryprofiles.config.description.enable_lock_slots_per_server":                 "有効にした場合、各サーバおよび固有に名付けられたワールドではそれぞれ固有のスロットをロックできます。\n注意:\n1. もし全てのワールドに「新しいワールド」と名付けた場合、それらは全て同じスロットがロックされます。\n2. BungeecordやVelocityで接続されたサーバ間ではロックするスロットを共有します",
-
     "inventoryprofiles.config.name.enable_auto_refill":                                  "自動補充を有効にする",
-
     "inventoryprofiles.config.name.villager_trading_enable":                             "村人取引画面を変更する",
     "inventoryprofiles.config.description.villager_trading_enable":                      "村人取引画面の変更を切り替えます。\n\nこれによって１つ以上の取引をブックマークできます。\nまた、可能な全ての取引を種類ごとに１クリックで実行できます。\n\nグローバルとローカルの２種類のブックマークがあります。\n - グローバルは同一の職業の村人全てと取引します。\n - ローカルは取引画面を開いている村人とのみ取引します。\n\nブックマークは行商人でも動作しますが、グローバルタイプのみが存在します。",
     "inventoryprofiles.config.name.villager_trading_local_color":                        "ローカルブックマークの色",
     "inventoryprofiles.config.description.villager_trading_local_color":                 "ローカルブックマークとして登録された取引を示す色です。",
     "inventoryprofiles.config.name.villager_trading_global_color":                       "グローバルブックマークの色",
     "inventoryprofiles.config.description.villager_trading_global_color":                "ローカルブックマークとして登録された取引を示す色です。",
-
     "inventoryprofiles.config.name.villager_trading_group_1":                            "二次ブックマークを有効にする",
     "inventoryprofiles.config.description.villager_trading_group_1":                     "二次ブックマーク(グローバル/ローカル)を有効にします。",
     "inventoryprofiles.config.name.villager_trading_local_color1":                       "二次ローカルブックマークの色",
     "inventoryprofiles.config.description.villager_trading_local_color1":                "二次ローカルブックマークとして登録された取引を示す色です。",
     "inventoryprofiles.config.name.villager_trading_global_color1":                      "二次グローバルブックマークの色",
     "inventoryprofiles.config.description.villager_trading_global_color1":               "二次グローバルブックマークとして登録された取引を示す色です。",
-
     "inventoryprofiles.config.name.villager_trading_group_2":                            "三次ブックマークを有効にする",
     "inventoryprofiles.config.description.villager_trading_group_2":                     "三次ブックマーク(グローバル/ローカル)を有効にします。",
     "inventoryprofiles.config.name.villager_trading_local_color2":                       "三次ローカルブックマークの色",
     "inventoryprofiles.config.description.villager_trading_local_color2":                "三次ローカルブックマークとして登録された取引を示す色です。",
     "inventoryprofiles.config.name.villager_trading_global_color2":                      "三次グローバルブックマークの色",
     "inventoryprofiles.config.description.villager_trading_global_color2":               "三次グローバルブックマークとして登録された取引を示す色です。",
-
-
     "inventoryprofiles.config.name.enable_updates_check":                                "アップデートチェックを有効にする",
     "inventoryprofiles.config.name.enable_analytics":                                    "分析を有効にする",
-
     "inventoryprofiles.config.description.enable_updates_check":                         "このModの新しいバージョンが利用可能になった場合、メッセージを表示します。このチェックのため、以下の情報\"のみ\"を以下のサーバに送信します。:\n\tMinecraftのバージョン, ローダー(Fabric,Forge), Inventory Profiles Nextのバージョン.\nあなたのIPアドレスは保存されません！",
     "inventoryprofiles.config.description.enable_analytics":                             "分析を有効にします。\nこのModと使用されている機能に関する情報のみが収集されます。\n個人情報は収集されません。あなたのIPアドレスは保管されません。\n収集された情報は共有されたり、販売されたり、どこかに送信されたりすることはありません。",
     "inventoryprofiles.config.name.add_interval_between_clicks":                         "クリック間で少し待つ",
@@ -136,7 +126,6 @@
     "inventoryprofiles.config.description.ignore_durability":                            "trueにすると、移動・投げ捨て処理の対象判定でアイテムの耐久力を無視します。",
     "inventoryprofiles.config.name.debug_logs":                                          "デバッグログを表示",
     "inventoryprofiles.config.description.debug_logs":                                   "デバッグログを表示します。",
-
     "inventoryprofiles.gui.config.GuiSettings":                                          "GUI設定",
     "inventoryprofiles.config.category.gui.general":                                     "全体的GUI設定",
     "inventoryprofiles.config.category.inventory":                                       "インベントリ",
@@ -187,9 +176,7 @@
     "inventoryprofiles.config.description.in_rows_custom_rule":                          "「行ごとに並べ替え」ボタンのカスタムルールを設定します。",
     "inventoryprofiles.config.description.show_move_all_button":                         "GUIの「すべて移動」ボタンを表示します。",
     "inventoryprofiles.config.description.show_button_tooltips":                         "ボタンツールチップを表示します。",
-
     "inventoryprofiles.gui.config.AutoRefillSettings":                                   "自動補充",
-
     "inventoryprofiles.config.category.auto-refill.general":                             "一般",
     "inventoryprofiles.config.category.auto-refill.non-enchanted":                       "エンチャントされていないアイテム",
     "inventoryprofiles.config.category.auto-refill.matching":                            "アイテムの一致",
@@ -221,14 +208,12 @@
     "inventoryprofiles.config.name.visual_replace_success_notification":                 "交換に成功したとき通知を表示する",
     "inventoryprofiles.config.name.audio_replace_success_notification":                  "交換に成功したとき通知音を鳴らす",
     "inventoryprofiles.config.name.type_visual_replace_success_notification":            "交換に成功したとき表示する通知の種類",
-
     "inventoryprofiles.config.name.visual_replace_failed_notification":                  "交換に失敗したとき通知を表示する",
     "inventoryprofiles.config.name.audio_replace_failed_notification":                   "交換に失敗したとき通知音を鳴らす",
     "inventoryprofiles.config.name.type_visual_replace_failed_notification":             "交換に失敗したとき表示する通知の種類",
     "inventoryprofiles.config.description.type_visual_replace_failed_notification":      "ツールの交換に失敗した場合、画面に表示する通知の種類を設定します。",
     "inventoryprofiles.config.description.audio_replace_failed_notification":            "有効にするとツールの交換に失敗した場合に通知音が鳴ります。",
     "inventoryprofiles.config.description.visual_replace_failed_notification":           "有効にするとツールの交換に失敗した場合に画面に通知を表示します。",
-
     "inventoryprofiles.config.description.type_visual_replace_success_notification":     "ツールの交換に成功した場合、画面に表示する通知の種類を設定します。",
     "inventoryprofiles.config.description.audio_replace_success_notification":           "有効にすると、耐久値の低下によってツールを交換した場合に通知音が鳴ります。",
     "inventoryprofiles.config.description.visual_replace_success_notification":          "有効にすると、耐久値の低下によってツールを交換した場合画面に通知を表示します。",
@@ -250,7 +235,6 @@
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":           "falseにすると、魚やウーパールーパーのバケツは同じ種類のもののみが補充対象となります。",
     "inventoryprofiles.config.description.auto_refill_match_any_food":                   "trueにすると、別の種類の食料であっても自動補充の対象となります。\n\n注意:\n隠し満腹度の回復量順に補充されます。つまり、エンチャントされた金のリンゴは最初の選択肢となりえます。",
     "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "この項目と「どんな食料でも補充対象とする」が両方ともtrueの場合、フグのような有害な食糧であっても自動補充の対象となります。",
-
     "inventoryprofiles.config.description.autorefill_blacklist":                         "自動補充の対象外となるアイテムタイプのカンマ区切りのリストです。\n例えば'minecraft:golden_axe,minecraft:stone'のような形となります。\n警告:\nパフォーマンス悪化を避けるため、あまり多くのアイテムをこのリストに追加しないでください。",
     "inventoryprofiles.config.description.tool_damage_threshold":                        "自動補充を行う基準となる耐久値を指定します。",
     "inventoryprofiles.config.description.threshold_unit":                               "「ツールの交換基準となるダメージ」の単位を指定します。\n絶対値と割合(%%)のみがサポートされています。",
@@ -264,8 +248,6 @@
     "inventoryprofiles.config.notification.tool_replace_ping.replacing":                 "置き換え: %s",
     "inventoryprofiles.config.notification.tool_replace_failed.replacing":               "\"%s\" の置き換えに失敗しました",
     "inventoryprofiles.config.notification.tool_replace_success":                        "置換後",
-
-
     "inventoryprofiles.gui.config.LockedSlotsSettings":                                  "スロットを固定",
     "inventoryprofiles.config.category.lock_slots.gui":                                  "GUIオーバーレイ",
     "inventoryprofiles.config.category.lock_slots.empty":                                "ロックされた空きスロットの処理",
@@ -305,7 +287,6 @@
     "inventoryprofiles.config.description.locked_slots_empty_hotbar_as_semi_locked":     "アイテムを拾った時、ホットバーの空きスロットではなく直接インベントリに格納しようとします。\n注意: これを機能させるには、「ロックされた空きスロットにアイテムを格納する」オプションを「false」に設定する必要があります!",
     "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks":       "プレーヤーインベントリの情報をサーバに送信するのを待つクライアントtickの最大数。\nディメンジョン間を移動する際にアイテムが移動したり失われたりする場合には、この値を増やす必要があります。\nこれは、負荷の高いサーバーでよく発生します。\n注意:20ティックは1秒に相当します。\n§l§c警告§r: これを高く設定しすぎると、タイムアウトによって無効になるまでの間、ロックされたスロットが適切に管理できなくなる可能性があります。",
     "inventoryprofiles.config.description.lock_slots_disable_user_interaction":          "ロックされたスロットに対するユーザーの操作を無効にします。\n基本的に、ロックされたスロットのアイテムを移動させたり他の操作を行う前に、ロックを解除する必要があります。\n自動化された操作、プロファイル、自動補充などは影響を受けません",
-
     "inventoryprofiles.gui.config.EditProfiles":                                         "プロファイルの編集",
     "inventoryprofiles.gui.config.profiles_help_button":                                 "Wikiを開く",
     "inventoryprofiles.gui.config.profiles_config_button":                               "プロファイルの設定",
@@ -322,8 +303,6 @@
     "inventoryprofiles.config.description.quick_slot_3_profile":                         "クイックプロファイル3のホットキーからアクセスできるプロファイルの名前です。",
     "inventoryprofiles.config.name.include_custom_name":                                 "Savedプロファイル内にアイテムのカスタム名を含めます。",
     "inventoryprofiles.config.description.include_custom_name":                          "有効にすると、アイテムのカスタム名をSavedプロファイル内に含めます。\n一般的な使用法としては推奨されませんが、異なるバックパックやその他のコンテナにプロファイルを格納しているような場合は便利です。\n\n通常の装備では、エンチャントをキーにマッチングするのが最善の方法です。",
-
-
     "inventoryprofiles.gui.config.ScrollSettings":                                       "ホイール操作",
     "inventoryprofiles.config.category.scroll.modifiers":                                "ホイール操作と使用する修飾キー",
     "inventoryprofiles.config.category.scroll.single":                                   "カーソル下のアイテムのホイール操作",
@@ -337,8 +316,6 @@
     "inventoryprofiles.config.description.scroll_throw":                                 "このキーを押したままチェストやプレイヤーインベントリでホイール操作すると、アイテムはインベントリや開いたコンテナの外に捨てられます。\nNOTE:\n回転の向きは無視されます。",
     "inventoryprofiles.config.name.scroll_auto_pickup_next_for_single":                  "カーソル下のアイテムを自動で埋める",
     "inventoryprofiles.config.description.scroll_auto_pickup_next_for_single":           "trueにすると、ホイール操作中に現在操作しているスタックが空になった場合に新しいスタックが自動で選択されます。",
-
-
     "inventoryprofiles.gui.config.Hotkeys":                                              "ホットキー",
     "inventoryprofiles.config.category.hotkeys":                                         "ホットキー",
     "inventoryprofiles.config.category.misc":                                            "その他",
@@ -368,7 +345,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade":                         "マウスカーソル下の取引をローカルブックマークに追加する。",
     "inventoryprofiles.config.description.do_global_trade":                              "グローバルブックマークに登録された全ての取引を、可能な限り実行する。",
     "inventoryprofiles.config.description.do_local_trade":                               "ローカルブックマークに登録された全ての取引を、可能な限り実行する。",
-
     "inventoryprofiles.config.name.global_bookmark_trade1":                              "二次グローバルブックマークに追加する。",
     "inventoryprofiles.config.name.local_bookmark_trade1":                               "二次ローカルブックマークに追加する。",
     "inventoryprofiles.config.name.do_global_trade1":                                    "二次グローバルブックマークに基づいて取引する",
@@ -377,7 +353,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade1":                        "マウスカーソル下の取引を二次ローカルブックマークに追加する。",
     "inventoryprofiles.config.description.do_global_trade1":                             "二次グローバルブックマークに登録された全ての取引を、可能な限り実行する。",
     "inventoryprofiles.config.description.do_local_trade1":                              "二次ローカルブックマークに登録された全ての取引を、可能な限り実行する。",
-
     "inventoryprofiles.config.name.global_bookmark_trade2":                              "三次グローバルブックマークに追加する。",
     "inventoryprofiles.config.name.local_bookmark_trade2":                               "三次ローカルブックマークに追加する。",
     "inventoryprofiles.config.name.do_global_trade2":                                    "三次グローバルブックマークに基づいて取引する",
@@ -386,8 +361,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade2":                        "マウスカーソル下の取引を三次ローカルブックマークに追加する。",
     "inventoryprofiles.config.description.do_global_trade2":                             "三次グローバルブックマークに登録された全ての取引を、可能な限り実行する。",
     "inventoryprofiles.config.description.do_local_trade2":                              "三次ローカルブックマークに登録された全ての取引を、可能な限り実行する。",
-
-
     "inventoryprofiles.config.description.save_as_profile":                              "現在の装備セットをSavedプロファイルに保存するホットキー。.\nSavedプロファイルはユーザーが自分用にプロファイルを作るのに利用できます。\n\n§l§c注意§r:\nこのキーを押して作成されるプロファイルは、必ずSavedという名前で作成されます。\nSavedプロファイルは前後の順番に含まれず、クイックプロファイルに設定できません。",
     "inventoryprofiles.config.description.next_profile":                                 "次のプロファイルを適用するホットキー。",
     "inventoryprofiles.config.description.prev_profile":                                 "前のプロファイルを適用するホットキー。",
@@ -405,8 +378,6 @@
     "inventoryprofiles.config.description.reload_custom_configs":                        "このホットキーは、新たにカスタムルールを定義した際の設定の再読み込みを高速化するために使用できます。\n他のケースでは、設定を解除しておくことをお勧めします。\n設定を再読み込みすることは、頻繁に行いたいものではありません。",
     "inventoryprofiles.config.description.scroll_to_chest":                              "カーソル下に空でないスロットがあるか、アイテムを保持しているとき、このキーを押すと、開いたコンテナにアイテムが転送されます。",
     "inventoryprofiles.config.description.scroll_to_inventory":                          "カーソル下に空でないスロットがあるか、アイテムを保持しているとき、このキーを押すと、プレイヤーのインベントリにアイテムが転送されます。",
-
-
     "inventoryprofiles.gui.config.Tweaks":                                               "詳細設定",
     "inventoryprofiles.config.category.client_side_tweaks":                              "クライアント側の詳細設定",
     "inventoryprofiles.config.name.prevent_close_gui_drop_item":                         "保持しているアイテムをドロップしない",
@@ -415,12 +386,10 @@
     "inventoryprofiles.config.description.prevent_close_gui_drop_item":                  "GUIを閉じた時、保持しているアイテムがドロップされなくなります。",
     "inventoryprofiles.config.description.container_swipe_moving_items":                 "Shiftキーを押しながらマウスをドラッグした場合、カーソル下のスロット内のアイテムを移動できます。",
     "inventoryprofiles.config.description.swipe_move_crafting_result_slot":              "クラフト結果のスロットで「コンテナへのクイック移動」を有効にします。",
-
     "inventoryprofiles.gui.config.Debugs":                                               "デバッグ",
     "inventoryprofiles.config.category.debugs":                                          "デバッグ",
     "inventoryprofiles.config.name.debug_screen":                                        "デバッグ画面",
     "inventoryprofiles.config.description.debug_screen":                                 "デバッグ画面を開く",
-
     "inventoryprofiles.gui.config.Modpacks":                                             "Modpackの開発者向け設定",
     "inventoryprofiles.config.category.modpacks":                                        "シングルゲームに参加する必要があります。さもないとゲームがクラッシュします。",
     "inventoryprofiles.config.name.make_block_screen_generator_script":                  "UI対応ブロック",
@@ -431,7 +400,6 @@
     "inventoryprofiles.config.description.diff_calculator_priority":                     "これにより、エクスポートボタンを使用する際に、ビルドインまたは外部ヒントが優先されます。\n\n注意：あなたのmodpackにカスタムブロック/アイテムがない場合は、これを必要としません。\n私たちのDiscordサーバーはヘルプを得るための場所です:)",
     "inventoryprofiles.config.description.export_hints":                                 "これは現在読み込まれているすべてのヒントを含むjsonファイルを生成します。フォーマットは、自分自身でMODに埋め込むのにのみ適しています。\n\n注意：あなたのmodpackにカスタムブロック/アイテムがない場合は、これを必要としません。\n私たちのDiscordサーバーはヘルプを得るための場所です:)",
     "inventoryprofiles.config.description.make_block_screen_generator_script":           "このボタンは、次のような /chat コマンドのスクリプトを生成します。\n - GUI を持つすべてのブロックを検索してみてください\n - 素敵なプラットフォームを作る\n - modによって編成されたすべてのブロックを配置します\n\n注: modpack にカスタム ブロック/アイテムがない場合、これは実際には必要ありません。\nこれを試してみたい場合は、私たちの不和サーバーが助けを求める場所です:)\n\n警告: これにはシングル プレイヤーの世界が必要です!",
-
     "inventoryprofiles.enum.sorting_method.global":                                      "グローバル (%s)",
     "inventoryprofiles.enum.sorting_method.default":                                     "デフォルト (クリエイティブインベントリ)",
     "inventoryprofiles.enum.sorting_method.item_name":                                   "アイテム名",
@@ -463,7 +431,6 @@
     "inventoryprofiles.enum.merge_priority.external":                                    "外部",
     "inventoryprofiles.enum.creative_menu_sort_order.search_tab":                        "検索タブ",
     "inventoryprofiles.enum.creative_menu_sort_order.category_priority_list":            "優先度リスト",
-
     "inventoryprofiles.tooltip.sort_button":                                             "インベントリの並び替え",
     "inventoryprofiles.tooltip.sort_columns_button":                                     "行ごとにインベントリの並び替え",
     "inventoryprofiles.tooltip.sort_rows_button":                                        "列ごとにインベントリの並び替え",
@@ -475,7 +442,6 @@
     "inventoryprofiles.tooltip.move_all_button.move_matching_only":                      "§o%s§5を押している間：§r\n§6 - 一致するアイテムのみ移動(デフォルトは全アイテム)",
     "inventoryprofiles.tooltip.move_all_button.move_focused_only":                       "§o%s§5を押している間：§r\n§6 - カーソル下にあるアイテムか\n§6保持しているアイテムのみ\n§6を移動します。(デフォルトは全アイテム)",
     "inventoryprofiles.tooltip.move_all_button.move_just_refill":                        "§o%s§5を押している間：§r\n§6 - 既に存在するアイテムスタックを\n§6いっぱいにする分だけのアイテムを移動します。(デフォルトは全アイテム)",
-
     "inventoryprofiles.tooltip.continuous_crafting_checkbox":                            "継続クラフト\n§o%s§6を押している間§r§6: 自動クラフト",
     "inventoryprofiles.tooltip.auto_crafting_checkbox":                                  "自動クラフト\n§o%s§6を離すと§r§6: 継続クラフト",
     "inventoryprofiles.tooltip.next_profile_button":                                     "次のプロファイルを適用する",
@@ -485,28 +451,20 @@
     "inventoryprofiles.tooltip.settings_open":                                           "Inventory Profiles Nextの全般設定を開く",
     "inventoryprofiles.tooltip.do_global_trades_button":                                 "グローバルブックマークされた取引を可能な限り行います。\n\n全てのグローバルブックマークされた取引に使用する資源がなくなるか、\n取引回数の上限に達するまで取引を行います。\n\n",
     "inventoryprofiles.tooltip.do_local_trades_button":                                  "ローカルブックマークされた取引を可能な限り行います。\n\n全てのローカルブックマークされた取引に使用する資源がなくなるか、\n取引回数の上限に達するまで取引を行います。",
-
     "inventoryprofiles.tooltip.do_global_trades_button1":                                "二次グローバルブックマークされた取引を可能な限り行います。",
     "inventoryprofiles.tooltip.do_local_trades_button1":                                 "二次ローカルブックマークされた取引を可能な限り行います。",
-
     "inventoryprofiles.tooltip.do_global_trades_button2":                                "三次グローバルブックマークされた取引を可能な限り行います。",
     "inventoryprofiles.tooltip.do_local_trades_button2":                                 "三次ローカルブックマークされた取引を可能な限り行います。",
-
     "inventoryprofiles.tooltip.set_local_bookmark":                                      "ローカルブックマークに追加します。\n\nこの特定の村人とのこの取引をブックマークします。",
     "inventoryprofiles.tooltip.set_global_bookmark":                                     "グローバルブックマークに追加します。\n\nこの職業の全ての村人または全ての行商人に対し、\nこの種類の取引をブックマークします。",
-
     "inventoryprofiles.tooltip.set_local_bookmark1":                                     "二次ローカルブックマークに追加します。",
     "inventoryprofiles.tooltip.set_global_bookmark1":                                    "二次グローバルブックマークに追加します。",
-
     "inventoryprofiles.tooltip.set_local_bookmark2":                                     "三次ローカルブックマークに追加します。",
     "inventoryprofiles.tooltip.set_global_bookmark2":                                    "三次グローバルブックマークに追加します。",
-
-
     "inventoryprofiles.update.version":                                                  " バージョン: ",
     "inventoryprofiles.update.available":                                                " が利用可能です。\n",
     "inventoryprofiles.update.get":                                                      "次の場所から入手できます: ",
     "inventoryprofiles.update.or":                                                       " または ",
-
     "inventoryprofiles.gui.editor.name.screen.ignore":                                   "無視",
     "inventoryprofiles.gui.editor.description.screen.ignore":                            "これによりInventory Profiles NextはUIにボタンを追加しなくなり、\nコンテナへの全ての管理機能を無効化します。\n注意:\n通常これはコンテナと画面両方でtrueにする必要があります。",
     "inventoryprofiles.gui.editor.name.screen.player_side":                              "プレイヤーのみ",
@@ -521,7 +479,6 @@
     "inventoryprofiles.gui.editor.category.container":                                   "コンテナ",
     "inventoryprofiles.gui.editor.name.class.screen":                                    "画面",
     "inventoryprofiles.gui.editor.name.class.container":                                 "コンテナ",
-
     "inventoryprofiles.gui.editor.name.help.select.next":                                "次のボタンを選択",
     "inventoryprofiles.gui.editor.description.help.select.next":                         "スペースを押すと、次のボタンを選択できます。",
     "inventoryprofiles.gui.editor.name.help.select.prev":                                "前のボタンを選択",

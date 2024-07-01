@@ -21,7 +21,6 @@
     "inventoryprofiles.common.enum.context.any":                                         "Oyun içi / Arayüz",
     "inventoryprofiles.common.enum.modifier_key.differentiate":                          "Sağı/Solu Ayır",
     "inventoryprofiles.common.enum.modifier_key.normal":                                 "Normal",
-
     "inventoryprofiles.gui.config.ModSettings":                                          "Mod Ayarları",
     "inventoryprofiles.config.category.inventory_sorting":                               "Sıralama Ayaları",
     "inventoryprofiles.config.category.move_matching_items":                             "Genel Kısayol Tanımlayıcıları",
@@ -36,7 +35,7 @@
     "inventoryprofiles.config.name.reload_rule_files":                                   "§aKural Dosyalarını Yeniden Yükle",
     "inventoryprofiles.config.description.open_config_folder":                           ".minecraft/config/inventoryprofilesnext dosyasını aç",
     "inventoryprofiles.config.description.reload_rule_files":                            "Config klasöründeki tüm rules-v2.*.txt dosyalarını yeniden yükle",
-    "inventoryprofiles.gui.config.button.open_config_folder":                            "config/inventoryprofilesnext",
+    "inventoryprofiles.gui.config.button.open_config_folder":                            "configuration/inventoryprofilesnext",
     "inventoryprofiles.gui.config.button.reload_rule_files":                             "rules-v2.*.txt yeniden yükle",
     "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":                    "Tamamı yeniden yüklendi!",
     "inventoryprofiles.config.name.sort_order":                                          "Sıralama Düzeni",
@@ -49,8 +48,6 @@
     "inventoryprofiles.config.description.category_priority_list":                       "Yaratıcı menü kategorileri \"Sıralama Düzeni\" \"Yaratıcı Menüsü\" için öncelik sırasına göre sıralama kaynağı şu şekilde kullanılmalıdır",
     "inventoryprofiles.config.name.category_original_order":                             "Varsayılan Kategori Önceliği",
     "inventoryprofiles.config.description.category_original_order":                      "Bunun burada olma sebebi sadece kolaylık sağlamak. Sunucudan sunucuya dünyadan dünyaya değişebilir.\nKopyala, incele ve yeniden düzenle yukarıdaki \"Öncelik Listesini\" değiştirmek istiyorsan.",
-
-
     "inventoryprofiles.config.name.include_hotbar_modifier":                             "Erişim Çubuğu Tanımlayıcısını Dahil Et",
     "inventoryprofiles.config.name.move_all_modifier":                                   "Tüm Tanımlayıcıları Dahil Et",
     "inventoryprofiles.config.name.move_focus_mach_modifier":                            "Sadece odaklı ITEM tipi",
@@ -83,34 +80,27 @@
     "inventoryprofiles.config.name.enable_lock_slots_per_server":                        "Dünyaya/Sunucuya özel kilitli slotları etkinleştir",
     "inventoryprofiles.config.description.enable_lock_slots":                            "Kilitli Slotlar şunlar için görmezden gelinir: sıralama, hepsini taşı, imleci temizle, sürekli üretim malzeme depoları, malzeme depolarını kendi kendine doldurma (kendi kendine doldurma gözetleyen slotlar etkilenmez). \nDikkat:\nSütun/satır sıralama sadece geri kalan kilitli olmayan slotlar dikdörtgen ise çalışır.",
     "inventoryprofiles.config.description.enable_lock_slots_per_server":                 "Eğer etkinleştirilmişse her sunucu ve her özgün isimli dünyanın kendine özel kilitli slotları olacak.\nDikkat:\n1. Eğer ki tüm dünyalarınızı \"New World\" olarak isimlendirmek gibi bir alışkanlığınız varsa hepsinin kilitli slotları aynı olacak.\n2. Bungee cord/velocity proxyleri arkasında olan sunucular kilitli slotları paylaşırlar.",
-
     "inventoryprofiles.config.name.enable_auto_refill":                                  "Kendi kendine doldurmayı etkinleştir.",
-
     "inventoryprofiles.config.name.villager_trading_enable":                             "Köylü Ticaretini Etkinleştir",
     "inventoryprofiles.config.description.villager_trading_enable":                      "Köylü ticareti geliştirmelerini açar.\n\nBu sizin bir veya birkaç tane ticareti imleme olanağı verir.\nVe o tipler için mümkün tüm ticaretleri\nsadece bir tıkla.\n\nİki tip im vardir: Global ve Local.\n - Global aynı meslekte olan tüm köylülerden aynı ticaret tipini seçer.\n - Local sadece etkin olan köylüden seçer.\n\nİmler gezgin tüccarlar için de işe yarar ancak sadece Global tipi kullanılabilinir.",
     "inventoryprofiles.config.name.villager_trading_local_color":                        "Local İm Rengi",
     "inventoryprofiles.config.description.villager_trading_local_color":                 "Local imlenmiş ticaretleri vurgulamak için kullanılan renk.",
     "inventoryprofiles.config.name.villager_trading_global_color":                       "Global İm Rengi",
     "inventoryprofiles.config.description.villager_trading_global_color":                "Global imlenmiş ticaretleri vurgulamak için kullanılan renk.",
-
     "inventoryprofiles.config.name.villager_trading_group_1":                            "İkinci İm Grubunu Etkinleştir",
     "inventoryprofiles.config.description.villager_trading_group_1":                     "İkinci Local/Global İm Grubunu Etkinleştir",
     "inventoryprofiles.config.name.villager_trading_local_color1":                       "İkinci Local İm Rengi",
     "inventoryprofiles.config.description.villager_trading_local_color1":                "İkinci Local imlenmiş ticaretleri vurgulamak için kullanılan renk.",
     "inventoryprofiles.config.name.villager_trading_global_color1":                      "İkinci Global İm Rengi",
     "inventoryprofiles.config.description.villager_trading_global_color1":               "İkinci Global imlenmiş ticaretleri vurgulamak için kullanılan renk.",
-
     "inventoryprofiles.config.name.villager_trading_group_2":                            "Üçüncü İm Grubunu Etkinleştir",
     "inventoryprofiles.config.description.villager_trading_group_2":                     "Üçüncü Local/Global İm Grubunu Etkinleştir",
     "inventoryprofiles.config.name.villager_trading_local_color2":                       "Üçüncü Local İm Rengi",
     "inventoryprofiles.config.description.villager_trading_local_color2":                "Üçüncü Local imlenmiş ticaretleri vurgulamak için kullanılan renk.",
     "inventoryprofiles.config.name.villager_trading_global_color2":                      "Üçüncü Global İm Rengi",
     "inventoryprofiles.config.description.villager_trading_global_color2":               "Üçüncü Global imlenmiş ticaretleri vurgulamak için kullanılan renk.",
-
-
     "inventoryprofiles.config.name.enable_updates_check":                                "Güncelleme Denetlemeyi Etkinleştir",
     "inventoryprofiles.config.name.enable_analytics":                                    "Analitiği Etkinleştir",
-
     "inventoryprofiles.config.description.enable_updates_check":                         "Modun yeni sürümü mevcutsa bir mesaj gösterir. Denetlemeyi yapmak için sunucularımız SADECE şu bilgileri kullanır:\n\tMinecraft Sürümü, Fabric ya da Forge, Inventory Profiles Next sürümü.\nİp adresiniz kaydedilmez!",
     "inventoryprofiles.config.description.enable_analytics":                             "Analitiği Etkinleştir\nSadece mod hakkında bilgiler ve hangi özelliklerin kullanıldığı kaydedilir.\nHİÇBİR KİŞİSEL BİLGİ gönderilmez. İP adresiniz kaydedilmez .\nToplanmış hiçbir bilgi satılmaz, paylaşılmaz veya başka birine devredilmez!",
     "inventoryprofiles.config.name.add_interval_between_clicks":                         "Tık Arası Aralık Etkinleştir",
@@ -136,7 +126,6 @@
     "inventoryprofiles.config.description.ignore_durability":                            "Eğer doğruysa Uyanı Taşı ve Uyanı Fırlat işlemleri sırasında ne atılacak ne taşınacak karar verirken item dayanıklılığını görmezden gelecek.",
     "inventoryprofiles.config.name.debug_logs":                                          "Debug Kayıtları",
     "inventoryprofiles.config.description.debug_logs":                                   "Debug mesajlarını yazdır",
-
     "inventoryprofiles.gui.config.GuiSettings":                                          "Arayüz Ayarları",
     "inventoryprofiles.config.category.gui.general":                                     "Genel Arayüz Ayarları",
     "inventoryprofiles.config.category.inventory":                                       "Envanter",
@@ -187,9 +176,7 @@
     "inventoryprofiles.config.description.in_rows_custom_rule":                          "\"Satır Sıralaması\" butonu için özel kural ayarla.",
     "inventoryprofiles.config.description.show_move_all_button":                         "Depoda/oyuncu arayüzünde \"Hepsini Taşı\" butonunu göster.",
     "inventoryprofiles.config.description.show_button_tooltips":                         "Butonlar için ipuçlarını göster",
-
     "inventoryprofiles.gui.config.AutoRefillSettings":                                   "Kendin Kendine Doldur",
-
     "inventoryprofiles.config.category.auto-refill.general":                             "Genel",
     "inventoryprofiles.config.category.auto-refill.non-enchanted":                       "Büyülü Olmayan İtemlar",
     "inventoryprofiles.config.category.auto-refill.matching":                            "Uyan İtemlar",
@@ -221,14 +208,12 @@
     "inventoryprofiles.config.name.visual_replace_success_notification":                 "Taşımada Görsel Uyarı",
     "inventoryprofiles.config.name.audio_replace_success_notification":                  "Taşımada Sesli Uyarı",
     "inventoryprofiles.config.name.type_visual_replace_success_notification":            "Görsel Uyarı Tipi",
-
     "inventoryprofiles.config.name.visual_replace_failed_notification":                  "Basarisiz Taşımada Görsel Uyarı",
     "inventoryprofiles.config.name.audio_replace_failed_notification":                   "Basarisiz Taşımada Sesli Uyarı",
     "inventoryprofiles.config.name.type_visual_replace_failed_notification":             "Görsel Uyarı Tipi",
     "inventoryprofiles.config.description.type_visual_replace_failed_notification":      "Bir eşya taşınamadığında ne tip görsel uyarı gösterileceğini kontrol eder.",
     "inventoryprofiles.config.description.audio_replace_failed_notification":            "Etkinleştirilirse eşya taşıması basarisiz olduğunda bir sesli uyarı alacaksın",
     "inventoryprofiles.config.description.visual_replace_failed_notification":           "Etkinleştirilirse eşya taşıması basarisiz olduğunda bir görsel uyarı alacaksın",
-
     "inventoryprofiles.config.description.type_visual_replace_success_notification":     "Bir eşya taşındığında ne tip görsel uyarı gösterileceğini kontrol eder.",
     "inventoryprofiles.config.description.audio_replace_success_notification":           "Etkinleştirilirse bir eşya dayanıklılığı az olduğu için değiştirildiğinde bir sesli uyarı alacaksın",
     "inventoryprofiles.config.description.visual_replace_success_notification":          "Etkinleştirilirse bir eşya dayanıklılığı az olduğu için değiştirildiğinde bir görsel uyarı alacaksın",
@@ -250,7 +235,6 @@
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":           "Eğer yanlış olarak ayarlandığında Balık ve Aksolot kovaları sadece ayni Balık/Aksolot olduğunda kendi kendine yenilenir.",
     "inventoryprofiles.config.description.auto_refill_match_any_food":                   "Bu doğru olarak ayarlandığında bir gıda stacki bittiğinde herhangi bir başka gıda itemı ile yeniden doldurulabilir.\n\nNOT:\nBu itemları doyum seviyesine göre sıralar, örneğin bir büyülü altın elma ilk seçim olacak. Ve böyle devam edecek...",
     "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "Bu ve üstündeki seçenek doğru olarak ayarlandığında, zararlı gıdalar da, mesela 'balon balığı', biten gıdaları doldurmak için kullanılır.",
-
     "inventoryprofiles.config.description.autorefill_blacklist":                         "Virgülle ayrılmış item tipi listesi Kendi Kendine Doldurma için kullanılmayacak.\nMesela 'minecraft:golden_axe,minecraft:stone'\nUYARI:\nPerformansı çok etkilediği için bu listeye ÇOK FAZLA ITEM TIPI koymayın!",
     "inventoryprofiles.config.description.tool_damage_threshold":                        "Yeniden Doldurma'yi dayanıklılık seviyesi kontrol eder",
     "inventoryprofiles.config.description.threshold_unit":                               "\"Zarar Eşiği\" birimini ayarla.\nTam birim ve yüzde (%%) kullanabilirsiniz.",
@@ -264,8 +248,6 @@
     "inventoryprofiles.config.notification.tool_replace_ping.replacing":                 "Suraya taşınılıyor: %s",
     "inventoryprofiles.config.notification.tool_replace_failed.replacing":               "\"%s\" taşınma basarisiz oldu",
     "inventoryprofiles.config.notification.tool_replace_success":                        "sunun yerine taşındı",
-
-
     "inventoryprofiles.gui.config.LockedSlotsSettings":                                  "Kilitli Slotlar",
     "inventoryprofiles.config.category.lock_slots.gui":                                  "Arayüz Ekran Düzeni",
     "inventoryprofiles.config.category.lock_slots.empty":                                "Kilitli Slotları Handlingi Boşalt",
@@ -305,7 +287,6 @@
     "inventoryprofiles.config.description.locked_slots_empty_hotbar_as_semi_locked":     "Bu Yerden toplanan itemları erişim çubuğundaki boş slotlar yerine direkt olarak envantere toplamaya çalışacak.\nNOT: Bunun çalışması için \"Itemları Boş Kilitli Slotlara Toplamayı Etkinleştir\" seçeneği \"yanlış\" olarak ayarlanmalıdır!",
     "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks":       "Sunucunun oyuncu envanter içeriğini göndermesi için beklenecek maksimum istemci tik sayısı. \nEğer kilitli slotlardan itemlar boyut değiştirirken taşınıyor/fırlatılıyorsa bu değeri arttırmanız gerekecek.\nBu genelde ağır yük altında çalışan sunucularda olur.\nNOT: 20 tick 1 saniyeye eşittir.\n§l§UYARI§r: Eğer bu ayar çok yüksek ayarlanmışsa ayarın suresi bitene kadar kilitli slot yönetiminin iyi çalışmamasını sağlayabilir.",
     "inventoryprofiles.config.description.lock_slots_disable_user_interaction":          "Herhangi bir kullanıcı eylemi kilitli slotların devre dışı kalmasını sağlayacak.\nEsasen taşımadan veya herhangi bir eylem gerçekleştirmeden önce slotu açmanız gerekecek.\nOtomatik eylemler, profiller, kendi kendine doldurma ve benzeri etkilenmez.",
-
     "inventoryprofiles.gui.config.EditProfiles":                                         "Profilleri Düzenle",
     "inventoryprofiles.gui.config.profiles_help_button":                                 "Wikiyi Aç",
     "inventoryprofiles.gui.config.profiles_config_button":                               "Profil Yapılandırmaları",
@@ -322,8 +303,6 @@
     "inventoryprofiles.config.description.quick_slot_3_profile":                         "Hızlı Profil 3 kısayolu ile erişilebilir olan Profil'in ismi",
     "inventoryprofiles.config.name.include_custom_name":                                 "'Kaydedilmiş' profillerde özel isimleri dahil et.",
     "inventoryprofiles.config.description.include_custom_name":                          "Eğer bu etkinleştirilmişse özel item isimleri 'Kaydedilmiş' profillerin içinde dahil edilecek .\nBu genel kullanım için TAVSIYE EDILMEZ, ama bazı durumlarda kullanışlı olabilir mesela birkaç farklı sırt çantası veya başka tip bir depo itemı ile.\n\nNormal donanımlar için büyüleri uyan ayarı en iyi çözümdür.",
-
-
     "inventoryprofiles.gui.config.ScrollSettings":                                       "Item Kaydırma",
     "inventoryprofiles.config.category.scroll.modifiers":                                "Kaydırma Kısayol Tanımlayıcıları",
     "inventoryprofiles.config.category.scroll.single":                                   "Imleç Itemlarını Kaydırma",
@@ -337,8 +316,6 @@
     "inventoryprofiles.config.description.scroll_throw":                                 "Eğer ki sandıkta/oyuncuda kaydırma kullanıyorken bu tuşa basılı tutuluyorsa itemlar envanterden ve sandıktan yere düşürülecek.\nNOT:\nAtılma yönü görmezden gelinir.",
     "inventoryprofiles.config.name.scroll_auto_pickup_next_for_single":                  "Imleci Kendi Kendine Doldur",
     "inventoryprofiles.config.description.scroll_auto_pickup_next_for_single":           "Eğer ki bu doğru olarak ayarlanmışsa imleç itemlarını kaydırırken imleç altındaki stack biterse yeni bir stack seçilecek",
-
-
     "inventoryprofiles.gui.config.Hotkeys":                                              "Kısayollar",
     "inventoryprofiles.config.category.hotkeys":                                         "Kısayollar",
     "inventoryprofiles.config.category.misc":                                            "Çeşitli",
@@ -368,7 +345,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade":                         "Fare imlecinin altındaki ticareti local im olarak ekle.",
     "inventoryprofiles.config.description.do_global_trade":                              "Global olarak eklenmiş mümkün tüm ticaretleri yapar.",
     "inventoryprofiles.config.description.do_local_trade":                               "Local olarak eklenmiş mümkün tüm ticaretleri yapar.",
-
     "inventoryprofiles.config.name.global_bookmark_trade1":                              "Grup 2 Global Im Ekle",
     "inventoryprofiles.config.name.local_bookmark_trade1":                               "Grup 2 Local Im Ekle",
     "inventoryprofiles.config.name.do_global_trade1":                                    "Grup 2 Global Ticaretleri Yap",
@@ -377,7 +353,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade1":                        "Fare imlecinin altındaki ticarete local grup 2'ye im olarak ekle.",
     "inventoryprofiles.config.description.do_global_trade1":                             "Grup 2'de Global olarak eklenmiş mümkün tüm ticaretleri yapar.",
     "inventoryprofiles.config.description.do_local_trade1":                              "Grup 2'de Local olarak eklenmiş mümkün tüm ticaretleri yapar.",
-
     "inventoryprofiles.config.name.global_bookmark_trade2":                              "Grup 3 Global Im Ekle",
     "inventoryprofiles.config.name.local_bookmark_trade2":                               "Grup 3 Local Im Ekle",
     "inventoryprofiles.config.name.do_global_trade2":                                    "Grup 3 Global Ticaretleri Yap",
@@ -386,8 +361,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade2":                        "Fare imlecinin altındaki ticareti Local grup 3'e im olarak ekle.",
     "inventoryprofiles.config.description.do_global_trade2":                             "Grup 3'te Global olarak eklenmiş mümkün tüm ticaretleri yapar.",
     "inventoryprofiles.config.description.do_local_trade2":                              "Grup 3'te Local olarak eklenmiş mümkün tüm ticaretleri yapar.",
-
-
     "inventoryprofiles.config.description.save_as_profile":                              "Bu kısayol şu anki ekipman setini \"Kaydedilmiş\" isimli bir profile kaydeder.\nKaydedilmiş profilini kullanarak kendi profillerinizi yaratabilirsiniz.\n\n§l§cNOT§r:\nHer tuşa basışınızda \"Kaydedilmiş\" isimli yeni bir profil yaratılır.\n\"Kaydedilmiş\" profiller sonraki/önceki rotasyonun parçası olmayacaklar ve Hızlı Profillere atanamazlar",
     "inventoryprofiles.config.description.next_profile":                                 "Sıradaki profile geçmek için kısayol",
     "inventoryprofiles.config.description.prev_profile":                                 "Önceki profile geçmek için kısayol",
@@ -405,8 +378,6 @@
     "inventoryprofiles.config.description.reload_custom_configs":                        "Bu kısayol siz yeni özel kurallar koyarken yapılandırmanın daha hızlı yeniden yüklenmesi için kullanılabilir.\nDiğer tüm senaryolarda ayarlanmış OLMAMASI önerilir.\nYapılandırmaları yeniden yüklemek çokça yapmak isteyeceğiniz bir şey değildir.",
     "inventoryprofiles.config.description.scroll_to_chest":                              "Bu tuşa basarken imleç boş olmayan bir slotun üstündeyse ya da imleç ile bir stack item tutuyorsanız açılı depoya bir tane item taşınır.",
     "inventoryprofiles.config.description.scroll_to_inventory":                          "Bu tuşa basarken imleç boş olmayan bir slotun üstündeyse ya da imleç ile bir stack item tutuyorsanız oyuncu envanterine bir tane item taşınır.",
-
-
     "inventoryprofiles.gui.config.Tweaks":                                               "Ince Ayarlar",
     "inventoryprofiles.config.category.client_side_tweaks":                              "Istemci Tarafı Ince Ayarları",
     "inventoryprofiles.config.name.prevent_close_gui_drop_item":                         "Tutulan Itemın Düşmesini Önle",
@@ -415,12 +386,10 @@
     "inventoryprofiles.config.description.prevent_close_gui_drop_item":                  "Arayüzü kapatmak imleç ile tuttuğunuz itemın düşmemesini sağlayacak.",
     "inventoryprofiles.config.description.container_swipe_moving_items":                 "Shift ve sol tik'a basılı tutarken imlecin altındaki slotlardan itemları taşımanıza izin verir.",
     "inventoryprofiles.config.description.swipe_move_crafting_result_slot":              "Üretim sonucu slotunda \"Itemları Kaydırmalı Taşıma\" etkinleştir.",
-
     "inventoryprofiles.gui.config.Debugs":                                               "Hata Ayıklama",
     "inventoryprofiles.config.category.debugs":                                          "Hata Ayıklama",
     "inventoryprofiles.config.name.debug_screen":                                        "Hata Ayıklama Ekranı",
     "inventoryprofiles.config.description.debug_screen":                                 "Hata Ayıklama Ekranını Aç",
-
     "inventoryprofiles.gui.config.Modpacks":                                             "Mod paketi Yapımcıları",
     "inventoryprofiles.config.category.modpacks":                                        "TEK OYUNCULU BIR OYUNDA OLMANIZ GEREK YOKSA BU SEÇENEK OYUNUNUZU ÇÖKERTECEK",
     "inventoryprofiles.config.name.make_block_screen_generator_script":                  "Arayüzü Olabilecek Bloklar",
@@ -431,7 +400,6 @@
     "inventoryprofiles.config.description.diff_calculator_priority":                     "Dışarı aktar butonlarını kullanırken dahili veya harici ipuçları önceliğini karar verir.\n\nNOT: Eğer modunuz özel blok/item eklemiyorsa buna ihtiyacınız yok..\nYardıma ihtiyacınız olursa Discord sunucumuza gelebilirsiniz :)",
     "inventoryprofiles.config.description.export_hints":                                 "Bu şu an yüklü TÜM  ipuçlarını içeren bir json dosyası oluşturur. Format sadece bahsedilen modda kullanılmaya uygundur.\n\nNOT: Eğer modunuz özel blok/item eklemiyorsa buna ihtiyacınız yok..\nYardıma ihtiyacınız olursa Discord sunucumuza gelebilirsiniz :)",
     "inventoryprofiles.config.description.make_block_screen_generator_script":           "Bu buton /sohbet komutlarından sunu amaçlayan bir betik yaratır:\n - Arayüzü olmayan tüm blokları bul\n - güzel bir platform yarat\n - mod tarafından eklenen tüm blokları güzelce platforma yerleştir\n\nNOT: Eğer modunuz özel blok/item eklemiyorsa buna ihtiyacınız yok..\nYardıma ihtiyacınız olursa Discord sunucumuza gelebilirsiniz :)\n\nUYARI: Bu sadece tek kişilik dünyalarda çalışır!",
-
     "inventoryprofiles.enum.sorting_method.global":                                      "Global (%s)",
     "inventoryprofiles.enum.sorting_method.default":                                     "Varsayılan (Yaratıcı Menusu)",
     "inventoryprofiles.enum.sorting_method.item_name":                                   "Item Ismi",
@@ -463,7 +431,6 @@
     "inventoryprofiles.enum.merge_priority.external":                                    "Harici",
     "inventoryprofiles.enum.creative_menu_sort_order.search_tab":                        "Arama Sekmesi",
     "inventoryprofiles.enum.creative_menu_sort_order.category_priority_list":            "Öncelik Listesi",
-
     "inventoryprofiles.tooltip.sort_button":                                             "Envanteri Sırala",
     "inventoryprofiles.tooltip.sort_columns_button":                                     "Envanteri Sütun Sırala",
     "inventoryprofiles.tooltip.sort_rows_button":                                        "Envanteri Satır Sırala",
@@ -475,7 +442,6 @@
     "inventoryprofiles.tooltip.move_all_button.move_matching_only":                      "§5Hold §o%s§r\n§6 - Sadece Uyanı Taşı",
     "inventoryprofiles.tooltip.move_all_button.move_focused_only":                       "§5Hold §o%s§r\n§6 - Sadece aynı tipten itemları taşı\n§6as under the cursor or the\n§6imlecin altındaki stack.",
     "inventoryprofiles.tooltip.move_all_button.move_just_refill":                        "§5Hold §o%s§r\n§6 - Yeterince item taşı\n§6varolan stacki tamamlayana kadar.",
-
     "inventoryprofiles.tooltip.continuous_crafting_checkbox":                            "Sürekli Üretim\n§6Hold §o%s§r§6: Kendi kendine üretim",
     "inventoryprofiles.tooltip.auto_crafting_checkbox":                                  "Kendi Kendine Üretim\n§6Stop holding §o%s§r§6: Sürekli Üretim",
     "inventoryprofiles.tooltip.next_profile_button":                                     "Sıradaki profili seç ve uygula.",
@@ -485,28 +451,20 @@
     "inventoryprofiles.tooltip.settings_open":                                           "Inventory Profiles Next genel yapılandırmasını aç",
     "inventoryprofiles.tooltip.do_global_trades_button":                                 "Global olarak eklenmiş mümkün tüm ticaretleri yapar.\n\nGlobal olarak eklenmiş ticaretleri yaparken\nkaynaklar tükenene veya ticaret bitene kadar devam eder.\n\n",
     "inventoryprofiles.tooltip.do_local_trades_button":                                  "Local olarak eklenmiş mümkün tüm ticaretleri yapar.\n\nGlobal olarak eklenmiş ticaretleri yaparken\nkaynaklar tükenene veya ticaret bitene kadar devam eder.\n\n",
-
     "inventoryprofiles.tooltip.do_global_trades_button1":                                "Grup 2'de Global olarak eklenmiş mümkün tüm ticaretleri yapar.",
     "inventoryprofiles.tooltip.do_local_trades_button1":                                 "Grup 2'de Local olarak eklenmiş mümkün tüm ticaretleri yapar.",
-
     "inventoryprofiles.tooltip.do_global_trades_button2":                                "Grup 3'te Global olarak eklenmiş mümkün tüm ticaretleri yapar.",
     "inventoryprofiles.tooltip.do_local_trades_button2":                                 "Grup 3'te Local olarak eklenmiş mümkün tüm ticaretleri yapar.",
-
     "inventoryprofiles.tooltip.set_local_bookmark":                                      "Local Im Ekler.\n\nBu ticaret sadece köylü için im ekler.",
     "inventoryprofiles.tooltip.set_global_bookmark":                                     "Global Im Ekler.\n\nBu ticarete o işi yapan tüm köylüler veya tüm gezgin tüccarlar için im ekler.",
-
     "inventoryprofiles.tooltip.set_local_bookmark1":                                     "Grup 2 için Local Im ekler",
     "inventoryprofiles.tooltip.set_global_bookmark1":                                    "Grup 2 için Global Im ekler",
-
     "inventoryprofiles.tooltip.set_local_bookmark2":                                     "Grup 3 için Local Im ekler",
     "inventoryprofiles.tooltip.set_global_bookmark2":                                    "Grup 3 için Global Im ekler",
-
-
     "inventoryprofiles.update.version":                                                  " Sürüm: ",
     "inventoryprofiles.update.available":                                                " şimdi mevcut.\n",
     "inventoryprofiles.update.get":                                                      "Şuradan alabilirsiniz: ",
     "inventoryprofiles.update.or":                                                       " ya da ",
-
     "inventoryprofiles.gui.editor.name.screen.ignore":                                   "Görmezden Gel",
     "inventoryprofiles.gui.editor.description.screen.ignore":                            "Bu Inventory Profiles Next'in kendi butonlarını arayüze eklememesine ve\n depolar için düzenleme fonksiyonlarının devre dışı kalmasına sebep olacak.\nNOT:\nGenellikle bunu hem Depo hem de Ekran için doğru olarak ayarlamak gereklidir.",
     "inventoryprofiles.gui.editor.name.screen.player_side":                              "Sadece Oyuncu",
@@ -521,7 +479,6 @@
     "inventoryprofiles.gui.editor.category.container":                                   "Depo",
     "inventoryprofiles.gui.editor.name.class.screen":                                    "Ekran",
     "inventoryprofiles.gui.editor.name.class.container":                                 "Depo",
-
     "inventoryprofiles.gui.editor.name.help.select.next":                                "Sıradaki Butonu Seç",
     "inventoryprofiles.gui.editor.description.help.select.next":                         "'Space' tuşuna basılı tutmak sıradakini seçer.",
     "inventoryprofiles.gui.editor.name.help.select.prev":                                "Önceki Butonu Seç",

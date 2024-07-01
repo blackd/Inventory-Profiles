@@ -11,17 +11,16 @@
     "inventoryprofiles.common.gui.config.context":                                       "Contesto",
     "inventoryprofiles.common.gui.config.allow_extra_keys":                              "Consenti chiavi aggiuntive",
     "inventoryprofiles.common.gui.config.order_sensitive":                               "Ordine sensibile",
-    "inventoryprofiles.common.gui.config.modifier_key":                                  "Ctrl/Alt/Shift",
+    "inventoryprofiles.common.gui.config.modifier_key":                                  "Ctrl/Alt/Maiusc",
     "inventoryprofiles.common.gui.config.keybind_settings_tips":                         "- Fare clic con il pulsante sinistro per configurare\n- Fare clic con il pulsante destro per ripristinare le impostazioni predefinite",
     "inventoryprofiles.common.enum.key_action.press":                                    "Premere",
     "inventoryprofiles.common.enum.key_action.release":                                  "Rilascio",
     "inventoryprofiles.common.enum.key_action.both":                                     "Premere / Rilasciare",
     "inventoryprofiles.common.enum.context.ingame":                                      "In gioco",
-    "inventoryprofiles.common.enum.context.gui":                                         "Gui",
+    "inventoryprofiles.common.enum.context.gui":                                         "Interfaccia",
     "inventoryprofiles.common.enum.context.any":                                         "In gioco / Gui",
     "inventoryprofiles.common.enum.modifier_key.differentiate":                          "Diff. sinistra/destra",
     "inventoryprofiles.common.enum.modifier_key.normal":                                 "Normale",
-
     "inventoryprofiles.gui.config.ModSettings":                                          "Impostazioni mod",
     "inventoryprofiles.config.category.inventory_sorting":                               "Opzioni di ordinamento",
     "inventoryprofiles.config.category.move_matching_items":                             "Modificatori di tasti di scelta rapida generali",
@@ -30,13 +29,11 @@
     "inventoryprofiles.config.category.lock_slots":                                      "Bloccare gli slot",
     "inventoryprofiles.config.category.auto_refill":                                     "Ricarica automatica",
     "inventoryprofiles.config.category.villager_trading":                                "Commercio dei villici",
-    "inventoryprofiles.config.category.privacy":                                         "Privacy",
     "inventoryprofiles.config.category.advanced_options":                                "Opzioni avanzate",
     "inventoryprofiles.config.name.open_config_folder":                                  "§aApri la cartella di configurazione",
     "inventoryprofiles.config.name.reload_rule_files":                                   "§aRicarica i file delle regole",
     "inventoryprofiles.config.description.open_config_folder":                           "Apri la cartella .minecraft/config/inventoryprofilesnext",
     "inventoryprofiles.config.description.reload_rule_files":                            "Ricarica tutti i file rules-v2.*.txt dalla cartella config",
-    "inventoryprofiles.gui.config.button.open_config_folder":                            "config/inventoryprofilesnext",
     "inventoryprofiles.gui.config.button.reload_rule_files":                             "Ricarica regola.*.txt",
     "inventoryprofiles.gui.config.button.reload_rule_files.reloaded":                    "Ricaricato tutto!",
     "inventoryprofiles.config.name.sort_order":                                          "Ordinamento",
@@ -49,8 +46,6 @@
     "inventoryprofiles.config.description.category_priority_list":                       "Categorie del menu creativo in ordine di priorità da utilizzare come origine dell'ordine per \"Ordinamento\" \"Menu creativo\"",
     "inventoryprofiles.config.name.category_original_order":                             "Priorità di categoria predefinita",
     "inventoryprofiles.config.description.category_original_order":                      "Questo è qui per comodità. Può cambiare da server a server o da mondo a mondo.\nL'idea è di copiare, esaminare e riordinare questo se vuoi impostare la \"Lista delle priorità\" sopra.",
-
-
     "inventoryprofiles.config.name.include_hotbar_modifier":                             "Includi il modificatore della barra di scelta rapida",
     "inventoryprofiles.config.name.move_all_modifier":                                   "Includi tutti i modificatori",
     "inventoryprofiles.config.name.move_focus_mach_modifier":                            "Solo tipo di elemento focalizzato",
@@ -83,34 +78,27 @@
     "inventoryprofiles.config.name.enable_lock_slots_per_server":                        "Abilita slot bloccati univoci per mondo/server",
     "inventoryprofiles.config.description.enable_lock_slots":                            "Gli slot bloccati vengono ignorati per: ordina, sposta tutto, pulisci cursore, deposito di rifornimenti di creazione continua, deposito di rifornimenti di ricarica automatica (gli slot di monitoraggio della ricarica automatica non sono interessati). \nAvviso:\nL'ordinamento in colonne/righe funziona solo se la forma degli slot rimanenti non bloccati è rettangolare.",
     "inventoryprofiles.config.description.enable_lock_slots_per_server":                 "Se abilitato, ogni server e mondo con un nome univoco avrà i propri slot bloccati.\nAvviso:\n1. Se tendi a chiamare tutti i tuoi mondi \"Nuovo Mondo\", condivideranno tutti gli stessi slot bloccati.\n2. I server dietro bungee cord/velocity proxy condivideranno gli slot bloccati.",
-
     "inventoryprofiles.config.name.enable_auto_refill":                                  "Abilita ricarica automatica",
-
     "inventoryprofiles.config.name.villager_trading_enable":                             "Abilita il commercio dei villici",
     "inventoryprofiles.config.description.villager_trading_enable":                      "Attiva/disattiva i miglioramenti al commercio dei villici.\n\nCiò ti consente di aggiungere uno o più tipi di scambi ai segnalibri.\nE fai tutti gli scambi possibili per questi tipi\ncon un solo clic.\n\nEsistono 2 tipi di segnalibri Globale e Locale.\n - Globale seleziona il tipo di commercio per tutti i villici con la stessa professione.\n - Locale seleziona il commercio solo per il villico attivo.\n\nI segnalibri funzionano anche per i Mercanti erranti ma hanno solo il tipo Globale.",
     "inventoryprofiles.config.name.villager_trading_local_color":                        "Colore segnalibri locali",
     "inventoryprofiles.config.description.villager_trading_local_color":                 "Il colore utilizzato per evidenziare le operazioni contrassegnate localmente.",
     "inventoryprofiles.config.name.villager_trading_global_color":                       "Colore dei segnalibri globali",
     "inventoryprofiles.config.description.villager_trading_global_color":                "Il colore utilizzato per evidenziare le negoziazioni con segnalibro a livello globale.",
-
     "inventoryprofiles.config.name.villager_trading_group_1":                            "Abilita il secondo gruppo di segnalibri",
     "inventoryprofiles.config.description.villager_trading_group_1":                     "Abilita il secondo gruppo globale/locale di segnalibri",
     "inventoryprofiles.config.name.villager_trading_local_color1":                       "Colore locale del secondo gruppo",
     "inventoryprofiles.config.description.villager_trading_local_color1":                "Il colore utilizzato per evidenziare il secondo gruppo locale di operazioni con segnalibro.",
     "inventoryprofiles.config.name.villager_trading_global_color1":                      "Colore globale del secondo gruppo",
     "inventoryprofiles.config.description.villager_trading_global_color1":               "Il colore utilizzato per evidenziare il secondo gruppo globale di operazioni con segnalibro.",
-
     "inventoryprofiles.config.name.villager_trading_group_2":                            "Abilita il terzo gruppo di segnalibri",
     "inventoryprofiles.config.description.villager_trading_group_2":                     "Abilita il terzo gruppo globale/locale di segnalibri",
     "inventoryprofiles.config.name.villager_trading_local_color2":                       "Colore locale del terzo gruppo",
     "inventoryprofiles.config.description.villager_trading_local_color2":                "Il colore utilizzato per evidenziare il terzo gruppo locale di operazioni con segnalibro.",
     "inventoryprofiles.config.name.villager_trading_global_color2":                      "Colore globale del terzo gruppo",
     "inventoryprofiles.config.description.villager_trading_global_color2":               "Il colore utilizzato per evidenziare il terzo gruppo globale di operazioni con segnalibro.",
-
-
     "inventoryprofiles.config.name.enable_updates_check":                                "Abilita controlli aggiornamenti",
     "inventoryprofiles.config.name.enable_analytics":                                    "Abilita Analisi",
-
     "inventoryprofiles.config.description.enable_updates_check":                         "Visualizza un messaggio se è disponibile una nuova versione della mod. Per fare il controllo inviamo ai nostri server SOLO le seguenti informazioni:\n\tVersione di Minecraft, Fabric o Forge, Profili di inventario Versione successiva.\nIl tuo indirizzo IP non viene salvato!",
     "inventoryprofiles.config.description.enable_analytics":                             "Abilita Analytics.\nVengono raccolte solo informazioni sulla mod e sulle funzionalità utilizzate.\nNON vengono inviate informazioni personali. Il tuo indirizzo IP non viene memorizzato.\nNessuna delle informazioni raccolte sarà condivisa, venduta o trasferita a nessuno!",
     "inventoryprofiles.config.name.add_interval_between_clicks":                         "Aggiungi intervallo tra i clic",
@@ -136,7 +124,6 @@
     "inventoryprofiles.config.description.ignore_durability":                            "Se impostato su true, le operazioni Sposta corrispondenza e Getta corrispondenza ignoreranno la durabilità dell'oggetto al momento di decidere cosa spostare o lanciare.",
     "inventoryprofiles.config.name.debug_logs":                                          "Log di debug",
     "inventoryprofiles.config.description.debug_logs":                                   "Stampa i messaggi di debug",
-
     "inventoryprofiles.gui.config.GuiSettings":                                          "Impostazioni GUI",
     "inventoryprofiles.config.category.gui.general":                                     "Impostazioni GUI generali",
     "inventoryprofiles.config.category.inventory":                                       "Inventario",
@@ -187,9 +174,7 @@
     "inventoryprofiles.config.description.in_rows_custom_rule":                          "Imposta la regola personalizzata per il pulsante \"Ordina in righe\".",
     "inventoryprofiles.config.description.show_move_all_button":                         "Mostra i pulsanti \"Sposta tutto\" nella Gui contenitore/giocatore.",
     "inventoryprofiles.config.description.show_button_tooltips":                         "Visualizza i suggerimenti per i pulsanti.",
-
     "inventoryprofiles.gui.config.AutoRefillSettings":                                   "Ricarica automatica",
-
     "inventoryprofiles.config.category.auto-refill.general":                             "Generale",
     "inventoryprofiles.config.category.auto-refill.non-enchanted":                       "Oggetti non incantati",
     "inventoryprofiles.config.category.auto-refill.matching":                            "Corrispondenza articoli",
@@ -221,14 +206,12 @@
     "inventoryprofiles.config.name.visual_replace_success_notification":                 "Avviso visivo in caso di sostituzione",
     "inventoryprofiles.config.name.audio_replace_success_notification":                  "Avviso sonoro alla sostituzione",
     "inventoryprofiles.config.name.type_visual_replace_success_notification":            "Tipo di avviso visivo",
-
     "inventoryprofiles.config.name.visual_replace_failed_notification":                  "Avviso visivo in caso di sostituzione non riuscita",
     "inventoryprofiles.config.name.audio_replace_failed_notification":                   "Avviso sonoro in caso di sostituzione non riuscita",
     "inventoryprofiles.config.name.type_visual_replace_failed_notification":             "Tipo di avviso visivo",
     "inventoryprofiles.config.description.type_visual_replace_failed_notification":      "Controlla il tipo di avviso visivo utilizzato quando uno strumento non può essere sostituito.",
     "inventoryprofiles.config.description.audio_replace_failed_notification":            "Se abilitato, riceverai un avviso sonoro quando la sostituzione di uno strumento non ha avuto successo.",
     "inventoryprofiles.config.description.visual_replace_failed_notification":           "Se abilitato, riceverai un avviso visivo quando la sostituzione di uno strumento non ha avuto successo.",
-
     "inventoryprofiles.config.description.type_visual_replace_success_notification":     "Controlla quale tipo di avviso visivo viene utilizzato quando uno strumento viene sostituito.",
     "inventoryprofiles.config.description.audio_replace_success_notification":           "Se abilitato, riceverai un avviso sonoro quando uno strumento viene sostituito a causa della durata ridotta.",
     "inventoryprofiles.config.description.visual_replace_success_notification":          "Se abilitato, riceverai un avviso visivo quando uno strumento viene sostituito a causa della durata ridotta.",
@@ -250,7 +233,6 @@
     "inventoryprofiles.config.description.auto_refill_ignore_nbt_for_buckets":           "Se questo è impostato su falso, i secchi di pesci e Axolotl si riempiranno solo se contengono lo stesso tipo di pesci/Axolotl.",
     "inventoryprofiles.config.description.auto_refill_match_any_food":                   "Quando questo è impostato su vero quando una pila di cibo è esaurita, qualsiasi altro cibo può essere usato per riempirlo.\n\nNOTA:\nQuesto ordinerà gli alimenti per saturazione, cioè e la mela d'oro incantata sarà la prima scelta. E così via...",
     "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "Quando questo e quanto sopra sono impostati su true, anche gli alimenti dannosi, come il 'pesce palla', verranno utilizzati per riempire le pile di cibo esaurite.",
-
     "inventoryprofiles.config.description.autorefill_blacklist":                         "Elenco separato da virgole di tipi di elementi che verranno ignorati da Ricarica automatica\nAd esempio 'minecraft:golden_axe,minecraft:stone'\nATTENZIONE:\nPer evitare il degrado delle prestazioni NON inserire troppi tipi di elementi nell'elenco!",
     "inventoryprofiles.config.description.tool_damage_threshold":                        "Controlla il livello di durabilità che attiverà il riempimento automatico.",
     "inventoryprofiles.config.description.threshold_unit":                               "Imposta l'unità per \"Soglia di danno\".\nSono supportati il valore assoluto e la percentuale (%%).",
@@ -258,14 +240,11 @@
     "inventoryprofiles.config.description.auto_refill_temp_disable_refill_for_tools":    "Tenere premuto questo tasto disabiliterà il riempimento automatico per gli strumenti, questo ti consentirà di rompere gli strumenti se lo desideri.",
     "inventoryprofiles.config.description.allow_break_for_non_enchanted":                "Non cercare di salvare oggetti non incantati.\nQuesto ha una durabilità massima inferiore all'impostazione sottostante.",
     "inventoryprofiles.config.description.tool_max_durability_threshold":                "Gli strumenti con durata massima al di sotto di questo valore potranno rompersi se l'impostazione sopra è vera.\nL'idea che la maggior parte dei giocatori non vuole davvero tenere gli strumenti di pietra,\n ma sarà infastidita se ne rompono uno di diamante.",
-    "inventoryprofiles.config.notification.tool_replace_ping.ipn":                       "IPN ",
     "inventoryprofiles.config.notification.tool_replace_ping.warning":                   "ATTENZIONE ",
     "inventoryprofiles.config.notification.tool_replace_ping.durability":                "\"%s\" La durabilità è: %s ",
     "inventoryprofiles.config.notification.tool_replace_ping.replacing":                 "Sostituzione a: %s",
     "inventoryprofiles.config.notification.tool_replace_failed.replacing":               "\"%s\" sostituzione fallita",
     "inventoryprofiles.config.notification.tool_replace_success":                        "sostituito con",
-
-
     "inventoryprofiles.gui.config.LockedSlotsSettings":                                  "Slot bloccati",
     "inventoryprofiles.config.category.lock_slots.gui":                                  "Sovrapposizione GUI",
     "inventoryprofiles.config.category.lock_slots.empty":                                "Gestione degli slot bloccati vuoti",
@@ -305,7 +284,6 @@
     "inventoryprofiles.config.description.locked_slots_empty_hotbar_as_semi_locked":     "Questo cercherà di raccogliere gli oggetti direttamente nell'inventario invece di prendere gli slot vuoti dalla hotbar.\nNOTA: Perché funzioni \"Abilita la raccolta degli oggetti negli slot bloccati vuoti\" deve essere impostato su \"false\"!",
     "inventoryprofiles.config.description.locked_slots_delay_keeper_reinit_ticks":       "Il numero massimo di tick del client per attendere che il server invii il contenuto dell'inventario del giocatore. \nSe gli slot bloccati fanno spostare/buttare via gli elementi al cambio di dimensione, è necessario aumentare questo valore.\nCiò accade spesso sui server sotto carico pesante.\nNOTA: 20 tick equivalgono a 1 secondo.\n§l§cAVVISO§r : L'impostazione di un valore troppo elevato PUÒ comportare il mancato funzionamento corretto della gestione degli slot bloccati fino alla scadenza di questo timeout.",
     "inventoryprofiles.config.description.lock_slots_disable_user_interaction":          "L'idea è che qualsiasi azione dell'utente sugli slot bloccati verrà disabilitata.\nIn sostanza dovrai sbloccarlo prima di spostarti o eseguire qualsiasi altra azione sull'elemento.\nAzioni automatizzate, profili, ricarica automatica e così via non sono interessati",
-
     "inventoryprofiles.gui.config.EditProfiles":                                         "Modifica profili",
     "inventoryprofiles.gui.config.profiles_help_button":                                 "Apri Wiki",
     "inventoryprofiles.gui.config.profiles_config_button":                               "Configurazione profili",
@@ -322,8 +300,6 @@
     "inventoryprofiles.config.description.quick_slot_3_profile":                         "Il nome del profilo che sarà accessibile con il tasto di scelta rapida Profilo rapido 3.",
     "inventoryprofiles.config.name.include_custom_name":                                 "Includi nomi personalizzati nei profili 'Salvati'.",
     "inventoryprofiles.config.description.include_custom_name":                          "Se questa opzione è abilitata, i nomi degli elementi personalizzati verranno inclusi nei profili 'Salvati'.\nQuesto NON è consigliato per l'uso generale, ma è utile in alcuni casi come avere un profilo con zaini diversi o qualche altro tipo di spazio di archiviazione.\n\nQuando si tratta di equipaggiamento normale, l'abbinamento tramite incantesimi è l'approccio migliore.",
-
-
     "inventoryprofiles.gui.config.ScrollSettings":                                       "Scorrimento degli elementi",
     "inventoryprofiles.config.category.scroll.modifiers":                                "Scorri i modificatori dei tasti di scelta rapida",
     "inventoryprofiles.config.category.scroll.single":                                   "Elementi cursore a scorrimento",
@@ -337,11 +313,8 @@
     "inventoryprofiles.config.description.scroll_throw":                                 "Se tieni premuto questo tasto mentre usi i tasti scorri verso forziere/giocatore, gli oggetti verranno lasciati fuori dall'inventario e il contenitore aperto.\nNOTA:\nLa direzione viene ignorata.",
     "inventoryprofiles.config.name.scroll_auto_pickup_next_for_single":                  "Cursore di riempimento automatico",
     "inventoryprofiles.config.description.scroll_auto_pickup_next_for_single":           "Se questo è vero, verrà prelevato un nuovo stack se lo stack corrente nel cursore termina durante lo scorrimento degli elementi del cursore ",
-
-
     "inventoryprofiles.gui.config.Hotkeys":                                              "Tasti di scelta rapida",
     "inventoryprofiles.config.category.hotkeys":                                         "Tasti di scelta rapida",
-    "inventoryprofiles.config.category.misc":                                            "Misc",
     "inventoryprofiles.config.name.open_config_menu":                                    "Apri il menu di configurazione",
     "inventoryprofiles.config.name.reload_custom_configs":                               "Ricarica le configurazioni MOD",
     "inventoryprofiles.config.name.sort_inventory":                                      "Ordina inventario",
@@ -368,7 +341,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade":                         "Aggiunge il commercio sotto il cursore del mouse come segnalibro locale.",
     "inventoryprofiles.config.description.do_global_trade":                              "Esegue tutte le possibili operazioni con segnalibro a livello globale.",
     "inventoryprofiles.config.description.do_local_trade":                               "Esegue tutte le possibili operazioni con segnalibri locali.",
-
     "inventoryprofiles.config.name.global_bookmark_trade1":                              "Aggiungi segnalibro globale del gruppo 2",
     "inventoryprofiles.config.name.local_bookmark_trade1":                               "Aggiungi segnalibro locale del gruppo 2",
     "inventoryprofiles.config.name.do_global_trade1":                                    "Fai scambi globali del gruppo 2",
@@ -377,7 +349,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade1":                        "Aggiunge il commercio sotto il cursore del mouse come segnalibro locale nel gruppo 2.",
     "inventoryprofiles.config.description.do_global_trade1":                             "Esegue tutte le possibili operazioni con segnalibri globali dal gruppo 2.",
     "inventoryprofiles.config.description.do_local_trade1":                              "Esegue tutte le possibili operazioni con segnalibri locali dal gruppo 2..",
-
     "inventoryprofiles.config.name.global_bookmark_trade2":                              "Aggiungi segnalibro globale del gruppo 3",
     "inventoryprofiles.config.name.local_bookmark_trade2":                               "Aggiungi segnalibro locale del gruppo 3",
     "inventoryprofiles.config.name.do_global_trade2":                                    "Fai scambi globali del gruppo 3",
@@ -386,8 +357,6 @@
     "inventoryprofiles.config.description.local_bookmark_trade2":                        "Aggiunge il commercio sotto il cursore del mouse come segnalibro locale nel gruppo 3.",
     "inventoryprofiles.config.description.do_global_trade2":                             "Esegue tutte le possibili operazioni con segnalibri globali dal gruppo 3.",
     "inventoryprofiles.config.description.do_local_trade2":                              "Esegue tutte le possibili operazioni con segnalibri locali dal gruppo 3.",
-
-
     "inventoryprofiles.config.description.save_as_profile":                              "Questo tasto di scelta rapida salva l'equipaggiamento corrente impostato come Profilo denominato \"Salvato\".\nPuoi utilizzare i Profili salvati per creare i tuoi profili.\n\n§l§cNOTA§r:\nOGNI VOLTA che lo premi un nuovo Profilo viene creato il nome \"Salvato\".\nI profili \"Salvati\" non faranno parte della rotazione successiva/precedente e non possono essere assegnati ai profili rapidi.",
     "inventoryprofiles.config.description.next_profile":                                 "Tasto di scelta rapida per passare al profilo successivo.",
     "inventoryprofiles.config.description.prev_profile":                                 "Tasto di scelta rapida per passare al profilo precedente.",
@@ -405,8 +374,6 @@
     "inventoryprofiles.config.description.reload_custom_configs":                        "Questo tasto di scelta rapida può essere utilizzato per ricaricare più velocemente la configurazione quando si definiscono nuove regole personalizzate.\nIn OGNI altro caso si consiglia di non impostarlo.\nRicaricare le configurazioni non è qualcosa che si desidera fare spesso.",
     "inventoryprofiles.config.description.scroll_to_chest":                              "Quando si preme questo tasto mentre il cursore si trova su uno slot non vuoto o si tiene una pila di oggetti nel cursore, un singolo oggetto verrà trasferito nel contenitore aperto.",
     "inventoryprofiles.config.description.scroll_to_inventory":                          "Quando si preme questo tasto mentre il cursore si trova su uno slot non vuoto o si tiene una pila di oggetti nel cursore, un singolo oggetto verrà trasferito nell'inventario del giocatore.",
-
-
     "inventoryprofiles.gui.config.Tweaks":                                               "Modifiche",
     "inventoryprofiles.config.category.client_side_tweaks":                              "Modifiche lato client",
     "inventoryprofiles.config.name.prevent_close_gui_drop_item":                         "Impedisci la caduta dell'oggetto trattenuto ",
@@ -415,12 +382,10 @@
     "inventoryprofiles.config.description.prevent_close_gui_drop_item":                  "La chiusura della GUI non rilascerà più l'elemento trattenuto dal cursore.",
     "inventoryprofiles.config.description.container_swipe_moving_items":                 "Ti consente di spostare gli elementi per gli slot sotto il cursore tenendo premuto Maiusc e facendo clic con il pulsante sinistro del mouse.",
     "inventoryprofiles.config.description.swipe_move_crafting_result_slot":              "Abilita \"Scorri oggetti in movimento\" nello slot dei risultati di creazione.",
-
     "inventoryprofiles.gui.config.Debugs":                                               "Debug",
     "inventoryprofiles.config.category.debugs":                                          "Debug",
     "inventoryprofiles.config.name.debug_screen":                                        "Schermata di debug",
     "inventoryprofiles.config.description.debug_screen":                                 "Apri la schermata di debug",
-
     "inventoryprofiles.gui.config.Modpacks":                                             "Sviluppatori Modpack",
     "inventoryprofiles.config.category.modpacks":                                        "DEVI ESSERE NEL GIOCO A GIOCATORE SINGOLO O QUESTI FARANNO CRASH IL TUO GIOCO.",
     "inventoryprofiles.config.name.make_block_screen_generator_script":                  "Blocchi compatibili con l'interfaccia utente",
@@ -431,7 +396,6 @@
     "inventoryprofiles.config.description.diff_calculator_priority":                     "Ciò determina che i suggerimenti integrati o esterni avranno la priorità quando si utilizzano i pulsanti di esportazione.\n\nNOTA: non è davvero necessario se il tuo modpack non ha blocchi/elementi personalizzati.\nIl nostro server discord è il posto giusto per ottenere aiuto :)",
     "inventoryprofiles.config.description.export_hints":                                 "Questo genera un file json con TUTTI i suggerimenti attualmente caricati. Il formato è adatto solo per l'incorporamento nel mod stesso.\n\nNOTA: non ne hai davvero bisogno se il tuo modpack non ha blocchi/elementi personalizzati.\nIl nostro server discord è il posto dove ottenere aiuto :)",
     "inventoryprofiles.config.description.make_block_screen_generator_script":           "Questo pulsante genera uno script di comandi /chat che:\n - proverà a trovare tutti i blocchi che hanno una GUI\n - creerà una bella piattaforma\n - posizionerà ogni blocco organizzato per mod\n\nNOTA: in realtà non ne hai bisogno se il tuo modpack non ha blocchi/elementi personalizzati.\nSe vuoi provare questo, il nostro server discord è il posto giusto per ottenere aiuto :)\n\nATTENZIONE: questo richiede un mondo per giocatore singolo!",
-
     "inventoryprofiles.enum.sorting_method.global":                                      "Globale (%s)",
     "inventoryprofiles.enum.sorting_method.default":                                     "Predefinito (Menu Creatività)",
     "inventoryprofiles.enum.sorting_method.item_name":                                   "Nome dell'oggetto",
@@ -456,14 +420,12 @@
     "inventoryprofiles.enum.switch_type.hold":                                           "Presa",
     "inventoryprofiles.enum.tool_replace_visual_notification.subtitle":                  "Larga",
     "inventoryprofiles.enum.tool_replace_visual_notification.hotbar":                    "Piccolo",
-    "inventoryprofiles.enum.tool_replace_visual_notification.chat":                      "In Chat",
     "inventoryprofiles.enum.auto_refill_nbt_match_type.can_have_extra":                  "Consenti Extra",
     "inventoryprofiles.enum.auto_refill_nbt_match_type.exact":                           "Esatto",
     "inventoryprofiles.enum.merge_priority.internal":                                    "Interno",
     "inventoryprofiles.enum.merge_priority.external":                                    "Esterno",
     "inventoryprofiles.enum.creative_menu_sort_order.search_tab":                        "Scheda di ricerca",
     "inventoryprofiles.enum.creative_menu_sort_order.category_priority_list":            "Elenco delle priorità",
-
     "inventoryprofiles.tooltip.sort_button":                                             "Ordina inventario",
     "inventoryprofiles.tooltip.sort_columns_button":                                     "Ordina l'inventario in colonne",
     "inventoryprofiles.tooltip.sort_rows_button":                                        "Ordina l'inventario in righe",
@@ -475,7 +437,6 @@
     "inventoryprofiles.tooltip.move_all_button.move_matching_only":                      "§5Tieni premuto §o%s§r\n§6 - Sposta solo corrispondenza",
     "inventoryprofiles.tooltip.move_all_button.move_focused_only":                       "§5Tieni premuto §o%s§r\n§6 - Sposta solo gli elementi dello stesso tipo\n§6come sotto il cursore o la\n§6pila nel cursore.",
     "inventoryprofiles.tooltip.move_all_button.move_just_refill":                        "§5Tieni premuto §o%s§r\n§6 - Sposta solo elementi sufficienti per\n§6ricaricare gli stack esistenti.",
-
     "inventoryprofiles.tooltip.continuous_crafting_checkbox":                            "Creazione continua\n§6Tieni premuto §o%s§r§6: per la creazione automatica",
     "inventoryprofiles.tooltip.auto_crafting_checkbox":                                  "Creazione automatica\n§6Smetti di tenere premuto §o%s§r§6: per la creazione continua",
     "inventoryprofiles.tooltip.next_profile_button":                                     "Seleziona e applica il profilo successivo",
@@ -485,28 +446,20 @@
     "inventoryprofiles.tooltip.settings_open":                                           "Apre Profili inventario Configurazione generale successiva",
     "inventoryprofiles.tooltip.do_global_trades_button":                                 "Effettua tutti gli scambi possibili con i segnalibri a livello globale.\n\nScambia per tutti i segnalibri globali fino a quando tutte\nle risorse non sono esaurite o non è più possibile effettuare scambi.\n\n",
     "inventoryprofiles.tooltip.do_local_trades_button":                                  "Effettua tutti gli scambi possibili con i segnalibri locali.\n\nScambia per tutti i segnalibri locali finché tutte\nle risorse non sono esaurite o non è più possibile fare scambi.",
-
     "inventoryprofiles.tooltip.do_global_trades_button1":                                "Rende tutte le possibili operazioni con segnalibro a livello globale dal gruppo 2.",
     "inventoryprofiles.tooltip.do_local_trades_button1":                                 "Rende tutte le possibili operazioni con segnalibri locali dal gruppo 2.",
-
     "inventoryprofiles.tooltip.do_global_trades_button2":                                "Rende tutte le possibili operazioni con segnalibro a livello globale dal gruppo 3.",
     "inventoryprofiles.tooltip.do_local_trades_button2":                                 "Rende tutte le possibili operazioni con segnalibri locali dal gruppo 3.",
-
     "inventoryprofiles.tooltip.set_local_bookmark":                                      "Aggiunge un segnalibro locale.\nin\nSegnalibri questo scambio per questo specifico villico.",
     "inventoryprofiles.tooltip.set_global_bookmark":                                     "Aggiunge un segnalibro globale.\n\nSegnalibro per questo tipo di commercio per tutti i villici di quella professione,\né per tutti i commercianti erranti.",
-
     "inventoryprofiles.tooltip.set_local_bookmark1":                                     "Aggiunge segnalibro locale al gruppo 2.",
     "inventoryprofiles.tooltip.set_global_bookmark1":                                    "Aggiunge il segnalibro globale al gruppo 2.",
-
     "inventoryprofiles.tooltip.set_local_bookmark2":                                     "Aggiunge segnalibro locale al gruppo 3",
     "inventoryprofiles.tooltip.set_global_bookmark2":                                    "Aggiunge il segnalibro globale al gruppo 3.",
-
-
     "inventoryprofiles.update.version":                                                  " Versione: ",
     "inventoryprofiles.update.available":                                                " adesso è disponibile.\n",
     "inventoryprofiles.update.get":                                                      "Prendilo da: ",
     "inventoryprofiles.update.or":                                                       " o ",
-
     "inventoryprofiles.gui.editor.name.screen.ignore":                                   "Ignora",
     "inventoryprofiles.gui.editor.description.screen.ignore":                            "Ciò farà sì che Inventory Profiles Next non aggiunga i suoi pulsanti nell'interfaccia utente e\n disabiliti qualsiasi funzione di gestione per i contenitori.\nNOTA:\nDi solito è necessario impostarlo su true sia per il contenitore che per lo schermo.",
     "inventoryprofiles.gui.editor.name.screen.player_side":                              "Solo giocatore",
@@ -521,7 +474,6 @@
     "inventoryprofiles.gui.editor.category.container":                                   "Contenitore",
     "inventoryprofiles.gui.editor.name.class.screen":                                    "Schermo",
     "inventoryprofiles.gui.editor.name.class.container":                                 "Contenitore",
-
     "inventoryprofiles.gui.editor.name.help.select.next":                                "Seleziona il pulsante successivo",
     "inventoryprofiles.gui.editor.description.help.select.next":                         "Premendo 'Spazio' si seleziona il pulsante successivo",
     "inventoryprofiles.gui.editor.name.help.select.prev":                                "Seleziona il pulsante precedente",

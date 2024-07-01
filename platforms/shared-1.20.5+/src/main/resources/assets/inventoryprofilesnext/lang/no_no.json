@@ -1,0 +1,13 @@
+{
+    "inventoryprofiles.common.gui.config.reset":        "tilbakestill",
+    "inventoryprofiles.common.gui.config.yes":          "ja",
+    "inventoryprofiles.common.gui.config.no":           "nei",
+    "inventoryprofiles.common.gui.config.more":         " ...(mer)",
+    "inventoryprofiles.common.gui.config.activate_on":  "aktivér då",
+    "inventoryprofiles.common.enum.key_action.press":   "trykk",
+    "inventoryprofiles.common.enum.key_action.release": "trykk ut",
+    "inventoryprofiles.common.enum.key_action.both":    "trykk/trykk ut",
+    "inventoryprofiles.common.enum.context.ingame":     "i spillet",
+    "inventoryprofiles.gui.config.ModSettings":         "moddets innstillinger",
+    "inventoryprofiles.config.name.for_modpack_devs":   "er du modpakklager?"
+}

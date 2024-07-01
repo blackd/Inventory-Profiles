@@ -141,7 +141,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         }
 
         libIPN_version?.let {
-            "modApi"("org.anti_ad.mc:libIPN-$libIPN_version")  {
+            "modApi"("org.anti_ad.mc:libIPN-$libIPN_version:dev")  {
                 this.isChanging = true
             }
         }
@@ -201,7 +201,7 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
             this.isChanging = true
         }
 */
-        "implementation"("org.anti_ad.mc:libIPN-$libIPN_version") {
+        "implementation"("org.anti_ad.mc:libIPN-$libIPN_version:dev") {
             exclude("org.jetbrains.kotlin")
             this.isChanging = true
         }
