@@ -96,6 +96,7 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
         ?.dependsOn("build")
         ?.dependsOn("minimizeJar")
         ?.dependsOn("jar")
+        ?.dependsOn("copyProGuardJar")
         ?.mustRunAfter("minimizeJar")
         ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
 
@@ -103,6 +104,7 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
         ?.dependsOn("build")
         ?.dependsOn("minimizeJar")
         ?.dependsOn("deobfJar")
+        ?.dependsOn("copyProGuardJar")
         ?.mustRunAfter("minimizeJar")
         ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'modrinth'")
     rootAfterEvaluate()
