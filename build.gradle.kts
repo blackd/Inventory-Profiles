@@ -92,7 +92,7 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "5.0.1-SNAPSHOT")
+    ext.set("libIPN_version", "5.0.2")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -142,11 +142,11 @@ afterEvaluate {
         }.forEach { //group = "org.anti-ad.mc.platforms"
             val isForge = !it.name.startsWith("fabric")
             val taskName = if (isForge) {
-                "shadowJar"
+                "minimizeJar"
             } else {
-                "remapJar"
+                "minimizeJar"
             }
-            val jarTask = it.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+            val jarTask = it.tasks.named<DefaultTask>(taskName)
             dependsOn(jarTask)
             if (isForge) {
                 var endTask = it.tasks.named("deobfJar")
@@ -161,11 +161,11 @@ afterEvaluate {
 
             }
             val jarFile = jarTask.get()
-            val jarPath = it.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
+            val jarPath = jarFile.outputs.files.first().toPath()
             logger.debug(
                 """
             *************************
-              ${it.path} finalized mod jar is ${jarPath.get().asFile.absoluteFile}
+              ${it.path} finalized mod jar is ${jarPath.toFile().absoluteFile}
             *************************
         """.trimIndent()
                         )

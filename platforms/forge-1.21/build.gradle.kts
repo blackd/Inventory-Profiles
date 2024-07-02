@@ -361,7 +361,7 @@ tasks.named<ShadowJar>("shadowJar") {
     //finalizedBy(tasks["customJar"])
 }
 
-registerMinimizeJarTask()
+val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
     forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
@@ -605,22 +605,26 @@ publishing {
             groupId = "org.anti_ad.mc"
             artifactId = "${rootProject.name}-${project.name}"
             version = mod_artefact_version.toString()
-            artifact(customJar)
+            artifact(minimizeJar.outputs.files.first())
             artifact(sourceJar) {
                 classifier = "sources"
             }
-            artifact(deobfJar)
+            //artifact(deobfJar)
         }
-        tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
-            ?.dependsOn(customJar)
-            ?.dependsOn(sourceJar)
-            ?.dependsOn(deobfJar)
+    }
+    afterEvaluate {
+        val publishTask = tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
+        if (publishTask != null) {
+            publishTask.dependsOn(minimizeJar).dependsOn(customJar).dependsOn(sourceJar).dependsOn(deobfJar)
+        } else {
+            logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")
+        }
         tasks["publishMavenPublicationToMavenLocal"]
             ?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
             ?.dependsOn(deobfJar)
+            ?.dependsOn(minimizeJar) ?: logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")
     }
-
 }
 
 configure<CurseExtension> {
@@ -645,20 +649,20 @@ configure<CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-        val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
-        val remappedJarFile = forgeReobfJar.archiveFile.get().asFile
+        val forgeReobfJar = minimizeJar
+        val remappedJarFile = forgeReobfJar.outputs.files.first().absoluteFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
             displayName = "Inventory Profiles Next-$mod_loader-$minecraft_version_string-$mod_version$clasifier"
         })
 
         afterEvaluate {
-            uploadTask.dependsOn("build")
+            uploadTask.dependsOn("build").dependsOn(minimizeJar)
         }
         relations(closureOf<com.matthewprenger.cursegradle.CurseRelation> {
             requiredDependency("kotlin-for-forge")
             requiredDependency("libipn")
         })
-        addGameVersion("NeoForge")
+        //addGameVersion("NeoForge")
         addGameVersion("Forge")
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
@@ -689,13 +693,13 @@ modrinth {
 
     projectId.set("O7RBXm3n")
     versionNumber.set("$mod_loader-$minecraft_version-$mod_version$clasifier") // Will fail if Modrinth has this version already
-    val forgeReobfJar = tasks.named<Jar>("shadowJar").get()
-    val remappedJarFile = forgeReobfJar.archiveFile
+    val forgeReobfJar = minimizeJar
+    val remappedJarFile = forgeReobfJar.outputs.files.first().absoluteFile
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions)
     logger.lifecycle("""
         +*************************************************+
-        Will release ${remappedJarFile.get().asFile.path}
+        Will release ${remappedJarFile.absolutePath}
         +*************************************************+
     """.trimIndent())
     versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version_string")

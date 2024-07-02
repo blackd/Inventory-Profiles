@@ -276,7 +276,7 @@ val remapped2 = tasks.create<RemapJarTask>("remapJar2") {
 
 fabricRegisterCommonTasks(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 
-registerMinimizeJarTask()
+val minimizeJar = registerMinimizeJarTask()
 
 val sourceJar = tasks.create<Jar>("sourcesJar") {
     from(sourceSets["main"]?.allSource)
@@ -327,7 +327,7 @@ publishing {
             artifact(sourceJar) {
                 classifier = "sources"
             }
-            artifact(remapped) {
+            artifact(minimizeJar.outputs.files.first()) {
                 classifier = "prod"
             }
             artifact(remapped2) {
@@ -342,11 +342,13 @@ publishing {
             ?.dependsOn(remapped)
             ?.dependsOn(sourceJar)
             ?.dependsOn(remapped2)
+            ?.dependsOn(minimizeJar)
         tasks["publishMavenPublicationToMavenLocal"]
             ?.dependsOn(shadowJar)
             ?.dependsOn(remapped)
             ?.dependsOn(sourceJar)
             ?.dependsOn(remapped2)
+            ?.dependsOn(minimizeJar)
     }
 }
 
@@ -370,8 +372,7 @@ configure<CurseExtension> {
         }
         this.addGameVersion("Fabric")
         //this.addGameVersion("Quilt")
-        val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-        val remappedJarFile = fabricRemapJar.archiveFile.get().asFile
+        val remappedJarFile = minimizeJar.outputs.files.first()
         logger.lifecycle("""
         +*************************************************+
         Will release ${remappedJarFile.path}
@@ -408,13 +409,12 @@ modrinth {
 
     projectId.set("O7RBXm3n")
     versionNumber.set("$mod_loader-$minecraft_version-$mod_version") // Will fail if Modrinth has this version already
-    val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
-    val remappedJarFile = fabricRemapJar.archiveFile
+    val remappedJarFile = minimizeJar.outputs.files.first()
     uploadFile.set(remappedJarFile as Any) // This is the java jar task. If it can't find the jar, try 'jar.outputs.getFiles().asPath' in place of 'jar'
     gameVersions.addAll(supported_minecraft_versions[MODRINTH]!!)
     logger.lifecycle("""
     +*************************************************+
-    Will release ${remappedJarFile.get().asFile.path}
+    Will release ${remappedJarFile.path}
     +*************************************************+
 """.trimIndent())
     versionName.set("IPN $mod_version for $mod_loader $minecraft_version_string")

@@ -71,6 +71,8 @@ PERCENT=$(awk -vo="$ORGSIZE" -vn="$NEWSIZE" 'BEGIN { printf("%.3f", n/o*100)}')
 
 echo "$ORGSIZE -> $NEWSIZE  or $PERCENT%"
 
-mv "$TMP_OUTPUT_DIR/$JAR_NAME" "$1"
+mkdirhier $(dirname "$3")
+
+mv "$TMP_OUTPUT_DIR/$JAR_NAME" "$3"
 
 rm -rf "$UNPACK_DIR" "$TMP_OUTPUT_DIR"

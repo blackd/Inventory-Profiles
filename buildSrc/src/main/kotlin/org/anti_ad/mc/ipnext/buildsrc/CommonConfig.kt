@@ -29,7 +29,7 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 
 import java.io.ByteArrayOutputStream
-
+import kotlin.io.path.div
 
 fun Project.configureCommon() {
     configureDependencies()
@@ -42,7 +42,7 @@ fun Project.configureCommon() {
 fun Project.platformsCommonConfig() {
     tasks["javadoc"].enabled = false
 }
-fun Project.registerMinimizeJarTask() {
+fun Project.registerMinimizeJarTask(): DefaultTask {
     val minTask = tasks.register<DefaultTask>("minimizeJar") {
         group = "build"
 
@@ -59,17 +59,20 @@ fun Project.registerMinimizeJarTask() {
         }
         val jarFile = jarTask.get()
         val jarPath = project.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
+        var outputFile = project.layout.buildDirectory.dir("optimized-mod").get().asFile.toPath() / jarFile.archiveFileName.get()
         doLast {
             exec {
                 this.workingDir = project.layout.projectDirectory.asFile
                 val script = rootProject.layout.projectDirectory.file("optimize-jar.sh")
                 this.executable = script.asFile.absolutePath
-                this.args(jarPath.get().asFile.absolutePath, project.layout.buildDirectory.get().asFile.absolutePath)
+                this.args(jarPath.get().asFile.absolutePath, project.layout.buildDirectory.get().asFile.absolutePath, outputFile)
 
             }
         }
+        this.outputs.file(outputFile)
     }
     tasks.named("build").get().dependsOn(minTask)
+    return minTask.get()
 }
 
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
@@ -89,9 +92,19 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
     registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar") //.dependsOn("reobfJar")
 
-    tasks.named<DefaultTask>("build") {
-//        dependsOn("minimizeJar")
-    }
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.dependsOn("jar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
+
+    tasks.named("modrinth")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.dependsOn("deobfJar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'modrinth'")
     rootAfterEvaluate()
 }
 
@@ -139,12 +152,21 @@ fun Project.fabricCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, m
 
     val fabricRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("remapJar").get()
     registerCopyJarForPublishTask(fabricRemapJar,mod_loader, minecraft_version, mod_artefact_version).get().dependsOn(remapped)
-/*
-    tasks.named<Task>("prepareRemapJar") {
-        val proGuardTask = tasks.getByName<Task>("proguard")
-        mustRunAfter(proGuardTask)
-    }
-*/
+
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar") ?: logger.error("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
+
+    tasks.named("modrinth")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar") ?: logger.error("Can't find task 'modrinth'")
+
+    /*
+        tasks.named<Task>("prepareRemapJar") {
+            val proGuardTask = tasks.getByName<Task>("proguard")
+            mustRunAfter(proGuardTask)
+        }
+    */
 
     rootAfterEvaluate()
 }
