@@ -19,8 +19,13 @@
 
 
 //rootProject.name = "InventoryProfilesNext"
+/*
 include("platforms:fabric-1.21")
 include("platforms:forge-1.21")
+*/
+
+include("platforms:fabric-1.20.6")
+include("platforms:forge-1.20.6")
 
 
 /*
