@@ -18,6 +18,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -36,10 +37,15 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 }
+
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "21"
+
+compileKotlin.compilerOptions {
+    languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+    jvmTarget.set(JvmTarget.JVM_21)
+    freeCompilerArgs.addAll(listOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn"))
 }
+
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21

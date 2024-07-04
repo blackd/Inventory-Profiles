@@ -32,8 +32,6 @@ import org.anti_ad.mc.ipnext.buildsrc.forgeCommonAfterEvaluate
 import org.anti_ad.mc.ipnext.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
-import org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 import kotlin.math.log
 

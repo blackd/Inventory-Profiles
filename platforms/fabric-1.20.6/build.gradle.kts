@@ -31,7 +31,6 @@ import org.anti_ad.mc.ipnext.buildsrc.fabricRegisterCommonTasks
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.20.6"),

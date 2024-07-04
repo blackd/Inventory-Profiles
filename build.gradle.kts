@@ -20,6 +20,7 @@
 
 import org.anti_ad.mc.ipnext.buildsrc.getGitHash
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
@@ -92,7 +93,7 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "5.0.2")
+    ext.set("libIPN_version", "6.0.0-SNAPSHOT")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -100,10 +101,10 @@ allprojects {
     }
 
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            languageVersion = "1.8"
-            jvmTarget = "21"
-            freeCompilerArgs = mutableListOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn") + freeCompilerArgs
+        compilerOptions {
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+            jvmTarget.set(JvmTarget.JVM_21)
+            freeCompilerArgs.addAll(listOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn"))
         }
         this.incremental = true
     }

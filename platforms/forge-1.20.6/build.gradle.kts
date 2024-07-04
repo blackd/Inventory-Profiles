@@ -32,10 +32,8 @@ import org.anti_ad.mc.ipnext.buildsrc.forgeCommonAfterEvaluate
 import org.anti_ad.mc.ipnext.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
-import org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
-import kotlin.math.log
+
 
 val supported_minecraft_versions = listOf("1.20.6")
 val mod_loader = "forge"
