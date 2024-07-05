@@ -34,10 +34,21 @@ license="@LICENSE@"
     logoFile="icon_8.png" #optional
 
     # A text field displayed in the mod UI
-    credits="Selah (AspieGamer13)" #optional
+    credits='''
+
+
+This release was made possible by:
+  WeConnected
+
+Special thanks ot:
+  Selah (AspieGamer13)
+
+
+'''
 
     # A text field displayed in the mod UI
-    authors="blackd/mirinimi" #optional
+    authors='''blackd/mirinimi
+    ''' #optional
 
     # The description text for the mod (multi line!) (#mandatory)
     description='''
@@ -69,6 +80,6 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]]
     modId="libipn"
     mandatory=true
-    versionRange="[@LIBIPN_VERSION@,6)"
+    versionRange="[@LIBIPN_VERSION@,7)"
     ordering="NONE"
     side="CLIENT"

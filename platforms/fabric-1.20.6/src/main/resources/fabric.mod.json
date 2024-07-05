@@ -7,7 +7,10 @@
   "authors": [
     "mirinimi/blackd"
   ],
-  "contributors": ["Selah (AspieGamer13)"],
+  "contributors": [
+    "Sponsored by 'WeConnected'",
+    "Special thanks to 'Selah (AspieGamer13)'"
+  ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next",
     "sources": "https://github.com/blackd/Inventory-Profiles"
@@ -35,6 +38,6 @@
     "fabricloader": ">=0.15.11",
     "minecraft": ">=1.20.6 <1.22",
     "fabric-language-kotlin": ">=1.11.0+kotlin.2.0.0",
-    "libipn": ">=@LIBIPN_VERSION@ <6.0.0"
+    "libipn": ">=@LIBIPN_VERSION@ <7.0.0"
   }
 }

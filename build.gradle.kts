@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("2", "0", "1",
+val versionObj = Version("2", "0", "2",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -93,7 +93,7 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "6.0.0-SNAPSHOT")
+    ext.set("libIPN_version", "6.0.0")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
