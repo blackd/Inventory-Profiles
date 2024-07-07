@@ -1,6 +1,7 @@
 <!-- latest begin -->
 
 ### 2.0.2
+- Added support for NeoForge 1.21. No backports will happen!
 - Fixed a crash when showing the overlay editor.
 
 #### Forge
@@ -14,7 +15,7 @@ As usual the mod will run on Quilt, but I don't have time for full testing and d
 
 #### NeoForge
 
-I intend to start working on port, but no promises!
+This is still early beta please report problems. Also has the same problem as the forge build.
 
 <!-- latest end -->
 
