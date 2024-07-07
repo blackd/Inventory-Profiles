@@ -662,7 +662,6 @@ configure<CurseExtension> {
             requiredDependency("kotlin-for-forge")
             requiredDependency("libipn")
         })
-        //addGameVersion("NeoForge")
         addGameVersion("Forge")
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {

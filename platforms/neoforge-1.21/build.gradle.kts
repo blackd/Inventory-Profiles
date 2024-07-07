@@ -23,15 +23,12 @@ import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
 import net.neoforged.gradle.dsl.common.runs.run.Run
-import org.anti_ad.mc.ipnext.buildsrc.FilteringSourceSet
 import org.anti_ad.mc.ipnext.buildsrc.configureCommon
-import org.anti_ad.mc.ipnext.buildsrc.fgdeobf
-import org.anti_ad.mc.ipnext.buildsrc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.ipnext.buildsrc.neoForgeCommonAfterEvaluate
 import org.anti_ad.mc.ipnext.buildsrc.neoForgeCommonDependency
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
-import kotlin.math.log
 
 val supported_minecraft_versions = listOf("1.21")
 val mod_loader = "neoforge"
@@ -283,25 +280,7 @@ val shadowJarTask: ShadowJar = tasks.named<ShadowJar>("shadowJar") {
 }.get()
 
 
-tasks.register<Copy>("copyProGuardJar") {
 
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
-    val inName = layout.buildDirectory.file("libs/" + fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard"))
-    val outName = fabricRemapJar.archiveFileName.get().replace("-shaded", "")
-    logger.lifecycle("""
-        
-        ******************************
-        will copy from: $inName
-        to $outName
-        ******************************
-        
-    """.trimIndent())
-    from(inName)
-    rename {
-        outName
-    }
-    into(layout.buildDirectory.dir("libs"))
-}
 
 val proguard by tasks.registering(ProGuardTask::class) {
 
@@ -355,7 +334,7 @@ fun dummyJar() = tasks.creating(Jar::class) { // dummy jar for reobf
 val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
-    forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
+    neoForgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
 var rcltName = ""
@@ -569,7 +548,6 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
-    //loaders.add("neoforge")
     dependencies.set(
         mutableListOf(
             ModDependency("ordsPcFz", "required"),

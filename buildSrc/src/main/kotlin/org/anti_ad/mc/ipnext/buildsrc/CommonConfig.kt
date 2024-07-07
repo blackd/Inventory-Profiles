@@ -115,6 +115,38 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
     rootAfterEvaluate()
 }
 
+fun Project.neoForgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
+    /*
+        tasks.named<Task>("reobfJar") {
+            val shadow = tasks.getByName("customJar");
+            dependsOn(shadow)
+            dependsOn(tasks["copyProGuardJar"])
+            //input = shadow.archiveFile.orNull?.asFile
+        }
+        tasks.named<Task>("proguard") {
+            val shadow = tasks.getByName<Task>("shadowJar");
+            dependsOn(shadow)
+        }
+    */
+
+    val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
+    registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar") //.dependsOn("reobfJar")
+
+    tasks.named("publishMavenPublicationToIpnOfficialRepoRepository")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.dependsOn("jar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
+
+    tasks.named("modrinth")?.get()
+        ?.dependsOn("build")
+        ?.dependsOn("minimizeJar")
+        ?.mustRunAfter("minimizeJar")
+        ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'modrinth'")
+    rootAfterEvaluate()
+}
+
 fun Project.rootAfterEvaluate() {
 
     if (System.getenv("IPNEXT_RELEASE") == null) {
