@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+  <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="forge-1.21"/>
+  <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.minecraftforge.bootstrap.ForgeBootstrap"/>
+  <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dforge.logging.console.level=debug -Dmixin.env.remapRefMap=true -Dmixin.env.refMapRemappingFile=/home/plamen/development/minecraft/InventoryProfilesNext/platforms/forge-1.21/build/createSrgToMcp/output.srg -Dnet.minecraftforge.gradle.GradleStart.srg.srg-mcp=/home/plamen/development/minecraft/InventoryProfilesNext/platforms/forge-1.21/build/createSrgToMcp/output.srg -Dmixin.debug.dumpTargetOnFailure=true -Dbsl.debug=true -Dforge.enableGameTest=true -Dmixin.debug.verbose=true -Dmixin.debug.export=true -Djava.net.preferIPv6Addresses=system --add-exports=java.base/sun.security.util=ALL-UNNAMED --add-opens=java.base/java.util.jar=ALL-UNNAMED"/>
+  <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="--launchTarget forge_userdev_client --version MOD_DEV --assetIndex 17 --assetsDir /home/plamen/.gradle/caches/forge_gradle/assets --gameDir . --mixin.config=mixins.ipnext.json --width=1280 --height=720 --username=DEV"/>
+  <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/home/plamen/development/minecraft/InventoryProfilesNext/platforms/forge-1.21/run"/>
+  <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+    <mapEntry key="MOD_CLASSES" value=""/>
+    <mapEntry key="MCP_MAPPINGS" value="official_1.21"/>
+  </mapAttribute>
+</launchConfiguration>

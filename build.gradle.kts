@@ -61,39 +61,26 @@ plugins {
     id("fabric-loom") version("1.6-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-        }
-    }
+    id("net.neoforged.gradle.userdev") version "7.0.145" apply false
 }
 
 
 
 
 
-// This is here, but it looks like it's not inherited by the child projects
-tasks.named<KotlinCompile>("compileKotlin") {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-opt-in=kotlin.ExperimentalStdlibApi")
-    }
-}
-
-//group = "org.anti-ad.mc"
 
 evaluationDependsOnChildren()
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
 allprojects {
     version = versionObj.toCleanString()
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "6.0.0")
+    ext.set("libIPN_version", "6.0.0-SNAPSHOT")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -137,16 +124,10 @@ tasks.register("owner-testing-env") {
 afterEvaluate {
     tasks.register<Copy>("copyPlatformJars") {
         subprojects.filter {
-            val isFabric = it.name.startsWith("fabric")
-            val isForge = it.name.startsWith("forge")
-            isFabric || isForge
+            it.name.startsWith("fabric") || it.name.startsWith("forge") || it.name.startsWith("neoforge")
         }.forEach { //group = "org.anti-ad.mc.platforms"
-            val isForge = !it.name.startsWith("fabric")
-            val taskName = if (isForge) {
-                "minimizeJar"
-            } else {
-                "minimizeJar"
-            }
+            val isForge = it.name.startsWith("forge")
+            val taskName = "minimizeJar"
             val jarTask = it.tasks.named<DefaultTask>(taskName)
             dependsOn(jarTask)
             if (isForge) {

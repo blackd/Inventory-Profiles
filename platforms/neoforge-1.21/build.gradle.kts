@@ -22,29 +22,27 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
-import net.minecraftforge.gradle.common.util.RunConfig
-import net.minecraftforge.gradle.userdev.DependencyManagementExtension
-import net.minecraftforge.gradle.userdev.UserDevExtension
+import net.neoforged.gradle.dsl.common.runs.run.Run
 import org.anti_ad.mc.ipnext.buildsrc.FilteringSourceSet
 import org.anti_ad.mc.ipnext.buildsrc.configureCommon
 import org.anti_ad.mc.ipnext.buildsrc.fgdeobf
 import org.anti_ad.mc.ipnext.buildsrc.forgeCommonAfterEvaluate
-import org.anti_ad.mc.ipnext.buildsrc.forgeCommonDependency
+import org.anti_ad.mc.ipnext.buildsrc.neoForgeCommonDependency
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
+import kotlin.math.log
 
-
-val supported_minecraft_versions = listOf("1.20.6")
-val mod_loader = "forge"
+val supported_minecraft_versions = listOf("1.21")
+val mod_loader = "neoforge"
 val mod_version = project.version
-val minecraft_version = "1.20.6"
-val minecraft_version_string = "1.20.6"
-val forge_version = "50.1.9"
+val minecraft_version = "1.21"
+val minecraft_version_string = "1.21"
+val forge_version = "21.0.61-beta"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "5.3.0"
 val mappingsMap = mapOf("channel" to "official",
-                        "version" to "1.20.6")
+                        "version" to "1.21")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
 logger.lifecycle("""
@@ -59,12 +57,10 @@ logger.lifecycle("""
 
 buildscript {
     repositories {
-        maven { url = uri("https://maven.minecraftforge.net/maven") }
         mavenCentral()
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
-        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "6+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7+" )
         classpath("com.guardsquare:proguard-gradle:7+")
     }
@@ -81,8 +77,8 @@ configurations.all {
 //apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
 
 //I have no idea why but these MUST be here and not in plugins {}...
-apply(plugin = "net.minecraftforge.gradle")
-apply(plugin = "org.spongepowered.mixin")
+
+//apply(plugin = "org.spongepowered.mixin")
 
 
 
@@ -97,22 +93,23 @@ plugins {
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
     id("io.github.goooler.shadow")
+    id("net.neoforged.gradle.userdev")
+    id ("net.neoforged.gradle.mixin") version "7.+"
+
 }
 
 configureCommon()
 platformsCommonConfig()
 
-
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
-    maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
-
     maven {
         url = uri("https://www.cursemaven.com")
         content {
@@ -128,14 +125,8 @@ repositories {
 */
 }
 
-val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
 
-fgdeobf =  { id ->
-    fg.deobf(id)
-}
-
-forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
-//forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, "forge-1.20.2:4.0.2")
+neoForgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
 
 configurations {
     create("embed")
@@ -149,9 +140,8 @@ dependencies {
     runtimeOnly( fg.deobf("curse.maven:athena-841890:4686264"))
     runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4681831"))
 */
-    compileOnly(fg.deobf("curse.maven:chipped-456956:4634856"))
-
-    compileOnly(fg.deobf("curse.maven:easy-villagers-400514:4584220"))
+   compileOnly("curse.maven:chipped-456956:4634856")
+   compileOnly("curse.maven:easy-villagers-400514:4584220")
 }
 
 tasks.named("compileKotlin") {
@@ -199,13 +189,19 @@ afterEvaluate {
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")
+//        resources.srcDirs("src/main/resources")
+        resources.srcDirs.forEach {
+            logger.lifecycle("found resource dir: ${it.absolutePath}")
+        }
     }
+/*
     sourceSets.forEach {
         val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
         it.output.setResourcesDir(dir.get().asFile)
         it.java.destinationDirectory = dir
         it.kotlin.destinationDirectory = dir
     }
+*/
 }
 
 tasks.withType<JavaCompile>().all {
@@ -226,6 +222,7 @@ if ("true" == System.getProperty("idea.sync.active")) {
 
 tasks.register<Copy>("copyMixinMappings") {
     dependsOn("compileJava")
+    tasks["classes"]?.dependsOn("copyMixinMappings")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
     from(inName)
@@ -245,7 +242,7 @@ tasks.jar {
     dependsOn("copyMixinMappings")
 }
 
-tasks.named<ShadowJar>("shadowJar") {
+val shadowJarTask: ShadowJar = tasks.named<ShadowJar>("shadowJar") {
 
     configurations = listOf(project.configurations["shaded"])
 
@@ -281,9 +278,9 @@ tasks.named<ShadowJar>("shadowJar") {
     exclude("META-INF/services/**")
     //exclude("META-INF/LICENSE")
     //exclude("META-INF/README")
-
+    dependsOn("copyMixinMappings")
     minimize()
-}
+}.get()
 
 
 tasks.register<Copy>("copyProGuardJar") {
@@ -314,18 +311,16 @@ val proguard by tasks.registering(ProGuardTask::class) {
     }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
 
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
-    val inName = fabricRemapJar.archiveFileName.get().replace("-shaded", "")
-    val outName = fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard")
-    dependsOn(fabricRemapJar)
-    dependsOn("jar")
+    val outName = shadowJarTask.archiveFileName.get().replace("-shaded", "-all-proguard")
+    dependsOn(shadowJarTask)
+    //dependsOn("jar")
     logger.lifecycle(""" 
         ****************************
         Input name for proguard:
-        build/libs/${inName}
+        build/libs/${shadowJarTask.archiveFileName}
         ****************************
     """.trimIndent())
-    injars("build/libs/${inName}")
+    injars(shadowJarTask)
     outjars("build/libs/${outName}")
 
     doFirst {
@@ -335,31 +330,27 @@ val proguard by tasks.registering(ProGuardTask::class) {
 
 }
 
+/*
 val customJar by dummyJar()
 
 fun dummyJar() = tasks.creating(Jar::class) { // dummy jar for reobf
-    val shadow = tasks.getByName<ShadowJar>("shadowJar")
-    val fromJarName = shadow.archiveBaseName
-    val thisJarName = shadow.archiveFileName.get()
-    archiveFileName.set(shadow.archiveFileName)
+    val shadow = tasks.getByName<ProGuardTask>("proguard")
+    val fromJarName = shadow.outputs.files.first()
+    val thisJarName = fromJarName.name.replace("-all-proguard", "")
+    archiveFileName.set(thisJarName)
     dependsOn(tasks["proguard"])
     doLast {
         copy {
-            from("build/libs/$fromJarName--all-proguard.jar")
+            from("build/libs/$fromJarName-all-proguard.jar")
             into("build/libs")
             rename { thisJarName }
         }
     }
-    finalizedBy(tasks["copyProGuardJar"])
+    //finalizedBy(tasks["copyProGuardJar"])
 }
+*/
 
 
-tasks.named<ShadowJar>("shadowJar") {
-    archiveBaseName.set(tasks.getByName<Jar>("jar").archiveBaseName.orNull) // Pain. Agony, even.
-    archiveClassifier.set("") // Suffering, if you will.
-    dependsOn("copyMixinMappings")
-    //finalizedBy(tasks["customJar"])
-}
 
 val minimizeJar = registerMinimizeJarTask()
 
@@ -373,174 +364,42 @@ configurations {
     implementation.get().extendsFrom(this.findByName("shadedApi"))
 }
 
-configure<UserDevExtension> {
-    mappings(mappingsMap)
-    this.accessTransformers("src/main/resources/META-INF/accesstransformer.cfg")
-    copyIdeResources = true
-    reobf = false
-    runs {
-        val runConfig = Action<RunConfig> {
-            properties(mapOf(
-                //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
-                "forge.logging.console.level" to "debug",
-                "mixin.env.remapRefMap" to "true",
-                "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
-                "mixin.debug.verbose" to "true",
-                "mixin.debug.export" to "true",
-                "mixin.debug.dumpTargetOnFailure" to "true",
-                "bsl.debug" to "true"))
-            arg("--mixin.config=mixins.ipnext.json")
-            //2560x1600
-            args("--width=1280", "--height=720", "--username=DEV")
-            workingDirectory = project.file("run").canonicalPath
-            source(FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
+mixin {
+    config("mixins.ipnext.json")
+}
 
+minecraft {
+    mappings.version(mappingsMap)
+    this.accessTransformers.file("src/main/resources/META-INF/accesstransformer.cfg")
+}
+runs {
+    val runConfig = Action<Run> {
+        systemProperties(mapOf(
+            //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
+            "forge.logging.console.level" to "debug",
+            "mixin.env.remapRefMap" to "true",
+//            "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
+            "mixin.debug.verbose" to "true",
+            "mixin.debug.export" to "true",
+            "mixin.debug.dumpTargetOnFailure" to "true",
+            "bsl.debug" to "true"))
+        programArgument("--fml.mixin=mixins.ipnext.json")
+        programArguments("--width=1280", "--height=720", "--username=DEV")
 
-            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
-            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
-            //taskName = "plamenRunClient"
-            //this.forceexit = false
-        }
-        val action = create("client", runConfig)
-
-        rcltName = action.taskName
-
-        //create("data", runConfig)
-
-
-
+        jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+        jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+    }
+    /*val action = */named("client", runConfig)
+    named("client") {
+        workingDirectory.set(project.file("run"))
     }
 
-    afterEvaluate {
+    //rcltName = action.taskName
 
-    }
+    //create("data", runConfig)
 }
 
 
-tasks.register<DefaultTask>("fixRunJvmArgs") {
-
-    group = "forgegradle runs"
-    project.tasks.findByPath(":platforms:${project.name}:genIntellijRuns")?.dependsOn("fixRunJvmArgs")
-    mustRunAfter("prepareRunClient")
-
-    doLast {
-        val ts = tasks.named(rcltName, JavaExec::class)
-
-        val newArgs = mutableListOf<String>()
-        logger.lifecycle("Detected JVM Arguments:")
-        ts.get().allJvmArgs.forEach {
-            logger.lifecycle("\t$it")
-        }
-        var prev = ""
-        val modules: MutableList<String> = mutableListOf()
-        val cp: MutableList<String> = mutableListOf()
-
-        ts.get().allJvmArgs.forEach {
-            if (prev == "-p") {
-                modules.addAll(it.split(File.pathSeparator))
-            }
-            if (prev == "-cp") {
-                cp.addAll(it.split(File.pathSeparator))
-            }
-            prev = it
-        }
-
-
-
-        val newCP = ts.get().classpath.filter {
-            val path = it.absolutePath
-            val contains = modules.contains(path)
-            logger.lifecycle("\t$contains:$path")
-            !contains
-        }
-
-        ts.configure {
-            classpath = newCP
-        }
-
-        logger.lifecycle("CLASSPATH after cleanup 1")
-        ts.get().classpath.forEach {
-            if (modules.contains(it.absolutePath)) {
-                logger.lifecycle("\t found duplicate ${it.absolutePath}")
-            }
-        }
-
-
-        modules.forEach {
-            cp.remove(it)
-        }
-
-        logger.lifecycle("**********************")
-        logger.lifecycle("CLASSPATH after cleanup2")
-        cp.forEach {
-            logger.lifecycle("\t$it")
-        }
-
-        prev = ""
-        ts.get().allJvmArgs.forEach {
-            var processed = false
-
-            if (it.startsWith("-DlegacyClassPath.file")) {
-                val cpFile: String? = it.split("=").elementAtOrNull(1)
-                if (cpFile != null) {
-
-                    val f = File(cpFile)
-
-                    val fcpPath = "${f.parentFile.path}/runtimeClasspath.txt"
-                    logger.lifecycle("Checking if $fcpPath exists")
-                    val fullCpFile = File(fcpPath)
-                    val kotlinJars = mutableListOf<String>()
-                    if (fullCpFile.exists()) {
-                        kotlinJars.addAll(fullCpFile.readLines().filter { line ->
-                            line.contains("kotlin")
-                        })
-                    }
-                    val clean = f.readLines().filter { line ->
-                        !line.contains("InventoryProfilesNext-common") && !modules.contains(line)
-                    }.distinct()
-                    f.printWriter().use { pw ->
-                        logger.lifecycle("Building new legacy classpath file")
-                        kotlinJars.forEach { jar ->
-                            logger.lifecycle("\tadding kotlin jar: $jar")
-                            pw.println(jar)
-                        }
-                        clean.forEach { s ->
-                            logger.lifecycle("\tadding other jar: $s")
-                            pw.println(s)
-                        }
-                    }
-                }
-            }
-
-            if (prev == "-cp") {
-                newArgs.add(cp.joinToString(separator = File.pathSeparator))
-                processed = true
-            }
-
-            if (it.contains("InventoryProfilesNext-common")) {
-                val split = it.split(File.pathSeparator)
-                var newValue = ""
-                split.forEach { cp ->
-                    if (!cp.contains("InventoryProfilesNext-common")) {
-                        newValue = if (newValue != "") {
-                            "$newValue:$cp"
-                        } else {
-                            cp
-                        }
-                    }
-                }
-                newArgs.add(newValue)
-                processed = true
-            }
-
-            if (!processed) {
-                newArgs.add(it)
-            }
-            prev = it
-        }
-        ts.get().allJvmArgs = newArgs
-    }
-}
 
 val sourceJar = tasks.create<Jar>("sourcesJar") {
     from(sourceSets["main"]?.allSource)
@@ -556,6 +415,7 @@ afterEvaluate {
 
 }
 
+/*
 val deobfJar = tasks.register<Jar>("deobfJar") {
     from(sourceSets["main"].output)
     archiveClassifier.set("dev")
@@ -576,11 +436,15 @@ val deobfElements = configurations.register("deobfElements") {
     }
     outgoing.artifact(tasks.named("deobfJar"))
 }
+*/
 
+/*
 val javaComponent = components["java"] as AdhocComponentWithVariants
+
 javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
     mapToMavenScope("runtime")
 }
+*/
 
 publishing {
     repositories {
@@ -615,14 +479,14 @@ publishing {
     afterEvaluate {
         val publishTask = tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
         if (publishTask != null) {
-            publishTask.dependsOn(minimizeJar).dependsOn(customJar).dependsOn(sourceJar).dependsOn(deobfJar)
+            publishTask.dependsOn(minimizeJar) //.dependsOn(customJar).dependsOn(sourceJar).dependsOn(deobfJar)
         } else {
             logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")
         }
         tasks["publishMavenPublicationToMavenLocal"]
-            ?.dependsOn(customJar)
+            //?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
-            ?.dependsOn(deobfJar)
+            //?.dependsOn(deobfJar)
             ?.dependsOn(minimizeJar) ?: logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")
     }
 }
@@ -649,6 +513,7 @@ configure<CurseExtension> {
                 this.addGameVersion(it)
             }
         }
+
         val forgeReobfJar = minimizeJar
         val remappedJarFile = forgeReobfJar.outputs.files.first().absoluteFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
@@ -662,8 +527,7 @@ configure<CurseExtension> {
             requiredDependency("kotlin-for-forge")
             requiredDependency("libipn")
         })
-        //addGameVersion("NeoForge")
-        addGameVersion("Forge")
+        addGameVersion("NeoForge")
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
@@ -705,6 +569,7 @@ modrinth {
     versionName.set("IPN $mod_version for $mod_loader$clasifier $minecraft_version_string")
     this.changelog.set(project.rootDir.resolve("description/out/pandoc-release_notes.md").readText())
     loaders.add(mod_loader)
+    //loaders.add("neoforge")
     dependencies.set(
         mutableListOf(
             ModDependency("ordsPcFz", "required"),

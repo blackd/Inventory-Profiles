@@ -75,6 +75,7 @@ fun Project.configureDependencies() {
 
         gradlePluginPortal()
         mavenCentral()
+        mavenLocal()
         maven { url = uri("https://maven.enginehub.org/repo/") }
         maven { url = uri("https://repo.codemc.org/repository/maven-public") }
         //maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
@@ -233,6 +234,40 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
             version {
                 strictly("5.0.4")
             }
+        }
+    }
+}
+
+
+fun Project.neoForgeCommonDependency(minecraft_version: Any,
+                                  loader_version: Any,
+                                  kotlin_for_forge_version: Any,
+                                  libIPN_version: Any?) {
+
+
+
+    dependencies {
+
+        "implementation"("net.neoforged:neoforge:${loader_version}")
+        "implementation"("thedarkcolour:kotlinforforge-neoforge:${kotlin_for_forge_version}") {
+            this.isChanging = true
+        }
+
+        "compileOnly"("org.anti_ad.mc:libIPN-$libIPN_version:dev") {
+            exclude("org.jetbrains.kotlin")
+            this.isChanging = true
+        }
+        "runtimeOnly"("org.anti_ad.mc:libIPN-$libIPN_version") {
+            exclude("org.jetbrains.kotlin")
+            this.isChanging = true
+        }
+
+        "compileOnly"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0") {
+            exclude("org.jetbrains.kotlin")
+            this.isChanging = true
+        }
+        "compileOnly"("org.jetbrains.kotlin:kotlin-stdlib:2.0.0") {
+            exclude("org.jetbrains.kotlin")
         }
     }
 }

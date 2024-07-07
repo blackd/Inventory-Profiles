@@ -46,20 +46,25 @@ fun Project.registerMinimizeJarTask(): DefaultTask {
     val minTask = tasks.register<DefaultTask>("minimizeJar") {
         group = "build"
 
-        val isForge = !project.name.startsWith("fabric")
-        val taskName = if (isForge) { "shadowJar" } else { "remapJar" }
-        val jarTask = project.tasks.named<org.gradle.jvm.tasks.Jar>(taskName)
+        var isForge = false
+        val taskName = if (project.name.startsWith("fabric")) {
+            "remapJar"
+        } else if (project.name.startsWith("forge")) {
+            isForge = true
+            "shadowJar"
+        } else {
+            "proguard"
+        }
+        val jarTask = project.tasks.named<DefaultTask>(taskName)
         dependsOn(jarTask)
         if (isForge) {
             var endTask = project.tasks.named("proguard")
             dependsOn(endTask)
-            endTask = project.tasks.named("customJar")
-            dependsOn(endTask)
-
         }
         val jarFile = jarTask.get()
-        val jarPath = project.layout.buildDirectory.file("libs/" + jarFile.archiveFileName.get())
-        var outputFile = project.layout.buildDirectory.dir("optimized-mod").get().asFile.toPath() / jarFile.archiveFileName.get()
+        val jarFileName = jarFile.outputs.files.first().name
+        val jarPath = project.layout.buildDirectory.file("libs/" + jarFileName)
+        var outputFile = project.layout.buildDirectory.dir("optimized-mod").get().asFile.toPath() / jarFileName.replace("-all-proguard","")
         doLast {
             exec {
                 this.workingDir = project.layout.projectDirectory.asFile
@@ -103,7 +108,7 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
     tasks.named("modrinth")?.get()
         ?.dependsOn("build")
         ?.dependsOn("minimizeJar")
-        ?.dependsOn("deobfJar")
+   //     ?.dependsOn("deobfJar")
         ?.dependsOn("copyProGuardJar")
         ?.mustRunAfter("minimizeJar")
         ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'modrinth'")
@@ -113,22 +118,12 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
 fun Project.rootAfterEvaluate() {
 
     if (System.getenv("IPNEXT_RELEASE") == null) {
-        val buildTasks = mutableListOf<Task>()
-
         rootProject.subprojects.filter { subProject ->
             subProject.name.contains("platforms:")
-        }.forEach {
-            it.tasks["build"]?.let { buildTask ->
-                buildTasks.add(buildTask)
-            }
-        }
-
-        rootProject.subprojects.forEach { p ->
-            p.tasks.forEach {
-                if (it.name == "minimizeJar") {
-                    buildTasks.forEach { buildTask ->
-                        buildTask.dependsOn(it)
-                    }
+        }.forEach { pr ->
+            pr.tasks["minimizeJar"]?.let { minTask ->
+                pr.tasks["build"]?.let { buildTask ->
+                    buildTask.dependsOn(minTask)
                 }
             }
         }

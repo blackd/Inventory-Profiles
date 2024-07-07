@@ -21,6 +21,7 @@
 //rootProject.name = "InventoryProfilesNext"
 include("platforms:fabric-1.21")
 include("platforms:forge-1.21")
+include("platforms:neoforge-1.21")
 
 include("platforms:fabric-1.20.6")
 include("platforms:forge-1.20.6")
@@ -49,6 +50,7 @@ pluginManagement {
         maven(url = "https://maven.fabricmc.net") {
             name = "Fabric"
         }
+        maven ("https://maven.neoforged.net/releases")
         mavenCentral()
         google()
         gradlePluginPortal()

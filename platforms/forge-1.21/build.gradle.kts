@@ -120,10 +120,10 @@ repositories {
         }
     }
     gradlePluginPortal()
-    maven {
+/*    maven {
         name = "kotlinforforge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
-    }
+    }*/
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
@@ -243,7 +243,7 @@ tasks.jar {
     dependsOn("copyMixinMappings")
 }
 
-tasks.named<ShadowJar>("shadowJar") {
+val shadowJar = tasks.named<ShadowJar>("shadowJar") {
 
     configurations = listOf(project.configurations["shaded"])
 
