@@ -135,11 +135,6 @@ afterEvaluate {
                 dependsOn(endTask)
                 endTask = it.tasks.named("jar")
                 dependsOn(endTask)
-                endTask = it.tasks.named("customJar")
-                dependsOn(endTask)
-                endTask = it.tasks.named("copyProGuardJar")
-                dependsOn(endTask)
-
 
             }
             val jarFile = jarTask.get()
@@ -166,39 +161,9 @@ afterEvaluate {
 }
 
 tasks.named<DefaultTask>("build") {
-
-    /*
-    subprojects.filter {
-        val isFabric = it.name.startsWith("fabric")
-        val isForge = it.name.startsWith("forge")
-        isFabric || isForge
-    }.forEach {
-        dependsOn(it.tasks["build"])
-    }
-     */
     dependsOn(tasks["copyPlatformJars"])
-    //finalizedBy(tasks["copyPlatformJars"])
 }
 
-afterEvaluate {
-    /*
-    tasks.named<DefaultTask>("build") {
-        subprojects.filter {
-            val isFabric = it.name.startsWith("fabric")
-            val isForge = it.name.startsWith("forge")
-            isFabric || isForge
-        }.forEach {
-            dependsOn(it.tasks["build"])
-        }
-        subprojects.forEach {
-            it.getTasksByName("build", false).forEach { t ->
-                dependsOn(t)
-            }
-        }
-        dependsOn(tasks["copyPlatformJars"])
-    }
-     */
-}
 
 
 /**

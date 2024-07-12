@@ -18,32 +18,10 @@
  */
 
 
-//rootProject.name = "InventoryProfilesNext"
+rootProject.name = "InventoryProfilesNext"
 include("platforms:fabric-1.21")
 include("platforms:forge-1.21")
 include("platforms:neoforge-1.21")
-
-include("platforms:fabric-1.20.6")
-include("platforms:forge-1.20.6")
-
-
-/*
-include("platforms:fabric-1.20.3")
-
-include("platforms:fabric-1.20.2")
-include("platforms:fabric-1.20")
-include("platforms:fabric-1.19")
-include("platforms:fabric-1.18.2")
-
-include("platforms:forge-1.20.2")
-include("platforms:forge-1.20")
-include("platforms:forge-1.19")
-include("platforms:forge-1.18.2")
-*/
-
-
-
-
 
 pluginManagement {
     repositories {

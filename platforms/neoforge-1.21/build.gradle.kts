@@ -98,8 +98,8 @@ plugins {
 configureCommon()
 platformsCommonConfig()
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
@@ -368,7 +368,7 @@ runs {
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
     }
-    /*val action = */named("client", runConfig)
+    named("client", runConfig)
     named("client") {
         workingDirectory.set(project.file("run"))
     }
@@ -394,37 +394,6 @@ afterEvaluate {
 
 }
 
-/*
-val deobfJar = tasks.register<Jar>("deobfJar") {
-    from(sourceSets["main"].output)
-    archiveClassifier.set("dev")
-    group = "forge"
-}
-
-val deobfElements = configurations.register("deobfElements") {
-    isVisible = false
-    description = "De-obfuscated elements for libs"
-    isCanBeResolved = false
-    isCanBeConsumed = true
-    attributes {
-        attribute(Usage.USAGE_ATTRIBUTE, project.objects.named(Usage.JAVA_API))
-        attribute(Category.CATEGORY_ATTRIBUTE, project.objects.named(Category.LIBRARY))
-        attribute(Bundling.BUNDLING_ATTRIBUTE, project.objects.named(Bundling.EXTERNAL))
-        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, project.objects.named(LibraryElements.JAR))
-        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 16)
-    }
-    outgoing.artifact(tasks.named("deobfJar"))
-}
-*/
-
-/*
-val javaComponent = components["java"] as AdhocComponentWithVariants
-
-javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
-    mapToMavenScope("runtime")
-}
-*/
-
 publishing {
     repositories {
         maven {
@@ -449,6 +418,9 @@ publishing {
             artifactId = "${rootProject.name}-${project.name}"
             version = mod_artefact_version.toString()
             artifact(minimizeJar.outputs.files.first())
+            artifact(shadowJarTask) {
+                classifier = "dev"
+            }
             artifact(sourceJar) {
                 classifier = "sources"
             }

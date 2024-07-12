@@ -33,7 +33,6 @@ import org.anti_ad.mc.ipnext.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
-import kotlin.math.log
 
 val supported_minecraft_versions = listOf("1.21")
 val mod_loader = "forge"
@@ -120,10 +119,7 @@ repositories {
         }
     }
     gradlePluginPortal()
-/*    maven {
-        name = "kotlinforforge"
-        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
-    }*/
+
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
@@ -243,7 +239,7 @@ tasks.jar {
     dependsOn("copyMixinMappings")
 }
 
-val shadowJar = tasks.named<ShadowJar>("shadowJar") {
+val shadowJarTask = tasks.named<ShadowJar>("shadowJar") {
 
     configurations = listOf(project.configurations["shaded"])
 
@@ -255,13 +251,6 @@ val shadowJar = tasks.named<ShadowJar>("shadowJar") {
 
     exclude("kotlin/**")
     exclude("kotlinx/**")
-
-    //exclude("META-INF/**")
-    //exclude("**/*.kotlin_metadata")
-    //exclude("**/*.kotlin_module")
-    //exclude("**/*.kotlin_builtins")
-    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
-    //exclude("**/*_ws$*.class")
     exclude("**/*.stg")
     exclude("**/*.st")
     exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
@@ -272,37 +261,13 @@ val shadowJar = tasks.named<ShadowJar>("shadowJar") {
     exclude("org/jline/**")
     exclude("net/minecraftforge/**")
     exclude("io/netty/**")
-    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
     exclude("META-INF/com.android.tools/**")
     exclude("META-INF/proguard/**")
     exclude("META-INF/services/**")
-    //exclude("META-INF/LICENSE")
-    //exclude("META-INF/README")
-
+    dependsOn("copyMixinMappings")
     minimize()
-}
-
-
-tasks.register<Copy>("copyProGuardJar") {
-
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
-    val inName = layout.buildDirectory.file("libs/" + fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard"))
-    val outName = fabricRemapJar.archiveFileName.get().replace("-shaded", "")
-    logger.lifecycle("""
-        
-        ******************************
-        will copy from: $inName
-        to $outName
-        ******************************
-        
-    """.trimIndent())
-    from(inName)
-    rename {
-        outName
-    }
-    into(layout.buildDirectory.dir("libs"))
-}
+}.get()
 
 val proguard by tasks.registering(ProGuardTask::class) {
 
@@ -312,10 +277,9 @@ val proguard by tasks.registering(ProGuardTask::class) {
     }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
 
-    val fabricRemapJar = tasks.named<ShadowJar>("shadowJar").get()
-    val inName = fabricRemapJar.archiveFileName.get().replace("-shaded", "")
-    val outName = fabricRemapJar.archiveFileName.get().replace("-shaded", "-all-proguard")
-    dependsOn(fabricRemapJar)
+    val inName = shadowJarTask.archiveFileName.get()
+    val outName = shadowJarTask.archiveFileName.get().replace("-shaded", "-all-proguard")
+    dependsOn(shadowJarTask)
     dependsOn("jar")
     logger.lifecycle(""" 
         ****************************
@@ -331,32 +295,6 @@ val proguard by tasks.registering(ProGuardTask::class) {
         libraryjars( classpath)
     }
 
-}
-
-val customJar by dummyJar()
-
-fun dummyJar() = tasks.creating(Jar::class) { // dummy jar for reobf
-    val shadow = tasks.getByName<ShadowJar>("shadowJar")
-    val fromJarName = shadow.archiveBaseName
-    val thisJarName = shadow.archiveFileName.get()
-    archiveFileName.set(shadow.archiveFileName)
-    dependsOn(tasks["proguard"])
-    doLast {
-        copy {
-            from("build/libs/$fromJarName--all-proguard.jar")
-            into("build/libs")
-            rename { thisJarName }
-        }
-    }
-    finalizedBy(tasks["copyProGuardJar"])
-}
-
-
-tasks.named<ShadowJar>("shadowJar") {
-    archiveBaseName.set(tasks.getByName<Jar>("jar").archiveBaseName.orNull) // Pain. Agony, even.
-    archiveClassifier.set("") // Suffering, if you will.
-    dependsOn("copyMixinMappings")
-    //finalizedBy(tasks["customJar"])
 }
 
 val minimizeJar = registerMinimizeJarTask()
@@ -411,132 +349,6 @@ configure<UserDevExtension> {
 
     afterEvaluate {
 
-    }
-}
-
-
-tasks.register<DefaultTask>("fixRunJvmArgs") {
-
-    group = "forgegradle runs"
-    project.tasks.findByPath(":platforms:${project.name}:genIntellijRuns")?.dependsOn("fixRunJvmArgs")
-    mustRunAfter("prepareRunClient")
-
-    doLast {
-        val ts = tasks.named(rcltName, JavaExec::class)
-
-        val newArgs = mutableListOf<String>()
-        logger.lifecycle("Detected JVM Arguments:")
-        ts.get().allJvmArgs.forEach {
-            logger.lifecycle("\t$it")
-        }
-        var prev = ""
-        val modules: MutableList<String> = mutableListOf()
-        val cp: MutableList<String> = mutableListOf()
-
-        ts.get().allJvmArgs.forEach {
-            if (prev == "-p") {
-                modules.addAll(it.split(File.pathSeparator))
-            }
-            if (prev == "-cp") {
-                cp.addAll(it.split(File.pathSeparator))
-            }
-            prev = it
-        }
-
-
-
-        val newCP = ts.get().classpath.filter {
-            val path = it.absolutePath
-            val contains = modules.contains(path)
-            logger.lifecycle("\t$contains:$path")
-            !contains
-        }
-
-        ts.configure {
-            classpath = newCP
-        }
-
-        logger.lifecycle("CLASSPATH after cleanup 1")
-        ts.get().classpath.forEach {
-            if (modules.contains(it.absolutePath)) {
-                logger.lifecycle("\t found duplicate ${it.absolutePath}")
-            }
-        }
-
-
-        modules.forEach {
-            cp.remove(it)
-        }
-
-        logger.lifecycle("**********************")
-        logger.lifecycle("CLASSPATH after cleanup2")
-        cp.forEach {
-            logger.lifecycle("\t$it")
-        }
-
-        prev = ""
-        ts.get().allJvmArgs.forEach {
-            var processed = false
-
-            if (it.startsWith("-DlegacyClassPath.file")) {
-                val cpFile: String? = it.split("=").elementAtOrNull(1)
-                if (cpFile != null) {
-
-                    val f = File(cpFile)
-
-                    val fcpPath = "${f.parentFile.path}/runtimeClasspath.txt"
-                    logger.lifecycle("Checking if $fcpPath exists")
-                    val fullCpFile = File(fcpPath)
-                    val kotlinJars = mutableListOf<String>()
-                    if (fullCpFile.exists()) {
-                        kotlinJars.addAll(fullCpFile.readLines().filter { line ->
-                            line.contains("kotlin")
-                        })
-                    }
-                    val clean = f.readLines().filter { line ->
-                        !line.contains("InventoryProfilesNext-common") && !modules.contains(line)
-                    }.distinct()
-                    f.printWriter().use { pw ->
-                        logger.lifecycle("Building new legacy classpath file")
-                        kotlinJars.forEach { jar ->
-                            logger.lifecycle("\tadding kotlin jar: $jar")
-                            pw.println(jar)
-                        }
-                        clean.forEach { s ->
-                            logger.lifecycle("\tadding other jar: $s")
-                            pw.println(s)
-                        }
-                    }
-                }
-            }
-
-            if (prev == "-cp") {
-                newArgs.add(cp.joinToString(separator = File.pathSeparator))
-                processed = true
-            }
-
-            if (it.contains("InventoryProfilesNext-common")) {
-                val split = it.split(File.pathSeparator)
-                var newValue = ""
-                split.forEach { cp ->
-                    if (!cp.contains("InventoryProfilesNext-common")) {
-                        newValue = if (newValue != "") {
-                            "$newValue:$cp"
-                        } else {
-                            cp
-                        }
-                    }
-                }
-                newArgs.add(newValue)
-                processed = true
-            }
-
-            if (!processed) {
-                newArgs.add(it)
-            }
-            prev = it
-        }
-        ts.get().allJvmArgs = newArgs
     }
 }
 
@@ -603,6 +415,9 @@ publishing {
             groupId = "org.anti_ad.mc"
             artifactId = "${rootProject.name}-${project.name}"
             version = mod_artefact_version.toString()
+            artifact(shadowJarTask) {
+                classifier = "dev"
+            }
             artifact(minimizeJar.outputs.files.first())
             artifact(sourceJar) {
                 classifier = "sources"
@@ -613,12 +428,11 @@ publishing {
     afterEvaluate {
         val publishTask = tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
         if (publishTask != null) {
-            publishTask.dependsOn(minimizeJar).dependsOn(customJar).dependsOn(sourceJar).dependsOn(deobfJar)
+            publishTask.dependsOn(minimizeJar).dependsOn(sourceJar).dependsOn(deobfJar)
         } else {
             logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")
         }
         tasks["publishMavenPublicationToMavenLocal"]
-            ?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
             ?.dependsOn(deobfJar)
             ?.dependsOn(minimizeJar) ?: logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")

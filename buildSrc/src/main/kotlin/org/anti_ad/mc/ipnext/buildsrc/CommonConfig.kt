@@ -51,20 +51,17 @@ fun Project.registerMinimizeJarTask(): DefaultTask {
             "remapJar"
         } else if (project.name.startsWith("forge")) {
             isForge = true
-            "shadowJar"
+            "proguard"
         } else {
             "proguard"
         }
         val jarTask = project.tasks.named<DefaultTask>(taskName)
         dependsOn(jarTask)
-        if (isForge) {
-            var endTask = project.tasks.named("proguard")
-            dependsOn(endTask)
-        }
+
         val jarFile = jarTask.get()
         val jarFileName = jarFile.outputs.files.first().name
         val jarPath = project.layout.buildDirectory.file("libs/" + jarFileName)
-        var outputFile = project.layout.buildDirectory.dir("optimized-mod").get().asFile.toPath() / jarFileName.replace("-all-proguard","")
+        val outputFile = project.layout.buildDirectory.dir("optimized-mod").get().asFile.toPath() / jarFileName.replace("-all-proguard","")
         doLast {
             exec {
                 this.workingDir = project.layout.projectDirectory.asFile
@@ -81,18 +78,6 @@ fun Project.registerMinimizeJarTask(): DefaultTask {
 }
 
 fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mod_artefact_version: Any) {
-/*
-    tasks.named<Task>("reobfJar") {
-        val shadow = tasks.getByName("customJar");
-        dependsOn(shadow)
-        dependsOn(tasks["copyProGuardJar"])
-        //input = shadow.archiveFile.orNull?.asFile
-    }
-    tasks.named<Task>("proguard") {
-        val shadow = tasks.getByName<Task>("shadowJar");
-        dependsOn(shadow)
-    }
-*/
 
     val forgeRemapJar = tasks.named<org.gradle.jvm.tasks.Jar>("shadowJar").get()
     registerCopyJarForPublishTask(forgeRemapJar, mod_loader, minecraft_version, mod_artefact_version).get().dependsOn("shadowJar") //.dependsOn("reobfJar")
@@ -101,15 +86,12 @@ fun Project.forgeCommonAfterEvaluate(mod_loader: Any, minecraft_version: Any, mo
         ?.dependsOn("build")
         ?.dependsOn("minimizeJar")
         ?.dependsOn("jar")
-        ?.dependsOn("copyProGuardJar")
         ?.mustRunAfter("minimizeJar")
         ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'publishMavenPublicationToIpnOfficialRepoRepository'")
 
     tasks.named("modrinth")?.get()
         ?.dependsOn("build")
         ?.dependsOn("minimizeJar")
-   //     ?.dependsOn("deobfJar")
-        ?.dependsOn("copyProGuardJar")
         ?.mustRunAfter("minimizeJar")
         ?.mustRunAfter("build") ?: logger.lifecycle("Can't find task 'modrinth'")
     rootAfterEvaluate()
