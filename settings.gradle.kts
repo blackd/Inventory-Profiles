@@ -20,8 +20,10 @@
 
 rootProject.name = "InventoryProfilesNext"
 include("platforms:fabric-1.21")
+/*
 include("platforms:forge-1.21")
 include("platforms:neoforge-1.21")
+*/
 
 pluginManagement {
     repositories {

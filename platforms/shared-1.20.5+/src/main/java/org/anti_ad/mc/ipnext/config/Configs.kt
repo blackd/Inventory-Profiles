@@ -195,6 +195,7 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               AUTO_REFILL_WAIT_TICK_MINIMUM,
                                                               100)
     val AUTO_REFILL_TEMP_DISABLE_REFILL_FOR_TOOLS /**/ by hotkey("LEFT_ALT", KeybindSettings.INGAME_DEFAULT.copy(allowExtraKeys = true))
+    val AUTO_REFILL_DISABLE_FOR_SLOT              /**/ by hotkey("LEFT_ALT, BUTTON_8", KeybindSettings.ANY_DEFAULT)
 
         .CATEGORY("$category.auto-refill.matching")
     val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
@@ -211,6 +212,7 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               0,
                                                               5000)
         .CATEGORY("$category.auto-refill.notifications")
+    val DRAW_OVERLAY_FOR_ENABLED_SLOTS            /**/ by keyToggleBool(true)
     val VISUAL_DURABILITY_NOTIFICATION            /**/ by keyToggleBool(true)
     val TYPE_VISUAL_DURABILITY_NOTIFICATION       /**/ by enum(ToolReplaceVisualNotification.HOTBAR)
     val AUDIO_DURABILITY_NOTIFICATION             /**/ by keyToggleBool(true)
@@ -226,10 +228,6 @@ object AutoRefillSettings : ConfigDeclaration {
     val VISUAL_REPLACE_FAILED_NOTIFICATION        /**/ by keyToggleBool(true)
     val AUDIO_REPLACE_FAILED_NOTIFICATION         /**/ by keyToggleBool(true)
     val TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION   /**/ by enum(ToolReplaceVisualNotification.SUBTITLE)
-
-
-
-
 
 }
 

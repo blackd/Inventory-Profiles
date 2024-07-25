@@ -190,6 +190,10 @@ object ComponentUtils {
             val c1 = tag[it]
             val c2 = tag1[it]
             Log.trace("c1: ${c1?.javaClass}, c2: ${c2?.javaClass}")
+            if (c1 is Comparable<*>) {
+                val cmp = (c1 as Comparable<Any?>).compareTo(c2)
+                if (cmp != 0) return  cmp
+            }
             val comparator = it?.comparatorFor()
             comparator?.compare(c1, c2)?.let { cmp ->
                 if (cmp != 0) return cmp

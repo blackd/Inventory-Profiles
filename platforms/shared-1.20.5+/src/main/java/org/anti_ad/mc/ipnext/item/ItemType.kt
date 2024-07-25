@@ -20,9 +20,11 @@
 
 package org.anti_ad.mc.ipnext.item
 
+import org.anti_ad.mc.alias.component.`(types)`
 import org.anti_ad.mc.alias.component.ComponentChanges
 import org.anti_ad.mc.alias.component.ComponentMap
 import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.item.Item
 import org.anti_ad.mc.alias.item.Items
 
@@ -75,11 +77,18 @@ data class ItemType(val item: Item,
         if (isEmpty() && other.isEmpty()) return true
         if (item != other.item) return false
         if (!ignoreDurability || !isDamageable) {
-            if (tag != other.tag) return false
+            if (changes != other.changes) return false
         } else {
-            if (tag != null && other.tag != null) {
-                //todo compare components
-                return tag == other.tag
+            if (!changes.isEmpty && !other.changes.isEmpty) {
+                if (changes.entrySet().size == other.changes.entrySet().size) {
+                    changes.entrySet().forEach { (type, value) ->
+                        if (type != DataComponentTypes.DAMAGE) {
+                            if (value != other.changes[type]) return false
+                        }
+                    }
+                } else {
+                    return false
+                }
             } else {
                 return tag == null && other.tag == null
             }

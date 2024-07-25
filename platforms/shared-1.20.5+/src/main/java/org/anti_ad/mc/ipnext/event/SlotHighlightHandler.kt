@@ -20,20 +20,13 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
-import org.anti_ad.mc.common.extensions.lor
 import org.anti_ad.mc.common.gui.NativeContext
-import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.alpha
-import org.anti_ad.mc.common.vanilla.render.b
-import org.anti_ad.mc.common.vanilla.render.dropAlpha
-import org.anti_ad.mc.common.vanilla.render.g
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.r
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -55,7 +48,7 @@ object SlotHighlightHandler: PLockSlotHandler {
 
     private var ticksSinceLastFocusChange = 3
 
-    private val slotLocations: Map<Int, Point> // id, location // ref: LockSlotsHandler
+    override val slotLocations: Map<Int, Point> // id, location // ref: LockSlotsHandler
         get() {
             val screen = Vanilla.screen() as? ContainerScreen<*> ?: return mapOf()
             return Vanilla.container().`(slots)`.mapNotNull { slot ->

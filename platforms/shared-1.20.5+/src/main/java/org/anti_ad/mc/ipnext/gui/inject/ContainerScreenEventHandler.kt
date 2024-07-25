@@ -27,13 +27,12 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.screen.BaseScreen
-import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
@@ -43,13 +42,14 @@ import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
 
-    var currentWidgets: MutableList<Widget>? = null
+    var currentWidgets: MutableList<InsertableWidget>? = null
 
     fun onScreenInit(target: ContainerScreen<*>,
                      @Suppress("UNUSED_PARAMETER") addWidget: (ClickableWidget) -> Unit) {
         if (target != Vanilla.screen()) return
+        if (target.javaClass.name == "tictim.paraglider.client.screen.BargainScreen") return
         Log.trace("Showing screen of type ${target.javaClass.name}")
-        val widgetsToInset = mutableListOf<Widget>()
+        val widgetsToInset = mutableListOf<InsertableWidget>()
         val hints = HintsManagerNG.getHints(target.javaClass)
         val ignore = hints.ignore
 
@@ -84,7 +84,7 @@ object ContainerScreenEventHandler {
 
     private fun checkValid() {
         currentWidgets?.forEach {
-            (it as InsertableWidget).run {
+            it.run {
                 val currentScreen = Vanilla.screen()
                 val matchScreen = (currentScreen as? BaseScreen)?.hasParent(screen) ?: (currentScreen == screen)
                 if (!matchScreen)
@@ -99,16 +99,10 @@ object ContainerScreenEventHandler {
 
     fun onBackgroundRender(context: NativeContext, mouseX: Int, mouseY: Int, f: Float) {
         currentWidgets?.forEach {
-            /*
-            (it as InsertableWidget).postBackgroundRender(VanillaUtil.mouseX(),
-                                                          VanillaUtil.mouseY(),
-                                                          VanillaUtil.lastFrameDuration())
-
-             */
-            (it as InsertableWidget).postBackgroundRender(context,
-                                                          mouseX,
-                                                          mouseY,
-                                                          f)
+            it.postBackgroundRender(context,
+                                    mouseX,
+                                    mouseY,
+                                    f)
         }
 
         LockSlotsHandler.onBackgroundRender(context)
@@ -117,27 +111,25 @@ object ContainerScreenEventHandler {
 
     fun onForegroundRender(context: NativeContext, mouseX: Int, mouseY: Int, f: Float) {
         currentWidgets?.forEach {
-            /*
-            (it as InsertableWidget).postForegroundRender(VanillaUtil.mouseX(),
-                                                          VanillaUtil.mouseY(),
-                                                          VanillaUtil.lastFrameDuration())
-
-             */
-            (it as InsertableWidget).postForegroundRender(context,
-                                                          mouseX,
-                                                          mouseY,
-                                                          f)
+            it.postForegroundRender(context,
+                                    mouseX,
+                                    mouseY,
+                                    f)
 
         }
         LockSlotsHandler.onForegroundRender(context)
         SlotHighlightHandler.onForegroundRender(context)
+        AutoRefillHandler.onForegroundRender(context)
     }
 
     fun postRender(context: NativeContext) {
         LockSlotsHandler.postRender(context)
         SlotHighlightHandler.postRender(context)
         ContainerClicker.postScreenRender(context)
-        currentWidgets?.forEach {  it.let { TooltipsManager.renderAll(context) }}
+        currentWidgets?.let {
+            TooltipsManager.renderAll(context)
+        }
+
     }
 
     fun onScreenRemoved(target: ContainerScreen<*>) {

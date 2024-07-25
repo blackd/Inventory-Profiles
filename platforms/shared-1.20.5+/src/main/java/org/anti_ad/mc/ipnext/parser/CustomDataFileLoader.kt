@@ -50,6 +50,7 @@ import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.extensions.loggingPath
 import org.anti_ad.mc.common.extensions.sanitized
 import org.anti_ad.mc.ipnext.NotificationManager
+import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
 import java.nio.file.Path
@@ -79,6 +80,7 @@ private fun getFiles(regex: String) =
     }
 
 private val definedLoaders: List<Loader> = listOf(LockSlotsLoader,
+                                                  RefillSlotsLoader,
                                                   ProfilesLoader,
                                                   RuleLoader,
                                                   HintsLoader,
@@ -379,3 +381,64 @@ object VillagerBookmarksLoader: Loader, Savable {
     }
 
 }
+
+
+// ============
+// lock slots loader
+// ============
+
+object RefillSlotsLoader : Loader, Savable {
+
+    val file: Path
+        get() {
+            val dir = serverIdentifier(ModSettings.ENABLE_LOCK_SLOTS_PER_SERVER.booleanValue).sanitized()
+            (configFolder / dir ).createDirectories()
+            return configFolder / dir / "refillDisabledSlots.txt"
+        }
+
+    private var cachedValue = listOf<Int>()
+
+    override fun save() {
+        try {
+            val slotIndices = AutoRefillHandler.disabledSlots.sorted()
+            if (slotIndices == cachedValue) return
+            cachedValue = slotIndices
+            slotIndices.joinToString("\n").writeToFile(file)
+        } catch (e: Exception) {
+            Log.error("Failed to write file ${file.loggingPath}")
+        }
+    }
+
+    override fun load() = reload(false)
+
+    override fun doSanityCheck(): Boolean {
+        return false
+    }
+
+    private fun internalLoad(fromUserInput: Boolean) {
+        cachedValue = listOf()
+        try {
+            if (file.notExists()) {
+                AutoRefillHandler.disabledSlots.clear()
+                return
+            }
+            val content = file.readText()
+            val slotIndices = content.lines().mapNotNull { it.trim().toIntOrNull() }
+            AutoRefillHandler.disabledSlots.apply {
+                clear()
+                addAll(slotIndices)
+            }
+            cachedValue = slotIndices
+        } catch (e: Exception) {
+            if (fromUserInput) {
+                TellPlayer.chat("Loading stored 'Disabled Auto Refill Slots' failed: $e")
+            }
+            Log.error("Failed to read file ${file.loggingPath}")
+        }
+    }
+
+    override fun reload(fromUserInput: Boolean) {
+        internalLoad(fromUserInput)
+    }
+}
+

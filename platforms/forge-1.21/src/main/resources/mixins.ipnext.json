@@ -9,19 +9,20 @@
     "client":             [
         "IMixinKeyBinding",
         "MixinAbstractContainerScreen",
+        "MixinAnvilMenu",
+        "MixinInGameHud",
+        "MixinItemGroup",
+        "MixinMerchantScreen",
         "MixinMinecraftClient",
         "MixinMultiPlayerGameMode",
         "MixinPlayerController",
         "MixinPlayerInventory",
         "MixinScreenHandler",
-        "MixinItemGroup",
         "MixinServerBoundInteractPacket",
-        "MixinMerchantScreen",
-        "MixinTraderTileEntityBase",
-        "MixinAnvilMenu"
+        "MixinTraderTileEntityBase"
     ],
     "injectors":          {
         "defaultRequire": 1
     },
-    "plugin": "org.anti_ad.mc.ipnext.forge.IPNMixinPlugin"
+    "plugin":             "org.anti_ad.mc.ipnext.forge.IPNMixinPlugin"
 }

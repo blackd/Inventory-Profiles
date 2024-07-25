@@ -61,6 +61,7 @@ import org.anti_ad.mc.ipnext.item.maxCount
 
 import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
 import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler
+import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler.Companion.backgroundSprite
 
 /*
   slots ignored for:
@@ -82,19 +83,6 @@ object LockSlotsHandler: PLockSlotHandler {
     val lockedInvSlots: Iterable<Int>
         get() = if (enabled) lockedInvSlotsStoredValue else listOf()
 
-    private val slotLocations: Map<Int, Point>
-        get() {
-            val screen = Vanilla.screen() as? ContainerScreen<*> ?: return mapOf()
-            @Suppress("USELESS_ELVIS")
-            val container = Vanilla.container() ?: return mapOf()
-            return container.`(slots)`.mapNotNull { slot ->
-                val playerSlot = vPlayerSlotOf(slot,
-                                               screen)
-                val topLeft =slot.`(topLeft)`
-                val inv = playerSlot.`(inventoryOrNull)` ?: return@mapNotNull null
-                return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to topLeft else null
-            }.toMap()
-        }
 
     private var displayingConfig by detectable(false) { _, newValue ->
         if (!newValue) LockSlotsLoader.save() // save on close
@@ -116,29 +104,27 @@ object LockSlotsHandler: PLockSlotHandler {
     // ============
     // render
     // ============
-    private val TEXTURE = IdentifierHolder("inventoryprofilesnext",
-                                           "textures/gui/overlay_new.png")
-    private val backgroundSprite = Sprite(TEXTURE,
-                                          Rectangle(40,
-                                                    8,
-                                                    32,
-                                                    32))
-    private val hotOutline: Sprite
+
+    val hotOutline: Sprite
         get() = backgroundSprite.down()
 
-    private val hotOutlineLeft: Sprite
+    val hotOutlineLeft: Sprite
         get() = backgroundSprite.right(2)
 
-    private val hotOutlineRight: Sprite
+    val hotOutlineRight: Sprite
         get() = backgroundSprite.right(3)
 
-    private val hotOutlineActive: Sprite
+    val hotOutlineActive: Sprite
         get() = backgroundSprite.down().right(2)
 
-    private val foregroundSprite: Sprite
+    val foregroundSprite: Sprite
         get() = backgroundSprite.right().down(LockedSlotsSettings.LOCKED_SLOTS_FOREGROUND_STYLE.integerValue - 1)
-    private val configSprite = backgroundSprite.left()
-    private val configSpriteLocked = configSprite.down()
+
+    val configSprite: Sprite
+        get() = backgroundSprite.left()
+
+    val configSpriteLocked: Sprite
+        get() = configSprite.down()
 
     fun onBackgroundRender(context: NativeContext) {
         Vanilla.screen()?.also { target ->
@@ -187,8 +173,6 @@ object LockSlotsHandler: PLockSlotHandler {
                   p.x + 16, p.y + 16,
                   LockedSlotsSettings.SHOW_LOCKED_SLOTS_BG_COLOR.value)
     }
-
-    private val eightByEight = Point(8,8)
 
     private fun drawForegroundSprite(context: NativeContext,
                                      topLeft: Point,

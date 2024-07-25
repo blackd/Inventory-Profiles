@@ -20,39 +20,35 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+
 import org.anti_ad.mc.common.gui.NativeContext;
-import org.anti_ad.mc.ipnext.event.AutoRefillHandler;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public class MixinInGameHud {
 
     @Inject(at = @At("HEAD"),
-            method = "renderHotbar")
-    protected void preRenderHotbar(DrawContext drawContext,
-                                   RenderTickCounter tickCounter,
+            method = "renderItemHotbar")
+    protected void preRenderHotbar(GuiGraphics drawContext,
+                                   DeltaTracker tickCounter,
                                    CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
-        LockSlotsHandler.INSTANCE.preRenderHud(context);
-        AutoRefillHandler.INSTANCE.preRenderHud(context);
+        LockSlotsHandler.INSTANCE.preRenderHud(new NativeContext(drawContext));
     }
 
 
     @Inject(at = @At("TAIL"),
-            method = "renderHotbar")
-    protected void postRenderHotbar(DrawContext drawContext,
-                                    RenderTickCounter tickCounter,
+            method = "renderItemHotbar")
+    protected void postRenderHotbar(GuiGraphics drawContext,
+                                    DeltaTracker tickCounter,
                                     CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
-        LockSlotsHandler.INSTANCE.postRenderHud(context);
-        AutoRefillHandler.INSTANCE.postRenderHud(context);
+        LockSlotsHandler.INSTANCE.postRenderHud(new NativeContext(drawContext));
 
     }
 }
