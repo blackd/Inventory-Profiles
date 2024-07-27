@@ -48,6 +48,7 @@ object ContainerScreenEventHandler {
     fun onScreenInit(target: ContainerScreen<*>,
                      @Suppress("UNUSED_PARAMETER") addWidget: (ClickableWidget) -> Unit) {
         if (target != Vanilla.screen()) return
+        if (target.javaClass.packageName == "tictim.paraglider.client.screen") return
         Log.trace("Showing screen of type ${target.javaClass.name}")
         val widgetsToInset = mutableListOf<Widget>()
         val hints = HintsManagerNG.getHints(target.javaClass)

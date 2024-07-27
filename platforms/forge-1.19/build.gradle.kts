@@ -40,7 +40,7 @@ val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.19.2"
 val minecraft_version_string = "1.19[.1-2]"
-val forge_version = "43.2.8"
+val forge_version = "43.4.0"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "3.11.0"
 val mappingsMap = mapOf("channel" to "official",
@@ -154,7 +154,8 @@ dependencies {
     runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4378847"))
     implementation(fg.deobf("curse.maven:chipped-456956:4463479"))
 
-    implementation(fg.deobf("curse.maven:easy-villagers-400514:4942235"))
+    implementation(fg.deobf("curse.maven:easy-villagers-400514:5542442"))
+    implementation(fg.deobf("curse.maven:paragliders-289240:4478230"))
 }
 
 tasks.named("compileKotlin") {
