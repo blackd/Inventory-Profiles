@@ -1,8 +1,10 @@
 <!-- latest begin -->
 
-### 2.0.2
-- Added support for NeoForge 1.21. No backports will happen!
-- Fixed a crash when showing the overlay editor.
+### 2.0.3
+
+- To prove a worthy successor of Forge, NeoForge have broken the API keeping the same major version!
+- Fixed locked slot rendering in hotbar for bot Forge and NeoForge.  
+- Minor bugfixes
 
 #### Forge
 - The forge build is still unstable and the gui overlay of the hotbar is currently missing.
@@ -18,6 +20,10 @@ As usual the mod will run on Quilt, but I don't have time for full testing and d
 This is still early beta please report problems. Also has the same problem as the forge build.
 
 <!-- latest end -->
+
+### 2.0.2
+- Added support for NeoForge 1.21. No backports will happen!
+- Fixed a crash when showing the overlay editor.
 
 ### 2.0.1
 

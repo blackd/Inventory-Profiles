@@ -10,7 +10,7 @@
 #-keepnames class org.anti_ad.mc.ipnext.config.**
 
 #-ignorewarnings
--optimizationpasses 100 # (828K -> 811K)
+-optimizationpasses 10 # (828K -> 811K)
 
 -dontwarn org.jetbrains.annotations.**
 -dontwarn javax.annotation.**

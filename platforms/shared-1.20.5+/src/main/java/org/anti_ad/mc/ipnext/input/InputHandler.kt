@@ -33,6 +33,7 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.debug.ModpackInputHandler
+import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.gui.DebugScreen
@@ -50,14 +51,12 @@ object InputHandler : IInputHandler {
             if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
                 VanillaScreenUtil.openScreen(ConfigScreen().also { it.dumpWidgetTree() })
             }
-            /*
-            if (ProfileSwitchHandler.onInput(lastKey, lastAction)) {
+
+            if (ModpackInputHandler.onInput(lastKey, lastAction)) {
                 return true
             }
 
-             */
-
-            if (ModpackInputHandler.onInput(lastKey, lastAction)) {
+            if (AutoRefillHandler.onInput(lastKey, lastAction)) {
                 return true
             }
 
@@ -71,6 +70,7 @@ object InputHandler : IInputHandler {
                 ContainerScreenEventHandler.showEditor()
                 return true
             }
+
             // todo fix hotkey while typing text field
             if (InventoryInputHandler.onInput(lastKey,
                                               lastAction)) {

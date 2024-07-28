@@ -139,7 +139,7 @@ class ConfigScreen(private val gui: Boolean = false) : ConfigScreenBase(getTrans
     override fun closeScreen() {
         storedSelectedIndex = selectedIndex
         SaveLoadManager.save()
-        AutoRefillHandler.init() // update
+        if (VanillaUtil.inGame()) AutoRefillHandler.init() // update
         super.closeScreen()
     }
 }

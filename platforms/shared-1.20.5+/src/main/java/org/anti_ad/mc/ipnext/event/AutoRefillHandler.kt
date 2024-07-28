@@ -108,7 +108,7 @@ object AutoRefillHandler: PLockSlotHandler {
     data object WatchIds {
 
         const val MAIN_HAND_OFFSET = 36
-        val mainHandSelected: () -> Int = { MAIN_HAND_OFFSET + vMainhandIndex() }
+        val mainHandSelected: () -> Int = { MAIN_HAND_OFFSET + if (VanillaUtil.inGame()) vMainhandIndex() else 0}
         val offHand: () -> Int = { 45 }
         val head: () -> Int = { 5 }
         val chest: () -> Int = { 6 }
@@ -740,10 +740,8 @@ object AutoRefillHandler: PLockSlotHandler {
             @Suppress("USELESS_ELVIS")
             val container = Vanilla.container() ?: return mapOf()
             return container.`(slots)`.mapNotNull { slot ->
-                val playerSlot = vPlayerSlotOf(
-                    slot, screen
-                                              )
-                if (playerSlot.id in allIds) {
+                val playerSlot = vPlayerSlotOf(slot, screen)
+                if (playerSlot.`(id)` in allIds) {
                     val topLeft = slot.`(topLeft)`
                     val inv = playerSlot.`(inventoryOrNull)` ?: return@mapNotNull null
                     return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to topLeft else null
@@ -795,6 +793,19 @@ object AutoRefillHandler: PLockSlotHandler {
     }
 
     fun preRenderHud(context: NativeContext) {
+    }
+
+    fun onInput(lastKey: Int, lastAction: Int): Boolean {
+        if (!VanillaUtil.inGame() || Vanilla.screen() != null) return false
+        if (AutoRefillSettings.AUTO_REFILL_DISABLE_FOR_SLOT.isActivated()) {
+            toggleRefillHotbarSlot()
+            return true
+        }
+        return false
+    }
+
+    private fun toggleRefillHotbarSlot() {
+
     }
 
 }
