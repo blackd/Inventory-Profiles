@@ -32,11 +32,11 @@ import org.anti_ad.mc.ipnext.compat.integrations.Integrations
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
 import org.anti_ad.mc.ipnext.specific.initInfoManager
-import java.net.URL
+import java.net.URI
 
 var initGlueProc: (() -> Unit) = ::initGlues;
 
-val versionCheckUrl = URL("https://ipn.anti-ad.org/ipn/ipnVersionCheckV3")
+val versionCheckUrl = URI("https://ipn.anti-ad.org/ipn/ipnVersionCheckV3").toURL()
 
 private fun initGlues() {
     IPNImpl.init()

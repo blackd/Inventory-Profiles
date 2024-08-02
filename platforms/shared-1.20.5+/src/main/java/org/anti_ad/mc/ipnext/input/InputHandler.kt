@@ -56,10 +56,6 @@ object InputHandler : IInputHandler {
                 return true
             }
 
-            if (AutoRefillHandler.onInput(lastKey, lastAction)) {
-                return true
-            }
-
             if (Hotkeys.RELOAD_CUSTOM_CONFIGS.isActivated() && VanillaUtil.inGame()) {
                 val cw = worldNullable()
                 if (cw != null) {

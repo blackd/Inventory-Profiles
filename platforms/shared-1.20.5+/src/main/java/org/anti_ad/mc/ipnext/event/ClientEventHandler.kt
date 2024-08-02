@@ -109,6 +109,7 @@ object ClientEventHandler: PClientEventHandler {
         if (firstJoin) {
             firstJoin = false
             IPNInfoManager.doCheckVersion()
+            IPNInfoManager.doSessionKeepAlive()
             CustomDataFileLoader.doSanityCheck()
         }
     }

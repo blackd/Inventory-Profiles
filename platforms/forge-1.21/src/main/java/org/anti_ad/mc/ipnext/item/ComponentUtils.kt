@@ -205,7 +205,7 @@ object ComponentUtils {
     fun ComponentType<*>.toFilteredNbtOrNull(value: Optional<*>): NbtElement? {
         if (value.isEmpty) return null
         val codecAny: Codec<Any> = this.codecOrThrow() as Codec<Any>
-        val realValue = value.get()
+        val realValue: Any? = value.get()
         if (realValue != null && realValue is NbtElement) return realValue.copy()
         val opt = codecAny.encodeStart(Vanilla.world().registryAccess().createSerializationContext(NbtOps.INSTANCE),
                                        value.get()).resultOrPartial()
@@ -233,7 +233,7 @@ object ComponentUtils {
     fun ComponentType<*>.toFullNbtOrNull(value: Optional<*>): NbtElement? {
         if (value.isEmpty) return null
         val codecAny: Codec<Any> = this.codecOrThrow() as Codec<Any>
-        val realValue = value.get()
+        val realValue: Any? = value.get()
         if (realValue != null && realValue is NbtElement) return realValue.copy()
         val opt = codecAny.encodeStart(Vanilla.world().registryAccess().createSerializationContext(NbtOps.INSTANCE),
                                        value.get()).resultOrPartial()

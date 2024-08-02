@@ -23,6 +23,7 @@ package org.anti_ad.mc.ipnext.input
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.extensions.tryCatch
+import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
@@ -39,6 +40,10 @@ object CancellableInputHandler : IInputHandler {
             }
 
             if (VillagerTradeManager.onInput(lastKey, lastAction)) {
+                return true
+            }
+
+            if (AutoRefillHandler.onInput(lastKey, lastAction)) {
                 return true
             }
 

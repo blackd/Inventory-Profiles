@@ -135,9 +135,7 @@ inline val CreativeInventoryScreen.`(isInventoryTab)`: Boolean // method_2469() 
 // ============
 // Registry
 // ============
-fun <T> DefaultedRegistry<T>.`(getIdentifier)`(value: T): Identifier {
-    return getKey(value)
-}
+
 
 fun <T> DefaultedRegistry<T>.`(getRawId)`(value: T): Int {
     return getId(value)
@@ -147,9 +145,11 @@ fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
     return this.get(id) //get(id) //getOrDefault(id)
 }
 
+/*
 fun <T> Registry<T>.`(getIdentifier)`(value: T): Identifier? {
     return getKey(value)
 }
+*/
 
 fun <T> Registry<T>.`(getRawId)`(value: T): Int {
     return getId(value)

@@ -195,7 +195,11 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               AUTO_REFILL_WAIT_TICK_MINIMUM,
                                                               100)
     val AUTO_REFILL_TEMP_DISABLE_REFILL_FOR_TOOLS /**/ by hotkey("LEFT_ALT", KeybindSettings.INGAME_DEFAULT.copy(allowExtraKeys = true))
-    val AUTO_REFILL_DISABLE_FOR_SLOT              /**/ by hotkey("LEFT_ALT, BUTTON_8", KeybindSettings.ANY_DEFAULT)
+
+    val AUTO_REFILL_ENABLE_PER_SLOT_CONFIG        /**/ by keyToggleBool(true)
+    val AUTO_REFILL_ENABLE_INDICATOR_ICONS        /**/ by keyToggleBool(true)
+    val AUTO_REFILL_ENABLE_HORBAR_INDICATOR_ICONS /**/ by keyToggleBool(true)
+
 
         .CATEGORY("$category.auto-refill.matching")
     val DISABLE_FOR_LOYALTY_ITEMS                 /**/ by bool(true)
@@ -212,7 +216,6 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               0,
                                                               5000)
         .CATEGORY("$category.auto-refill.notifications")
-    val DRAW_OVERLAY_FOR_ENABLED_SLOTS            /**/ by keyToggleBool(true)
     val VISUAL_DURABILITY_NOTIFICATION            /**/ by keyToggleBool(true)
     val TYPE_VISUAL_DURABILITY_NOTIFICATION       /**/ by enum(ToolReplaceVisualNotification.HOTBAR)
     val AUDIO_DURABILITY_NOTIFICATION             /**/ by keyToggleBool(true)
@@ -387,6 +390,13 @@ object Hotkeys : ConfigDeclaration {
                                                                  KeybindSettings.INGAME_DEFAULT)
     val SAVE_AS_PROFILE                           /**/ by hotkey("R,P",
                                                                  KeybindSettings.GUI_DEFAULT)
+
+        .CATEGORY("$category.auto_refill")
+    val AUTO_REFILL_GUI_TOGGLE_FOR_SLOT           /**/ by hotkey("LEFT_CONTROL,BUTTON_1",
+                                                                 KeybindSettings.ANY_DEFAULT)
+    val AUTO_REFILL_GAME_TOGGLE_FOR_SLOT          /**/ by hotkey("LEFT_CONTROL,R",
+                                                                 KeybindSettings.INGAME_DEFAULT.copy(allowExtraKeys = true, orderSensitive = false))
+
         .CATEGORY("$category.villager_trading")
         //.CATEGORY("§§hide")
     val GLOBAL_BOOKMARK_TRADE                     /**/ by hotkey("B",

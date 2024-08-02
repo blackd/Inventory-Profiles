@@ -107,6 +107,7 @@ object ContainerScreenEventHandler {
 
         LockSlotsHandler.onBackgroundRender(context)
         SlotHighlightHandler.onBackgroundRender(context)
+        AutoRefillHandler.onBackgroundRender(context)
     }
 
     fun onForegroundRender(context: NativeContext, mouseX: Int, mouseY: Int, f: Float) {
@@ -119,7 +120,7 @@ object ContainerScreenEventHandler {
         }
         LockSlotsHandler.onForegroundRender(context)
         SlotHighlightHandler.onForegroundRender(context)
-        //AutoRefillHandler.onForegroundRender(context)
+        AutoRefillHandler.onForegroundRender(context)
     }
 
     fun postRender(context: NativeContext) {

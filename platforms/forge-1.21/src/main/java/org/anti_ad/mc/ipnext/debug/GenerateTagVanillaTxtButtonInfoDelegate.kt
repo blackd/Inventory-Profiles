@@ -32,7 +32,6 @@ import org.anti_ad.mc.common.extensions.name
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
-import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import kotlin.io.path.bufferedWriter
 
 // ============

@@ -23,6 +23,7 @@
 package org.anti_ad.mc.ipnext.event
 
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.InventoryScreen
 import org.anti_ad.mc.alias.enchantment.Enchantments
 import org.anti_ad.mc.alias.inventory.PlayerInventory
 import org.anti_ad.mc.alias.item.ArmorItem
@@ -39,15 +40,20 @@ import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.math2d.Size
+import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.common.vanilla.showSubTitle
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
+import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
 import org.anti_ad.mc.ipnext.config.ToolReplaceVisualNotification
@@ -100,36 +106,48 @@ import org.anti_ad.mc.ipnext.item.maxDamage
 import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.item.rule.natives.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
+import org.anti_ad.mc.ipnext.parser.RefillSlotsLoader
 import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler
 import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler.Companion.TEXTURE
 
 object AutoRefillHandler: PLockSlotHandler {
 
-    data object WatchIds {
 
+    class IdAndIndex(val id: () -> Int, val index: () -> Int)
+
+    data object WatchIds {
         const val MAIN_HAND_OFFSET = 36
-        val mainHandSelected: () -> Int = { MAIN_HAND_OFFSET + if (VanillaUtil.inGame()) vMainhandIndex() else 0}
-        val offHand: () -> Int = { 45 }
-        val head: () -> Int = { 5 }
-        val chest: () -> Int = { 6 }
-        val legs: () -> Int = { 7 }
-        val feet: () -> Int = { 8 }
+        val mainHandSelected: IdAndIndex = IdAndIndex({ MAIN_HAND_OFFSET + if (VanillaUtil.inGame()) vMainhandIndex() else 0 }, { vMainhandIndex() })
+        val offHand: IdAndIndex = IdAndIndex({ 45 }, { 40 })
+        val head: IdAndIndex = IdAndIndex({ 5 }, { 39 })
+        val chest: IdAndIndex = IdAndIndex({ 6 }, { 38 })
+        val legs: IdAndIndex = IdAndIndex({ 7 }, { 37 })
+        val feet: IdAndIndex = IdAndIndex({ 8 }, { 36 })
     }
+
+    private var mode: Int = 0
+    private var clicked: Boolean = false
 
     private val allIds: List<Int>
         get() {
             return run {
                 val screen = Vanilla.screen()
-                Vanilla.container().`(slots)`.filter { slot ->
+                val container = Vanilla.container()
+                val range: List<Int> = if (screen !is InventoryScreen) {
+                    (0..8).toList()
+                } else {
+                    (0..8 ).toList() + (36..40).toList()
+                }
+                container.`(slots)`.filter { slot ->
                     val playerSlot = vPlayerSlotOf(slot, screen)
                     val inv = playerSlot.`(inventoryOrNull)`
-                    inv != null && inv is PlayerInventory && slot.`(invSlot)` in 0 .. 8
+                    inv != null && inv is PlayerInventory && slot.`(invSlot)` in range
                 }.map { it.`(id)` }
             }
         }
 
     val foregroundSprite: Sprite
-        get() = Sprite(TEXTURE, Rectangle(8, 8, 32, 32)).right(0).down(2)
+        get() = Sprite(TEXTURE, Rectangle(8, 8, 32, 32)).right(1).down(2)
 
     val disabledSlots: MutableList<Int> = mutableListOf()
 
@@ -171,7 +189,31 @@ object AutoRefillHandler: PLockSlotHandler {
             }
         } else {
             skipTick = false
+        }
+        val screen = Vanilla.screen() as? ContainerScreen<*> ?: run {
+            clicked = false
             return
+        }
+        if (!Hotkeys.AUTO_REFILL_GUI_TOGGLE_FOR_SLOT.isPressing()) {
+            clicked = false
+            RefillSlotsLoader.save()
+            return
+        }
+        if (clicked) {
+            val line = MouseTracer.asLine
+            val topLeft = screen.`(containerBounds)`.topLeft - Size(1,
+                                                                    1)
+            for ((invSlot, slotTopLeft) in slotLocations) {
+                if ((mode == 0) == (invSlot !in disabledSlots)
+                    && line.intersects(Rectangle(topLeft + slotTopLeft,
+                                                 Size(18,
+                                                      18)))) {
+                    if (mode == 0)
+                        disabledSlots.add(invSlot)
+                    else
+                        disabledSlots.remove(invSlot)
+                }
+            }
         }
     }
 
@@ -179,41 +221,24 @@ object AutoRefillHandler: PLockSlotHandler {
         init()
     }
 
-    private fun refillAllowedOrNull(slot: () -> Int): (() -> Int)? {
-        return if (!disabledSlots.contains(slot())) {
-            slot
-        } else {
-            null
-        }
-    }
-
     fun init() {
         monitors.clear()
         val list = mutableListOf<ItemSlotMonitor>()
 
-        var swapers = 0
-        refillAllowedOrNull(WatchIds.mainHandSelected)?.let {
-            list.add(ItemSlotMonitor(it))
-            swapers++
-        }
-        refillAllowedOrNull(WatchIds.offHand)?.let {
-            list.add(ItemSlotMonitor(it))
-            swapers++
-        }
+        val swapers = 2
+        list.add(ItemSlotMonitor(WatchIds.mainHandSelected))
+        list.add(ItemSlotMonitor(WatchIds.offHand))
 
         if (AutoRefillSettings.REFILL_ARMOR.booleanValue) {
-            list += listOf(
-                ItemSlotMonitor(WatchIds.head), ItemSlotMonitor(WatchIds.chest), ItemSlotMonitor(WatchIds.legs), ItemSlotMonitor(WatchIds.feet)
-                          )
+            list.add(ItemSlotMonitor(WatchIds.head))
+            list.add(ItemSlotMonitor(WatchIds.head))
+            list.add(ItemSlotMonitor(WatchIds.head))
+            list.add(ItemSlotMonitor(WatchIds.head))
         }
-        if (swapers > 0) {
-            list[0].anothers += list[1]
-            list[0].anothers += list.drop(swapers)
-        }
-        if (swapers > 1) {
-            list[1].anothers += list[0]
-            list[1].anothers += list.drop(swapers)
-        }
+        list[0].anothers += list[1]
+        list[0].anothers += list.drop(swapers)
+        list[1].anothers += list[0]
+        list[1].anothers += list.drop(swapers)
         monitors.addAll(list)
     }
 
@@ -228,7 +253,7 @@ object AutoRefillHandler: PLockSlotHandler {
         }
     }
 
-    class ItemSlotMonitor(val slotId: () -> Int) { constructor(slotId: Int): this({ slotId })
+    class ItemSlotMonitor(val slotId: IdAndIndex) {
 
         val anothers = mutableListOf<ItemSlotMonitor>() // item may swap with another slot
 
@@ -245,7 +270,7 @@ object AutoRefillHandler: PLockSlotHandler {
 
         fun updateCurrent() {
             lastTickItem = currentItem
-            currentSlotId = slotId()
+            currentSlotId = slotId.id()
             currentItem = Vanilla.playerContainer().`(slots)`[currentSlotId].`(itemStack)`
         }
 
@@ -303,9 +328,7 @@ object AutoRefillHandler: PLockSlotHandler {
 
                 if ((storedSlotId - WatchIds.MAIN_HAND_OFFSET) in 0 .. 8) { // use swap
                     //handles hotbar
-                    ContainerClicker.swap(
-                        foundSlotId, storedSlotId - WatchIds.MAIN_HAND_OFFSET
-                                         )
+                    ContainerClicker.swap(foundSlotId, storedSlotId - WatchIds.MAIN_HAND_OFFSET)
                 } else { //handles offhand and armor slots
                     ContainerClicker.leftClick(foundSlotId)
                     ContainerClicker.leftClick(storedSlotId)
@@ -322,9 +345,12 @@ object AutoRefillHandler: PLockSlotHandler {
         var checkingItem = storedItem // use to select
 
         private fun shouldHandleItem(): Boolean {
-
-            if (profilesSwappedItems.contains(slotId())) {
-                profilesSwappedItems.remove(slotId())
+            if (AutoRefillSettings.AUTO_REFILL_ENABLE_PER_SLOT_CONFIG.value &&
+                disabledSlots.contains(slotId.index())) {
+                return false
+            }
+            if (profilesSwappedItems.contains(slotId.id())) {
+                profilesSwappedItems.remove(slotId.id())
                 return false
             }
 
@@ -337,7 +363,9 @@ object AutoRefillHandler: PLockSlotHandler {
             val itemType = currentItem.itemType
             if (itemType.isDamageable) {
                 if (AutoRefillSettings.REFILL_BEFORE_TOOL_BREAK.booleanValue && !tempDisabledForDamageable) {
-                    if (!(AutoRefillSettings.ALLOW_BREAK_FOR_NON_ENCHANTED.value && itemType.`(enchantments)`.isEmpty() && itemType.maxDamage < AutoRefillSettings.TOOL_MAX_DURABILITY_THRESHOLD.value)) {
+                    if (!(AutoRefillSettings.ALLOW_BREAK_FOR_NON_ENCHANTED.value &&
+                                itemType.`(enchantments)`.isEmpty() &&
+                                itemType.maxDamage < AutoRefillSettings.TOOL_MAX_DURABILITY_THRESHOLD.value)) {
                         val threshold = getThreshold(itemType)
 
                         notifyDurabilityChange(itemType, itemType.durability, threshold)
@@ -731,7 +759,7 @@ object AutoRefillHandler: PLockSlotHandler {
     }
 
     override val enabled: Boolean
-        get() = AutoRefillSettings.DRAW_OVERLAY_FOR_ENABLED_SLOTS.value
+        get() = AutoRefillSettings.AUTO_REFILL_ENABLE_INDICATOR_ICONS.value && AutoRefillSettings.AUTO_REFILL_ENABLE_PER_SLOT_CONFIG.value
 
     override val slotLocations: Map<Int, Point>
         get() {
@@ -741,7 +769,8 @@ object AutoRefillHandler: PLockSlotHandler {
             val container = Vanilla.container() ?: return mapOf()
             return container.`(slots)`.mapNotNull { slot ->
                 val playerSlot = vPlayerSlotOf(slot, screen)
-                if (playerSlot.`(id)` in allIds) {
+                val all = allIds
+                if (playerSlot.`(id)` in all) {
                     val topLeft = slot.`(topLeft)`
                     val inv = playerSlot.`(inventoryOrNull)` ?: return@mapNotNull null
                     return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to topLeft else null
@@ -751,12 +780,15 @@ object AutoRefillHandler: PLockSlotHandler {
         }
 
     override fun drawForeground(context: NativeContext) {
+        if (!enabled) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         val topLeft = screen.`(containerBounds)`.topLeft
         for ((invSlot, slotTopLeft) in slotLocations) {
             if (invSlot !in disabledSlots) {
                 val center = topLeft + slotTopLeft + eightByEight
+                RenderSystem.enableBlend()
                 rDrawCenteredSprite(context, foregroundSprite, center)
+                RenderSystem.disableBlend()
             }
         }
     }
@@ -770,19 +802,21 @@ object AutoRefillHandler: PLockSlotHandler {
     }
 
     private fun drawHotSprite(context: NativeContext) {
-        if (!enabled) return //    rClearDepth() // use translate or zOffset
+        if (!AutoRefillSettings.AUTO_REFILL_ENABLE_PER_SLOT_CONFIG.value || !AutoRefillSettings.AUTO_REFILL_ENABLE_HORBAR_INDICATOR_ICONS.value) return //    rClearDepth() // use translate or zOffset
         rDisableDepth() //RenderSystem.enableBlend()
         val screenWidth = Vanilla.mc().`(window)`.`(scaledWidth)`
         val screenHeight = Vanilla.mc().`(window)`.`(scaledHeight)`
         val i = screenWidth / 2
         for (j1 in 0 .. 8) {
-            if ((j1 + 36) !in disabledSlots) {
+            if (j1 !in disabledSlots) {
 
                 val k1: Int = i - 90 + j1 * 20 + 2
                 val l1: Int = screenHeight - 16 - 3
                 val topLeft = Point(k1, l1)
                 val topLeftCentered = topLeft + eightByEight //if (LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) {
-                rDrawCenteredSprite(context, foregroundSprite, topLeftCentered) //}
+                RenderSystem.enableBlend()
+                rDrawCenteredSprite(context, foregroundSprite, topLeftCentered)
+                RenderSystem.disableBlend()
             }
         } //RenderSystem.disableBlend()
         rEnableDepth()
@@ -796,16 +830,46 @@ object AutoRefillHandler: PLockSlotHandler {
     }
 
     fun onInput(lastKey: Int, lastAction: Int): Boolean {
-        if (!VanillaUtil.inGame() || Vanilla.screen() != null) return false
-        if (AutoRefillSettings.AUTO_REFILL_DISABLE_FOR_SLOT.isActivated()) {
-            toggleRefillHotbarSlot()
+        if (!enabled) return false
+        val screen = Vanilla.screen() as? ContainerScreen<*>
+        if (VanillaUtil.inGame() && screen == null && Hotkeys.AUTO_REFILL_GAME_TOGGLE_FOR_SLOT.isActivated()) {
+            val index = vMainhandIndex()
+            toggleDisableRefillForSlot(index)
+            init()
             return true
+        } else {
+            return screen != null && onCancellableInput(screen)
         }
-        return false
     }
 
-    private fun toggleRefillHotbarSlot() {
+    private fun toggleDisableRefillForSlot(index: Int) {
+        if (disabledSlots.contains(index)) {
+            disabledSlots.remove(index)
+        } else {
+            disabledSlots.add(index)
+        }
+        RefillSlotsLoader.save()
+    }
 
+
+    fun onCancellableInput(screen: ContainerScreen<*>): Boolean {
+        val currentClicked = Hotkeys.AUTO_REFILL_GUI_TOGGLE_FOR_SLOT.isPressing()
+        if (currentClicked != clicked) {
+            val topLeft = screen.`(containerBounds)`.topLeft - Size(1,
+                                                                    1)
+            // check if on slot
+            val focused = slotLocations.asIterable().firstOrNull { (_, slotTopLeft) ->
+                Rectangle(topLeft + slotTopLeft,
+                          Size(18,
+                               18)).contains(MouseTracer.location)
+            }
+            focused?.let { (invSlot, _) ->
+                clicked = true
+                mode = if (invSlot in disabledSlots) 1 else 0
+                return true
+            }
+        }
+        return false
     }
 
 }

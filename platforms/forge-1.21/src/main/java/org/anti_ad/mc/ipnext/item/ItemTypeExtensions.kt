@@ -61,7 +61,6 @@ import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 
 import org.anti_ad.mc.ipnext.config.CreativeMenuSortOrder
 import org.anti_ad.mc.ipnext.config.ModSettings
-import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(getRawId)`
 import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.mixinhelpers.IMixinItemGroup
@@ -306,7 +305,7 @@ val COMPONENTS_CHANGES_CODEC: Codec<VanillaItemStack> = Codec.lazyInitialized {
     RecordCodecBuilder.create { instance ->
         instance.group(ComponentChanges.CODEC.optionalFieldOf("components", ComponentChanges.EMPTY).forGetter {
                 stack -> stack?.componentsPatch
-        }).apply(instance) { changes: ComponentChanges? ->
+        }).apply(instance) { changes: ComponentChanges ->
             VanillaItemStack(ForgeRegistries.ITEMS.getHolder(Items.AIR).get(), 0, changes)
         }
     }
@@ -419,9 +418,9 @@ inline val StatusEffectInstance.`(asComparable)`: PotionEffect
                          this.amplifier,
                          this.duration)
 
-data class PotionEffect(inline val effect: String,
-                        inline val amplifier: Int,
-                        inline val duration: Int) : Comparable<PotionEffect> {
+data class PotionEffect(val effect: String,
+                        val amplifier: Int,
+                        val duration: Int) : Comparable<PotionEffect> {
 
     override fun compareTo(other: PotionEffect): Int { // stronger first
         this.effect.compareTo(other.effect).let { if (it != 0) return it }

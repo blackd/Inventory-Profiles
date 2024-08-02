@@ -208,7 +208,7 @@ object ScrollingUtils {
         }
     }
 
-    private inline fun AreaTypes.doDefaultAction(direction: ScrollDirection,
+    private fun AreaTypes.doDefaultAction(direction: ScrollDirection,
                                                  slot: Slot,
                                                  targetIn: AreaType,
                                                  slots: List<Slot>,

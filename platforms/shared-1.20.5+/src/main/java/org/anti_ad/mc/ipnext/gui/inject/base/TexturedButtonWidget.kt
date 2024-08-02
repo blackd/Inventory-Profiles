@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.gui.inject.base
 
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.widgets.IPNButtonWidget
-import org.anti_ad.mc.common.input.GlobalInputHandler.onMouseButton
+
 import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
@@ -31,8 +31,6 @@ import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
-import org.lwjgl.glfw.GLFW.GLFW_PRESS
-import org.lwjgl.glfw.GLFW.GLFW_RELEASE
 
 abstract class TexturedButtonWidget : IPNButtonWidget, Hintable {
     constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)

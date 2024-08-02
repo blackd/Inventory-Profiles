@@ -25,6 +25,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 
 import org.anti_ad.mc.common.gui.NativeContext;
+import org.anti_ad.mc.ipnext.event.AutoRefillHandler;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,7 +40,9 @@ public class MixinInGameHud {
     protected void preRenderHotbar(GuiGraphics drawContext,
                                    DeltaTracker tickCounter,
                                    CallbackInfo ci) {
-        LockSlotsHandler.INSTANCE.preRenderHud(new NativeContext(drawContext));
+        var context = new NativeContext(drawContext);
+        LockSlotsHandler.INSTANCE.preRenderHud(context);
+        AutoRefillHandler.INSTANCE.preRenderHud(context);
     }
 
 
@@ -48,7 +51,8 @@ public class MixinInGameHud {
     protected void postRenderHotbar(GuiGraphics drawContext,
                                     DeltaTracker tickCounter,
                                     CallbackInfo ci) {
-        LockSlotsHandler.INSTANCE.postRenderHud(new NativeContext(drawContext));
-
+        var context = new NativeContext(drawContext);
+        LockSlotsHandler.INSTANCE.postRenderHud(context);
+        AutoRefillHandler.INSTANCE.postRenderHud(context);
     }
 }

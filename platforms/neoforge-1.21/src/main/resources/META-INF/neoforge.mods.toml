@@ -42,7 +42,7 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]] #optional
 modId="neoforge" #mandatory
 mandatory=true #mandatory
-versionRange="[20,)" #mandatory
+versionRange="[20.0.147,)" #mandatory
 ordering="NONE"
 side="CLIENT"
 
@@ -56,6 +56,6 @@ side="CLIENT"
 [[dependencies.inventoryprofilesnext]]
 modId="libipn"
 mandatory=true
-versionRange="[@LIBIPN_VERSION@,7)"
+versionRange="[@LIBIPN_VERSION@,6.1)"
 ordering="NONE"
 side="CLIENT"

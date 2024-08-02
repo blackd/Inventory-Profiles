@@ -433,9 +433,9 @@ inline val StatusEffectInstance.`(asComparable)`: PotionEffect
                          this.amplifier,
                          this.duration)
 
-data class PotionEffect(inline val effect: String,
-                        inline val amplifier: Int,
-                        inline val duration: Int) : Comparable<PotionEffect> {
+data class PotionEffect(val effect: String,
+                        val amplifier: Int,
+                        val duration: Int) : Comparable<PotionEffect> {
     override fun compareTo(other: PotionEffect): Int { // stronger first
         this.effect.compareTo(other.effect).let { if (it != 0) return it }
         other.amplifier.compareTo(this.amplifier).let { if (it != 0) return it }

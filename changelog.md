@@ -1,13 +1,20 @@
 <!-- latest begin -->
 
-### 2.0.3
+### 2.0.4
 
-- To prove a worthy successor of Forge, NeoForge have broken the API keeping the same major version!
-- Fixed locked slot rendering in hotbar for bot Forge and NeoForge.  
-- Minor bugfixes
+#### new features
 
-#### Forge
-- The forge build is still unstable and the gui overlay of the hotbar is currently missing.
+- It is now possible to toggle auto refill per slot.
+  * Slots that have auto refill enabled are marked with small icon on top left.
+  * As usual everything can be disabled in the settings.
+  * Default shortcuts:
+    * in when inventory is opened `left control + left click`
+    * in game `left control + r`
+
+#### fixes
+- fixed bug where non-stackable damageable items will not be moved or dropped properly
+
+#### Forge and NeoForge versions are now considered stable
 
 #### Quilt
 
@@ -15,11 +22,16 @@ As usual the mod will run on Quilt, but I don't have time for full testing and d
 
 **Use at your own risk**
 
-#### NeoForge
-
-This is still early beta please report problems. Also has the same problem as the forge build.
 
 <!-- latest end -->
+<!-- rest begin -->
+
+### 2.0.3
+
+- To prove a worthy successor of Forge, NeoForge have broken the API keeping the same major version!
+- Fixed locked slot rendering in hotbar for bot Forge and NeoForge.
+- Minor bugfixes
+
 
 ### 2.0.2
 - Added support for NeoForge 1.21. No backports will happen!
@@ -99,8 +111,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.19.2**
 - **1.20/.1**
 - **1.20.2**
-
-<!-- rest begin -->
 
 ### 1.10.7
 

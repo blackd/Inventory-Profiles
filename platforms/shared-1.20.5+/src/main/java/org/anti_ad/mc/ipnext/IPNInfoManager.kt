@@ -27,6 +27,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.ClientEventHandler.createChatMessage
+import java.net.URI
 import java.net.URL
 import kotlin.concurrent.timer
 
@@ -42,7 +43,7 @@ object IPNInfoManager: InfoManagerBase() {
     override val defaultRequest: Map<String, String> = mapOf("domain" to "ipn-stats.anti-ad.org",
                                                              "name" to "pageview")
 
-    override val target: URL = URL("https://p.anti-ad.org/api/event")
+    override val target: URL = URI("https://p.anti-ad.org/api/event").toURL()
 
     override var isEnabled: () -> Boolean  = { false }
 
@@ -64,6 +65,16 @@ object IPNInfoManager: InfoManagerBase() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    fun doSessionKeepAlive() {
+        timer("ipnPeriodicalTasks", initialDelay = 60000, period = 60000) {
+            val player = Vanilla.playerNullable()
+            if (player != null && version != "null") {
+                val salt = player.gameProfile.id?.toString() ?: " InvalidName"
+                checkVersion(versionCheckUrl, "IPN", salt) { _, _, _ -> }
             }
         }
     }

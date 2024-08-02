@@ -46,6 +46,6 @@ inline fun serverIdentifier(perServer: Boolean): String = when {
 }
 
 inline fun initInfoManager() {
-    IPNInfoManager.loader = "forge"
+    IPNInfoManager.loader = "neoforge"
     IPNInfoManager.mcVersion = SharedConstants.getCurrentVersion().id
 }

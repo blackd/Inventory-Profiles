@@ -80,6 +80,6 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]]
     modId="libipn"
     mandatory=true
-    versionRange="[@LIBIPN_VERSION@,7)"
+    versionRange="[@LIBIPN_VERSION@,6.1)"
     ordering="NONE"
     side="CLIENT"

@@ -31,7 +31,7 @@ import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfoDelegate
 import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfoDelegate
 import org.anti_ad.mc.ipnext.parser.ProfilesLoader
 import org.anti_ad.mc.ipnext.parser.ReloadRuleFileButtonInfoDelegate
-import java.net.URL
+import java.net.URI
 import java.nio.file.Path
 import java.util.*
 import kotlin.concurrent.schedule
@@ -107,7 +107,7 @@ object OpenProfilesHelpButtonInfo : ConfigButtonInfo() {
         get() = I18n.translate("inventoryprofiles.gui.config.profiles_help_button")
 
     override fun onClick(widget: CustomButtonWidget) {
-        VanillaUtil.open(URL("https://inventory-profiles-next.github.io/profiles/"))
+        VanillaUtil.open(URI("https://inventory-profiles-next.github.io/profiles/").toURL())
     }
 }
 

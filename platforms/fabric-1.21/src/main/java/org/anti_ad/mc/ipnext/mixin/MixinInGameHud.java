@@ -41,7 +41,7 @@ public class MixinInGameHud {
                                    CallbackInfo ci) {
         var context = new NativeContext(drawContext);
         LockSlotsHandler.INSTANCE.preRenderHud(context);
-        //AutoRefillHandler.INSTANCE.preRenderHud(context);
+        AutoRefillHandler.INSTANCE.preRenderHud(context);
     }
 
 
@@ -52,7 +52,7 @@ public class MixinInGameHud {
                                     CallbackInfo ci) {
         var context = new NativeContext(drawContext);
         LockSlotsHandler.INSTANCE.postRenderHud(context);
-        //AutoRefillHandler.INSTANCE.postRenderHud(context);
+        AutoRefillHandler.INSTANCE.postRenderHud(context);
 
     }
 }

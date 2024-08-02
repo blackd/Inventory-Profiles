@@ -21,6 +21,9 @@
 package org.anti_ad.mc.ipnext.input
 
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
+import org.anti_ad.mc.alias.client.gui.screen.recipebook.`(searchField)`
+import org.anti_ad.mc.alias.client.gui.screen.recipebook.RecipeBookWidget
+import org.anti_ad.mc.alias.client.gui.widget.TextFieldWidget
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
@@ -39,7 +42,7 @@ object InventoryInputHandler : IInputHandler {
         if (scr != null && scr is ContainerScreen<*> ) {
             val screenHints = HintsManagerNG.getHints(scr.javaClass)
             val containerHints = HintsManagerNG.getHints(ctr.javaClass)
-            if (!screenHints.ignore && !containerHints.ignore) {
+            if (!screenHints.ignore && !containerHints.ignore && !isInputFieldActive(scr)) {
                 with(GeneralInventoryActions) {
                     return Hotkeys.SORT_INVENTORY                /**/ run ::doSort
                             || Hotkeys.SORT_INVENTORY_IN_COLUMNS /**/ run ::doSortInColumns
@@ -55,6 +58,13 @@ object InventoryInputHandler : IInputHandler {
             }
         }
         return false
+    }
+
+    private fun isInputFieldActive(scr: ContainerScreen<*>): Boolean {
+        return scr.children()?.any {
+            (it is RecipeBookWidget && (it.`(searchField)`?.isActive == true)) ||
+                    (it is TextFieldWidget && it.isActive)
+        } ?: false
     }
 
     inline infix fun ConfigHotkey.run(action: () -> Unit): Boolean {

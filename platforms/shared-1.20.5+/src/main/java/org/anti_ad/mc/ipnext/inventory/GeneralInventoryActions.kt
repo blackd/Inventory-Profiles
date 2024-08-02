@@ -192,7 +192,8 @@ object GeneralInventoryActions {
                 if (!focusedStack.isEmpty()) {
                     source.slotIndices.forEach {
                         val checkStack = slots[it].`(itemStack)`.also { itemStack ->  itemStack.itemType.ignoreDurability = ModSettings.IGNORE_DURABILITY.booleanValue }
-                        if (!checkStack.isEmpty() && checkStack.itemType == focusedStack.itemType) {
+                        val isEmpty = checkStack.isEmpty()
+                        if (!isEmpty && checkStack.itemType == focusedStack.itemType) {
                             res[it] = slots[it]
                         }
                     }
@@ -201,9 +202,12 @@ object GeneralInventoryActions {
             }
             if (actUponSlots.isNotEmpty()) {
                 val interval: Int =
-                        if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue)
+                        if (ModSettings.ADD_INTERVAL_BETWEEN_CLICKS.booleanValue) {
                             ModSettings.INTERVAL_BETWEEN_CLICKS_MS.integerValue
-                        else 0
+                        }
+                        else {
+                            0
+                        }
                 ContainerClicker.executeQClicks(actUponSlots, interval)
             }
 

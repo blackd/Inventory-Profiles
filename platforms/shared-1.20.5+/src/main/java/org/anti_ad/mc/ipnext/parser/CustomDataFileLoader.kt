@@ -114,11 +114,14 @@ object ProfilesLoader: Loader, Savable {
 
 
     override fun doSanityCheck(): Boolean {
+        return false
+/*
         return oldfile.exists().ifTrue {
             NotificationManager.addNotification("[IPN] - Found incompatible Profiles configuration")
             Log.error("Found old profiles config at:")
             Log.error("\t\t$oldfile.absolutePathString()")
         }
+*/
     }
 
     override fun reload(fromUserInput: Boolean) {
@@ -273,6 +276,8 @@ object RuleLoader : Loader {
     private const val regexOld = "^rules\\.(?:.*\\.)?txt\$"
 
     override fun doSanityCheck(): Boolean {
+        return false
+/*
         val files = getFiles(regexOld)
         return files.isNotEmpty().ifTrue {
             NotificationManager.addNotification("[IPM] - Found incompatible custom sorting rules configuration/s.")
@@ -281,6 +286,7 @@ object RuleLoader : Loader {
                 Log.error("\t\t${it.toAbsolutePath()}")
             }
         }
+*/
     }
 
     override fun load() = reload(false)
@@ -363,7 +369,10 @@ object VillagerBookmarksLoader: Loader, Savable {
     }
 
     override fun doSanityCheck(): Boolean {
+        return false
+/*
         return VillagerDataManager.checkOldConfig()
+*/
     }
 
     override fun reload(fromUserInput: Boolean) {

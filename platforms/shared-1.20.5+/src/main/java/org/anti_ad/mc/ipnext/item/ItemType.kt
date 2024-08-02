@@ -89,11 +89,8 @@ data class ItemType(val item: Item,
                 } else {
                     return false
                 }
-            } else {
-                return tag == null && other.tag == null
             }
         }
-
         return true
     }
     private fun tagHashCode(): Int {
