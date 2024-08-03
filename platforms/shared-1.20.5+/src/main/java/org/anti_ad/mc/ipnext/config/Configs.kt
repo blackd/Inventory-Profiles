@@ -99,7 +99,7 @@ object ModSettings : ConfigDeclaration {
     val ALWAYS_THROW_ALL                          /**/ by bool(false)
 
         .CATEGORY("$category.highlight_focused_items")
-    val HIGHLIGHT_FOUSED_ITEMS                    /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
+    val HIGHLIGHT_FOUSED_ITEMS                    /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
     val HIGHLIGHT_FOUSED_ITEMS_ANIMATED           /**/ by keyToggleBool(false, KeybindSettings.GUI_DEFAULT)
     val HIGHLIGHT_FOUSED_ITEMS_FOREGROUND         /**/ by bool(true)
     val HIGHLIGHT_FOUSED_ITEMS_COLOR              /**/ by color(0x70.asAlpha().red(1).green(0xB6).blue(0x0b))
