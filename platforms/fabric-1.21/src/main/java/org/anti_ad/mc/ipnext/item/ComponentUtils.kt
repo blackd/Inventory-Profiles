@@ -20,6 +20,7 @@
 package org.anti_ad.mc.ipnext.item
 
 import com.mojang.serialization.Codec
+import org.anti_ad.mc.alias.component.ComponentChanges
 import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.component.type.DyedColorComponent
@@ -43,6 +44,7 @@ import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.item.NbtUtils.compareTo
 import java.util.*
+import java.util.function.*
 import kotlin.Comparator
 
 @Suppress("UNCHECKED_CAST")
@@ -253,4 +255,6 @@ object ComponentUtils {
 
         return newLevels
     }
+
+    fun ComponentChanges.`(withRemovedIf)`(predicate: Predicate<ComponentType<*>>): ComponentChanges = this.withRemovedIf(predicate)
 }

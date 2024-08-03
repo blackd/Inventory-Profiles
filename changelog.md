@@ -11,8 +11,13 @@
     * in when inventory is opened `left control + left click`
     * in game `left control + r`
 
+- Villager bookmarks now support cost items with changed components. This is useful with some shop plugins. 
+
 #### fixes
-- fixed bug where non-stackable damageable items will not be moved or dropped properly
+- fixed issue where non-stackable damageable items will not be moved or dropped properly
+- fixed issue where item highlight won't work properly for damageable items
+- fixed issue where auto refill won't work properly for damageable items
+- fixed issue that made villager bookmarks ignore the resulting item components
 
 #### Forge and NeoForge versions are now considered stable
 

@@ -261,4 +261,15 @@ object NbtUtils {
                                target: NbtElement): List<NbtElement> {
         return trySwallow(listOf()) { nbtPath.get(target) } // func_218071_a() = get()
     }
+
+    fun NbtElement?.nullIfEmpty(): NbtElement? {
+        return if (this == null) {
+            null
+        }
+        else if (this is NbtCompound && this.isEmpty || this is NbtList && this.isEmpty()) {
+            null
+        } else {
+            this
+        }
+    }
 }

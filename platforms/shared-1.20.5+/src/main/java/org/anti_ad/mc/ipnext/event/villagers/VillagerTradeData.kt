@@ -24,12 +24,19 @@ import kotlinx.serialization.Transient
 import org.anti_ad.mc.alias.nbt.NbtElement
 
 import org.anti_ad.mc.ipnext.item.NbtUtils
+import org.anti_ad.mc.ipnext.item.NbtUtils.nullIfEmpty
 
 @Serializable
 data class VillagerTradeData(val resultItem: String,
                              val priceItem1: String,
                              val priceItem2: String? = null,
-                             val resultItemNBT: String? = null) {
+                             val resultItemNBT: String? = null,
+                             val priceItem1NBT: String? = null,
+                             val priceItem2NBT: String? = null) {
     @Transient
-    val nbt: NbtElement? = resultItemNBT?.let { NbtUtils.parseNbt(it) }
+    val resultNbt: NbtElement? = resultItemNBT?.let { NbtUtils.parseNbt(it).nullIfEmpty() }
+    @Transient
+    val price1Nbt: NbtElement? = priceItem1NBT?.let { NbtUtils.parseNbt(it).nullIfEmpty() }
+    @Transient
+    val price2Nbt: NbtElement? = priceItem2NBT?.let { NbtUtils.parseNbt(it).nullIfEmpty() }
 }

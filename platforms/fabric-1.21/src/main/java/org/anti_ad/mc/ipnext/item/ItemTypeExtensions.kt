@@ -120,7 +120,11 @@ inline val ItemType.searchItemStack: VanillaItemStack
     }
 
 inline val ItemType.vanillaStack: VanillaItemStack
-    get() = VanillaItemStack(this.item, 1, this@vanillaStack.tag) // nbt was tag
+    get() {
+        val tag = ComponentMapImpl(this@vanillaStack.tag)
+        tag.changes = this@vanillaStack.changes
+        return VanillaItemStack(this.item, 1, tag)
+    }
 
 fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
     VanillaItemStack(this.item,

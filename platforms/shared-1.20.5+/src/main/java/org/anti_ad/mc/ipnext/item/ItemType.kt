@@ -20,16 +20,18 @@
 
 package org.anti_ad.mc.ipnext.item
 
-import org.anti_ad.mc.alias.component.`(types)`
 import org.anti_ad.mc.alias.component.ComponentChanges
 import org.anti_ad.mc.alias.component.ComponentMap
 import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.item.Item
 import org.anti_ad.mc.alias.item.Items
+import org.anti_ad.mc.ipnext.item.ComponentUtils.`(withRemovedIf)`
 
 import org.anti_ad.mc.ipnext.item.rule.CountSink
 import org.anti_ad.mc.ipnext.item.rule.CountSource
+import java.util.function.*
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,
@@ -79,17 +81,12 @@ data class ItemType(val item: Item,
         if (!ignoreDurability || !isDamageable) {
             if (changes != other.changes) return false
         } else {
-            if (!changes.isEmpty && !other.changes.isEmpty) {
-                if (changes.entrySet().size == other.changes.entrySet().size) {
-                    changes.entrySet().forEach { (type, value) ->
-                        if (type != DataComponentTypes.DAMAGE) {
-                            if (value != other.changes[type]) return false
-                        }
-                    }
-                } else {
-                    return false
-                }
+            val removePredicate: Predicate<ComponentType<*>> = Predicate { type ->
+                type == DataComponentTypes.DAMAGE
             }
+            val ourLocalChanges = this.changes.`(withRemovedIf)`(removePredicate)
+            val otherLocalChanges = other.changes.`(withRemovedIf)`(removePredicate)
+            return ourLocalChanges == otherLocalChanges
         }
         return true
     }
