@@ -136,19 +136,8 @@
         "appeng.client.gui.implementations.WirelessScreen": {
             "playerSideOnly": true
         },
-        "appeng.client.gui.implementations.SecurityStationScreen": {
-            "playerSideOnly": true,
-            "buttonHints": {
-                "SORT": {
-                    "horizontalOffset": 20
-                },
-                "SORT_COLUMNS": {
-                    "horizontalOffset": 20
-                },
-                "SORT_ROWS": {
-                    "horizontalOffset": 20
-                }
-            }
+        "appeng.menu.me.common.MEStorageMenu": {
+            "ignore": true
         }
     },
     "ae2additions": {
@@ -227,7 +216,7 @@
                 }
             }
         },
-        "de.mari_023.ae2wtlib.wct.magnet_card.config.MagnetScreen": {
+        "de.mari_023.ae2wtlib.wct.magnet_card.MagnetScreen": {
             "playerSideOnly": true,
             "buttonHints": {
                 "SORT": {
