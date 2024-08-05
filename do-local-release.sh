@@ -50,7 +50,7 @@ python build_release_notes.py
 cd ..
 
 if [[ n$IPNEXT_PATREON != "n" ]]; then
-  IPNEXT_RELEASE=1 --max-workers 32 clean compileKotlin compileJava
+  IPNEXT_RELEASE=1 ./gradlew --max-workers 32 clean compileKotlin compileJava
 else
   ./gradlew --max-workers 32 clean compileKotlin compileJava
 fi

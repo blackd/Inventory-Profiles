@@ -35,7 +35,6 @@ import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
-import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
@@ -45,6 +44,8 @@ import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
+import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay
+import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay.Companion.backgroundSprite
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
@@ -53,15 +54,11 @@ import org.anti_ad.mc.ipnext.ingame.`(scaledHeight)`
 import org.anti_ad.mc.ipnext.ingame.`(scaledWidth)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
-import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.`(window)`
 import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
-import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.item.maxCount
 
 import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
-import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler
-import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler.Companion.backgroundSprite
 
 /*
   slots ignored for:
@@ -71,17 +68,20 @@ import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler.Companion.backgroun
     - continuous crafting supplies storage
     - auto refill supplies storage
  */
-object LockSlotsHandler: PLockSlotHandler {
+object LockSlotsHandler: InventoryOverlay {
 
     var lastMouseClickSlot: Slot? = null
 
-    override val enabled: Boolean
+    override val enabledForeground: Boolean
         get() = ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCK_SLOTS_QUICK_DISABLE.isPressing()
+
+    override val enabledBackground: Boolean
+        get() = ModSettings.ENABLE_LOCK_SLOTS.booleanValue && LockedSlotsSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue
 
     val lockedInvSlotsStoredValue = mutableSetOf<Int>() // locked invSlot list
 
     val lockedInvSlots: Iterable<Int>
-        get() = if (enabled) lockedInvSlotsStoredValue else listOf()
+        get() = if (enabledForeground) lockedInvSlotsStoredValue else listOf()
 
 
     private var displayingConfig by detectable(false) { _, newValue ->
@@ -126,7 +126,7 @@ object LockSlotsHandler: PLockSlotHandler {
     val configSpriteLocked: Sprite
         get() = configSprite.down()
 
-    fun onBackgroundRender(context: NativeContext) {
+    override fun drawBackground(context: NativeContext) {
         Vanilla.screen()?.also { target ->
             HintsManagerNG.getHints(target.javaClass).ignore.ifTrue {
                 return
@@ -181,7 +181,9 @@ object LockSlotsHandler: PLockSlotHandler {
         rDrawCenteredSprite(context, foregroundSprite, center)
     }
 
-    private fun drawConfigLocked(context: NativeContext, topLeft: Point, slotTopLeft: Point) = drawBackgroundSprite(context, topLeft, slotTopLeft)
+    private fun drawConfigLocked(context: NativeContext, topLeft: Point, slotTopLeft: Point) {
+        drawBackgroundSprite(context, topLeft, slotTopLeft)
+    }
 
     private fun drawConfigOpen(context: NativeContext, topLeft: Point, slotTopLeft: Point) {
         val center = topLeft + slotTopLeft + eightByEight
@@ -191,10 +193,10 @@ object LockSlotsHandler: PLockSlotHandler {
     private fun drawSprite(context: NativeContext,
                            lockedSprite: ((NativeContext, Point, Point) -> Unit)?,
                            openSprite: ((NativeContext, Point, Point) -> Unit)?) {
-        if (!enabled) return
+        //if (!enabledForeground) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         //    rClearDepth() // use translate or zOffset
-        rDisableDepth()
+        //rDisableDepth()
         RenderSystem.enableBlend()
         val topLeft = screen.`(containerBounds)`.topLeft
 
@@ -212,7 +214,7 @@ object LockSlotsHandler: PLockSlotHandler {
             }
         }
         RenderSystem.disableBlend()
-        rEnableDepth()
+        //rEnableDepth()
     }
 
     private fun drawHotOutlineLeft(context: NativeContext, p: Point, color: Int) {
@@ -257,7 +259,7 @@ object LockSlotsHandler: PLockSlotHandler {
     }
 
     private fun drawHotSprite(context: NativeContext) {
-        if (!enabled) return
+        if (!enabledForeground) return
         //    rClearDepth() // use translate or zOffset
         rDisableDepth()
         RenderSystem.enableBlend()
@@ -299,7 +301,7 @@ object LockSlotsHandler: PLockSlotHandler {
     var mode = 0 // 0 set lock slot 1 clear lock slot
 
     fun onTickInGame() {
-        if (!enabled) return
+        if (!enabledForeground) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: run {
             displayingConfig = false
             clicked = false
@@ -324,7 +326,7 @@ object LockSlotsHandler: PLockSlotHandler {
     }
 
     fun onCancellableInput(): Boolean {
-        if (!enabled) return false
+        if (!enabledForeground) return false
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return false
         when (LockedSlotsSettings.LOCK_SLOTS_CONFIG_SWITCH_TYPE.value) {
             TOGGLE -> {

@@ -27,14 +27,11 @@ import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent.Render;
 import net.neoforged.neoforge.client.event.ScreenEvent.Init;
-/*
-import net.neoforged.neoforge.client.event.RenderGuiOverlayEvent;// RenderGameOverlayEvent;
-import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay ;// ForgeIngameGui;
-*/
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import org.anti_ad.mc.common.gui.NativeContext;
+import org.anti_ad.mc.common.math2d.Rectangle;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.common.vanilla.VanillaUtil;
 import org.anti_ad.mc.ipnext.config.Tweaks;
@@ -104,7 +101,12 @@ public class ForgeEventHandler {
     public void onForegroundRender(ContainerScreenEvent.Render.Foreground e) {
         var context = new NativeContext(e.getGuiGraphics());
         context.setOverlay(true);
+        var screen = e.getContainerScreen();
+        context.getNative().pose().pushPose();
+        var topLeft = new Rectangle(screen.getGuiLeft(), screen.getGuiTop(), screen.getXSize(), screen.getYSize()).getTopLeft();
+        context.getNative().pose().translate(-topLeft.getX(), -topLeft.getY(), 0.0d);
         ContainerScreenEventHandler.INSTANCE.onForegroundRender(context, e.getMouseX(), e.getMouseY(), 0);
+        context.getNative().pose().popPose();
     }
 
     // ============

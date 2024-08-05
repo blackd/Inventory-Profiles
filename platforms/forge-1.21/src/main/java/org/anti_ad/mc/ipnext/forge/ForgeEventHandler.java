@@ -26,6 +26,7 @@ import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent.Render;
 import net.minecraftforge.client.event.ScreenEvent.Init;
+import org.anti_ad.mc.common.math2d.Rectangle;
 /*
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;// RenderGameOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay ;// ForgeIngameGui;
@@ -105,7 +106,13 @@ public class ForgeEventHandler {
     public void onForegroundRender(ContainerScreenEvent.Render.Foreground e) {
         var context = new NativeContext(e.getGuiGraphics());
         context.setOverlay(true);
+        context.setOverlay(true);
+        var screen = e.getContainerScreen();
+        context.getNative().pose().pushPose();
+        var topLeft = new Rectangle(screen.getGuiLeft(), screen.getGuiTop(), screen.getXSize(), screen.getYSize()).getTopLeft();
+        context.getNative().pose().translate(-topLeft.getX(), -topLeft.getY(), 0.0d);
         ContainerScreenEventHandler.INSTANCE.onForegroundRender(context, e.getMouseX(), e.getMouseY(), 0);
+        context.getNative().pose().popPose();
     }
 
     // ============

@@ -42,7 +42,7 @@ val minecraft_version_string = "1.21"
 val mappings_version = "1.21+build.2"
 val loader_version = "0.15.11"
 val modmenu_version = "11.0.0-beta.1"
-val fabric_api_version = "0.100.3+1.21"
+val fabric_api_version = "0.100.8+1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val carpet_core_version = "1.21-pre3-1.4.146+v240605"
@@ -124,9 +124,15 @@ dependencies {
     modImplementation("info.journeymap:journeymap-api-common:2.0.0-1.20.2-SNAPSHOT")
     modImplementation("info.journeymap:journeymap-api:2.0+1.20-fabric-SNAPSHOT")
 */
+    modImplementation("curse.maven:configured-457570:5441234")
 
-/*    modImplementation("curse.maven:just-enough-professions-jep-417645:4768870")
-    modImplementation("curse.maven:jei-238222:4767570")*/
+    modImplementation("curse.maven:just-enough-professions-jep-417645:5539089")
+    modImplementation("curse.maven:jei-238222:5598509")
+
+    modImplementation("curse.maven:packed-up-backpacks-361867:5547057")
+    modImplementation("curse.maven:supermartijn642s-config-lib-438332:5546988")
+    modImplementation("curse.maven:supermartijn642s-core-lib-454372:5546972")
+
 
     modCompileOnly("curse.maven:chipped-456956:4634858")
 

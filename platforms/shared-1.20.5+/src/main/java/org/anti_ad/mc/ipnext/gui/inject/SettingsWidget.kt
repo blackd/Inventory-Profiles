@@ -32,9 +32,7 @@ import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
-import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
-import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.Debugs
@@ -56,9 +54,12 @@ class SettingsWidget(override val screen: ContainerScreen<*>,
                                       mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
+    }
 
-        rStandardGlState()
-        rClearDepth(context)
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
+                                      mouseY: Int,
+                                      partialTicks: Float) {
         fillParent()
 
         //overflow = Overflow.VISIBLE
@@ -81,12 +82,6 @@ class SettingsWidget(override val screen: ContainerScreen<*>,
                          absoluteBounds,
                          0xffff00.opaque)
         }
-    }
-
-    override fun postForegroundRender(context: NativeContext,
-                                      mouseX: Int,
-                                      mouseY: Int,
-                                      lastFrameDuration: Float) {
 
     }
 

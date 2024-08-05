@@ -26,4 +26,4 @@ enum class Loaders {
     CURSEFORGE
 }
 
-const val loom_version = "1.6-SNAPSHOT"
+const val loom_version = "1.7-SNAPSHOT"

@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.ipnext.specific.event
+package org.anti_ad.mc.ipnext.gui.base
 
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.inventory.PlayerInventory
@@ -27,21 +27,18 @@ import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
 
-import org.anti_ad.mc.common.vanilla.alias.MatrixStack
-import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
-import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
-import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 
-interface PLockSlotHandler {
+interface InventoryOverlay {
 
-    val enabled: Boolean
+    val enabledForeground: Boolean
+    val enabledBackground: Boolean
 
     companion object {
         val TEXTURE = IdentifierHolder("inventoryprofilesnext", "textures/gui/overlay_new.png")
@@ -66,22 +63,17 @@ interface PLockSlotHandler {
         }
 
     fun onForegroundRender(context: NativeContext) {
-        if (!enabled) return
-        val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
-        context.native.pose().pushPose()
-        val topLeft = screen.`(containerBounds)`.topLeft
-        context.native.pose().translate(-topLeft.x.toDouble(),
-                                        -topLeft.y.toDouble(),
-                                        0.0)
-        //RenderSystem.applyModelViewMatrix()
-        //gTranslatef(-topLeft.x.toFloat(), -topLeft.y.toFloat(), 0f)
+        if (!enabledForeground) return
         drawConfig(context)
         drawForeground(context)
+    }
 
-        context.native.pose().popPose() //gPopMatrix()
-        //RenderSystem.applyModelViewMatrix()
+    fun onBackgroundRender(context: NativeContext) {
+        if(!enabledBackground) return
+        drawBackground(context)
     }
 
     fun drawForeground(context: NativeContext)
     fun drawConfig(context: NativeContext)
+    fun drawBackground(context: NativeContext)
 }

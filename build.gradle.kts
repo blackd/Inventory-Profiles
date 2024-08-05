@@ -58,7 +58,7 @@ plugins {
     antlr
     id("io.github.goooler.shadow") version "8+" apply false
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
-    id("fabric-loom") version("1.6-SNAPSHOT") apply false
+    id("fabric-loom") version("1.7-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
     id("net.neoforged.gradle.userdev") version "7.0.145" apply false

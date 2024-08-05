@@ -117,13 +117,14 @@ inline val Screen.`(focusedSlot)`: Slot?
 inline val ContainerScreen<*>.`(rawFocusedSlot)`: Slot?
     get() = (this as IMixinContainerScreen).focusedSlot
 
-inline val ContainerScreen<*>.`(containerBounds)`: Rectangle
+val ContainerScreen<*>.`(containerBounds)`: Rectangle
     get() = (this as IMixinContainerScreen).run {
         Rectangle(containerX,
                   containerY,
                   containerWidth,
                   containerHeight)
     }
+
 inline val ContainerScreen<*>.`(container)`: Container
     get() = screenHandler
 

@@ -72,9 +72,16 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                                       mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
+
+    }
+
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
+                                      mouseY: Int,
+                                      partialTicks: Float) {
         rehint()
-        rStandardGlState()
-        rClearDepth(context)
+        //rStandardGlState()
+        //rClearDepth(context)
         overflow = Overflow.VISIBLE
         absoluteBounds = screen.`(containerBounds)`
         init()
@@ -87,14 +94,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                          absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
-//    Tooltips.renderAll()
-    }
-
-    override fun postForegroundRender(context: NativeContext,
-                                      mouseX: Int,
-                                      mouseY: Int,
-                                      lastFrameDuration: Float) {
-
+        //    Tooltips.renderAll()
     }
 
     var initialized = false

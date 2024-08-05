@@ -27,9 +27,8 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.alpha
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.rDisableDepth
-import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(focusedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
@@ -40,9 +39,9 @@ import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.isEmpty
-import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler
 
-object SlotHighlightHandler: PLockSlotHandler {
+
+object SlotHighlightHandler: InventoryOverlay {
 
     private var toHighlight: ItemType = ItemType.EMPTY
 
@@ -62,13 +61,14 @@ object SlotHighlightHandler: PLockSlotHandler {
             }.toMap()
         }
 
-    fun onBackgroundRender(context: NativeContext) {
-        if (ModSettings.HIGHLIGHT_FOUSED_ITEMS.booleanValue && !ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue) {
-           drawSprite(context)
-        }
+    override val enabledBackground: Boolean
+        get() = ModSettings.HIGHLIGHT_FOUSED_ITEMS.booleanValue && !ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue
+
+    override fun drawBackground(context: NativeContext) {
+        drawSprite(context)
     }
 
-    override val enabled: Boolean
+    override val enabledForeground: Boolean
         get() = ModSettings.HIGHLIGHT_FOUSED_ITEMS.booleanValue && ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue
 
     override fun drawForeground(context: NativeContext) {
@@ -121,7 +121,7 @@ object SlotHighlightHandler: PLockSlotHandler {
             } else {
                 alphaChannel = defaultAlpha
             }
-            rDisableDepth()
+            //rDisableDepth()
             RenderSystem.enableBlend()
             val topLeft = screen.`(containerBounds)`.topLeft
             for ((_, slotTopLeft) in localSlotLocations) {
@@ -134,7 +134,7 @@ object SlotHighlightHandler: PLockSlotHandler {
                           color.alpha(alphaChannel))
             }
             RenderSystem.disableBlend()
-            rEnableDepth()
+            //rEnableDepth()
         } else {
             tick = 0
             alphaChannel = 10

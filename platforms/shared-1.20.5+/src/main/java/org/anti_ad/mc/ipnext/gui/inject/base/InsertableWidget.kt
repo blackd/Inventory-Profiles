@@ -48,6 +48,6 @@ abstract class InsertableWidget: Widget() {
     abstract fun postForegroundRender(context: NativeContext,
                                       mouseX: Int,
                                       mouseY: Int,
-                                      lastFrameDuration: Float)
+                                      partialTicks: Float)
 
 }

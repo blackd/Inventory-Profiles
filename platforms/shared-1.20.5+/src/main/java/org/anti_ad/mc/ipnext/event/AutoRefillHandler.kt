@@ -50,13 +50,14 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.common.vanilla.showSubTitle
-import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
 import org.anti_ad.mc.ipnext.config.ToolReplaceVisualNotification
+import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay
+import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay.Companion.TEXTURE
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(equipmentSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
@@ -107,10 +108,8 @@ import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.item.rule.natives.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
 import org.anti_ad.mc.ipnext.parser.RefillSlotsLoader
-import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler
-import org.anti_ad.mc.ipnext.specific.event.PLockSlotHandler.Companion.TEXTURE
 
-object AutoRefillHandler: PLockSlotHandler {
+object AutoRefillHandler: InventoryOverlay {
 
 
     class IdAndIndex(val id: () -> Int, val index: () -> Int)
@@ -758,8 +757,10 @@ object AutoRefillHandler: PLockSlotHandler {
         }
     }
 
-    override val enabled: Boolean
+    override val enabledForeground: Boolean
         get() = AutoRefillSettings.AUTO_REFILL_ENABLE_INDICATOR_ICONS.value && AutoRefillSettings.AUTO_REFILL_ENABLE_PER_SLOT_CONFIG.value
+
+    override val enabledBackground: Boolean = false
 
     override val slotLocations: Map<Int, Point>
         get() {
@@ -780,7 +781,7 @@ object AutoRefillHandler: PLockSlotHandler {
         }
 
     override fun drawForeground(context: NativeContext) {
-        if (!enabled) return
+        if (!enabledForeground) return
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         val topLeft = screen.`(containerBounds)`.topLeft
         for ((invSlot, slotTopLeft) in slotLocations) {
@@ -797,7 +798,7 @@ object AutoRefillHandler: PLockSlotHandler {
 
     }
 
-    fun onBackgroundRender(context: NativeContext) {
+    override fun drawBackground(context: NativeContext) {
 
     }
 
@@ -830,7 +831,7 @@ object AutoRefillHandler: PLockSlotHandler {
     }
 
     fun onInput(lastKey: Int, lastAction: Int): Boolean {
-        if (!enabled) return false
+        if (!enabledForeground) return false
         val screen = Vanilla.screen() as? ContainerScreen<*>
         if (VanillaUtil.inGame() && screen == null && Hotkeys.AUTO_REFILL_GAME_TOGGLE_FOR_SLOT.isActivated()) {
             val index = vMainhandIndex()

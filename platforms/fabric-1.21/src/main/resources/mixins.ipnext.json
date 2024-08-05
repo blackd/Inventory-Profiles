@@ -12,6 +12,7 @@
         "IMixinFluid",
         "IMixinKeyBinding",
         "IMixinSlot",
+        "MixinAnvilScreenHandler",
         "MixinClientPlayerInteractionManager",
         "MixinClientPlayNetworkHandler",
         "MixinContainerScreen",
@@ -20,16 +21,16 @@
         "MixinGuiCloseC2SPacket",
         "MixinInGameHud",
         "MixinItemGroup",
+        "MixinMerchantScreen",
         "MixinMinecraftClient",
+        "MixinPlayerInteractEntityC2SPacket",
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
         "MixinScreen",
-        "MixinPlayerInteractEntityC2SPacket",
-        "MixinMerchantScreen",
-        "MixinAnvilScreenHandler"
+        "MixinSuperMartiJnWidgetScreen"
     ],
     "injectors":          {
         "defaultRequire": 1
     },
-    "plugin": "org.anti_ad.mc.ipnext.mixinhelpers.IPNOptiFabricMixinPlugin"
+    "plugin":             "org.anti_ad.mc.ipnext.mixinhelpers.IPNOptiFabricMixinPlugin"
 }

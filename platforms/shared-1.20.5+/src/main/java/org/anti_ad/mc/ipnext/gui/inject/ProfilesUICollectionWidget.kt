@@ -69,9 +69,15 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
                                       mouseY: Int,
                                       partialTicks: Float) {
 
-        rStandardGlState()
-        rClearDepth(context)
-        //overflow = Overflow.VISIBLE
+
+
+    }
+
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
+                                      mouseY: Int,
+                                      partialTicks: Float) {
+
         val parentBounds = screen.`(containerBounds)`
         absoluteBounds = parentBounds.copy(y = parentBounds.bottom + 3 + hints.bottom,
                                            x = parentBounds.x + hints.horizontalOffset,
@@ -86,16 +92,7 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
                          absoluteBounds.inflated(1),
                          0xffff00.opaque)
         }
-
         hintManagementRenderer.renderUnderManagement(context)
-
-    }
-
-    override fun postForegroundRender(context: NativeContext,
-                                      mouseX: Int,
-                                      mouseY: Int,
-                                      lastFrameDuration: Float) {
-
     }
 
     override fun moveUp(step: Int) {

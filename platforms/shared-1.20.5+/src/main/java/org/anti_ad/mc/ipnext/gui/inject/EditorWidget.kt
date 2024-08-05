@@ -60,9 +60,13 @@ class EditorWidget(override val screen: ContainerScreen<*>,
                                       mouseX: Int,
                                       mouseY: Int,
                                       partialTicks: Float) {
+    }
 
-        rStandardGlState()
-        rClearDepth(context)
+    override fun postForegroundRender(context: NativeContext,
+                                      mouseX: Int,
+                                      mouseY: Int,
+                                      partialTicks: Float) {
+
         fillParent()
 
         //overflow = Overflow.VISIBLE
@@ -85,13 +89,6 @@ class EditorWidget(override val screen: ContainerScreen<*>,
                          absoluteBounds,
                          0xffff00.opaque)
         }
-    }
-
-    override fun postForegroundRender(context: NativeContext,
-                                      mouseX: Int,
-                                      mouseY: Int,
-                                      lastFrameDuration: Float) {
-
     }
 
 

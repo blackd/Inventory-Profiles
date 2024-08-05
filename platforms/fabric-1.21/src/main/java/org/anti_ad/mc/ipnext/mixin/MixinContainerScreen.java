@@ -23,12 +23,12 @@ package org.anti_ad.mc.ipnext.mixin;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import org.anti_ad.mc.common.gui.NativeContext;
+import org.anti_ad.mc.common.math2d.Rectangle;
 import org.anti_ad.mc.ipnext.Log;
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
@@ -49,10 +49,15 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
     }
 
 
-    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;disableDepthTest()V",
-            shift = At.Shift.BEFORE), method = "render")
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V",
+            shift = At.Shift.AFTER), method = "render")
     public void onBackgroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
+        IMixinContainerScreen screen = (IMixinContainerScreen) this;
+        drawContext.getMatrices().push();
+        var topLeft = new Rectangle(screen.getContainerX(), screen.getContainerY(), screen.getContainerHeight(), screen.getContainerWidth()).getTopLeft();
+        drawContext.getMatrices().translate(-topLeft.getX(), -topLeft.getY(), 0.0d);
         ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext), i, j, f);
+        drawContext.getMatrices().pop();
     }
 
 
@@ -61,9 +66,14 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
             "drawForeground(Lnet/minecraft/client/gui/DrawContext;II)V",
             shift = At.Shift.AFTER), method = "render")
     public void onForegroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
+        IMixinContainerScreen screen = (IMixinContainerScreen) this;
         var context = new NativeContext(drawContext);
         context.setOverlay(true);
+        drawContext.getMatrices().push();
+        var topLeft = new Rectangle(screen.getContainerX(), screen.getContainerY(), screen.getContainerHeight(), screen.getContainerWidth()).getTopLeft();
+        drawContext.getMatrices().translate(-topLeft.getX(), -topLeft.getY(), 0.0d);
         ContainerScreenEventHandler.INSTANCE.onForegroundRender(context, i, j, f);
+        drawContext.getMatrices().pop();
     }
 
     @Inject(at = @At(value = "HEAD",

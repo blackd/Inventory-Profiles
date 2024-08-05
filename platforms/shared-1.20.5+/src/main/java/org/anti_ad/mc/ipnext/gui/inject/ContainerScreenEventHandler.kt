@@ -38,6 +38,7 @@ import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SettingsWidget
+import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
@@ -98,6 +99,9 @@ object ContainerScreenEventHandler {
     }
 
     fun onBackgroundRender(context: NativeContext, mouseX: Int, mouseY: Int, f: Float) {
+        LockSlotsHandler.onBackgroundRender(context)
+        SlotHighlightHandler.onBackgroundRender(context)
+        AutoRefillHandler.onBackgroundRender(context)
         currentWidgets?.forEach {
             it.postBackgroundRender(context,
                                     mouseX,
@@ -105,12 +109,12 @@ object ContainerScreenEventHandler {
                                     f)
         }
 
-        LockSlotsHandler.onBackgroundRender(context)
-        SlotHighlightHandler.onBackgroundRender(context)
-        AutoRefillHandler.onBackgroundRender(context)
     }
 
     fun onForegroundRender(context: NativeContext, mouseX: Int, mouseY: Int, f: Float) {
+        LockSlotsHandler.onForegroundRender(context)
+        SlotHighlightHandler.onForegroundRender(context)
+        AutoRefillHandler.onForegroundRender(context)
         currentWidgets?.forEach {
             it.postForegroundRender(context,
                                     mouseX,
@@ -118,9 +122,7 @@ object ContainerScreenEventHandler {
                                     f)
 
         }
-        LockSlotsHandler.onForegroundRender(context)
-        SlotHighlightHandler.onForegroundRender(context)
-        AutoRefillHandler.onForegroundRender(context)
+
     }
 
     fun postRender(context: NativeContext) {

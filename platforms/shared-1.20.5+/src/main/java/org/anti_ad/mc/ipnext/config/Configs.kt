@@ -105,7 +105,7 @@ object ModSettings : ConfigDeclaration {
     val HIGHLIGHT_FOUSED_ITEMS_COLOR              /**/ by color(0x70.asAlpha().red(1).green(0xB6).blue(0x0b))
     val HIGHLIGHT_FOUSED_ITEMS_BG_COLOR           /**/ by color(0xAA.asAlpha().red(1).green(0xB6).blue(0x0b))
         .CATEGORY("§§hide")
-    val HIGHLIGHT_FOUSED_WAIT_TICKS               /**/ by int(3, 3, 15)
+    val HIGHLIGHT_FOUSED_WAIT_TICKS               /**/ by int(5, 3, 15)
 
 /*
         .CATEGORY("$category.randomizer")
