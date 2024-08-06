@@ -240,6 +240,8 @@
     "inventoryprofiles.config.name.visual_replace_failed_notification":                  "Visual Alert on Failed Replace",
     "inventoryprofiles.config.name.audio_replace_failed_notification":                   "Sound Alert on Failed Replace",
     "inventoryprofiles.config.name.type_visual_replace_failed_notification":             "Kind of Visual Alert",
+    "inventoryprofiles.config.name.allow_alerts_without_tool_protection":                "Notifications Without Tool Protection",
+    "inventoryprofiles.config.description.allow_alerts_without_tool_protection":         "Show low durability notifications even when early tool replacement is disabled",
     "inventoryprofiles.config.description.type_visual_replace_failed_notification":      "Controls what type of visual alert is used when a tool can't be replaced.",
     "inventoryprofiles.config.description.audio_replace_failed_notification":            "If enabled you will get sound alert when a tool replace was unsuccessful.",
     "inventoryprofiles.config.description.visual_replace_failed_notification":           "If enabled you will get visual alert when a tool replace was unsuccessful.",

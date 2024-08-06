@@ -370,6 +370,8 @@ object AutoRefillHandler: InventoryOverlay {
                         notifyDurabilityChange(itemType, itemType.durability, threshold)
                         if (itemType.durability <= threshold) return true.also { checkingItem = currentItem }
                     }
+                } else if (AutoRefillSettings.ALLOW_ALERTS_WITHOUT_TOOL_PROTECTION.value) {
+                    notifyDurabilityNoChange(itemType, itemType.durability, 0)
                 }
             }
 
@@ -472,14 +474,9 @@ object AutoRefillHandler: InventoryOverlay {
             }
         }
 
-        private fun notifyDurabilityChange(
-            itemType: ItemType, durability: Int, threshold: Int
-                                          ) {
-            if ((AutoRefillSettings.VISUAL_DURABILITY_NOTIFICATION.value || AutoRefillSettings.AUDIO_DURABILITY_NOTIFICATION.value) && isItNotifyStep(
-                    durability,
-                    threshold
-                                                                                                                                                     )
-            ) {
+        private fun notifyDurabilityChange(itemType: ItemType, durability: Int, threshold: Int) {
+            if ((AutoRefillSettings.VISUAL_DURABILITY_NOTIFICATION.value || AutoRefillSettings.AUDIO_DURABILITY_NOTIFICATION.value) &&
+                isItNotifyStep(durability, threshold)) {
 
                 if (AutoRefillSettings.VISUAL_DURABILITY_NOTIFICATION.value) {
                     val message: (Boolean) -> String =
@@ -513,9 +510,43 @@ object AutoRefillHandler: InventoryOverlay {
             }
         }
 
-        private fun isItNotifyStep(
-            durability: Int, threshold: Int
-                                  ): Boolean {
+        private fun notifyDurabilityNoChange(itemType: ItemType, durability: Int, threshold: Int) {
+            if ((AutoRefillSettings.VISUAL_DURABILITY_NOTIFICATION.value || AutoRefillSettings.AUDIO_DURABILITY_NOTIFICATION.value) &&
+                isItNotifyStep(durability, threshold)) {
+
+                if (AutoRefillSettings.VISUAL_DURABILITY_NOTIFICATION.value) {
+                    val message: (Boolean) -> String =
+                        { //                        {"translate": "inventoryprofiles.config.notification.tool_replace_ping.warning", "color" : "#FF8484"},
+                            val newl = if (it) {
+                                """{"text": "\n"},"""
+                            } else {
+                                """{"text": " - ", "color": "#FFFFFF"},"""
+                            }
+                            """[
+                        {"text" : ""},
+                        {"translate" : "inventoryprofiles.config.notification.tool_replace_ping.ipn", "color" : "#3584E4" },
+                        $newl
+                        {"translate": "inventoryprofiles.config.notification.tool_replace_ping.durability", "color" : "#E5A50A", "with": ["${itemType.customOrTranslatedName}","$durability"]}
+                        ]"""
+                        }
+                    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS") when (AutoRefillSettings.TYPE_VISUAL_DURABILITY_NOTIFICATION.value) {
+                        ToolReplaceVisualNotification.SUBTITLE -> {
+                            showSubTitle(fromSerializedJson(message(false)))
+                        }
+
+                        ToolReplaceVisualNotification.HOTBAR   -> Vanilla.inGameHud().setOverlayMessage(fromSerializedJson(message(false)), false)
+                        ToolReplaceVisualNotification.CHAT     -> VanillaUtil.chat(fromSerializedJson(message(true))!!)
+                    }
+
+                }
+                if (AutoRefillSettings.AUDIO_DURABILITY_NOTIFICATION.value) {
+                    Sounds.REFILL_STEP_NOTIFY.play()
+                }
+            }
+        }
+
+        private fun isItNotifyStep(durability: Int, threshold: Int): Boolean {
+
             if (storedItem.itemType != lastTickItem.itemType) {
                 lastNotifyDurability = -1
             }

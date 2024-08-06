@@ -216,6 +216,7 @@ object AutoRefillSettings : ConfigDeclaration {
                                                               0,
                                                               5000)
         .CATEGORY("$category.auto-refill.notifications")
+    val ALLOW_ALERTS_WITHOUT_TOOL_PROTECTION      /**/ by keyToggleBool(false)
     val VISUAL_DURABILITY_NOTIFICATION            /**/ by keyToggleBool(true)
     val TYPE_VISUAL_DURABILITY_NOTIFICATION       /**/ by enum(ToolReplaceVisualNotification.HOTBAR)
     val AUDIO_DURABILITY_NOTIFICATION             /**/ by keyToggleBool(true)
