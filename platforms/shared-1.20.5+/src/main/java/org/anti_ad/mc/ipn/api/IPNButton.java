@@ -77,4 +77,17 @@ public enum IPNButton {
     VILLAGER_DO_LOCAL_TRADES2,
     VILLAGER_GLOBAL_BOOKMARK,
     VILLAGER_LOCAL_BOOKMARK,
+    /**
+     * The sort button
+     */
+    SORT_PLAYER,
+
+    /**
+     * The sort in columns button
+     */
+    SORT_COLUMNS_PLAYER,
+    /**
+     * The sort in rows button
+     */
+    SORT_ROWS_PLAYER,
 }

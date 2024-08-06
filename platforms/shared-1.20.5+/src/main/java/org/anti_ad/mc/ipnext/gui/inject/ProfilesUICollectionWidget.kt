@@ -35,9 +35,7 @@ import org.anti_ad.mc.ipnext.integration.HintClassData
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
-import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.Debugs
@@ -50,7 +48,7 @@ import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 
 class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
-                                 private val hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget(), Hintable {
+                                 hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget(), Hintable {
 
     override var hints: ButtonPositionHint = hintsData.hintFor(IPNButton.PROFILE_SELECTOR)
     override var hintManagementRenderer = Hintable.HintManagementRenderer(this)
@@ -58,10 +56,19 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
     override val container = Vanilla.container()
     private val types = ContainerTypes.getTypes(container)
 
+    var visibleSource: () -> Boolean
+
+    override var visible: Boolean
+        get() = visibleSource() && super.visible
+        set(value) {
+            super.visible = value
+        }
+
     private var initialized = false
 
     init {
         visible = types.contains(ContainerType.PLAYER)
+        visibleSource = { GuiSettings.ENABLE_PROFILES_UI.value }
     }
 
     override fun postBackgroundRender(context: NativeContext,
@@ -120,9 +127,10 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
 
     inner class InitWidgets { // todo cleanup code
 
-        private val nextProfileButton = ProfileButtonWidget { -> ProfileSwitchHandler.nextProfile(true) }.apply {
+        private val nextProfileButton = ProfileButtonWidget{ -> ProfileSwitchHandler.nextProfile(true) }.apply {
             tx = 50
             ty = 20
+            parent = this@ProfilesUICollectionWidget
             this@ProfilesUICollectionWidget.addChild(this)
             visible = types.contains(ContainerType.PLAYER)
             tooltipText = I18n.translate("inventoryprofiles.tooltip.next_profile_button")
@@ -131,12 +139,13 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
         private val prevProfileButton = ProfileButtonWidget { -> ProfileSwitchHandler.prevProfile(true) }.apply {
             tx = 60
             ty = 20
+            parent = this@ProfilesUICollectionWidget
             this@ProfilesUICollectionWidget.addChild(this)
             visible = types.contains(ContainerType.PLAYER)
             tooltipText = I18n.translate("inventoryprofiles.tooltip.prev_profile_button")
         }
 
-        private val profileButton = ActiveProfileButtonWidget { ProfileSwitchHandler.applyCurrent(true) }.apply {
+        private val profileButton = ActiveProfileButtonWidget{ ProfileSwitchHandler.applyCurrent(true) }.apply {
 
             parent = this@ProfilesUICollectionWidget
             val profile = getCurrentProfileName()
@@ -170,6 +179,13 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
     }
 
     inner class ActiveProfileButtonWidget(onClick: () -> Unit): CustomButtonWidget(onClick) {
+
+        override var visible: Boolean
+            get() = GuiSettings.INVENTORY_OVERLAY_BUTTONS_VISIBLE.value && super.visible
+            set(value) {
+                super.visible = value
+            }
+
         override var text: String
             get() {
                 return getCurrentProfileName()

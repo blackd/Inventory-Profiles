@@ -36,6 +36,12 @@ open class SortButtonWidget : TexturedButtonWidget {
                                                "textures/gui/gui_buttons.png")
     }
 
+    override var visible: Boolean
+        get() = GuiSettings.INVENTORY_OVERLAY_BUTTONS_VISIBLE.value && super.visible
+        set(value) {
+            super.visible = value
+        }
+
     init {
         size = Size(10,
                     10)

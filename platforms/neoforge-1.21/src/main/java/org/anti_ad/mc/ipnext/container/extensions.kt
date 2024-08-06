@@ -26,6 +26,7 @@ import org.anti_ad.mc.ipnext.ingame.`(syncId)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType
 import org.anti_ad.mc.ipnext.inventory.nonStorage
 import org.anti_ad.mc.ipnext.inventory.playerOnly
+import org.anti_ad.mc.ipnext.inventory.simple
 
 val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           /**/ to playerOnly,
                                           CreativeContainer::class.java         /**/ to setOf(ContainerType.PURE_BACKPACK,
@@ -35,25 +36,26 @@ val versionSpecificContainerTypes = setOf(PlayerContainer::class.java           
                                           AnvilContainer::class.java            /**/ to setOf(ContainerType.PURE_BACKPACK,
                                                                                               ContainerType.ANVIL),
                                           BeaconContainer::class.java           /**/ to nonStorage,
-                                          BlastFurnaceContainer::class.java     /**/ to nonStorage,
-                                          CartographyTableContainer::class.java /**/ to nonStorage,
-                                          ForgingContainer::class.java          /**/ to nonStorage,
-                                          FurnaceContainer::class.java          /**/ to nonStorage,
-                                          GrindstoneContainer::class.java       /**/ to nonStorage,
+                                          BlastFurnaceContainer::class.java     /**/ to simple,
+                                          CartographyTableContainer::class.java /**/ to simple,
+                                          ForgingContainer::class.java          /**/ to simple,
+                                          FurnaceContainer::class.java          /**/ to simple,
+                                          GrindstoneContainer::class.java       /**/ to simple,
                                           LecternContainer::class.java          /**/ to nonStorage,
                                           LoomContainer::class.java             /**/ to nonStorage,
                                           StonecutterContainer::class.java      /**/ to setOf(ContainerType.PURE_BACKPACK,
                                                                                               ContainerType.STONECUTTER),
-                                          SmithingTableContainer::class.java    /**/ to nonStorage,
-                                          SmokerContainer::class.java           /**/ to nonStorage,
+                                          SmithingTableContainer::class.java    /**/ to simple,
+                                          SmokerContainer::class.java           /**/ to simple,
 
                                           MerchantContainer::class.java         /**/ to setOf(ContainerType.TRADER),
                                           CraftingTableContainer::class.java    /**/ to setOf(ContainerType.CRAFTING),
+                                          CrafterContainer::class.java          /**/ to simple,
 
                                           HopperContainer::class.java           /**/ to setOf(ContainerType.NO_SORTING_STORAGE,
                                                                                               ContainerType.PURE_BACKPACK), //setOf(ContainerType.NO_SORTING_STORAGE),
                                           BrewingStandContainer::class.java     /**/ to nonStorage, //setOf(ContainerType.NO_SORTING_STORAGE),
-                                          AbstractFurnaceContainer::class.java  /**/ to nonStorage, //setOf(ContainerType.NO_SORTING_STORAGE),
+                                          AbstractFurnaceContainer::class.java  /**/ to simple, //setOf(ContainerType.NO_SORTING_STORAGE),
 
                                           GenericContainer::class.java          /**/ to setOf(ContainerType.SORTABLE_STORAGE,
                                                                                               ContainerType.RECTANGULAR,

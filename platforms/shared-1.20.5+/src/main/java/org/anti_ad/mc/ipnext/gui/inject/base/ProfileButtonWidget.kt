@@ -20,8 +20,11 @@
 
 package org.anti_ad.mc.ipnext.gui.inject.base
 
+import org.anti_ad.mc.ipnext.config.GuiSettings
+
 open class ProfileButtonWidget: SortButtonWidget {
-    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
+
+    constructor(clickEvent: (Int) -> Unit): super(clickEvent)
     constructor(clickEvent: () -> Unit) : super(clickEvent)
     constructor() : super()
 

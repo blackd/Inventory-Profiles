@@ -71,37 +71,44 @@ import org.anti_ad.mc.ipnext.item.vanillaStack
 object GeneralInventoryActions {
 
     @Suppress("UNUSED_PARAMETER")
-    fun doSort(gui: Boolean = false) {
+    fun doSort(gui: Boolean = false,
+               forcePlayer: Boolean = false) {
         with(GuiSettings) {
             doSort(REGULAR_SORT_ORDER,
                    REGULAR_CUSTOM_RULE,
-                   REGULAR_POST_ACTION)
+                   REGULAR_POST_ACTION,
+                   forcePlayer)
         }
     }
 
-    fun doSortInColumns(gui: Boolean = false) {
+    fun doSortInColumns(gui: Boolean = false,
+                        forcePlayer: Boolean = false) {
         with(GuiSettings) {
             doSort(IN_COLUMNS_SORT_ORDER,
                    IN_COLUMNS_CUSTOM_RULE,
-                   IN_COLUMNS_POST_ACTION)
+                   IN_COLUMNS_POST_ACTION,
+                   forcePlayer)
         }
     }
 
-    fun doSortInRows(gui: Boolean = false) {
+    fun doSortInRows(gui: Boolean = false,
+                     forcePlayer: Boolean = false) {
         with(GuiSettings) {
             doSort(IN_ROWS_SORT_ORDER,
                    IN_ROWS_CUSTOM_RULE,
-                   IN_ROWS_POST_ACTION)
+                   IN_ROWS_POST_ACTION,
+                   forcePlayer)
         }
     }
 
     private fun doSort(sortOrder: ConfigEnum<SortingMethodIndividual>,
                        customRule: ConfigString,
-                       postAction: ConfigEnum<PostAction>) {
+                       postAction: ConfigEnum<PostAction>,
+                       forcePlayer: Boolean) {
 
         TellPlayer.listenLog(LogBase.LogLevel.WARN) {
             InnerActions.doSort(sortOrder.value.rule(customRule.value),
-                                postAction.value)
+                                postAction.value, forcePlayer)
         }
     }
 
@@ -377,16 +384,19 @@ private object InnerActions {
     }
 
     fun doSort(sortingRule: Rule,
-               postAction: PostAction) = tryCatch {
+               postAction: PostAction,
+               forcePlayer: Boolean) = tryCatch {
         innerDoSort(sortingRule,
-                    postAction)
+                    postAction,
+                    forcePlayer)
     }
 
     fun innerDoSort(sortingRule: Rule,
-                    postAction: PostAction) {
+                    postAction: PostAction,
+                    forcePlayer: Boolean) {
         AdvancedContainer.tracker {
             with(AreaTypes) {
-                val forcePlayerSide = forcePlayerSide()
+                val forcePlayerSide = forcePlayer || forcePlayerSide()
                 val target: ItemArea
                 if (forcePlayerSide || sortableItemStorage.get().isEmpty()) {
                     target = (playerStorage - lockedSlots).get()

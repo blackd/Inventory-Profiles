@@ -23,9 +23,9 @@ package org.anti_ad.mc.ipnext.gui.inject.base
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.config.ModSettings
 
-class CheckBoxWidget : SortButtonWidget {
+class CheckBoxWidget: SortButtonWidget {
 
-    constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
+    constructor(clickEvent: (Int) -> Unit): super(clickEvent)
     constructor(clickEvent: () -> Unit) : super(clickEvent)
     constructor() : super()
 

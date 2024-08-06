@@ -155,64 +155,111 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         private val addNonChestSide = types.contains(PURE_BACKPACK)
         private val shouldAdd = addChestSide || addNonChestSide
 
+        inner class SortButton(playerSide: Boolean): SortButtonWidget() {
 
+            init {
+                clickEvent = { button ->
+                    val scr = Vanilla.screen()
+                    if (scr != null && scr === screen) {
+                        when (button) {
+                            0                          -> {
+                                GeneralInventoryActions.doSort(true, forcePlayer = playerSide)
+                            }
 
-        private val sortButton = SortButtonWidget { button ->
-            val scr = Vanilla.screen()
-            if (scr != null && scr === screen) {
-                when (button) {
-                    0                          -> {
-                        GeneralInventoryActions.doSort(true)
-                    }
+                            KeyCodes.MOUSE_SCROLL_UP   -> {
+                                if (Vanilla.screen() == null) {
+                                    Log.trace("Received scroll event with no active screen", Exception())
+                                }
+                                ModSettings.SORT_ORDER.togglePrevious();
+                            }
 
-                    KeyCodes.MOUSE_SCROLL_UP   -> {
-                        if (Vanilla.screen() == null) {
-                            Log.trace("Received scroll event with no active screen", Exception())
+                            KeyCodes.MOUSE_SCROLL_DOWN -> {
+                                if (Vanilla.screen() == null) {
+                                    Log.trace("Received scroll event with no active screen", Exception())
+                                }
+                                ModSettings.SORT_ORDER.toggleNext();
+                            }
                         }
-                        ModSettings.SORT_ORDER.togglePrevious();
-                    }
-
-                    KeyCodes.MOUSE_SCROLL_DOWN -> {
-                        if (Vanilla.screen() == null) {
-                            Log.trace("Received scroll event with no active screen", Exception())
-                        }
-                        ModSettings.SORT_ORDER.toggleNext();
                     }
                 }
             }
-        }.apply {
-            hints = this@InitWidgets.hints.hintFor(IPNButton.SORT)
-            tx = 10
-            this@SortingButtonCollectionWidget.addChild(this)
-            visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
-            tooltipTextSource = {
-                StringBuilder()
-                    .append(I18n.translate("inventoryprofiles.tooltip.sort_button"))
-                    .append(I18n.translate("inventoryprofiles.tooltip.sort_button.current_order", I18n.translate(ModSettings.SORT_ORDER.value.toString())))
-                    .append(I18n.translate("inventoryprofiles.tooltip.sort_button.key_help"))
-                    .toString()
+        }
+
+        inner class SortInColumnButton(playerSide: Boolean): SortButtonWidget() {
+            init {
+                clickEvent = { GeneralInventoryActions.doSortInColumns(true, forcePlayer = playerSide) }
             }
-            id = "sort_button"
-            hintableList.add(this)
         }
-        private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns(true) }.apply {
-            hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS)
-            tx = 20
-            this@SortingButtonCollectionWidget.addChild(this)
-            visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
-            id = "sort_columns_button"
-            hintableList.add(this)
+
+        inner class SortInRowButton(playerSide: Boolean): SortButtonWidget() {
+            init {
+                clickEvent = { GeneralInventoryActions.doSortInRows(true, forcePlayer = playerSide) }
+            }
         }
-        private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows(true) }.apply {
-            hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS)
-            tx = 30
-            this@SortingButtonCollectionWidget.addChild(this)
-            visible = GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.booleanValue && shouldAdd
-            tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
-            id = "sort_rows_button"
-            hintableList.add(this)
+
+        private fun makeSortButton(playerSide: Boolean = false,
+                           columnSort: Boolean = false,
+                           rowSort: Boolean = false): SortButtonWidget {
+            if (columnSort) {
+                return SortInColumnButton(playerSide).apply {
+                    hints = if (playerSide) {
+                        this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS_PLAYER)
+                    } else {
+                        this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS)
+                    }
+                    tx = 20
+                    this@SortingButtonCollectionWidget.addChild(this)
+                    visible = GuiSettings.SHOW_SORT_IN_COLUMNS_BUTTON.booleanValue && shouldAdd
+                    tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_columns_button")
+                    id = "sort_columns_button"
+                    hintableList.add(this)
+                }
+            } else if (rowSort) {
+                return SortInRowButton(playerSide).apply {
+                    hints = if (playerSide) {
+                        this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS_PLAYER)
+                    } else {
+                        this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS)
+                    }
+                    tx = 30
+                    this@SortingButtonCollectionWidget.addChild(this)
+                    visible = GuiSettings.SHOW_SORT_IN_ROWS_BUTTON.booleanValue && shouldAdd
+                    tooltipText = I18n.translate("inventoryprofiles.tooltip.sort_rows_button")
+                    id = "sort_rows_button"
+                    hintableList.add(this)
+                }
+            }
+            return SortButton(playerSide).apply {
+                hints = if (playerSide) {
+                    this@InitWidgets.hints.hintFor(IPNButton.SORT_PLAYER)
+                } else {
+                    this@InitWidgets.hints.hintFor(IPNButton.SORT)
+                }
+                tx = 10
+                this@SortingButtonCollectionWidget.addChild(this)
+                visible = GuiSettings.SHOW_REGULAR_SORT_BUTTON.booleanValue && shouldAdd
+                tooltipTextSource = {
+                    StringBuilder()
+                        .append(I18n.translate("inventoryprofiles.tooltip.sort_button"))
+                        .append(I18n.translate("inventoryprofiles.tooltip.sort_button.current_order", I18n.translate(ModSettings.SORT_ORDER.value.toString())))
+                        .append(I18n.translate("inventoryprofiles.tooltip.sort_button.key_help"))
+                        .toString()
+                }
+                id = "sort_button"
+                hintableList.add(this)
+            }
         }
+
+        private val sortButtonPlayer = makeSortButton(playerSide = true)
+        private val sortInColumnButtonPlayer = makeSortButton(playerSide = true,
+                                                              columnSort = true)
+        private val sortInRowButtonPlayer = makeSortButton(playerSide = true,
+                                                           rowSort = true)
+
+
+        private val sortButton = makeSortButton()
+        private val sortInColumnButton = makeSortButton(columnSort = true)
+        private val sortInRowButton = makeSortButton(rowSort = true)
 
 
 
@@ -244,7 +291,15 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 }
             // extra I18n.translate null is ok
         }
-        private val moveAllToContainer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(toPlayer = false, gui = true) }.apply {
+
+        inner class MoveButton(toPlayer: Boolean = false): SortButtonWidget() {
+            init {
+                clickEvent = { _: Int ->
+                    GeneralInventoryActions.doMoveMatch(toPlayer = toPlayer, gui = true)
+                }
+            }
+        }
+        private val moveAllToContainer = MoveButton(toPlayer = false).apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.MOVE_TO_CONTAINER)
             tx = 50
             this@SortingButtonCollectionWidget.addChild(this)
@@ -254,7 +309,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             hintableList.add(this)
         }
 
-        private val moveAllToPlayer = SortButtonWidget { -> GeneralInventoryActions.doMoveMatch(toPlayer = true, gui = true) }.apply {
+        private val moveAllToPlayer = MoveButton(toPlayer = true).apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.MOVE_TO_PLAYER)
             tx = 60
             this@SortingButtonCollectionWidget.addChild(this)
@@ -313,14 +368,14 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 isAnvil -> {
                     tx = if (fastRenameValue) 80 else 70
                     highlightTx = if (fastRenameValue) 120 else 70
-                    visible = GuiSettings.SHOW_FAST_RENAME_CHECKBOX.booleanValue
+                    visible = GuiSettings.SHOW_FAST_RENAME_CHECKBOX.value
                     tooltipText = I18n.translate("inventoryprofiles.tooltip.fast_rename")
                     highlightEnabled = false
                 }
                 isCrafting || isStoneCutter -> {
                     tx = if (continuousCraftingValue) 80 else 70
                     highlightTx = if (continuousCraftingValue) 120 else 70
-                    visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue
+                    visible = GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.value
                     tooltipText = I18n.translate("inventoryprofiles.tooltip.continuous_crafting_checkbox",
                                                  ModSettings.INCLUDE_HOTBAR_MODIFIER.mainKeybind.displayText.uppercase())
                     highlightTooltip = I18n.translate("inventoryprofiles.tooltip.auto_crafting_checkbox",
@@ -364,9 +419,9 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             if (types.contains(CREATIVE)) {
                 right += 18
             }
+            val isPlayer = types.contains(PLAYER)
             // move all location
             if (moveAllVisible) {
-                val isPlayer = types.contains(PLAYER)
                 moveAllToContainer.setBottomRight(bottom + (if (isPlayer) 12 else 0) + moveAllToContainer.hints.bottom,
                                                   right + moveAllToContainer.hints.horizontalOffset)
                 if (moveAllToPlayer.visible) {
@@ -378,19 +433,41 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                 }
             }
             // sort buttons location
-            listOf(sortInRowButton,
-                   sortInColumnButton,
-                   sortButton).forEach { button ->
-                with(button) {
-                    if (visible) {
-                        if (addChestSide) {
-                            this.setTopRight(top + hints.top,
-                                             right + hints.horizontalOffset)
-                        } else {
-                            this.setBottomRight(bottom + hints.bottom,
-                                                right + hints.horizontalOffset)
+            if (GuiSettings.SHOW_BUTTONS_BOTH_SIDES.value && !isPlayer && addChestSide) {
+                listOf(sortInRowButton, sortInColumnButton, sortButton).forEach { button ->
+                    with(button) {
+                        if (visible && addChestSide) {
+                            this.setTopRight(top + hints.top, right + hints.horizontalOffset)
+                            right += 12
                         }
-                        right += 12
+                    }
+                }
+                right = 7 + 12
+                if (types.contains(CREATIVE)) {
+                    right += 18
+                }
+                listOf(sortInRowButtonPlayer, sortInColumnButtonPlayer, sortButtonPlayer).forEach { button ->
+                    with(button) {
+                        if (visible) {
+                            this.setBottomRight(bottom + hints.bottom, right + hints.horizontalOffset)
+                            right += 12
+                        }
+                    }
+                }
+            } else {
+                listOf(sortInRowButtonPlayer, sortInColumnButtonPlayer, sortButtonPlayer).forEach { button ->
+                    button.visible = false
+                }
+                listOf(sortInRowButton, sortInColumnButton, sortButton).forEach { button ->
+                    with(button) {
+                        if (visible) {
+                            if (addChestSide) {
+                                this.setTopRight(top + hints.top, right + hints.horizontalOffset)
+                            } else {
+                                this.setBottomRight(bottom + hints.bottom, right + hints.horizontalOffset)
+                            }
+                            right += 12
+                        }
                     }
                 }
             }

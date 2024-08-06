@@ -31,6 +31,7 @@ val nonStorage = setOf(TEMP_SLOTS)
 val playerOnly = setOf(PURE_BACKPACK,
                        PLAYER,
                        CRAFTING)
+val simple = setOf(PURE_BACKPACK)
 
 object ContainerTypes {
 

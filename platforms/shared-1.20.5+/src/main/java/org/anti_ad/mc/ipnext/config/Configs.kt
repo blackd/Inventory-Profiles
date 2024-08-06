@@ -276,9 +276,11 @@ object LockedSlotsSettings : ConfigDeclaration {
 }
 
 object GuiSettings : ConfigDeclaration {
+
     override val builder = createBuilder()
 
         .CATEGORY("$category.gui.general")
+    val INVENTORY_OVERLAY_BUTTONS_VISIBLE         /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val ENABLE_INVENTORY_EDITOR_BUTTON            /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val ENABLE_INVENTORY_SETTINGS_BUTTON          /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
         .CATEGORY("$category.profiles")
@@ -286,7 +288,8 @@ object GuiSettings : ConfigDeclaration {
     val ENABLE_PROFILES_ANNOUNCEMENT              /**/ by bool(true)
         .CATEGORY("$category.inventory")
     val ENABLE_INVENTORY_BUTTONS                  /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
-    //val TREAT_UNKNOWN_SCREENS_AS_CONTAINERS       /**/ by bool(true)
+    val SHOW_BUTTONS_BOTH_SIDES                   /**/ by bool(false)
+
     val SHOW_FAST_RENAME_CHECKBOX                 /**/ by keyToggleBool(true, KeybindSettings.GUI_DEFAULT)
     val FAST_RENAME_CHECKBOX_VALUE                /**/ by enum(ContinuousCraftingCheckboxValue.UNCHECKED)
     val FAST_RENAME_SAVED_VALUE                   /**/ by bool(false)

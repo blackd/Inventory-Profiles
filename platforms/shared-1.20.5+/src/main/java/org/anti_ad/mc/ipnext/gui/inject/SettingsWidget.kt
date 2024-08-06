@@ -106,12 +106,12 @@ class SettingsWidget(override val screen: ContainerScreen<*>,
     inner class InitWidgets { // todo cleanup code
 
 
-        private val showHideButton = ProfileButtonWidget { -> onClick() }.apply {
+        private val showHideButton = ProfileButtonWidget{ -> onClick() }.apply {
             tx = 140
             ty = 0
             hints = this@SettingsWidget.hints
             this@SettingsWidget.addChild(this)
-            visible = GuiSettings.ENABLE_INVENTORY_SETTINGS_BUTTON.booleanValue
+            visible = GuiSettings.ENABLE_INVENTORY_SETTINGS_BUTTON.value
             tooltipText = I18n.translate("inventoryprofiles.tooltip.settings_open")
             zIndex = 0
             hintableList.add(this)

@@ -114,7 +114,7 @@ class EditorWidget(override val screen: ContainerScreen<*>,
     inner class InitWidgets { // todo cleanup code
 
 
-        private val showHideButton = ProfileButtonWidget { -> showEditorScreen() }.apply {
+        private val showHideButton = ProfileButtonWidget{ -> showEditorScreen() }.apply {
             tx = 160
             ty = 40
             hints = this@EditorWidget.hints
