@@ -5255,5 +5255,13 @@
                 }
             }
         }
+    },
+    "chiped": {
+        "earth.terrarium.chipped.client.screens.WorkbenchScreen": {
+            "ignore": true
+        },
+        "earth.terrarium.chipped.common.menus.WorkbenchMenu": {
+            "ignore": true
+        }
     }
 }

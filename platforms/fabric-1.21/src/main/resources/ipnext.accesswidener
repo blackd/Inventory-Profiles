@@ -13,3 +13,5 @@ accessible field net/minecraft/screen/ForgingScreenHandler resultSlotIndex I
 
 accessible method net/minecraft/item/ItemStack <init> (Lnet/minecraft/item/ItemConvertible;ILnet/minecraft/component/ComponentMapImpl;)V
 accessible field net/minecraft/component/type/PotionContentsComponent customEffects Ljava/util/List;
+
+

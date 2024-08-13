@@ -85,6 +85,23 @@ fun Project.configureDependencies() {
         maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/releases/") }
         maven { url = uri("https://maven.fabricmc.net/") }
         maven { url = uri("https://maven.shedaniel.me") }
+        maven {
+            url = uri("https://maven.isxander.dev/releases")
+            name = "Xander Maven"
+        }
+        maven("https://maven.quiltmc.org/repository/release")
+        maven("https://maven.neoforged.net/releases/")
+        exclusiveContent {
+            forRepository { maven("https://maven.flashyreese.me/releases") }
+            filter { includeGroup("me.flashyreese.mods") }
+        }
+        maven {
+            url = uri("https://api.modrinth.com/maven")
+            name = "Modrinth Maven"
+            content {
+                includeGroup ("maven.modrinth")
+            }
+        }
 
         maven {
             url = uri("https://www.cursemaven.com")
@@ -123,7 +140,9 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    fabric_api_version: Any,
                                    libIPN_version: Any? = null,
                                    modmenu_version: Any? = null,
-                                   carpet_version: Any? = null) {
+                                   carpet_version: Any? = null,
+                                   yacl_version: Any? = null,
+                                   controlify_version: Any? = null) {
 
     configurations.all {
         resolutionStrategy {
@@ -145,6 +164,9 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
 
         "modImplementation"("net.fabricmc:fabric-loader:$loader_version")
         "modImplementation"("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
+
+        "modApi"("dev.isxander:yet-another-config-lib:$yacl_version")
+        "modApi"("dev.isxander:controlify:$controlify_version")
         modmenu_version?.let {
             "modApi"("com.terraformersmc:modmenu:$modmenu_version")
         }
@@ -240,15 +262,23 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
 
 
 fun Project.neoForgeCommonDependency(minecraft_version: Any,
-                                  loader_version: Any,
-                                  kotlin_for_forge_version: Any,
-                                  libIPN_version: Any?) {
+                                     loader_version: Any,
+                                     kotlin_for_forge_version: Any,
+                                     libIPN_version: Any?,
+                                     yacl_version: Any? = null,
+                                     controlify_version: Any? = null) {
 
 
 
     dependencies {
 
+
         "implementation"("net.neoforged:neoforge:${loader_version}")
+
+        "implementation"("dev.isxander:yet-another-config-lib:$yacl_version")
+        "implementation"("dev.isxander:controlify:$controlify_version")
+
+
         "implementation"("thedarkcolour:kotlinforforge-neoforge:${kotlin_for_forge_version}") {
             this.isChanging = true
         }

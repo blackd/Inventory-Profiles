@@ -108,6 +108,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val doGlobalButton = VillagerBookmarkButtonWidget( { ModSettings.VILLAGER_TRADING_GLOBAL_COLOR.value } ) { ->
             VillagerTradeManager.doGlobalTrades(screen)
         }.apply {
+            this@VillagerOverlayWidget.snapableList.add(this)
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_GLOBAL_TRADES)
             size = Size(30, 10)
             tx = 150
@@ -125,6 +126,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val doGlobalButton1 = VillagerBookmarkButtonWidget( { ModSettings.VILLAGER_TRADING_GLOBAL_COLOR1.value } ) { ->
             VillagerTradeManager.doGlobalTrades1(screen)
         }.apply {
+            this@VillagerOverlayWidget.snapableList.add(this)
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_GLOBAL_TRADES1)
             size = Size(30, 10)
             tx = 150
@@ -145,6 +147,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val doGlobalButton2 = VillagerBookmarkButtonWidget( { ModSettings.VILLAGER_TRADING_GLOBAL_COLOR2.value } ) { ->
             VillagerTradeManager.doGlobalTrades2(screen)
         }.apply {
+            this@VillagerOverlayWidget.snapableList.add(this)
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_GLOBAL_TRADES2)
             size = Size(30, 10)
             tx = 150
@@ -165,6 +168,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val doLocalButton = VillagerBookmarkButtonWidget ({ModSettings.VILLAGER_TRADING_LOCAL_COLOR.value}) { ->
             VillagerTradeManager.doLocalTrades(screen)
         }.apply {
+            this@VillagerOverlayWidget.snapableList.add(this)
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
             size = Size(30, 10)
             tx = 150
@@ -184,6 +188,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val doLocalButton1 = VillagerBookmarkButtonWidget ({ModSettings.VILLAGER_TRADING_LOCAL_COLOR1.value}) { ->
             VillagerTradeManager.doLocalTrades1(screen)
         }.apply {
+            this@VillagerOverlayWidget.snapableList.add(this)
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
             size = Size(30, 10)
             tx = 150
@@ -206,6 +211,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
         private val doLocalButton2 = VillagerBookmarkButtonWidget ({ModSettings.VILLAGER_TRADING_LOCAL_COLOR2.value}) { ->
             VillagerTradeManager.doLocalTrades2(screen)
         }.apply {
+            this@VillagerOverlayWidget.snapableList.add(this)
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_DO_LOCAL_TRADES)
             size = Size(30, 10)
             tx = 150
@@ -362,6 +368,7 @@ class VillagerOverlayWidget(override val screen: MerchantScreen,
 
         private fun VillagerBookmarkButtonWidget.init(tooltipId: String,
                                                   id: String) {
+            this@VillagerOverlayWidget.snapableList.add(this)
             hints = this@InitWidgets.hints.hintFor(IPNButton.VILLAGER_GLOBAL_BOOKMARK)
             tx = 0
             ty = 0

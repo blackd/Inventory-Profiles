@@ -110,6 +110,7 @@ class SettingsWidget(override val screen: ContainerScreen<*>,
             tx = 140
             ty = 0
             hints = this@SettingsWidget.hints
+            this@SettingsWidget.snapableList.add(this)
             this@SettingsWidget.addChild(this)
             visible = GuiSettings.ENABLE_INVENTORY_SETTINGS_BUTTON.value
             tooltipText = I18n.translate("inventoryprofiles.tooltip.settings_open")

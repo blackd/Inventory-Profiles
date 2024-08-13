@@ -118,6 +118,7 @@ class EditorWidget(override val screen: ContainerScreen<*>,
             tx = 160
             ty = 40
             hints = this@EditorWidget.hints
+            this@EditorWidget.snapableList.add(this)
             this@EditorWidget.addChild(this)
             visible = GuiSettings.ENABLE_INVENTORY_EDITOR_BUTTON.value
             tooltipText = I18n.translate("inventoryprofiles.tooltip.editor_toggle")

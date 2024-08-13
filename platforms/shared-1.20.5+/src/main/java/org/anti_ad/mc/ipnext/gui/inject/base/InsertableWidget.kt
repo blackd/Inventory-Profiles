@@ -50,4 +50,6 @@ abstract class InsertableWidget: Widget() {
                                       mouseY: Int,
                                       partialTicks: Float)
 
+    val snapableList = mutableListOf<Widget>()
+
 }

@@ -131,6 +131,7 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
             tx = 50
             ty = 20
             parent = this@ProfilesUICollectionWidget
+            this@ProfilesUICollectionWidget.snapableList.add(this)
             this@ProfilesUICollectionWidget.addChild(this)
             visible = types.contains(ContainerType.PLAYER)
             tooltipText = I18n.translate("inventoryprofiles.tooltip.next_profile_button")
@@ -140,6 +141,7 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
             tx = 60
             ty = 20
             parent = this@ProfilesUICollectionWidget
+            this@ProfilesUICollectionWidget.snapableList.add(this)
             this@ProfilesUICollectionWidget.addChild(this)
             visible = types.contains(ContainerType.PLAYER)
             tooltipText = I18n.translate("inventoryprofiles.tooltip.prev_profile_button")
@@ -148,6 +150,8 @@ class ProfilesUICollectionWidget(override val screen: ContainerScreen<*>,
         private val profileButton = ActiveProfileButtonWidget{ ProfileSwitchHandler.applyCurrent(true) }.apply {
 
             parent = this@ProfilesUICollectionWidget
+            this@ProfilesUICollectionWidget.snapableList.add(this)
+            this@ProfilesUICollectionWidget.addChild(this)
             val profile = getCurrentProfileName()
             visible = types.contains(ContainerType.PLAYER)
             this.text = profile

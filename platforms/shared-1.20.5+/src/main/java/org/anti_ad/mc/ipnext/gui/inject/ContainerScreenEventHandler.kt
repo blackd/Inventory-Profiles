@@ -27,6 +27,8 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.screen.BaseScreen
+import org.anti_ad.mc.common.math2d.Point
+import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.ipn.api.IPNButton
@@ -81,6 +83,18 @@ object ContainerScreenEventHandler {
                 it.showEditorScreen()
             }
         }
+    }
+
+    fun getWidgetPoints(): Set<Rectangle> {
+        val points = mutableSetOf<Rectangle>()
+        currentWidgets?.forEach {
+            it.snapableList.forEach { widget ->
+                if (widget.visible) {
+                    points.add(widget.absoluteBounds)
+                }
+            }
+        }
+        return points
     }
 
     private fun checkValid() {

@@ -139,11 +139,13 @@ dependencies {
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
 
+
 /*
-    runtimeOnly( fg.deobf("curse.maven:athena-841890:4686264"))
+    runtimeOnly(fg.deobf("curse.maven:athena-841890:4686264"))
     runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4681831"))
+
+    implementation(fg.deobf("curse.maven:chipped-456956:4634856"))
 */
-    compileOnly(fg.deobf("curse.maven:chipped-456956:4634856"))
 
     compileOnly(fg.deobf("curse.maven:easy-villagers-400514:4584220"))
 }

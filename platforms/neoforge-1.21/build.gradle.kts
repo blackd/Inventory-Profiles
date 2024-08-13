@@ -41,6 +41,8 @@ val kotlin_for_forge_version = "5.3.0"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.21")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+val controlify_version = "2.0.0-beta.14+1.21-neoforge"
+val yacl_version = "3.5.0+1.21-neoforge"
 
 logger.lifecycle("""
     ***************************************************
@@ -123,7 +125,12 @@ repositories {
 }
 
 
-neoForgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
+neoForgeCommonDependency(minecraft_version,
+                         forge_version,
+                         kotlin_for_forge_version,
+                         libIPN_version = libIPN_version,
+                         controlify_version = controlify_version,
+                         yacl_version = yacl_version)
 
 configurations {
     create("embed")
@@ -132,12 +139,9 @@ configurations {
 dependencies {
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
-
-/*
-    runtimeOnly( fg.deobf("curse.maven:athena-841890:4686264"))
-    runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4681831"))
-*/
-   compileOnly("curse.maven:chipped-456956:4634856")
+   runtimeOnly( "curse.maven:athena-841890:5431579")
+   runtimeOnly("curse.maven:resourcefullib-570073:5483169")
+   compileOnly("curse.maven:chipped-456956:5506938")
    compileOnly("curse.maven:easy-villagers-400514:4584220")
 }
 
@@ -181,6 +185,7 @@ afterEvaluate {
             if (i > 0 && it.isDirectory) {
                 this.java.srcDirs(it.path + "/src/main/java")
                 this.java.srcDirs(it.path + "/src/main/kotlin")
+                this.resources.srcDirs(it.path + "/src/main/resources")
             }
         }
     }

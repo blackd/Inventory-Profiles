@@ -46,6 +46,8 @@ val fabric_api_version = "0.100.8+1.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val carpet_core_version = "1.21-pre3-1.4.146+v240605"
+val controlify_version = "2.0.0-beta.14+1.21-fabric"
+val yacl_version = "3.5.0+1.21-fabric"
 
 buildscript {
     dependencies {
@@ -100,6 +102,8 @@ repositories {
         name = "JourneyMap (Public)"
         url = uri("https://jm.gserv.me/repository/maven-public/")
     }
+
+    maven("https://maven.resourcefulbees.com/repository/maven-public/")
 }
 
 fabricCommonDependency(minecraft_version,
@@ -108,7 +112,9 @@ fabricCommonDependency(minecraft_version,
                        fabric_api_version,
                        modmenu_version = modmenu_version,
                        libIPN_version = libIPN_version,
-                       carpet_version = carpet_core_version)
+                       carpet_version = carpet_core_version,
+                       controlify_version = controlify_version,
+                       yacl_version = yacl_version)
 
 dependencies {
     //modRuntimeOnly("dev.emi:trinkets:3.4.0")
@@ -116,8 +122,7 @@ dependencies {
     //"modCompileOnly"("com.terraformersmc:modmenu:$modmenu_version")
     //modRuntimeOnly("curse.maven:minihud-244260:4160116")
     //modRuntimeOnly("curse.maven:malilib-303119:4147598")
-    //modRuntimeOnly("curse.maven:athena-841890:4686261")
-    //modRuntimeOnly("curse.maven:resourcefullib-570073:4681832")
+
 
 /*
     modImplementation("curse.maven:journey-map-32274:4841229")
@@ -134,7 +139,10 @@ dependencies {
     modImplementation("curse.maven:supermartijn642s-core-lib-454372:5546972")
 
 
-    modCompileOnly("curse.maven:chipped-456956:4634858")
+
+    modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21:3.0.9")
+
+    modImplementation(group = "earth.terrarium.chipped", name = "chipped-fabric-1.21", version = "4.0.0")
 
 
 }
@@ -178,7 +186,7 @@ tasks.named<AntlrTask>("generateGrammarSource").configure {
                        "-Xexact-output-dir")
 }
 
-afterEvaluate {
+
     project.sourceSets.getByName("main") {
         this.java.srcDirs("./src/shared/java")
         this.java.srcDirs("./src/shared/kotlin")
@@ -186,13 +194,16 @@ afterEvaluate {
             if (i > 0 && it.isDirectory) {
                 this.java.srcDirs(it.path + "/src/main/java")
                 this.java.srcDirs(it.path + "/src/main/kotlin")
+                logger.lifecycle("adding ${it.path + "/src/main/resources"} to resources dirs")
+                this.resources.srcDirs(it.path + "/src/main/resources")
+
             }
         }
     }
     project.sourceSets.getByName("main") {
         resources.srcDirs("src/shared/resources")
     }
-}
+
 
 tasks.named<ShadowJar>("shadowJar") {
 

@@ -36,10 +36,5 @@ object Integrations {
         trySwallow {
             CarpetIntegration().init()
         }
-        trySwallow {
-            if (FabricLoader.getInstance().getModContainer("chipped").isPresent) {
-                ChippedIntegration.init()
-            }
-        }
     }
 }

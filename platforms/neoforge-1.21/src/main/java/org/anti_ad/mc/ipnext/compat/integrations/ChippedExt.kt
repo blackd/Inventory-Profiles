@@ -19,12 +19,12 @@
 
 package org.anti_ad.mc.ipnext.compat.integrations
 
-import earth.terrarium.chipped.common.menu.ChippedMenu
+import earth.terrarium.chipped.common.menus.WorkbenchMenu
 import net.minecraft.client.player.LocalPlayer
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.ipnext.ingame.`(syncId)`
 
-typealias ChippedMenu = ChippedMenu
+typealias ChippedMenu = WorkbenchMenu
 
 fun ChippedMenu.`(selectRecipe)`(id: Int) {
     clickMenuButton(Vanilla.player(), id)

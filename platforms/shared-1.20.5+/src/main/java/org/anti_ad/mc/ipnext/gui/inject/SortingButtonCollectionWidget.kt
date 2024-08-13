@@ -158,6 +158,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         inner class SortButton(playerSide: Boolean): SortButtonWidget() {
 
             init {
+                this@SortingButtonCollectionWidget.snapableList.add(this)
                 clickEvent = { button ->
                     val scr = Vanilla.screen()
                     if (scr != null && scr === screen) {
@@ -187,12 +188,14 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
         inner class SortInColumnButton(playerSide: Boolean): SortButtonWidget() {
             init {
+                this@SortingButtonCollectionWidget.snapableList.add(this)
                 clickEvent = { GeneralInventoryActions.doSortInColumns(true, forcePlayer = playerSide) }
             }
         }
 
         inner class SortInRowButton(playerSide: Boolean): SortButtonWidget() {
             init {
+                this@SortingButtonCollectionWidget.snapableList.add(this)
                 clickEvent = { GeneralInventoryActions.doSortInRows(true, forcePlayer = playerSide) }
             }
         }
@@ -294,6 +297,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
         inner class MoveButton(toPlayer: Boolean = false): SortButtonWidget() {
             init {
+                this@SortingButtonCollectionWidget.snapableList.add(this)
                 clickEvent = { _: Int ->
                     GeneralInventoryActions.doMoveMatch(toPlayer = toPlayer, gui = true)
                 }
@@ -358,6 +362,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
 
 
         private val continuousCraftingCheckbox = CheckBoxWidget { -> switchCheckBoxValues() }.apply {
+            this@SortingButtonCollectionWidget.snapableList.add(this)
 //      tx = 70 or 80
             hints = this@InitWidgets.hints.hintFor(IPNButton.CONTINUOUS_CRAFTING)
 
