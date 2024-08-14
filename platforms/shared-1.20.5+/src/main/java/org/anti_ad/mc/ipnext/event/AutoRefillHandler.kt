@@ -36,6 +36,7 @@ import org.anti_ad.mc.alias.item.ShovelItem
 import org.anti_ad.mc.alias.item.SwordItem
 import org.anti_ad.mc.alias.item.ToolItem
 import org.anti_ad.mc.alias.text.fromSerializedJson
+import org.anti_ad.mc.alias.world.GameType
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Point
@@ -53,6 +54,7 @@ import org.anti_ad.mc.common.vanilla.showSubTitle
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
+import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
 import org.anti_ad.mc.ipnext.config.ToolReplaceVisualNotification
@@ -789,7 +791,7 @@ object AutoRefillHandler: InventoryOverlay {
     }
 
     override val enabledForeground: Boolean
-        get() = AutoRefillSettings.AUTO_REFILL_ENABLE_INDICATOR_ICONS.value && AutoRefillSettings.AUTO_REFILL_ENABLE_PER_SLOT_CONFIG.value
+        get() = ModSettings.ENABLE_AUTO_REFILL.value && AutoRefillSettings.AUTO_REFILL_ENABLE_INDICATOR_ICONS.value && AutoRefillSettings.AUTO_REFILL_ENABLE_PER_SLOT_CONFIG.value
 
     override val enabledBackground: Boolean = false
 
@@ -854,8 +856,10 @@ object AutoRefillHandler: InventoryOverlay {
         rEnableDepth()
     }
 
-    fun postRenderHud(context: NativeContext) { //if (AutoRefillSettings.ALSO_SHOW_LOCKED_SLOTS_IN_HOTBAR.value && GameType.SPECTATOR != Vanilla.gameMode()) {
-        drawHotSprite(context) //}
+    fun postRenderHud(context: NativeContext) {
+        if (enabledForeground && GameType.SPECTATOR != Vanilla.gameMode()) {
+            drawHotSprite(context)
+        }
     }
 
     fun preRenderHud(context: NativeContext) {

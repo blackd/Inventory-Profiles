@@ -62,14 +62,14 @@ object SlotHighlightHandler: InventoryOverlay {
         }
 
     override val enabledBackground: Boolean
-        get() = ModSettings.HIGHLIGHT_FOUSED_ITEMS.booleanValue && !ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue
+        get() = ModSettings.HIGHLIGHT_FOUSED_ITEMS.value && !ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.value
 
     override fun drawBackground(context: NativeContext) {
         drawSprite(context)
     }
 
     override val enabledForeground: Boolean
-        get() = ModSettings.HIGHLIGHT_FOUSED_ITEMS.booleanValue && ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue
+        get() = ModSettings.HIGHLIGHT_FOUSED_ITEMS.value && ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.value
 
     override fun drawForeground(context: NativeContext) {
         drawSprite(context)
@@ -84,7 +84,7 @@ object SlotHighlightHandler: InventoryOverlay {
 
     val defaultAlpha: Int
         get() {
-            return if (ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.booleanValue) {
+            return if (ModSettings.HIGHLIGHT_FOUSED_ITEMS_FOREGROUND.value) {
                 ModSettings.HIGHLIGHT_FOUSED_ITEMS_COLOR.value.alpha
             } else {
                 ModSettings.HIGHLIGHT_FOUSED_ITEMS_BG_COLOR.value.alpha

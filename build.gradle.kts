@@ -61,7 +61,7 @@ plugins {
     id("fabric-loom") version("1.7-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
-    id("net.neoforged.gradle.userdev") version "7.0.145" apply false
+    id("net.neoforged.gradle.userdev") version "7+" apply false
 }
 
 
