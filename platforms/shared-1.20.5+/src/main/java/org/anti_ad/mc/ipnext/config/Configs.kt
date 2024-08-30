@@ -52,7 +52,7 @@ import org.anti_ad.mc.ipnext.integration.MergePriority
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_DEFAULT
 import org.anti_ad.mc.ipnext.config.defaults.AUTO_REFILL_WAIT_TICK_MINIMUM
 import org.anti_ad.mc.ipnext.debug.GenerateTagsAsJson
-import org.anti_ad.mc.ipnext.event.AutoRefillHandler
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
 import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper.keyToggleBool
 import org.anti_ad.mc.ipnext.item.ItemTypeExtensionsObject

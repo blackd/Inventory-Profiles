@@ -30,6 +30,7 @@ import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`

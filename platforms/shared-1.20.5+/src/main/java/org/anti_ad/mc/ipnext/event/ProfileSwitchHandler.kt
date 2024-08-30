@@ -39,6 +39,7 @@ import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`

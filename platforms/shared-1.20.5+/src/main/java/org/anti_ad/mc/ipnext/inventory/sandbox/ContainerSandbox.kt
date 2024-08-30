@@ -95,12 +95,11 @@ class ContainerSandbox(items: MutableItemTracker,
 //  fun copy() = ContainerSandbox(items.copyAsMutable(), clicks)
 }
 
-data class SandboxClick(
-    val clickIndex: Int,
-    val slotIndex: Int,
-    val button: Int,
-    val previousClick: SandboxClick? = null
-)
+data class SandboxClick(val clickIndex: Int,
+                        val slotIndex: Int,
+                        val button: Int,
+                        val previousClick: SandboxClick? = null)
+
 
 fun SandboxClick?.toList(): List<SandboxClick> {
     val list = mutableListOf<SandboxClick>()

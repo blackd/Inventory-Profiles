@@ -32,6 +32,7 @@ import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.Tweaks
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.parser.CustomDataFileLoader
 import org.anti_ad.mc.ipnext.specific.event.PClientEventHandler
 import org.anti_ad.mc.ipnext.versionCheckUrl

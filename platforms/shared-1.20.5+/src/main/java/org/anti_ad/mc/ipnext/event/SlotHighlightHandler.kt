@@ -78,7 +78,7 @@ object SlotHighlightHandler: InventoryOverlay {
     override fun drawConfig(context: NativeContext) {
     }
 
-    fun postRender(context: NativeContext) {
+    override fun postRender(context: NativeContext) {
 
     }
 

@@ -34,7 +34,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
-import org.anti_ad.mc.ipnext.event.AutoRefillHandler
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
@@ -140,8 +140,8 @@ object ContainerScreenEventHandler {
     }
 
     fun postRender(context: NativeContext) {
-        LockSlotsHandler.postRender(context)
-        SlotHighlightHandler.postRender(context)
+        LockSlotsHandler.onPostRender(context)
+        SlotHighlightHandler.onPostRender(context)
         ContainerClicker.postScreenRender(context)
         currentWidgets?.let {
             TooltipsManager.renderAll(context)

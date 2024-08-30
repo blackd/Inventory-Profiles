@@ -25,7 +25,7 @@ import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.ipn.api.access.IContainerClicker
 import org.anti_ad.mc.ipn.api.access.IPN
 import org.anti_ad.mc.ipnext.config.ModSettings
-import org.anti_ad.mc.ipnext.event.AutoRefillHandler
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler
 import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
 import org.anti_ad.mc.ipnext.ingame.vCursorStack

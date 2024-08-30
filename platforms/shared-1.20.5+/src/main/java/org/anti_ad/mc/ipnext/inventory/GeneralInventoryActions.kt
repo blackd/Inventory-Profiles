@@ -21,7 +21,6 @@
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.alias.inventory.PlayerInventory
-import org.anti_ad.mc.alias.nbt.NbtHelper
 import org.anti_ad.mc.alias.nbt.NbtHelper_toFormattedString
 import org.anti_ad.mc.alias.screen.BeaconContainer
 import org.anti_ad.mc.alias.screen.Container
@@ -57,8 +56,8 @@ import org.anti_ad.mc.ipnext.inventory.action.moveMatchTo
 import org.anti_ad.mc.ipnext.inventory.action.refillStacksTo
 import org.anti_ad.mc.ipnext.inventory.action.restockFrom
 import org.anti_ad.mc.ipnext.inventory.action.sort
-import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollDirection
-import org.anti_ad.mc.ipnext.inventory.scrolling.ScrollingUtils
+import org.anti_ad.mc.ipn.features.scrolling.ScrollDirection
+import org.anti_ad.mc.ipn.features.scrolling.ScrollingUtils
 import org.anti_ad.mc.ipnext.item.ComponentUtils.toFullNbtOrNull
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
@@ -66,7 +65,6 @@ import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.rule.Rule
-import org.anti_ad.mc.ipnext.item.vanillaStack
 
 object GeneralInventoryActions {
 

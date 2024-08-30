@@ -45,7 +45,6 @@ import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
 import org.anti_ad.mc.ipnext.config.SwitchType.TOGGLE
 import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay
-import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay.Companion.backgroundSprite
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
@@ -54,6 +53,7 @@ import org.anti_ad.mc.ipnext.ingame.`(scaledHeight)`
 import org.anti_ad.mc.ipnext.ingame.`(scaledWidth)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.`(window)`
 import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 import org.anti_ad.mc.ipnext.item.maxCount
@@ -77,6 +77,21 @@ object LockSlotsHandler: InventoryOverlay {
 
     override val enabledBackground: Boolean
         get() = ModSettings.ENABLE_LOCK_SLOTS.booleanValue && LockedSlotsSettings.SHOW_LOCKED_SLOTS_BACKGROUND.booleanValue
+
+    override val slotLocations: Map<Int, Point>
+        get() {
+            val screen = Vanilla.screen() as? ContainerScreen<*> ?: return mapOf()
+            @Suppress("USELESS_ELVIS")
+            val container = Vanilla.container() ?: return mapOf()
+            return container.`(slots)`.mapNotNull { slot ->
+                val playerSlot = vPlayerSlotOf(slot,
+                                               screen)
+                val topLeft =slot.`(topLeft)`
+                val inv = playerSlot.`(inventoryOrNull)` ?: return@mapNotNull null
+                return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to topLeft else null
+            }.toMap()
+        }
+
 
     val lockedInvSlotsStoredValue = mutableSetOf<Int>() // locked invSlot list
 
@@ -141,7 +156,7 @@ object LockSlotsHandler: InventoryOverlay {
 
 
 
-    fun postRender(context: NativeContext) { // display config
+    override fun postRender(context: NativeContext) { // display config
     }
 
     override fun drawForeground(context: NativeContext) {

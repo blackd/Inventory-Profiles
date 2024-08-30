@@ -44,7 +44,7 @@ import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.Modpacks
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
-import org.anti_ad.mc.ipnext.event.AutoRefillHandler
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 
 import org.anti_ad.mc.common.input.KeybindSettings
 import org.anti_ad.mc.common.input.KeybindSettings.Companion.INGAME_DEFAULT

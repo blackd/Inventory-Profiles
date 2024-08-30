@@ -50,7 +50,7 @@ import org.anti_ad.mc.common.extensions.ifTrue
 import org.anti_ad.mc.common.extensions.loggingPath
 import org.anti_ad.mc.common.extensions.sanitized
 import org.anti_ad.mc.ipnext.NotificationManager
-import org.anti_ad.mc.ipnext.event.AutoRefillHandler
+import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
 import java.nio.file.Path

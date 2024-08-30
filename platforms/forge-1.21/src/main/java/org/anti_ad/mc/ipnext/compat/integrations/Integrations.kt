@@ -26,9 +26,6 @@ object Integrations {
     val carpetEmptyShulkersStackSize = 1
 
     fun init(): Boolean {
-        trySwallow {
-            ChippedIntegration.init()
-        }
         return false
     }
 }

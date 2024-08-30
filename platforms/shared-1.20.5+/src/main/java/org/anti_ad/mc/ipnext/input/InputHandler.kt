@@ -33,7 +33,6 @@ import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.debug.ModpackInputHandler
-import org.anti_ad.mc.ipnext.event.AutoRefillHandler
 import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
 import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.gui.DebugScreen

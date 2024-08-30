@@ -1,8 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2021-2024 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +19,7 @@
 
 @file:Suppress("UnusedImport")
 
-package org.anti_ad.mc.ipnext.event
+package org.anti_ad.mc.ipnext.event.autorefill
 
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.InventoryScreen
@@ -58,8 +57,10 @@ import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.ABSOLUTE
 import org.anti_ad.mc.ipnext.config.ThresholdUnit.PERCENTAGE
 import org.anti_ad.mc.ipnext.config.ToolReplaceVisualNotification
+import org.anti_ad.mc.ipnext.event.LockedSlotKeeper
+import org.anti_ad.mc.ipnext.event.MouseTracer
+import org.anti_ad.mc.ipnext.event.Sounds
 import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay
-import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay.Companion.TEXTURE
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(equipmentSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
@@ -828,6 +829,10 @@ object AutoRefillHandler: InventoryOverlay {
     }
 
     override fun drawConfig(context: NativeContext) {
+
+    }
+
+    override fun postRender(context: NativeContext) {
 
     }
 

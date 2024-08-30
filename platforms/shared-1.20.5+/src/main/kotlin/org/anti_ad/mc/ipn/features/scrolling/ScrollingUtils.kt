@@ -1,7 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2022-2024 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.anti_ad.mc.ipnext.inventory.scrolling
+package org.anti_ad.mc.ipn.features.scrolling
 
 import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.ipnext.Log
@@ -53,7 +53,7 @@ enum class ScrollDirection {
 
 object ScrollingUtils {
 
-    inline val doIncludeHotbar: Boolean
+    private inline val doIncludeHotbar: Boolean
         get() {
             return if (ModSettings.ALWAYS_INCLUDE_HOTBAR.booleanValue) {
                 !ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()
@@ -91,10 +91,10 @@ object ScrollingUtils {
                 ScrollDirection.TO_PLAYER -> {
                     player
                 }
-                ScrollDirection.TO_CHEST -> {
+                ScrollDirection.TO_CHEST  -> {
                     chest
                 }
-                ScrollDirection.BOTH -> {
+                ScrollDirection.BOTH      -> {
                     chest
                 }
             }
@@ -120,13 +120,13 @@ object ScrollingUtils {
         val vanillaContainer = Vanilla.container()
 
         val source = when(direction) {
-            ScrollDirection.TO_CHEST -> {
+            ScrollDirection.TO_CHEST  -> {
                 player.getItemArea(vanillaContainer, slots)
             }
             ScrollDirection.TO_PLAYER -> {
                 chest.getItemArea(vanillaContainer, slots)
             }
-            ScrollDirection.BOTH -> {
+            ScrollDirection.BOTH      -> {
                 (player + chest).getItemArea(vanillaContainer, slots)
             }
         }
@@ -152,7 +152,7 @@ object ScrollingUtils {
 
 
         val (source, target) = when (direction) {
-            ScrollDirection.TO_CHEST -> if (!LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue
+            ScrollDirection.TO_CHEST  -> if (!LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue
                 && slotIndex in fullPlayer.getItemArea(vanillaContainer, slots).slotIndices) {
 
                 Pair((player + focusedSlot).getItemArea(vanillaContainer, slots),
@@ -162,7 +162,7 @@ object ScrollingUtils {
                      targetIn.getItemArea(vanillaContainer, slots))
             }
 
-            ScrollDirection.TO_PLAYER-> if (!LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue
+            ScrollDirection.TO_PLAYER -> if (!LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue
                 && slotIndex in fullPlayer.getItemArea(vanillaContainer, slots).slotIndices) {
 
                 Pair(chest.getItemArea(vanillaContainer, slots),
@@ -172,7 +172,7 @@ object ScrollingUtils {
                      targetIn.getItemArea(vanillaContainer, slots))
             }
 
-            ScrollDirection.BOTH -> if (!LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue
+            ScrollDirection.BOTH      -> if (!LockedSlotsSettings.LOCK_SLOTS_DISABLE_USER_INTERACTION.booleanValue
                 && slotIndex in fullPlayer.getItemArea(vanillaContainer, slots).slotIndices) {
 
                 Pair((player + focusedSlot + chest).getItemArea(vanillaContainer, slots),
@@ -209,11 +209,11 @@ object ScrollingUtils {
     }
 
     private fun AreaTypes.doDefaultAction(direction: ScrollDirection,
-                                                 slot: Slot,
-                                                 targetIn: AreaType,
-                                                 slots: List<Slot>,
-                                                 player: AreaType,
-                                                 chest: AreaType) {
+                                          slot: Slot,
+                                          targetIn: AreaType,
+                                          slots: List<Slot>,
+                                          player: AreaType,
+                                          chest: AreaType) {
         withFocusedItemFullStackDo(direction, slot, targetIn, slots, player, chest) { targetArea, source, itemType, slotIndex ->
             findSourceAndTargetAndDo(targetArea, source, slots, itemType, doLastSlotIndex = slotIndex) { sourceId, targetId ->
                 ContainerClicker.leftClick(sourceId)
@@ -430,8 +430,7 @@ object ScrollingUtils {
     }
 
     fun scrollSingleSpread(direction: ScrollDirection = ScrollDirection.TO_CHEST,
-                           includeHotbar: Boolean = doIncludeHotbar
-                          ) {
+                           includeHotbar: Boolean = doIncludeHotbar) {
         var minCount = 65
         withEnvironmentDo(direction, includeHotbar) { stack, target, slots, player, chest, _ ->
             if (stack.isEmpty()) {
@@ -481,8 +480,8 @@ object ScrollingUtils {
 
             val source = when (direction) {
                 ScrollDirection.TO_PLAYER -> chest
-                ScrollDirection.TO_CHEST -> player
-                ScrollDirection.BOTH -> player + chest
+                ScrollDirection.TO_CHEST  -> player
+                ScrollDirection.BOTH      -> player + chest
             }.getItemArea(vanillaContainer,slots)
 
             findSourceAndDo(source, slots, oldItemType) { sourceId ->
@@ -710,6 +709,4 @@ object ScrollingUtils {
             action(sourceId)
         }
     }
-
-
 }

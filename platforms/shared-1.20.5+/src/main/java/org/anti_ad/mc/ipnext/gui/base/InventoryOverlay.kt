@@ -20,20 +20,14 @@
 
 package org.anti_ad.mc.ipnext.gui.base
 
-import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
-import org.anti_ad.mc.alias.inventory.PlayerInventory
+
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
-import org.anti_ad.mc.common.vanilla.Vanilla
 
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
-import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
-import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
-import org.anti_ad.mc.ipnext.ingame.`(slots)`
-import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
-import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
+
 
 interface InventoryOverlay {
 
@@ -41,26 +35,25 @@ interface InventoryOverlay {
     val enabledBackground: Boolean
 
     companion object {
-        val TEXTURE = IdentifierHolder("inventoryprofilesnext", "textures/gui/overlay_new.png")
-        val backgroundSprite = Sprite(TEXTURE, Rectangle(40, 8, 32, 32))
+        @JvmField
+        val COMP_TEXTURE = IdentifierHolder("inventoryprofilesnext", "textures/gui/overlay_new.png")
+        @JvmField
+        val compBackgroundSprite = Sprite(COMP_TEXTURE, Rectangle(40, 8, 32, 32))
+        @JvmField
+        val internal8x8 = Point(8,8)
     }
 
+    @Suppress("PropertyName")
+    val TEXTURE: IdentifierHolder
+        get() = COMP_TEXTURE
+
+    val backgroundSprite: Sprite
+        get() = compBackgroundSprite
+
     val eightByEight: Point
-        get() = Point(8,8)
+        get() = internal8x8
 
     val slotLocations: Map<Int, Point>
-        get() {
-            val screen = Vanilla.screen() as? ContainerScreen<*> ?: return mapOf()
-            @Suppress("USELESS_ELVIS")
-            val container = Vanilla.container() ?: return mapOf()
-            return container.`(slots)`.mapNotNull { slot ->
-                val playerSlot = vPlayerSlotOf(slot,
-                                               screen)
-                val topLeft =slot.`(topLeft)`
-                val inv = playerSlot.`(inventoryOrNull)` ?: return@mapNotNull null
-                return@mapNotNull if (inv is PlayerInventory) playerSlot.`(invSlot)` to topLeft else null
-            }.toMap()
-        }
 
     fun onForegroundRender(context: NativeContext) {
         if (!enabledForeground) return
@@ -73,6 +66,12 @@ interface InventoryOverlay {
         drawBackground(context)
     }
 
+    fun onPostRender(context: NativeContext) {
+        if (!enabledForeground && !enabledBackground) return
+        postRender(context)
+    }
+
+    fun postRender(context: NativeContext)
     fun drawForeground(context: NativeContext)
     fun drawConfig(context: NativeContext)
     fun drawBackground(context: NativeContext)
