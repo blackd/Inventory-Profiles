@@ -19,9 +19,11 @@
 
 
 rootProject.name = "InventoryProfilesNext"
+
 include("platforms:fabric-1.21")
-include("platforms:forge-1.21")
 include("platforms:neoforge-1.21")
+include("platforms:forge-1.21")
+
 
 
 pluginManagement {
@@ -37,13 +39,15 @@ pluginManagement {
 }
 
 plugins {
-    id("com.gradle.enterprise") version "3.4.1"
+    //id("com.gradle.develocity") version "3+"
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-gradleEnterprise {
+/*
+develocity {
     buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
+        termsOfUseUrl = "https://gradle.com/terms-of-service"
+        termsOfUseAgree = "yes"
     }
 }
+*/

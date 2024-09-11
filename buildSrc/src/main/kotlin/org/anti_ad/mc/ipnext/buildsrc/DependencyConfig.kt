@@ -165,8 +165,14 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         "modImplementation"("net.fabricmc:fabric-loader:$loader_version")
         "modImplementation"("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
 
-        "modApi"("dev.isxander:yet-another-config-lib:$yacl_version")
-        "modApi"("dev.isxander:controlify:$controlify_version")
+        "modApi"("dev.isxander:yet-another-config-lib:$yacl_version") {
+            exclude("maven.modrinth")
+            exclude(module = "reeses-sodium-options")
+        }
+        "modApi"("dev.isxander:controlify:$controlify_version") {
+            exclude("maven.modrinth")
+            exclude(module = "reeses-sodium-options")
+        }
         modmenu_version?.let {
             "modApi"("com.terraformersmc:modmenu:$modmenu_version")
         }
@@ -219,6 +225,7 @@ fun Project.forgeCommonDependency(minecraft_version: Any,
 
         "implementation"("thedarkcolour:kotlinforforge:$kotlin_for_forge_version") {
             this.isChanging = true
+            exclude("cpw.mods")
         }
 
 /*
@@ -269,18 +276,40 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
                                      controlify_version: Any? = null) {
 
 
+    configurations.all {
+        resolutionStrategy {
+            force("org.ow2.asm:asm-analysis:9.7")
+            force("org.ow2.asm:asm-util:9.7")
+//            force("org.anti_ad.mc:libIPN-$libIPN_version")
+        }
+    }
 
     dependencies {
 
 
         "implementation"("net.neoforged:neoforge:${loader_version}")
 
-        "implementation"("dev.isxander:yet-another-config-lib:$yacl_version")
-        "implementation"("dev.isxander:controlify:$controlify_version")
+        "implementation"("dev.isxander:yet-another-config-lib:$yacl_version") {
+            exclude("maven.modrinth")
+            exclude("org.quiltmc.parsers")
+            exclude("org.quiltmc.*")
+            exclude(module = "reeses-sodium-options")
+            exclude("thedarkcolour")
+            exclude("org.jetbrains.kotlin")
+        }
+
+        "implementation"("dev.isxander:controlify:$controlify_version") {
+            exclude("maven.modrinth")
+            exclude("org.quiltmc.parsers")
+            exclude("org.quiltmc.*")
+            exclude(module = "reeses-sodium-options")
+        }
 
 
         "implementation"("thedarkcolour:kotlinforforge-neoforge:${kotlin_for_forge_version}") {
             this.isChanging = true
+            exclude("net.neoforged.fancymodloader")
+
         }
 
         "compileOnly"("org.anti_ad.mc:libIPN-$libIPN_version:dev") {

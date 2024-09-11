@@ -30,16 +30,16 @@ import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.21")
+val supported_minecraft_versions = listOf("1.21", "1.21.1")
 val mod_loader = "neoforge"
 val mod_version = project.version
-val minecraft_version = "1.21"
-val minecraft_version_string = "1.21"
-val forge_version = "21.0.147"
+val minecraft_version = "1.21.1"
+val minecraft_version_string = "1.21.1"
+val forge_version = "21.1.50"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "5.3.0"
+val kotlin_for_forge_version = "5.5.0"
 val mappingsMap = mapOf("channel" to "official",
-                        "version" to "1.21")
+                        "version" to "1.21.1")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val controlify_version = "2.0.0-beta.14+1.21-neoforge"
 val yacl_version = "3.5.0+1.21-neoforge"
@@ -85,7 +85,8 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     java
-    idea
+    id("idea")
+    id("eclipse")
     `maven-publish`
     antlr
     signing
@@ -116,12 +117,10 @@ repositories {
         }
     }
     gradlePluginPortal()
-/*
     maven {
         name = "kotlinforforge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
     }
-*/
 }
 
 
@@ -139,10 +138,18 @@ configurations {
 dependencies {
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
-   runtimeOnly( "curse.maven:athena-841890:5431579")
-   runtimeOnly("curse.maven:resourcefullib-570073:5483169")
-   compileOnly("curse.maven:chipped-456956:5506938")
-   compileOnly("curse.maven:easy-villagers-400514:4584220")
+    runtimeOnly( "curse.maven:athena-841890:5431579")
+    runtimeOnly("curse.maven:resourcefullib-570073:5483169")
+    compileOnly("curse.maven:chipped-456956:5506938")
+    compileOnly("curse.maven:easy-villagers-400514:4584220")
+/*
+    implementation("org.ow2.asm:asm-analysis:9.5") {
+        version {
+            strictly("9.5")
+        }
+    }
+*/
+
 }
 
 tasks.named("compileKotlin") {

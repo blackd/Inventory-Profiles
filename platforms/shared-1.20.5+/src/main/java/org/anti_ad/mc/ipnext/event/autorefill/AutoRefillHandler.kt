@@ -151,7 +151,7 @@ object AutoRefillHandler: InventoryOverlay {
     val foregroundSprite: Sprite
         get() = Sprite(TEXTURE, Rectangle(8, 8, 32, 32)).right(1).down(2)
 
-    val disabledSlots: MutableList<Int> = mutableListOf()
+    val disabledSlots: MutableSet<Int> = mutableSetOf()
 
     private inline val pressingDropKey: Boolean
         get() = Vanilla.mc().`(options)`.`(keyDrop)`.`(isPressed)`
@@ -202,20 +202,7 @@ object AutoRefillHandler: InventoryOverlay {
             return
         }
         if (clicked) {
-            val line = MouseTracer.asLine
-            val topLeft = screen.`(containerBounds)`.topLeft - Size(1,
-                                                                    1)
-            for ((invSlot, slotTopLeft) in slotLocations) {
-                if ((mode == 0) == (invSlot !in disabledSlots)
-                    && line.intersects(Rectangle(topLeft + slotTopLeft,
-                                                 Size(18,
-                                                      18)))) {
-                    if (mode == 0)
-                        disabledSlots.add(invSlot)
-                    else
-                        disabledSlots.remove(invSlot)
-                }
-            }
+            processSwipe(disabledSlots, screen, mode)
         }
     }
 

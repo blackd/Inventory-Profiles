@@ -323,20 +323,7 @@ object LockSlotsHandler: InventoryOverlay {
             return
         }
         if (clicked) {
-            val line = MouseTracer.asLine
-            val topLeft = screen.`(containerBounds)`.topLeft - Size(1,
-                                                                    1)
-            for ((invSlot, slotTopLeft) in slotLocations) {
-                if ((mode == 0) == (invSlot !in lockedInvSlotsStoredValue)
-                    && line.intersects(Rectangle(topLeft + slotTopLeft,
-                                                 Size(18,
-                                                      18)))) {
-                    if (mode == 0)
-                        lockedInvSlotsStoredValue.add(invSlot)
-                    else
-                        lockedInvSlotsStoredValue.remove(invSlot)
-                }
-            }
+            processSwipe(lockedInvSlotsStoredValue, screen, mode)
         }
     }
 

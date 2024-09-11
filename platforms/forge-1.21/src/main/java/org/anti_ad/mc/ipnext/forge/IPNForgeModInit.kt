@@ -26,7 +26,6 @@ import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.event.ClientInitHandler.register
 
-
 @Mod(ModInfo.MOD_ID)
 class IPNForgeModInit {
 
@@ -45,4 +44,6 @@ class IPNForgeModInit {
         }
 
     }
+
+
 }

@@ -21,13 +21,17 @@
 package org.anti_ad.mc.ipnext.gui.base
 
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.math2d.Size
+import org.anti_ad.mc.common.math2d.intersects
 
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
-
+import org.anti_ad.mc.ipnext.event.MouseTracer
+import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 
 interface InventoryOverlay {
 
@@ -69,6 +73,24 @@ interface InventoryOverlay {
     fun onPostRender(context: NativeContext) {
         if (!enabledForeground && !enabledBackground) return
         postRender(context)
+    }
+
+    fun processSwipe(slotList: MutableSet<Int>, screen: ContainerScreen<*>, mode: Int) {
+        val line = MouseTracer.asLine
+        val topLeft = screen.`(containerBounds)`.topLeft - Size(1, 1)
+        for ((invSlot, slotTopLeft) in slotLocations) {
+            if ((mode == 0) == (invSlot !in slotList)
+                && line.intersects(Rectangle(topLeft + slotTopLeft,
+                                             Size(18,
+                                                  18)))) {
+                if (mode == 0) {
+                    slotList.add(invSlot)
+                }
+                else {
+                    slotList.remove(invSlot)
+                }
+            }
+        }
     }
 
     fun postRender(context: NativeContext)

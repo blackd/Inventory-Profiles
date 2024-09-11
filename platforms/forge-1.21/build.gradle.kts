@@ -34,16 +34,16 @@ import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.21")
+val supported_minecraft_versions = listOf("1.21", "1.21.1")
 val mod_loader = "forge"
 val mod_version = project.version
-val minecraft_version = "1.21"
-val minecraft_version_string = "1.21"
-val forge_version = "51.0.18"
+val minecraft_version = "1.21.1"
+val minecraft_version_string = "1.21.1"
+val forge_version = "52.0.10"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "5.3.0"
+val kotlin_for_forge_version = "5.5.0"
 val mappingsMap = mapOf("channel" to "official",
-                        "version" to "1.21")
+                        "version" to "1.21.1")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
 logger.lifecycle("""
@@ -96,6 +96,8 @@ plugins {
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
     id("io.github.goooler.shadow")
+//    id("net.minecraftforge.gradle")
+//    id("org.spongepowered.mixin")
 }
 
 configureCommon()
@@ -119,7 +121,10 @@ repositories {
         }
     }
     gradlePluginPortal()
-
+    maven {
+        name = "kotlinforforge"
+        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+    }
 }
 
 val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension

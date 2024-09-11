@@ -30,15 +30,16 @@ import org.anti_ad.mc.ipnext.init as inventoryProfilesInit
 class KotlinClientInit: Runnable {
 
     override fun run() {
-        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest::class.java) {
-            IExtensionPoint.DisplayTest({ ModLoadingContext.get().activeContainer.modInfo.version.toString() }) {
+
+        thedarkcolour.kotlinforforge.forge.LOADING_CONTEXT.registerExtensionPoint(IExtensionPoint.DisplayTest::class.java) {
+            IExtensionPoint.DisplayTest({ thedarkcolour.kotlinforforge.forge.LOADING_CONTEXT.container.modInfo.version.toString() }) {
                     _: String?, _: Boolean? -> true
             }
         }
 
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler())
 
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
+        thedarkcolour.kotlinforforge.forge.LOADING_CONTEXT.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
             ConfigScreenHandler.ConfigScreenFactory { _: Minecraft?, _: net.minecraft.client.gui.screens.Screen? -> ConfigScreen() }
         }
         inventoryProfilesInit()
