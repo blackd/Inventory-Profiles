@@ -1,5 +1,28 @@
 <!-- latest begin -->
 
+### 2.0.5
+
+#### we have new logo!
+
+#### mod compatibility
+
+- Adds support for Controlify
+  * The cursor will snap to all IPN overlay elements like it snaps to the gui slots.
+- IPN buttons overlay will now work properly with `Packed up` backpacks
+- Support for the attached storage of `Workshop for handsome adventurer`. All features now work properly.
+
+#### Features
+
+- It is now possible to enable second set of overlay buttons when a chest is opened. The new buttons will operate on the player inventory.
+
+#### Fixes
+
+- Auto refill icons will no longer show if Auto Refill is disabled.
+
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.0.4
 
 #### new features
@@ -26,10 +49,6 @@
 As usual the mod will run on Quilt, but I don't have time for full testing and debugging eventual problems will require too much time to setup.
 
 **Use at your own risk**
-
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.0.3
 
