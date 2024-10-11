@@ -70,7 +70,7 @@ object IPNInfoManager: InfoManagerBase() {
     }
 
     fun doSessionKeepAlive() {
-        timer("ipnPeriodicalTasks", initialDelay = 60000, period = 60000) {
+        timer("ipnPeriodicalTasks", initialDelay = 145000, period = 145000) {
             val player = Vanilla.playerNullable()
             if (player != null && version != "null") {
                 val salt = player.gameProfile.id?.toString() ?: " InvalidName"
