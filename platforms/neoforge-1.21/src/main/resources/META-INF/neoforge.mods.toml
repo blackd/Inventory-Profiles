@@ -24,7 +24,7 @@ modId="inventoryprofilesnext" #mandatory
 version="@VERSION@" #mandatory
 displayName="Inventory Profiles Next" #mandatory
 displayURL="https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next" #optional
-logoFile="icon_8.png" #optional
+logoFile = "mod-icon-xforge.png"
 credits='''
 
 This release was made possible by:
@@ -42,7 +42,7 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]] #optional
 modId="neoforge" #mandatory
 mandatory=true #mandatory
-versionRange="[20.0.147,)" #mandatory
+versionRange="[20.1.0,)" #mandatory
 ordering="NONE"
 side="CLIENT"
 

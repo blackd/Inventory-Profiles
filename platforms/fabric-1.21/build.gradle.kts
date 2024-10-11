@@ -383,7 +383,7 @@ configure<CurseExtension> {
             this.addGameVersion(it)
         }
         this.addGameVersion("Fabric")
-        //this.addGameVersion("Quilt")
+        this.addGameVersion("Quilt")
         val remappedJarFile = minimizeJar.outputs.files.first()
         logger.lifecycle("""
         +*************************************************+
