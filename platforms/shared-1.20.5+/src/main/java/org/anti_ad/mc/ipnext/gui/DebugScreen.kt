@@ -115,12 +115,12 @@ class DebugScreen: BaseDebugScreen() {
         val Slot?.content: String
             get() {
                 val slot = this
-                val a = "slot: ${slot?.javaClass?.usefulName}"
+                val a = "slot: ${slot?.javaClass?.canonicalName}"
                 slot ?: return a
                 val b =
                         slot.run {
                             """invSlot: $`(invSlot)` id: $`(id)`
-              |inventory: ${`(inventoryOrNull)`?.javaClass?.usefulName}
+              |inventory: ${`(inventoryOrNull)`?.javaClass?.canonicalName}
               |x: $`(left)` y: $`(top)`
               |
               """.trimMargin()
@@ -152,7 +152,7 @@ class DebugScreen: BaseDebugScreen() {
 
         fun containerStringOf(container: Container,
                               title: String): String {
-            return "$title: ${container.javaClass.name}"
+            return "$title: ${container.javaClass.canonicalName}"
         }
     }
 

@@ -53,6 +53,7 @@ import org.anti_ad.mc.ipnext.NotificationManager
 import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.event.ProfileSwitchHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
+import org.anti_ad.mc.ipnext.integration.SlotIntegrationHints
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting
 import kotlin.io.path.notExists
@@ -84,7 +85,8 @@ private val definedLoaders: List<Loader> = listOf(LockSlotsLoader,
                                                   ProfilesLoader,
                                                   RuleLoader,
                                                   HintsLoader,
-                                                  VillagerBookmarksLoader)
+                                                  VillagerBookmarksLoader,
+                                                  SlotSettingsLoader)
 
 object ProfilesLoader: Loader, Savable {
 
@@ -343,12 +345,40 @@ object HintsLoader: Loader {
 
     override fun reload(fromUserInput: Boolean) {
         if (fromUserInput) {
-            TellPlayer.chat("Loading GUI Hints configs...")
+            TellPlayer.chat("Loading Slot Special Settings Hints configs...")
         }
         val path = (configFolder / "integrationHints").also { it.createDirectories() }
         ContainerTypes.reset()
-        HintsManagerNG.upgradeOldConfig(configFolder / "ModIntegrationHints.json" , path)
+        HintsManagerNG.upgradeOldConfig(configFolder / "SlotIntegrationHints.json" , path)
         HintsManagerNG.init(configFolder, path, fromUserInput)
+        if (fromUserInput) {
+            TellPlayer.chat("")
+        }
+    }
+
+}
+
+object SlotSettingsLoader: Loader {
+
+    private var firstLoad: Boolean = false
+
+    override fun load() {
+        if(!firstLoad) {
+            firstLoad = true
+            reload(false)
+        }
+    }
+
+    override fun doSanityCheck(): Boolean {
+        return false
+    }
+
+    override fun reload(fromUserInput: Boolean) {
+        if (fromUserInput) {
+            TellPlayer.chat("Loading Slot Hints configs...")
+        }
+        val path = (configFolder / "integrationHints").also { it.createDirectories() }
+        SlotIntegrationHints.init(configFolder, path, fromUserInput)
         if (fromUserInput) {
             TellPlayer.chat("")
         }

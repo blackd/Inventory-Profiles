@@ -69,44 +69,50 @@ import org.anti_ad.mc.ipnext.item.rule.Rule
 object GeneralInventoryActions {
 
     @Suppress("UNUSED_PARAMETER")
-    fun doSort(gui: Boolean = false,
-               forcePlayer: Boolean = false) {
+    fun doSort(container: Container, gui: Boolean = false, forcePlayer: Boolean = false) {
         with(GuiSettings) {
             doSort(REGULAR_SORT_ORDER,
                    REGULAR_CUSTOM_RULE,
                    REGULAR_POST_ACTION,
-                   forcePlayer)
+                   forcePlayer,
+                   container)
         }
     }
 
-    fun doSortInColumns(gui: Boolean = false,
+    fun doSortInColumns(container: Container,
+                        gui: Boolean = false,
                         forcePlayer: Boolean = false) {
         with(GuiSettings) {
             doSort(IN_COLUMNS_SORT_ORDER,
                    IN_COLUMNS_CUSTOM_RULE,
                    IN_COLUMNS_POST_ACTION,
-                   forcePlayer)
+                   forcePlayer,
+                   container)
         }
     }
 
-    fun doSortInRows(gui: Boolean = false,
+    fun doSortInRows(container: Container,
+                     gui: Boolean = false,
                      forcePlayer: Boolean = false) {
         with(GuiSettings) {
             doSort(IN_ROWS_SORT_ORDER,
                    IN_ROWS_CUSTOM_RULE,
                    IN_ROWS_POST_ACTION,
-                   forcePlayer)
+                   forcePlayer,
+                   container)
         }
     }
 
     private fun doSort(sortOrder: ConfigEnum<SortingMethodIndividual>,
                        customRule: ConfigString,
                        postAction: ConfigEnum<PostAction>,
-                       forcePlayer: Boolean) {
+                       forcePlayer: Boolean,
+                       container: Container) {
 
         TellPlayer.listenLog(LogBase.LogLevel.WARN) {
             InnerActions.doSort(sortOrder.value.rule(customRule.value),
-                                postAction.value, forcePlayer)
+                                postAction.value, forcePlayer,
+                                container)
         }
     }
 
@@ -179,7 +185,7 @@ object GeneralInventoryActions {
             val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) - lockedSlots
             val container = itemStorage
             val slots = vanillaContainer.`(slots)`
-            val source = (if (isContainer) container else player).getItemArea(vanillaContainer, slots)
+            val source = ((if (isContainer) container else player) - vanillaContainer.disabled).getItemArea(vanillaContainer, slots)
 
             val actUponSlots = if (throwAll) {
                 val res = mutableMapOf<Int, Slot>()
@@ -220,10 +226,11 @@ object GeneralInventoryActions {
     }
 
     fun doMoveMatch(toPlayer: Boolean, gui: Boolean = false) { // true container to player or false player to container
-        val types = ContainerTypes.getTypes(Vanilla.container())
+        val vanillaContainer = Vanilla.container()
+        val types = ContainerTypes.getTypes(vanillaContainer)
         if (types.contains(CREATIVE)) return // no do creative menu
         if (types.contains(CRAFTING)) {
-            doMoveMatchCrafting()
+            doMoveMatchCrafting(vanillaContainer)
             return
         }
         val includeHotbar = // xor
@@ -234,9 +241,9 @@ object GeneralInventoryActions {
         val moveJustRefill = ModSettings.MOVE_JUST_REFILL_MODIFIER.isPressing()
         AdvancedContainer.tracker {
             with(AreaTypes) {
-                val player = (if (includeHotbar || (toPlayer && moveJustRefill)) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
-                        lockedSlots
-                val container = itemStorage
+                val player = ((if (includeHotbar || (toPlayer && moveJustRefill)) (playerStorage + playerHotbar + playerOffhand) else playerStorage) -
+                        lockedSlots) - vanillaContainer.disabled
+                val container = itemStorage - vanillaContainer.disabled
                 val source = (if (toPlayer) container else player).get().asSubTracker
                 val destination = (if (toPlayer) player else container).get().asSubTracker // source -> destination
                 if (moveAll) {
@@ -254,14 +261,14 @@ object GeneralInventoryActions {
         }
     }
 
-    fun doMoveMatchCrafting() {
+    fun doMoveMatchCrafting(vanillaContainer: Container) {
         //val includeHotbar = VanillaUtil.altDown()
         val includeHotbar = ModSettings.INCLUDE_HOTBAR_MODIFIER.isPressing()
         AdvancedContainer.tracker {
             with(AreaTypes) {
                 val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) - lockedSlots
                 val target = craftingIngredient
-                val source = player.get().asSubTracker
+                val source = (player - vanillaContainer.disabled).get().asSubTracker
                 val destination = target.get().asSubTracker // source -> destination
                 source.moveMatchCraftingTo(destination)
             }
@@ -383,27 +390,32 @@ private object InnerActions {
 
     fun doSort(sortingRule: Rule,
                postAction: PostAction,
-               forcePlayer: Boolean) = tryCatch {
+               forcePlayer: Boolean,
+               container: Container) = tryCatch {
         innerDoSort(sortingRule,
                     postAction,
-                    forcePlayer)
+                    forcePlayer,
+                    container)
     }
 
     fun innerDoSort(sortingRule: Rule,
                     postAction: PostAction,
-                    forcePlayer: Boolean) {
+                    forcePlayer: Boolean,
+                    container: Container) {
         AdvancedContainer.tracker {
             with(AreaTypes) {
                 val forcePlayerSide = forcePlayer || forcePlayerSide()
                 val target: ItemArea
                 if (forcePlayerSide || sortableItemStorage.get().isEmpty()) {
-                    target = (playerStorage - lockedSlots).get()
+                    val slots = (playerStorage - lockedSlots - container.disabled)
+                    target = slots.get()
                     if (ModSettings.RESTOCK_HOTBAR.booleanValue) {
                         // priority: mainhand -> offhand -> hotbar 1-9
                         (playerHands + playerHotbar).get().asSubTracker.restockFrom(target.asSubTracker)
                     }
                 } else {
-                    target = sortableItemStorage.get()
+                    val slots = (sortableItemStorage - container.disabled)
+                    target = slots.get()
                 }
                 target.asSubTracker.sort(sortingRule,
                                          postAction,

@@ -47,7 +47,7 @@ import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isFull
 import org.anti_ad.mc.ipnext.item.stackableWith
 
-class AdvancedContainer(private val vanillaContainer: Container,
+class AdvancedContainer(val vanillaContainer: Container,
                         cursor: ItemStack = vCursorStack()) {
 
     private val vanillaSlots: List<Slot>

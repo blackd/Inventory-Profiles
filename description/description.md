@@ -1,4 +1,18 @@
-<h1 class="center">Inventory Profiles Next</h1>
+
+
+<div style="align-content: center; text-align: center;">
+<p style="font-size: 14px; align-content: center; text-align: center;"><img src="https://ipn.anti-ad.org/assets/static/Inventory_Profiles_Next_Bg1line.png" width="800px"/></p>
+
+<p style="font-size: 14px; align-content: center; text-align: center;">
+
+[![Discord](https://img.shields.io/discord/861171785897738240?style=plastic&logo=discord&label=discord&link=https%3A%2F%2Fdiscord.gg%2F23YCxmveUM)](https://discord.gg/23YCxmveUM)
+![CurseForge Downloads](https://img.shields.io/curseforge/dt/495267?style=plastic&logo=curseforge)
+![Modrinth Downloads](https://img.shields.io/modrinth/dt/inventory-profiles-next?style=plastic&logo=modrinth&link=https%3A%2F%2Fmodrinth.com%2Fmod%2Finventory-profiles-next)
+[![Static Badge](https://img.shields.io/badge/source-code-blue?style=plastic&logo=github)](https://github.com/blackd/Inventory-Profiles)
+</p>
+</div>
+
+
 
 <table>
 <tbody>
@@ -57,9 +71,9 @@ some shortcuts "Inventory Tweaks" used.
 ### Become a Patreon
 
 </td>
-<td style="vertical-align: middle;">
+<td style="vertical-align: middle; background-color: dimgray;">
   <a href="https://www.patreon.com/mirinimi">
-    <img src="https://nc.anti-ad.org/cgi-bin/test.png" alt="Patreon Logo"/> 
+    <img src="https://ipn.anti-ad.org/cgi-bin/test.png" alt="Patreon Logo"/> 
   </a>
 </td>
 </tr>
@@ -70,10 +84,17 @@ some shortcuts "Inventory Tweaks" used.
 
 </td> 
 
-<td style="vertical-align: middle;"><iframe class="center" src="https://github.com/sponsors/blackd/button" height="35" width="116"></iframe></td>
+<td style="vertical-align: middle;"><iframe class="center" src="https://github.com/sponsors/blackd/button" height="35" width="142"></iframe></td>
 </tr>
 </tbody>
 </table>
+
+## How-To
+
+<div style="width: 100%; height: 100%; child-align: middle;">
+<iframe style="height: 80%; width: 80%;" allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/cv7_vW-GIJU?wmode=transparent" height="358" width="638">
+</iframe>
+</div>
 
 ## Dependencies
 
@@ -99,12 +120,7 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 ```
 
 
-## How-To
 
-<div style="width: 100%; height: 100%; child-align: middle;">
-<iframe style="height: 80%; width: 80%;" allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/cv7_vW-GIJU?wmode=transparent" height="358" width="638">
-</iframe>
-</div>
 
 
 ## Contributing

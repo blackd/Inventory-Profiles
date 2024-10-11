@@ -24,6 +24,8 @@ import org.anti_ad.mc.alias.inventory.CraftingInventory
 import org.anti_ad.mc.alias.inventory.CraftingResultInventory
 import org.anti_ad.mc.alias.inventory.PlayerInventory
 import org.anti_ad.mc.alias.screen.Container
+import org.anti_ad.mc.alias.screen.slot.`(disablesDynamicDisplay)`
+import org.anti_ad.mc.alias.screen.slot.`(isEnabled)`
 import org.anti_ad.mc.alias.screen.slot.CraftingResultSlot
 import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.alias.screen.slot.TradeOutputSlot
@@ -38,6 +40,8 @@ import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(topLeft)`
 import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
+import org.anti_ad.mc.ipnext.integration.HintsManagerNG
+import org.anti_ad.mc.ipnext.integration.SlotIntegrationHints
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
 data class PlayerSlotIds(val hotbarInvSlots: IntRange = 0..8,
@@ -119,6 +123,21 @@ object AreaTypes {
     }
 
     val lockedSlots = AreaType.playerInvSlots { LockSlotsHandler.lockedInvSlots }
+
+
+    val <T: Container> T.disabled
+        get() = AreaType.match { it ->
+            it.`(disablesDynamicDisplay)` || !it.`(isEnabled)` || it.x < 0 || it.y < 0 || SlotIntegrationHints.hintFor(it.javaClass.canonicalName).ignore ||
+                    run {
+                        val cl: Class<*> = this.javaClass
+                        val hints = HintsManagerNG.getHints(cl)
+                        it.javaClass === cl && hints.slotIgnoreInventoryTypes.contains(it.javaClass.canonicalName)
+                                || (hints.ignoreCraftingGrid
+                                && (it.`(inventory)` is CraftingInventory
+                                || it.`(inventory)` is CraftingResultInventory))
+                    }
+        }
+
 
     //  val nonPlayer = AreaType.match { it.`(inventory)` !is PlayerInventory }
 //  val nonPlayerNonOutput = AreaType.match {

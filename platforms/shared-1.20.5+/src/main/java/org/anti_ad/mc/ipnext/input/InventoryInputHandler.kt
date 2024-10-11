@@ -24,6 +24,7 @@ import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.client.gui.screen.recipebook.`(searchField)`
 import org.anti_ad.mc.alias.client.gui.screen.recipebook.RecipeBookWidget
 import org.anti_ad.mc.alias.client.gui.widget.TextFieldWidget
+import org.anti_ad.mc.alias.screen.Container
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.config.options.ConfigHotkey
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
@@ -39,6 +40,33 @@ object InventoryInputHandler : IInputHandler {
         if (!VanillaUtil.inGame()) return false
         val scr = Vanilla.screen()
         val ctr = Vanilla.container()
+
+
+        infix fun ConfigHotkey.run(action: () -> Unit): Boolean {
+            try {
+                if (this.isActivated()) {
+                    action()
+                    return true
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+            return false
+        }
+
+        infix fun ConfigHotkey.run(action: (Container) -> Unit): Boolean {
+            try {
+                if (this.isActivated()) {
+                    action(ctr)
+                    return true
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+            return false
+        }
+
+
         if (scr != null && scr is ContainerScreen<*> ) {
             val screenHints = HintsManagerNG.getHints(scr.javaClass)
             val containerHints = HintsManagerNG.getHints(ctr.javaClass)
@@ -67,16 +95,6 @@ object InventoryInputHandler : IInputHandler {
         } ?: false
     }
 
-    inline infix fun ConfigHotkey.run(action: () -> Unit): Boolean {
-        try {
-            if (this.isActivated()) {
-                action()
-                return true
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }
-        return false
-    }
+
 
 }

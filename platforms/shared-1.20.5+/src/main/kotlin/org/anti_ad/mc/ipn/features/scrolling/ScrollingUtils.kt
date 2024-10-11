@@ -89,13 +89,13 @@ object ScrollingUtils {
 
             val target = when (direction) {
                 ScrollDirection.TO_PLAYER -> {
-                    player
+                    player - vanillaContainer.disabled
                 }
                 ScrollDirection.TO_CHEST  -> {
-                    chest
+                    chest - vanillaContainer.disabled
                 }
                 ScrollDirection.BOTH      -> {
-                    chest
+                    chest - vanillaContainer.disabled
                 }
             }
 

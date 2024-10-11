@@ -20,7 +20,6 @@
 
 package org.anti_ad.mc.ipnext.gui.inject
 
-import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeInventoryScreen
 import org.anti_ad.mc.alias.screen.Container
@@ -35,9 +34,7 @@ import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
-import org.anti_ad.mc.common.vanilla.render.rClearDepth
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
-import org.anti_ad.mc.common.vanilla.render.rStandardGlState
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.Log
@@ -164,7 +161,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
                     if (scr != null && scr === screen) {
                         when (button) {
                             0                          -> {
-                                GeneralInventoryActions.doSort(true, forcePlayer = playerSide)
+                                GeneralInventoryActions.doSort(container, true, forcePlayer = playerSide)
                             }
 
                             KeyCodes.MOUSE_SCROLL_UP   -> {
@@ -189,14 +186,14 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         inner class SortInColumnButton(playerSide: Boolean): SortButtonWidget() {
             init {
                 this@SortingButtonCollectionWidget.snapableList.add(this)
-                clickEvent = { GeneralInventoryActions.doSortInColumns(true, forcePlayer = playerSide) }
+                clickEvent = { GeneralInventoryActions.doSortInColumns(container, true, forcePlayer = playerSide) }
             }
         }
 
         inner class SortInRowButton(playerSide: Boolean): SortButtonWidget() {
             init {
                 this@SortingButtonCollectionWidget.snapableList.add(this)
-                clickEvent = { GeneralInventoryActions.doSortInRows(true, forcePlayer = playerSide) }
+                clickEvent = { GeneralInventoryActions.doSortInRows(container, true, forcePlayer = playerSide) }
             }
         }
 

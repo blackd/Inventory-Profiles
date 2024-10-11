@@ -23,6 +23,8 @@ package org.anti_ad.mc.ipnext.event.autorefill
 
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.InventoryScreen
+import org.anti_ad.mc.alias.component.ComponentType
+import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.enchantment.Enchantments
 import org.anti_ad.mc.alias.inventory.PlayerInventory
 import org.anti_ad.mc.alias.item.ArmorItem
@@ -86,6 +88,7 @@ import org.anti_ad.mc.ipnext.item.`(foodComponent)`
 import org.anti_ad.mc.ipnext.item.`(isFood)`
 import org.anti_ad.mc.ipnext.item.`(isHarmful)`
 import org.anti_ad.mc.ipnext.item.`(saturationModifier)`
+import org.anti_ad.mc.ipnext.item.ComponentUtils.`(withRemovedIf)`
 import org.anti_ad.mc.ipnext.item.EMPTY
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.ItemType
@@ -111,6 +114,7 @@ import org.anti_ad.mc.ipnext.item.rule.file.RuleFileRegister
 import org.anti_ad.mc.ipnext.item.rule.natives.compareByMatch
 import org.anti_ad.mc.ipnext.item.rule.parameter.Match
 import org.anti_ad.mc.ipnext.parser.RefillSlotsLoader
+import java.util.function.Predicate
 
 object AutoRefillHandler: InventoryOverlay {
 
@@ -442,7 +446,8 @@ object AutoRefillHandler: InventoryOverlay {
                                    {"translate": "inventoryprofiles.config.notification.tool_replace_failed.replacing", "color" : "#E5A50A", "with": ["${itemType.customOrTranslatedName}"]}
                                    ]"""
                             }
-                            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS") when (AutoRefillSettings.TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION.value) {
+                            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+                            when (AutoRefillSettings.TYPE_VISUAL_REPLACE_FAILED_NOTIFICATION.value) {
                                 ToolReplaceVisualNotification.SUBTITLE -> {
                                     showSubTitle(fromSerializedJson(message(false)))
                                 }
@@ -564,12 +569,8 @@ object AutoRefillHandler: InventoryOverlay {
                         } else {
                             playerStorage - lockedSlots
                         }
-                    }.getItemArea(
-                        playerContainer, slots
-                                 ).slotIndices.map {
-                        IndexedValue(
-                            it - 9, slots[it].`(itemStack)`
-                                    )
+                    }.getItemArea(playerContainer, slots).slotIndices.map {
+                        IndexedValue(it - 9, slots[it].`(itemStack)`)
                     }
                 }.asSequence()
                 val itemType = checkingItem.itemType
@@ -680,19 +681,9 @@ object AutoRefillHandler: InventoryOverlay {
                 return index.takeIf { it >= 0 }?.plus(9)
             }
 
-            private fun defaultItemMatch(
-                filtered: Sequence<IndexedValue<ItemStack>>, itemType: ItemType
-                                        ) = when {
-                filtered.firstOrNull {
-                    typeItemMatch(
-                        it, itemType
-                                 )
-                } != null -> {
-                    filtered.filter {
-                        typeItemMatch(
-                            it, itemType
-                                     )
-                    }
+            private fun defaultItemMatch(filtered: Sequence<IndexedValue<ItemStack>>, itemType: ItemType) = when {
+                filtered.firstOrNull { typeItemMatch(it, itemType) } != null -> {
+                     filtered.filter { typeItemMatch(it, itemType) }
                 }
 
                 filtered.firstOrNull {
@@ -714,51 +705,57 @@ object AutoRefillHandler: InventoryOverlay {
 
             }
 
-            private fun typeItemMatch(
-                it: IndexedValue<ItemStack>, itemType: ItemType
-                                     ) =
-                if ((itemType.hasCustomName || it.value.itemType.hasCustomName) && AutoRefillSettings.AUTO_REFILL_MATCH_CUSTOM_NAME.booleanValue) {
+            private fun typeItemMatch(it: IndexedValue<ItemStack>, itemType: ItemType): Boolean {
+
+                return if ((itemType.hasCustomName || it.value.itemType.hasCustomName) && AutoRefillSettings.AUTO_REFILL_MATCH_CUSTOM_NAME.booleanValue) {
                     it.value.itemType.item == itemType.item && it.value.itemType.customName == itemType.customName && checkNBTIfNeeded(it, itemType)
                 } else {
                     it.value.itemType.item == itemType.item && checkNBTIfNeeded(it, itemType)
                 }
+            }
 
-            private fun checkNBTIfNeeded(
-                it: IndexedValue<ItemStack>, itemType: ItemType
-                                        ) = if (AutoRefillSettings.AUTO_REFILL_MATCH_NBT.booleanValue) {
-                if (!itemType.isBucket || (itemType.isBucket && !AutoRefillSettings.AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS.booleanValue)) {
+            private fun checkNBTIfNeeded(it: IndexedValue<ItemStack>, itemType: ItemType): Boolean {
+                return if (AutoRefillSettings.AUTO_REFILL_MATCH_NBT.booleanValue) {
+                    val removePredicate: Predicate<ComponentType<*>> = Predicate { type ->
+                        type == DataComponentTypes.DAMAGE
+                    }
 
-                    when (AutoRefillSettings.AUTO_REFILL_MATCH_NBT_TYPE.value) {
-                        AutoRefillNbtMatchType.CAN_HAVE_EXTRA -> {
+                    if (!itemType.isBucket || (itemType.isBucket && !AutoRefillSettings.AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS.booleanValue)) {
 
-                            val tagsIn = itemType.changes
-                            val tagsOut = it.value.itemType.changes
-                            var res = tagsIn.isEmpty && tagsOut.isEmpty
-                            run earlyFinish@{
-                                if (!tagsIn.isEmpty && !tagsOut.isEmpty) {
-                                    res = true
-                                    tagsIn.entrySet().forEach { (type, value) ->
-                                        if (value != tagsOut[type]) {
-                                            res = false
-                                            return@earlyFinish
+                        when (AutoRefillSettings.AUTO_REFILL_MATCH_NBT_TYPE.value) {
+                            AutoRefillNbtMatchType.CAN_HAVE_EXTRA -> {
+
+                                val tagsIn = itemType.changes.`(withRemovedIf)`(removePredicate)
+                                val tagsOut = it.value.itemType.changes.`(withRemovedIf)`(removePredicate)
+                                var res = tagsIn.isEmpty && tagsOut.isEmpty
+                                run earlyFinish@{
+                                    if (!tagsIn.isEmpty && !tagsOut.isEmpty) {
+                                        res = true
+                                        tagsIn.entrySet().forEach { (type, value) ->
+                                            if (value != tagsOut[type]) {
+                                                res = false
+                                                return@earlyFinish
+                                            }
                                         }
                                     }
                                 }
+                                res
                             }
-                            res
-                        }
 
-                        AutoRefillNbtMatchType.EXACT          -> {
-                            val eq = it.value.itemType.changes == itemType.changes
-                            eq
-                        }
+                            AutoRefillNbtMatchType.EXACT          -> {
+                                val tagsIn = itemType.changes.`(withRemovedIf)`(removePredicate)
+                                val tagsOut = it.value.itemType.changes.`(withRemovedIf)`(removePredicate)
 
+                                tagsOut == tagsIn
+                            }
+
+                        }
+                    } else {
+                        true
                     }
                 } else {
                     true
                 }
-            } else {
-                true
             }
 
             private fun getThreshold(itemType: ItemType): Int {

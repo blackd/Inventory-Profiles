@@ -20,9 +20,11 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.alias.inventory.CraftingInventory
 import org.anti_ad.mc.alias.screen.Container
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.ipnext.container.versionSpecificContainerTypes
+import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
@@ -66,12 +68,18 @@ object ContainerTypes {
         init()
     }
 
-    private val unknownContainerDefaultTypes : Set<ContainerType>
+    private val <T: Container> T.unknownContainerDefaultTypes : Set<ContainerType>
         get() {
-            //if (true) {
-                return setOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9)
-            //}
-            //return nonStorage
+
+/*
+            val res = mutableSetOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9)
+            this.`(slots)`.find {
+                it.`(inventory)`.javaClass === CraftingInventory::class.java
+            }?.let {
+                res.add(CRAFTING)
+            }
+*/
+            return setOf(SORTABLE_STORAGE, RECTANGULAR, WIDTH_9)
         }
 
     fun deregister(containerClass: Class<*>) {
@@ -134,7 +142,7 @@ object ContainerTypes {
             if (z == null) {
                 if (ignoredClass == null) {
                     if (!playerSideOnly) {
-                        v = unknownContainerDefaultTypes
+                        v = container.unknownContainerDefaultTypes
                         register(container.javaClass, v, true)
                     } else {
                         v = playerOnly
@@ -148,7 +156,7 @@ object ContainerTypes {
                 v = nonStorage
                 register(ignoredClass, v, true)
             } else {
-                v =  outerMap[z] ?: innerMap[z] ?: unknownContainerDefaultTypes
+                v =  outerMap[z] ?: innerMap[z] ?: container.unknownContainerDefaultTypes
             }
         }
         return v

@@ -16,7 +16,7 @@
     "sources": "https://github.com/blackd/Inventory-Profiles"
   },
   "license": "@LICENSE@",
-  "icon": "assets/inventoryprofilesnext/icon.png",
+  "icon": "assets/inventoryprofilesnext/mod icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [

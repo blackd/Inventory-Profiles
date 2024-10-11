@@ -1,0 +1,8 @@
+{
+    "moonfather.workshop_for_handsome_adventurer.block_entities.SimpleTableMenu.TransferCheatSlot" : {
+        "ignore" : true
+    },
+    "moonfather.workshop_for_handsome_adventurer.block_entities.SimpleTableMenu.CustomizationSlot" : {
+        "ignore" : true
+    }
+}
