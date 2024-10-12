@@ -1,9 +1,16 @@
 <!-- latest begin -->
 
+### 1.10.11
+
+- some critical enough fixes.
+- some critical enough mod compatibility fixes. 
+
+<!-- latest end -->
+
 ### 1.10.10
 
 - Added auto refill threshold. Now you can configure at what number of items the active stack will be refilled.
-- Added way to easily switch the sort order. Use the mouse wheel over the sort button. 
+- Added way to easily switch the sort order. Use the mouse wheel over the sort button.
 - Fixed some translations.
 - Added large number of integration hits for the GUI overlay
 
@@ -20,9 +27,6 @@ Any problems that are not reproducible on Fabric will be addressed with very low
 - **1.18.2**
 - **1.19.2**
 - **1.20/.1-4**
-
-
-<!-- latest end -->
 
 
 ### 1.10.9
