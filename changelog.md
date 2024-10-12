@@ -3,7 +3,14 @@
 ### 1.10.11
 
 - some critical enough fixes.
-- some critical enough mod compatibility fixes. 
+- some critical enough mod compatibility fixes.
+- new logo
+
+
+#### Supported Minecraft versions
+- **1.18.2**
+- **1.19.2**
+- **1.20/.1-4**
 
 <!-- latest end -->
 
