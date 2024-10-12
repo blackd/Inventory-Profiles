@@ -210,3 +210,6 @@ val StonecutterContainer.`(selectedRecipe)`: Int
     get() = selectedRecipe
 
 fun MinecraftClient.`(send)`(runnable: Runnable) = send(runnable)
+
+val Slot.`(isEnabled)`: Boolean
+    get() = isEnabled

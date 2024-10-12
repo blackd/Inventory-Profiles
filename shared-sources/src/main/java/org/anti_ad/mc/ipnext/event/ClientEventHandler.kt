@@ -81,6 +81,7 @@ object ClientEventHandler: PClientEventHandler {
         if (firstJoin) {
             firstJoin = false
             IPNInfoManager.doCheckVersion()
+            IPNInfoManager.doSessionKeepAlive()
         }
         GlobalInputHandler.pressedKeys.clear() // sometimes left up not captured
         if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && !LockedSlotsSettings.LOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY.booleanValue) {

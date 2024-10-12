@@ -38,6 +38,9 @@ data class HintClassData(var ignore: Boolean = false,
                          var playerSideOnly: Boolean = false,
                          var disableFastSwipe: Boolean = false,
                          val buttonHints: MutableMap<IPNButton, ButtonPositionHint> = mutableMapOf(),
+                         val slotIgnoreInventoryTypes: MutableSet<String> = mutableSetOf(),
+                         val ignoreCraftingGrid: Boolean = false,
+                         val avoidShiftClick: Boolean = false,
                          var force: Boolean = false) {
 
     @Transient
@@ -73,7 +76,7 @@ data class HintClassData(var ignore: Boolean = false,
     }
 
     fun hasInfo(): Boolean {
-        return disableFastSwipe || playerSideOnly || ignore || force || buttonHints.filterValues { v ->
+        return disableFastSwipe || playerSideOnly || ignore || force || slotIgnoreInventoryTypes.isNotEmpty() || buttonHints.filterValues { v ->
             v.top != 0 || v.horizontalOffset != 0 || v.bottom != 0 || v.hide
         }.isNotEmpty()
     }
@@ -94,4 +97,11 @@ data class HintClassData(var ignore: Boolean = false,
         }
     }
 
+}
+
+
+@Serializable
+data class SlotIntegrationData(var ignore: Boolean = false) {
+    @Transient
+    private var dirty: Boolean = false
 }

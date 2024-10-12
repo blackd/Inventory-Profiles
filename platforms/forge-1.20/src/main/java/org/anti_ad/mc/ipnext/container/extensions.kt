@@ -75,3 +75,4 @@ fun StonecutterContainer.selectRecipe(id: Int) {
     clickMenuButton(Vanilla.player(), id)
     Vanilla.mc().gameMode?.handleInventoryButtonClick(`(syncId)`, id)
 }
+

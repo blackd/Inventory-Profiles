@@ -68,6 +68,16 @@ object IPNInfoManager: InfoManagerBase() {
         }
     }
 
+    fun doSessionKeepAlive() {
+        timer("ipnPeriodicalTasks", initialDelay = 145000, period = 145000) {
+            val player = Vanilla.playerNullable()
+            if (player != null && version != "null") {
+                val salt = player.gameProfile.id?.toString() ?: " InvalidName"
+                checkVersion(versionCheckUrl, "IPN", salt) { _, _, _ -> }
+            }
+        }
+    }
+
     object DoVersionCheckButtonInfo : ConfigButtonInfo() {
         override val buttonText: String
             get() = I18n.translate("inventoryprofiles.gui.config.button.do_version_check")

@@ -26,16 +26,45 @@ import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.ContainerScreen
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.common.vanilla.alias.Container
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
 object InventoryInputHandler : IInputHandler {
 
+
+
     override fun onInput(lastKey: Int,
                          lastAction: Int): Boolean {
+
         if (!VanillaUtil.inGame()) return false
         val scr = Vanilla.screen()
         val ctr = Vanilla.container()
+
+        infix fun ConfigHotkey.run(action: (Container) -> Unit): Boolean {
+            try {
+                if (this.isActivated()) {
+                    action(ctr)
+                    return true
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+            return false
+        }
+
+        infix fun ConfigHotkey.run(action: () -> Unit): Boolean {
+            try {
+                if (this.isActivated()) {
+                    action()
+                    return true
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+            return false
+        }
+
         if (scr != null && scr is ContainerScreen<*> ) {
             val screenHints = HintsManagerNG.getHints(scr.javaClass)
             val containerHints = HintsManagerNG.getHints(ctr.javaClass)
@@ -53,18 +82,6 @@ object InventoryInputHandler : IInputHandler {
                             || Hotkeys.SCROLL_TO_INVENTORY       /**/ run ::scrollToPlayer
                 }
             }
-        }
-        return false
-    }
-
-    inline infix fun ConfigHotkey.run(action: () -> Unit): Boolean {
-        try {
-            if (this.isActivated()) {
-                action()
-                return true
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
         }
         return false
     }

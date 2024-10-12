@@ -49,6 +49,7 @@ import org.anti_ad.mc.common.extensions.dashedSanitized
 import org.anti_ad.mc.common.extensions.loggingPath
 import org.anti_ad.mc.common.extensions.sanitized
 import org.anti_ad.mc.ipnext.event.villagers.VillagerDataManager
+import org.anti_ad.mc.ipnext.integration.SlotIntegrationHints
 import java.nio.file.Path
 import kotlin.io.path.deleteExisting
 import kotlin.io.path.notExists
@@ -291,6 +292,24 @@ object VillagerBookmarksLoader: Loader, Savable {
 
     override fun save() {
         VillagerDataManager.saveIfDirty()
+    }
+
+}
+
+object SlotSettingsLoader: Loader {
+
+    private var firstLoad: Boolean = false
+
+    override fun load() {
+        if(!firstLoad) {
+            firstLoad = true
+            reload()
+        }
+    }
+
+    override fun reload() {
+        val path = (configFolder / "integrationHints").also { it.createDirectories() }
+        SlotIntegrationHints.init(configFolder, path)
     }
 
 }

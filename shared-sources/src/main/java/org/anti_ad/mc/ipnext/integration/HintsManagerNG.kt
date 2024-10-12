@@ -34,6 +34,7 @@ import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipn.api.IPNGuiHint
 import org.anti_ad.mc.ipn.api.IPNIgnore
 import org.anti_ad.mc.ipn.api.IPNPlayerSideOnly
+import org.anti_ad.mc.ipn.api.IPNSlotsIgnoreForInventoryTypes
 import java.io.InputStream
 import java.nio.file.FileVisitOption
 import java.nio.file.Files
@@ -45,12 +46,7 @@ import kotlin.io.path.moveTo
 import kotlin.io.path.name
 import kotlin.io.path.notExists
 import kotlin.io.path.outputStream
-import kotlinx.serialization.json.Json as HiddenJson
 
-private val json = HiddenJson {
-    ignoreUnknownKeys = true
-    prettyPrint = true
-}
 
 @OptIn(ExperimentalSerializationApi::class)
 object HintsManagerNG {
@@ -187,7 +183,10 @@ object HintsManagerNG {
         return effectiveHints[cl.name].let {
             it.let {
                 if (it != null && !it.force
-                    && (cl.isAnnotationPresent(IPNIgnore::class.java) || cl.isAnnotationPresent(IPNPlayerSideOnly::class.java) || cl.isAnnotationPresent(IPNGuiHint::class.java))) {
+                    && (cl.isAnnotationPresent(IPNIgnore::class.java)
+                            || cl.isAnnotationPresent(IPNPlayerSideOnly::class.java)
+                            || cl.isAnnotationPresent(IPNGuiHint::class.java)
+                            || cl.isAnnotationPresent(IPNSlotsIgnoreForInventoryTypes::class.java))) {
                     null
                 } else {
                     it
@@ -207,8 +206,16 @@ object HintsManagerNG {
                 }
 
                 val isIPNPlayerSideOnly = cl.isAnnotationPresent(IPNPlayerSideOnly::class.java)
-                val newVal = if ( isIgnored || isIPNPlayerSideOnly || buttonHints.isNotEmpty()) {
-                    HintClassData(isIgnored, isIPNPlayerSideOnly, false, buttonHints, false)
+                val slotIgnoreForInventoryTypes: MutableSet<String> = cl.getAnnotationsByType(IPNSlotsIgnoreForInventoryTypes::class.java).firstOrNull()?.value?.toMutableSet() ?: mutableSetOf()
+                val ignoreCraftingGrid: Boolean = cl.getAnnotationsByType(IPNSlotsIgnoreForInventoryTypes::class.java).firstOrNull()?.ignoreCraftingSlots == true
+
+                val newVal = if ( isIgnored || isIPNPlayerSideOnly || ignoreCraftingGrid || buttonHints.isNotEmpty() || slotIgnoreForInventoryTypes.isNotEmpty()) {
+                    HintClassData(ignore = isIgnored,
+                                  playerSideOnly = isIPNPlayerSideOnly,
+                                  disableFastSwipe =  false,
+                                  buttonHints = buttonHints,
+                                  slotIgnoreInventoryTypes = slotIgnoreForInventoryTypes,
+                                  ignoreCraftingGrid = ignoreCraftingGrid)
                 } else {
                     HintClassData()
                 }.also { nv ->
@@ -303,21 +310,6 @@ object HintsManagerNG {
         val file = externalHintsPath / fileName
         file.deleteIfExists()
         if (allById.isNotEmpty()) json.encodeToStream(allById, file.outputStream())
-    }
-}
-
-private fun logError(th: Throwable,
-                     id: String) {
-    Log.error("Unable to parse hint file: '$id'. Error: ${th.message}", th)
-}
-
-private inline fun <R> tryLog(id: String,
-                              onFailure: (Throwable, String) -> R,
-                              tryToRun: () -> R): R {
-    return try {
-        tryToRun()
-    } catch (e: Throwable) {
-        onFailure(e, id)
     }
 }
 

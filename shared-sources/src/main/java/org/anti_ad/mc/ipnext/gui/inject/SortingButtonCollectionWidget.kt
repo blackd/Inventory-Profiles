@@ -158,7 +158,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         private val sortButton = SortButtonWidget { button ->
             when (button) {
                 0                          -> {
-                    GeneralInventoryActions.doSort(true)
+                    GeneralInventoryActions.doSort(container, true)
                 }
                 KeyCodes.MOUSE_SCROLL_UP   -> {
                     ModSettings.SORT_ORDER.togglePrevious();
@@ -182,7 +182,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             id = "sort_button"
             hintableList.add(this)
         }
-        private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns(true) }.apply {
+        private val sortInColumnButton = SortButtonWidget { -> GeneralInventoryActions.doSortInColumns(container, true) }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS)
             tx = 20
             this@SortingButtonCollectionWidget.addChild(this)
@@ -191,7 +191,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             id = "sort_columns_button"
             hintableList.add(this)
         }
-        private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows(true) }.apply {
+        private val sortInRowButton = SortButtonWidget { -> GeneralInventoryActions.doSortInRows(container, true) }.apply {
             hints = this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS)
             tx = 30
             this@SortingButtonCollectionWidget.addChild(this)

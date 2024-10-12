@@ -570,10 +570,7 @@ object AutoRefillHandler {
 
             private fun defaultItemMatch(filtered: Sequence<IndexedValue<ItemStack>>,
                                          itemType: ItemType) = when {
-                filtered.firstOrNull {
-                    typeItemMatch(it,
-                                  itemType)
-                } != null -> {
+                filtered.firstOrNull { typeItemMatch(it, itemType) } != null -> {
                     filtered.filter {
                         typeItemMatch(it,
                                       itemType)
@@ -610,8 +607,8 @@ object AutoRefillHandler {
 
             private fun checkNBTIfNeeded(it: IndexedValue<ItemStack>,
                                          itemType: ItemType) = if (AutoRefillSettings.AUTO_REFILL_MATCH_NBT.booleanValue) {
-                if (!itemType.isBucket
-                    || (itemType.isBucket && !AutoRefillSettings.AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS.booleanValue)) {
+                if (!itemType.isBucket ||
+                    (itemType.isBucket && !AutoRefillSettings.AUTO_REFILL_IGNORE_NBT_FOR_BUCKETS.booleanValue)) {
 
                     when (AutoRefillSettings.AUTO_REFILL_MATCH_NBT_TYPE.value) {
                         AutoRefillNbtMatchType.CAN_HAVE_EXTRA -> {
@@ -623,9 +620,11 @@ object AutoRefillHandler {
                                 if (tagsIn != null && tagsOut != null) {
                                     res = true
                                     tagsIn.`(keys)`.forEach {
-                                        if (tagsIn[it] != tagsOut.get(it)) {
-                                            res = false
-                                            return@earlyFinish
+                                        if (it != "Damage") {
+                                            if (tagsIn[it] != tagsOut.get(it)) {
+                                                res = false
+                                                return@earlyFinish
+                                            }
                                         }
                                     }
                                 }
@@ -634,8 +633,9 @@ object AutoRefillHandler {
                         }
 
                         AutoRefillNbtMatchType.EXACT          -> {
-                            val eq = it.value.itemType.tag == itemType.tag
-                            eq
+                            val itTags = it.value.itemType.tag?.copy()?.remove("Damage")
+                            val itemTags = itemType.tag?.copy()?.remove("Damage")
+                            itTags == itemTags
                         }
 
                     }
