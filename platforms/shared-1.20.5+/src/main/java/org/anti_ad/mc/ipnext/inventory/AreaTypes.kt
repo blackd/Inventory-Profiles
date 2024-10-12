@@ -43,6 +43,7 @@ import org.anti_ad.mc.ipnext.ingame.vFocusedSlot
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.ipnext.integration.SlotIntegrationHints
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
+import kotlin.reflect.jvm.jvmName
 
 data class PlayerSlotIds(val hotbarInvSlots: IntRange = 0..8,
                          val storageInvSlots: IntRange = 9..35,
@@ -127,11 +128,12 @@ object AreaTypes {
 
     val <T: Container> T.disabled
         get() = AreaType.match { it ->
-            it.`(disablesDynamicDisplay)` || !it.`(isEnabled)` || it.x < 0 || it.y < 0 || SlotIntegrationHints.hintFor(it.javaClass.canonicalName).ignore ||
+            val className = it::class.jvmName
+            it.`(disablesDynamicDisplay)` || !it.`(isEnabled)` || it.x < 0 || it.y < 0 || SlotIntegrationHints.hintFor(className).ignore ||
                     run {
                         val cl: Class<*> = this.javaClass
                         val hints = HintsManagerNG.getHints(cl)
-                        it.javaClass === cl && hints.slotIgnoreInventoryTypes.contains(it.javaClass.canonicalName)
+                        it.javaClass === cl && hints.slotIgnoreInventoryTypes.contains(className)
                                 || (hints.ignoreCraftingGrid
                                 && (it.`(inventory)` is CraftingInventory
                                 || it.`(inventory)` is CraftingResultInventory))

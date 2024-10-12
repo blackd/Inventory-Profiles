@@ -1,5 +1,9 @@
 <!-- latest begin -->
 
+### 2.0.6
+
+- sort hotfix for forge variants
+
 ### 2.0.5
 
 #### we have new logo!

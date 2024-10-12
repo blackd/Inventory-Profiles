@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("2", "0", "5",
+val versionObj = Version("2", "0", "6",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
