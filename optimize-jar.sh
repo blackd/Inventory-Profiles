@@ -37,9 +37,9 @@ convert() {
     find . -type f | sort | zip -q -X -9 -@ "$OUT" > /dev/null
 
     if [[ "x$IPNEXT_RELEASE" == "x" ]]; then
-        advzip -3 -z -i 100 "$OUT" > /dev/null
+        nice -n 20 advzip -3 -z -i 100 "$OUT" > /dev/null
     else
-        advzip -4 -z -i 100 "$OUT" > /dev/null
+        nice -n 20 advzip -4 -z -i 100 "$OUT" > /dev/null
     fi
 
     # shellcheck disable=SC2164
@@ -71,8 +71,6 @@ PERCENT=$(awk -vo="$ORGSIZE" -vn="$NEWSIZE" 'BEGIN { printf("%.3f", n/o*100)}')
 
 echo "$ORGSIZE -> $NEWSIZE  or $PERCENT%"
 
-mkdirhier $(dirname "$3")
-
-mv "$TMP_OUTPUT_DIR/$JAR_NAME" "$3"
+mv "$TMP_OUTPUT_DIR/$JAR_NAME" "$1"
 
 rm -rf "$UNPACK_DIR" "$TMP_OUTPUT_DIR"
