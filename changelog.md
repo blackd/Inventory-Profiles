@@ -1,5 +1,13 @@
 <!-- latest begin -->
 
+### 2.0.7
+
+- fixed crash when supermartijn642s-core-lib is installed too.
+
+<!-- latest end -->
+<!-- rest begin -->
+
+
 ### 2.0.6
 
 - sort hotfix for forge variants
@@ -23,9 +31,6 @@
 
 - Auto refill icons will no longer show if Auto Refill is disabled.
 
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.0.4
 

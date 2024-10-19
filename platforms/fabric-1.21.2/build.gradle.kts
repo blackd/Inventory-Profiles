@@ -33,19 +33,19 @@ import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21", "1.21.1"),
-                                         CURSEFORGE to listOf("1.21", "1.21.1"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.2-pre3"),
+                                         CURSEFORGE to listOf("1.21.2-pre3"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.21.1"
-val minecraft_version_string = "1.21.1"
-val mappings_version = "1.21.1+build.3"
-val loader_version = "0.16.3"
+val minecraft_version = "1.21.2-pre3"
+val minecraft_version_string = "1.21.2-pre3"
+val mappings_version = "1.21.2-pre3+build.4"
+val loader_version = "0.16.7"
 val modmenu_version = "11.0.0-beta.1"
-val fabric_api_version = "0.103.0+1.21.1"
+val fabric_api_version = "0.105.4+1.21.2"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
-val carpet_core_version = "1.21-pre3-1.4.146+v240605"
+val carpet_core_version = "1.21.2-pre3-1.4.157+v241014"
 val controlify_version = "2.0.0-beta.14+1.21-fabric"
 val yacl_version = "3.5.0+1.21-fabric"
 

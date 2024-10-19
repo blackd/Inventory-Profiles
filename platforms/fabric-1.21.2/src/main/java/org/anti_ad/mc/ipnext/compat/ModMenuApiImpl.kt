@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,41 +18,20 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.ipnext.compat
 
-rootProject.name = "InventoryProfilesNext"
+import com.terraformersmc.modmenu.api.ConfigScreenFactory
+import com.terraformersmc.modmenu.api.ModMenuApi
+import org.anti_ad.mc.ipnext.gui.ConfigScreen
 
+class ModMenuApiImpl : ModMenuApi {
 
-/*
-include("platforms:fabric-1.21.2")
-*/
-include("platforms:fabric-1.21")
-include("platforms:neoforge-1.21")
-include("platforms:forge-1.21")
-
-
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
+    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreen> {
+        return ConfigScreenFactory<ConfigScreen> { parent ->
+            val c = ConfigScreen(true)
+            c.parent = parent
+            c.dumpWidgetTree()
+            c
         }
-        maven ("https://maven.neoforged.net/releases")
-        mavenCentral()
-        google()
-        gradlePluginPortal()
     }
 }
-
-plugins {
-    //id("com.gradle.develocity") version "3+"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
-}
-
-/*
-develocity {
-    buildScan {
-        termsOfUseUrl = "https://gradle.com/terms-of-service"
-        termsOfUseAgree = "yes"
-    }
-}
-*/

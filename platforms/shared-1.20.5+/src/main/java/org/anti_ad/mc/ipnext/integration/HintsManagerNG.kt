@@ -212,8 +212,15 @@ object HintsManagerNG {
 
                 val isIPNPlayerSideOnly = cl.isAnnotationPresent(IPNPlayerSideOnly::class.java)
                 val slotIgnoreForInventoryTypes: MutableSet<String> = cl.getAnnotationsByType(IPNSlotsIgnoreForInventoryTypes::class.java).firstOrNull()?.value?.toMutableSet() ?: mutableSetOf()
-                val newVal = if ( isIgnored || isIPNPlayerSideOnly || buttonHints.isNotEmpty()) {
-                    HintClassData(isIgnored, isIPNPlayerSideOnly, false, buttonHints, slotIgnoreForInventoryTypes, false)
+                val ignoreCraftingGrid: Boolean = cl.getAnnotationsByType(IPNSlotsIgnoreForInventoryTypes::class.java).firstOrNull()?.ignoreCraftingSlots == true
+
+                val newVal = if ( isIgnored || isIPNPlayerSideOnly || ignoreCraftingGrid || buttonHints.isNotEmpty() || slotIgnoreForInventoryTypes.isNotEmpty()) {
+                    HintClassData(ignore = isIgnored,
+                                  playerSideOnly = isIPNPlayerSideOnly,
+                                  disableFastSwipe =  false,
+                                  buttonHints = buttonHints,
+                                  slotIgnoreInventoryTypes = slotIgnoreForInventoryTypes,
+                                  ignoreCraftingGrid = ignoreCraftingGrid)
                 } else {
                     HintClassData()
                 }.also { nv ->

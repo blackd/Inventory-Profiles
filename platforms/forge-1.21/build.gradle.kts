@@ -34,7 +34,7 @@ import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.21", "1.21.1")
+val supported_minecraft_versions = listOf("1.21.1")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.21.1"
