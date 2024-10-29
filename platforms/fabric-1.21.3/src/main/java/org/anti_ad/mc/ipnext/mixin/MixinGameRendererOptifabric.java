@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import org.anti_ad.mc.common.gui.NativeContext;
@@ -52,7 +53,7 @@ public class MixinGameRendererOptifabric {
                                 Matrix4f matrix4f,
                                 MatrixStack matrixStack,
                                 DrawContext drawContext) {
-        ScreenEventHandler.INSTANCE.preRender(new NativeContext(drawContext));
+        ScreenEventHandler.INSTANCE.preRender(new NativeContext(drawContext, RenderLayer::getGuiTextured));
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = At.Shift.AFTER), method = "render", locals = LocalCapture.PRINT)
@@ -66,6 +67,6 @@ public class MixinGameRendererOptifabric {
                                  Matrix4f matrix4f,
                                  MatrixStack matrixStack,
                                  DrawContext drawContext) {
-        ScreenEventHandler.INSTANCE.postRender(new NativeContext(drawContext));
+        ScreenEventHandler.INSTANCE.postRender(new NativeContext(drawContext, RenderLayer::getGuiTextured));
     }
 }

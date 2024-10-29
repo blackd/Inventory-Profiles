@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler;
@@ -39,7 +40,7 @@ public class MixinInGameHud {
     protected void preRenderHotbar(DrawContext drawContext,
                                    RenderTickCounter tickCounter,
                                    CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, RenderLayer::getGuiTextured);
         LockSlotsHandler.INSTANCE.preRenderHud(context);
         AutoRefillHandler.INSTANCE.preRenderHud(context);
     }
@@ -50,7 +51,7 @@ public class MixinInGameHud {
     protected void postRenderHotbar(DrawContext drawContext,
                                     RenderTickCounter tickCounter,
                                     CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, RenderLayer::getGuiTextured);
         LockSlotsHandler.INSTANCE.postRenderHud(context);
         AutoRefillHandler.INSTANCE.postRenderHud(context);
 

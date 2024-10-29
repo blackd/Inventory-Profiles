@@ -25,6 +25,7 @@ import org.anti_ad.mc.alias.command.argument.NbtPathArgumentType
 import org.anti_ad.mc.alias.command.argument.NbtPathArgumentTypeNbtPath
 import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.item.Item
+import org.anti_ad.mc.alias.item.Items
 import org.anti_ad.mc.alias.nbt.AbstractNbtList
 import org.anti_ad.mc.alias.nbt.AbstractNbtNumber
 import org.anti_ad.mc.alias.nbt.NbtCompound
@@ -61,16 +62,11 @@ object NbtUtils {
     }
 
     fun getTagFromId(id: Identifier): List<Item>? {
-        var res: List<Item>? = null
-        Registries.ITEM.streamTagsAndEntries().forEach {
-            if (it.first.id == id) {
-                 res = it.second.map { item ->
-                    item.value()
-                }
-                return@forEach
-            }
+        return Registries.ITEM.tags.iterator().asSequence().firstOrNull {
+            it.tag.id == id
+        }?.map { item ->
+            item.value()
         }
-        return res
     }
 
     // ============

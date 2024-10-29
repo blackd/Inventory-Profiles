@@ -20,7 +20,6 @@
 
 package org.anti_ad.mc.ipnext.debug
 
-//import org.anti_ad.mc.common.vanilla.alias.TagGroup
 import org.anti_ad.mc.alias.item.Item
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.TellPlayer
@@ -28,6 +27,7 @@ import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.alias.registry.Registries
+import org.anti_ad.mc.alias.registry.SimpleDefaultedRegistry
 import org.anti_ad.mc.alias.registry.entry.RegistryEntryListNamed
 import org.anti_ad.mc.alias.util.Identifier
 import org.anti_ad.mc.common.vanilla.VanillaUtil
@@ -55,15 +55,41 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
     }
 
 
+/*
+    public Stream<Pair<TagKey<T>, RegistryEntryList.Named<T>>> streamTagsAndEntries() {
+        return this.tagToEntryList.entrySet().stream().map((entry) -> {
+            return Pair.of((TagKey)entry.getKey(), (RegistryEntryList.Named)entry.getValue());
+        });
+    }
+*/
+
+
+
     override fun onClick(guiClick: () -> Unit) {
+        //TODO FIX THIS BEFORE RELEASE FOR 1.21.3
+
+
         TellPlayer.chat("Generating ${fileDatapack.name} ...")
         val server = Vanilla.server()
         server ?: return Unit.also { TellPlayer.chat("This works best in single player game... Giving up!") }
 
+
         val m = mutableMapOf<Identifier, MutableList<Identifier>>()
-        Registries.ITEM.streamTagsAndEntries().forEach {
+        val itemsReg = Registries.ITEM as SimpleDefaultedRegistry<Item>
+
+        Registries.ITEM.tags.forEach { namedTag ->
+            val tagId = namedTag.tag.id
+            m[tagId] = namedTag.mapNotNullTo(mutableListOf()) { item ->
+                item?.key?.get()?.value
+            }
+        }
+
+/*
+        Registries.ITEM.streamTagsAndEntries.forEach {
             m[it.first.id] = it.second.toMutableListOf()
         }
+*/
+
         with (fileDatapack.bufferedWriter()) {
             m.keys.sorted().forEach { key ->
                 this.appendLine("#${key.omittedString}")
@@ -75,6 +101,20 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
         }
 
         Log.traceIf {
+            Registries.ITEM.tags.forEach { namedTag ->
+                Log.trace {
+                    "${namedTag.tag.id} -> "
+                }
+                Log.indent(4) {
+                    namedTag.forEach { item ->
+                        Log.trace {
+                            "${item?.key?.get()?.value}"
+                        }
+                    }
+                }
+            }
+
+/*
             Registries.ITEM.streamTagsAndEntries().forEach {
                 Log.trace {
                     "${it.first.id} ->"
@@ -87,7 +127,9 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
                     }
                 }
             }
+*/
         }
+
 
         //server.tagManager.getOrCreateTagGroup(Registry.ITEM_KEY).toTagTxtContent().writeToFile(fileDatapack)
         //server.tagManager.items.toTagTxtContent().writeToFile(fileDatapack)

@@ -22,7 +22,11 @@ package org.anti_ad.mc.ipnext.ingame
 
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.alias.client.gui.screen.Screen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeInventoryScreen
+import org.anti_ad.mc.alias.client.gui.screen.recipebook.`(searchField)`
+import org.anti_ad.mc.alias.client.gui.screen.recipebook.RecipeBookWidget
+import org.anti_ad.mc.alias.client.gui.widget.TextFieldWidget
 import org.anti_ad.mc.alias.inventory.PlayerInventory
 import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.ipnext.item.EMPTY
@@ -58,6 +62,13 @@ fun vFocusedSlot(): Slot? = Vanilla.screen()?.`(focusedSlot)`
 
 fun vMainhandIndex() =
     Vanilla.playerInventory().`(selectedSlot)`
+
+fun isInputFieldActive(scr: ContainerScreen<*>): Boolean {
+    return scr.children()?.any {
+        (it is RecipeBookWidget<*> && (it.`(searchField)`?.isActive == true)) || (it is TextFieldWidget && it.isActive)
+    } == true
+}
+
 
 //fun vMainHandItem(): ItemStack =
 //  // clientPlayerEntity.getMainHandStack()

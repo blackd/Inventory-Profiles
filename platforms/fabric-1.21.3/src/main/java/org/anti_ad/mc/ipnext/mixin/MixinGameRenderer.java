@@ -22,8 +22,10 @@ package org.anti_ad.mc.ipnext.mixin;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.Window;
+import net.minecraft.util.profiler.Profiler;
 import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.joml.Matrix4f;
@@ -45,6 +47,7 @@ public class MixinGameRenderer {
             method = "render",
             locals = LocalCapture.CAPTURE_FAILHARD)
     public void preScreenRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci,
+                                Profiler profiler,
                                 boolean bl,
                                 int i,
                                 int j,
@@ -52,12 +55,13 @@ public class MixinGameRenderer {
                                 Matrix4f matrix4f,
                                 Matrix4fStack matrixStack,
                                 DrawContext drawContext) {
-        ScreenEventHandler.INSTANCE.preRender(new NativeContext(drawContext));
+        ScreenEventHandler.INSTANCE.preRender(new NativeContext(drawContext, RenderLayer::getGuiTextured));
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V",
             shift = At.Shift.AFTER), method = "render", locals = LocalCapture.CAPTURE_FAILHARD)
     public void postScreenRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci,
+                                 Profiler profiler,
                                  boolean bl,
                                  int i,
                                  int j,
@@ -65,6 +69,6 @@ public class MixinGameRenderer {
                                  Matrix4f matrix4f,
                                  Matrix4fStack matrixStack,
                                  DrawContext drawContext) {
-        ScreenEventHandler.INSTANCE.postRender(new NativeContext(drawContext));
+        ScreenEventHandler.INSTANCE.postRender(new NativeContext(drawContext, RenderLayer::getGuiTextured));
     }
 }

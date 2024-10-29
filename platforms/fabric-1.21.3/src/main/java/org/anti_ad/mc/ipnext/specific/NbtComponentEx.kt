@@ -19,7 +19,7 @@
 
 package org.anti_ad.mc.ipnext.specific
 
-import net.minecraft.nbt.NbtElement
+import org.anti_ad.mc.alias.nbt.NbtElement
 
 val NbtElement.asString: String
     get() = this.asString()

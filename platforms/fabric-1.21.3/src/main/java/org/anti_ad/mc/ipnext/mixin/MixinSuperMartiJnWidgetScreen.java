@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.mixin;
 import com.supermartijn642.core.gui.WidgetContainerScreen;
 import com.supermartijn642.core.gui.widget.Widget;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.common.math2d.Rectangle;
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
@@ -49,7 +50,7 @@ public class MixinSuperMartiJnWidgetScreen {
         drawContext.getMatrices().push();
         var topLeft = new Rectangle(screen.getContainerX(), screen.getContainerY(), screen.getContainerHeight(), screen.getContainerWidth()).getTopLeft();
         drawContext.getMatrices().translate(-topLeft.getX(), -topLeft.getY(), 0.0d);
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext), mouseX, mouseY, partialTicks);
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext, RenderLayer::getGuiTextured), mouseX, mouseY, partialTicks);
         drawContext.getMatrices().pop();
     }
 
@@ -59,7 +60,7 @@ public class MixinSuperMartiJnWidgetScreen {
                      ordinal = 0),
             method = "render")
     public void onForegroundRender(DrawContext drawContext, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, RenderLayer::getGuiTextured);
         context.setOverlay(true);
         IMixinContainerScreen screen = (IMixinContainerScreen) this;
         drawContext.getMatrices().push();
