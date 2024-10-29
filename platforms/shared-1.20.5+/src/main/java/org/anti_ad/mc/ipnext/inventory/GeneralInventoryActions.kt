@@ -20,6 +20,8 @@
 
 package org.anti_ad.mc.ipnext.inventory
 
+import org.anti_ad.mc.alias.component.`(types)`
+import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.inventory.PlayerInventory
 import org.anti_ad.mc.alias.nbt.NbtHelper_toFormattedString
 import org.anti_ad.mc.alias.screen.BeaconContainer
@@ -65,6 +67,7 @@ import org.anti_ad.mc.ipnext.item.fullItemInfoAsJson
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.itemId
 import org.anti_ad.mc.ipnext.item.rule.Rule
+import java.util.Optional
 
 object GeneralInventoryActions {
 
@@ -287,18 +290,25 @@ object GeneralInventoryActions {
         val stack = vFocusedSlot()?.`(itemStack)` ?: vCursorStack()
         if (stack != ItemStack.EMPTY) {
             var item = "${stack.itemType.itemId} => [\n"
-            stack.itemType.changes.entrySet().forEach { (type, value) ->
-                type.toFullNbtOrNull(value)?.let {
-                    val tString = "$type ->\n"
-                    item += "\t" + tString
-                    val sep = "\t" + " ".repeat(tString.length) + "\t"
-                    val tx = NbtHelper_toFormattedString(it, true).lineSequence().joinToString(separator = "\n$sep", prefix = sep)
-                    item += tx
+            val tg = stack.itemType.tag
+            if (tg != null) {
+                tg.`(types)`.forEach { type: ComponentType<*> ->
+                    val value = tg.get(type)
+                    if (value != null) {
+                        type.toFullNbtOrNull(Optional.of<Any>(value))?.let {
+                            val tString = "$type ->\n"
+                            item += "\t" + tString
+                            val sep = "\t" + " ".repeat(tString.length) + "\t"
+                            val tx = NbtHelper_toFormattedString(it, true).lineSequence().joinToString(separator = "\n$sep", prefix = sep)
+                            item += tx
+                        }
+                    }
+                    item += "\n"
                 }
+                item += "]\n"
+                Vanilla.setClipboard(item)
+                TellPlayer.chat("Copy Components.")
             }
-            item += "]\n"
-            Vanilla.setClipboard(item)
-            TellPlayer.chat("Copy Components.")
         }
     }
 

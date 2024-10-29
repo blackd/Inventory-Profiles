@@ -80,7 +80,7 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "6.0.3")
+    ext.set("libIPN_version", "6.1.0-SNAPSHOT")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -93,10 +93,12 @@ allprojects {
             jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs.addAll(listOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn"))
         }
+        this.kotlinDaemonJvmArguments = listOf("-Xmx4G")
         this.incremental = true
     }
-
 }
+
+
 
 
 tasks.named<Jar>("jar") {
@@ -157,6 +159,15 @@ afterEvaluate {
             }
         }
         finalizedBy("owner-testing-env")
+    }
+
+    childProjects.forEach { (name, prj) ->
+        prj.tasks.forEach { task ->
+            if (task is JavaForkOptions) {
+                task.environment["_JAVA_OPTIONS"] = "-Xmx4G"
+                task.allJvmArgs = task.allJvmArgs.plus("-Xmx4G")
+            }
+        }
     }
 }
 

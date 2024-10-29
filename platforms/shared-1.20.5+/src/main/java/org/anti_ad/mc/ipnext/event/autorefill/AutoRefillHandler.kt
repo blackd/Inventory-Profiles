@@ -32,10 +32,10 @@ import org.anti_ad.mc.alias.item.AxeItem
 import org.anti_ad.mc.alias.item.FishingRodItem
 import org.anti_ad.mc.alias.item.HoeItem
 import org.anti_ad.mc.alias.item.Items
+import org.anti_ad.mc.alias.item.MiningToolItem
 import org.anti_ad.mc.alias.item.PickaxeItem
 import org.anti_ad.mc.alias.item.ShovelItem
 import org.anti_ad.mc.alias.item.SwordItem
-import org.anti_ad.mc.alias.item.ToolItem
 import org.anti_ad.mc.alias.text.fromSerializedJson
 import org.anti_ad.mc.alias.world.GameType
 import org.anti_ad.mc.common.extensions.tryCatch
@@ -64,7 +64,6 @@ import org.anti_ad.mc.ipnext.event.MouseTracer
 import org.anti_ad.mc.ipnext.event.Sounds
 import org.anti_ad.mc.ipnext.gui.base.InventoryOverlay
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
-import org.anti_ad.mc.ipnext.ingame.`(equipmentSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(id)`
 import org.anti_ad.mc.ipnext.ingame.`(invSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(inventoryOrNull)`
@@ -83,7 +82,9 @@ import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
+import org.anti_ad.mc.ipnext.item.`(consumableComponent)`
 import org.anti_ad.mc.ipnext.item.`(enchantments)`
+import org.anti_ad.mc.ipnext.item.`(equipmentSlot)`
 import org.anti_ad.mc.ipnext.item.`(foodComponent)`
 import org.anti_ad.mc.ipnext.item.`(isFood)`
 import org.anti_ad.mc.ipnext.item.`(isHarmful)`
@@ -585,7 +586,7 @@ object AutoRefillHandler: InventoryOverlay {
                         is ArmorItem      -> {
                             filtered = filtered.filter {
                                 val otherType = it.value.itemType
-                                otherType.item is ArmorItem && otherType.item.`(equipmentSlot)` == itemType.item.`(equipmentSlot)`
+                                otherType.item is ArmorItem && otherType.`(equipmentSlot)` == itemType.`(equipmentSlot)`
                             }
                         }
 
@@ -609,8 +610,8 @@ object AutoRefillHandler: InventoryOverlay {
                             filtered = filtered.filter { it.value.itemType.item is HoeItem }
                         }
 
-                        is ToolItem       -> {
-                            filtered = filtered.filter { it.value.itemType.item is ToolItem }
+                        is MiningToolItem       -> {
+                            filtered = filtered.filter { it.value.itemType.item is MiningToolItem }
                         }
 
                         is FishingRodItem -> {
@@ -691,13 +692,13 @@ object AutoRefillHandler: InventoryOverlay {
                     val allowHarmful = AutoRefillSettings.AUTO_REFILL_MATCH_HARMFUL_FOOD.booleanValue
                     val machAnyFood = AutoRefillSettings.AUTO_REFILL_MATCH_ANY_FOOD.booleanValue
 
-                    machAnyFood && (itemType.`(isFood)` && other.`(isFood)`) && (!other.`(foodComponent)`.`(isHarmful)` || allowHarmful)
+                    machAnyFood && (itemType.`(isFood)` && other.`(isFood)`) && (!other.`(consumableComponent)`.`(isHarmful)` || allowHarmful)
                 } != null -> {
 
                     filtered.filter {
                         val other = it.value.itemType
                         val allowHarmful = AutoRefillSettings.AUTO_REFILL_MATCH_HARMFUL_FOOD.booleanValue
-                        (itemType.`(isFood)` && other.`(isFood)`) && (!other.`(foodComponent)`.`(isHarmful)` || allowHarmful)
+                        (itemType.`(isFood)` && other.`(isFood)`) && (!other.`(consumableComponent)`.`(isHarmful)` || allowHarmful)
                     }
                 }
 

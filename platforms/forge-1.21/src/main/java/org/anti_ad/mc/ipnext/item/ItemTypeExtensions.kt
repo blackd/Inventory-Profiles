@@ -33,11 +33,13 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper
 import net.minecraftforge.common.extensions.IForgeFluid
 import net.minecraftforge.registries.ForgeRegistries
 import org.anti_ad.mc.alias.component.ComponentChanges
-import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.component.MergedComponentMap
 import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.component.type.FoodComponent
+import org.anti_ad.mc.alias.entity.EquipmentSlot
 import org.anti_ad.mc.alias.entity.effect.StatusEffectInstance
 import org.anti_ad.mc.alias.fluid.Fluids
+import org.anti_ad.mc.alias.item.ArmorItem
 import org.anti_ad.mc.alias.item.BucketItem
 import org.anti_ad.mc.alias.item.EntityBucketItem
 import org.anti_ad.mc.alias.item.ItemGroup
@@ -86,7 +88,7 @@ fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with
 
 inline val ItemType.Companion.EMPTY
     get() = ItemType(Items.AIR,
-                     ComponentMapImpl(Items.AIR.components()),
+                     MergedComponentMap(Items.AIR.components()),
                      ComponentChanges.EMPTY,
                      { false })
 
@@ -103,10 +105,10 @@ inline val ItemType.searchItemStack: VanillaItemStack
     }
 
 inline val ItemType.vanillaStack: VanillaItemStack
-    get() = VanillaItemStack(this.item, 1, this@vanillaStack.tag ?: ComponentMapImpl.EMPTY as ComponentMapImpl)
+    get() = VanillaItemStack(this.item, 1, this@vanillaStack.tag ?: MergedComponentMap.EMPTY as MergedComponentMap)
 
 fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
-        VanillaItemStack(this.item, count, this@vanillaStackWithCount.tag ?: ComponentMapImpl.EMPTY as ComponentMapImpl)
+        VanillaItemStack(this.item, count, this@vanillaStackWithCount.tag ?: MergedComponentMap.EMPTY as MergedComponentMap)
 
 inline val ItemType.identifier: Identifier
     get() = ForgeRegistries.ITEMS.getKey(item)!! // `(getIdentifier)`(item)
@@ -267,6 +269,10 @@ inline val ItemType.`(group)`: ItemGroup?
 @Suppress("DEPRECATION")
 inline val ItemType.`(foodComponent)`: FoodComponent
     get() = item.components().get(DataComponentTypes.FOOD) ?: error("this shouldn't happen")
+
+inline val ItemType.`(consumableComponent)`
+    get() = this.`(foodComponent)`
+
 
 inline val ItemType.`(isFood)`: Boolean
     get() = item.components().get(DataComponentTypes.FOOD) != null
@@ -469,5 +475,14 @@ object ItemTypeExtensionsObject {
     }
 }
 
+
+inline val ItemType.`(equipmentSlot)`: EquipmentSlot?
+    get() {
+        return if (this.item is ArmorItem) {
+            this.item.equipmentSlot
+        } else {
+            null
+        }
+    }
 
 //endregion

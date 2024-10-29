@@ -30,7 +30,7 @@ import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeInventoryScreen
 import org.anti_ad.mc.alias.client.network.ClientPlayerInteractionManager
-import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.component.MergedComponentMap
 import org.anti_ad.mc.alias.entity.EquipmentSlot
 import org.anti_ad.mc.alias.entity.player.PlayerEntity
 import org.anti_ad.mc.alias.inventory.Inventory
@@ -64,7 +64,7 @@ import org.anti_ad.mc.alias.item.ItemStack as VanillaItemStack
 
 inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
-                     components as ComponentMapImpl,
+                     components as MergedComponentMap,
                      componentsPatch,
                      { this.isDamageableItem })
 inline val VanillaItemStack.`(itemStack)`: ItemStack

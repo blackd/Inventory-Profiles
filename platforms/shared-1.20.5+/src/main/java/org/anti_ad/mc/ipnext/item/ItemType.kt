@@ -22,7 +22,7 @@ package org.anti_ad.mc.ipnext.item
 
 import org.anti_ad.mc.alias.component.ComponentChanges
 import org.anti_ad.mc.alias.component.ComponentMap
-import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.component.MergedComponentMap
 import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.item.Item
@@ -35,7 +35,7 @@ import java.util.function.*
 
 // different nbt is treated as different type, as they can't stack together
 data class ItemType(val item: Item,
-                    private val aTag: ComponentMapImpl?,
+                    private val aTag: MergedComponentMap?,
                     private val aChanges: ComponentChanges?,
                     val isDamageableFn: (() -> Boolean),
                     var ignoreDurability: Boolean = false,
@@ -43,11 +43,11 @@ data class ItemType(val item: Item,
                     private var stackSource: (ItemType) -> ItemStack? = { null }): CountSink<ItemType> {
 
 
-    private val EMPTY_COMPONENT_MAP = ComponentMapImpl(ComponentMap.EMPTY)
+    private val EMPTY_COMPONENT_MAP = MergedComponentMap(ComponentMap.EMPTY)
 
     val sourceStack: ItemStack? = stackSource(this)
 
-    val tag: ComponentMapImpl?
+    val tag: MergedComponentMap?
 
     val changes: ComponentChanges
 

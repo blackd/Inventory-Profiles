@@ -31,6 +31,7 @@ import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
 import org.anti_ad.mc.ipnext.config.Hotkeys
+import org.anti_ad.mc.ipnext.ingame.isInputFieldActive
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
 object InventoryInputHandler : IInputHandler {
@@ -87,14 +88,4 @@ object InventoryInputHandler : IInputHandler {
         }
         return false
     }
-
-    private fun isInputFieldActive(scr: ContainerScreen<*>): Boolean {
-        return scr.children()?.any {
-            (it is RecipeBookWidget && (it.`(searchField)`?.isActive == true)) ||
-                    (it is TextFieldWidget && it.isActive)
-        } ?: false
-    }
-
-
-
 }
