@@ -1,12 +1,16 @@
 <!-- latest begin -->
 
-### 2.0.7
+### 2.0.8
 
-- fixed crash when supermartijn642s-core-lib is installed too.
+- support for 1.21.3 all modloaders
+- some minor bugfixes
 
 <!-- latest end -->
 <!-- rest begin -->
 
+### 2.0.7
+
+- fixed crash when supermartijn642s-core-lib is installed too.
 
 ### 2.0.6
 

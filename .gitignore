@@ -27,6 +27,7 @@ run/
 run
 runServer
 run-server
+runs
 
 # kotlin
 *.ws.kts

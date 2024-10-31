@@ -57,19 +57,24 @@ fi
 
 GRADLE_ARG="--exclude-task compileTestJava --exclude-task test build"
 
-if [[ n$IPNEXT_RELEASE != "n" ]]; then
-  GRADLE_ARG="--max-workers 32 $GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge"
-  ./gradlew $GRADLE_ARG
-elif [[ n$IPNEXT_PATREON != "n" ]]; then
-  GRADLE_ARG="--max-workers 32 $GRADLE_ARG"
-  IPNEXT_RELEASE=1 ./gradlew $GRADLE_ARG
-else
-  GRADLE_ARG="--max-workers 32 $GRADLE_ARG"
-  ./gradlew $GRADLE_ARG
+
+if [[ n$IPNEXT_M != "n" ]]; then
+  GRADLE_ARG="$GRADLE_ARG modrinth"
+fi
+
+if [[ n$IPNEXT_C != "n" ]]; then
+  GRADLE_ARG="$GRADLE_ARG curseforge"
+fi
+
+if [[ n$IPNEXT_P != "n" ]]; then
+  GRADLE_ARG="$GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository"
 fi
 
 
-ls -la build/lib/
+GRADLE_ARG="--max-workers 32 $GRADLE_ARG"
+
+./gradlew $GRADLE_ARG
+
 
 pwd
 
