@@ -49,7 +49,7 @@ side="CLIENT"
 [[dependencies.inventoryprofilesnext]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.21,1.21.3)"
+versionRange="[1.21, 1.21.2)"
 ordering="NONE"
 side="CLIENT"
 
