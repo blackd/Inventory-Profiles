@@ -42,20 +42,20 @@ Take controll over you inventory
 [[dependencies.inventoryprofilesnext]] #optional
 modId="neoforge" #mandatory
 mandatory=true #mandatory
-versionRange="[20.1.0,)" #mandatory
+versionRange="[21.3,)" #mandatory
 ordering="NONE"
 side="CLIENT"
 
 [[dependencies.inventoryprofilesnext]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.21,)"
+versionRange="[1.21.3, 1.22)"
 ordering="NONE"
 side="CLIENT"
 
 [[dependencies.inventoryprofilesnext]]
 modId="libipn"
 mandatory=true
-versionRange="[@LIBIPN_VERSION@,6.1)"
+versionRange="[@LIBIPN_VERSION@,6.2)"
 ordering="NONE"
 side="CLIENT"

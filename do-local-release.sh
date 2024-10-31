@@ -55,7 +55,7 @@ else
   ./gradlew --max-workers 32 clean compileKotlin compileJava
 fi
 
-GRADLE_ARG="build"
+GRADLE_ARG="--exclude-task compileTestJava --exclude-task test build"
 
 if [[ n$IPNEXT_RELEASE != "n" ]]; then
   GRADLE_ARG="--max-workers 32 $GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge"
