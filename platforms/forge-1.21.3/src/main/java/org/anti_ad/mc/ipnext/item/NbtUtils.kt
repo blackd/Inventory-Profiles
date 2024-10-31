@@ -63,17 +63,11 @@ object NbtUtils {
     }
 
     fun getTagFromId(id: Identifier): List<Item>? {
-        var res: List<Item>? = null
-        @Suppress("DEPRECATION")
-
-        Registries.ITEM.tags.forEach {
-            if (it.first.location == id) {
-                res = it.second.map { item ->
-                    item.value()
-                }
-            }
+        return Registries.ITEM.tags.iterator().asSequence().firstOrNull {
+            it.key().location == id
+        }?.map { item ->
+            item.value()
         }
-        return res
     }
 
     // ============

@@ -40,6 +40,8 @@ import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
 
+import static net.minecraft.client.renderer.RenderType.GUI_TEXTURED;
+
 /**
  * ForgeEventHandler
  */
@@ -81,25 +83,25 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void preScreenRender(ScreenEvent.Render.Pre event) {
-        ScreenEventHandler.INSTANCE.preRender(new NativeContext(event.getGuiGraphics()));
+        ScreenEventHandler.INSTANCE.preRender(new NativeContext(event.getGuiGraphics(), GUI_TEXTURED ));
     }
 
     // fabric GameRenderer.render() = forge updateCameraAndRender()
     // forge line 554
     @SubscribeEvent
     public void postScreenRender(Render.Post e) {
-        ScreenEventHandler.INSTANCE.postRender(new NativeContext(e.getGuiGraphics()));
+        ScreenEventHandler.INSTANCE.postRender(new NativeContext(e.getGuiGraphics(), GUI_TEXTURED));
     }
 
     @SubscribeEvent
     public void onBackgroundRender(ContainerScreenEvent.Render.Background e) {
-        var context = new NativeContext(e.getGuiGraphics());
+        var context = new NativeContext(e.getGuiGraphics(), GUI_TEXTURED);
         ContainerScreenEventHandler.INSTANCE.onBackgroundRender(context, e.getMouseX(), e.getMouseY(), 0);
     }
 
     @SubscribeEvent
     public void onForegroundRender(ContainerScreenEvent.Render.Foreground e) {
-        var context = new NativeContext(e.getGuiGraphics());
+        var context = new NativeContext(e.getGuiGraphics(), GUI_TEXTURED);
         context.setOverlay(true);
         var screen = e.getContainerScreen();
         context.getNative().pose().pushPose();

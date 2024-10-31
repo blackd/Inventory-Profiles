@@ -28,14 +28,20 @@ import net.minecraft.core.Holder
 import net.minecraft.network.chat.contents.TranslatableContents
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.effect.MobEffectCategory
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect
+import net.minecraft.world.item.consume_effects.ConsumeEffect
 import net.minecraft.world.item.enchantment.Enchantment
 import net.minecraft.world.item.enchantment.EnchantmentHelper
 import net.minecraftforge.common.extensions.IForgeFluid
 import net.minecraftforge.registries.ForgeRegistries
 import org.anti_ad.mc.alias.component.ComponentChanges
-import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.component.MergedComponentMap
 import org.anti_ad.mc.alias.component.DataComponentTypes
+import org.anti_ad.mc.alias.component.type.ConsumableComponent
+import org.anti_ad.mc.alias.component.type.EquippableComponent
 import org.anti_ad.mc.alias.component.type.FoodComponent
+import org.anti_ad.mc.alias.entity.EquipmentSlot
+import org.anti_ad.mc.alias.entity.effect.StatusEffectCategory
 import org.anti_ad.mc.alias.entity.effect.StatusEffectInstance
 import org.anti_ad.mc.alias.fluid.Fluids
 import org.anti_ad.mc.alias.item.BucketItem
@@ -44,9 +50,7 @@ import org.anti_ad.mc.alias.item.ItemGroup
 import org.anti_ad.mc.alias.item.ItemGroupType
 import org.anti_ad.mc.alias.item.ItemGroups
 import org.anti_ad.mc.alias.item.Items
-import org.anti_ad.mc.alias.item.MilkBucketItem
 import org.anti_ad.mc.alias.item.PowderSnowBucketItem
-import org.anti_ad.mc.alias.item.SuspiciousStewItem
 import org.anti_ad.mc.alias.nbt.NbtElement
 import org.anti_ad.mc.alias.nbt.NbtOps
 import org.anti_ad.mc.alias.potion.Potion
@@ -86,7 +90,7 @@ fun ItemType.toNamespacedString(): String { // like ItemType.toString() but with
 
 inline val ItemType.Companion.EMPTY
     get() = ItemType(Items.AIR,
-                     ComponentMapImpl(Items.AIR.components()),
+                     MergedComponentMap(Items.AIR.components()),
                      ComponentChanges.EMPTY,
                      { false })
 
@@ -103,10 +107,10 @@ inline val ItemType.searchItemStack: VanillaItemStack
     }
 
 inline val ItemType.vanillaStack: VanillaItemStack
-    get() = VanillaItemStack(this.item, 1, this@vanillaStack.tag ?: ComponentMapImpl.EMPTY as ComponentMapImpl)
+    get() = VanillaItemStack(this.item, 1, this@vanillaStack.tag ?: MergedComponentMap.EMPTY as MergedComponentMap)
 
 fun ItemType.vanillaStackWithCount(count: Int): VanillaItemStack =
-        VanillaItemStack(this.item, count, this@vanillaStackWithCount.tag ?: ComponentMapImpl.EMPTY as ComponentMapImpl)
+        VanillaItemStack(this.item, count, this@vanillaStackWithCount.tag ?: MergedComponentMap.EMPTY as MergedComponentMap)
 
 inline val ItemType.identifier: Identifier
     get() = ForgeRegistries.ITEMS.getKey(item)!! // `(getIdentifier)`(item)
@@ -130,7 +134,7 @@ inline val ItemType.translatedName: String
 inline val ItemType.itemId: String
     get() = identifier.toString()
 inline val ItemType.translationKey: String
-    get() = vanillaStack.descriptionId //translationKey //descriptionId
+    get() = item.descriptionId //translationKey //descriptionId
 inline val ItemType.isStackable: Boolean
     get() = vanillaStack.isStackable
 
@@ -268,38 +272,38 @@ inline val ItemType.`(group)`: ItemGroup?
 inline val ItemType.`(foodComponent)`: FoodComponent
     get() = item.components().get(DataComponentTypes.FOOD) ?: error("this shouldn't happen")
 
+inline val ItemType.`(consumableComponent)`: ConsumableComponent
+    get() = item.components().get(DataComponentTypes.CONSUMABLE) ?: error("this shouldn't happen")
+
 inline val ItemType.`(isFood)`: Boolean
     get() = item.components().get(DataComponentTypes.FOOD) != null
 
 
-inline val FoodComponent.`(statusEffects)`: List<Pair<StatusEffectInstance, Float>>
-    get() = mutableListOf<Pair<StatusEffectInstance, Float>>().also { ls ->
-        this.effects.forEach {
-            ls.add(Pair(it.effect, it.probability))
+inline val ConsumableComponent.`(consumeEffects)`: List<ConsumeEffect>
+    get() = mutableListOf<ConsumeEffect>().also { ls ->
+        this.onConsumeEffects.forEach {
+            ls.add(it)
         }
     }
 
-inline val FoodComponent.`(isHarmful)`: Boolean
-    get() = run {
-        var res = false
-        run fastEnd@{
-            this.`(statusEffects)`.forEach {
-                if (it.first.effect.value().category == MobEffectCategory.HARMFUL) {
-                    res = true
-                    return@fastEnd
+inline val ConsumableComponent.`(isHarmful)`: Boolean
+    get() {
+        this.`(consumeEffects)`.forEach {
+            if (it.type === ConsumeEffect.Type.APPLY_EFFECTS) {
+                val effects = it as ApplyStatusEffectsConsumeEffect
+                effects.effects.forEach {
+                    if (it.effect.value()?.category === StatusEffectCategory.HARMFUL) {
+                        return true
+                    }
                 }
-
             }
         }
-        res
-
+        return false
     }
 
 inline val FoodComponent.`(saturationModifier)`
     get() = this.saturation
 
-inline val FoodComponent.`(convertsToBawl)`
-    get() = this.usingConvertsTo.isPresent && this.usingConvertsTo.get().item == Items.BOWL
 
 val COMPONENTS_CHANGES_CODEC: Codec<VanillaItemStack> = Codec.lazyInitialized {
     RecordCodecBuilder.create { instance ->
@@ -354,10 +358,10 @@ inline val ItemType.durability: Int
     get() = maxDamage - damage
 
 inline val ItemType.isBucket: Boolean
-    get() = item is BucketItem || item is MilkBucketItem || item is PowderSnowBucketItem
+    get() = item is BucketItem || item is PowderSnowBucketItem
 
 inline val ItemType.isFullBucket: Boolean
-    get() = (item is BucketItem && item != Items.BUCKET) || item is MilkBucketItem || item is PowderSnowBucketItem
+    get() = (item is BucketItem && item != Items.BUCKET) || item is PowderSnowBucketItem
 
 inline val ItemType.isEmptyBucket: Boolean
     get() {
@@ -368,7 +372,7 @@ fun ItemType.isEmptyComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     Log.trace("isEmpty item: ${item.javaClass}")
     Log.trace("isEmpty otherItem: ${item.javaClass}")
-    return if ((item is MilkBucketItem || item is PowderSnowBucketItem) && otherItem is BucketItem && otherItem.fluid == Fluids.EMPTY) {
+    return if (item is PowderSnowBucketItem && otherItem is BucketItem && otherItem.fluid == Fluids.EMPTY) {
         true
     } else if (otherItem == Items.BUCKET && item is BucketItem && item.fluid != Fluids.EMPTY) {
         true
@@ -380,7 +384,7 @@ fun ItemType.isFullComparedTo(other: ItemType): Boolean {
     val otherItem = other.item
     Log.trace("isFull item: ${item.javaClass}")
     Log.trace("isFull otherItem: ${item.javaClass}")
-    return if (item == Items.BUCKET && (otherItem is MilkBucketItem || otherItem is PowderSnowBucketItem)) {
+    return if (item == Items.BUCKET && otherItem is PowderSnowBucketItem) {
         true
     } else item !is EntityBucketItem && otherItem is EntityBucketItem
 
@@ -390,7 +394,7 @@ inline val ItemType.isHoneyBottle: Boolean
     get() = item == Items.HONEY_BOTTLE
 
 inline val ItemType.isStew: Boolean
-    get() = this.`(isFood)` && vanillaStack.components[DataComponentTypes.FOOD]?.`(convertsToBawl)` ?: false
+    get() = this.`(isFood)` && vanillaStack.components[DataComponentTypes.SUSPICIOUS_STEW_EFFECTS] != null
 
 //region ItemType Potion Relative
 
@@ -398,7 +402,7 @@ inline val ItemType.hasPotionName: Boolean
     get() = tag?.has(DataComponentTypes.POTION_CONTENTS) ?: false
 
 inline val ItemType.potionName: String
-    get() = if (tag != null && hasPotionName) Potion.getName(tag.get(DataComponentTypes.POTION_CONTENTS)?.potion ?: Optional.empty(), "") else ""
+    get() = if (tag != null && hasPotionName) tag.get(DataComponentTypes.POTION_CONTENTS)?.potion?.get()?.value()?.name() ?: "" else ""
 
 inline val ItemType.hasPotionEffects: Boolean
     get() = tag?.get(DataComponentTypes.POTION_CONTENTS)?.hasEffects() ?: false
@@ -469,5 +473,10 @@ object ItemTypeExtensionsObject {
     }
 }
 
+inline val ItemType.`(equipmentSlot)`: EquipmentSlot?
+    get() {
+        val equipable: EquippableComponent? = this.tag?.get(DataComponentTypes.EQUIPPABLE)
+        return equipable?.slot()
+    }
 
 //endregion

@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.debug
 
+import net.minecraft.core.DefaultedMappedRegistry
 import net.minecraft.core.HolderSet
 import org.anti_ad.mc.alias.item.Item
 import org.anti_ad.mc.alias.registry.Registries
@@ -61,11 +62,13 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
         server ?: return Unit.also { TellPlayer.chat("This works best in single player game... Giving up!") }
 
         val m = mutableMapOf<Identifier, MutableList<Identifier>>()
+        val itemsReg = Registries.ITEM as DefaultedMappedRegistry<Item>
 
-        @Suppress("DEPRECATION")
-        Registries.ITEM.tags.forEach { it ->
-            val list: MutableList<String>
-            m[it.first.location()] = it.second.toMutableListOf()
+        Registries.ITEM.tags.forEach { namedTag ->
+            val tagId = namedTag.key().location
+            m[tagId] = namedTag.mapNotNullTo(mutableListOf()) { item ->
+                item?.key?.location()
+            }
         }
         with (fileDatapack.bufferedWriter()) {
             m.keys.sorted().forEach { key ->
@@ -78,15 +81,14 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
         }
 
         Log.traceIf {
-            @Suppress("DEPRECATION")
-            Registries.ITEM.tags.forEach {
+            Registries.ITEM.tags.forEach { namedTag ->
                 Log.trace {
-                    "${it.first.location} ->"
+                    "${namedTag.key().location} -> "
                 }
                 Log.indent(4) {
-                    it.second.stream().forEach { entry ->
+                    namedTag.forEach { item ->
                         Log.trace {
-                            "${entry.unwrapKey()})"
+                            "${item?.key?.location()}"
                         }
                     }
                 }

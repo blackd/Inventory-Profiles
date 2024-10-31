@@ -22,6 +22,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
+import net.neoforged.gradle.dsl.common.runs.RunSpecification
 import net.neoforged.gradle.dsl.common.runs.run.Run
 import org.anti_ad.mc.ipnext.buildsrc.configureCommon
 import org.anti_ad.mc.ipnext.buildsrc.neoForgeCommonAfterEvaluate
@@ -376,8 +377,7 @@ runs {
             "mixin.debug.export" to "true",
             "mixin.debug.dumpTargetOnFailure" to "true",
             "bsl.debug" to "true"))
-        programArgument("--fml.mixin=mixins.ipnext.json")
-        programArguments("--width=1280", "--height=720", "--username=DEV")
+        (this as RunSpecification).arguments("--fml.mixin=mixins.ipnext.json", "--width=1280", "--height=720", "--username=DEV")
 
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")

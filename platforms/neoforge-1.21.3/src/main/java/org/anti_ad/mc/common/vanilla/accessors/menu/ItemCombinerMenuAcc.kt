@@ -22,6 +22,7 @@ package org.anti_ad.mc.common.vanilla.accessors.menu
 import net.minecraft.client.gui.screens.inventory.AnvilScreen
 import net.minecraft.world.inventory.ItemCombinerMenu
 
+/*
 val ItemCombinerMenu.`(inputSlotIndices)`
     get() = this.inputSlotIndexes
 
@@ -33,3 +34,4 @@ var AnvilScreen.`(nameFieldText)`
     set(value) {
         this.name.value = value
     }
+*/

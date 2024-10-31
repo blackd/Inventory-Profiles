@@ -19,11 +19,13 @@
 
 package org.anti_ad.mc.ipnext.integration
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import org.anti_ad.mc.common.extensions.trySwallow
 import java.io.InputStream
 import java.nio.file.Path
 
+@OptIn(ExperimentalSerializationApi::class)
 object SlotIntegrationHints {
 
     @JvmStatic

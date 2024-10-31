@@ -20,6 +20,8 @@
 package org.anti_ad.mc.ipnext.item
 
 import com.mojang.serialization.Codec
+import net.minecraft.core.Holder
+import net.minecraft.core.component.DataComponentType
 import org.anti_ad.mc.alias.component.ComponentChanges
 import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.component.DataComponentTypes

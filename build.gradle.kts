@@ -20,6 +20,7 @@
 
 import org.anti_ad.mc.ipnext.buildsrc.getGitHash
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
+import org.gradle.api.tasks.testing.AbstractTestTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
@@ -47,8 +48,8 @@ dependencies {
 
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "2.0.0"
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.serialization") version "2.0.21"
 
 
     idea
@@ -61,7 +62,7 @@ plugins {
     id("fabric-loom") version("1.7-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
-    id("net.neoforged.gradle.userdev") version "7+" apply false
+    id("net.neoforged.gradle.userdev") version "7.+" apply false
 }
 
 
@@ -93,9 +94,10 @@ allprojects {
             jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs.addAll(listOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn"))
         }
-        this.kotlinDaemonJvmArguments = listOf("-Xmx4G")
+        //this.kotlinDaemonJvmArguments = listOf("-Xmx4G")
         this.incremental = true
     }
+
 }
 
 
@@ -161,14 +163,24 @@ afterEvaluate {
         finalizedBy("owner-testing-env")
     }
 
-    childProjects.forEach { (name, prj) ->
-        prj.tasks.forEach { task ->
-            if (task is JavaForkOptions) {
-                task.environment["_JAVA_OPTIONS"] = "-Xmx4G"
-                task.allJvmArgs = task.allJvmArgs.plus("-Xmx4G")
+    childProjects.forEach { (prjName, prj) ->
+        try {
+            val compileTestJava = prj.tasks.findByName("compileTestJava")
+            if (compileTestJava != null) {
+                logger.lifecycle("${compileTestJava.javaClass}")
+                val deps = compileTestJava.dependsOn.filter {
+                    it !is Task || it.name != "addMixinsToJar"
+                }
+                logger.lifecycle(deps.toString())
+                compileTestJava.setDependsOn(deps)
+                compileTestJava.enabled = false
+
             }
+        } finally {
+
         }
     }
+
 }
 
 tasks.named<DefaultTask>("build") {

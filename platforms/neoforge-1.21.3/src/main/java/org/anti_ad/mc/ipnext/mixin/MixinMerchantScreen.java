@@ -19,8 +19,11 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
+import kotlin.jvm.functions.Function1;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.MerchantScreen;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
@@ -35,6 +38,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Iterator;
+
+import static net.minecraft.client.renderer.RenderType.GUI_TEXTURED;
 
 @Mixin(MerchantScreen.class)
 public class MixinMerchantScreen {
@@ -51,7 +56,7 @@ public class MixinMerchantScreen {
             locals = LocalCapture.CAPTURE_FAILHARD)
     void render(GuiGraphics matrices, int mouseX, int mouseY, float delta, CallbackInfo ci, MerchantOffers tradeOfferList, int i, int j, int k, int l, int m, Iterator var11, MerchantOffer tradeOffer, ItemStack itemStack, ItemStack itemStack2, ItemStack itemStack3, ItemStack itemStack4) {
         MerchantScreen self = (MerchantScreen)((Object)this);
-        VillagerTradeManager.INSTANCE.drawingButton(self, new NativeContext(matrices), mouseX, mouseY, tradeOffer, i, j, k, l, m);
+        VillagerTradeManager.INSTANCE.drawingButton(self, new NativeContext(matrices, GUI_TEXTURED), mouseX, mouseY, tradeOffer, i, j, k, l, m);
     }
 
 

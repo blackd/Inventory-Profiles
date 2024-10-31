@@ -289,7 +289,7 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
 
         "implementation"("net.neoforged:neoforge:${loader_version}")
 
-        "implementation"("dev.isxander:yet-another-config-lib:$yacl_version") {
+        "compileOnly"("dev.isxander:yet-another-config-lib:$yacl_version") {
             exclude("maven.modrinth")
             exclude("org.quiltmc.parsers")
             exclude("org.quiltmc.*")
@@ -298,7 +298,7 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
             exclude("org.jetbrains.kotlin")
         }
 
-        "implementation"("dev.isxander:controlify:$controlify_version") {
+        "compileOnly"("dev.isxander:controlify:$controlify_version") {
             exclude("maven.modrinth")
             exclude("org.quiltmc.parsers")
             exclude("org.quiltmc.*")
@@ -312,14 +312,17 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
 
         }
 
-        "compileOnly"("org.anti_ad.mc:libIPN-$libIPN_version:dev") {
+        "implementation"("org.anti_ad.mc:libIPN-$libIPN_version:dev") {
             exclude("org.jetbrains.kotlin")
             this.isChanging = true
         }
+
+/*
         "runtimeOnly"("org.anti_ad.mc:libIPN-$libIPN_version") {
             exclude("org.jetbrains.kotlin")
             this.isChanging = true
         }
+*/
 
         "compileOnly"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0") {
             exclude("org.jetbrains.kotlin")

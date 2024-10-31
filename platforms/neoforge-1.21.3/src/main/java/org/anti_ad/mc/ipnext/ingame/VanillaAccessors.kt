@@ -30,7 +30,7 @@ import org.anti_ad.mc.alias.client.gui.screen.Screen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.ContainerScreen
 import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeInventoryScreen
 import org.anti_ad.mc.alias.client.network.ClientPlayerInteractionManager
-import org.anti_ad.mc.alias.component.ComponentMapImpl
+import org.anti_ad.mc.alias.component.MergedComponentMap
 import org.anti_ad.mc.alias.entity.EquipmentSlot
 import org.anti_ad.mc.alias.entity.player.PlayerEntity
 import org.anti_ad.mc.alias.inventory.Inventory
@@ -64,7 +64,7 @@ import org.anti_ad.mc.alias.item.ItemStack as VanillaItemStack
 
 inline val VanillaItemStack.`(itemType)`: ItemType
     get() = ItemType(item,
-                     components as ComponentMapImpl,
+                     components as MergedComponentMap,
                      componentsPatch,
                      { this.isDamageableItem })
 inline val VanillaItemStack.`(itemStack)`: ItemStack
@@ -142,7 +142,7 @@ fun <T> DefaultedRegistry<T>.`(getRawId)`(value: T): Int {
 }
 
 fun <T> DefaultedRegistry<T>.`(getByIdentifier)`(id: Identifier): T {
-    return this.get(id) //get(id) //getOrDefault(id)
+    return this.get(id).get().value() //get(id) //getOrDefault(id)
 }
 
 /*
@@ -156,7 +156,7 @@ fun <T> Registry<T>.`(getRawId)`(value: T): Int {
 }
 
 fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
-    return get(id) //get(id)
+    return get(id).get().value() //get(id)
 }
 
 // ============
@@ -188,9 +188,6 @@ inline val Window.`(scaledWidth)`: Int
 inline val Window.`(scaledHeight)`: Int
     get() = guiScaledHeight
 
-inline val ArmorItem.`(equipmentSlot)`: EquipmentSlot
-    get() = equipmentSlot
-
 @Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")
 inline fun ClientPlayerInteractionManager.`(clickSlot)`(i: Int, j: Int, k: Int, slotActionType: SlotActionType, playerEntity: PlayerEntity) =
         this.handleInventoryMouseClick(i, j, k, slotActionType, playerEntity)
@@ -205,4 +202,4 @@ inline fun PlayerContainer.`(sendContentUpdates)`() = broadcastChanges()
 val StonecutterContainer.`(selectedRecipe)`: Int
     get() = selectedRecipeIndex
 
-fun MinecraftClient.`(send)`(runnable: Runnable) = tell(runnable)
+fun MinecraftClient.`(send)`(runnable: Runnable) =  schedule(runnable)

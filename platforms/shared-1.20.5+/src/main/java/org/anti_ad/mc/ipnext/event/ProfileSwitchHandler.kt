@@ -27,6 +27,7 @@ import org.anti_ad.mc.alias.text.getLiteral
 import org.anti_ad.mc.alias.text.getTranslatable
 import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.nbt.NbtList
+import org.anti_ad.mc.alias.registry.`(get)`
 import org.anti_ad.mc.common.IInputHandler
 import org.anti_ad.mc.common.extensions.transformOrNull
 import org.anti_ad.mc.ipnext.Log
@@ -367,7 +368,7 @@ private fun List<ProfileComponentData>?.match(stack: ItemStack): Boolean {
     if (this.isNullOrEmpty()) return true
 
     this.forEach { ct ->
-        val type = Registries.DATA_COMPONENT_TYPE[ct.id]
+        val type = Registries.DATA_COMPONENT_TYPE.`(get)`(ct.id) // ?.get()?.value()
         if (type != null) {
             val component = changes.get(type)
             if (component == null || component.isEmpty) return false

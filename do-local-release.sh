@@ -58,7 +58,7 @@ fi
 GRADLE_ARG="build"
 
 if [[ n$IPNEXT_RELEASE != "n" ]]; then
-  GRADLE_ARG="--max-workers 4 $GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge"
+  GRADLE_ARG="--max-workers 32 $GRADLE_ARG publishAllPublicationsToIpnOfficialRepoRepository modrinth curseforge"
   ./gradlew $GRADLE_ARG
 elif [[ n$IPNEXT_PATREON != "n" ]]; then
   GRADLE_ARG="--max-workers 32 $GRADLE_ARG"

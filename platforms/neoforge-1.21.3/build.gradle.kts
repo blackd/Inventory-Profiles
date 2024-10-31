@@ -22,6 +22,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
+import net.neoforged.gradle.dsl.common.runs.RunSpecification
 import net.neoforged.gradle.dsl.common.runs.run.Run
 import org.anti_ad.mc.ipnext.buildsrc.configureCommon
 import org.anti_ad.mc.ipnext.buildsrc.neoForgeCommonAfterEvaluate
@@ -94,7 +95,7 @@ plugins {
     id("com.modrinth.minotaur")
     id("io.github.goooler.shadow")
     id("net.neoforged.gradle.userdev")
-    id ("net.neoforged.gradle.mixin") version "7.+"
+    id ("net.neoforged.gradle.mixin") version "7.0.145"
 
 }
 
@@ -138,11 +139,13 @@ configurations {
 dependencies {
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
+
+    /*
     runtimeOnly( "curse.maven:athena-841890:5431579")
     runtimeOnly("curse.maven:resourcefullib-570073:5483169")
-    compileOnly("curse.maven:chipped-456956:5506938")
+    */
     compileOnly("curse.maven:easy-villagers-400514:4584220")
-    implementation("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
+    compileOnly("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
     //implementation("maven.modrinth:workshop-for-handsome-adventurer:1.31.2")
 /*
     implementation("org.ow2.asm:asm-analysis:9.5") {
@@ -376,8 +379,7 @@ runs {
             "mixin.debug.export" to "true",
             "mixin.debug.dumpTargetOnFailure" to "true",
             "bsl.debug" to "true"))
-        programArgument("--fml.mixin=mixins.ipnext.json")
-        programArguments("--width=1280", "--height=720", "--username=DEV")
+        (this as RunSpecification).arguments("--fml.mixin=mixins.ipnext.json", "--width=1280", "--height=720", "--username=DEV")
 
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")

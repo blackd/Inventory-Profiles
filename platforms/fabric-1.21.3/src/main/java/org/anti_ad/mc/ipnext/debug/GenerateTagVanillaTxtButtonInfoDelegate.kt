@@ -54,25 +54,10 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
         return res
     }
 
-
-/*
-    public Stream<Pair<TagKey<T>, RegistryEntryList.Named<T>>> streamTagsAndEntries() {
-        return this.tagToEntryList.entrySet().stream().map((entry) -> {
-            return Pair.of((TagKey)entry.getKey(), (RegistryEntryList.Named)entry.getValue());
-        });
-    }
-*/
-
-
-
     override fun onClick(guiClick: () -> Unit) {
-        //TODO FIX THIS BEFORE RELEASE FOR 1.21.3
-
-
         TellPlayer.chat("Generating ${fileDatapack.name} ...")
         val server = Vanilla.server()
         server ?: return Unit.also { TellPlayer.chat("This works best in single player game... Giving up!") }
-
 
         val m = mutableMapOf<Identifier, MutableList<Identifier>>()
         val itemsReg = Registries.ITEM as SimpleDefaultedRegistry<Item>
@@ -83,13 +68,6 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
                 item?.key?.get()?.value
             }
         }
-
-/*
-        Registries.ITEM.streamTagsAndEntries.forEach {
-            m[it.first.id] = it.second.toMutableListOf()
-        }
-*/
-
         with (fileDatapack.bufferedWriter()) {
             m.keys.sorted().forEach { key ->
                 this.appendLine("#${key.omittedString}")
@@ -113,21 +91,6 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
                     }
                 }
             }
-
-/*
-            Registries.ITEM.streamTagsAndEntries().forEach {
-                Log.trace {
-                    "${it.first.id} ->"
-                }
-                Log.indent(4) {
-                    it.second.stream().forEach { entry ->
-                        Log.trace {
-                            "${entry.key.get().value})"
-                        }
-                    }
-                }
-            }
-*/
         }
 
 

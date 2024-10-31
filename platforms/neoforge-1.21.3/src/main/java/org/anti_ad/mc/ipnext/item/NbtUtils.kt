@@ -21,8 +21,8 @@
 package org.anti_ad.mc.ipnext.item
 
 import com.mojang.brigadier.StringReader
-import org.anti_ad.mc.alias.command.argument.NbtPathArgumentType
 import org.anti_ad.mc.alias.command.argument.NbtPathArgumentTypeNbtPath
+import org.anti_ad.mc.alias.command.argument.NbtPathArgumentType
 import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.item.Item
 import org.anti_ad.mc.alias.nbt.AbstractNbtList
@@ -34,6 +34,7 @@ import org.anti_ad.mc.alias.nbt.NbtList
 import org.anti_ad.mc.alias.nbt.StringNbtReader
 import org.anti_ad.mc.alias.registry.Registries
 import org.anti_ad.mc.alias.util.Identifier
+
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.AsComparable
 import org.anti_ad.mc.common.extensions.asComparable
@@ -63,17 +64,11 @@ object NbtUtils {
     }
 
     fun getTagFromId(id: Identifier): List<Item>? {
-        var res: List<Item>? = null
-        @Suppress("DEPRECATION")
-
-        Registries.ITEM.tags.forEach {
-            if (it.first.location == id) {
-                res = it.second.map { item ->
-                    item.value()
-                }
-            }
+        return Registries.ITEM.tags.iterator().asSequence().firstOrNull {
+            it.key().location == id
+        }?.map { item ->
+            item.value()
         }
-        return res
     }
 
     // ============

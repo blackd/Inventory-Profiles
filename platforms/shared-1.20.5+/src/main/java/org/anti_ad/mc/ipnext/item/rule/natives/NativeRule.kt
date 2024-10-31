@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.item.rule.natives
 
 import org.anti_ad.mc.alias.nbt.NbtCompound
 import org.anti_ad.mc.alias.nbt.NbtElement
+import org.anti_ad.mc.alias.registry.`(get)`
 import org.anti_ad.mc.alias.registry.Registries
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.extensions.asComparable
@@ -170,7 +171,7 @@ class SimpleParameterBasedRule: BooleanBasedRule() {
                             true)
         }
         valueOf = {
-            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val type = Registries.DATA_COMPONENT_TYPE.`(get)`(arguments[component_id])
             val nbtValue = type?.toFilteredNbtOrNull(Optional.ofNullable(it.tag?.get(type))) ?: NbtCompound()
             if (arguments[allow_extra]) {
                 NbtUtils.matchNbt(arguments[nbt],
@@ -194,7 +195,7 @@ class MatchNbtRule : BooleanBasedRule() {
                             true)
         }
         valueOf = {
-            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val type = Registries.DATA_COMPONENT_TYPE.`(get)`(arguments[component_id])
             val nbtValue = type?.toFilteredNbtOrNull(Optional.ofNullable(it.tag?.get(type)))
             if (arguments[allow_extra]) {
                 NbtUtils.matchNbt(arguments[nbt],
@@ -299,7 +300,7 @@ class ByNbtRule : NativeRule() {
     inner class ByNbtPathComparator(val itemType1: ItemType,
                                     val itemType2: ItemType) {
         fun compare(): Int {
-            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val type = Registries.DATA_COMPONENT_TYPE.`(get)`(arguments[component_id])
             val tags1 = arguments[nbt_path].getTags(itemType1, type)
             val tags2 = arguments[nbt_path].getTags(itemType2, type)
             if (tags1.size > 1 || tags2.size > 1)
@@ -363,7 +364,7 @@ class NbtComparatorRule : NativeRule() {
             defineParameter(component_id)
         }
         comparator = { a: ItemType, b: ItemType -> // compare a.tag and b.tag
-            val type = Registries.DATA_COMPONENT_TYPE[arguments[component_id]]
+            val type = Registries.DATA_COMPONENT_TYPE.`(get)`(arguments[component_id])
             val nbtValueA = type?.toFilteredNbtOrNull(Optional.ofNullable(a.tag?.get(type)))
             val nbtValueB = type?.toFilteredNbtOrNull(Optional.ofNullable(b.tag?.get(type)))
             val cpr: Comparator<NbtElement?> =  nullsLast { e1, e2 ->

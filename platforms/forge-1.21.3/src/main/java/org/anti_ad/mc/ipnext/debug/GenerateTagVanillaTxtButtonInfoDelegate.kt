@@ -62,10 +62,11 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
 
         val m = mutableMapOf<Identifier, MutableList<Identifier>>()
 
-        @Suppress("DEPRECATION")
-        Registries.ITEM.tags.forEach { it ->
-            val list: MutableList<String>
-            m[it.first.location()] = it.second.toMutableListOf()
+        Registries.ITEM.tags.forEach { namedTag ->
+            val tagId = namedTag.key().location
+            m[tagId] = namedTag.mapNotNullTo(mutableListOf()) { item ->
+                item?.unwrapKey()?.get()?.location()
+            }
         }
         with (fileDatapack.bufferedWriter()) {
             m.keys.sorted().forEach { key ->
@@ -78,15 +79,14 @@ object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
         }
 
         Log.traceIf {
-            @Suppress("DEPRECATION")
-            Registries.ITEM.tags.forEach {
+            Registries.ITEM.tags.forEach { namedTag ->
                 Log.trace {
-                    "${it.first.location} ->"
+                    "${namedTag.key().location} -> "
                 }
                 Log.indent(4) {
-                    it.second.stream().forEach { entry ->
+                    namedTag.forEach { item ->
                         Log.trace {
-                            "${entry.unwrapKey()})"
+                            "${item?.unwrapKey()?.get()?.location()}"
                         }
                     }
                 }

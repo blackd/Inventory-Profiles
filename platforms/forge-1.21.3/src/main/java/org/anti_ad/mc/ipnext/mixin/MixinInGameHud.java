@@ -24,6 +24,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 
+import net.minecraft.client.renderer.RenderType;
 import org.anti_ad.mc.common.gui.NativeContext;
 import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler;
 import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
@@ -40,7 +41,7 @@ public class MixinInGameHud {
     protected void preRenderHotbar(GuiGraphics drawContext,
                                    DeltaTracker tickCounter,
                                    CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, RenderType::guiTextured);
         LockSlotsHandler.INSTANCE.preRenderHud(context);
         AutoRefillHandler.INSTANCE.preRenderHud(context);
     }
@@ -51,7 +52,7 @@ public class MixinInGameHud {
     protected void postRenderHotbar(GuiGraphics drawContext,
                                     DeltaTracker tickCounter,
                                     CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, RenderType::guiTextured);
         LockSlotsHandler.INSTANCE.postRenderHud(context);
         AutoRefillHandler.INSTANCE.postRenderHud(context);
     }
