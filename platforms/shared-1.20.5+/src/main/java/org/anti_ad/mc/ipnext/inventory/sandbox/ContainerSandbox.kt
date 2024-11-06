@@ -20,8 +20,10 @@
 
 package org.anti_ad.mc.ipnext.inventory.sandbox
 
+import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.ipnext.inventory.data.ItemTracker
 import org.anti_ad.mc.ipnext.inventory.data.MutableItemTracker
+import org.anti_ad.mc.ipnext.item.`(isBundle)`
 import org.anti_ad.mc.ipnext.item.MutableItemStack
 import org.anti_ad.mc.ipnext.item.empty
 import org.anti_ad.mc.ipnext.item.isEmpty
@@ -47,8 +49,13 @@ class ContainerSandbox(items: MutableItemTracker,
         } else {
             cursor.transferTo(target)
         }
+        val action = if (!cursor.isEmpty() && target.itemType.`(isBundle)` || cursor.itemType.`(isBundle)` && !target.isEmpty()) {
+            1
+        } else {
+            0
+        }
         addClick(slotIndex,
-                 0)
+                 action)
     }
 
     fun rightClick(slotIndex: Int) = with(mutableItems) {

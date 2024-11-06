@@ -1,12 +1,19 @@
 <!-- latest begin -->
 
+### 2.0.9
+
+- fixes sort putting stuff in bundles
+- updated some gui hints to reflect new the packages of the respective mods
+
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.0.8
 
 - support for 1.21.3 all modloaders
 - some minor bugfixes
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.0.7
 

@@ -503,4 +503,6 @@ inline val ItemType.`(equipmentSlot)`: EquipmentSlot?
         }
     }
 
+val ItemType.`(isBundle)`: Boolean
+    get() = false
 //endregion

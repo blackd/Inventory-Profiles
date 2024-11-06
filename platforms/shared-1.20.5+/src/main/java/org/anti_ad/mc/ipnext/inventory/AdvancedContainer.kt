@@ -21,6 +21,9 @@
 package org.anti_ad.mc.ipnext.inventory
 
 import org.anti_ad.mc.alias.client.gui.screen.ingame.CreativeContainer
+import org.anti_ad.mc.alias.component.ComponentType
+import org.anti_ad.mc.alias.component.DataComponentTypes
+import org.anti_ad.mc.alias.component.type.BundleContentsComponent
 import org.anti_ad.mc.alias.screen.Container
 import org.anti_ad.mc.alias.screen.slot.Slot
 import org.anti_ad.mc.common.TellPlayer
@@ -42,6 +45,7 @@ import org.anti_ad.mc.ipnext.inventory.data.SubTracker
 import org.anti_ad.mc.ipnext.inventory.sandbox.ContainerSandbox
 import org.anti_ad.mc.ipnext.inventory.sandbox.ItemPlanner
 import org.anti_ad.mc.ipnext.inventory.sandbox.diffcalculator.NoRoomException
+import org.anti_ad.mc.ipnext.item.`(isBundle)`
 import org.anti_ad.mc.ipnext.item.ItemStack
 import org.anti_ad.mc.ipnext.item.isEmpty
 import org.anti_ad.mc.ipnext.item.isFull
@@ -231,7 +235,9 @@ class AdvancedContainer(val vanillaContainer: Container,
         for ((slotIndex, slotItem) in destination.indexedSlots) {
             if (skipEmpty && slotItem.isEmpty()) continue
             if (!vanillaSlots[slotIndex].`(canInsert)`(slotItem)) continue
-            if (tracker.cursor.stackableWith(slotItem) && !slotItem.isFull()) this.leftClick(slotIndex)
+            if (tracker.cursor.stackableWith(slotItem) && !slotItem.isFull()) {
+                this.leftClick(slotIndex)
+            }
             if (tracker.cursor.isEmpty()) return
         }
     }

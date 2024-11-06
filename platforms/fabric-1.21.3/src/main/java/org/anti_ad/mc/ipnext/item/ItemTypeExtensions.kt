@@ -492,4 +492,10 @@ inline val ItemType.`(equipmentSlot)`: EquipmentSlot?
         return equipable?.slot()
     }
 
+
+val ItemType.`(isBundle)`: Boolean
+    get()  {
+        return tag?.get(DataComponentTypes.BUNDLE_CONTENTS) != null
+    }
+
 //endregion

@@ -294,7 +294,7 @@ object ProfileSwitchHandler: IInputHandler {
         }
 
         private fun bestMatch(to: ProfileItemData, from: List<Int>): Int? {
-            return from.filter {
+            val soerted = from.filter {
                 val ist = Vanilla.playerContainer().`(slots)`[it].`(itemStack)`
                 var res = false
                 if (!ist.isEmpty()) {
@@ -313,7 +313,8 @@ object ProfileSwitchHandler: IInputHandler {
 
                 RuleFileRegister.getCustomRuleOrEmpty("auto_refill_best").compare(jStack.itemType,
                                                                                   iStack.itemType)
-            }.firstOrNull()
+            }
+            return soerted.lastOrNull()
         }
     }
 
@@ -378,7 +379,7 @@ private fun List<ProfileComponentData>?.match(stack: ItemStack): Boolean {
                 val found = nbt.filter { st ->
                     ctComponentNbt.contains(st)
                 }
-                if (found.size == ctComponentNbt.size) return true
+                return found.size == ctComponentNbt.size
             }
             if (ctComponentNbt.compareTo(nbt) != 0) return false
         }
