@@ -2,8 +2,10 @@
 
 ### 2.0.9
 
-- fixes sort putting stuff in bundles
-- updated some gui hints to reflect new the packages of the respective mods
+- fixed sort putting stuff in bundles.
+- fixed profiles not choosing the best enchanted items.
+- fixed profiles not comparing components properly.
+- updated some gui hints to reflect new the packages of the respective mods.
 
 
 <!-- latest end -->
