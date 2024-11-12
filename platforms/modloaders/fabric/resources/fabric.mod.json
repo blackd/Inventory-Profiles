@@ -3,17 +3,15 @@
   "id": "inventoryprofilesnext",
   "version": "@VERSION@",
   "name": "Inventory Profiles Next",
-  "description": "Take control over your inventory",
+  "description": "@DESCRIPTION@",
   "authors": [
     "mirinimi/blackd"
   ],
-  "contributors": [
-    "Sponsored by 'WeConnected'",
-    "Special thanks to 'Selah (AspieGamer13)'"
-  ],
+  "contributors": [@CONTRIBUTORS@],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next",
-    "sources": "https://github.com/blackd/Inventory-Profiles"
+    "homepage": "@WIKI@",
+    "sources": "@SOURCE@",
+    "issues":"@ISSUES@"
   },
   "license": "@LICENSE@",
   "icon": "assets/inventoryprofilesnext/mod icon.png",
@@ -35,9 +33,9 @@
   ],
   "depends": {
     "fabric-resource-loader-v0": "*",
-    "fabricloader": ">=0.15.11",
-    "minecraft": ">=1.21.3 <1.22",
-    "fabric-language-kotlin": ">=1.11.0+kotlin.2.0.0",
-    "libipn": ">=@LIBIPN_VERSION@ <6.2"
+    "fabricloader": ">=@FABRIC_LOADER@",
+    "minecraft": ">=@MC_VER@ <@MC_VER_MAX@",
+    "fabric-language-kotlin": ">=@FABRIC_LANGUAGE_KOTLIN@",
+    "libipn": ">=@LIBIPN_VERSION@ <@LIBIPN_VERSION_MAX@"
   }
 }

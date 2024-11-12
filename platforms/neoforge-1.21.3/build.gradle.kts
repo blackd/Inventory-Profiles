@@ -45,6 +45,13 @@ val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val controlify_version = "2.0.0-beta.14+1.21-neoforge"
 val yacl_version = "3.5.0+1.21-neoforge"
 
+ext["kff_ver"] = "5.3"
+ext["forge_ver"] = "21.3"
+ext["forge_ver_max"] = ""
+ext["mc_ver"] = "1.21.3"
+ext["mc_ver_max"] = "1.21.4"
+
+
 logger.lifecycle("""
     ***************************************************
     Processing "${project.path}"
@@ -202,20 +209,12 @@ afterEvaluate {
         }
     }
     project.sourceSets.getByName("main") {
-        resources.srcDirs("src/shared/resources")
-//        resources.srcDirs("src/main/resources")
+        resources.srcDir("src/shared/resources")
+        resources.srcDir("src/modloader/resources")
         resources.srcDirs.forEach {
             logger.lifecycle("found resource dir: ${it.absolutePath}")
         }
     }
-/*
-    sourceSets.forEach {
-        val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
-        it.output.setResourcesDir(dir.get().asFile)
-        it.java.destinationDirectory = dir
-        it.kotlin.destinationDirectory = dir
-    }
-*/
 }
 
 tasks.withType<JavaCompile>().all {

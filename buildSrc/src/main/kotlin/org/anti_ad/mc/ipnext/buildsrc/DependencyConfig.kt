@@ -138,6 +138,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
                                    mappings_version: Any,
                                    loader_version: Any,
                                    fabric_api_version: Any,
+                                   fabric_lang_kotlin: Any,
                                    libIPN_version: Any? = null,
                                    modmenu_version: Any? = null,
                                    carpet_version: Any? = null,
@@ -189,7 +190,7 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
             "modCompileOnly"("carpet:fabric-carpet:$carpet_version")
         }
 
-        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:1.11.0+kotlin.2.0.0")
+        "modRuntimeOnly"("net.fabricmc:fabric-language-kotlin:$fabric_lang_kotlin")
     }
 
 }

@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("2", "0", "9",
+val versionObj = Version("2", "0", "10",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -82,6 +82,7 @@ allprojects {
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
     ext.set("libIPN_version", "6.1.1")
+    ext.set("libIPN_version_max", "6.2")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true

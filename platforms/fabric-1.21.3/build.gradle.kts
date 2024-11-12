@@ -43,11 +43,18 @@ val mappings_version = "1.21.3+build.2"
 val loader_version = "0.16.7"
 val modmenu_version = "12.0.0-beta.1"
 val fabric_api_version = "0.106.1+1.21.3"
+val fabric_lang_kotlin = "1.12.3+kotlin.2.0.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val carpet_core_version = "1.21.2-pre3-1.4.157+v241014"
 val controlify_version = "2.0.0-beta.14+1.21-fabric"
 val yacl_version = "3.5.0+1.21-fabric"
+
+ext["mc_ver"] = "1.21.3"
+ext["mc_ver_max"] = "1.21.4"
+ext["fabric_loader"] = loader_version
+ext["fabric_language_kotlin"] = fabric_lang_kotlin
+
 
 buildscript {
     dependencies {
@@ -110,6 +117,7 @@ fabricCommonDependency(minecraft_version,
                        mappings_version,
                        loader_version,
                        fabric_api_version,
+                       fabric_lang_kotlin,
                        modmenu_version = modmenu_version,
                        libIPN_version = libIPN_version,
                        carpet_version = carpet_core_version,
@@ -184,22 +192,23 @@ tasks.named<AntlrTask>("generateGrammarSource").configure {
 }
 
 
-    project.sourceSets.getByName("main") {
-        this.java.srcDirs("./src/shared/java")
-        this.java.srcDirs("./src/shared/kotlin")
-        project.layout.projectDirectory.dir("src/integrations").asFile.walk().maxDepth(1).forEachIndexed() { i, it ->
-            if (i > 0 && it.isDirectory) {
-                this.java.srcDirs(it.path + "/src/main/java")
-                this.java.srcDirs(it.path + "/src/main/kotlin")
-                logger.lifecycle("adding ${it.path + "/src/main/resources"} to resources dirs")
-                this.resources.srcDirs(it.path + "/src/main/resources")
+project.sourceSets.getByName("main") {
+    this.java.srcDirs("./src/shared/java")
+    this.java.srcDirs("./src/shared/kotlin")
+    project.layout.projectDirectory.dir("src/integrations").asFile.walk().maxDepth(1).forEachIndexed() { i, it ->
+        if (i > 0 && it.isDirectory) {
+            this.java.srcDirs(it.path + "/src/main/java")
+            this.java.srcDirs(it.path + "/src/main/kotlin")
+            logger.lifecycle("adding ${it.path + "/src/main/resources"} to resources dirs")
+            this.resources.srcDirs(it.path + "/src/main/resources")
 
-            }
         }
     }
-    project.sourceSets.getByName("main") {
-        resources.srcDirs("src/shared/resources")
-    }
+}
+project.sourceSets.getByName("main") {
+    resources.srcDir("src/shared/resources")
+    resources.srcDir("src/modloader/resources")
+}
 
 
 tasks.named<ShadowJar>("shadowJar") {

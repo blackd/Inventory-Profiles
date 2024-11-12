@@ -1,0 +1,51 @@
+modLoader="kotlinforforge"
+loaderVersion="[@KFF_LOADER_VER@,)"
+
+issueTrackerURL="@ISSUES@"
+
+license="@LICENSE@"
+
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
+[[mixins]]
+config="mixins.ipnext.json"
+
+
+[[mods]]
+modId="inventoryprofilesnext"
+version="@VERSION@"
+displayName="Inventory Profiles Next"
+displayURL="@WIKI@"
+logoFile = "mod-icon-xforge.png"
+credits='''
+@CONTRIBUTORS_FORGE@
+
+'''
+authors='''
+blackd/mirinimi
+'''
+description='''
+@DESCRIPTION@
+'''
+
+[[dependencies.inventoryprofilesnext]]
+modId="neoforge"
+mandatory=true
+versionRange="[@FORGE_VER@, @FORGE_VER_MAX@)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.inventoryprofilesnext]]
+modId="minecraft"
+mandatory=true
+versionRange="[@MC_VER@, @MC_VER_MAX@)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.inventoryprofilesnext]]
+modId="libipn"
+mandatory=true
+versionRange="[@LIBIPN_VERSION@, @LIBIPN_VERSION_MAX@)"
+ordering="NONE"
+side="CLIENT"

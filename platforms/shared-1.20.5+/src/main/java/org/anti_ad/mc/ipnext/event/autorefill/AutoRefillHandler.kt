@@ -225,9 +225,9 @@ object AutoRefillHandler: InventoryOverlay {
 
         if (AutoRefillSettings.REFILL_ARMOR.booleanValue) {
             list.add(ItemSlotMonitor(WatchIds.head))
-            list.add(ItemSlotMonitor(WatchIds.head))
-            list.add(ItemSlotMonitor(WatchIds.head))
-            list.add(ItemSlotMonitor(WatchIds.head))
+            list.add(ItemSlotMonitor(WatchIds.chest))
+            list.add(ItemSlotMonitor(WatchIds.legs))
+            list.add(ItemSlotMonitor(WatchIds.feet))
         }
         list[0].anothers += list[1]
         list[0].anothers += list.drop(swapers)

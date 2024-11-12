@@ -427,7 +427,7 @@ object LockedSlotKeeper {
                     this.ignoredHotbarSlots.add(found)
                 }
             }
-            if (fromSlot !in 36..44) {
+            if (fromSlot > 0 && fromSlot !in 36..44) {
 
                 emptyNonLockedSlots.add(fromSlot)
             }

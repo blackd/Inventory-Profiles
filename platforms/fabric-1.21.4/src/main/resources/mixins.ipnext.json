@@ -1,0 +1,36 @@
+{
+    "required":           true,
+    "minVersion":         "0.8",
+    "package":            "org.anti_ad.mc.ipnext.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins":             [],
+    "client":             [
+        "IMixinBucketItem",
+        "IMixinContainerScreen",
+        "IMixinEntityBucketItem",
+        "IMixinFluid",
+        "IMixinKeyBinding",
+        "IMixinSlot",
+        "MixinAnvilScreenHandler",
+        "MixinClientPlayerInteractionManager",
+        "MixinClientPlayNetworkHandler",
+        "MixinContainerScreen",
+        "MixinCraftingResultSlot",
+        "MixinGameRenderer",
+        "MixinGuiCloseC2SPacket",
+        "MixinInGameHud",
+        "MixinItemGroup",
+        "MixinMerchantScreen",
+        "MixinMinecraftClient",
+        "MixinPlayerInteractEntityC2SPacket",
+        "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
+        "MixinPlayerInventory",
+        "MixinScreen",
+        "MixinSuperMartiJnWidgetScreen",
+        "MixinVirtualMouseHandler"
+    ],
+    "injectors":          {
+        "defaultRequire": 1
+    },
+    "plugin":             "org.anti_ad.mc.ipnext.mixinhelpers.IPNOptiFabricMixinPlugin"
+}

@@ -46,6 +46,14 @@ val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.21.1")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
+ext["kff_ver"] = "5.3"
+ext["forge_ver"] = "52"
+ext["forge_ver_max"] = ""
+ext["mc_ver"] = "1.21.1"
+ext["mc_ver_max"] = "1.21.2"
+
+
+
 logger.lifecycle("""
     ***************************************************
     Processing "${project.path}"
@@ -199,7 +207,8 @@ afterEvaluate {
         }
     }
     project.sourceSets.getByName("main") {
-        resources.srcDirs("src/shared/resources")
+        resources.srcDir("src/shared/resources")
+        resources.srcDir("src/modloader/resources")
     }
     sourceSets.forEach {
         val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
