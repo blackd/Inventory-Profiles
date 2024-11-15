@@ -93,8 +93,7 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     java
-    id("idea")
-    id("eclipse")
+    idea
     `maven-publish`
     antlr
     signing
@@ -390,13 +389,18 @@ runs {
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
     }
     named("client", runConfig)
-    named("client") {
-        workingDirectory.set(project.file("run"))
+    this.get("server")?.let { run ->
+        this.remove(run)
     }
-
-    //rcltName = action.taskName
-
-    //create("data", runConfig)
+    this.get("data")?.let { run ->
+        this.remove(run)
+    }
+    this.get("junit")?.let { run ->
+        this.remove(run)
+    }
+    this.get("gameTestServer")?.let { run ->
+        this.remove(run)
+    }
 }
 
 

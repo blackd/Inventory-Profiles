@@ -50,12 +50,9 @@ plugins {
     `kotlin-dsl`
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.serialization") version "2.0.21"
-
-
     idea
     `java-library`
     `maven-publish`
-    signing
     antlr
     id("io.github.goooler.shadow") version "8+" apply false
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
@@ -64,8 +61,6 @@ plugins {
     id("com.modrinth.minotaur") version "2.+" apply false
     id("net.neoforged.gradle.userdev") version "7.+" apply false
 }
-
-
 
 
 

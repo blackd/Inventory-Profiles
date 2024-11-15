@@ -33,16 +33,16 @@ import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("24w45a", "24w44a"),
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("24w44a", "24w45a", "24w46a"),
                                          CURSEFORGE to listOf("1.21.4-snapshot"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "24w45a"
-val minecraft_version_string = "1.21.4-24w45a"
-val mappings_version = "24w45a+build.1"
+val minecraft_version = "24w46a"
+val minecraft_version_string = "1.21.4-24w46a"
+val mappings_version = "24w46a+build.1"
 val loader_version = "0.16.9"
 val modmenu_version = "12.0.0-beta.1"
-val fabric_api_version = "0.107.3+1.21.4"
+val fabric_api_version = "0.108.1+1.21.4"
 val fabric_lang_kotlin = "1.12.3+kotlin.2.0.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 //val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"

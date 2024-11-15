@@ -36,7 +36,7 @@ val mod_loader = "neoforge"
 val mod_version = project.version
 val minecraft_version = "1.21.3"
 val minecraft_version_string = "1.21.3"
-val neoforge_version = "21.3.4-beta"
+val neoforge_version = "21.3.29-beta"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "5.4.0"
 val mappingsMap = mapOf("channel" to "official",
@@ -74,27 +74,11 @@ buildscript {
 }
 
 
-/*
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
-}
-
- */
-
-//apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
-
-//I have no idea why but these MUST be here and not in plugins {}...
-
-//apply(plugin = "org.spongepowered.mixin")
-
-
-
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     java
-    id("idea")
-    id("eclipse")
+    idea
     `maven-publish`
     antlr
     signing
@@ -102,7 +86,7 @@ plugins {
     id("com.modrinth.minotaur")
     id("io.github.goooler.shadow")
     id("net.neoforged.gradle.userdev")
-    id ("net.neoforged.gradle.mixin") version "7.0.145"
+    id ("net.neoforged.gradle.mixin") version "7.+"
 
 }
 
@@ -367,6 +351,7 @@ minecraft {
     mappings.version(mappingsMap)
     this.accessTransformers.file("src/main/resources/META-INF/accesstransformer.cfg")
 }
+
 runs {
     val runConfig = Action<Run> {
         systemProperties(mapOf(
@@ -382,15 +367,23 @@ runs {
 
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+        shouldExportToIDE.set(false)
+
     }
     named("client", runConfig)
-    named("client") {
-        workingDirectory.set(project.file("run"))
+
+    this.get("server")?.let { run ->
+        this.remove(run)
     }
-
-    //rcltName = action.taskName
-
-    //create("data", runConfig)
+    this.get("data")?.let { run ->
+        this.remove(run)
+    }
+    this.get("junit")?.let { run ->
+        this.remove(run)
+    }
+    this.get("gameTestServer")?.let { run ->
+        this.remove(run)
+    }
 }
 
 
