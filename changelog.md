@@ -1,5 +1,13 @@
 <!-- latest begin -->
 
+### 2.0.10
+
+- adds support for fabric 1.21.4-alpha tested with 24w46a and below
+- fixes auto refill not working with gear slots except helmet
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.0.9
 
 - fixed sort putting stuff in bundles.
@@ -7,9 +15,6 @@
 - fixed profiles not comparing components properly.
 - updated some gui hints to reflect new the packages of the respective mods.
 
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.0.8
 
