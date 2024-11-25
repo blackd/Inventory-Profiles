@@ -20,11 +20,7 @@
 
 package org.anti_ad.mc.ipnext
 
-import org.anti_ad.mc.ipnext.Log
-import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
-
 import org.anti_ad.mc.ipnext.access.IPNImpl
-import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.ClientInitHandler
@@ -58,8 +54,6 @@ fun init() {
         Integrations.init()
 
         initInfoManager()
-        Log.shouldDebug = { ModSettings.DEBUG.booleanValue }
-        Log.shouldTrace = { ModSettings.DEBUG.booleanValue && Debugs.TRACE_LOGS.booleanValue }
 
         // Keybind register
 

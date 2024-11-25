@@ -27,6 +27,7 @@ import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.debug.GenerateRuleListButtonInfoDelegate
 import org.anti_ad.mc.ipnext.debug.GenerateTagVanillaTxtButtonInfoDelegate
 import org.anti_ad.mc.ipnext.parser.ProfilesLoader
@@ -36,7 +37,7 @@ import java.nio.file.Path
 import java.util.*
 import kotlin.concurrent.schedule
 
-private val configFolder = VanillaUtil.configDirectory("inventoryprofilesnext")
+private val configFolder = VanillaUtil.configDirectory(ModInfo.MOD_ID)
 
 val profileFilePath: Path
     get() = ProfilesLoader.file

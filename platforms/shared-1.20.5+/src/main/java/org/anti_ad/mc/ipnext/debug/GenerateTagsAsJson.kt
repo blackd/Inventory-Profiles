@@ -28,13 +28,14 @@ import org.anti_ad.mc.common.gui.widgets.CustomButtonWidget
 import org.anti_ad.mc.common.vanilla.Vanilla
 
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.ipnext.ModInfo
 
 import kotlin.io.path.bufferedWriter
 
 object GenerateTagsAsJson: AbstractBlockScreenScriptGenerator() {
 
     override fun onClick(widget: CustomButtonWidget) {
-        (VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens").createDirectories()
+        (VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens").createDirectories()
         Vanilla.mc().execute() {
             TellPlayer.chat("Generating...")
 

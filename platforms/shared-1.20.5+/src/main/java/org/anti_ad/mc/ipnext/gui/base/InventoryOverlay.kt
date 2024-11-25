@@ -30,6 +30,7 @@ import org.anti_ad.mc.common.math2d.intersects
 
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
+import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.event.MouseTracer
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 
@@ -40,7 +41,7 @@ interface InventoryOverlay {
 
     companion object {
         @JvmField
-        val COMP_TEXTURE = IdentifierHolder("inventoryprofilesnext", "textures/gui/overlay_new.png")
+        val COMP_TEXTURE = IdentifierHolder(ModInfo.MOD_ID, "textures/gui/overlay_new.png")
         @JvmField
         val compBackgroundSprite = Sprite(COMP_TEXTURE, Rectangle(40, 8, 32, 32))
         @JvmField

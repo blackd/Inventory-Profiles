@@ -54,25 +54,23 @@ fun Project.configureCompilation(jarBaseName: String) {
         val ext = (project.extensions["ext"] as ExtraPropertiesExtension)
         filesMatching(listOf("**/*.json", "**/*.txt", "**/*.toml", "**/*.xml")) {
             filter<org.apache.tools.ant.filters.ReplaceTokens>(
-                "tokens" to mapOf(
-                    "VERSION" to version.toString(),
-                    "DESCRIPTION" to properties["ipnext.description"],
-                    "WIKI" to properties["ipnext.docs"],
-                    "SOURCE" to properties["ipnext.scm"],
-                    "ISSUES" to properties["ipnext.tracker"],
-                    "LICENSE" to properties["ipnext.license"],
-                    "LIBIPN_VERSION" to ext["libIPN_version"],
-                    "LIBIPN_VERSION_MAX" to ext["libIPN_version_max"],
-                    "MC_VER" to (ext.properties.get("mc_ver") ?: ""),
-                    "MC_VER_MAX" to (ext.properties.get("mc_ver_max") ?: ""),
-                    "FABRIC_LOADER" to (ext.properties.get("fabric_loader") ?: ""),
-                    "FABRIC_LANGUAGE_KOTLIN" to (ext.properties.get("fabric_language_kotlin") ?: ""),
-                    "KFF_LOADER_VER" to (ext.properties.get("kff_ver") ?: ""),
-                    "CONTRIBUTORS" to properties["ipnext.contributors"],
-                    "CONTRIBUTORS_FORGE" to properties["ipnext.contributors.forge"],
-                    "FORGE_VER" to (ext.properties.get("forge_ver") ?: ""),
-                    "FORGE_VER_MAX" to (ext.properties.get("forge_ver_max") ?: "")
-                )
+                "tokens" to mapOf("VERSION" to version.toString(),
+                                  "DESCRIPTION" to properties["ipnext.description"],
+                                  "WIKI" to properties["ipnext.docs"],
+                                  "SOURCE" to properties["ipnext.scm"],
+                                  "ISSUES" to properties["ipnext.tracker"],
+                                  "LICENSE" to properties["ipnext.license"],
+                                  "LIBIPN_VERSION" to ext["libIPN_version"],
+                                  "LIBIPN_VERSION_MAX" to ext["libIPN_version_max"],
+                                  "MC_VER" to (ext.properties.get("mc_ver") ?: ""),
+                                  "MC_VER_MAX" to (ext.properties.get("mc_ver_max") ?: ""),
+                                  "FABRIC_LOADER" to (ext.properties.get("fabric_loader") ?: ""),
+                                  "FABRIC_LANGUAGE_KOTLIN" to (ext.properties.get("fabric_language_kotlin") ?: ""),
+                                  "KFF_LOADER_VER" to (ext.properties.get("kff_ver") ?: ""),
+                                  "CONTRIBUTORS" to properties["ipnext.contributors"],
+                                  "CONTRIBUTORS_FORGE" to properties["ipnext.contributors.forge"],
+                                  "FORGE_VER" to (ext.properties.get("forge_ver") ?: ""),
+                                  "FORGE_VER_MAX" to (ext.properties.get("forge_ver_max") ?: ""))
             )
         }
     }

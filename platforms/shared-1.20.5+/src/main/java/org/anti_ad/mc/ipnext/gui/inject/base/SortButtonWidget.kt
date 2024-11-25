@@ -27,12 +27,13 @@ import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Size
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
+import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.config.GuiSettings
 
 open class SortButtonWidget : TexturedButtonWidget {
 
     companion object {
-        private val TEXTURE = IdentifierHolder("inventoryprofilesnext",
+        private val TEXTURE = IdentifierHolder(ModInfo.MOD_ID,
                                                "textures/gui/gui_buttons.png")
     }
 

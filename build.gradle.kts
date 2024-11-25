@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("2", "0", "10",
+val versionObj = Version("2", "1", "0",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -76,8 +76,8 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "6.1.1")
-    ext.set("libIPN_version_max", "6.2")
+    ext.set("libIPN_version", "6.2.0")
+    ext.set("libIPN_version_max", "6.3")
 
     tasks.withType<JavaCompile>().configureEach {
         options.isFork = true
@@ -159,23 +159,27 @@ afterEvaluate {
         finalizedBy("owner-testing-env")
     }
 
-    childProjects.forEach { (prjName, prj) ->
-        try {
-            val compileTestJava = prj.tasks.findByName("compileTestJava")
-            if (compileTestJava != null) {
-                logger.lifecycle("${compileTestJava.javaClass}")
-                val deps = compileTestJava.dependsOn.filter {
-                    it !is Task || it.name != "addMixinsToJar"
+
+
+    /*
+        childProjects.forEach { (prjName, prj) ->
+            try {
+                val compileTestJava = prj.tasks.findByName("compileTestJava")
+                if (compileTestJava != null) {
+                    logger.lifecycle("${compileTestJava.javaClass}")
+                    val deps = compileTestJava.dependsOn.filter {
+                        it !is Task || it.name != "addMixinsToJar"
+                    }
+                    logger.lifecycle(deps.toString())
+                    compileTestJava.setDependsOn(deps)
+                    compileTestJava.enabled = false
+
                 }
-                logger.lifecycle(deps.toString())
-                compileTestJava.setDependsOn(deps)
-                compileTestJava.enabled = false
+            } finally {
 
             }
-        } finally {
-
         }
-    }
+    */
 
 }
 

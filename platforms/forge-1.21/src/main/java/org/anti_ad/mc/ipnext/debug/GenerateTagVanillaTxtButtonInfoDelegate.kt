@@ -32,6 +32,7 @@ import org.anti_ad.mc.common.extensions.name
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.ipnext.ModInfo
 import kotlin.io.path.bufferedWriter
 
 // ============
@@ -39,7 +40,7 @@ import kotlin.io.path.bufferedWriter
 // ============
 
 object GenerateTagVanillaTxtButtonInfoDelegate : ConfigButtonClickHandler() {
-    val fileDatapack = VanillaUtil.configDirectory("inventoryprofilesnext") / "tags.combined.txt"
+    val fileDatapack = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "tags.combined.txt"
 
     private fun HolderSet.Named<Item>.toMutableListOf(): MutableList<Identifier> {
 

@@ -22,18 +22,19 @@ package org.anti_ad.mc.ipnext.debug
 import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.ipnext.ModInfo
 import java.io.BufferedWriter
 
 abstract class AbstractBlockScreenScriptGenerator: ConfigButtonInfo() {
 
-    val fileEntities = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "blocks-entities-with-screens.txt"
-    val fileBlocks = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "blocks-with-screens.txt"
-    val fileItems = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "item-with-screens.txt"
-    val fileAllItems = VanillaUtil.configDirectory("inventoryprofilesnext")  / "all-items.txt"
-    val fileMulti = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "multi-screens.txt"
-    val fileUnknown = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "unknown-screens.txt"
-    val fileNamespaces = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "namespaces.txt"
-    val fileScript = VanillaUtil.configDirectory("inventoryprofilesnext") / "auto-screens" / "script.txt"
+    val fileEntities = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens" / "blocks-entities-with-screens.txt"
+    val fileBlocks = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens" / "blocks-with-screens.txt"
+    val fileItems = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens" / "item-with-screens.txt"
+    val fileAllItems = VanillaUtil.configDirectory(ModInfo.MOD_ID)  / "all-items.txt"
+    val fileMulti = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens" / "multi-screens.txt"
+    val fileUnknown = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens" / "unknown-screens.txt"
+    val fileNamespaces = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens" / "namespaces.txt"
+    val fileScript = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "auto-screens" / "script.txt"
 
     override val buttonText: String
         get() = "Make Generator Script"

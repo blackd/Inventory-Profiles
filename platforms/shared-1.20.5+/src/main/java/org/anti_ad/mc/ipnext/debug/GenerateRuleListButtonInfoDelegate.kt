@@ -1,8 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2024 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,18 +19,19 @@
 
 package org.anti_ad.mc.ipnext.debug
 
-import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.extensions.usefulName
 import org.anti_ad.mc.common.extensions.writeToFile
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonClickHandler
+import org.anti_ad.mc.common.extensions.div
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.ipnext.ModInfo
 import org.anti_ad.mc.ipnext.item.rule.natives.NativeRules
 import org.anti_ad.mc.ipnext.item.rule.parameter.BooleanArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.EnumArgumentType
 import org.anti_ad.mc.ipnext.item.rule.parameter.NativeParameters
 
 object GenerateRuleListButtonInfoDelegate : ConfigButtonClickHandler() {
-    private val file = VanillaUtil.configDirectory("inventoryprofilesnext") / "native_rules.txt"
+    private val file = VanillaUtil.configDirectory(ModInfo.MOD_ID) / "native_rules.txt"
 
     override fun onClick(guiClick: () -> Unit) {
         var s = "Parameter:\n"

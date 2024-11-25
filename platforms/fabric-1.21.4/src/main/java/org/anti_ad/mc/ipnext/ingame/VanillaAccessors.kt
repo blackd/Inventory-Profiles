@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:Suppress("ObjectPropertyName")
+@file:Suppress("ObjectPropertyName", "FunctionName")
 
 package org.anti_ad.mc.ipnext.ingame
 
@@ -195,15 +195,14 @@ inline val Window.`(scaledHeight)`: Int
     get() = scaledHeight
 
 
-@Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")
+@Suppress("NOTHING_TO_INLINE")
 inline fun ClientPlayerInteractionManager.`(clickSlot)`(i: Int, j: Int, k: Int, slotActionType: SlotActionType, playerEntity: PlayerEntity) =
         this.clickSlot(i, j, k, slotActionType, playerEntity)
 
-@Suppress("NOTHING_TO_INLINE", "HasPlatformType", "FunctionName")
+@Suppress("NOTHING_TO_INLINE")
 inline fun PlayerContainer.`(onSlotClick)`(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) =
         this.onSlotClick(slotIndex, button, actionType, player)
 
-@Suppress("FunctionName")
 fun PlayerContainer.`(sendContentUpdates)`() = sendContentUpdates()
 
 val StonecutterContainer.`(selectedRecipe)`: Int

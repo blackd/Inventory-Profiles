@@ -40,14 +40,14 @@ val mod_version = project.version.toString()
 val minecraft_version = "1.21.3"
 val minecraft_version_string = "1.21.3"
 val mappings_version = "1.21.3+build.2"
-val loader_version = "0.16.7"
+val loader_version = "0.16.9"
 val modmenu_version = "12.0.0-beta.1"
 val fabric_api_version = "0.106.1+1.21.3"
 val fabric_lang_kotlin = "1.12.3+kotlin.2.0.21"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val carpet_core_version = "1.21.2-pre3-1.4.157+v241014"
-val controlify_version = "2.0.0-beta.14+1.21-fabric"
+val controlify_version = "2.0.0-beta.21+1.21.3-fabric"
 val yacl_version = "3.5.0+1.21-fabric"
 
 ext["mc_ver"] = "1.21.3"

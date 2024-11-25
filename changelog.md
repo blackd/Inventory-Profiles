@@ -1,12 +1,17 @@
 <!-- latest begin -->
 
+### 2.1.0
+
+- 1.21.3/4 fixed some situations where the vanilla input processing wasn't properly canceled. For example locking and unlocking slots picked up the stack form the first slot if not empty.
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.0.10
 
 - adds support for fabric 1.21.4-alpha tested with 24w46a and below
 - fixes auto refill not working with gear slots except helmet
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.0.9
 

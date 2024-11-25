@@ -492,7 +492,7 @@ object Modpacks : ConfigDeclaration {
 
 }
 
-const val FILE_PATH = "inventoryprofilesnext/inventoryprofiles.json"
+const val FILE_PATH = "inventoryprofiles.json"
 
 val Configs = listOf(
     ModSettings,
@@ -508,4 +508,5 @@ val Configs = listOf(
 )
 
 object SaveLoadManager : Savable by ConfigSaveLoadManager(Configs.toMultiConfig(),
+                                                          ModInfo.MOD_ID,
                                                           FILE_PATH)
