@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,36 +18,28 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+package org.anti_ad.mc.ipnext.mixin;
 
-rootProject.name = "InventoryProfilesNext"
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
+@Mixin(KeyMapping.class)
+public interface IMixinKeyBinding {
 
-include("platforms:fabric-1.21.4")
-/*
-include("platforms:fabric-1.21.3")
-include("platforms:fabric-1.21")
-include("platforms:forge-1.21.3")
-include("platforms:forge-1.21")
-*/
+    @Accessor("key")
+    InputConstants.Key getKeyCode();
 
+    @Accessor("isDown")
+    void setPressed(boolean pressed);
 
-include("platforms:neoforge-1.21.3")
-include("platforms:neoforge-1.21")
-include("platforms:neoforge-1.21.4")
+    @Accessor("clickCount")
+    int getTimesPressed();
 
+    @Accessor("clickCount")
+    void setTimesPressed(int pressed);
 
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
-        }
-        maven ("https://maven.neoforged.net/releases")
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
-}
-
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
+    @Accessor("isDown")
+    boolean getPressed();
 }

@@ -41,10 +41,10 @@ import java.util.List;
 public abstract class MixinScreen {
 
     @Shadow @Final
-    private final List<Element> children = new ArrayList<>();
+    private List<Element> children;
 
     @Shadow @Final
-    private final List<Selectable> selectables = new ArrayList<>();
+    private List<Selectable> selectables;
 
     @SuppressWarnings("ConstantConditions")
     @Inject(at = @At("RETURN"), method = "init(Lnet/minecraft/client/MinecraftClient;II)V")

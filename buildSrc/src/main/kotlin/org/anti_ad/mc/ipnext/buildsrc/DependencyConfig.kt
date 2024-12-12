@@ -120,11 +120,13 @@ fun Project.configureDependencies() {
         "api"("org.jetbrains:annotations:20.1.0")
         "shadedApi"("com.yevdo:jwildcard:1.4")
 
-        val antlrVersion = "4+"
+        val antlrVersion = "4.13.2"
         "antlr"("org.antlr:antlr4:$antlrVersion")
-        "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion")
-
-
+        "shadedApi"("org.antlr:antlr4-runtime:$antlrVersion") {
+            version {
+                strictly(antlrVersion)
+            }
+        }
     }
 
     configurations.all {
@@ -277,10 +279,13 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
                                      controlify_version: Any? = null) {
 
 
+    val antlrVersion = "4.13.2"
+
     configurations.all {
         resolutionStrategy {
             force("org.ow2.asm:asm-analysis:9.7")
             force("org.ow2.asm:asm-util:9.7")
+            force("org.antlr:antlr4-runtime:$antlrVersion")
 //            force("org.anti_ad.mc:libIPN-$libIPN_version")
         }
     }
@@ -331,6 +336,12 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
         }
         "compileOnly"("org.jetbrains.kotlin:kotlin-stdlib:2.0.0") {
             exclude("org.jetbrains.kotlin")
+        }
+
+        "compileOnly"("org.antlr:antlr4-runtime:$antlrVersion") {
+            version {
+                strictly(antlrVersion)
+            }
         }
     }
 }

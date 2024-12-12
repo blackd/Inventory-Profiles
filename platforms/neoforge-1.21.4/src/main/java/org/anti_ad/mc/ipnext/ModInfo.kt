@@ -1,6 +1,7 @@
 /*
  * Inventory Profiles Next
  *
+ *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
  *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,37 +17,29 @@
  * You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+package org.anti_ad.mc.ipnext
 
+import net.neoforged.fml.ModList
+import net.neoforged.neoforgespi.language.IModInfo
 
-rootProject.name = "InventoryProfilesNext"
+/**
+ * ModInfo
+ */
+object ModInfo {
 
+    const val MOD_ID = "inventoryprofilesnext"
+    const val MOD_NAME = "Inventory Profiles Next"
+    var MOD_VERSION = "null"
+    const val MINECRAFT_VERSION = 1192
 
-include("platforms:fabric-1.21.4")
-/*
-include("platforms:fabric-1.21.3")
-include("platforms:fabric-1.21")
-include("platforms:forge-1.21.3")
-include("platforms:forge-1.21")
-*/
-
-
-include("platforms:neoforge-1.21.3")
-include("platforms:neoforge-1.21")
-include("platforms:neoforge-1.21.4")
-
-
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.fabricmc.net") {
-            name = "Fabric"
+    // see net.minecraftforge.fml.client.gui.GuiModList
+    val modVersion: String
+        get() {
+            ModList.get().mods.forEach { x: IModInfo ->
+                if (x.modId == MOD_ID) {
+                    return  x.version.toString()
+                }
+            }
+            return "?"
         }
-        maven ("https://maven.neoforged.net/releases")
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
-}
-
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.+"
 }

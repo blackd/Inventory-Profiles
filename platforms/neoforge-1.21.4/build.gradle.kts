@@ -31,26 +31,28 @@ import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.21", "1.21.1")
+val supported_minecraft_versions = listOf("1.21.4")
 val mod_loader = "neoforge"
 val mod_version = project.version
-val minecraft_version = "1.21.1"
-val minecraft_version_string = "1.21.1"
-val neoforge_version = "21.1.85"
+val minecraft_version = "1.21.4"
+val minecraft_version_string = "1.21.4"
+val neoforge_version = "21.4.18-beta"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "5.6.0"
-val mappingsMap = mapOf<String, String>("channel" to "official",
-                                        "version" to "1.21.1")
-
-val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+val mappingsMap = mapOf("channel" to "official",
+                        "version" to "1.21.4")
+//val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+val libIPN_version = "neoforge-1.21.3:${project.ext["libIPN_version"]}"
 val controlify_version = "2.0.0-beta.14+1.21-neoforge"
 val yacl_version = "3.5.0+1.21-neoforge"
 
 ext["kff_ver"] = "5.3"
-ext["forge_ver"] = "21.1"
+ext["forge_ver"] = "21.3"
 ext["forge_ver_max"] = ""
-ext["mc_ver"] = "1.21"
-ext["mc_ver_max"] = "1.21.2"
+ext["mc_ver"] = "1.21.3"
+ext["mc_ver_max"] = "1.22"
+
+val antlrVersion = "4.13.2"
 
 
 logger.lifecycle("""
@@ -71,23 +73,11 @@ buildscript {
     dependencies {
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7+" )
         classpath("com.guardsquare:proguard-gradle:7+")
+        val antlrVersion = "4.13.2"
+        classpath("org.antlr:antlr4:$antlrVersion")
+        classpath("org.antlr:antlr4-runtime:$antlrVersion")
     }
 }
-
-
-/*
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
-}
-
- */
-
-//apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
-
-//I have no idea why but these MUST be here and not in plugins {}...
-
-//apply(plugin = "org.spongepowered.mixin")
-
 
 
 plugins {
@@ -146,12 +136,13 @@ configurations {
 dependencies {
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
+
+    /*
     runtimeOnly( "curse.maven:athena-841890:5431579")
     runtimeOnly("curse.maven:resourcefullib-570073:5483169")
-    compileOnly("curse.maven:chipped-456956:5506938")
+    */
     compileOnly("curse.maven:easy-villagers-400514:4584220")
-    implementation("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
-    implementation("maven.modrinth:journeymap:1.21.1-6.0.0-beta.29+neoforge")
+    compileOnly("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
     //implementation("maven.modrinth:workshop-for-handsome-adventurer:1.31.2")
 /*
     implementation("org.ow2.asm:asm-analysis:9.5") {
@@ -160,6 +151,13 @@ dependencies {
         }
     }
 */
+
+
+    implementation("org.antlr:antlr4-runtime:$antlrVersion") {
+        version {
+            strictly(antlrVersion)
+        }
+    }
 
 }
 
@@ -214,14 +212,6 @@ afterEvaluate {
             logger.lifecycle("found resource dir: ${it.absolutePath}")
         }
     }
-/*
-    sourceSets.forEach {
-        val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
-        it.output.setResourcesDir(dir.get().asFile)
-        it.java.destinationDirectory = dir
-        it.kotlin.destinationDirectory = dir
-    }
-*/
 }
 
 tasks.withType<JavaCompile>().all {
@@ -374,6 +364,7 @@ minecraft {
     mappings.version(mappingsMap)
     this.accessTransformers.file("src/main/resources/META-INF/accesstransformer.cfg")
 }
+
 runs {
     val runConfig = Action<Run> {
         systemProperties(mapOf(
@@ -389,12 +380,18 @@ runs {
 
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+        shouldExportToIDE.set(true)
+
     }
     named("client", runConfig)
+
     this.get("server")?.let { run ->
         this.remove(run)
     }
-    this.get("data")?.let { run ->
+    this.get("clientData")?.let { run ->
+        this.remove(run)
+    }
+    this.get("serverData")?.let { run ->
         this.remove(run)
     }
     this.get("junit")?.let { run ->

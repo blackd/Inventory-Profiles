@@ -1,0 +1,39 @@
+// Default rules file
+
+@default
+    @creative_menu_order
+
+@creative_menu_order
+    ::custom_name
+    ::search_tab_index
+    @default_components_rule
+
+@item_name
+    ::display_name
+    @default_components_rule
+
+@item_id
+    ::item_id
+    @default_components_rule
+
+@raw_id
+    ::raw_id
+    @default_components_rule
+
+@default_components_rule
+    ::enchantments_score
+    ::damage
+    ::display_name
+    ::potion_effect
+    ::components_comparator
+
+@auto_refill_best
+    @default_components_rule
+
+@accumulated_count_descending
+    ::accumulated_count(number_order = descending)
+    @default_components_rule
+
+@accumulated_count_ascending
+    ::accumulated_count(number_order = ascending)
+    @default_components_rule
