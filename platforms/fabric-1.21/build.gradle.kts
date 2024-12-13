@@ -175,7 +175,7 @@ plugins.withId("idea") {
 
 loom {
     runConfigs["client"].ideConfigGenerated(true)
-    runConfigs["server"].ideConfigGenerated(true)
+    runConfigs["server"].ideConfigGenerated(false)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     runConfigs["server"].runDir = "runServer"
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")

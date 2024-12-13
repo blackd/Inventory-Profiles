@@ -177,7 +177,7 @@ plugins.withId("idea") {
 
 loom {
     runConfigs["client"].ideConfigGenerated(true)
-    runConfigs["server"].ideConfigGenerated(true)
+    runConfigs["server"].ideConfigGenerated(false)
     runConfigs["client"].programArgs.addAll(listOf<String>("--width=1280", "--height=720", "--username=DEV"))
     runConfigs["server"].runDir = "runServer"
     mixin.defaultRefmapName.set("inventoryprofilesnext-refmap.json")
@@ -200,7 +200,7 @@ project.sourceSets.getByName("main") {
         if (i > 0 && it.isDirectory) {
             this.java.srcDirs(it.path + "/src/main/java")
             this.java.srcDirs(it.path + "/src/main/kotlin")
-                logger.lifecycle("adding ${it.path + "/src/main/resources"} to resources dirs")
+            logger.lifecycle("adding ${it.path + "/src/main/resources"} to resources dirs")
             this.resources.srcDirs(it.path + "/src/main/resources")
 
         }

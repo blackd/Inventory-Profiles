@@ -22,35 +22,37 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.modrinth.minotaur.dependencies.ModDependency
-import net.neoforged.gradle.dsl.common.runs.RunSpecification
-import net.neoforged.gradle.dsl.common.runs.run.Run
+import net.minecraftforge.gradle.common.util.RunConfig
+import net.minecraftforge.gradle.userdev.DependencyManagementExtension
+import net.minecraftforge.gradle.userdev.UserDevExtension
+import org.anti_ad.mc.ipnext.buildsrc.FilteringSourceSet
 import org.anti_ad.mc.ipnext.buildsrc.configureCommon
-import org.anti_ad.mc.ipnext.buildsrc.neoForgeCommonAfterEvaluate
-import org.anti_ad.mc.ipnext.buildsrc.neoForgeCommonDependency
+import org.anti_ad.mc.ipnext.buildsrc.fgdeobf
+import org.anti_ad.mc.ipnext.buildsrc.forgeCommonAfterEvaluate
+import org.anti_ad.mc.ipnext.buildsrc.forgeCommonDependency
 import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
 
 val supported_minecraft_versions = listOf("1.21.4")
-val mod_loader = "neoforge"
+val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.21.4"
 val minecraft_version_string = "1.21.4"
-val neoforge_version = "21.4.18-beta"
+val forge_version = "54.0.6"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "5.6.0"
+val kotlin_for_forge_version = "5.7.0"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.21.4")
 //val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
-val libIPN_version = "neoforge-1.21.3:${project.ext["libIPN_version"]}"
-val controlify_version = "2.0.0-beta.14+1.21-neoforge"
-val yacl_version = "3.5.0+1.21-neoforge"
+val libIPN_version = "forge-1.21.3:${project.ext["libIPN_version"]}"
 
 ext["kff_ver"] = "5.3"
-ext["forge_ver"] = "21.3"
+ext["forge_ver"] = "54"
 ext["forge_ver_max"] = ""
-ext["mc_ver"] = "1.21.3"
+ext["mc_ver"] = "1.21.4"
 ext["mc_ver_max"] = "1.22"
+
 
 
 logger.lifecycle("""
@@ -65,14 +67,31 @@ logger.lifecycle("""
 
 buildscript {
     repositories {
+        maven { url = uri("https://maven.minecraftforge.net/maven") }
         mavenCentral()
         maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     }
     dependencies {
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "6+")
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7+" )
         classpath("com.guardsquare:proguard-gradle:7+")
     }
 }
+
+
+/*
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
+}
+
+ */
+
+//apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
+
+//I have no idea why but these MUST be here and not in plugins {}...
+apply(plugin = "net.minecraftforge.gradle")
+apply(plugin = "org.spongepowered.mixin")
+
 
 
 plugins {
@@ -86,23 +105,24 @@ plugins {
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
     id("io.github.goooler.shadow")
-    id("net.neoforged.gradle.userdev")
-    id ("net.neoforged.gradle.mixin") version "7.+"
-
+//    id("net.minecraftforge.gradle")
+//    id("org.spongepowered.mixin")
 }
 
 configureCommon()
 platformsCommonConfig()
 
+
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
+    maven { url = uri("https://maven.minecraftforge.net/maven") }
     mavenCentral()
     maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
+
     maven {
         url = uri("https://www.cursemaven.com")
         content {
@@ -116,28 +136,38 @@ repositories {
     }
 }
 
+val fg: DependencyManagementExtension = project.extensions["fg"] as DependencyManagementExtension
 
-neoForgeCommonDependency(minecraft_version,
-                         neoforge_version,
-                         kotlin_for_forge_version,
-                         libIPN_version = libIPN_version,
-                         controlify_version = controlify_version,
-                         yacl_version = yacl_version)
+fgdeobf =  { id ->
+    fg.deobf(id)
+}
+
+forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, libIPN_version)
+//forgeCommonDependency(minecraft_version, forge_version, kotlin_for_forge_version, "forge-1.20.2:4.0.2")
 
 configurations {
     create("embed")
 }
 
 dependencies {
+    implementation("org.joml:joml:1.10.5") {
+        version {
+            strictly("1.10.5")
+        }
+    }
+
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
-    /*
-    runtimeOnly( "curse.maven:athena-841890:5431579")
-    runtimeOnly("curse.maven:resourcefullib-570073:5483169")
-    */
-    compileOnly("curse.maven:easy-villagers-400514:4584220")
-    compileOnly("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
-    //implementation("maven.modrinth:workshop-for-handsome-adventurer:1.31.2")
+
+
+/*
+    runtimeOnly(fg.deobf("curse.maven:athena-841890:4686264"))
+    runtimeOnly(fg.deobf("curse.maven:resourcefullib-570073:4681831"))
+
+    implementation(fg.deobf("curse.maven:chipped-456956:4634856"))
+*/
+
+    compileOnly(fg.deobf("curse.maven:easy-villagers-400514:4584220"))
 }
 
 tasks.named("compileKotlin") {
@@ -180,16 +210,18 @@ afterEvaluate {
             if (i > 0 && it.isDirectory) {
                 this.java.srcDirs(it.path + "/src/main/java")
                 this.java.srcDirs(it.path + "/src/main/kotlin")
-                this.resources.srcDirs(it.path + "/src/main/resources")
             }
         }
     }
     project.sourceSets.getByName("main") {
         resources.srcDir("src/shared/resources")
         resources.srcDir("src/modloader/resources")
-        resources.srcDirs.forEach {
-            logger.lifecycle("found resource dir: ${it.absolutePath}")
-        }
+    }
+    sourceSets.forEach {
+        val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
+        it.output.setResourcesDir(dir.get().asFile)
+        it.java.destinationDirectory = dir
+        it.kotlin.destinationDirectory = dir
     }
 }
 
@@ -211,7 +243,6 @@ if ("true" == System.getProperty("idea.sync.active")) {
 
 tasks.register<Copy>("copyMixinMappings") {
     dependsOn("compileJava")
-    tasks["classes"]?.dependsOn("copyMixinMappings")
     val inName = layout.buildDirectory.file("tmp/compileJava/mixin.refmap.json")
     val outName = layout.buildDirectory.file("resources/main/")
     from(inName)
@@ -231,7 +262,7 @@ tasks.jar {
     dependsOn("copyMixinMappings")
 }
 
-val shadowJarTask: ShadowJar = tasks.named<ShadowJar>("shadowJar") {
+val shadowJarTask = tasks.named<ShadowJar>("shadowJar") {
 
     configurations = listOf(project.configurations["shaded"])
 
@@ -243,13 +274,6 @@ val shadowJarTask: ShadowJar = tasks.named<ShadowJar>("shadowJar") {
 
     exclude("kotlin/**")
     exclude("kotlinx/**")
-
-    //exclude("META-INF/**")
-    //exclude("**/*.kotlin_metadata")
-    //exclude("**/*.kotlin_module")
-    //exclude("**/*.kotlin_builtins")
-    //exclude("**/*_ws.class") // fixme find a better solution for removing *.ws.kts
-    //exclude("**/*_ws$*.class")
     exclude("**/*.stg")
     exclude("**/*.st")
     exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
@@ -260,19 +284,13 @@ val shadowJarTask: ShadowJar = tasks.named<ShadowJar>("shadowJar") {
     exclude("org/jline/**")
     exclude("net/minecraftforge/**")
     exclude("io/netty/**")
-    //exclude("mappings/mappings.tiny") // before kt, build .jar don"t have this folder (this 500K thing)
     exclude("META-INF/maven/**")
     exclude("META-INF/com.android.tools/**")
     exclude("META-INF/proguard/**")
     exclude("META-INF/services/**")
-    //exclude("META-INF/LICENSE")
-    //exclude("META-INF/README")
     dependsOn("copyMixinMappings")
     minimize()
 }.get()
-
-
-
 
 val proguard by tasks.registering(ProGuardTask::class) {
 
@@ -282,16 +300,17 @@ val proguard by tasks.registering(ProGuardTask::class) {
     }
     // project(":platforms:fabric_1_17").tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar").get().archiveFileName
 
+    val inName = shadowJarTask.archiveFileName.get()
     val outName = shadowJarTask.archiveFileName.get().replace("-shaded", "-all-proguard")
     dependsOn(shadowJarTask)
-    //dependsOn("jar")
+    dependsOn("jar")
     logger.lifecycle(""" 
         ****************************
         Input name for proguard:
-        build/libs/${shadowJarTask.archiveFileName}
+        build/libs/${inName}
         ****************************
     """.trimIndent())
-    injars(shadowJarTask)
+    injars("build/libs/${inName}")
     outjars("build/libs/${outName}")
 
     doFirst {
@@ -304,7 +323,7 @@ val proguard by tasks.registering(ProGuardTask::class) {
 val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
-    neoForgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
+    forgeCommonAfterEvaluate(mod_loader, minecraft_version, mod_artefact_version?.toString().orEmpty())
 }
 
 var rcltName = ""
@@ -313,55 +332,48 @@ configurations {
     implementation.get().extendsFrom(this.findByName("shadedApi"))
 }
 
-mixin {
-    config("mixins.ipnext.json")
-}
+configure<UserDevExtension> {
+    mappings(mappingsMap)
+    this.accessTransformers("src/main/resources/META-INF/accesstransformer.cfg")
+    copyIdeResources = true
+    reobf = false
+    runs {
+        val runConfig = Action<RunConfig> {
+            properties(mapOf(
+                //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
+                "forge.logging.console.level" to "debug",
+                "mixin.env.remapRefMap" to "true",
+                "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
+                "mixin.debug.verbose" to "true",
+                "mixin.debug.export" to "true",
+                "mixin.debug.dumpTargetOnFailure" to "true",
+                "bsl.debug" to "true"))
+            arg("--mixin.config=mixins.ipnext.json")
+            //2560x1600
+            args("--width=1280", "--height=720", "--username=DEV")
+            workingDirectory = project.file("run").canonicalPath
+            source(FilteringSourceSet(sourceSets["main"], "InventoryProfilesNext-common", logger))
 
-minecraft {
-    mappings.version(mappingsMap)
-    this.accessTransformers.file("src/main/resources/META-INF/accesstransformer.cfg")
-}
 
-runs {
-    val runConfig = Action<Run> {
-        systemProperties(mapOf(
-            //"forge.logging.markers" to "SCAN,REGISTRIES,REGISTRYDUMP",
-            "forge.logging.console.level" to "debug",
-            "mixin.env.remapRefMap" to "true",
-//            "mixin.env.refMapRemappingFile" to "${projectDir}/build/createSrgToMcp/output.srg",
-            "mixin.debug.verbose" to "true",
-            "mixin.debug.export" to "true",
-            "mixin.debug.dumpTargetOnFailure" to "true",
-            "bsl.debug" to "true"))
-        (this as RunSpecification).arguments("--fml.mixin=mixins.ipnext.json", "--width=1280", "--height=720", "--username=DEV")
-
-        jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
-        jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
-        shouldExportToIDE.set(true)
-        dependencies {
-            runtime(configurations.getByName("shadedApi"))
+            jvmArg("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
+            jvmArg("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+            //taskName = "plamenRunClient"
+            //this.forceexit = false
         }
-    }
-    named("client", runConfig)
+        val action = create("client", runConfig)
 
-    this.get("server")?.let { run ->
-        this.remove(run)
+        rcltName = action.taskName
+
+        //create("data", runConfig)
+
+
+
     }
-    this.get("clientData")?.let { run ->
-        this.remove(run)
-    }
-    this.get("serverData")?.let { run ->
-        this.remove(run)
-    }
-    this.get("junit")?.let { run ->
-        this.remove(run)
-    }
-    this.get("gameTestServer")?.let { run ->
-        this.remove(run)
+
+    afterEvaluate {
+
     }
 }
-
-
 
 val sourceJar = tasks.create<Jar>("sourcesJar") {
     from(sourceSets["main"]?.allSource)
@@ -375,6 +387,32 @@ afterEvaluate {
         logger.info("*******************8found task: {} {} {}", it, it.name, it.group)
     }
 
+}
+
+val deobfJar = tasks.register<Jar>("deobfJar") {
+    from(sourceSets["main"].output)
+    archiveClassifier.set("dev")
+    group = "forge"
+}
+
+val deobfElements = configurations.register("deobfElements") {
+    isVisible = false
+    description = "De-obfuscated elements for libs"
+    isCanBeResolved = false
+    isCanBeConsumed = true
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, project.objects.named(Usage.JAVA_API))
+        attribute(Category.CATEGORY_ATTRIBUTE, project.objects.named(Category.LIBRARY))
+        attribute(Bundling.BUNDLING_ATTRIBUTE, project.objects.named(Bundling.EXTERNAL))
+        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, project.objects.named(LibraryElements.JAR))
+        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 16)
+    }
+    outgoing.artifact(tasks.named("deobfJar"))
+}
+
+val javaComponent = components["java"] as AdhocComponentWithVariants
+javaComponent.addVariantsFromConfiguration(deobfElements.get()) {
+    mapToMavenScope("runtime")
 }
 
 publishing {
@@ -400,10 +438,10 @@ publishing {
             groupId = "org.anti_ad.mc"
             artifactId = "${rootProject.name}-${project.name}"
             version = mod_artefact_version.toString()
-            artifact(minimizeJar.outputs.files.first())
             artifact(shadowJarTask) {
                 classifier = "dev"
             }
+            artifact(minimizeJar.outputs.files.first())
             artifact(sourceJar) {
                 classifier = "sources"
             }
@@ -413,14 +451,13 @@ publishing {
     afterEvaluate {
         val publishTask = tasks["publishMavenPublicationToIpnOfficialRepoRepository"]
         if (publishTask != null) {
-            publishTask.dependsOn(minimizeJar) //.dependsOn(customJar).dependsOn(sourceJar).dependsOn(deobfJar)
+            publishTask.dependsOn(minimizeJar).dependsOn(sourceJar).dependsOn(deobfJar)
         } else {
             logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")
         }
         tasks["publishMavenPublicationToMavenLocal"]
-            //?.dependsOn(customJar)
             ?.dependsOn(sourceJar)
-            //?.dependsOn(deobfJar)
+            ?.dependsOn(deobfJar)
             ?.dependsOn(minimizeJar) ?: logger.error("Can't find publishMavenPublicationToIpnOfficialRepoRepository")
     }
 }
@@ -447,7 +484,6 @@ configure<CurseExtension> {
                 this.addGameVersion(it)
             }
         }
-
         val forgeReobfJar = minimizeJar
         val remappedJarFile = forgeReobfJar.outputs.files.first().absoluteFile
         mainArtifact(remappedJarFile, closureOf<com.matthewprenger.cursegradle.CurseArtifact> {
@@ -461,7 +497,7 @@ configure<CurseExtension> {
             requiredDependency("kotlin-for-forge")
             requiredDependency("libipn")
         })
-        addGameVersion("NeoForge")
+        addGameVersion("Forge")
     })
     options(closureOf<com.matthewprenger.cursegradle.Options> {
         debug = false
