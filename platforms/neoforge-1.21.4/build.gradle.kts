@@ -52,8 +52,6 @@ ext["forge_ver_max"] = ""
 ext["mc_ver"] = "1.21.3"
 ext["mc_ver_max"] = "1.22"
 
-val antlrVersion = "4.13.2"
-
 
 logger.lifecycle("""
     ***************************************************
@@ -73,9 +71,6 @@ buildscript {
     dependencies {
         classpath(group = "org.spongepowered", name = "mixingradle", version = "0.7+" )
         classpath("com.guardsquare:proguard-gradle:7+")
-        val antlrVersion = "4.13.2"
-        classpath("org.antlr:antlr4:$antlrVersion")
-        classpath("org.antlr:antlr4-runtime:$antlrVersion")
     }
 }
 
@@ -136,7 +131,6 @@ configurations {
 dependencies {
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
-
     /*
     runtimeOnly( "curse.maven:athena-841890:5431579")
     runtimeOnly("curse.maven:resourcefullib-570073:5483169")
@@ -144,21 +138,6 @@ dependencies {
     compileOnly("curse.maven:easy-villagers-400514:4584220")
     compileOnly("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
     //implementation("maven.modrinth:workshop-for-handsome-adventurer:1.31.2")
-/*
-    implementation("org.ow2.asm:asm-analysis:9.5") {
-        version {
-            strictly("9.5")
-        }
-    }
-*/
-
-
-    implementation("org.antlr:antlr4-runtime:$antlrVersion") {
-        version {
-            strictly(antlrVersion)
-        }
-    }
-
 }
 
 tasks.named("compileKotlin") {
@@ -322,28 +301,6 @@ val proguard by tasks.registering(ProGuardTask::class) {
 
 }
 
-/*
-val customJar by dummyJar()
-
-fun dummyJar() = tasks.creating(Jar::class) { // dummy jar for reobf
-    val shadow = tasks.getByName<ProGuardTask>("proguard")
-    val fromJarName = shadow.outputs.files.first()
-    val thisJarName = fromJarName.name.replace("-all-proguard", "")
-    archiveFileName.set(thisJarName)
-    dependsOn(tasks["proguard"])
-    doLast {
-        copy {
-            from("build/libs/$fromJarName-all-proguard.jar")
-            into("build/libs")
-            rename { thisJarName }
-        }
-    }
-    //finalizedBy(tasks["copyProGuardJar"])
-}
-*/
-
-
-
 val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
@@ -381,7 +338,6 @@ runs {
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
         shouldExportToIDE.set(true)
-
     }
     named("client", runConfig)
 

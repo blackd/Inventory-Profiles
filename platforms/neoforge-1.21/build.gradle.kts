@@ -75,21 +75,6 @@ buildscript {
 }
 
 
-/*
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor(30, "seconds")
-}
-
- */
-
-//apply(from = "https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle")
-
-//I have no idea why but these MUST be here and not in plugins {}...
-
-//apply(plugin = "org.spongepowered.mixin")
-
-
-
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -146,21 +131,14 @@ configurations {
 dependencies {
     //api(fg.deobf("org.anti_ad.mc:libIPN-$libIPN_version"))
     //api("org.anti_ad.mc:libIPN-$libIPN_version")
+
     runtimeOnly( "curse.maven:athena-841890:5431579")
     runtimeOnly("curse.maven:resourcefullib-570073:5483169")
-    compileOnly("curse.maven:chipped-456956:5506938")
+
     compileOnly("curse.maven:easy-villagers-400514:4584220")
     implementation("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
     implementation("maven.modrinth:journeymap:1.21.1-6.0.0-beta.29+neoforge")
     //implementation("maven.modrinth:workshop-for-handsome-adventurer:1.31.2")
-/*
-    implementation("org.ow2.asm:asm-analysis:9.5") {
-        version {
-            strictly("9.5")
-        }
-    }
-*/
-
 }
 
 tasks.named("compileKotlin") {
@@ -214,14 +192,6 @@ afterEvaluate {
             logger.lifecycle("found resource dir: ${it.absolutePath}")
         }
     }
-/*
-    sourceSets.forEach {
-        val dir = layout.buildDirectory.dir("sourcesSets/${it.name}")
-        it.output.setResourcesDir(dir.get().asFile)
-        it.java.destinationDirectory = dir
-        it.kotlin.destinationDirectory = dir
-    }
-*/
 }
 
 tasks.withType<JavaCompile>().all {
@@ -332,28 +302,6 @@ val proguard by tasks.registering(ProGuardTask::class) {
 
 }
 
-/*
-val customJar by dummyJar()
-
-fun dummyJar() = tasks.creating(Jar::class) { // dummy jar for reobf
-    val shadow = tasks.getByName<ProGuardTask>("proguard")
-    val fromJarName = shadow.outputs.files.first()
-    val thisJarName = fromJarName.name.replace("-all-proguard", "")
-    archiveFileName.set(thisJarName)
-    dependsOn(tasks["proguard"])
-    doLast {
-        copy {
-            from("build/libs/$fromJarName-all-proguard.jar")
-            into("build/libs")
-            rename { thisJarName }
-        }
-    }
-    //finalizedBy(tasks["copyProGuardJar"])
-}
-*/
-
-
-
 val minimizeJar = registerMinimizeJarTask()
 
 afterEvaluate {
@@ -374,6 +322,7 @@ minecraft {
     mappings.version(mappingsMap)
     this.accessTransformers.file("src/main/resources/META-INF/accesstransformer.cfg")
 }
+
 runs {
     val runConfig = Action<Run> {
         systemProperties(mapOf(
@@ -389,8 +338,10 @@ runs {
 
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
+        shouldExportToIDE.set(true)
     }
     named("client", runConfig)
+
     this.get("server")?.let { run ->
         this.remove(run)
     }
