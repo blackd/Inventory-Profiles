@@ -338,6 +338,15 @@ runs {
         jvmArgument("--add-exports=java.base/sun.security.util=ALL-UNNAMED")
         jvmArgument("--add-opens=java.base/java.util.jar=ALL-UNNAMED")
         shouldExportToIDE.set(true)
+        dependencies {
+            val antlrVersion = "4.13.2"
+            runtime("org.antlr:antlr4-runtime:$antlrVersion") {
+                version {
+                    strictly(antlrVersion)
+                }
+            }
+
+        }
     }
     named("client", runConfig)
 
