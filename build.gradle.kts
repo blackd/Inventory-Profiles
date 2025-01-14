@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
 
-val versionObj = Version("2", "1", "0",
+val versionObj = Version("2", "1", "1",
                          preRelease = (System.getenv("IPNEXT_RELEASE") == null))
 
 
@@ -47,16 +47,16 @@ dependencies {
 }
 
 plugins {
-    `kotlin-dsl`
-    kotlin("jvm") version "2.0.21"
-    kotlin("plugin.serialization") version "2.0.21"
+    //`kotlin-dsl`
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.serialization") version "2.1.0"
     idea
     `java-library`
     `maven-publish`
     antlr
     id("io.github.goooler.shadow") version "8+" apply false
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
-    id("fabric-loom") version("1.7-SNAPSHOT") apply false
+    id("fabric-loom") version("1.9-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false
     id("com.modrinth.minotaur") version "2.+" apply false
     id("net.neoforged.gradle.userdev") version "7.+" apply false

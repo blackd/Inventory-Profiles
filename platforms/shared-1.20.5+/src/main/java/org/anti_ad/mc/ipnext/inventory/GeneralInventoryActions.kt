@@ -185,7 +185,7 @@ object GeneralInventoryActions {
                              throwAll: Boolean,
                              type: ItemStack? = null) {
         with(AreaTypes) {
-            val player = (if (includeHotbar) (playerStorage + playerHotbar + playerOffhand) else playerStorage) - lockedSlots
+            val player = (if (includeHotbar) (playerStorage + playerHotbar) else playerStorage) - lockedSlots
             val container = itemStorage
             val slots = vanillaContainer.`(slots)`
             val source = ((if (isContainer) container else player) - vanillaContainer.disabled).getItemArea(vanillaContainer, slots)

@@ -41,12 +41,12 @@ val minecraft_version = "1.21.1"
 val minecraft_version_string = "1.21.1"
 val forge_version = "52.0.10"
 val mod_artefact_version = project.ext["mod_artefact_version"]
-val kotlin_for_forge_version = "5.5.0"
+val kotlin_for_forge_version = "5.7.0"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.21.1")
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 
-ext["kff_ver"] = "5.3"
+ext["kff_ver"] = "5.7"
 ext["forge_ver"] = "52"
 ext["forge_ver_max"] = ""
 ext["mc_ver"] = "1.21.1"

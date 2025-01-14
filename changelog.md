@@ -1,11 +1,22 @@
 <!-- latest begin -->
 
-### 2.1.0
+### 2.1.1
 
-- 1.21.3/4 fixed some situations where the vanilla input processing wasn't properly canceled. For example locking and unlocking slots picked up the stack form the first slot if not empty.
+#### Changes
+
+- Fixed Stone Cutter auto-crafting not properly working on 1.21.4.
+- 'Throw all' while including hotbar will no longer drop the item in the offhand.
+
+#### Announcement
+
+- This is the **last release** that supports **1.21.3**
 
 <!-- latest end -->
 <!-- rest begin -->
+
+### 2.1.0
+
+- 1.21.3/4 fixed some situations where the vanilla input processing wasn't properly canceled. For example locking and unlocking slots picked up the stack form the first slot if not empty.
 
 ### 2.0.10
 

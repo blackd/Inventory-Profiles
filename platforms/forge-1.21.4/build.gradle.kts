@@ -47,7 +47,7 @@ val mappingsMap = mapOf("channel" to "official",
 //val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val libIPN_version = "forge-1.21.3:${project.ext["libIPN_version"]}"
 
-ext["kff_ver"] = "5.3"
+ext["kff_ver"] = "5.7"
 ext["forge_ver"] = "54"
 ext["forge_ver_max"] = ""
 ext["mc_ver"] = "1.21.4"

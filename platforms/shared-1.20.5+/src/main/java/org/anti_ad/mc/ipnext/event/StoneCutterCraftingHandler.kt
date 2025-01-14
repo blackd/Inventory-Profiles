@@ -49,6 +49,9 @@ abstract class CutterCraftingHandlerBase<T: Container> {
     var skipTick: Boolean = false
         private set
 
+    var waitForEmptyNumTicks: Int = 0
+        private set
+
     protected var isCraftClick: Boolean = false
     var stillCrafting: Boolean = false
     var isRefillTick: Boolean = false
@@ -129,10 +132,20 @@ abstract class CutterCraftingHandlerBase<T: Container> {
                     if (slots.isNotEmpty()) {
                         input = slots[0].`(itemStack)`
                         if (input.isEmpty()) {
+                            waitForEmptyNumTicks = 0
                             playerSlotIndices.find {
                                 slots[it].`(itemStack)`.itemType == lastInput.itemType
                             }?.let { index ->
+                                Log.trace("will shift click on slot $index")
                                 ContainerClicker.shiftClick(slots[index].`(id)`)
+                            }
+                        } else {
+                            waitForEmptyNumTicks++
+                            if (waitForEmptyNumTicks > 2) {
+                                waitForEmptyNumTicks = 0
+                                Log.trace("did not find empty slot, will stop refill")
+                            } else {
+                                return
                             }
                         }
                         val lr = lastRecipe
@@ -264,6 +277,7 @@ object StoneCutterCraftingHandler: CutterCraftingHandlerBase<StonecutterContaine
 
     override fun selectRecipe(container: StonecutterContainer,
                               recipe: Int) {
+        Log.trace("selectRecipe: $recipe")
         container.selectRecipe(recipe)
     }
 

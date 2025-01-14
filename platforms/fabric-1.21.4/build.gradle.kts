@@ -33,17 +33,17 @@ import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("24w44a", "24w45a", "24w46a", "1.21.4-pre1"),
-                                         CURSEFORGE to listOf("1.21.4-snapshot"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.4"),
+                                         CURSEFORGE to listOf("1.21.4"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.21.4-rc3"
-val minecraft_version_string = "1.21.4-rc3"
-val mappings_version = "1.21.4-rc3+build.3"
+val minecraft_version = "1.21.4"
+val minecraft_version_string = "1.21.4"
+val mappings_version = "1.21.4+build.2"
 val loader_version = "0.16.9"
 val modmenu_version = "12.0.0-beta.1"
-val fabric_api_version = "0.110.2+1.21.4"
-val fabric_lang_kotlin = "1.12.3+kotlin.2.0.21"
+val fabric_api_version = "0.112.0+1.21.4"
+val fabric_lang_kotlin = "1.13.0+kotlin.2.1.0"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 //val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 val libIPN_version = "fabric-1.21.3:${project.ext["libIPN_version"]}"
@@ -51,7 +51,7 @@ val carpet_core_version = "24w46a-1.4.160+v241113"
 val controlify_version = "2.0.0-beta.21+1.21.3-fabric"
 val yacl_version = "3.5.0+1.21-fabric"
 
-ext["mc_ver"] = "1.21.4-alpha.24.44.a"
+ext["mc_ver"] = "1.21.4"
 ext["mc_ver_max"] = "1.22"
 ext["fabric_loader"] = loader_version
 ext["fabric_language_kotlin"] = fabric_lang_kotlin
@@ -150,6 +150,12 @@ dependencies {
     modCompileOnly("curse.maven:supermartijn642s-config-lib-438332:5546988")
     modCompileOnly("curse.maven:supermartijn642s-core-lib-454372:5713667")
     modCompileOnly("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21:3.0.9")
+
+/*
+    modRuntimeOnly("maven.modrinth:tcdcommons:3.12.4+fabric-1.21.4")
+    modRuntimeOnly("maven.modrinth:better-stats:3.13.4+fabric-1.21.4")
+*/
+
 
 }
 
