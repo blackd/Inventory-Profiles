@@ -92,6 +92,7 @@ object IPNInfoManager: InfoManagerBase() {
 
     fun doSessionKeepAlive() {
         timer("ipnPeriodicalTasks", initialDelay = 5 * 60 * 1000, period = 20 * 60 * 1000) {
+            
             val player = Vanilla.playerNullable()
             if (player != null && version != "null") {
                 val salt = "${playerId()}; $session"

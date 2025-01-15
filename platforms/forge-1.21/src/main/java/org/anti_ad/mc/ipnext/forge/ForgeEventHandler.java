@@ -63,6 +63,7 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public void joinWorld(LevelEvent.Load event) {
         if (VanillaUtil.INSTANCE.isOnClientThread()) {
+            ClientEventHandler.INSTANCE.onJoinGame();
             ClientEventHandler.INSTANCE.onJoinWorld();
         }
     }
