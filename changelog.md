@@ -1,5 +1,20 @@
 <!-- latest begin -->
 
+### 2.1.2
+
+#### Changes
+
+- Fixed forge and neoforge critical startup initialisations
+
+#### Announcement
+
+- As usual when I announce the end-of-life of a specific version, Murphy makes me release at least one more :)
+- This is the **last release** that supports **1.21.3**
+
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.1.1
 
 #### Changes
@@ -10,9 +25,6 @@
 #### Announcement
 
 - This is the **last release** that supports **1.21.3**
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.0
 
