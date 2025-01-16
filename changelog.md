@@ -1,11 +1,19 @@
 <!-- latest end -->
 
+### 1.10.6.02
+
+- Maintenance release. There are no visible changes in feature set or performance.
+- Added all new translations.
+- Updated the mod icon.
+- Some fixes and optimisations.
+
+<!-- latest begin -->
+
+
 ### 1.10.6.cf-1
 
 - fixed critical bug that prevented the villager bookmarks saving on forge 1.16.5
 
-
-<!-- latest begin -->
 
 ### 1.10.6
 
