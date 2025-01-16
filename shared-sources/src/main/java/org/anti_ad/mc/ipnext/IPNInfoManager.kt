@@ -23,11 +23,13 @@ import org.anti_ad.mc.common.TellPlayer
 import org.anti_ad.mc.common.gui.widgets.ConfigButtonInfo
 import org.anti_ad.mc.common.gui.widgets.CustomButtonWidget
 import org.anti_ad.mc.common.moreinfo.InfoManagerBase
+import org.anti_ad.mc.common.moreinfo.SemVer
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.ClientEventHandler.createChatMessage
 import java.net.URL
+import java.util.UUID
 import kotlin.concurrent.timer
 
 object IPNInfoManager: InfoManagerBase() {
@@ -46,12 +48,15 @@ object IPNInfoManager: InfoManagerBase() {
 
     override var isEnabled: () -> Boolean  = { false }
 
+    private val session = UUID.randomUUID().toString().sha256()
+
+    private val playerId = { Vanilla.playerNullable()?.gameProfile?.id?.toString()?.sha256() ?: "InvalidPlayer" }
 
     fun doCheckVersion() {
         timer("versionCheck", initialDelay = 5000, period = 10000) {
             val player = Vanilla.playerNullable()
             if (player != null && version != "null") {
-                val salt = player.gameProfile.id?.toString() ?: " InvalidName"
+                val salt = "${playerId()}; $session"
                 this.cancel()
                 checkVersion(versionCheckUrl, "IPN", salt) { new, _, _ ->
                     if (ModSettings.ENABLE_UPDATES_CHECK.value) {
@@ -68,11 +73,25 @@ object IPNInfoManager: InfoManagerBase() {
         }
     }
 
+    override fun checkVersion(versionCheckURL: URL, modId: String, salt: String, function: (SemVer, SemVer, Boolean) -> Unit) {
+        executor.execute {
+            try {
+                doCheckVersion(versionCheckURL,
+                               modId,
+                               salt,
+                               function)
+            } catch (t: Throwable) {
+                Log.warn("Update check failed with message - ${t.message}")
+            }
+        }
+    }
+
     fun doSessionKeepAlive() {
-        timer("ipnPeriodicalTasks", initialDelay = 145000, period = 145000) {
+        timer("ipnPeriodicalTasks", initialDelay = 5 * 60 * 1000, period = 20 * 60 * 1000) {
+
             val player = Vanilla.playerNullable()
             if (player != null && version != "null") {
-                val salt = player.gameProfile.id?.toString() ?: " InvalidName"
+                val salt = "${playerId()}; $session"
                 checkVersion(versionCheckUrl, "IPN", salt) { _, _, _ -> }
             }
         }
