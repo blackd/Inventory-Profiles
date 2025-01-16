@@ -1,11 +1,10 @@
 <!-- latest begin -->
 
-### 1.10.11
+### 1.10.12
 
-- some critical enough fixes.
-- some critical enough mod compatibility fixes.
-- new logo
-
+- Maintenance release. There are no visible changes in feature set or performance.
+- updated translations
+- Some fixes and optimisations.
 
 #### Supported Minecraft versions
 - **1.18.2**
@@ -13,6 +12,13 @@
 - **1.20/.1-4**
 
 <!-- latest end -->
+
+### 1.10.11
+
+- some critical enough fixes.
+- some critical enough mod compatibility fixes.
+- new logo
+
 
 ### 1.10.10
 
