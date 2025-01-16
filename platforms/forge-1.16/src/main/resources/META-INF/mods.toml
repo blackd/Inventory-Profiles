@@ -31,7 +31,7 @@ license="@LICENSE@"
     displayURL="https://www.curseforge.com/minecraft/mc-mods/inventory-profiles-next" #optional
 
     # A file name (in the root of the mod JAR) containing a logo for display
-    logoFile="icon_8.png" #optional
+    logoFile="mod-icon-xforge.png" #optional
 
     # A text field displayed in the mod UI
     credits="Selah (AspieGamer13)" #optional

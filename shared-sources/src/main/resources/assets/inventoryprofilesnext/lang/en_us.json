@@ -142,6 +142,8 @@
     "inventoryprofiles.config.category.inventory":                                       "Inventory",
     "inventoryprofiles.config.category.other":                                           "Other",
     "inventoryprofiles.config.name.enable_profiles_ui":                                  "Enable Profiles Switching Gui",
+    "inventoryprofiles.config.name.inventory_overlay_buttons_visible":                   "Toggle overlay buttons visibility",
+    "inventoryprofiles.config.description.inventory_overlay_buttons_visible":            "This is not meant to disable the overlay buttons!\nThis is meant so you can assign a shortcut to temporary hide/show the overlay buttons!\nTo permanently enable/disable overlay buttons use the other options on this page.",
     "inventoryprofiles.config.name.enable_inventory_settings_button":                    "Enable Settings Button in Inventory",
     "inventoryprofiles.config.description.enable_inventory_settings_button":             "When enabled a small button will appear in the to left of the screen that will the Inventory Profiles Settings.",
     "inventoryprofiles.config.name.enable_inventory_editor_button":                      "Enable Overlay Editor Button",
@@ -150,7 +152,17 @@
     "inventoryprofiles.config.description.enable_profiles_ui":                           "This enables small 3 button user interface under the player inventory screen that can be used to switch between profiles and apply the currently active one.\nAll of the Gui functions are available as shortcuts.",
     "inventoryprofiles.config.description.profiles_announcement":                        "The current profile is announced with a text popup just over the Hotbar.",
     "inventoryprofiles.config.name.enable_inventory_buttons":                            "Enable Inventory Buttons",
-    "inventoryprofiles.config.name.treat_unknown_screens_as_containers":                 "Add Inventory Buttons to All In Game Screens",
+
+    "inventoryprofiles.config.name.show_buttons_both_sides":                             "Show 2 Sets of Sort Buttons",
+    "inventoryprofiles.config.description.show_buttons_both_sides":                      "When set to true there will be two sets of sort buttons one of the player inventory and one for the opened chest.",
+
+    "inventoryprofiles.config.name.show_fast_rename_checkbox":                           "Show Bulk Rename Checkbox",
+    "inventoryprofiles.config.name.fast_rename_checkbox_value":                          "§bRemember Checkbox State",
+    "inventoryprofiles.config.name.fast_rename_saved_value":                             "§bLast State of the Checkbox",
+    "inventoryprofiles.config.description.show_fast_rename_checkbox":                    "Show Bulk Rename checkbox in the anvil UI.\nThis is useful when renaming multiple stacks of items for use as filters.",
+    "inventoryprofiles.config.description.fast_rename_checkbox_value":                   "This setting controls if the checkbox state is preserved after the screen is closed or is always reset to the configured value below.",
+    "inventoryprofiles.config.description.fast_rename_saved_value":                      "The saved/default value of the \"Bulk Rename\" checkbox.",
+
     "inventoryprofiles.config.name.show_continuous_crafting_checkbox":                   "Show Continuous Crafting Checkbox",
     "inventoryprofiles.config.name.continuous_crafting_checkbox_value":                  "§bRemember Checkbox State",
     "inventoryprofiles.config.name.continuous_crafting_saved_value":                     "§bLast State of the Checkbox",
@@ -169,7 +181,6 @@
     "inventoryprofiles.config.name.show_move_all_button":                                "Show the \"Move All\" Button",
     "inventoryprofiles.config.name.show_button_tooltips":                                "Show Button Tooltips",
     "inventoryprofiles.config.description.enable_inventory_buttons":                     "This controls whether we add our buttons to the container screen.",
-    "inventoryprofiles.config.description.treat_unknown_screens_as_containers":          "This is mostly for compatibility with other mods that have introduce screens which are not real inventory.\nSetting this to false will disable the inserting of widgets for all but vanilla screens.\n\nNOTE: This is deprecated and will be removed in version 1.2.0.",
     "inventoryprofiles.config.description.show_continuous_crafting_checkbox":            "Show continuous crafting checkbox in crafting table and survival inventory.\n\"Continuous Crafting\" will auto refill the recipe ingredients in the crafting grid.",
     "inventoryprofiles.config.description.continuous_crafting_checkbox_value":           "This setting controls if the checkbox state is preserved after the screen is closed or is always reset to the configured value below.",
     "inventoryprofiles.config.description.continuous_crafting_saved_value":              "The saved/default value of the \"Continuous Crafting\" checkbox.",
@@ -207,10 +218,14 @@
     "inventoryprofiles.config.name.auto_refill_match_any_food":                          "Refill With Any Food",
     "inventoryprofiles.config.name.auto_refill_match_harmful_food":                      "Allow refill with harmful foods.",
     "inventoryprofiles.config.name.autorefill_blacklist":                                "Blacklisted item types",
+    "inventoryprofiles.config.name.stackable_threshold":                                 "Stackable Threshold",
     "inventoryprofiles.config.name.tool_damage_threshold":                               "Damage Threshold",
     "inventoryprofiles.config.name.threshold_unit":                                      "Threshold Units",
     "inventoryprofiles.config.name.auto_refill_wait_tick":                               "Number of Ticks to Wait Before Auto Refill",
     "inventoryprofiles.config.name.auto_refill_temp_disable_refill_for_tools":           "Disable Refill for Tools While Holding",
+    "inventoryprofiles.config.name.auto_refill_enable_per_slot_config":                  "Toggle Refill Per Slot",
+    "inventoryprofiles.config.name.auto_refill_enable_indicator_icons":                  "Show Icons on Enabled Slots",
+    "inventoryprofiles.config.name.auto_refill_enable_horbar_indicator_icons":           "Also Show Icons in the Hotbar",
     "inventoryprofiles.config.name.allow_break_for_non_enchanted":                       "Allow Some Non Enchanted Gear to Break",
     "inventoryprofiles.config.name.tool_max_durability_threshold":                       "Max Durability Threshold",
     "inventoryprofiles.config.name.visual_durability_notification":                      "Visual Alert Before Tool Switch",
@@ -225,6 +240,8 @@
     "inventoryprofiles.config.name.visual_replace_failed_notification":                  "Visual Alert on Failed Replace",
     "inventoryprofiles.config.name.audio_replace_failed_notification":                   "Sound Alert on Failed Replace",
     "inventoryprofiles.config.name.type_visual_replace_failed_notification":             "Kind of Visual Alert",
+    "inventoryprofiles.config.name.allow_alerts_without_tool_protection":                "Notifications Without Tool Protection",
+    "inventoryprofiles.config.description.allow_alerts_without_tool_protection":         "Show low durability notifications even when early tool replacement is disabled",
     "inventoryprofiles.config.description.type_visual_replace_failed_notification":      "Controls what type of visual alert is used when a tool can't be replaced.",
     "inventoryprofiles.config.description.audio_replace_failed_notification":            "If enabled you will get sound alert when a tool replace was unsuccessful.",
     "inventoryprofiles.config.description.visual_replace_failed_notification":           "If enabled you will get visual alert when a tool replace was unsuccessful.",
@@ -252,10 +269,16 @@
     "inventoryprofiles.config.description.auto_refill_match_harmful_food":               "When this and the above are set to true, harmful foods, like 'puffer fish', will also be uset to refill depleted food stacks.",
 
     "inventoryprofiles.config.description.autorefill_blacklist":                         "Comma separated list of item types to that will be ignored by Auto refill\nFor example 'minecraft:golden_axe,minecraft:stone'\nWARNING:\nTo avoid performance degradation DO NOT put too many item types in the list!",
+    "inventoryprofiles.config.description.stackable_threshold":                          "Controls the quantity in a stackable item that will trigger auto refill.",
     "inventoryprofiles.config.description.tool_damage_threshold":                        "Controls the durability level that will trigger auto refill.",
     "inventoryprofiles.config.description.threshold_unit":                               "Set the unit for \"Damage Threshold\".\nAbsolute value and percentage (%%) are supported.",
     "inventoryprofiles.config.description.auto_refill_wait_tick":                        "Auto refill will wait this many ticks before doing the swap. \nThis might be useful on some during high server lag. \nHowever, depending on the \"Damage Threshold\" value, the tool might break before a swap is initiated.",
     "inventoryprofiles.config.description.auto_refill_temp_disable_refill_for_tools":    "Holding this key will disable auto refill for tools this allows you to break tools if you want to.",
+
+    "inventoryprofiles.config.description.auto_refill_enable_per_slot_config":           "Allows you to enable/disable Auto Refill per slot.",
+    "inventoryprofiles.config.description.auto_refill_enable_indicator_icons":           "When enabled a small icon will be show on top left of every slot that\nhas Auto Refill enabled.",
+    "inventoryprofiles.config.description.auto_refill_enable_horbar_indicator_icons":    "Enables the small icon from above option to be shown in the hotbar too.",
+
     "inventoryprofiles.config.description.allow_break_for_non_enchanted":                "Don't try to save non enchanted items.\nThat has maximum durability less than the setting below.",
     "inventoryprofiles.config.description.tool_max_durability_threshold":                "Tools with maximum durability below this value will be allowed to break if the setting above is true.\nThe idea that most players don't really want to keep stone tools,\n but will be annoyed if they break a diamond one.",
     "inventoryprofiles.config.notification.tool_replace_ping.ipn":                       "IPN ",
@@ -335,6 +358,9 @@
     "inventoryprofiles.config.description.scroll_spread":                                "If you hold this key while using the scroll to chest/player keys All free target slots will be filled with the same or almost the same amount of items",
     "inventoryprofiles.config.name.scroll_throw":                                        "Drop/Throw",
     "inventoryprofiles.config.description.scroll_throw":                                 "If you hold this key while using the scroll to chest/player keys the items will be dropped out of the inventory and opened container.\nNOTE:\nThe direction is ignored.",
+    "inventoryprofiles.config.name.temp_disable":                                        "Temporary Disable Scrolling",
+    "inventoryprofiles.config.description.temp_disable":                                 "Disables item scrolling while this key is pressed.",
+
     "inventoryprofiles.config.name.scroll_auto_pickup_next_for_single":                  "Auto refill cursor",
     "inventoryprofiles.config.description.scroll_auto_pickup_next_for_single":           "If this is true a new stack will be picked up if the current stack in cursor ends while scrolling the cursor items ",
 
@@ -358,6 +384,10 @@
     "inventoryprofiles.config.name.profile_2":                                           "Select and Apply Quick Profile 2",
     "inventoryprofiles.config.name.profile_3":                                           "Select and Apply Quick Profile 3",
     "inventoryprofiles.config.name.save_as_profile":                                     "Save the current state as \"Saved\" Profile",
+
+    "inventoryprofiles.config.name.auto_refill_gui_toggle_for_slot":                     "Toggle Auto Refill for Slot Under the Cursor",
+    "inventoryprofiles.config.name.auto_refill_game_toggle_for_slot":                    "Toggle Auto Refill for the Active Hotbar Slot",
+
     "inventoryprofiles.config.name.scroll_to_chest":                                     "Scroll Items From Player to Chest",
     "inventoryprofiles.config.name.scroll_to_inventory":                                 "Scroll Items From Chest to Player",
     "inventoryprofiles.config.name.global_bookmark_trade":                               "Add Global Bookmark",
@@ -405,6 +435,9 @@
     "inventoryprofiles.config.description.reload_custom_configs":                        "This hotkey can be used for faster config reloading when you are defining new custom rules.\nIn ANY other case it's recommended to keep it unset.\nReloading the configurations is not something you want to do often.",
     "inventoryprofiles.config.description.scroll_to_chest":                              "When you press this key while the cursor is over a non empty slot or you hold a item stack in the cursor a single item will be transferred to the opened container.",
     "inventoryprofiles.config.description.scroll_to_inventory":                          "When you press this key while the cursor is over a non empty slot or you hold a item stack in the cursor a single item will be transferred to the player inventory.",
+
+    "inventoryprofiles.config.description.auto_refill_gui_toggle_for_slot":              "Press this shortcut to toggle Auto Refill for the slot under the cursor.\nYou can also move the mouse while holding it to toggle multiple slots.\nOnly Hotbar and gear slots are supported.",
+    "inventoryprofiles.config.description.auto_refill_game_toggle_for_slot":             "You can use this shortcut to toggle Auto Refill for the currently active Hotbar slot.\nThis will work only if no GUI is opened.",
 
 
     "inventoryprofiles.gui.config.Tweaks":                                               "Tweaks",
@@ -464,7 +497,9 @@
     "inventoryprofiles.enum.creative_menu_sort_order.search_tab":                        "Search Tab",
     "inventoryprofiles.enum.creative_menu_sort_order.category_priority_list":            "Priority List",
 
-    "inventoryprofiles.tooltip.sort_button":                                             "Sort Inventory",
+    "inventoryprofiles.tooltip.sort_button":                                             "Sort Inventory\n\n",
+    "inventoryprofiles.tooltip.sort_button.current_order":                               "§5Sort Order: §o%s§r\n",
+    "inventoryprofiles.tooltip.sort_button.key_help":                                    "\n§6 - Use scroll wheel over this button\n§6to change the sort order.",
     "inventoryprofiles.tooltip.sort_columns_button":                                     "Sort Inventory in Columns",
     "inventoryprofiles.tooltip.sort_rows_button":                                        "Sort Inventory in Rows",
     "inventoryprofiles.tooltip.move_all_button.title_move_matching":                     "Move Matching Items",
@@ -478,6 +513,7 @@
 
     "inventoryprofiles.tooltip.continuous_crafting_checkbox":                            "Continuous Crafting\n§6Hold §o%s§r§6: for Auto Crafting",
     "inventoryprofiles.tooltip.auto_crafting_checkbox":                                  "Auto Crafting\n§6Stop holding §o%s§r§6: for Continuous Crafting",
+    "inventoryprofiles.tooltip.fast_rename":                                             "Bulk Rename",
     "inventoryprofiles.tooltip.next_profile_button":                                     "Select and apply next profile",
     "inventoryprofiles.tooltip.prev_profile_button":                                     "Select and apply previous profile",
     "inventoryprofiles.tooltip.apply_profile_button":                                    "Apply selected profile",
