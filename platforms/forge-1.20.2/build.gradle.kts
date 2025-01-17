@@ -37,7 +37,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import proguard.gradle.ProGuardTask
 import kotlin.math.log
 
-val supported_minecraft_versions = listOf("1.20.2", "1.20.3", "1.20.3")
+val supported_minecraft_versions = listOf("1.20.2", "1.20.3", "1.20.4")
 val mod_loader = "forge"
 val mod_version = project.version
 val minecraft_version = "1.20.2"

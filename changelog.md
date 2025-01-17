@@ -1,5 +1,10 @@
 <!-- latest begin -->
 
+### 1.10.14
+
+- fixed forge builds screw-up hopefully
+- with the random forge build failure of the last release. I even made the sensible decision to skip 13 in the version :)
+
 ### 1.10.12
 
 - Maintenance release. There are no visible changes in feature set or performance.
