@@ -56,6 +56,8 @@ cd ..
 
 export _JAVA_OPTIONS=-Xmx8G
 
+./gradlew --max-workers 32 clean compileKotlin compileJava
+
 GRADLE_ARG="--exclude-task compileTestJava --exclude-task test build"
 
 
