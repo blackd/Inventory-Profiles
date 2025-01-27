@@ -583,65 +583,67 @@ object AutoRefillHandler: InventoryOverlay {
                     } else {
                         -1
                     }
-                    filtered = filtered.filter { it.value.itemType.run { isDamageable && durability > threshold } }
+                    filtered = filtered.filter {
+                        it.value.itemType.run {
+                            !isEmpty() && isDamageable && durability > threshold
+                        }
+                    }
                     val regEntry = Registries.ITEM.getEntry(itemType.item)
                     when {
                         regEntry.isIn(ItemTags.LEG_ARMOR) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.LEG_ARMOR)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.LEG_ARMOR)
                             }
                         }
                         regEntry.isIn(ItemTags.FOOT_ARMOR) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.FOOT_ARMOR)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.FOOT_ARMOR)
                             }
                         }
                         regEntry.isIn(ItemTags.HEAD_ARMOR) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.HEAD_ARMOR)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.HEAD_ARMOR)
                             }
                         }
                         regEntry.isIn(ItemTags.CHEST_ARMOR) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.CHEST_ARMOR)
+                                if (itemType.isEmpty()) {
+                                    false
+                                } else {
+                                    Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.CHEST_ARMOR)
+                                }
                             }
                         }
 
                         regEntry.isIn(ItemTags.SWORDS) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.SWORDS)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.SWORDS)
                             }
                         }
 
                         regEntry.isIn(ItemTags.SHOVELS) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.SHOVELS)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.SHOVELS)
                             }
                         }
 
                         regEntry.isIn(ItemTags.PICKAXES) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.PICKAXES)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.PICKAXES)
                             }
                         }
 
                         regEntry.isIn(ItemTags.AXES) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.AXES)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.AXES)
                             }
                         }
 
                         regEntry.isIn(ItemTags.HOES) -> {
                             filtered = filtered.filter {
-                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.HOES)
+                                Registries.ITEM.getEntry(it.value.itemType.item).isIn(ItemTags.HOES)
                             }
                         }
-                        /*
-                        is MiningToolItem       -> {
-                            filtered = filtered.filter { it.value.itemType.item is MiningToolItem }
-                        }
-*/
-
                         itemType.item is FishingRodItem -> {
                             filtered = filtered.filter { it.value.itemType.item is FishingRodItem }
                         }
