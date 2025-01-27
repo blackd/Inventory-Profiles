@@ -24,6 +24,7 @@ import org.anti_ad.mc.alias.component.`(types)`
 import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.inventory.PlayerInventory
 import org.anti_ad.mc.alias.nbt.NbtHelper_toFormattedString
+import org.anti_ad.mc.alias.registry.Registries
 import org.anti_ad.mc.alias.screen.BeaconContainer
 import org.anti_ad.mc.alias.screen.Container
 import org.anti_ad.mc.alias.screen.slot.Slot
@@ -305,7 +306,12 @@ object GeneralInventoryActions {
                     }
                     item += "\n"
                 }
-                item += "]\n"
+                item += "]\nTAGS: [\n"
+                val itemReg = Registries.ITEM.getEntry(stack.itemType.item)
+                itemReg?.streamTags()?.forEach {
+                    item += "\t$it -> ${it.javaClass.canonicalName},\n"
+                }
+                item += "]"
                 Vanilla.setClipboard(item)
                 TellPlayer.chat("Copy Components.")
             }
