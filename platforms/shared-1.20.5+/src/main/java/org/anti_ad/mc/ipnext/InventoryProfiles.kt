@@ -22,9 +22,9 @@ package org.anti_ad.mc.ipnext
 
 import org.anti_ad.mc.ipnext.access.IPNImpl
 import org.anti_ad.mc.ipnext.config.ModSettings
-import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.event.ClientInitHandler
 import org.anti_ad.mc.ipnext.compat.integrations.Integrations
+import org.anti_ad.mc.ipnext.config.ConfigScreenSettings
 import org.anti_ad.mc.ipnext.gui.inject.InsertWidgetHandler
 import org.anti_ad.mc.ipnext.input.InputHandler
 import org.anti_ad.mc.ipnext.specific.initInfoManager
@@ -59,12 +59,11 @@ fun init() {
 
         InputHandler.onClientInit()
         InsertWidgetHandler.onClientInit()
-
-        SaveLoadManager.load()
+        ConfigScreenSettings.initMainConfig()
         //CustomDataFileLoader.load()
         if (ModSettings.FIRST_RUN.booleanValue) {
             ModSettings.FIRST_RUN.value = false
-            SaveLoadManager.save()
+            ConfigScreenSettings.saveLoadManager.save()
         }
         //var s: Sounds = Sounds.REFILL_STEP_NOTIFY
     }

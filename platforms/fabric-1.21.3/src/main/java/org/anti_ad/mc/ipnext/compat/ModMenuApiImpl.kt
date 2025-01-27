@@ -22,16 +22,17 @@ package org.anti_ad.mc.ipnext.compat
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import com.terraformersmc.modmenu.api.ModMenuApi
-import org.anti_ad.mc.ipnext.gui.ConfigScreen
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.ipnext.config.ConfigScreenSettings
 
 class ModMenuApiImpl : ModMenuApi {
 
-    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreen> {
-        return ConfigScreenFactory<ConfigScreen> { parent ->
-            val c = ConfigScreen(true)
-            c.parent = parent
-            c.dumpWidgetTree()
-            c
+    override fun getModConfigScreenFactory(): ConfigScreenFactory<ConfigScreenBase> {
+        return ConfigScreenFactory<ConfigScreenBase> { p ->
+            ConfigScreenBase(ConfigScreenSettings).apply {
+                parent = p
+                dumpWidgetTree()
+            }
         }
     }
 }

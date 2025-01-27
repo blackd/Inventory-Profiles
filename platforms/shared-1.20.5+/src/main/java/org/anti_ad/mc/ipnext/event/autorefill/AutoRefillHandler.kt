@@ -27,15 +27,16 @@ import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.enchantment.Enchantments
 import org.anti_ad.mc.alias.inventory.PlayerInventory
-import org.anti_ad.mc.alias.item.ArmorItem
+//import org.anti_ad.mc.alias.item.ArmorItem
 import org.anti_ad.mc.alias.item.AxeItem
 import org.anti_ad.mc.alias.item.FishingRodItem
 import org.anti_ad.mc.alias.item.HoeItem
 import org.anti_ad.mc.alias.item.Items
-import org.anti_ad.mc.alias.item.MiningToolItem
-import org.anti_ad.mc.alias.item.PickaxeItem
+//import org.anti_ad.mc.alias.item.MiningToolItem
+//import org.anti_ad.mc.alias.item.PickaxeItem
 import org.anti_ad.mc.alias.item.ShovelItem
-import org.anti_ad.mc.alias.item.SwordItem
+import org.anti_ad.mc.alias.registry.Registries //import org.anti_ad.mc.alias.item.SwordItem
+import org.anti_ad.mc.alias.registry.tag.ItemTags
 import org.anti_ad.mc.alias.text.fromSerializedJson
 import org.anti_ad.mc.alias.world.GameType
 import org.anti_ad.mc.common.extensions.tryCatch
@@ -52,6 +53,7 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
 import org.anti_ad.mc.common.vanilla.render.rDisableDepth
 import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.common.vanilla.showSubTitle
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.config.AutoRefillNbtMatchType
 import org.anti_ad.mc.ipnext.config.AutoRefillSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
@@ -582,39 +584,65 @@ object AutoRefillHandler: InventoryOverlay {
                         -1
                     }
                     filtered = filtered.filter { it.value.itemType.run { isDamageable && durability > threshold } }
-                    when (itemType.item) {
-                        is ArmorItem      -> {
+                    val regEntry = Registries.ITEM.getEntry(itemType.item)
+                    when {
+                        regEntry.isIn(ItemTags.LEG_ARMOR) -> {
                             filtered = filtered.filter {
-                                val otherType = it.value.itemType
-                                otherType.item is ArmorItem && otherType.`(equipmentSlot)` == itemType.`(equipmentSlot)`
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.LEG_ARMOR)
+                            }
+                        }
+                        regEntry.isIn(ItemTags.FOOT_ARMOR) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.FOOT_ARMOR)
+                            }
+                        }
+                        regEntry.isIn(ItemTags.HEAD_ARMOR) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.HEAD_ARMOR)
+                            }
+                        }
+                        regEntry.isIn(ItemTags.CHEST_ARMOR) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.CHEST_ARMOR)
                             }
                         }
 
-                        is SwordItem      -> {
-                            filtered = filtered.filter { it.value.itemType.item is SwordItem }
+                        regEntry.isIn(ItemTags.SWORDS) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.SWORDS)
+                            }
                         }
 
-                        is ShovelItem     -> {
-                            filtered = filtered.filter { it.value.itemType.item is ShovelItem }
+                        regEntry.isIn(ItemTags.SHOVELS) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.SHOVELS)
+                            }
                         }
 
-                        is PickaxeItem    -> {
-                            filtered = filtered.filter { it.value.itemType.item is PickaxeItem }
+                        regEntry.isIn(ItemTags.PICKAXES) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.PICKAXES)
+                            }
                         }
 
-                        is AxeItem        -> {
-                            filtered = filtered.filter { it.value.itemType.item is AxeItem }
+                        regEntry.isIn(ItemTags.AXES) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.AXES)
+                            }
                         }
 
-                        is HoeItem        -> {
-                            filtered = filtered.filter { it.value.itemType.item is HoeItem }
+                        regEntry.isIn(ItemTags.HOES) -> {
+                            filtered = filtered.filter {
+                                Registries.ITEM.getEntry(itemType.item).isIn(ItemTags.HOES)
+                            }
                         }
-
+                        /*
                         is MiningToolItem       -> {
                             filtered = filtered.filter { it.value.itemType.item is MiningToolItem }
                         }
+*/
 
-                        is FishingRodItem -> {
+                        itemType.item is FishingRodItem -> {
                             filtered = filtered.filter { it.value.itemType.item is FishingRodItem }
                         }
 
@@ -638,9 +666,7 @@ object AutoRefillHandler: InventoryOverlay {
                 filtered = filtered.sortedWith(Comparator<IndexedValue<ItemStack>> { a, b ->
                     val aType = a.value.itemType
                     val bType = b.value.itemType
-                    compareByMatch(
-                        aType, bType, { it.item == itemType.item }, Match.FIRST
-                                  ) // type match sort
+                    compareByMatch(aType, bType, { it.item == itemType.item }, Match.FIRST) // type match sort
                 }.thenComparator { a, b ->
                     val aType = a.value.itemType
                     val bType = b.value.itemType
@@ -668,9 +694,7 @@ object AutoRefillHandler: InventoryOverlay {
                 }.thenComparator { a, b ->
                     val aType = a.value.itemType
                     val bType = b.value.itemType
-                    RuleFileRegister.getCustomRuleOrEmpty("auto_refill_best").compare(
-                        aType, bType
-                                                                                     )
+                    RuleFileRegister.getCustomRuleOrEmpty("auto_refill_best").compare(aType, bType)
                 }.thenComparator { a, b ->
                     if (AutoRefillSettings.AUTO_REFILL_PREFER_SMALLER_STACKS.booleanValue) {
                         a.value.count - b.value.count
@@ -678,6 +702,10 @@ object AutoRefillHandler: InventoryOverlay {
                         b.value.count - a.value.count
                     }
                 })
+                filtered.toHashSet().forEachIndexed { index, value ->
+                    Log.trace("refill candidate $index -> ${value.value.itemType.itemId}")
+                }
+
                 val index = filtered.firstOrNull()?.index ?: -1 // test // todo better coding
                 return index.takeIf { it >= 0 }?.plus(9)
             }

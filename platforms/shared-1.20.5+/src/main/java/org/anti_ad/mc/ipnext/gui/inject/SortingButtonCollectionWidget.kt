@@ -38,11 +38,11 @@ import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
 import org.anti_ad.mc.ipnext.Log
+import org.anti_ad.mc.ipnext.config.ConfigScreenSettings
 import org.anti_ad.mc.ipnext.config.ContinuousCraftingCheckboxValue.*
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
-import org.anti_ad.mc.ipnext.config.SaveLoadManager
 import org.anti_ad.mc.ipnext.gui.inject.base.CheckBoxWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
@@ -325,12 +325,12 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         // ============
         private fun updateCraftingConfigValue(newValue: Boolean) {
             GuiSettings.CONTINUOUS_CRAFTING_SAVED_VALUE.value = newValue
-            SaveLoadManager.save() // todo save when onClose instead of every time check box value change
+            ConfigScreenSettings.saveLoadManager.save() // todo save when onClose instead of every time check box value change
         }
 
         private fun updateFastRenameConfigValue(newValue: Boolean) {
             GuiSettings.FAST_RENAME_SAVED_VALUE.value = newValue
-            SaveLoadManager.save() // todo save when onClose instead of every time check box value change
+            ConfigScreenSettings.saveLoadManager.save() // todo save when onClose instead of every time check box value change
         }
 
         var continuousCraftingValue

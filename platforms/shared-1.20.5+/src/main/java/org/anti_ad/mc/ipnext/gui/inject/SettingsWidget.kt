@@ -24,6 +24,7 @@ import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.gui.layout.fillParent
 import org.anti_ad.mc.common.gui.layout.setTopLeft
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
 import org.anti_ad.mc.ipnext.integration.HintClassData
@@ -35,9 +36,9 @@ import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.opaque
 import org.anti_ad.mc.ipn.api.IPNButton
+import org.anti_ad.mc.ipnext.config.ConfigScreenSettings
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.GuiSettings
-import org.anti_ad.mc.ipnext.gui.ConfigScreen
 
 class SettingsWidget(override val screen: ContainerScreen<*>,
                      hintsData: HintClassData = HintsManagerNG.getHints(screen.javaClass)): InsertableWidget(), Hintable {
@@ -143,7 +144,7 @@ class SettingsWidget(override val screen: ContainerScreen<*>,
             tryCatch {
                 VanillaScreenUtil.closeScreenGracefully()
             }
-            ConfigScreen(true).let {
+            ConfigScreenBase(ConfigScreenSettings).let {
                 VanillaScreenUtil.openDistinctScreen(it)
             }
         }

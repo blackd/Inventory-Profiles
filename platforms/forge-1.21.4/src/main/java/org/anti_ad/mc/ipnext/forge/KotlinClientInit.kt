@@ -20,11 +20,12 @@
 package org.anti_ad.mc.ipnext.forge
 
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.Screen
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.IExtensionPoint
-import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.client.ConfigScreenHandler
-import org.anti_ad.mc.ipnext.gui.ConfigScreen
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.ipnext.config.ConfigScreenSettings
 import org.anti_ad.mc.ipnext.init as inventoryProfilesInit
 
 class KotlinClientInit: Runnable {
@@ -40,7 +41,12 @@ class KotlinClientInit: Runnable {
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler())
 
         thedarkcolour.kotlinforforge.forge.LOADING_CONTEXT.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory::class.java) {
-            ConfigScreenHandler.ConfigScreenFactory { _: Minecraft?, _: net.minecraft.client.gui.screens.Screen? -> ConfigScreen() }
+            ConfigScreenHandler.ConfigScreenFactory { _: Minecraft?, p: Screen? ->
+                ConfigScreenBase(ConfigScreenSettings).apply {
+                    parent = p
+                    dumpWidgetTree()
+                }
+            }
         }
         inventoryProfilesInit()
     }

@@ -22,18 +22,21 @@ package org.anti_ad.mc.ipnext.neoforge
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.ModLoadingContext
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory
-import net.neoforged.neoforge.client.gui.ModListScreen
 import net.neoforged.neoforge.common.NeoForge
 import org.anti_ad.mc.alias.client.gui.screen.Screen
-import org.anti_ad.mc.ipnext.gui.ConfigScreen
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
+import org.anti_ad.mc.ipnext.config.ConfigScreenSettings
 import org.anti_ad.mc.ipnext.init as inventoryProfilesInit
 
 class KotlinClientInit: Runnable {
 
     override fun run() {
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory::class.java) {
-            IConfigScreenFactory { container: ModContainer, sc: Screen ->
-                ConfigScreen()
+            IConfigScreenFactory { container: ModContainer, p: Screen ->
+                ConfigScreenBase(ConfigScreenSettings).apply {
+                    parent = p
+                    dumpWidgetTree()
+                }
             }
         }
 

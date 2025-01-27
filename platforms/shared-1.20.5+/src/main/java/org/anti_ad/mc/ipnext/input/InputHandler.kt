@@ -25,16 +25,16 @@ import org.anti_ad.mc.common.config.options.ConfigKeyToggleBoolean
 import org.anti_ad.mc.common.extensions.tryCatch
 import org.anti_ad.mc.common.gui.debug.DepthTestScreen
 import org.anti_ad.mc.common.gui.debug.SpriteTestScreen
+import org.anti_ad.mc.common.gui.screen.ConfigScreenBase
 import org.anti_ad.mc.common.input.GlobalInputHandler
 import org.anti_ad.mc.common.vanilla.Vanilla.worldNullable
 import org.anti_ad.mc.common.vanilla.VanillaScreenUtil
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.ipnext.config.ConfigScreenSettings
 import org.anti_ad.mc.ipnext.config.Debugs
 import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.debug.ModpackInputHandler
-import org.anti_ad.mc.ipnext.gui.ConfigScreeHelper
-import org.anti_ad.mc.ipnext.gui.ConfigScreen
 import org.anti_ad.mc.ipnext.gui.DebugScreen
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
@@ -47,9 +47,6 @@ object InputHandler : IInputHandler {
     override fun onInput(lastKey: Int,
                          lastAction: Int): Boolean {
         return tryCatch(false) {
-            if (Hotkeys.OPEN_CONFIG_MENU.isActivated()) {
-                VanillaScreenUtil.openScreen(ConfigScreen().also { it.dumpWidgetTree() })
-            }
 
             if (ModpackInputHandler.onInput(lastKey, lastAction)) {
                 return true
@@ -71,8 +68,6 @@ object InputHandler : IInputHandler {
                                               lastAction)) {
                 return true
             }
-
-            ConfigScreeHelper.checkAll()
 
             if (ModSettings.DEBUG.booleanValue) {
                 when {
