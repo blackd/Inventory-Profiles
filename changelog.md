@@ -1,5 +1,26 @@
 <!-- latest begin -->
 
+### 2.1.3
+
+- initial support for fabric 1.21.5
+
+- Major changes to how enchanted items/books are sorted. The tooltip enchantment order will be used.\
+  Until now an internal metric `::enchantments_score` was used (the more and, higher level, enchantments\
+  the better).
+  However, since 1.21 the enchantments are shown in the item tooltips in specific order.\
+  So IPN now uses that order when sorting enchanted items.
+  \
+  **If you want to use the new order in your rules it is called `::enchantments_tooltip_order`**
+
+- Auto refill changes. Version 1.21.5 is a major step towards fully data-driven items. \
+  As a consequence, auto refill for armour and tools now uses the data to find the best match. \
+  There will be no noticeable change in behaviour for vanilla items, but it is possible some server \
+  generated or mod-supplied items may behave differently.
+
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.1.2
 
 #### Changes
@@ -11,9 +32,6 @@
 - As usual when I announce the end-of-life of a specific version, Murphy makes me release at least one more :)
 - This is the **last release** that supports **1.21.3**
 
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.1
 
