@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item.rule
 
+import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.ipnext.item.ItemType
 import org.anti_ad.mc.ipnext.item.rule.parameter.reverse
 import org.anti_ad.mc.ipnext.item.rule.parameter.sub_rule
@@ -57,7 +58,28 @@ class MutableEmptyRule : BaseRule()
 abstract class BaseRule : Rule {
 
     final override val arguments = ArgumentMap()
-    var comparator: (ItemType, ItemType) -> Int = { _, _ -> 0 }
+
+    private val defaultComparator: (ItemType, ItemType) -> Int = { _, _ -> 0 }
+
+    private var createdHere: Exception? = null
+
+    var comparator: (ItemType, ItemType) -> Int = defaultComparator
+        set(value) {
+            if (field !== defaultComparator) {
+                Log.trace("Overwriting comparator form  $field to $value", Exception())
+            }
+            field = value
+            if (value !== defaultComparator) createdHere = Exception()
+        }
+        get() {
+            val createdHere = createdHere
+            if (field === defaultComparator) {
+                Log.trace("Using default comparator")
+            } else {
+                Log.trace("Using comparator set by user: $field, created at: $createdHere")
+            }
+            return field
+        }
 
     init {
         arguments.apply {

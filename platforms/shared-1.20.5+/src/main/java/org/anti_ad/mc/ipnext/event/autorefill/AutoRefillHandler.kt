@@ -561,7 +561,7 @@ object AutoRefillHandler: InventoryOverlay {
             return false
         }
 
-        companion object {
+        companion object: SpecificItemSlotMonitor {
 
             private fun findCorrespondingSlot(checkingItem: ItemStack, currentItem: ItemStack): Int? { // for stored item
                 var filtered = Vanilla.playerContainer().let { playerContainer ->
@@ -588,7 +588,7 @@ object AutoRefillHandler: InventoryOverlay {
                             !isEmpty() && isDamageable && durability > threshold
                         }
                     }
-                    val regEntry = Registries.ITEM.getEntry(itemType.item)
+                    val regEntry = Registries.ITEM.getEntry(itemType.item) // getEntry(itemType.item)
                     when {
                         regEntry.isIn(ItemTags.LEG_ARMOR) -> {
                             filtered = filtered.filter {
@@ -911,8 +911,7 @@ object AutoRefillHandler: InventoryOverlay {
     fun onCancellableInput(screen: ContainerScreen<*>): Boolean {
         val currentClicked = Hotkeys.AUTO_REFILL_GUI_TOGGLE_FOR_SLOT.isPressing()
         if (currentClicked != clicked) {
-            val topLeft = screen.`(containerBounds)`.topLeft - Size(1,
-                                                                    1)
+            val topLeft = screen.`(containerBounds)`.topLeft - Size(1, 1)
             // check if on slot
             val focused = slotLocations.asIterable().firstOrNull { (_, slotTopLeft) ->
                 Rectangle(topLeft + slotTopLeft,

@@ -37,12 +37,12 @@ val supported_minecraft_versions = mapOf(MODRINTH to listOf(/*"1.21.5",*/ "25w04
                                          CURSEFORGE to listOf(/*"1.21.5", */"1.21.5-Snapshot"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "25w04a"
+val minecraft_version = "25w05a"
 val minecraft_version_string = "1.21.5"
-val mappings_version = "25w04a+build.7"
+val mappings_version = "25w05a+build.4"
 val loader_version = "0.16.10"
 val modmenu_version = "13.0.0-beta.1"
-val fabric_api_version = "0.115.1+1.21.5"
+val fabric_api_version = "0.115.2+1.21.5"
 val fabric_lang_kotlin = "1.13.0+kotlin.2.1.0"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
@@ -150,6 +150,7 @@ dependencies {
     modCompileOnly("curse.maven:supermartijn642s-config-lib-438332:5546988")
     modCompileOnly("curse.maven:supermartijn642s-core-lib-454372:5713667")
     modCompileOnly("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21:3.0.9")
+
 
 /*
     modRuntimeOnly("maven.modrinth:tcdcommons:3.12.4+fabric-1.21.4")

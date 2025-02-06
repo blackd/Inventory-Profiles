@@ -19,8 +19,6 @@
 
 package org.anti_ad.mc.ipnext.event.villagers
 
-import net.minecraft.registry.DefaultedRegistry
-import net.minecraft.text.TranslatableTextContent
 import org.anti_ad.mc.alias.client.gui.screen.ingame.`(indexStartOffset)`
 import org.anti_ad.mc.alias.client.gui.screen.ingame.`(offers)`
 import org.anti_ad.mc.alias.client.gui.screen.ingame.`(recipes)`
@@ -56,7 +54,7 @@ import org.anti_ad.mc.ipnext.config.Hotkeys
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.ingame.`(container)`
-import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
+//import org.anti_ad.mc.ipnext.ingame.`(getIdentifier)`
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(itemType)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`

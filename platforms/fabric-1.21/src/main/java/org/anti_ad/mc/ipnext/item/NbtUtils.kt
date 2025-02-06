@@ -232,6 +232,11 @@ object NbtUtils {
                    isCompound && other.isCompound ||
                    isNumber && other.isNumber
         }
+
+        fun copy(): WrappedTag {
+            return WrappedTag(value.copy())
+        }
+
     }
 
     // ============

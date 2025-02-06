@@ -306,12 +306,15 @@ object GeneralInventoryActions {
                     }
                     item += "\n"
                 }
+
+/*
                 item += "]\nTAGS: [\n"
                 val itemReg = Registries.ITEM.getEntry(stack.itemType.item)
                 itemReg?.streamTags()?.forEach {
                     item += "\t$it -> ${it.javaClass.canonicalName},\n"
                 }
                 item += "]"
+*/
                 Vanilla.setClipboard(item)
                 TellPlayer.chat("Copy Components.")
             }

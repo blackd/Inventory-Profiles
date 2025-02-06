@@ -20,6 +20,7 @@
 
 package org.anti_ad.mc.ipnext.item.rule.natives
 
+import org.anti_ad.mc.alias.component.DataComponentTypes
 import org.anti_ad.mc.alias.nbt.NbtCompound
 import org.anti_ad.mc.alias.nbt.NbtElement
 import org.anti_ad.mc.alias.registry.`(get)`
@@ -305,14 +306,30 @@ class ByNbtRule : NativeRule() {
             val tags2 = arguments[nbt_path].getTags(itemType2, type)
             if (tags1.size > 1 || tags2.size > 1)
                 Log.warn("given nbt path produce more than one result. currently support only the first result")
-            val tag1 = tags1.firstOrNull()
-            val tag2 = tags2.firstOrNull()
+            val tag1 = tags1.firstOrNull()?.copy()
+            val tag2 = tags2.firstOrNull()?.copy()
             val b1 = tag1 == null
             val b2 = tag2 == null
             if (b1 != b2) {
                 return arguments[not_found].multiplier * if (b1) -1 else 1
             }
             if (tag1 == null || tag2 == null) return 0 // both not found // use || tag2 == null for smart cast
+/*
+            if (tag1.isCompound && tag2.isCompound) {
+                val removeRest: (NbtUtils.WrappedTag) -> Unit  = { tag ->
+                    if (tag.asCompound.size > 1) {
+                        val firstKey = tag.asCompound.`(keys)`.first()
+                        (tag.asCompound.`(keys)`).forEach {
+                            if (it != firstKey) {
+                                tag.asCompound.remove(it)
+                            }
+                        }
+                    }
+                }
+                removeRest(tag1)
+                removeRest(tag2)
+            }
+*/
             return compareTag(tag1,
                               tag2)
         }
@@ -320,12 +337,9 @@ class ByNbtRule : NativeRule() {
         fun compareTag(tag1: NbtUtils.WrappedTag,
                        tag2: NbtUtils.WrappedTag): Int {
             return when {
-                tag1.isNumber -> if (tag2.isNumber) compareAsNumber(tag1,
-                                                                    tag2) else null
-                tag1.isCompound -> if (tag2.isCompound) compareAsCompound(tag1,
-                                                                          tag2) else null
-                tag1.isList -> if (tag2.isList) compareAsList(tag1,
-                                                              tag2) else null
+                tag1.isNumber -> if (tag2.isNumber) compareAsNumber(tag1, tag2) else null
+                tag1.isCompound -> if (tag2.isCompound) compareAsCompound(tag1, tag2) else null
+                tag1.isList -> if (tag2.isList) compareAsList(tag1, tag2) else null
                 else -> null
             } ?: compareAsString(tag1,
                                  tag2)
@@ -358,6 +372,54 @@ class ByNbtRule : NativeRule() {
     }
 }
 
+
+class EnchantmentsOrder : NativeRule(), SpecificEnchantmentOrder {
+    init {
+        comparator = ::compareItems
+    }
+
+    private fun compareNulls(a: Any?, b: Any?): Int =
+        if (a == null) {
+            if (b == null) {
+                0
+            } else {
+                -1
+            }
+        } else {
+            1
+        }
+
+
+    fun compareItems(a: ItemType, b: ItemType): Int {
+        val enchType = DataComponentTypes.ENCHANTMENTS
+        val storedEnchType = DataComponentTypes.STORED_ENCHANTMENTS
+
+        val tagA = a.tag
+        val tagB = b.tag
+        if (tagA == null || tagB == null) {
+            return compareNulls(tagA, tagB)
+        }
+        val enchantsA = tagA.get(enchType)
+        val enchantsB = tagB.get(enchType)
+        val sEnchantsA = tagA.get(storedEnchType)
+        val sEnchantsB = tagB.get(storedEnchType)
+
+        if ((enchantsA != null && enchantsB != null) && (enchantsA.size != 0 || enchantsB.size != 0)) {
+            return compareEnchantments(enchantsA, enchantsB)
+        } else if ((sEnchantsA != null && sEnchantsB != null) && (sEnchantsA.size != 0 || sEnchantsB.size != 0)) {
+            return compareEnchantments(sEnchantsA, sEnchantsB)
+        }
+
+        val enchantsNullCompare = compareNulls(enchantsA, enchantsB)
+        return if (enchantsNullCompare != 0) {
+            enchantsNullCompare
+        } else {
+            compareNulls(sEnchantsA, sEnchantsB)
+        }
+    }
+}
+
+
 class NbtComparatorRule : NativeRule() {
     init {
         arguments.apply {
@@ -378,8 +440,7 @@ class NbtComparatorRule : NativeRule() {
 class AllComponentsRule: NativeRule() {
     init {
         comparator = { a, b ->
-            ComponentUtils.compareComponents(a,
-                                             b)
+            ComponentUtils.compareComponents(a, b)
         }
     }
 }

@@ -17,6 +17,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/*
 package org.anti_ad.mc.common.vanilla.accessors.menu
 
 import net.minecraft.client.gui.screens.inventory.AnvilScreen
@@ -33,3 +34,4 @@ var AnvilScreen.`(nameFieldText)`
     set(value) {
         this.name.value = value
     }
+*/
