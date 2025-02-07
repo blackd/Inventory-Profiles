@@ -8,8 +8,7 @@
   Until now an internal metric `::enchantments_score` was used (the more and, higher level, enchantments\
   the better).
   However, since 1.21 the enchantments are shown in the item tooltips in specific order.\
-  So IPN now uses that order when sorting enchanted items.
-  \
+  So IPN now uses that order when sorting enchanted items.\
   **If you want to use the new order in your rules it is called `::enchantments_tooltip_order`**
 
 - Auto refill changes. Version 1.21.5 is a major step towards fully data-driven items. \

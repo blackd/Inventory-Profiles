@@ -52,7 +52,7 @@ val controlify_version = "2.0.0-beta.21+1.21.3-fabric"
 val yacl_version = "3.5.0+1.21-fabric"
 
 ext["mc_ver"] = "1.21.4"
-ext["mc_ver_max"] = "1.22"
+ext["mc_ver_max"] = "1.21.5"
 ext["fabric_loader"] = loader_version
 ext["fabric_language_kotlin"] = fabric_lang_kotlin
 

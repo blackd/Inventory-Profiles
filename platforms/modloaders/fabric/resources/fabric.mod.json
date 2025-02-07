@@ -33,7 +33,6 @@
   ],
   "depends": {
     "fabric-resource-loader-v0": "*",
-    "fabricloader": ">=@FABRIC_LOADER@",
     "minecraft": ">=@MC_VER@ <@MC_VER_MAX@",
     "fabric-language-kotlin": ">=@FABRIC_LANGUAGE_KOTLIN@",
     "libipn": ">=@LIBIPN_VERSION@ <@LIBIPN_VERSION_MAX@"

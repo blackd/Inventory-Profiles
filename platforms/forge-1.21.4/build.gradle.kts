@@ -51,7 +51,7 @@ ext["kff_ver"] = "5.7"
 ext["forge_ver"] = "54"
 ext["forge_ver_max"] = ""
 ext["mc_ver"] = "1.21.4"
-ext["mc_ver_max"] = "1.22"
+ext["mc_ver_max"] = "1.21.5"
 
 
 
