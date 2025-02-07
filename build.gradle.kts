@@ -48,8 +48,8 @@ dependencies {
 
 plugins {
     //`kotlin-dsl`
-    kotlin("jvm") version "2.1.0"
-    kotlin("plugin.serialization") version "2.1.0"
+    kotlin("jvm") version "2.1.10"
+    kotlin("plugin.serialization") version "2.1.10"
     idea
     `java-library`
     `maven-publish`
@@ -86,7 +86,7 @@ allprojects {
 
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
-            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
             jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs.addAll(listOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn"))
         }

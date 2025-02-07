@@ -44,10 +44,8 @@ object ScreenEventHandler {
         }
     }
 
-    private var trackedScreenSize by detectable(Size(0,
-                                                     0)) { _, (width, height) ->
-        GlobalScreenEventListener.onResize(width,
-                                           height)
+    private var trackedScreenSize by detectable(Size(0, 0)) { _, (width, height) ->
+        GlobalScreenEventListener.onResize(width, height)
     }
 
     fun preRender(context: NativeContext) {
