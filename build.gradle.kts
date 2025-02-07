@@ -86,7 +86,7 @@ allprojects {
 
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
-            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+            languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
             jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs.addAll(listOf("-opt-in=kotlin.ExperimentalStdlibApi", "-opt-in=kotlin.RequiresOptIn"))
         }
