@@ -41,8 +41,8 @@ val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "5.7.0"
 val mappingsMap = mapOf("channel" to "official",
                         "version" to "1.21.4")
-//val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
-val libIPN_version = "neoforge-1.21.3:${project.ext["libIPN_version"]}"
+val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
+//val libIPN_version = "neoforge-1.21.3:${project.ext["libIPN_version"]}"
 val controlify_version = "2.0.0-beta.14+1.21-neoforge"
 val yacl_version = "3.5.0+1.21-neoforge"
 
