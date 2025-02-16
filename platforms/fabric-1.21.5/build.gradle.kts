@@ -87,7 +87,7 @@ plugins {
     id("fabric-loom")
     id("com.matthewprenger.cursegradle")
     id("com.modrinth.minotaur")
-    id("io.github.goooler.shadow")
+    id("com.gradleup.shadow")
 }
 
 configureCommon()

@@ -46,6 +46,7 @@ dependencies {
     antlr("org.antlr:antlr4:4+") // use ANTLR version 4
 }
 
+
 plugins {
     //`kotlin-dsl`
     kotlin("jvm") version "2.0.21"
@@ -54,7 +55,7 @@ plugins {
     `java-library`
     `maven-publish`
     antlr
-    id("io.github.goooler.shadow") version "8+" apply false
+    id("com.gradleup.shadow") version "8+" apply false
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0" apply true
     id("fabric-loom") version("1.9-SNAPSHOT") apply false
     id("com.matthewprenger.cursegradle") version "1.4.+" apply false

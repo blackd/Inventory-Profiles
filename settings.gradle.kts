@@ -40,6 +40,34 @@ pluginManagement {
         mavenCentral()
         google()
         gradlePluginPortal()
+        mavenLocal()
+        maven {
+            name = "libIPN-Snapshots"
+            mavenContent {
+                snapshotsOnly()
+            }
+            content {
+                includeGroup ("libipn-gradle")
+                includeGroup ("org.anti_ad.mc")
+                includeGroup ("org.anti_ad.mc.plugins")
+                includeGroup ("ca.solo-studios")
+            }
+            url = uri("https://maven.ipn-mod.org/snapshots")
+        }
+        maven {
+            name = "libIPN-Releases"
+            mavenContent {
+                releasesOnly()
+            }
+            content {
+                includeGroup ("libipn-gradle")
+                includeGroup ("org.anti_ad.mc")
+                includeGroup ("org.anti_ad.mc.plugins")
+                includeGroup ("ca.solo-studios")
+            }
+            url = uri("https://maven.ipn-mod.org/releases")
+        }
+
     }
 }
 
