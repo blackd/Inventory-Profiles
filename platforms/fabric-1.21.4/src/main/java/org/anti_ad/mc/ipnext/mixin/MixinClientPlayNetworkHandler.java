@@ -26,6 +26,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import org.anti_ad.mc.ipnext.Log;
+import org.anti_ad.mc.ipnext.event.AnvilHandler;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,6 +48,9 @@ public abstract class MixinClientPlayNetworkHandler
 
     @Inject(method = "onInventory", at = @At("RETURN"))
     private void onInventory(InventoryS2CPacket packet, CallbackInfo ci) {
+        synchronized (AnvilHandler.INSTANCE.getSync()) {
+            AnvilHandler.INSTANCE.setTicksAfterLastPacket(0);
+        }
         Log.INSTANCE.trace("Received Inventory Packet");
     }
 }

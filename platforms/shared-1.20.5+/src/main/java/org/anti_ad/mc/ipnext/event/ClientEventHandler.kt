@@ -62,6 +62,7 @@ object ClientEventHandler: PClientEventHandler {
         ProfileSwitchHandler.onTickInGame()
         IPNImpl.onTickInGame()
         CuttersDispatcher.onTickInGame()
+        AnvilHandler.onTickInGame()
 
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && GuiSettings.SHOW_CONTINUOUS_CRAFTING_CHECKBOX.booleanValue) {
             ContinuousCraftingHandler.onTickInGame()

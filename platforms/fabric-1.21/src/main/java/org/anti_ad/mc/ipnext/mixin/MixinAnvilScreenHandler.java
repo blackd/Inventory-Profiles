@@ -32,10 +32,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AnvilScreenHandler.class)
 public class MixinAnvilScreenHandler {
 
-    @Inject(at = @At("HEAD"), method = "Lnet/minecraft/screen/AnvilScreenHandler;onTakeOutput(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;)V")
+    @Inject(at = @At("HEAD"), method = "Lnet/minecraft/screen/AnvilScreenHandler;onTakeOutput(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;)V", cancellable = true)
     public void onTakeOutputPre(PlayerEntity player, ItemStack stack, CallbackInfo ci) {
         if (Vanilla.INSTANCE.mc().isOnThread()) {
-            AnvilHandler.INSTANCE.onTakeOutPre((AnvilScreenHandler) ((Object)this));
+            if (AnvilHandler.INSTANCE.onTakeOutPre((AnvilScreenHandler) ((Object)this))) {
+                ci.cancel();
+            }
         }
     }
 

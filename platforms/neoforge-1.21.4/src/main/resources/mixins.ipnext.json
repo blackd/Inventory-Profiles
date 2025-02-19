@@ -20,7 +20,8 @@
         "MixinPlayerInventory",
         "MixinScreenHandler",
         "MixinServerBoundInteractPacket",
-        "MixinTraderTileEntityBase"
+        "MixinTraderTileEntityBase",
+        "MixinClientPacketListener"
     ],
     "injectors":          {
         "defaultRequire": 1

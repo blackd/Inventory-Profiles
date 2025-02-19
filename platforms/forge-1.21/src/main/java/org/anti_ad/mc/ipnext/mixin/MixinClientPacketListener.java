@@ -1,8 +1,7 @@
 /*
  * Inventory Profiles Next
  *
- *   Copyright (c) 2019-2020 jsnimda <7615255+jsnimda@users.noreply.github.com>
- *   Copyright (c) 2021-2022 Plamen K. Kosseff <p.kosseff@gmail.com>
+ *   Copyright (c) 2025 Plamen K. Kosseff <p.kosseff@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -20,37 +19,23 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.AnvilScreen;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
-import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AnvilScreen;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
 import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.ipnext.Log;
 import org.anti_ad.mc.ipnext.event.AnvilHandler;
-import org.anti_ad.mc.ipnext.event.ClientEventHandler;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Mixin(ClientPacketListener.class)
+public class MixinClientPacketListener {
 
-@Mixin(ClientPlayNetworkHandler.class)
-public abstract class MixinClientPlayNetworkHandler
-{
-/*    @Shadow private MinecraftClient client;
-    @Shadow private ClientWorld world;*/
-
-    @Inject(method = "onGameJoin", at = @At("RETURN"))
-    private void onPostGameJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
-        ClientEventHandler.INSTANCE.onJoinGame();
-    }
-
-    @Inject(method = "onInventory", at = @At("HEAD"))
-    private void onInventory(InventoryS2CPacket packet, CallbackInfo ci) {
+    @Inject(method = "handleContainerContent", at = @At("HEAD"))
+    private void onInventory(ClientboundContainerSetContentPacket packet, CallbackInfo ci) {
         Screen sc = Vanilla.INSTANCE.screen();
         if (sc instanceof AnvilScreen) {
             synchronized (AnvilHandler.INSTANCE.getSync()) {
