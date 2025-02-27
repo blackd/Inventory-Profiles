@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.event
 
+import org.anti_ad.mc.alias.client.gui.screen.ingame.InventoryScreen
 import org.anti_ad.mc.alias.component.ComponentType
 import org.anti_ad.mc.alias.item.`(componentChanges)`
 import org.anti_ad.mc.alias.nbt.NbtCompound
@@ -75,7 +76,8 @@ object ProfileSwitchHandler: IInputHandler {
     private val hotBarSlots: List<Int> = (0+36..8+36).toList()
 
     fun onTickInGame() {
-        if (VanillaUtil.inGame() && doApplyProfile) {
+        val screen = Vanilla.screen()
+        if (VanillaUtil.inGame() && doApplyProfile && (screen == null || screen is InventoryScreen)) {
             doApplyProfile = false
             applyProfile()
         }
@@ -169,49 +171,54 @@ object ProfileSwitchHandler: IInputHandler {
 
         if (!VanillaUtil.inGame()) return false
 
-        if (Hotkeys.APPLY_PROFILE.isActivated()) {
-            applyCurrent()
-            return true
-        }
-        if (Hotkeys.NEXT_PROFILE.isActivated()) {
-            nextProfile()
-            return true
-        }
-        if (Hotkeys.PREV_PROFILE.isActivated()) {
-            prevProfile()
-            return true
-        }
-        if (Hotkeys.PROFILE_1.isActivated()) {
-            val name = EditProfiles.QUICK_SLOT_1_PROFILE.value
-            if (name != EditProfiles.QUICK_SLOT_1_PROFILE.defaultValue) {
-                switchToProfileName(name)
+        val screen = Vanilla.screen()
+        if (screen == null || screen is InventoryScreen) {
+
+            if (Hotkeys.APPLY_PROFILE.isActivated()) {
+                applyCurrent()
+                return true
             }
-            return true
-        }
-        if (Hotkeys.PROFILE_2.isActivated()) {
-            val name = EditProfiles.QUICK_SLOT_2_PROFILE.value
-            if (name != EditProfiles.QUICK_SLOT_2_PROFILE.defaultValue) {
-                switchToProfileName(name)
+            if (Hotkeys.NEXT_PROFILE.isActivated()) {
+                nextProfile()
+                return true
             }
-            return true
-        }
-        if (Hotkeys.PROFILE_3.isActivated()) {
-            val name = EditProfiles.QUICK_SLOT_3_PROFILE.value
-            if (name != EditProfiles.QUICK_SLOT_3_PROFILE.defaultValue) {
-                switchToProfileName(name)
+            if (Hotkeys.PREV_PROFILE.isActivated()) {
+                prevProfile()
+                return true
             }
-            return true
+            if (Hotkeys.PROFILE_1.isActivated()) {
+                val name = EditProfiles.QUICK_SLOT_1_PROFILE.value
+                if (name != EditProfiles.QUICK_SLOT_1_PROFILE.defaultValue) {
+                    switchToProfileName(name)
+                }
+                return true
+            }
+            if (Hotkeys.PROFILE_2.isActivated()) {
+                val name = EditProfiles.QUICK_SLOT_2_PROFILE.value
+                if (name != EditProfiles.QUICK_SLOT_2_PROFILE.defaultValue) {
+                    switchToProfileName(name)
+                }
+                return true
+            }
+            if (Hotkeys.PROFILE_3.isActivated()) {
+                val name = EditProfiles.QUICK_SLOT_3_PROFILE.value
+                if (name != EditProfiles.QUICK_SLOT_3_PROFILE.defaultValue) {
+                    switchToProfileName(name)
+                }
+                return true
+            }
+
+            if (Hotkeys.SAVE_AS_PROFILE.isActivated()) {
+                val p = createProfileFromCurrentState()
+                ProfilesLoader.savedProfiles.add(p)
+                ProfilesLoader.save()
+                VanillaUtil.chat(getTranslatable("inventoryprofiles.profiles.created_new_saved"))
+                Log.trace("\n$p")
+                return true
+            }
         }
 
 
-        if (Hotkeys.SAVE_AS_PROFILE.isActivated()) {
-            val p = createProfileFromCurrentState()
-            ProfilesLoader.savedProfiles.add(p)
-            ProfilesLoader.save()
-            VanillaUtil.chat(getTranslatable("inventoryprofiles.profiles.created_new_saved"))
-            Log.trace("\n$p")
-            return true
-        }
         return false
     }
 
