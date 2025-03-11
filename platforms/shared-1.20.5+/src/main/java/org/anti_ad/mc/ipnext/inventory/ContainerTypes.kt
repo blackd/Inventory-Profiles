@@ -26,6 +26,7 @@ import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.ipnext.container.versionSpecificContainerTypes
 import org.anti_ad.mc.ipnext.ingame.`(inventory)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
+import org.anti_ad.mc.ipnext.integration.HintClassData
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 
 val nonStorage = setOf(TEMP_SLOTS)
@@ -128,7 +129,8 @@ object ContainerTypes {
         }
     }
 
-    fun getTypes(container: Container): Set<ContainerType> {
+    fun getTypes(container: Container,
+                 hints: HintClassData = HintsManagerNG.getHints(container.javaClass)): Set<ContainerType> {
 
         val v: Set<ContainerType>
         if (container.`(slots)`.isEmpty()) {
@@ -136,8 +138,8 @@ object ContainerTypes {
         } else {
             //Log.trace("container.slots.size: ${container.`(slots)`.size}")
             val z: Class<*>? = getRepresentingClass(container)
-            val ignoredClass = if (HintsManagerNG.getHints(container.javaClass).ignore) container.javaClass else null
-            val playerSideOnly = HintsManagerNG.isPlayerSideOnly(container.javaClass)
+            val ignoredClass = if (hints.ignore) container.javaClass else null
+            val playerSideOnly = hints.playerSideOnly
             //Log.trace("Representing class: ${z?.name}")
             if (z == null) {
                 if (ignoredClass == null) {

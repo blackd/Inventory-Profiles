@@ -338,15 +338,18 @@ object VillagerTradeManager: IInputHandler {
                         val slot = container.`(slots)`[2]
                         screen.`(selectedIndex)` = index
                         screen.`(syncRecipeIndex)`()
+                        val resultType = slot.`(itemStack)`.itemType
+                        Log.trace("selected recipe with resultType: $resultType")
                         var iterations = 0
                         do {
                             do {
                                 ContainerClicker.shiftClick(2)
                                 iterations++
-                            } while (iterations <= 200 && !slot.`(itemStack)`.isEmpty())
+                                Log.trace("state after click ${slot.`(itemStack)`.isEmpty()}, ${slot.`(itemStack)`.itemType.itemId}")
+                            } while (iterations <= 200 && !slot.`(itemStack)`.isEmpty() && slot.`(itemStack)`.itemType.itemId == resultType.itemId)
                             screen.`(selectedIndex)` = index
                             screen.`(syncRecipeIndex)`()
-                        } while (iterations <= 400 && !slot.`(itemStack)`.isEmpty())
+                        } while (iterations <= 400 && !slot.`(itemStack)`.isEmpty() && slot.`(itemStack)`.itemType.itemId == resultType.itemId)
                     }
                 }
             }

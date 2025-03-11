@@ -185,7 +185,9 @@ object HintsManagerNG {
 
 
     fun getHints(cl: Class<*>): HintClassData {
+        //Log.trace("Get hints for class: ${cl.name}", Exception("Stack trace"))
         return effectiveHints[cl.name].let {
+            //Log.trace("Known hints: $it")
             it.let {
                 if (it != null && !it.force
                     && (cl.isAnnotationPresent(IPNIgnore::class.java)
@@ -194,6 +196,7 @@ object HintsManagerNG {
                             || cl.isAnnotationPresent(IPNSlotsIgnoreForInventoryTypes::class.java))) {
                     null
                 } else {
+                    //Log.trace("Using cached class data: $it")
                     it
                 }
             } ?: run {
@@ -204,6 +207,7 @@ object HintsManagerNG {
                 } != null
                 val buttonHints: MutableMap<IPNButton, ButtonPositionHint> = mutableMapOf()
                 cl.getAnnotationsByType(IPNGuiHint::class.java).forEach { ipnButton ->
+                    Log.trace("Found @IPNGuiHint for button: ${ipnButton.button.name}")
                     buttonHints[ipnButton.button] = ButtonPositionHint(ipnButton.horizontalOffset,
                                                                        ipnButton.top,
                                                                        ipnButton.bottom,
@@ -226,6 +230,7 @@ object HintsManagerNG {
                 }.also { nv ->
                     nv.fillMissingHints()
                 }
+                //Log.trace("Using newlly created hint class data: $newVal")
                 effectiveHints[cl.name] = newVal
                 newVal
             }

@@ -48,13 +48,15 @@ import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SortButtonWidget
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(isInventoryTab)`
+import org.anti_ad.mc.ipnext.integration.HintClassData
 import org.anti_ad.mc.ipnext.inventory.ContainerType.*
 import org.anti_ad.mc.ipnext.inventory.ContainerTypes
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 
 //todo REFACTOR THIS SHIT
 
-class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : InsertableWidget() {
+class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>,
+                                    val hints: HintClassData) : InsertableWidget() {
 
     override val container: Container = Vanilla.container()
 
@@ -136,8 +138,6 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             }
         }
 
-        private val hints = HintsManagerNG.getHints(screen.javaClass)
-
         val types = ContainerTypes.getTypes(container).let {
             if (hints.playerSideOnly) {
                 it - SORTABLE_STORAGE + PURE_BACKPACK
@@ -203,9 +203,9 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             if (columnSort) {
                 return SortInColumnButton(playerSide).apply {
                     hints = if (playerSide) {
-                        this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS_PLAYER)
+                        this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.SORT_COLUMNS_PLAYER)
                     } else {
-                        this@InitWidgets.hints.hintFor(IPNButton.SORT_COLUMNS)
+                        this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.SORT_COLUMNS)
                     }
                     tx = 20
                     this@SortingButtonCollectionWidget.addChild(this)
@@ -217,9 +217,9 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             } else if (rowSort) {
                 return SortInRowButton(playerSide).apply {
                     hints = if (playerSide) {
-                        this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS_PLAYER)
+                        this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.SORT_ROWS_PLAYER)
                     } else {
-                        this@InitWidgets.hints.hintFor(IPNButton.SORT_ROWS)
+                        this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.SORT_ROWS)
                     }
                     tx = 30
                     this@SortingButtonCollectionWidget.addChild(this)
@@ -231,9 +231,9 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             }
             return SortButton(playerSide).apply {
                 hints = if (playerSide) {
-                    this@InitWidgets.hints.hintFor(IPNButton.SORT_PLAYER)
+                    this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.SORT_PLAYER)
                 } else {
-                    this@InitWidgets.hints.hintFor(IPNButton.SORT)
+                    this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.SORT)
                 }
                 tx = 10
                 this@SortingButtonCollectionWidget.addChild(this)
@@ -301,7 +301,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             }
         }
         private val moveAllToContainer = MoveButton(toPlayer = false).apply {
-            hints = this@InitWidgets.hints.hintFor(IPNButton.MOVE_TO_CONTAINER)
+            hints = this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.MOVE_TO_CONTAINER)
             tx = 50
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible
@@ -311,7 +311,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         }
 
         private val moveAllToPlayer = MoveButton(toPlayer = true).apply {
-            hints = this@InitWidgets.hints.hintFor(IPNButton.MOVE_TO_PLAYER)
+            hints = this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.MOVE_TO_PLAYER)
             tx = 60
             this@SortingButtonCollectionWidget.addChild(this)
             visible = moveAllVisible && !types.contains(CRAFTING)
@@ -361,7 +361,7 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
         private val continuousCraftingCheckbox = CheckBoxWidget { -> switchCheckBoxValues() }.apply {
             this@SortingButtonCollectionWidget.snapableList.add(this)
 //      tx = 70 or 80
-            hints = this@InitWidgets.hints.hintFor(IPNButton.CONTINUOUS_CRAFTING)
+            hints = this@SortingButtonCollectionWidget.hints.hintFor(IPNButton.CONTINUOUS_CRAFTING)
 
             this@SortingButtonCollectionWidget.addChild(this)
 
@@ -424,9 +424,15 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>) : I
             val isPlayer = types.contains(PLAYER)
             // move all location
             if (moveAllVisible) {
+                //Log.trace("move all is visible")
+                //Log.trace("move all hints bottom: ${moveAllToContainer.hints.bottom} right: ${moveAllToContainer.hints.horizontalOffset}")
+
                 moveAllToContainer.setBottomRight(bottom + (if (isPlayer) 12 else 0) + moveAllToContainer.hints.bottom,
                                                   right + moveAllToContainer.hints.horizontalOffset)
                 if (moveAllToPlayer.visible) {
+                    //Log.trace("move all PLAYER is visible")
+                    //Log.trace("move all PLAYER hints top: ${moveAllToPlayer.hints.top} right: ${moveAllToPlayer.hints.horizontalOffset}")
+
                     moveAllToPlayer.setTopRight(top + moveAllToPlayer.hints.top,
                                                 right + moveAllToPlayer.hints.horizontalOffset)
                 }

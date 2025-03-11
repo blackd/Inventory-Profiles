@@ -27,7 +27,6 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.ipnext.Log
 import org.anti_ad.mc.common.gui.TooltipsManager
 import org.anti_ad.mc.common.gui.screen.BaseScreen
-import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
@@ -40,7 +39,6 @@ import org.anti_ad.mc.ipnext.event.SlotHighlightHandler
 import org.anti_ad.mc.ipnext.event.villagers.VillagerTradeManager
 import org.anti_ad.mc.ipnext.gui.inject.base.InsertableWidget
 import org.anti_ad.mc.ipnext.gui.inject.base.SettingsWidget
-import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 
 object ContainerScreenEventHandler {
@@ -54,14 +52,15 @@ object ContainerScreenEventHandler {
         Log.trace("Showing screen of type ${target.javaClass.name}")
         val widgetsToInset = mutableListOf<InsertableWidget>()
         val hints = HintsManagerNG.getHints(target.javaClass)
+        Log.trace("Hints for '${target.javaClass.name}`: $hints")
         val ignore = hints.ignore
 
-        val editor = EditorWidget(target).also { it.addHintable(it) }
+        val editor = EditorWidget(target, hints).also { it.addHintable(it) }
 
-        val settings = SettingsWidget(target).also { editor.addHintable(it) }
+        val settings = SettingsWidget(target, hints).also { editor.addHintable(it) }
 
         if (GuiSettings.ENABLE_INVENTORY_BUTTONS.booleanValue && !ignore) {
-            widgetsToInset.add(SortingButtonCollectionWidget(target).also { editor.addHintable(it) })
+            widgetsToInset.add(SortingButtonCollectionWidget(target, hints).also { editor.addHintable(it) })
         }
         if (GuiSettings.ENABLE_PROFILES_UI.booleanValue  && !ignore && !hints.hintFor(IPNButton.PROFILE_SELECTOR).hide) {
             widgetsToInset.add(ProfilesUICollectionWidget(target, hints).also { editor.addHintable(it) })

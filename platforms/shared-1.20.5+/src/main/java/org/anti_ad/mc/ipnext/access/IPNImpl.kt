@@ -156,12 +156,11 @@ private fun translateMapValueToSlot(source: Map<Int, Int>): Map<Int, Slot> {
 
 private fun swapSlots(to: Int, foundSlotId: Int) {
     val swappedTo = if (to <= 8) to + 36 else to
-        AutoRefillHandler.profilesSwappedItems.add(swappedTo)
+    AutoRefillHandler.profilesSwappedItems.add(swappedTo)
     GeneralInventoryActions.cleanCursor()
     if (to in 0..8) { // use swap
         //handles hotbar
-        ContainerClicker.swap(foundSlotId,
-                              to)
+        ContainerClicker.swap(foundSlotId, to)
     } else {
         //handles offhand and armor slots
 

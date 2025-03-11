@@ -2,6 +2,17 @@
 
 ### 2.1.3
 
+- Fixed villager auto trading doing unwanted trades.
+- Made bulk rename more stable
+- Fixed a crash in a very unlikely situation where the player made it possible to apply a profile while cest is open.
+- Other small fixes and optimisations.
+- Also release for 1.20.3 with the above fixes. 
+
+<!-- latest end -->
+<!-- rest begin -->
+
+### 2.1.3
+
 - initial support for fabric 1.21.5
 
 - Major changes to how enchanted items/books are sorted. The tooltip enchantment order will be used.\
@@ -17,8 +28,6 @@
   generated or mod-supplied items may behave differently.
 
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.2
 
