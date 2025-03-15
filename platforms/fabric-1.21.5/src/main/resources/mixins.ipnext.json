@@ -25,9 +25,7 @@
         "MixinPlayerInteractEntityC2SPacket",
         "MixinPlayerInteractionManagerForLockedSlotsMovePrevention",
         "MixinPlayerInventory",
-        "MixinScreen",
-        "MixinSuperMartiJnWidgetScreen",
-        "MixinVirtualMouseHandler"
+        "MixinScreen"
     ],
     "injectors":          {
         "defaultRequire": 1

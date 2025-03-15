@@ -54,6 +54,7 @@ import org.anti_ad.mc.ipnext.item.empty
 import org.anti_ad.mc.ipnext.item.vanillaStack
 import org.anti_ad.mc.ipnext.mixin.IMixinContainerScreen
 import org.anti_ad.mc.ipnext.mixin.IMixinSlot
+import org.anti_ad.mc.ipnext.specific.asString
 import org.anti_ad.mc.alias.item.ItemStack as VanillaItemStack
 
 // ============
@@ -169,7 +170,7 @@ fun <T> Registry<T>.`(getByIdentifier)`(id: Identifier): T? {
 inline val NbtElement.`(type)`: Int
     get() = type.toInt()
 inline val NbtElement.`(asString)`: String
-    get() = asString()
+    get() = this.asString
 
 inline val NbtCompound.`(keys)`: Set<String>
     get() = keys

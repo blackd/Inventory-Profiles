@@ -56,7 +56,7 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
         drawContext.getMatrices().push();
         var topLeft = new Rectangle(screen.getContainerX(), screen.getContainerY(), screen.getContainerHeight(), screen.getContainerWidth()).getTopLeft();
         drawContext.getMatrices().translate(-topLeft.getX(), -topLeft.getY(), 0.0d);
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext), i, j, f);
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext, null), i, j, f);
         drawContext.getMatrices().pop();
     }
 
@@ -67,7 +67,7 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
             shift = At.Shift.AFTER), method = "render")
     public void onForegroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
         IMixinContainerScreen screen = (IMixinContainerScreen) this;
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, null);
         context.setOverlay(true);
         drawContext.getMatrices().push();
         var topLeft = new Rectangle(screen.getContainerX(), screen.getContainerY(), screen.getContainerHeight(), screen.getContainerWidth()).getTopLeft();

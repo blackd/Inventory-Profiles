@@ -54,7 +54,7 @@
 
 ### 2.1.0
 
-- 1.21.3/4 fixed some situations where the vanilla input processing wasn't properly canceled. For example locking and unlocking slots picked up the stack form the first slot if not empty.
+- 1.21.3/4 fixed some situations where the vanilla input processing wasn't properly canceled. For example, locking and unlocking slots picked up the stack form the first slot if not empty.
 
 ### 2.0.10
 

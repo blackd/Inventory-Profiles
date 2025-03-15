@@ -24,7 +24,6 @@ import org.anti_ad.mc.common.gui.NativeContext
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.vanilla.Vanilla
-import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.alpha
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
 import org.anti_ad.mc.ipnext.config.ModSettings
@@ -122,7 +121,7 @@ object SlotHighlightHandler: InventoryOverlay {
                 alphaChannel = defaultAlpha
             }
             //rDisableDepth()
-            RenderSystem.enableBlend()
+            //LibIPNRenderSystem._enableBlend()
             val topLeft = screen.`(containerBounds)`.topLeft
             for ((_, slotTopLeft) in localSlotLocations) {
                 val tl = topLeft + slotTopLeft
@@ -133,7 +132,7 @@ object SlotHighlightHandler: InventoryOverlay {
                                     16),
                           color.alpha(alphaChannel))
             }
-            RenderSystem.disableBlend()
+            //LibIPNRenderSystem._disableBlend()
             //rEnableDepth()
         } else {
             tick = 0

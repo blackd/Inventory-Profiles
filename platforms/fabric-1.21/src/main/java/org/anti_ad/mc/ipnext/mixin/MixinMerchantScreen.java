@@ -51,7 +51,7 @@ public class MixinMerchantScreen {
             locals = LocalCapture.CAPTURE_FAILHARD)
     void render(DrawContext drawContext, int mouseX, int mouseY, float delta, CallbackInfo ci, TradeOfferList tradeOfferList, int i, int j, int k, int l, int m, Iterator var11, TradeOffer tradeOffer, ItemStack itemStack, ItemStack itemStack2, ItemStack itemStack3, ItemStack itemStack4) {
         //MerchantScreen self = ;
-        VillagerTradeManager.INSTANCE.drawingButton((MerchantScreen)((Object)this), new NativeContext(drawContext), mouseX, mouseY, tradeOffer, i, j, k, l, m);
+        VillagerTradeManager.INSTANCE.drawingButton((MerchantScreen)((Object)this), new NativeContext(drawContext, null), mouseX, mouseY, tradeOffer, i, j, k, l, m);
     }
 
 

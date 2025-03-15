@@ -21,7 +21,6 @@ package org.anti_ad.mc.ipnext.compat.integrations
 
 import net.fabricmc.loader.api.FabricLoader
 import org.anti_ad.mc.common.extensions.ifTrue
-import org.anti_ad.mc.common.extensions.orDefault
 import org.anti_ad.mc.common.extensions.tryOrElse
 
 class CarpetIntegration: IPNtoModIntegration {

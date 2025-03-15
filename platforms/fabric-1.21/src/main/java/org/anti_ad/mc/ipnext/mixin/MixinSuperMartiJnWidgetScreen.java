@@ -49,7 +49,7 @@ public class MixinSuperMartiJnWidgetScreen {
         drawContext.getMatrices().push();
         var topLeft = new Rectangle(screen.getContainerX(), screen.getContainerY(), screen.getContainerHeight(), screen.getContainerWidth()).getTopLeft();
         drawContext.getMatrices().translate(-topLeft.getX(), -topLeft.getY(), 0.0d);
-        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext), mouseX, mouseY, partialTicks);
+        ContainerScreenEventHandler.INSTANCE.onBackgroundRender(new NativeContext(drawContext, null), mouseX, mouseY, partialTicks);
         drawContext.getMatrices().pop();
     }
 
@@ -59,7 +59,7 @@ public class MixinSuperMartiJnWidgetScreen {
                      ordinal = 0),
             method = "render")
     public void onForegroundRender(DrawContext drawContext, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, null);
         context.setOverlay(true);
         IMixinContainerScreen screen = (IMixinContainerScreen) this;
         drawContext.getMatrices().push();

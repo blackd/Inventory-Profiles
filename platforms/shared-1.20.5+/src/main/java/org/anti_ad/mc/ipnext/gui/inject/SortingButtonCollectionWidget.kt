@@ -33,6 +33,7 @@ import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.RenderLayer
 import org.anti_ad.mc.common.vanilla.alias.glue.I18n
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawOutline
 import org.anti_ad.mc.common.vanilla.render.opaque

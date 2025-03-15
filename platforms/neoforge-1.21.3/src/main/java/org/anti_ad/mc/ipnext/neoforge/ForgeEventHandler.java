@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.neoforge;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
+import net.minecraft.client.renderer.RenderType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
@@ -84,25 +85,25 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public void preScreenRender(ScreenEvent.Render.Pre event) {
-        ScreenEventHandler.INSTANCE.preRender(new NativeContext(event.getGuiGraphics(), GUI_TEXTURED ));
+        ScreenEventHandler.INSTANCE.preRender(new NativeContext(event.getGuiGraphics(), RenderType::guiTextured ));
     }
 
     // fabric GameRenderer.render() = forge updateCameraAndRender()
     // forge line 554
     @SubscribeEvent
     public void postScreenRender(Render.Post e) {
-        ScreenEventHandler.INSTANCE.postRender(new NativeContext(e.getGuiGraphics(), GUI_TEXTURED));
+        ScreenEventHandler.INSTANCE.postRender(new NativeContext(e.getGuiGraphics(), RenderType::guiTextured));
     }
 
     @SubscribeEvent
     public void onBackgroundRender(ContainerScreenEvent.Render.Background e) {
-        var context = new NativeContext(e.getGuiGraphics(), GUI_TEXTURED);
+        var context = new NativeContext(e.getGuiGraphics(), RenderType::guiTextured);
         ContainerScreenEventHandler.INSTANCE.onBackgroundRender(context, e.getMouseX(), e.getMouseY(), 0);
     }
 
     @SubscribeEvent
     public void onForegroundRender(ContainerScreenEvent.Render.Foreground e) {
-        var context = new NativeContext(e.getGuiGraphics(), GUI_TEXTURED);
+        var context = new NativeContext(e.getGuiGraphics(), RenderType::guiTextured);
         context.setOverlay(true);
         var screen = e.getContainerScreen();
         context.getNative().pose().pushPose();

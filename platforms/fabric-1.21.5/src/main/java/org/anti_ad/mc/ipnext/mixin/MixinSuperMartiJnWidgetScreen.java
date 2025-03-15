@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package org.anti_ad.mc.ipnext.mixin;
 
+/*
 import com.supermartijn642.core.gui.WidgetContainerScreen;
 import com.supermartijn642.core.gui.widget.Widget;
 import net.minecraft.client.gui.DrawContext;
@@ -71,4 +71,4 @@ public class MixinSuperMartiJnWidgetScreen {
     }
 
 
-}
+}*/

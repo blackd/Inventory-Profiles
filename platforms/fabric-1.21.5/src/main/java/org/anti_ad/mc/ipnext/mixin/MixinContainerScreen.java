@@ -50,7 +50,7 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
     }
 
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V",
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawSlotHighlightBack(Lnet/minecraft/client/gui/DrawContext;)V",
             shift = At.Shift.AFTER), method = "render")
     public void onBackgroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
         IMixinContainerScreen screen = (IMixinContainerScreen) this;
@@ -63,8 +63,7 @@ public abstract class MixinContainerScreen<T extends ScreenHandler> extends Scre
 
 
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;" +
-            "drawForeground(Lnet/minecraft/client/gui/DrawContext;II)V",
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawSlotHighlightFront(Lnet/minecraft/client/gui/DrawContext;)V",
             shift = At.Shift.AFTER), method = "render")
     public void onForegroundRender(DrawContext drawContext, int i, int j, float f, CallbackInfo ci) {
         IMixinContainerScreen screen = (IMixinContainerScreen) this;

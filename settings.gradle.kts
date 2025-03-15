@@ -34,6 +34,7 @@ include("platforms:neoforge-1.21")
 
 
 
+
 pluginManagement {
     repositories {
         maven(url = "https://maven.fabricmc.net") {

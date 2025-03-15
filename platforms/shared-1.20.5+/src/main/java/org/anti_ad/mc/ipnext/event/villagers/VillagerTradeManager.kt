@@ -381,7 +381,9 @@ object VillagerTradeManager: IInputHandler {
                                    doGlobal: Boolean,
                                    villager: MerchantEntity,
                                    group: Int): Boolean {
-        screen.`(offers)`.firstOrNull { offer -> offer.`(isHovered)` }?.let { page ->
+        screen.`(offers)`.firstOrNull { offer ->
+            offer.`(isHovered)`
+        }?.let { page ->
             val index = page.index + screen.`(indexStartOffset)`
 
             toggleBookmark(screen,

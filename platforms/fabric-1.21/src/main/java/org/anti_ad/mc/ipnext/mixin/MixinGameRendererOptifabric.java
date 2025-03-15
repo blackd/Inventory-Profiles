@@ -52,7 +52,7 @@ public class MixinGameRendererOptifabric {
                                 Matrix4f matrix4f,
                                 MatrixStack matrixStack,
                                 DrawContext drawContext) {
-        ScreenEventHandler.INSTANCE.preRender(new NativeContext(drawContext));
+        ScreenEventHandler.INSTANCE.preRender(new NativeContext(drawContext, null));
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = At.Shift.AFTER), method = "render", locals = LocalCapture.PRINT)
@@ -66,6 +66,6 @@ public class MixinGameRendererOptifabric {
                                  Matrix4f matrix4f,
                                  MatrixStack matrixStack,
                                  DrawContext drawContext) {
-        ScreenEventHandler.INSTANCE.postRender(new NativeContext(drawContext));
+        ScreenEventHandler.INSTANCE.postRender(new NativeContext(drawContext, null));
     }
 }

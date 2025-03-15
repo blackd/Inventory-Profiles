@@ -39,7 +39,7 @@ public class MixinInGameHud {
     protected void preRenderHotbar(DrawContext drawContext,
                                    RenderTickCounter tickCounter,
                                    CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, null);
         LockSlotsHandler.INSTANCE.preRenderHud(context);
         AutoRefillHandler.INSTANCE.preRenderHud(context);
     }
@@ -50,7 +50,7 @@ public class MixinInGameHud {
     protected void postRenderHotbar(DrawContext drawContext,
                                     RenderTickCounter tickCounter,
                                     CallbackInfo ci) {
-        var context = new NativeContext(drawContext);
+        var context = new NativeContext(drawContext, null);
         LockSlotsHandler.INSTANCE.postRenderHud(context);
         AutoRefillHandler.INSTANCE.postRenderHud(context);
 

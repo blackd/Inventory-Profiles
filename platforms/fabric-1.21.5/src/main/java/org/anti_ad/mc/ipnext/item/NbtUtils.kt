@@ -118,7 +118,7 @@ object NbtUtils {
 
     fun parseNbtOrEmpty(nbt: String): NbtElement {
         return tryCatch {
-            var z = StringNbtReader.read<NbtElement>(NbtOps.INSTANCE, StringReader(nbt))
+            var z = StringNbtReader.fromOps(NbtOps.INSTANCE).read(StringReader(nbt))
             z
         } ?: NbtCompound()
     }
@@ -217,9 +217,9 @@ object NbtUtils {
         val asCompound: NbtCompound
             get() = value as? NbtCompound ?: NbtCompound()
         val asList: List<WrappedTag>
-            get() = (value as? AbstractNbtList<*>)?.map { WrappedTag(it) } ?: listOf()
+            get() = (value as? AbstractNbtList)?.map { WrappedTag(it) } ?: listOf()
         val asListUnwrapped: List<NbtElement>
-            get() = (value as? AbstractNbtList<*>)?.toList() ?: listOf()
+            get() = (value as? AbstractNbtList)?.toList() ?: listOf()
         val asListComparable: List<AsComparable<NbtElement>>
             get() = asListUnwrapped.map { it.asComparable { a, b -> a.compareTo(b) } }
 

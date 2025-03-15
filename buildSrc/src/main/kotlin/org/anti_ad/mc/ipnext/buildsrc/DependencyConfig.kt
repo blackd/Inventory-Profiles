@@ -159,8 +159,8 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         "api"(kotlin("stdlib"))
         "api"(kotlin("reflect"))
 
-        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0")
-        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.0")
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:1+")
+        "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:1+")
 
         "minecraft"("com.mojang:minecraft:$minecraft_version")
         "mappings"("net.fabricmc:yarn:$mappings_version:v2")
@@ -168,16 +168,20 @@ fun Project.fabricCommonDependency(minecraft_version: Any,
         "modImplementation"("net.fabricmc:fabric-loader:$loader_version")
         "modImplementation"("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
 
-        "modCompileOnly"("dev.isxander:yet-another-config-lib:$yacl_version") {
-            exclude("maven.modrinth")
-            exclude(module = "reeses-sodium-options")
+        yacl_version?.let {
+            "modCompileOnly"("dev.isxander:yet-another-config-lib:$it") {
+                exclude("maven.modrinth")
+                exclude(module = "reeses-sodium-options")
+            }
         }
-        "modCompileOnly"("dev.isxander:controlify:$controlify_version") {
-            exclude("maven.modrinth")
-            exclude(module = "reeses-sodium-options")
+        controlify_version?.let {
+            "modCompileOnly"("dev.isxander:controlify:$it") {
+                exclude("maven.modrinth")
+                exclude(module = "reeses-sodium-options")
+            }
         }
         modmenu_version?.let {
-            "modApi"("com.terraformersmc:modmenu:$modmenu_version")
+            "modImplementation"("com.terraformersmc:modmenu:$modmenu_version")
         }
 
         libIPN_version?.let {

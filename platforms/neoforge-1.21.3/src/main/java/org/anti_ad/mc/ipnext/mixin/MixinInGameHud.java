@@ -35,7 +35,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static net.minecraft.client.renderer.RenderType.GUI_TEXTURED;
 
 @Mixin(Gui.class)
 public class MixinInGameHud {
@@ -45,7 +44,7 @@ public class MixinInGameHud {
     protected void preRenderHotbar(GuiGraphics drawContext,
                                    DeltaTracker tickCounter,
                                    CallbackInfo ci) {
-        var context = new NativeContext(drawContext, GUI_TEXTURED);
+        var context = new NativeContext(drawContext,  RenderType::guiTextured);
         LockSlotsHandler.INSTANCE.preRenderHud(context);
         AutoRefillHandler.INSTANCE.preRenderHud(context);
     }
@@ -56,7 +55,7 @@ public class MixinInGameHud {
     protected void postRenderHotbar(GuiGraphics drawContext,
                                     DeltaTracker tickCounter,
                                     CallbackInfo ci) {
-        var context = new NativeContext(drawContext, GUI_TEXTURED);
+        var context = new NativeContext(drawContext, RenderType::guiTextured);
         LockSlotsHandler.INSTANCE.postRenderHud(context);
         AutoRefillHandler.INSTANCE.postRenderHud(context);
     }

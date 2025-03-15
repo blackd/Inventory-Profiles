@@ -836,9 +836,9 @@ object AutoRefillHandler: InventoryOverlay {
         for ((invSlot, slotTopLeft) in slotLocations) {
             if (invSlot !in disabledSlots) {
                 val center = topLeft + slotTopLeft + eightByEight
-                RenderSystem.enableBlend()
+                //LibIPNRenderSystem._enableBlend()
                 rDrawCenteredSprite(context, foregroundSprite, center)
-                RenderSystem.disableBlend()
+                //LibIPNRenderSystem._disableBlend()
             }
         }
     }
@@ -857,7 +857,7 @@ object AutoRefillHandler: InventoryOverlay {
 
     private fun drawHotSprite(context: NativeContext) {
         if (!AutoRefillSettings.AUTO_REFILL_ENABLE_PER_SLOT_CONFIG.value || !AutoRefillSettings.AUTO_REFILL_ENABLE_HORBAR_INDICATOR_ICONS.value) return //    rClearDepth() // use translate or zOffset
-        rDisableDepth() //RenderSystem.enableBlend()
+        //rDisableDepth() //RenderSystem.enableBlend()
         val screenWidth = Vanilla.mc().`(window)`.`(scaledWidth)`
         val screenHeight = Vanilla.mc().`(window)`.`(scaledHeight)`
         val i = screenWidth / 2
@@ -868,12 +868,12 @@ object AutoRefillHandler: InventoryOverlay {
                 val l1: Int = screenHeight - 16 - 3
                 val topLeft = Point(k1, l1)
                 val topLeftCentered = topLeft + eightByEight //if (LockedSlotsSettings.SHOW_LOCKED_SLOTS_FOREGROUND.booleanValue) {
-                RenderSystem.enableBlend()
+                //LibIPNRenderSystem._enableBlend()
                 rDrawCenteredSprite(context, foregroundSprite, topLeftCentered)
-                RenderSystem.disableBlend()
+                //LibIPNRenderSystem._disableBlend()
             }
-        } //RenderSystem.disableBlend()
-        rEnableDepth()
+        }
+        //rEnableDepth()
     }
 
     fun postRenderHud(context: NativeContext) {

@@ -31,15 +31,11 @@ import org.anti_ad.mc.ipnext.integration.HintsManagerNG
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
 import org.anti_ad.mc.common.math2d.Size
-import org.anti_ad.mc.common.math2d.intersects
 import org.anti_ad.mc.common.vanilla.Vanilla
 
-import org.anti_ad.mc.common.vanilla.alias.RenderSystem
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawCenteredSprite
 import org.anti_ad.mc.common.vanilla.render.glue.rFillRect
-import org.anti_ad.mc.common.vanilla.render.rDisableDepth
-import org.anti_ad.mc.common.vanilla.render.rEnableDepth
 import org.anti_ad.mc.ipnext.config.LockedSlotsSettings
 import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.config.SwitchType.HOLD
@@ -59,6 +55,7 @@ import org.anti_ad.mc.ipnext.ingame.vPlayerSlotOf
 import org.anti_ad.mc.ipnext.item.maxCount
 
 import org.anti_ad.mc.ipnext.parser.LockSlotsLoader
+import org.anti_ad.mc.ipnext.specific.asOverlayContext
 
 /*
   slots ignored for:
@@ -183,6 +180,11 @@ object LockSlotsHandler: InventoryOverlay {
                                      slotTopLeft: Point) {
         //rDrawCenteredSprite(backgroundSprite, center)
         val p = topLeft + slotTopLeft
+/*
+        val nc = NativeContext(context.native, RenderLayer::getGuiTextured).apply {
+            isSlotBackground = true
+        }
+*/
         rFillRect(context,
                   p.x, p.y,
                   p.x + 16, p.y + 16,
@@ -193,7 +195,11 @@ object LockSlotsHandler: InventoryOverlay {
                                      topLeft: Point,
                                      slotTopLeft: Point) {
         val center = topLeft + slotTopLeft + eightByEight
-        rDrawCenteredSprite(context, foregroundSprite, center)
+/*
+        val nc = NativeContext(context.native, RenderLayer::getGuiTexturedOverlay)
+*/
+        val nc = context.asOverlayContext
+        rDrawCenteredSprite(nc, foregroundSprite, center)
     }
 
     private fun drawConfigLocked(context: NativeContext, topLeft: Point, slotTopLeft: Point) {
@@ -212,7 +218,7 @@ object LockSlotsHandler: InventoryOverlay {
         val screen = Vanilla.screen() as? ContainerScreen<*> ?: return
         //    rClearDepth() // use translate or zOffset
         //rDisableDepth()
-        RenderSystem.enableBlend()
+        //LibIPNRenderSystem._enableBlend()
         val topLeft = screen.`(containerBounds)`.topLeft
 
         for ((invSlot, slotTopLeft) in slotLocations) {
@@ -228,7 +234,7 @@ object LockSlotsHandler: InventoryOverlay {
                 }
             }
         }
-        RenderSystem.disableBlend()
+        //LibIPNRenderSystem._disableBlend()
         //rEnableDepth()
     }
 
@@ -276,8 +282,8 @@ object LockSlotsHandler: InventoryOverlay {
     private fun drawHotSprite(context: NativeContext) {
         if (!enabledForeground) return
         //    rClearDepth() // use translate or zOffset
-        rDisableDepth()
-        RenderSystem.enableBlend()
+        //rDisableDepth()1
+        //LibIPNRenderSystem._enableBlend()
         val screenWidth = Vanilla.mc().`(window)`.`(scaledWidth)`
         val screenHeight = Vanilla.mc().`(window)`.`(scaledHeight)`
         val i = screenWidth / 2;
@@ -304,8 +310,8 @@ object LockSlotsHandler: InventoryOverlay {
                 }
             }
         }
-        RenderSystem.disableBlend()
-        rEnableDepth()
+        //LibIPNRenderSystem._disableBlend()
+        //rEnableDepth()
     }
 
     // ============

@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import kotlin.jvm.functions.Function1;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.MerchantScreen;
@@ -52,11 +53,10 @@ public class MixinMerchantScreen {
 
     @SuppressWarnings({"DataFlowIssue", "rawtypes"})
     @Inject(method = "render",
-            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V", ordinal = 0),
-            locals = LocalCapture.CAPTURE_FAILHARD)
-    void render(GuiGraphics matrices, int mouseX, int mouseY, float delta, CallbackInfo ci, MerchantOffers tradeOfferList, int i, int j, int k, int l, int m, Iterator var11, MerchantOffer tradeOffer, ItemStack itemStack, ItemStack itemStack2, ItemStack itemStack3, ItemStack itemStack4) {
+            at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V", ordinal = 0))
+    void render(GuiGraphics matrices, int mouseX, int mouseY, float delta, CallbackInfo ci, @Local(ordinal = 2) int i, @Local(ordinal = 3) int j, @Local(ordinal = 4) int k, @Local(ordinal = 5) int l, @Local(ordinal = 6) int m, @Local MerchantOffer tradeOffer) {
         MerchantScreen self = (MerchantScreen)((Object)this);
-        VillagerTradeManager.INSTANCE.drawingButton(self, new NativeContext(matrices, GUI_TEXTURED), mouseX, mouseY, tradeOffer, i, j, k, l, m);
+        VillagerTradeManager.INSTANCE.drawingButton(self, new NativeContext(matrices, RenderType::guiTextured), mouseX, mouseY, tradeOffer, i, j, k, l, m);
     }
 
 

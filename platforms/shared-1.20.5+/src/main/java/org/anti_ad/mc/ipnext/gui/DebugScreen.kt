@@ -29,6 +29,7 @@ import org.anti_ad.mc.common.gui.debug.DebugInfos
 import org.anti_ad.mc.common.gui.widgets.Page
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.vanilla.Vanilla
+import org.anti_ad.mc.common.vanilla.alias.DrawContext
 import org.anti_ad.mc.ipnext.ingame.`(container)`
 import org.anti_ad.mc.ipnext.ingame.`(containerBounds)`
 import org.anti_ad.mc.ipnext.ingame.`(focusedSlot)`
@@ -209,4 +210,13 @@ class DebugScreen: BaseDebugScreen() {
 
         var storedPageIndex = 0
     }
+
+    override fun renderBackground(context: DrawContext,
+                                  mouseX: Int,
+                                  mouseY: Int,
+                                  deltaTicks: Float) {
+        //this.applyBlur();
+        this.renderDarkening(context);
+    }
+
 }

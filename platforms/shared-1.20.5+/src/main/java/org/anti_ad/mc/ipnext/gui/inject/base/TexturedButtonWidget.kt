@@ -26,11 +26,13 @@ import org.anti_ad.mc.common.gui.widgets.IPNButtonWidget
 import org.anti_ad.mc.common.input.KeyCodes
 import org.anti_ad.mc.common.math2d.Point
 import org.anti_ad.mc.common.math2d.Rectangle
+import org.anti_ad.mc.common.vanilla.alias.RenderLayer
 import org.anti_ad.mc.common.vanilla.render.glue.IdentifierHolder
 import org.anti_ad.mc.common.vanilla.render.glue.Sprite
 import org.anti_ad.mc.common.vanilla.render.glue.rDrawSprite
 import org.anti_ad.mc.ipnext.gui.widgets.Hintable
 import org.anti_ad.mc.ipnext.integration.ButtonPositionHint
+import org.anti_ad.mc.ipnext.specific.asOverlayContext
 
 abstract class TexturedButtonWidget : IPNButtonWidget, Hintable {
     constructor(clickEvent: (button: Int) -> Unit) : super(clickEvent)
@@ -54,7 +56,8 @@ abstract class TexturedButtonWidget : IPNButtonWidget, Hintable {
     override fun renderButton(context: NativeContext,
                               hovered: Boolean) {
         val textureLocation = if (hovered) hoveringTexturePt else texturePt
-        rDrawSprite(context,
+        /*val nc = NativeContext(context.native, RenderLayer::getGuiTexturedOverlay)*/
+        rDrawSprite(context.asOverlayContext,
                     Sprite(texture,
                            Rectangle(textureLocation,
                                      size)),
