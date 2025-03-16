@@ -77,7 +77,7 @@ allprojects {
     group = "org.anti-ad.mc"
     ext.set("mod_artefact_version", versionObj.toCleanString())
     ext.set("mod_artefact_is_release", versionObj.isRelease())
-    ext.set("libIPN_version", "6.4.0-SNAPSHOT")
+    ext.set("libIPN_version", "6.4.0")
     ext.set("libIPN_version_max", "6.5")
 
     tasks.withType<JavaCompile>().configureEach {

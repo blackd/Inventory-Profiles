@@ -33,7 +33,7 @@ import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf(/*"1.21.5",*/ "25w04a", "25w05a", "25w06a"),
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.5-pre1", "1.21.5-pre2"),
                                          CURSEFORGE to listOf(/*"1.21.5", */"1.21.5-Snapshot"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
@@ -51,7 +51,7 @@ val carpet_core_version = "25w09a-1.4.168+v250226"
 val controlify_version = "2.0.0-beta.21+1.21.4-fabric"
 val yacl_version = "3.5.0+1.21-fabric"
 
-ext["mc_ver"] = "1.21.5-alpha.25"
+ext["mc_ver"] = "1.21.5-beta.1"
 ext["mc_ver_max"] = "1.22"
 ext["fabric_loader"] = loader_version
 ext["fabric_language_kotlin"] = fabric_lang_kotlin

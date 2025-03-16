@@ -31,7 +31,7 @@ import org.anti_ad.mc.ipnext.buildsrc.platformsCommonConfig
 import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = listOf("1.21", "1.21.1")
+val supported_minecraft_versions = listOf("1.21.1")
 val mod_loader = "neoforge"
 val mod_version = project.version
 val minecraft_version = "1.21.1"
@@ -49,7 +49,7 @@ val yacl_version = "3.5.0+1.21-neoforge"
 ext["kff_ver"] = "5.7"
 ext["forge_ver"] = "21.1"
 ext["forge_ver_max"] = ""
-ext["mc_ver"] = "1.21"
+ext["mc_ver"] = "1.21.1"
 ext["mc_ver_max"] = "1.21.2"
 
 
