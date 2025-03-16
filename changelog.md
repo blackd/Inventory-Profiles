@@ -1,15 +1,22 @@
 <!-- latest begin -->
 
-### 2.1.3
+### 2.1.5
+
+- support for fabric 1.21.5-pre.
+- updated Russian translation thanks to **nimbXnumb**
+- other fixes
+
+<!-- latest end -->
+<!-- rest begin -->
+
+### 2.1.4
 
 - Fixed villager auto trading doing unwanted trades.
 - Made bulk rename more stable
 - Fixed a crash in a very unlikely situation where the player made it possible to apply a profile while cest is open.
 - Other small fixes and optimisations.
-- Also release for 1.20.3 with the above fixes. 
+- Also release for 1.20.3 with the above fixes.
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.3
 
