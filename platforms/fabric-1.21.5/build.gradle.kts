@@ -37,19 +37,19 @@ val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.5-pre1", "1.21
                                          CURSEFORGE to listOf(/*"1.21.5", */"1.21.5-Snapshot"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
-val minecraft_version = "1.21.5-pre1"
+val minecraft_version = "1.21.5"
 val minecraft_version_string = "1.21.5"
-val mappings_version = "1.21.5-pre1+build.2"
+val mappings_version = "1.21.5+build.1"
 val loader_version = "0.16.10"
-val modmenu_version = "14.0.0-beta.2"
-val fabric_api_version = "0.118.5+1.21.5"
+val modmenu_version = "14.0.0-rc.2"
+val fabric_api_version = "0.119.5+1.21.5"
 val fabric_lang_kotlin = "1.13.0+kotlin.2.1.0"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val libIPN_version = "${project.name}:${project.ext["libIPN_version"]}"
 //val libIPN_version = "fabric-1.21.3:${project.ext["libIPN_version"]}"
-val carpet_core_version = "25w09a-1.4.168+v250226"
-val controlify_version = "2.0.0-beta.21+1.21.4-fabric"
-val yacl_version = "3.5.0+1.21-fabric"
+val carpet_core_version = "1.21.5-1.4.169+v250325"
+val controlify_version = "2.0.3+1.21.5-fabric"
+val yacl_version = "3.6.6+1.21.5-fabric"
 
 ext["mc_ver"] = "1.21.5-beta.1"
 ext["mc_ver_max"] = "1.22"
@@ -122,10 +122,8 @@ fabricCommonDependency(minecraft_version,
                        modmenu_version = modmenu_version,
                        libIPN_version = libIPN_version,
                        carpet_version = carpet_core_version,
-/*
                        controlify_version = controlify_version,
                        yacl_version = yacl_version
-*/
                       )
 
 dependencies {
