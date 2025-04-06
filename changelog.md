@@ -1,13 +1,20 @@
 <!-- latest begin -->
 
+### 2.1.6
+
+- due to changes in 1.21.5 we missed profiles didn't work properly and villager trading bookmarks were reset.
+- fixed the profiles part of the above.
+- villager trading bookmarks will still be reset.
+- dropping support for 1.21.3 and 1.21.4 fabric
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.1.5
 
 - support for fabric 1.21.5-pre.
 - updated Russian translation thanks to **nimbXnumb**
 - other fixes
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.4
 
