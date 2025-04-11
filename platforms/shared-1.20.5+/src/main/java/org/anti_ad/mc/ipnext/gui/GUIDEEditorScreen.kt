@@ -107,12 +107,10 @@ class GUIDEEditorScreen(private val target: Screen,
     private val infoStrings = mutableListOf(("$NAME_ROOT.class.screen" to target.javaClass.name),
                                             ("$NAME_ROOT.class.container" to container.javaClass.name))
 
-    private val helpStrings = mutableListOf(
-        "help.select.prev",
-        "help.select.next",
-        "help.move.speed",
-        "help.move.keys",
-                                           )
+    private val helpStrings = mutableListOf("help.select.prev",
+                                            "help.select.next",
+                                            "help.move.speed",
+                                            "help.move.keys",)
 
     inner class EditorConfigBoolean(override var key: String,
                                     override var hidden: Boolean,
@@ -222,6 +220,7 @@ class GUIDEEditorScreen(private val target: Screen,
     }
 
     init {
+        blurEnabled = false
         rootWidget.fillParent()
 
         targets.forEach {
