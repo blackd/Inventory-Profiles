@@ -52,7 +52,8 @@ public abstract class MixinPlayerInventory {
             cancellable = true)
     public void getEmptySlot(CallbackInfoReturnable<Integer> info) {
         if (!skipChecks) {
-            if (MinecraftClient.getInstance().player != null) {
+            var inventoryPlayer = ((PlayerInventory)((Object)this)).player;
+            if (inventoryPlayer.equals(MinecraftClient.getInstance().player)) {
                 if (ModSettings.INSTANCE.getENABLE_LOCK_SLOTS().getValue() &&
                         !LockedSlotsSettings.INSTANCE.getLOCKED_SLOTS_ALLOW_PICKUP_INTO_EMPTY().getValue()
                         && !Debugs.INSTANCE.getFORCE_SERVER_METHOD_FOR_LOCKED_SLOTS().getValue()) {
