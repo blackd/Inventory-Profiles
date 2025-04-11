@@ -299,7 +299,7 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
 
         "implementation"("net.neoforged:neoforge:${loader_version}")
 
-        "compileOnly"("dev.isxander:yet-another-config-lib:$yacl_version") {
+        "implementation"("dev.isxander:yet-another-config-lib:$yacl_version") {
             exclude("maven.modrinth")
             exclude("org.quiltmc.parsers")
             exclude("org.quiltmc.*")
@@ -308,7 +308,7 @@ fun Project.neoForgeCommonDependency(minecraft_version: Any,
             exclude("org.jetbrains.kotlin")
         }
 
-        "compileOnly"("dev.isxander:controlify:$controlify_version") {
+        "implementation"("dev.isxander:controlify:$controlify_version") {
             exclude("maven.modrinth")
             exclude("org.quiltmc.parsers")
             exclude("org.quiltmc.*")

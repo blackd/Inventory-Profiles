@@ -1,5 +1,18 @@
 <!-- latest begin -->
 
+### 2.1.7
+
+- Fixed on 1.21/.1 the main inventory input doesn't work properly in certain situations.
+- Fixed the long-standing issue where locked slots will apply to all players on lan shared worlds.
+- Fixed empty profile slots won't apply in single player if the non-server locked slots method is used.
+- Fixed on 1.21.5 main screen is blur-ed when showing the Overlay editor.
+- Forge 1.21.5 support
+- NeoForge 1.21.5 support
+
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.1.6
 
 - due to changes in 1.21.5 we missed profiles didn't work properly and villager trading bookmarks were reset.
@@ -7,8 +20,6 @@
 - villager trading bookmarks will still be reset.
 - dropping support for 1.21.3 and 1.21.4 fabric
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.5
 
