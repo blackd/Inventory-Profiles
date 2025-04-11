@@ -30,6 +30,7 @@ import org.anti_ad.mc.common.annotation.MayThrow
 import org.anti_ad.mc.common.extensions.tryOrPrint
 import org.anti_ad.mc.common.gen.ProfilesLexer
 import org.anti_ad.mc.common.gen.ProfilesParser
+import org.anti_ad.mc.ipnext.ingame.`(asString)`
 import org.anti_ad.mc.ipnext.item.NbtUtils
 import org.anti_ad.mc.ipnext.parser.parseBy
 
@@ -160,7 +161,7 @@ data class ProfileComponentData(val id: Identifier,
                                 val componentNbt: NbtElement) {
 
     override fun toString(): String {
-        return "\"$id\"(\"${componentNbt.asString.replace("\"", "\\\"")}\")"
+        return "\"$id\"(\"${componentNbt.`(asString)`.replace("\"", "\\\"")}\")"
     }
 }
 

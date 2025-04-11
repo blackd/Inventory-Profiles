@@ -64,7 +64,7 @@ object LockedSlotKeeper {
 
     var doEverySecondTick = false
 
-    private val isMultiPlayer: Boolean
+    val isMultiPlayer: Boolean
         get() {
             return !Vanilla.isSinglePlayer() || Debugs.FORCE_SERVER_METHOD_FOR_LOCKED_SLOTS.booleanValue
         }

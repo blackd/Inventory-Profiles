@@ -38,15 +38,18 @@ import org.anti_ad.mc.ipnext.profiles.config.ProfileSlot
 import org.anti_ad.mc.ipnext.profiles.config.ProfileSlotId
 import org.anti_ad.mc.common.vanilla.Vanilla
 import org.anti_ad.mc.common.vanilla.VanillaUtil
+import org.anti_ad.mc.ipnext.config.Configs
 import org.anti_ad.mc.ipnext.config.EditProfiles
 import org.anti_ad.mc.ipnext.config.GuiSettings
 import org.anti_ad.mc.ipnext.config.Hotkeys
+import org.anti_ad.mc.ipnext.config.ModSettings
 import org.anti_ad.mc.ipnext.event.autorefill.AutoRefillHandler
 import org.anti_ad.mc.ipnext.ingame.`(itemStack)`
 import org.anti_ad.mc.ipnext.ingame.`(selectedSlot)`
 import org.anti_ad.mc.ipnext.ingame.`(slots)`
 import org.anti_ad.mc.ipnext.ingame.`(vanillaStack)`
 import org.anti_ad.mc.ipnext.ingame.vCursorStack
+import org.anti_ad.mc.ipnext.inventory.AreaTypes
 import org.anti_ad.mc.ipnext.inventory.ContainerClicker
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions
 import org.anti_ad.mc.ipnext.item.ComponentUtils.toFilteredNbtOrNull
@@ -260,10 +263,16 @@ object ProfileSwitchHandler: IInputHandler {
             } else {
                 val preferLocked = true
                 val preferNonHotbar = true
-                var targets = if (preferLocked && LockedSlotKeeper.emptyLockedSlots.isNotEmpty()) {
-                    LockedSlotKeeper.emptyLockedSlots.toList()
+                var targets = if (ModSettings.ENABLE_LOCK_SLOTS.booleanValue && LockedSlotKeeper.isMultiPlayer) {
+                    if (preferLocked && LockedSlotKeeper.emptyLockedSlots.isNotEmpty()) {
+                        LockedSlotKeeper.emptyLockedSlots.toList()
+                    } else {
+                        LockedSlotKeeper.emptyNonLockedSlots.toList()
+                    }
                 } else {
-                    LockedSlotKeeper.emptyNonLockedSlots.toList()
+                    allSlots.filter {
+                        Vanilla.playerContainer().`(slots)`[it].`(itemStack)`.isEmpty()
+                    }.toList()
                 }
 
                 if (preferNonHotbar) {
