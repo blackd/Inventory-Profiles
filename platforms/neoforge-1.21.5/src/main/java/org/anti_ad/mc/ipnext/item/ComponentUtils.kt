@@ -248,9 +248,9 @@ object ComponentUtils {
 
 
     private fun NbtCompound.sanitizeEnchantments(): NbtElement {
-        val levels = this["levels"] as NbtCompound
+        //val levels = this["levels"] as NbtCompound
         val newLevels = NbtList()
-        levels.keySet().forEach { it ->
+        this.keySet().forEach { it ->
             Log.trace("found level $it")
             newLevels.add(NbtString.valueOf(it))
         }
