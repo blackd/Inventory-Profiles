@@ -1,5 +1,14 @@
 <!-- latest begin -->
 
+### 2.1.8
+
+- fixed profiles save and load on *Forge
+- fixed a rare situation where the overlay buttons will keep receiving mouse events even after the Screen was closed.
+  Looks like it's caused by an unknown combination of mods which will lead to the GUI instance being kept alive after it's closed. 
+
+<!-- latest end -->
+<!-- rest begin -->
+
 ### 2.1.7
 
 - Fixed on 1.21/.1 the main inventory input doesn't work properly in certain situations.
@@ -9,9 +18,6 @@
 - Forge 1.21.5 support
 - NeoForge 1.21.5 support
 
-
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.6
 
