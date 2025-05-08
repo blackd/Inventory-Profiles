@@ -214,6 +214,7 @@ inline fun <T> compareByMatch(value1: T,
                               matchBy: (T) -> Boolean,
                               match: Match,
                               bothSameCompare: (T, T) -> Int = { _, _ -> 0 } ): Int {
+    Log.trace("compareByMatch: $value1 $value2", Exception())
     val b1 = matchBy(value1)
     val b2 = matchBy(value2)
     return if (b1 == b2) {

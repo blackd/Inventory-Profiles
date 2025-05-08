@@ -19,6 +19,7 @@
 
 package org.anti_ad.mc.ipnext.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
 import net.minecraft.client.render.RenderLayer;
@@ -48,9 +49,8 @@ public class MixinMerchantScreen {
 
     @SuppressWarnings({"DataFlowIssue", "rawtypes"})
     @Inject(method = "render",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V", ordinal = 0),
-            locals = LocalCapture.CAPTURE_FAILHARD)
-    void render(DrawContext drawContext, int mouseX, int mouseY, float delta, CallbackInfo ci, TradeOfferList tradeOfferList, int i, int j, int k, int l, int m, Iterator var11, TradeOffer tradeOffer, ItemStack itemStack, ItemStack itemStack2, ItemStack itemStack3, ItemStack itemStack4) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V", ordinal = 0))
+    void render(DrawContext drawContext, int mouseX, int mouseY, float delta, CallbackInfo ci, @Local(ordinal = 2) int i, @Local(ordinal = 3) int j, @Local(ordinal = 4) int k, @Local(ordinal = 5) int l, @Local(ordinal = 6) int m, @Local TradeOffer tradeOffer) {
         //MerchantScreen self = ;
         VillagerTradeManager.INSTANCE.drawingButton((MerchantScreen)((Object)this), new NativeContext(drawContext, RenderLayer::getGuiTextured), mouseX, mouseY, tradeOffer, i, j, k, l, m);
     }

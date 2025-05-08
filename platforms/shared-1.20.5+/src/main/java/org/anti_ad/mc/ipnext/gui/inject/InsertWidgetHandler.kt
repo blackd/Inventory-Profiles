@@ -21,6 +21,7 @@
 package org.anti_ad.mc.ipnext.gui.inject
 
 import org.anti_ad.mc.alias.client.gui.screen.Screen
+import org.anti_ad.mc.alias.client.gui.screen.ingame.vanillaScreens
 import org.anti_ad.mc.common.ScreenEventListener
 import org.anti_ad.mc.common.gui.widgets.Widget
 import org.anti_ad.mc.common.input.GlobalScreenEventListener
@@ -31,13 +32,17 @@ object InsertWidgetHandler : ScreenEventListener {
     var currentWidgets: MutableList<Widget> = mutableListOf()
     var currentScreen: Screen? = null
 
+    private val initSync = Any()
+
 
     fun insertWidget(widgets: List<Widget>?) {
-        currentWidgets.clear()
-        currentScreen = null
-        if (widgets != null) {
-            currentWidgets.addAll(widgets)
-            currentScreen = Vanilla.screen()
+        synchronized(initSync) {
+            currentWidgets.clear()
+            currentScreen = null
+            if (widgets != null) {
+                currentScreen = Vanilla.screen()
+                currentWidgets.addAll(widgets)
+            }
         }
     }
     /*
@@ -51,8 +56,10 @@ object InsertWidgetHandler : ScreenEventListener {
     override fun resize(//minecraftClient: Any,
                         width: Int,
                         height: Int) {
-        currentWidgets.forEach {
-            it.size = Size(width, height)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                it.size = Size(width, height)
+            }
         }
     }
 
@@ -60,10 +67,10 @@ object InsertWidgetHandler : ScreenEventListener {
                               y: Double,
                               button: Int): Boolean {
         var r = false
-        currentWidgets.forEach {
-            r = r || it.mouseClicked(x.toInt(),
-                                     y.toInt(),
-                                     button)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                r = r || it.mouseClicked(x.toInt(), y.toInt(), button)
+            }
         }
         return r
     }
@@ -73,10 +80,10 @@ object InsertWidgetHandler : ScreenEventListener {
                               button: Int): Boolean {
 
         var r = false
-        currentWidgets.forEach {
-            r = r || it.mouseReleased(x.toInt(),
-                                      y.toInt(),
-                                      button)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                r = r || it.mouseReleased(x.toInt(), y.toInt(), button)
+            }
         }
         return r
     }
@@ -85,10 +92,10 @@ object InsertWidgetHandler : ScreenEventListener {
                             scanCode: Int,
                             modifiers: Int): Boolean {
         var r = false
-        currentWidgets.forEach {
-            r = r || it.keyPressed(keyCode,
-                                   scanCode,
-                                   modifiers)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                r = r || it.keyPressed(keyCode, scanCode, modifiers)
+            }
         }
         return r
     }
@@ -97,10 +104,10 @@ object InsertWidgetHandler : ScreenEventListener {
                              scanCode: Int,
                              modifiers: Int): Boolean {
         var r = false
-        currentWidgets.forEach {
-            r = r || it.keyReleased(keyCode,
-                                    scanCode,
-                                    modifiers)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                r = r || it.keyReleased(keyCode, scanCode, modifiers)
+            }
         }
         return r
     }
@@ -111,12 +118,10 @@ object InsertWidgetHandler : ScreenEventListener {
                               dx: Double,
                               dy: Double): Boolean {
         var r = false
-        currentWidgets.forEach {
-            r = r || it.mouseDragged(x,
-                                     y,
-                                     button,
-                                     dx,
-                                     dy)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                r = r || it.mouseDragged(x, y, button, dx, dy)
+            }
         }
         return r
     }
@@ -126,11 +131,10 @@ object InsertWidgetHandler : ScreenEventListener {
                                horizontal: Double,
                                vertical: Double): Boolean {
         var r = false
-        currentWidgets.forEach {
-            r = r || it.mouseScrolled(x.toInt(),
-                                      y.toInt(),
-                                      horizontal,
-                                      vertical)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                r = r || it.mouseScrolled(x.toInt(), y.toInt(), horizontal, vertical)
+            }
         }
         return r
     }
@@ -138,17 +142,24 @@ object InsertWidgetHandler : ScreenEventListener {
     override fun charTyped(charIn: Char,
                            modifiers: Int): Boolean {
         var r = false
-        currentWidgets.forEach {
-            r = r || it.charTyped(charIn,
-                                  modifiers)
+        if (checkIfValidScreen()) {
+            currentWidgets.forEach {
+                r = r || it.charTyped(charIn, modifiers)
+            }
         }
         return r
     }
 
     fun preScreenRender() {
-        if (currentScreen != null && Vanilla.screen() != currentScreen) {
-            currentWidgets.clear()
-            currentScreen = null
+        synchronized(initSync) {
+            if (Vanilla.screen() == null) {
+                currentWidgets.clear()
+                currentScreen = null
+            }
+            if (currentScreen != null && Vanilla.screen() != currentScreen) {
+                currentWidgets.clear()
+                currentScreen = null
+            }
         }
     }
 
@@ -158,5 +169,17 @@ object InsertWidgetHandler : ScreenEventListener {
         GlobalScreenEventListener.registerPre(this)
 
         // fixme cannot register post, as container screen mouse clicked always return true
+    }
+
+    private fun checkIfValidScreen(): Boolean {
+        synchronized(initSync) {
+            if (Vanilla.screen() == null) {
+                currentWidgets.clear()
+                currentScreen = null
+                return false
+            } else {
+                return true
+            }
+        }
     }
 }

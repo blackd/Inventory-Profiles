@@ -160,23 +160,25 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>,
                 clickEvent = { button ->
                     val scr = Vanilla.screen()
                     if (scr != null && scr === screen) {
-                        when (button) {
-                            0                          -> {
-                                GeneralInventoryActions.doSort(container, true, forcePlayer = playerSide)
-                            }
-
-                            KeyCodes.MOUSE_SCROLL_UP   -> {
-                                if (Vanilla.screen() == null) {
-                                    Log.trace("Received scroll event with no active screen", Exception())
+                        if (Vanilla.screen() == this@SortingButtonCollectionWidget.screen) {
+                            when (button) {
+                                0                          -> {
+                                    GeneralInventoryActions.doSort(container, true, forcePlayer = playerSide)
                                 }
-                                ModSettings.SORT_ORDER.togglePrevious();
-                            }
 
-                            KeyCodes.MOUSE_SCROLL_DOWN -> {
-                                if (Vanilla.screen() == null) {
-                                    Log.trace("Received scroll event with no active screen", Exception())
+                                KeyCodes.MOUSE_SCROLL_UP   -> {
+                                    if (Vanilla.screen() == null) {
+                                        Log.trace("Received scroll event with no active screen", Exception())
+                                    }
+                                    ModSettings.SORT_ORDER.togglePrevious();
                                 }
-                                ModSettings.SORT_ORDER.toggleNext();
+
+                                KeyCodes.MOUSE_SCROLL_DOWN -> {
+                                    if (Vanilla.screen() == null) {
+                                        Log.trace("Received scroll event with no active screen", Exception())
+                                    }
+                                    ModSettings.SORT_ORDER.toggleNext();
+                                }
                             }
                         }
                     }
@@ -187,14 +189,22 @@ class SortingButtonCollectionWidget(override val screen: ContainerScreen<*>,
         inner class SortInColumnButton(playerSide: Boolean): SortButtonWidget() {
             init {
                 this@SortingButtonCollectionWidget.snapableList.add(this)
-                clickEvent = { GeneralInventoryActions.doSortInColumns(container, true, forcePlayer = playerSide) }
+                clickEvent = { button ->
+                    if (button == 0) {
+                        GeneralInventoryActions.doSortInColumns(container, true, forcePlayer = playerSide)
+                    }
+                }
             }
         }
 
         inner class SortInRowButton(playerSide: Boolean): SortButtonWidget() {
             init {
                 this@SortingButtonCollectionWidget.snapableList.add(this)
-                clickEvent = { GeneralInventoryActions.doSortInRows(container, true, forcePlayer = playerSide) }
+                clickEvent = { button ->
+                    if (button == 0) {
+                        GeneralInventoryActions.doSortInRows(container, true, forcePlayer = playerSide)
+                    }
+                }
             }
         }
 
