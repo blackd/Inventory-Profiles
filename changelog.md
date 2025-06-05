@@ -1,13 +1,21 @@
 <!-- latest begin -->
 
+### 2.1.9
+
+- fixed profiles save and load on *Forge when connecting to servers.
+- added support for Minecraft 1.21.6 Fabric.
+
+
+<!-- latest end -->
+<!-- rest begin -->
+
+
 ### 2.1.8
 
 - fixed profiles save and load on *Forge
 - fixed a rare situation where the overlay buttons will keep receiving mouse events even after the Screen was closed.
   Looks like it's caused by an unknown combination of mods which will lead to the GUI instance being kept alive after it's closed. 
 
-<!-- latest end -->
-<!-- rest begin -->
 
 ### 2.1.7
 

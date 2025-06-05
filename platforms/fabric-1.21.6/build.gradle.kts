@@ -33,8 +33,8 @@ import org.anti_ad.mc.ipnext.buildsrc.registerMinimizeJarTask
 import org.anti_ad.mc.ipnext.buildsrc.loom_version
 import proguard.gradle.ProGuardTask
 
-val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.5"),
-                                         CURSEFORGE to listOf("1.21.5"))
+val supported_minecraft_versions = mapOf(MODRINTH to listOf("1.21.6-pre3"),
+                                         CURSEFORGE to listOf("1.21.6-snapshot"))
 val mod_loader = "fabric"
 val mod_version = project.version.toString()
 val minecraft_version = "1.21.6-pre3"
