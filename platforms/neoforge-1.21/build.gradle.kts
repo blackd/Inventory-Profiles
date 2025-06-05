@@ -36,7 +36,7 @@ val mod_loader = "neoforge"
 val mod_version = project.version
 val minecraft_version = "1.21.1"
 val minecraft_version_string = "1.21.1"
-val neoforge_version = "21.1.85"
+val neoforge_version = "21.1.173"
 val mod_artefact_version = project.ext["mod_artefact_version"]
 val kotlin_for_forge_version = "5.7.0"
 val mappingsMap = mapOf<String, String>("channel" to "official",
@@ -136,8 +136,11 @@ dependencies {
     runtimeOnly("curse.maven:resourcefullib-570073:5483169")
 
     compileOnly("curse.maven:easy-villagers-400514:4584220")
+/*
     implementation("curse.maven:workshop-for-handsome-adventurer-875843:5752681")
     implementation("maven.modrinth:journeymap:1.21.1-6.0.0-beta.29+neoforge")
+
+ */
     //implementation("maven.modrinth:workshop-for-handsome-adventurer:1.31.2")
 }
 

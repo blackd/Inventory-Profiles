@@ -23,6 +23,7 @@ package org.anti_ad.mc.ipnext.neoforge;
 import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent.Render;
@@ -53,6 +54,14 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public void clientClick(ClientTickEvent.Post e) {
         ClientEventHandler.INSTANCE.onTick();
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogInEvent(ClientPlayerNetworkEvent.LoggingIn event) {
+        if (VanillaUtil.INSTANCE.isOnClientThread()) {
+            ClientEventHandler.INSTANCE.onJoinGame();
+            ClientEventHandler.INSTANCE.onJoinWorld();
+        }
     }
 
     @SubscribeEvent

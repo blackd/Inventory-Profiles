@@ -214,7 +214,7 @@ inline fun <T> compareByMatch(value1: T,
                               matchBy: (T) -> Boolean,
                               match: Match,
                               bothSameCompare: (T, T) -> Int = { _, _ -> 0 } ): Int {
-    Log.trace("compareByMatch: $value1 $value2", Exception())
+    //Log.trace("compareByMatch: $value1 $value2", Exception())
     val b1 = matchBy(value1)
     val b2 = matchBy(value2)
     return if (b1 == b2) {
@@ -226,12 +226,12 @@ inline fun <T> compareByMatch(value1: T,
 }
 
 fun <T> compareByMatchSeparate(value1: T,
-                                      value2: T,
-                                      matchBy: (T) -> Boolean,
-                                      match: Match,
-                                      matchCompare: (T, T) -> Int = { _, _ -> 0 }, // both match
-                                      notMatchCompare: (T, T) -> Int = { _, _ -> 0 } // both not match
-                                     ): Int {
+                               value2: T,
+                               matchBy: (T) -> Boolean,
+                               match: Match,
+                               matchCompare: (T, T) -> Int = { _, _ -> 0 }, // both match
+                               notMatchCompare: (T, T) -> Int = { _, _ -> 0 } // both not match
+                              ): Int {
     return compareByMatchSeparate(value1,
                                   value2,
                                   matchBy(value1),
@@ -242,13 +242,13 @@ fun <T> compareByMatchSeparate(value1: T,
 }
 
 fun <T> compareByMatchSeparate(value1: T,
-                                      value2: T,
-                                      b1: Boolean,
-                                      b2: Boolean,
-                                      match: Match,
-                                      matchCompare: (T, T) -> Int = { _, _ -> 0 }, // both match
-                                      notMatchCompare: (T, T) -> Int = { _, _ -> 0 } // both not match
-): Int {
+                               value2: T,
+                               b1: Boolean,
+                               b2: Boolean,
+                               match: Match,
+                               matchCompare: (T, T) -> Int = { _, _ -> 0 }, // both match
+                               notMatchCompare: (T, T) -> Int = { _, _ -> 0 } // both not match
+                              ): Int {
     var res:Int
     if (b1 == b2) {
         if (b1) {

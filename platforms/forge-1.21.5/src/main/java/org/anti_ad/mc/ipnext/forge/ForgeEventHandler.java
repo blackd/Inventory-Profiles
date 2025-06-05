@@ -23,15 +23,12 @@ package org.anti_ad.mc.ipnext.forge;
 import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent.Render;
 import net.minecraftforge.client.event.ScreenEvent.Init;
 import org.anti_ad.mc.common.math2d.Rectangle;
-/*
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;// RenderGameOverlayEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay ;// ForgeIngameGui;
-*/
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -42,7 +39,6 @@ import org.anti_ad.mc.common.vanilla.Vanilla;
 import org.anti_ad.mc.common.vanilla.VanillaUtil;
 import org.anti_ad.mc.ipnext.config.Tweaks;
 import org.anti_ad.mc.ipnext.event.ClientEventHandler;
-import org.anti_ad.mc.ipnext.event.LockSlotsHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
@@ -60,6 +56,15 @@ public class ForgeEventHandler {
             ClientEventHandler.INSTANCE.onTick();
         }
     }
+
+    @SubscribeEvent
+    public void onPlayerLogInEvent(ClientPlayerNetworkEvent.LoggingIn event) {
+        if (VanillaUtil.INSTANCE.isOnClientThread()) {
+            ClientEventHandler.INSTANCE.onJoinGame();
+            ClientEventHandler.INSTANCE.onJoinWorld();
+        }
+    }
+
 
     @SubscribeEvent
     public void joinWorld(LevelEvent.Load event) {

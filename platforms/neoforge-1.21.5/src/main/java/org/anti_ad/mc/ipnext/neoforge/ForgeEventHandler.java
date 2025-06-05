@@ -24,6 +24,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
 import net.minecraft.client.renderer.RenderType;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent.Render;
@@ -41,8 +42,6 @@ import org.anti_ad.mc.ipnext.gui.inject.ContainerScreenEventHandler;
 import org.anti_ad.mc.ipnext.gui.inject.ScreenEventHandler;
 import org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions;
 
-import static net.minecraft.client.renderer.RenderType.GUI_TEXTURED;
-
 /**
  * ForgeEventHandler
  */
@@ -56,6 +55,14 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public void clientClick(ClientTickEvent.Post e) {
         ClientEventHandler.INSTANCE.onTick();
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogInEvent(ClientPlayerNetworkEvent.LoggingIn event) {
+        if (VanillaUtil.INSTANCE.isOnClientThread()) {
+            ClientEventHandler.INSTANCE.onJoinGame();
+            ClientEventHandler.INSTANCE.onJoinWorld();
+        }
     }
 
     @SubscribeEvent

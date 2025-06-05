@@ -22,6 +22,7 @@ package org.anti_ad.mc.ipnext.forge;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import kotlin.Unit;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.event.ScreenEvent.Render;
@@ -59,6 +60,15 @@ public class ForgeEventHandler {
             ClientEventHandler.INSTANCE.onTick();
         }
     }
+
+    @SubscribeEvent
+    public void onPlayerLogInEvent(ClientPlayerNetworkEvent.LoggingIn event) {
+        if (VanillaUtil.INSTANCE.isOnClientThread()) {
+            ClientEventHandler.INSTANCE.onJoinGame();
+            ClientEventHandler.INSTANCE.onJoinWorld();
+        }
+    }
+
 
     @SubscribeEvent
     public void joinWorld(LevelEvent.Load event) {
