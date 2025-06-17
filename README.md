@@ -1,4 +1,17 @@
 
+
+<div style="align-content: center; display: block; margin: 10px auto; width: 100%;">
+<div align="center" style="vertical-align: center; horiz-align: center;">
+        
+# **The development of IPN has moved to [Codeberg](https://codeberg.org/Inventory-Profiles-Next-Mod/IPN)**
+
+# **This repository has been archived and will no longet receive upates**
+
+</div>
+</div>
+
+
+
 <div style="align-content: center; display: block; margin: 10px auto; width: 100%;">
 <div align="center" style="vertical-align: center; horiz-align: center;">
 
@@ -11,6 +24,8 @@
 
 </div>
 </div>
+
+<details>
 
 # Inventory Profiles Next
 **Requirement:** Minecraft 1.16.5 - 1.21, Fabric Loader 0.11.6, Forge 36.1.32
@@ -81,6 +96,7 @@ Who uses maven still :D
  - learn Kotlin
  - learn about Minecraft modding :)
 
+</details>
 
 [1]: https://img.shields.io/github/downloads/blackd/Inventory-Profiles/total?style=plastic&label=GitHub%0aDownloads&logo=github
 [2]: https://github.com/blackd/Inventory-Profiles/releases/latest
